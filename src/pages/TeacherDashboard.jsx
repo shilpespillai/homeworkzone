@@ -50,6 +50,12 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [showAiSettings, setShowAiSettings] = useState(false);
   const [newStudentName, setNewStudentName] = useState('');
   const [showAddClassModal, setShowAddClassModal] = useState(false);
+  const [allStudents, setAllStudents] = useState([]);
+  const [filterClass, setFilterClass] = useState('All Classes');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [rewardsTab, setRewardsTab] = useState('Overview');
+  const [messagesTab, setMessagesTab] = useState('Inbox');
+  const [activeChat, setActiveChat] = useState(null);
 
   const saveAiKeys = () => {
     localStorage.setItem('hwz_gemini_key', aiKeys.gemini);
@@ -137,6 +143,35 @@ const TeacherDashboard = ({ user, onLogout }) => {
     setIsAdding(false);
   };
 
+  const fetchAllStudents = async () => {
+    if (!user?.uid || classrooms.length === 0) return;
+    try {
+      let aggregated = [];
+      for (const cls of classrooms) {
+        const studentsRef = collection(db, 'teachers', user.uid, 'classrooms', cls.id, 'students');
+        const q = query(studentsRef, orderBy('addedAt', 'desc'));
+        const snapshot = await getDocs(q);
+        const classStudents = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+          className: cls.name,
+          classId: cls.id,
+          email: `${doc.id}@example.com` // Mock email for UI consistency
+        }));
+        aggregated = [...aggregated, ...classStudents];
+      }
+      setAllStudents(aggregated);
+    } catch (err) {
+      console.error("Fetch All Students Error:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'Students') {
+       fetchAllStudents();
+    }
+  }, [activeTab, classrooms]);
+
   const handleDeleteStudent = async (e, studentId, studentName) => {
     e.stopPropagation();
     if (!user?.uid || !activeClassroom || !window.confirm(`Remove ${studentName} from your class? 🍎`)) return;
@@ -152,259 +187,178 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const renderContent = () => {
       switch (activeTab) {
          case 'Dashboard':
-            return (
-               <>
-      {/* --- Dashboard Header --- */}
-      <div className="px-10 py-10 flex items-center justify-between bg-[#F9F9FF]">
-         <div className="flex items-center gap-6">
-            <div>
-               <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">Dashboard</h1>
-               <p className="text-xs font-bold text-blue-300 mt-1 italic">Manage assignments and track class progress</p>
-            </div>
-            <div className="relative">
-               <button 
-                 onClick={() => setShowClassDropdown(!showClassDropdown)}
-                 className="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-blue-100 cursor-pointer hover:bg-blue-50 transition-all shadow-sm"
-               >
-                  <span className="text-sm font-bold text-[#1E3A8A]">{activeClassroom?.name || 'Main Class'}</span>
-                  <ChevronDown className={`w-4 h-4 text-blue-300 transition-transform ${showClassDropdown ? 'rotate-180' : ''}`} />
-               </button>
+            const dashboardTopEarners = allStudents.sort((a, b) => b.name.length - a.name.length).slice(0, 3);
+            const avgScoreTotal = 75 + (allStudents.length % 15);
 
-               <AnimatePresence>
-                  {showClassDropdown && (
-                     <motion.div 
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        className="absolute top-full left-0 mt-2 w-56 bg-white rounded-3xl shadow-2xl border border-blue-50 z-[100] overflow-hidden"
-                     >
-                        <div className="p-4 border-b border-blue-50">
-                           <span className="text-[10px] font-black text-blue-300 uppercase tracking-widest">Switch Classroom</span>
+            return (
+               <div className="px-10 py-10 space-y-12 pb-40 relative min-h-[calc(100vh-64px)]">
+                  <div className="flex items-center justify-between">
+                     <div className="flex items-center gap-6">
+                        <div>
+                           <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">Dashboard</h1>
+                           <p className="text-sm font-bold text-blue-300 italic">Welcome back! Here's how your school is sparkling today.</p>
                         </div>
-                        <div className="max-h-60 overflow-y-auto">
-                           {classrooms.map(room => (
-                              <button 
-                                 key={room.id}
-                                 onClick={() => {
-                                    setActiveClassroom(room);
-                                    setShowClassDropdown(false);
-                                 }}
-                                 className={`w-full flex items-center justify-between px-6 py-4 text-left transition-all ${activeClassroom?.id === room.id ? 'bg-blue-50 text-blue-600' : 'text-blue-900 hover:bg-blue-50/50'}`}
-                              >
-                                 <span className="text-sm font-bold">{room.name}</span>
-                                 {activeClassroom?.id === room.id && <Zap className="w-4 h-4 fill-current" />}
-                              </button>
+                        <div className="relative">
+                           <button 
+                             onClick={() => setShowClassDropdown(!showClassDropdown)}
+                             className="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-blue-100 cursor-pointer hover:bg-blue-50 transition-all shadow-sm"
+                           >
+                              <span className="text-sm font-bold text-[#1E3A8A]">{activeClassroom?.name || 'Main Class'}</span>
+                              <ChevronDown className={`w-4 h-4 text-blue-300 transition-transform ${showClassDropdown ? 'rotate-180' : ''}`} />
+                           </button>
+                           <AnimatePresence>
+                              {showClassDropdown && (
+                                 <motion.div 
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 10 }}
+                                    className="absolute top-full left-0 mt-2 w-56 bg-white rounded-3xl shadow-2xl border border-blue-50 z-[100] overflow-hidden"
+                                 >
+                                    <div className="p-4 border-b border-blue-50"><span className="text-[10px] font-black text-blue-300 uppercase tracking-widest">Switch Classroom</span></div>
+                                    <div className="max-h-60 overflow-y-auto">
+                                       {classrooms.map(room => (
+                                          <button 
+                                             key={room.id}
+                                             onClick={() => { setActiveClassroom(room); setShowClassDropdown(false); }}
+                                             className={`w-full flex items-center justify-between px-6 py-4 text-left transition-all ${activeClassroom?.id === room.id ? 'bg-blue-50 text-blue-600' : 'text-blue-900 hover:bg-blue-50/50'}`}
+                                          >
+                                             <span className="text-sm font-bold">{room.name}</span>
+                                             {activeClassroom?.id === room.id && <Zap className="w-4 h-4 fill-current" />}
+                                          </button>
+                                       ))}
+                                    </div>
+                                 </motion.div>
+                              )}
+                           </AnimatePresence>
+                        </div>
+                     </div>
+                     <div className="flex items-center gap-4">
+                        <div className="relative">
+                           <input type="text" placeholder="Search students..." className="bg-white border-none rounded-full py-3 px-12 text-sm font-bold text-blue-900 placeholder-blue-300 shadow-sm focus:ring-2 focus:ring-blue-100 transition-all w-72" />
+                           <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300" />
+                        </div>
+                        <button className="w-12 h-12 bg-white rounded-full flex-center text-blue-300 shadow-sm hover:text-blue-600 transition-all"><Bell className="w-5 h-5" /></button>
+                     </div>
+                  </div>
+
+                  {/* KPI Row */}
+                  <div className="grid grid-cols-4 gap-6">
+                     <RewardKPICard title="Total Students" value={allStudents.length || students.length} subtitle="+5 this month" bgColor="bg-purple-50/50" textColor="text-purple-600" />
+                     <RewardKPICard title="Average Score" value={`${avgScoreTotal}%`} subtitle="+8% this month" bgColor="bg-emerald-50/50" textColor="text-emerald-600" />
+                     <RewardKPICard title="Homework Sub" value="85%" subtitle="+10% this month" bgColor="bg-amber-50/50" textColor="text-amber-600" />
+                     <RewardKPICard title="Active Now" value={Math.round((allStudents.length || students.length) * 0.9)} subtitle="90% of total" bgColor="bg-blue-50/50" textColor="text-blue-600" />
+                  </div>
+
+                  <div className="grid grid-cols-12 gap-10">
+                     {/* Performance Chart */}
+                     <div className="col-span-8 bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 space-y-8">
+                        <div className="flex items-center justify-between">
+                           <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Class Performance Overview</h3>
+                           <div className="flex items-center gap-4">
+                              <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-purple-400" /><span className="text-[10px] font-black text-blue-300 uppercase">English</span></div>
+                              <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-[#95E2B9]" /><span className="text-[10px] font-black text-blue-300 uppercase">Maths</span></div>
+                              <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-[#FFD97D]" /><span className="text-[10px] font-black text-blue-300 uppercase">Science</span></div>
+                           </div>
+                        </div>
+
+                        <div className="h-64 flex items-end justify-between px-4 pb-8 border-b border-blue-50">
+                           {['Grade 2A', 'Grade 3B', 'Grade 4C'].map((grade, i) => (
+                              <div key={grade} className="flex flex-col items-center gap-4 flex-1">
+                                 <div className="flex items-end gap-2 h-full">
+                                    <motion.div initial={{ height: 0 }} animate={{ height: `${70 + i * 5}%` }} className="w-4 bg-purple-400 rounded-t-xl" />
+                                    <motion.div initial={{ height: 0 }} animate={{ height: `${85 - i * 10}%` }} className="w-4 bg-[#95E2B9] rounded-t-xl" />
+                                    <motion.div initial={{ height: 0 }} animate={{ height: `${75 + i * 2}%` }} className="w-4 bg-[#FFD97D] rounded-t-xl" />
+                                 </div>
+                                 <span className="text-xs font-black text-blue-300">{grade}</span>
+                              </div>
                            ))}
                         </div>
-                        <button 
-                           onClick={() => {
-                              setShowAddClassModal(true);
-                              setShowClassDropdown(false);
-                           }}
-                           className="w-full flex items-center gap-3 px-6 py-4 text-blue-600 bg-blue-50/30 hover:bg-blue-50 transition-all border-t border-blue-50"
-                        >
-                           <Plus className="w-4 h-4" />
-                           <span className="text-sm font-black">New Class</span>
+                     </div>
+
+                     {/* Top Performers */}
+                     <div className="col-span-4 bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 flex flex-col justify-between">
+                        <div className="space-y-8">
+                           <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Top Performers</h3>
+                           <div className="space-y-6">
+                              {(allStudents.length > 0 ? allStudents : students).sort((a, b) => b.name.length - a.name.length).slice(0, 3).map((s, idx) => (
+                                 <div key={idx} className="flex items-center justify-between">
+                                    <div className="flex items-center gap-4">
+                                       <span className="text-sm font-black text-blue-200">{idx + 1}.</span>
+                                       <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${s.name}`} className="w-10 h-10 rounded-full bg-blue-50" alt={s.name} />
+                                       <span className="text-sm font-black text-[#1E3A8A]">{s.name}</span>
+                                    </div>
+                                    <span className="text-sm font-black text-blue-400">{95 - idx * 3}%</span>
+                                 </div>
+                              ))}
+                           </div>
+                        </div>
+                        <button className="w-full bg-blue-50 text-blue-600 py-4 rounded-3xl font-black text-xs hover:bg-blue-100 transition-all mt-10">
+                           View Full Report
                         </button>
-                     </motion.div>
-                  )}
-               </AnimatePresence>
-            </div>
-         </div>
-
-         <div className="flex items-center gap-4">
-            <div className="relative">
-               <input 
-                  type="text" 
-                  placeholder="Search students..."
-                  className="bg-white border-none rounded-full py-3 px-12 text-sm font-bold text-blue-900 placeholder-blue-300 shadow-sm focus:ring-2 focus:ring-blue-100 transition-all w-72"
-               />
-               <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300" />
-            </div>
-            <button className="w-12 h-12 bg-white rounded-full flex-center text-blue-300 shadow-sm hover:text-blue-600 transition-all">
-               <Bell className="w-5 h-5" />
-            </button>
-         </div>
-      </div>
-
-      {/* --- Main Grid --- */}
-      <div className="px-10 grid grid-cols-12 gap-8">
-         <div className="col-span-12 grid grid-cols-4 gap-6">
-            <KPICard 
-               title="Total Students" 
-               value={students.length} 
-               subtitle="Active in this class" 
-               icon={<img src="/ic-students.png" className="w-full h-full object-contain" alt="Students" />}
-            />
-            <KPICard 
-               title="Class Proficiency" 
-               value={`${Math.round(students.reduce((acc, s) => acc + (40 + (s.name.length % 50)), 0) / (students.length || 1))}%`} 
-               subtitle="Average Score" 
-               icon={<img src="/ic-reports.png" className="w-full h-full object-contain" alt="Proficiency" />}
-               isAlt
-            />
-            <KPICard 
-               title="Work Completed" 
-               value={students.reduce((acc, s) => acc + (20 + (s.name.length % 16)), 0)} 
-               subtitle="Total Homeworks" 
-               icon={<img src="/ic-homework.png" className="w-full h-full object-contain" alt="Work" />}
-            />
-            <KPICard 
-               title="Top Rewards" 
-               value="🏆" 
-               subtitle="Badges Earned" 
-               icon={<img src="/ic-rewards.png" className="w-full h-full object-contain" alt="Rewards" />}
-               isAlt
-            />
-         </div>
-
-         {/* Class Roster & Prep Section */}
-         <div className="col-span-12 grid grid-cols-12 gap-8">
-            {/* Student List */}
-            <div className="col-span-7 bg-white rounded-[40px] p-10 border border-blue-50 shadow-sm flex flex-col gap-8">
-               <div className="flex items-center justify-between">
-                  <div>
-                     <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Student Roster</h3>
-                     <p className="text-[10px] font-bold text-blue-200 uppercase tracking-widest mt-1">Manage your class list</p>
+                     </div>
                   </div>
-                  <div className="flex items-center gap-2 bg-blue-50/50 p-1.5 rounded-2xl border border-blue-50">
-                     <input 
-                        type="text"
-                        placeholder="Quick Add..."
-                        value={newStudentName}
-                        onChange={(e) => setNewStudentName(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && handleAddStudent()}
-                        className="bg-transparent border-none px-4 py-1 text-xs font-bold text-blue-900 placeholder-blue-300 w-32 focus:ring-0"
-                     />
-                     <button 
-                        onClick={handleAddStudent}
-                        disabled={isAdding}
-                        className="bg-blue-600 text-white px-6 py-2 rounded-2xl text-xs font-black shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all active:scale-95"
-                     >
-                        {isAdding ? '...' : 'Add Student'}
-                     </button>
+
+                  {/* Value-Add: AI Quick Insights */}
+                  <div className="bg-gradient-to-r from-purple-600 to-[#7C3AED] rounded-[40px] p-10 text-white flex items-center justify-between shadow-2xl shadow-purple-200 overflow-hidden relative">
+                     <div className="relative z-10 space-y-2">
+                        <div className="flex items-center gap-2 bg-white/20 w-fit px-3 py-1 rounded-full border border-white/30">
+                           <Zap className="w-3 h-3" />
+                           <span className="text-[8px] font-black uppercase tracking-widest">AI Hub Insight</span>
+                        </div>
+                        <h2 className="text-2xl font-black tracking-tight">Grade 3B participation is up by 25% this week! 🚀</h2>
+                        <p className="text-xs font-bold opacity-80 italic">Consider sending a "Science Explorer" badge to Vihaan Gupta to maintain momentum.</p>
+                     </div>
+                     <div className="relative z-10">
+                        <button className="bg-white text-purple-600 px-8 py-4 rounded-[24px] font-black text-sm shadow-xl hover:scale-105 transition-all">
+                           Action Insight
+                        </button>
+                     </div>
+                     <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-20 -mt-20" />
+                     <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -ml-10 -mb-10" />
                   </div>
-               </div>
-               
-               <div className="flex flex-col gap-2 overflow-y-auto max-h-[230px] pr-4 custom-scrollbar">
-                   {students.map((student, idx) => (
-                     <div key={idx} className="bg-blue-50/30 p-3 rounded-[24px] border border-blue-50 flex items-center justify-between group hover:bg-white hover:shadow-md transition-all">
-                        <div className="flex items-center gap-4 flex-1">
-                           <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${student.name}`} className="w-8 h-8 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt="Student" />
-                           <div className="flex items-center justify-between flex-1 pr-6">
-                              <span className="text-sm font-black text-[#1E3A8A]">{student.name}</span>
-                              <div className="flex items-center gap-2 text-[9px] font-bold text-blue-400 bg-white/50 px-3 py-1 rounded-full border border-blue-50">
-                                 <Calendar className="w-2.5 h-2.5" />
-                                 <span>{student.addedAt ? new Date(student.addedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : 'Now'}</span>
+
+                  {/* Quick Roster & Prep */}
+                  <div className="grid grid-cols-12 gap-10 pb-20">
+                     <div className="col-span-7 bg-white rounded-[40px] p-10 border border-blue-50 shadow-sm flex flex-col gap-8">
+                        <div className="flex items-center justify-between">
+                           <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Active Class Roster</h3>
+                           <button className="text-xs font-black text-blue-400 hover:text-blue-600 transition-all">View All Students</button>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                           {students.slice(0, 6).map((student, idx) => (
+                              <div key={idx} className="bg-blue-50/30 p-4 rounded-3xl border border-blue-50 flex items-center gap-4">
+                                 <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${student.name}`} className="w-10 h-10 rounded-full bg-white" alt="Student" />
+                                 <div>
+                                    <p className="text-sm font-black text-[#1E3A8A]">{student.name}</p>
+                                    <p className="text-[10px] font-bold text-blue-300">Level {10 + idx}</p>
+                                 </div>
+                              </div>
+                           ))}
+                        </div>
+                     </div>
+                     <div className="col-span-5 bg-white rounded-[40px] p-10 border border-blue-50 shadow-sm flex flex-col justify-between group cursor-pointer hover:shadow-2xl transition-all relative overflow-hidden">
+                        <div className="space-y-6 relative z-10">
+                           <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Teacher Prep</h3>
+                           <div className="space-y-4">
+                              <div className="p-4 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-4">
+                                 <div className="w-10 h-10 bg-white rounded-2xl flex-center shadow-sm text-orange-400"><Zap className="w-5 h-5" /></div>
+                                 <div><p className="text-xs font-black text-orange-900">Weekly Quiz</p><p className="text-[10px] font-bold text-orange-400">Tuesday, 10 AM</p></div>
+                              </div>
+                              <div className="p-4 bg-blue-50 rounded-3xl border border-blue-100 flex items-center gap-4">
+                                 <div className="w-10 h-10 bg-white rounded-2xl flex-center shadow-sm text-blue-400"><BookOpen className="w-5 h-5" /></div>
+                                 <div><p className="text-xs font-black text-blue-900">Homework Drafts</p><p className="text-[10px] font-bold text-blue-400">3 Pending Review</p></div>
                               </div>
                            </div>
                         </div>
-                        <button 
-                          onClick={(e) => handleDeleteStudent(e, student.id, student.name)}
-                          className="opacity-0 group-hover:opacity-100 p-2 text-blue-200 hover:text-rose-400 hover:bg-rose-50 rounded-xl transition-all"
-                        >
-                           <Trash2 className="w-4 h-4" />
+                        <button className="bg-[#1E3A8A] text-white w-full py-4 rounded-3xl font-black text-sm shadow-xl mt-10 flex items-center justify-center gap-3">
+                           Go to Prep Center <ArrowRight className="w-4 h-4" />
                         </button>
-                     </div>
-                   ))}
-                   {students.length === 0 && (
-                     <div className="py-12 text-center text-blue-300 italic text-xs font-bold bg-blue-50/50 rounded-[32px] border-2 border-dashed border-blue-100">
-                        No students yet. 🍎
-                     </div>
-                   )}
-                </div>
-            </div>
-
-            {/* Preparation Card */}
-            <div className="col-span-5 bg-white rounded-[40px] p-10 border border-blue-50 shadow-sm flex flex-col justify-between overflow-hidden relative group cursor-pointer hover:shadow-2xl transition-all">
-               <div className="space-y-6">
-                  <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Quick Prepare</h3>
-                  <div className="space-y-4">
-                     <div className="flex items-center gap-4 p-4 bg-orange-50 rounded-3xl border border-orange-100">
-                        <div className="w-10 h-10 bg-white rounded-2xl flex-center shadow-sm">
-                           <Zap className="w-5 h-5 text-orange-400" />
-                        </div>
-                        <div>
-                           <p className="text-xs font-black text-orange-900">Weekly Quiz</p>
-                           <p className="text-[10px] font-bold text-orange-400">Next: Tuesday, 10 AM</p>
-                        </div>
-                     </div>
-                     <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-3xl border border-blue-100">
-                        <div className="w-10 h-10 bg-white rounded-2xl flex-center shadow-sm">
-                           <BookOpen className="w-5 h-5 text-blue-400" />
-                        </div>
-                        <div>
-                           <p className="text-xs font-black text-blue-900">New Assignment</p>
-                           <p className="text-[10px] font-bold text-blue-400">3 Drafted</p>
-                        </div>
+                        <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-blue-50 rounded-full blur-3xl opacity-20 pointer-events-none" />
                      </div>
                   </div>
-               </div>
-               <button className="mt-8 bg-[#1E3A8A] text-white w-full py-4 rounded-3xl font-black text-sm shadow-xl shadow-blue-100 hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group relative z-10">
-                  Go to Assignments
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
-               </button>
-               <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-blue-50 rounded-full blur-3xl opacity-20 pointer-events-none" />
-            </div>
-         </div>
 
-         {/* Student Proficiency Table */}
-         <div className="col-span-12 space-y-6 pb-12">
-            <div className="flex items-center justify-between">
-               <div>
-                  <h2 className="text-2xl font-black text-[#1E3A8A] tracking-tight">Student Proficiency</h2>
-                  <p className="text-xs font-bold text-blue-300 mt-1">Detailed performance metrics per student</p>
+                  <GrassBorder />
                </div>
-               <button className="px-6 py-3 bg-white text-blue-600 rounded-2xl font-black text-xs shadow-sm hover:shadow-md transition-all flex items-center gap-2">
-                  Export Report <ArrowRight className="w-3 h-3" />
-               </button>
-            </div>
-
-            <div className="bg-white rounded-[40px] p-10 border border-blue-50 shadow-sm space-y-6">
-               <div className="grid grid-cols-12 px-6 text-[10px] font-black text-blue-200 uppercase tracking-widest">
-                  <div className="col-span-3">Full Name</div>
-                  <div className="col-span-2 text-center">Work Completed</div>
-                  <div className="col-span-3 text-center">Average Score</div>
-                  <div className="col-span-4 flex justify-around">
-                     <span>Needing Attention</span>
-                     <span>Working Towards</span>
-                     <span>Mastered</span>
-                  </div>
-               </div>
-
-               <div className="space-y-4">
-                   {students.map((student, idx) => {
-                     const hash = student.name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-                     const score = 40 + (hash % 50);
-                     const completed = 20 + (hash % 16);
-                     const attention = hash % 5 === 0 ? 3 : 1;
-                     const working = hash % 3 === 0 ? 5 : 2;
-                     const mastered = hash % 2 === 0 ? 8 : 4;
-
-                     return (
-                        <ProficiencyRow 
-                           key={idx}
-                           name={student.name}
-                           avatar={`https://api.dicebear.com/7.x/adventurer/svg?seed=${student.name}`}
-                           completed={`${completed}/36`}
-                           score={`${score}%`}
-                           attention={attention}
-                           working={working}
-                           mastered={mastered}
-                           color={idx % 3 === 0 ? 'bg-rose-50/50' : idx % 3 === 1 ? 'bg-amber-50/50' : 'bg-emerald-50/50'}
-                        />
-                     );
-                   })}
-                   {students.length === 0 && (
-                     <div className="py-20 text-center text-blue-300 italic font-bold">
-                        Add students to see proficiency data! 📈
-                     </div>
-                   )}
-               </div>
-            </div>
-         </div>
-      </div>
-               </>
             );
          case 'My Classes':
             return (
@@ -477,15 +431,330 @@ const TeacherDashboard = ({ user, onLogout }) => {
                </div>
             );
          case 'Students':
-            return <PlaceholderView title="Students" icon="/ic-students.png" description="Deep-dive into student performance and rosters." />;
+            const filteredStudents = allStudents.filter(s => {
+               const matchesClass = filterClass === 'All Classes' || s.className === filterClass;
+               const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase()) || s.email.toLowerCase().includes(searchQuery.toLowerCase());
+               return matchesClass && matchesSearch;
+            });
+
+            return (
+               <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
+                  <div className="flex items-center justify-between">
+                     <div>
+                        <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">Students</h1>
+                        <p className="text-sm font-bold text-blue-300 italic">View and manage your students.</p>
+                     </div>
+                     <div className="flex items-center gap-6">
+                        <button className="bg-[#8A70FF] text-white px-8 py-4 rounded-3xl font-black text-sm shadow-xl shadow-purple-100 flex items-center gap-3 hover:scale-105 transition-all">
+                           <Plus className="w-5 h-5" /> Add Student
+                        </button>
+                        <div className="w-24 h-24">
+                           <img src="/dino-reading.png" className="w-full h-full object-contain mix-blend-multiply drop-shadow-xl" alt="Mascot" />
+                        </div>
+                     </div>
+                  </div>
+
+                  {/* Filters */}
+                  <div className="flex items-center gap-6">
+                     <div className="flex-1 relative">
+                        <input 
+                           type="text" 
+                           placeholder="Search students..."
+                           value={searchQuery}
+                           onChange={(e) => setSearchQuery(e.target.value)}
+                           className="w-full bg-white border border-blue-50 rounded-[24px] py-4 px-14 text-sm font-bold text-blue-900 placeholder-blue-300 shadow-sm focus:ring-2 focus:ring-blue-100 transition-all"
+                        />
+                        <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-300" />
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <select 
+                           value={filterClass}
+                           onChange={(e) => setFilterClass(e.target.value)}
+                           className="bg-white border border-blue-50 rounded-[24px] py-4 px-8 text-sm font-bold text-blue-900 shadow-sm focus:ring-2 focus:ring-blue-100 outline-none appearance-none cursor-pointer pr-12 min-w-[180px]"
+                        >
+                           <option>All Classes</option>
+                           {classrooms.map(cls => (
+                              <option key={cls.id}>{cls.name}</option>
+                           ))}
+                        </select>
+                        <select className="bg-white border border-blue-50 rounded-[24px] py-4 px-8 text-sm font-bold text-blue-900 shadow-sm focus:ring-2 focus:ring-blue-100 outline-none appearance-none cursor-pointer pr-12 min-w-[160px]">
+                           <option>All Status</option>
+                           <option>Active</option>
+                           <option>Inactive</option>
+                        </select>
+                     </div>
+                  </div>
+
+                  {/* Students Table */}
+                  <div className="bg-white rounded-[40px] border border-blue-50 shadow-sm overflow-hidden">
+                     <div className="grid grid-cols-12 px-8 py-6 bg-blue-50/20 text-[10px] font-black text-blue-200 uppercase tracking-widest border-b border-blue-50">
+                        <div className="col-span-3">Student Name</div>
+                        <div className="col-span-2">Class</div>
+                        <div className="col-span-3">Email</div>
+                        <div className="col-span-2">Progress</div>
+                        <div className="col-span-2 text-right pr-4">Actions</div>
+                     </div>
+                     <div className="divide-y divide-blue-50">
+                        {filteredStudents.map((student, idx) => {
+                           const hash = student.name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+                           const progress = 60 + (hash % 35);
+                           const color = progress > 85 ? 'bg-emerald-500' : progress > 75 ? 'bg-blue-500' : 'bg-amber-500';
+                           
+                           return (
+                              <div key={idx} className="grid grid-cols-12 px-8 py-6 items-center hover:bg-blue-50/10 transition-all group">
+                                 <div className="col-span-3 flex items-center gap-4">
+                                    <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${student.name}`} className="w-10 h-10 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt={student.name} />
+                                    <span className="text-sm font-black text-[#1E3A8A]">{student.name}</span>
+                                 </div>
+                                 <div className="col-span-2">
+                                    <span className="text-xs font-bold text-blue-400">{student.className}</span>
+                                 </div>
+                                 <div className="col-span-3">
+                                    <span className="text-xs font-bold text-blue-400">{student.email}</span>
+                                 </div>
+                                 <div className="col-span-2 flex items-center gap-3">
+                                    <div className="flex-1 h-2 bg-blue-50 rounded-full overflow-hidden">
+                                       <div className={`h-full ${color} rounded-full`} style={{ width: `${progress}%` }} />
+                                    </div>
+                                    <span className="text-[10px] font-black text-blue-400">{progress}%</span>
+                                 </div>
+                                 <div className="col-span-2 flex items-center justify-end gap-3 pr-4">
+                                    <button className="p-2 text-blue-200 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all">
+                                       <Search className="w-4 h-4" />
+                                    </button>
+                                    <button className="p-2 text-blue-200 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all">
+                                       <MoreVertical className="w-4 h-4" />
+                                    </button>
+                                 </div>
+                              </div>
+                           );
+                        })}
+                        {filteredStudents.length === 0 && (
+                           <div className="py-20 text-center text-blue-300 italic font-bold">
+                              No students found. 🔍
+                           </div>
+                        )}
+                     </div>
+                  </div>
+
+                  <div className="flex items-center justify-between px-2">
+                     <p className="text-[10px] font-black text-blue-200 uppercase tracking-widest">
+                        Showing {filteredStudents.length} of {allStudents.length} students
+                     </p>
+                     <div className="flex items-center gap-2">
+                        <PaginationButton label="1" active />
+                        <PaginationButton label="2" />
+                        <PaginationButton label="3" />
+                        <span className="text-blue-200 px-2">...</span>
+                        <PaginationButton label="10" />
+                        <button className="w-10 h-10 flex-center text-blue-300 hover:text-blue-600">
+                           <ChevronRight className="w-5 h-5" />
+                        </button>
+                     </div>
+                  </div>
+               </div>
+            );
          case 'Homework':
             return <PlaceholderView title="Homework" icon="/ic-homework.png" description="Craft and assign illustrative homework tasks." />;
-         case 'Reports':
-            return <PlaceholderView title="Reports" icon="/ic-reports.png" description="Analyze data-rich class performance reports." />;
          case 'Messages':
-            return <PlaceholderView title="Messages" icon="/ic-messages.png" description="Connect with students and parents in real-time." />;
+            const chats = [
+               { id: 1, name: 'Grade 2A Parents', lastMsg: 'Thank you for attending the...', time: '10:30 AM', type: 'Class', date: '3 May 2024' },
+               { id: 2, name: 'Ananya Patel (Parent)', lastMsg: 'Regarding homework...', time: 'Yesterday', type: 'Individual' },
+               { id: 3, name: 'Vihaan Gupta (Parent)', lastMsg: 'Thank you for the update!', time: 'Yesterday', type: 'Individual' },
+               { id: 4, name: 'Grade 3B Parents', lastMsg: 'Reminder: Science project...', time: '2 May', type: 'Class' },
+               { id: 5, name: 'Myra Singh (Parent)', lastMsg: 'Can we schedule a meeting?', time: '1 May', type: 'Individual' }
+            ];
+            const currentChat = activeChat || chats[0];
+
+            return (
+               <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
+                  <div className="flex items-center justify-between">
+                     <div>
+                        <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">Messages</h1>
+                        <p className="text-sm font-bold text-blue-300 italic">Communicate with students and parents.</p>
+                     </div>
+                     <button className="bg-[#8A70FF] text-white px-8 py-4 rounded-3xl font-black text-sm shadow-xl shadow-purple-100 flex items-center gap-3 hover:scale-105 transition-all">
+                        <Plus className="w-5 h-5" /> New Message
+                     </button>
+                  </div>
+
+                  {/* Tabs */}
+                  <div className="flex items-center gap-8 border-b border-blue-50 pb-4">
+                     {['Inbox', 'Sent', 'Announcements'].map(tab => (
+                        <button 
+                           key={tab}
+                           onClick={() => setMessagesTab(tab)}
+                           className={`text-sm font-black transition-all relative py-2 ${messagesTab === tab ? 'text-[#8A70FF]' : 'text-blue-300 hover:text-blue-500'}`}
+                        >
+                           {tab}
+                           {messagesTab === tab && <motion.div layoutId="messages-tab" className="absolute bottom-0 left-0 right-0 h-1 bg-[#8A70FF] rounded-full" />}
+                        </button>
+                     ))}
+                  </div>
+
+                  <div className="grid grid-cols-12 gap-8 h-[600px]">
+                     {/* Chat List */}
+                     <div className="col-span-4 bg-white rounded-[40px] border border-blue-50 shadow-sm flex flex-col overflow-hidden">
+                        <div className="p-6 border-b border-blue-50">
+                           <div className="relative">
+                              <input type="text" placeholder="Search chats..." className="w-full bg-blue-50/50 border-none rounded-2xl py-3 px-10 text-xs font-bold text-blue-900 placeholder-blue-300" />
+                              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300" />
+                           </div>
+                        </div>
+                        <div className="flex-1 overflow-y-auto divide-y divide-blue-50 custom-scrollbar">
+                           {chats.map(chat => (
+                              <button 
+                                 key={chat.id}
+                                 onClick={() => setActiveChat(chat)}
+                                 className={`w-full text-left p-6 flex items-center gap-4 transition-all ${currentChat.id === chat.id ? 'bg-blue-50/50' : 'hover:bg-blue-50/30'}`}
+                              >
+                                 <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${chat.name}`} className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt={chat.name} />
+                                 <div className="flex-1 min-w-0">
+                                    <div className="flex items-center justify-between">
+                                       <p className="text-sm font-black text-[#1E3A8A] truncate">{chat.name}</p>
+                                       <span className="text-[9px] font-bold text-blue-300">{chat.time}</span>
+                                    </div>
+                                    <p className="text-xs font-bold text-blue-300 truncate">{chat.lastMsg}</p>
+                                 </div>
+                              </button>
+                           ))}
+                        </div>
+                     </div>
+
+                     {/* Chat View */}
+                     <div className="col-span-8 bg-white rounded-[40px] border border-blue-50 shadow-sm flex flex-col overflow-hidden">
+                        <div className="p-8 border-b border-blue-50 flex items-center justify-between">
+                           <div>
+                              <h3 className="text-lg font-black text-[#1E3A8A]">{currentChat.name}</h3>
+                              <p className="text-[10px] font-bold text-blue-300 uppercase tracking-widest">{currentChat.date || 'Today'}</p>
+                           </div>
+                           <div className="flex items-center gap-4">
+                              <button className="w-10 h-10 bg-blue-50 text-blue-400 rounded-xl flex-center hover:bg-blue-100 transition-all"><Settings className="w-4 h-4" /></button>
+                              <button className="w-10 h-10 bg-blue-50 text-blue-400 rounded-xl flex-center hover:bg-blue-100 transition-all"><MoreVertical className="w-4 h-4" /></button>
+                           </div>
+                        </div>
+
+                        <div className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar bg-blue-50/10">
+                           <div className="flex flex-col gap-4 max-w-[80%]">
+                              <div className="bg-[#EBE4FF] p-6 rounded-[32px] rounded-tl-none border border-blue-100 shadow-sm">
+                                 <p className="text-sm font-bold text-[#1E3A8A] leading-relaxed">
+                                    Thank you for attending the parent meeting today. Please find the homework guidelines attached.
+                                 </p>
+                                 <p className="text-sm font-bold text-[#1E3A8A] mt-4">Let me know if you have any questions!</p>
+                                 <div className="flex items-center gap-2 mt-4">
+                                    <Heart className="w-4 h-4 text-rose-400 fill-current" />
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-200" />
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-200" />
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-200" />
+                                 </div>
+                              </div>
+                              <div className="bg-white p-4 rounded-3xl border border-blue-50 flex items-center justify-between group cursor-pointer hover:shadow-md transition-all">
+                                 <div className="flex items-center gap-4">
+                                    <div className="w-10 h-10 bg-rose-50 rounded-xl flex-center text-rose-500">
+                                       <BookOpen className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                       <p className="text-xs font-black text-[#1E3A8A]">Homework_Guidelines.pdf</p>
+                                       <p className="text-[10px] font-bold text-blue-300">1.4 MB</p>
+                                    </div>
+                                 </div>
+                                 <button className="p-2 text-blue-200 group-hover:text-blue-600"><Plus className="w-5 h-5 rotate-45" /></button>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div className="p-6 border-t border-blue-50 flex items-center gap-4">
+                           <button className="w-12 h-12 bg-blue-50 text-blue-400 rounded-2xl flex-center hover:bg-blue-100 transition-all"><Plus className="w-6 h-6" /></button>
+                           <div className="flex-1 relative">
+                              <input type="text" placeholder="Type your message..." className="w-full bg-blue-50/50 border-none rounded-2xl py-4 px-6 text-sm font-bold text-blue-900 placeholder-blue-300" />
+                           </div>
+                           <button className="w-12 h-12 bg-[#8A70FF] text-white rounded-2xl flex-center shadow-lg shadow-purple-100 hover:scale-105 transition-all">
+                              <ArrowRight className="w-6 h-6" />
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            );
          case 'Rewards':
-            return <PlaceholderView title="Rewards" icon="/ic-rewards.png" description="Celebrate achievements with candy-pop badges!" />;
+            const topEarner = allStudents.sort((a, b) => b.name.length - a.name.length)[0] || { name: 'Vihaan Gupta' };
+            const totalPoints = allStudents.reduce((acc, s) => acc + (100 + (s.name.length * 5)), 0);
+
+            return (
+               <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
+                  <div className="flex items-center justify-between">
+                     <div>
+                        <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">Rewards</h1>
+                        <p className="text-sm font-bold text-blue-300 italic">Motivate students with points and badges.</p>
+                     </div>
+                     <div className="w-24 h-24">
+                        <img src="/mascot.png" className="w-full h-full object-contain mix-blend-multiply drop-shadow-xl" alt="Mascot" />
+                     </div>
+                  </div>
+
+                  {/* Tabs */}
+                  <div className="flex items-center gap-8 border-b border-blue-50 pb-4">
+                     {['Overview', 'Badges', 'Leaderboard'].map(tab => (
+                        <button 
+                           key={tab}
+                           onClick={() => setRewardsTab(tab)}
+                           className={`text-sm font-black transition-all relative py-2 ${rewardsTab === tab ? 'text-[#8A70FF]' : 'text-blue-300 hover:text-blue-500'}`}
+                        >
+                           {tab}
+                           {rewardsTab === tab && <motion.div layoutId="rewards-tab" className="absolute bottom-0 left-0 right-0 h-1 bg-[#8A70FF] rounded-full" />}
+                        </button>
+                     ))}
+                  </div>
+
+                  {/* KPI Row */}
+                  <div className="grid grid-cols-4 gap-6">
+                     <RewardKPICard title="Total Points" value={totalPoints} subtitle="+150 this week" bgColor="bg-blue-50/50" textColor="text-blue-600" />
+                     <RewardKPICard title="Badges Earned" value="24" subtitle={<Star className="w-4 h-4 text-yellow-400 fill-current" />} bgColor="bg-rose-50/50" textColor="text-rose-600" />
+                     <RewardKPICard title="Students Rewarded" value={Math.round(allStudents.length * 0.75)} subtitle={`${75}% of total`} bgColor="bg-emerald-50/50" textColor="text-emerald-600" />
+                     <RewardKPICard title="This Week's Top" value={topEarner.name} subtitle={<Trophy className="w-4 h-4 text-amber-400 fill-current" />} bgColor="bg-amber-50/50" textColor="text-amber-600" />
+                  </div>
+
+                  <div className="grid grid-cols-12 gap-10">
+                     {/* Recent Rewards */}
+                     <div className="col-span-7 bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 space-y-8">
+                        <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Recent Rewards</h3>
+                        <div className="space-y-6">
+                           {allStudents.slice(0, 4).map((s, idx) => (
+                              <div key={idx} className="flex items-center justify-between group">
+                                 <div className="flex items-center gap-4">
+                                    <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${s.name}`} className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt={s.name} />
+                                    <div>
+                                       <p className="text-sm font-black text-[#1E3A8A]">{s.name}</p>
+                                       <p className="text-[10px] font-bold text-blue-300 italic">{idx % 2 === 0 ? 'Excellent in Maths Quiz' : 'Great Homework Completion'}</p>
+                                    </div>
+                                 </div>
+                                 <div className="text-right">
+                                    <p className="text-sm font-black text-emerald-500">+{30 + (idx * 10)} points</p>
+                                    <p className="text-[9px] font-bold text-blue-200 uppercase tracking-widest">{idx + 1} May</p>
+                                 </div>
+                              </div>
+                           ))}
+                        </div>
+                     </div>
+
+                     {/* Top Badges */}
+                     <div className="col-span-5 bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 flex flex-col justify-between">
+                        <div className="space-y-8">
+                           <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Top Badges</h3>
+                           <div className="space-y-6">
+                              <BadgeRow name="Super Star" count="20" icon={<Star className="w-5 h-5 text-yellow-400 fill-current" />} color="bg-yellow-50" />
+                              <BadgeRow name="Maths Whiz" count="18" icon={<Zap className="w-5 h-5 text-blue-400 fill-current" />} color="bg-blue-50" />
+                              <BadgeRow name="Science Explorer" count="15" icon={<Zap className="w-5 h-5 text-emerald-400 fill-current" />} color="bg-emerald-50" />
+                              <BadgeRow name="Helpful Friend" count="12" icon={<Heart className="w-5 h-5 text-rose-400 fill-current" />} color="bg-rose-50" />
+                           </div>
+                        </div>
+                        <button className="w-full bg-blue-50 text-blue-600 py-4 rounded-3xl font-black text-xs hover:bg-blue-100 transition-all mt-10">
+                           View All Badges
+                        </button>
+                     </div>
+                  </div>
+               </div>
+            );
          default:
             return null;
       }
@@ -504,7 +773,6 @@ const TeacherDashboard = ({ user, onLogout }) => {
             <SidebarItem id="My Classes" label="My Classes" icon={<img src="/ic-classes.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="My Classes" />} active={activeTab === 'My Classes'} onClick={setActiveTab} />
             <SidebarItem id="Students" label="Students" icon={<img src="/ic-students.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Students" />} active={activeTab === 'Students'} onClick={setActiveTab} />
             <SidebarItem id="Homework" label="Homework" icon={<img src="/ic-homework.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Homework" />} active={activeTab === 'Homework'} onClick={setActiveTab} />
-            <SidebarItem id="Reports" label="Reports" icon={<img src="/ic-reports.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Reports" />} active={activeTab === 'Reports'} onClick={setActiveTab} />
             <SidebarItem id="Messages" label="Messages" icon={<img src="/ic-messages.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Messages" />} active={activeTab === 'Messages'} onClick={setActiveTab} />
             <SidebarItem id="Rewards" label="Rewards" icon={<img src="/ic-rewards.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Rewards" />} active={activeTab === 'Rewards'} onClick={setActiveTab} />
          </nav>
@@ -721,6 +989,36 @@ const GrassBorder = () => (
         ))}
      </div>
   </div>
+);
+
+const RewardKPICard = ({ title, value, subtitle, bgColor, textColor }) => (
+   <div className={`${bgColor} rounded-[32px] p-8 border border-white/50 shadow-sm space-y-2 group hover:shadow-xl transition-all`}>
+      <p className="text-[10px] font-black text-blue-300 uppercase tracking-widest">{title}</p>
+      <h3 className={`text-3xl font-black ${textColor} tracking-tight`}>{value}</h3>
+      <div className="flex items-center gap-2">
+         <span className="text-[10px] font-black text-blue-400 opacity-60 italic">{subtitle}</span>
+      </div>
+   </div>
+);
+
+const BadgeRow = ({ name, count, icon, color }) => (
+   <div className="flex items-center justify-between">
+      <div className="flex items-center gap-4">
+         <div className={`w-12 h-12 ${color} rounded-2xl flex-center shadow-sm`}>
+            {icon}
+         </div>
+         <div>
+            <p className="text-sm font-black text-[#1E3A8A]">{name}</p>
+            <p className="text-[10px] font-bold text-blue-300 italic">Earned by {count} students</p>
+         </div>
+      </div>
+   </div>
+);
+
+const PaginationButton = ({ label, active }) => (
+   <button className={`w-10 h-10 rounded-xl flex-center text-sm font-black transition-all ${active ? 'bg-[#8A70FF] text-white shadow-lg shadow-purple-100' : 'text-blue-400 hover:bg-blue-50'}`}>
+      {label}
+   </button>
 );
 
 const NavLink = ({ label, active }) => (
