@@ -33,7 +33,8 @@ import {
   Share2,
   Zap,
   Clock,
-  Flame
+  Flame,
+  Trophy
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -90,231 +91,270 @@ const BlobChart = ({ value }) => (
 // --- Student Dashboard (Equip Final Redesign) ---
 const StudentDashboard = ({ teacher, studentName, onLogout }) => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('dashboard');
-  const [showMascot, setShowMascot] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowMascot(false);
-    }, 4000);
-    return () => clearTimeout(timer);
-  }, []);
+  const [activeTab, setActiveTab] = useState('My Progress');
 
   return (
-    <div className="flex min-h-screen bg-[#F5F7FA] font-sans">
-      {/* --- Sidebar (Equip Style) --- */}
-      <aside className="w-72 bg-white border-r border-slate-200 flex flex-col shrink-0 sticky top-0 h-screen z-50">
-        <div className="p-8 flex items-center gap-3 text-blue-600">
-           <div className="w-8 h-8 bg-blue-600 rounded-lg flex-center text-white">
-              <GraduationCap className="w-5 h-5" />
-           </div>
-           <span className="text-2xl font-black tracking-tighter italic">Equip</span>
-        </div>
-        
-        {/* User Profile Mini */}
-        <div className="px-8 pb-8 flex items-center justify-between group cursor-pointer">
-           <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-purple-100 flex-center text-purple-600 font-bold border-2 border-white shadow-sm">E</div>
-              <div>
-                 <p className="text-sm font-black text-slate-800">Emma</p>
-                 <p className="text-[10px] font-bold text-slate-400">Emma@gmail.com</p>
-              </div>
-           </div>
-           <ChevronDown className="w-4 h-4 text-slate-400" />
-        </div>
+    <div className="min-h-screen bg-[#F9F9FF] font-sans pb-20 overflow-x-hidden">
+      {/* --- Top Navigation --- */}
+      <nav className="max-w-[95%] mx-auto px-6 py-8 flex items-center justify-between">
+         <div className="flex items-center gap-8">
+            <div className="flex flex-col">
+               <h1 className="text-4xl font-black text-[#1E293B] tracking-tighter leading-none">
+                 Hello, <span className="text-[#8A70FF]">{studentName || 'Student'}</span>!
+               </h1>
+               <p className="text-xl font-black text-[#475569] tracking-tight mt-1">Ready to learn?</p>
+            </div>
+            <div className="w-24 h-24 relative -mt-4">
+               <img src="/assets/owl_mascot.png" className="w-full h-full object-contain drop-shadow-xl animate-float" alt="Owl Mascot" />
+            </div>
+         </div>
 
-        {/* Search */}
-        <div className="px-6 pb-8">
-           <div className="bg-gradient-to-r from-purple-50 to-indigo-50 px-6 py-3 rounded-full flex items-center gap-4 border border-purple-100 shadow-inner group transition-all">
-              <Search className="w-4 h-4 text-purple-400" />
-              <input type="text" placeholder="Search for anything" className="bg-transparent border-none outline-none text-xs w-full font-bold text-slate-600" />
-           </div>
-        </div>
+         <div className="flex items-center gap-8">
+            <div className="flex items-center gap-4">
+               <button className="w-12 h-12 bg-white rounded-2xl flex-center shadow-sm border border-slate-100 hover:scale-110 transition-all">
+                  <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${studentName || 'student'}`} className="w-8 h-8" alt="Profile" />
+               </button>
+               <button className="w-12 h-12 bg-white rounded-2xl flex-center shadow-sm border border-slate-100 text-[#8A70FF] hover:scale-110 transition-all">
+                  <Plus className="w-6 h-6" />
+               </button>
+               <button className="w-12 h-12 bg-white rounded-2xl flex-center shadow-sm border border-slate-100 text-[#8A70FF] hover:scale-110 transition-all">
+                  <Bell className="w-6 h-6" />
+               </button>
+            </div>
+            <div className="flex items-center gap-1 border-b-4 border-[#8A70FF] pb-2 cursor-pointer">
+               <span className="text-xl font-black text-[#1E293B]">{activeTab}</span>
+            </div>
+            <button onClick={onLogout} className="flex items-center gap-2 bg-rose-50 px-6 py-3 rounded-2xl text-xs font-black text-rose-600 hover:bg-rose-100 transition-all border border-rose-100 shadow-sm"><LogOut className="w-4 h-4" /> Sign Out</button>
+         </div>
+      </nav>
 
-        <nav className="flex-1 px-4 space-y-1">
-          <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest ml-4 mb-2">General</p>
-          <EquipSidebarItem icon={<LayoutDashboard className="w-4 h-4" />} label="Dashboard" active />
-          <EquipSidebarItem icon={<FileText className="w-4 h-4" />} label="Practice Tests" />
-          <EquipSidebarItem icon={<TrendingUp className="w-4 h-4" />} label="My Progress" />
-          <EquipSidebarItem icon={<Calendar className="w-4 h-4" />} label="Study Plan" />
-          <EquipSidebarItem icon={<ClipboardList className="w-4 h-4" />} label="Notes" />
-          
-          <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest ml-4 mt-8 mb-2">Subjects</p>
-          <EquipSidebarItem icon={<BookOpen className="w-4 h-4 text-emerald-500" />} label="Reading" />
-          <EquipSidebarItem icon={<FileText className="w-4 h-4 text-pink-500" />} label="Writing" />
-          <EquipSidebarItem icon={<Target className="w-4 h-4 text-blue-500" />} label="Numeracy" />
-          <EquipSidebarItem icon={<MessageSquare className="w-4 h-4 text-amber-500" />} label="Language" />
-        </nav>
-
-        {/* Bottom Profile */}
-        <div className="p-6">
-           <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-[28px] p-4 flex items-center justify-between border border-white shadow-lg">
-              <div className="flex items-center gap-3">
-                 <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${studentName || 'student'}`} className="w-10 h-10 rounded-full border-2 border-white shadow-sm bg-white p-1" alt="Student" />
-                 <div>
-                    <p className="text-sm font-black text-slate-800">{studentName || 'Student'}</p>
-                    <p className="text-[9px] font-bold text-slate-400">Year 9, NSW</p>
-                 </div>
-              </div>
-              <Settings className="w-4 h-4 text-slate-400" />
-           </div>
-        </div>
-      </aside>
-
-      {/* --- Main Content Area --- */}
-      <main className="flex-1 flex flex-col min-w-0 p-10 space-y-10 overflow-y-auto">
-        {/* Header */}
-        <header className="flex items-center justify-between shrink-0">
-           <div>
-              <h2 className="text-3xl font-black text-slate-900 tracking-tight">Welcome to {teacher?.displayName || "Teacher"}'s Zone!</h2>
-              <p className="text-sm font-bold text-slate-400">Ready to boost your Numeracy score today, Emma?</p>
-           </div>
-           <div className="flex items-center gap-4">
-              <div className="bg-purple-50 text-purple-600 px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest border border-purple-100 shadow-sm flex items-center gap-2">
-                 <div className="w-2 h-2 rounded-full bg-purple-600 animate-pulse" /> eduplan in 18 days
-              </div>
-              <button className="p-3 bg-white rounded-full shadow-sm border border-slate-100 text-slate-400 hover:text-blue-600 transition-all"><Bell className="w-5 h-5" /></button>
-              <button onClick={onLogout} className="flex items-center gap-2 bg-rose-50 px-6 py-3 rounded-2xl text-xs font-black text-rose-600 hover:bg-rose-100 transition-all border border-rose-100 shadow-sm"><LogOut className="w-4 h-4" /> Sign Out</button>
-           </div>
-        </header>
-
-        {/* Floating Mascot - 'Puff & Gone' Lottie Animation */}
-        <AnimatePresence>
-          {showMascot && (
-            <motion.div 
-              initial={{ opacity: 0, x: 200 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, scale: 0, filter: 'blur(20px)' }}
-              transition={{ duration: 1, ease: "backOut" }}
-              className="fixed bottom-10 right-10 w-64 z-[100] pointer-events-none"
-            >
-               {/* True Animated Lottie Character */}
-               <Lottie 
-                 animationData={null} // We will use a URL or a local file
-                 path="https://assets10.lottiefiles.com/packages/lf20_m6cu9xpk.json" // High-quality walking student
-                 loop={true}
-                 className="w-full h-auto"
+      {/* --- Dashboard Grid --- */}
+      <main className="max-w-[95%] mx-auto px-6 grid grid-cols-12 gap-10">
+         
+         {/* Row 1 Left: To-Do List */}
+         <div className="col-span-12 lg:col-span-5 bg-white rounded-[48px] p-10 border border-slate-100 shadow-sm space-y-8">
+            <h2 className="text-2xl font-black text-[#1E293B]">To-Do List</h2>
+            <div className="space-y-4">
+               <TodoCard 
+                  title="Homework: Grade 58" 
+                  subtitle="English - Submit by May 5" 
+                  btnText="Start Homework" 
+                  icon={<BookOpen className="w-6 h-6 text-purple-400" />}
+                  color="bg-purple-50"
+                  btnColor="bg-[#8A70FF]"
                />
-               
-               {/* Speech Bubble */}
-               <motion.div 
-                 initial={{ opacity: 0, y: 20 }}
-                 animate={{ opacity: 1, y: 0 }}
-                 transition={{ delay: 1.5 }}
-                 className="absolute -top-12 -left-16 bg-white px-6 py-3 rounded-3xl shadow-2xl border border-slate-100"
-               >
-                  <p className="text-sm font-black text-slate-800 whitespace-nowrap">Hey {studentName || 'Emma'}! 👋</p>
-                  <div className="absolute -bottom-2 right-6 w-4 h-4 bg-white rotate-45 border-r border-b border-slate-100" />
-               </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+               <TodoCard 
+                  title="Upcoming Test" 
+                  subtitle="Science - Planets, May 7" 
+                  btnText="Prepare" 
+                  icon={<Target className="w-6 h-6 text-blue-400" />}
+                  color="bg-blue-50"
+                  btnColor="bg-blue-500"
+               />
+               <TodoCard 
+                  title="Review" 
+                  subtitle="Teacher Feedback on Maths Quiz" 
+                  btnText="View Feedback" 
+                  icon={<MessageSquare className="w-6 h-6 text-amber-400" />}
+                  color="bg-amber-50"
+                  btnColor="bg-amber-500"
+               />
+            </div>
+         </div>
 
-        {/* Top Metric Row */}
-        <div className="relative grid grid-cols-4 gap-8">
-           <MetricCard label="Overall Score" value="74%" trend="+5%" icon={<TrendingUp className="w-5 h-5 text-blue-500" />} />
-           <MetricCard label="Tests Completed" value="42" icon={<CheckCircle2 className="w-5 h-5 text-purple-500" />} />
-           <MetricCard label="Day Streak" value="12 days" icon={<Flame className="w-5 h-5 text-emerald-500" />} active />
-           <MetricCard label="Study Time" value="38h" icon={<Clock className="w-5 h-5 text-amber-500" />} />
-        </div>
+         {/* Row 1 Right: My Learning Path */}
+         <div className="col-span-12 lg:col-span-7 bg-white rounded-[48px] p-10 border border-slate-100 shadow-sm space-y-8 relative overflow-hidden">
+            <h2 className="text-2xl font-black text-[#1E293B]">My Learning Path</h2>
+            <div className="flex items-center gap-6 relative">
+               <div className="absolute top-1/2 left-0 w-full h-1 bg-slate-100 -translate-y-1/2 z-0" />
+               <LearningPathCard 
+                  title="English Grammar 1" 
+                  progress={10} 
+                  stars={3} 
+                  color="bg-purple-50" 
+                  active 
+               />
+               <LearningPathCard 
+                  title="Maths: Division Basics" 
+                  progress={50} 
+                  stars={3} 
+                  color="bg-amber-50" 
+               />
+               <LearningPathCard 
+                  title="Science: Plants" 
+                  progress={50} 
+                  stars={4} 
+                  color="bg-emerald-50" 
+               />
+            </div>
+         </div>
 
-        {/* Middle Section */}
-        <div className="grid grid-cols-12 gap-10">
-           {/* Subject Performance */}
-           <div className="col-span-7 bg-white rounded-[40px] p-10 border border-slate-100 shadow-sm space-y-10">
-              <div className="space-y-8">
-                 <h3 className="text-xl font-black text-slate-900 tracking-tight">Subject Performance</h3>
-                 <div className="space-y-6">
-                    <SubjectBar label="Reading" value={78} color="bg-gradient-to-r from-emerald-400 to-blue-500" />
-                    <SubjectBar label="Writing" value={65} color="bg-gradient-to-r from-pink-400 to-rose-500" />
-                    <SubjectBar label="Numeracy" value={84} color="bg-gradient-to-r from-blue-500 to-indigo-600" />
-                    <SubjectBar label="Language Conventions" value={71} color="bg-gradient-to-r from-amber-400 to-orange-500" />
-                 </div>
-              </div>
+         {/* Row 2 Left: Recent Achievements */}
+         <div className="col-span-12 lg:col-span-8 bg-white rounded-[48px] p-10 border border-slate-100 shadow-sm space-y-10">
+            <h2 className="text-2xl font-black text-[#1E293B]">My Recent Achievements</h2>
+            <div className="grid grid-cols-12 gap-8 items-center">
+               <div className="col-span-7 grid grid-cols-4 gap-4">
+                  <AchievementBadge icon="🐝" label="Spelling Bee" color="bg-amber-50" />
+                  <AchievementBadge icon="🧮" label="Math Wizard" color="bg-blue-50" />
+                  <AchievementBadge icon="⭐" label="Star Reader" color="bg-purple-50" />
+                  <AchievementBadge icon="🦁" label="Helpful" color="bg-emerald-50" />
+                  <div className="col-span-4 pt-4">
+                     <button className="bg-[#8A70FF] text-white px-8 py-3 rounded-2xl font-black text-xs shadow-lg hover:scale-105 transition-all">View All Badges</button>
+                  </div>
+               </div>
+               <div className="col-span-5 flex gap-4">
+                  <RankCard rank={1} name="Virsan Shanna" detail="Grade 1" avatar="https://api.dicebear.com/7.x/adventurer/svg?seed=rank1" />
+                  <RankCard rank={3} name="Vimen Single" detail="Leader" avatar="https://api.dicebear.com/7.x/adventurer/svg?seed=rank3" isAlt />
+               </div>
+            </div>
+         </div>
 
-              <div className="space-y-6 pt-10 border-t border-slate-50">
-                 <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Recent Scores</h4>
-                 <div className="space-y-4">
-                    <ScoreRow label="Practice Test #12 - Reading" score="82/100" icon={<FileText className="w-4 h-4 text-blue-400" />} />
-                    <ScoreRow label="Weekly Quiz - Algebra" score="91/100" icon={<ClipboardList className="w-4 h-4 text-emerald-400" />} />
-                 </div>
-              </div>
-           </div>
+         {/* Row 2 Right: Class Standings */}
+         <div className="col-span-12 lg:col-span-4 bg-white rounded-[48px] p-10 border border-slate-100 shadow-sm space-y-8">
+            <h2 className="text-2xl font-black text-[#1E293B]">Class Standings</h2>
+            <div className="space-y-6">
+               <StandingRow rank={1} name="Vhsen Oopla" students={64} progress="+5" color="text-emerald-500" avatar="https://api.dicebear.com/7.x/adventurer/svg?seed=vhsen" />
+               <StandingRow rank={2} name="Aronya Bhanna" students={64} progress="+20" color="text-emerald-500" avatar="https://api.dicebear.com/7.x/adventurer/svg?seed=aronya" />
+               <StandingRow rank={3} name="Brohin Hetel" students={64} progress="-2" color="text-rose-500" avatar="https://api.dicebear.com/7.x/adventurer/svg?seed=brohin" />
+            </div>
+         </div>
 
-           {/* Exam Readiness */}
-           <div className="col-span-5 bg-white rounded-[40px] p-10 border border-slate-100 shadow-sm flex flex-col justify-between overflow-hidden relative">
-              <div className="space-y-6 text-center">
-                 <h3 className="text-xl font-black text-slate-900 tracking-tight">Exam Readiness</h3>
-                 <div className="flex-center py-6">
-                    <BlobChart value={73} />
-                 </div>
-              </div>
+         {/* Row 3 Left: Calendar */}
+         <div className="col-span-12 lg:col-span-8 bg-white rounded-[48px] p-10 border border-slate-100 shadow-sm space-y-8">
+            <div className="grid grid-cols-7 text-center border-b border-slate-50 pb-4">
+               {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                  <span key={day} className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{day}</span>
+               ))}
+            </div>
+            <div className="grid grid-cols-7 gap-1">
+               {[...Array(35)].map((_, i) => {
+                  const day = (i % 31) + 1;
+                  return (
+                     <div key={i} className={`h-24 border border-slate-50 rounded-2xl p-2 relative group hover:bg-slate-50 transition-all ${i === 3 ? 'bg-indigo-50/50' : ''}`}>
+                        <span className="text-xs font-bold text-slate-400">{day}</span>
+                        {i === 3 && <div className="absolute top-2 right-2 w-4 h-4 rounded-full bg-orange-400 border-2 border-white" />}
+                        {i === 11 && <div className="mt-2 bg-rose-50 text-rose-500 text-[8px] font-black p-1 rounded-lg">Due Test</div>}
+                        {i === 18 && <div className="mt-2 bg-purple-50 text-purple-500 text-[8px] font-black p-1 rounded-lg">Due HW</div>}
+                     </div>
+                  );
+               })}
+            </div>
+         </div>
 
-              <div className="grid grid-cols-2 gap-4 mt-8">
-                 <LegendItem label="Numeracy" value="84%" color="bg-blue-600" />
-                 <LegendItem label="Reading" value="78%" color="bg-pink-400" />
-                 <LegendItem label="Writing" value="65%" color="bg-purple-500" />
-              </div>
+         {/* Row 3 Right: Teacher Feed */}
+         <div className="col-span-12 lg:col-span-4 bg-white rounded-[48px] p-10 border border-slate-100 shadow-sm space-y-8">
+            <h2 className="text-2xl font-black text-[#1E293B]">Teacher Feed</h2>
+            <div className="space-y-8">
+               <FeedPost 
+                  author="Asrey Summum" 
+                  time="1 day ago" 
+                  content="Today we explored the solar system! Don't forget to check your homework assignments." 
+                  avatar="https://api.dicebear.com/7.x/adventurer/svg?seed=asrey"
+               />
+               <FeedPost 
+                  author="Ngeo Raghi" 
+                  time="2 days ago" 
+                  content="Great job on the Science quiz yesterday! Keep up the amazing work." 
+                  avatar="https://api.dicebear.com/7.x/adventurer/svg?seed=ngeo"
+               />
+            </div>
+         </div>
 
-              <div className="mt-10 bg-purple-50 p-6 rounded-3xl border border-purple-100 flex gap-4">
-                 <div className="w-10 h-10 bg-white rounded-xl flex-center shrink-0 shadow-sm"><Zap className="w-5 h-5 text-purple-600" /></div>
-                 <p className="text-[10px] font-bold text-slate-600 leading-relaxed">AI Insight: Focus on Writing clarity and paragraph structure next for a 12% potential gain.</p>
-              </div>
-           </div>
-        </div>
-
-        {/* Bottom Row */}
-        <div className="grid grid-cols-2 gap-10">
-           {/* 7-Day Activity */}
-           <div className="bg-white rounded-[40px] p-10 border border-slate-100 shadow-sm space-y-8">
-              <h3 className="text-xl font-black text-slate-900 tracking-tight">7-Day Activity</h3>
-              <div className="h-64 w-full">
-                 <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={ACTIVITY_DATA}>
-                       <Tooltip cursor={{ fill: 'transparent' }} />
-                       <Bar dataKey="value" radius={[10, 10, 10, 10]} barSize={40}>
-                          {ACTIVITY_DATA.map((entry, index) => (
-                             <Cell key={`cell-${index}`} fill="#a855f7" fillOpacity={index === 4 ? 1 : 0.2} />
-                          ))}
-                       </Bar>
-                       <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 900, fill: '#94a3b8' }} />
-                    </BarChart>
-                 </ResponsiveContainer>
-              </div>
-           </div>
-
-           {/* Upcoming Tests */}
-           <div className="bg-white rounded-[40px] p-10 border border-slate-100 shadow-sm flex flex-col justify-between">
-              <div className="flex items-center justify-between">
-                 <h3 className="text-xl font-black text-slate-900 tracking-tight">Upcoming Tests</h3>
-                 <button className="text-[10px] font-black text-blue-600 uppercase tracking-widest hover:underline">View Calendar</button>
-              </div>
-
-              <div className="bg-slate-50 p-8 rounded-[32px] border border-slate-100 flex items-center justify-between group cursor-pointer hover:shadow-lg transition-all">
-                 <div className="flex items-center gap-6">
-                    <div className="bg-purple-100 w-16 h-16 rounded-2xl flex flex-col items-center justify-center text-purple-600">
-                       <span className="text-xl font-black">24</span>
-                       <span className="text-[9px] font-black uppercase tracking-widest">May</span>
-                    </div>
-                    <div className="space-y-1">
-                       <div className="flex items-center gap-3">
-                          <p className="text-base font-black text-slate-900">Full Length Practice Exam A</p>
-                          <span className="bg-orange-100 text-orange-600 px-2 py-0.5 rounded-lg text-[9px] font-black uppercase tracking-widest">Hard</span>
-                       </div>
-                       <div className="flex items-center gap-4 text-[10px] font-bold text-slate-400">
-                          <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> 120 mins</span>
-                          <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" /> All Subjects</span>
-                       </div>
-                    </div>
-                 </div>
-                 <button className="bg-white text-slate-900 px-8 py-3 rounded-2xl text-xs font-black shadow-sm border border-slate-100 hover:bg-slate-900 hover:text-white transition-all">Start</button>
-              </div>
-           </div>
-        </div>
       </main>
+
+      <GrassBorder />
     </div>
   );
 };
+
+const TodoCard = ({ title, subtitle, btnText, icon, color, btnColor }) => (
+   <div className={`${color} p-6 rounded-[32px] flex items-center justify-between group transition-all hover:scale-[1.02] border border-white/50 shadow-sm`}>
+      <div className="flex items-center gap-6">
+         <div className="w-14 h-14 bg-white rounded-2xl flex-center shadow-sm group-hover:scale-110 transition-transform">{icon}</div>
+         <div className="space-y-1">
+            <p className="text-base font-black text-[#1E293B]">{title}</p>
+            <p className="text-[10px] font-bold text-slate-400 italic">{subtitle}</p>
+         </div>
+      </div>
+      <button className={`${btnColor} text-white px-6 py-3 rounded-2xl font-black text-xs shadow-lg hover:brightness-110 transition-all`}>{btnText}</button>
+   </div>
+);
+
+const LearningPathCard = ({ title, progress, stars, color, active }) => (
+   <div className={`flex-1 ${color} p-6 rounded-[32px] border-4 ${active ? 'border-[#8A70FF]' : 'border-white'} shadow-xl z-10 space-y-6 relative group hover:-translate-y-2 transition-all`}>
+      <div className="absolute -top-4 -left-4 w-10 h-10 bg-white rounded-full flex-center shadow-md text-[#FBBF24]">
+         <Star className="w-6 h-6 fill-current" />
+      </div>
+      <div className="space-y-2">
+         <p className="text-sm font-black text-[#1E293B] leading-tight h-10 overflow-hidden">{title}</p>
+         <div className="h-1.5 w-full bg-white/50 rounded-full overflow-hidden">
+            <div className="h-full bg-emerald-400 rounded-full" style={{ width: `${progress}%` }} />
+         </div>
+      </div>
+      <div className="flex items-center justify-between">
+         <div className="flex gap-0.5">
+            {[...Array(5)].map((_, i) => (
+               <Star key={i} className={`w-3 h-3 ${i < stars ? 'text-[#FBBF24] fill-current' : 'text-slate-200'}`} />
+            ))}
+         </div>
+         <span className="text-[10px] font-black text-slate-400">{progress}%</span>
+      </div>
+      <button className="w-full bg-[#8A70FF] text-white py-2 rounded-xl font-black text-[10px] shadow-md">Resume Learning</button>
+   </div>
+);
+
+const AchievementBadge = ({ icon, label, color }) => (
+   <div className="flex flex-col items-center gap-2 group cursor-pointer">
+      <div className={`w-14 h-14 ${color} rounded-full flex-center text-2xl shadow-sm border-2 border-white group-hover:scale-110 transition-transform`}>{icon}</div>
+      <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">{label}</span>
+   </div>
+);
+
+const RankCard = ({ rank, name, detail, avatar, isAlt }) => (
+   <div className={`flex-1 ${isAlt ? 'bg-amber-50' : 'bg-blue-50'} p-6 rounded-[32px] border border-white flex flex-col items-center text-center gap-4 relative overflow-hidden group hover:scale-105 transition-all shadow-sm`}>
+      <div className="absolute -top-4 -right-4 w-12 h-12 bg-white/50 rounded-full flex-center font-black text-2xl text-[#1E293B]/20">{rank}</div>
+      <img src={avatar} className="w-16 h-16 rounded-full border-2 border-white bg-white p-1" alt={name} />
+      <div>
+         <p className="text-xs font-black text-[#1E293B]">{name}</p>
+         <p className="text-[10px] font-bold text-slate-400">{detail}</p>
+      </div>
+      <Trophy className={`w-5 h-5 ${isAlt ? 'text-amber-400' : 'text-blue-400'}`} />
+   </div>
+);
+
+const StandingRow = ({ rank, name, students, progress, color, avatar }) => (
+   <div className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-all cursor-pointer border border-transparent hover:border-slate-100">
+      <div className="flex items-center gap-4">
+         <span className="text-lg font-black text-[#1E293B] w-6">{rank}</span>
+         <img src={avatar} className="w-10 h-10 rounded-full border-2 border-white bg-slate-50" alt={name} />
+         <div>
+            <p className="text-sm font-black text-[#1E293B]">{name}</p>
+            <p className="text-[9px] font-bold text-slate-400">Total {students} students</p>
+         </div>
+      </div>
+      <span className={`text-[10px] font-black ${color}`}>{progress} pass</span>
+   </div>
+);
+
+const FeedPost = ({ author, time, content, avatar }) => (
+   <div className="space-y-4 group">
+      <div className="flex items-center justify-between">
+         <div className="flex items-center gap-4">
+            <img src={avatar} className="w-10 h-10 rounded-full border-2 border-white bg-slate-50" alt={author} />
+            <div>
+               <p className="text-sm font-black text-[#1E293B]">{author}</p>
+               <p className="text-[10px] font-bold text-slate-300 italic">{time}</p>
+            </div>
+         </div>
+         <MoreVertical className="w-4 h-4 text-slate-300" />
+      </div>
+      <p className="text-xs font-bold text-slate-600 leading-relaxed bg-slate-50/50 p-6 rounded-[28px] border border-slate-50 group-hover:bg-white group-hover:shadow-md transition-all">{content}</p>
+      <div className="flex items-center gap-4 ml-6">
+         <div className="flex items-center gap-1.5 text-slate-300"><MessageSquare className="w-3.5 h-3.5" /> <span className="text-[10px] font-black">1</span></div>
+         <div className="flex items-center gap-1.5 text-slate-300"><Heart className="w-3.5 h-3.5" /> <span className="text-[10px] font-black">2</span></div>
+      </div>
+   </div>
+);
 
 const EquipSidebarItem = ({ icon, label, active }) => (
   <div className={`flex items-center gap-4 px-6 py-3.5 rounded-2xl cursor-pointer transition-all border-2 ${active ? 'bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-600 border-blue-100 font-bold' : 'text-slate-400 border-transparent hover:bg-slate-50 hover:text-slate-800'}`}>
@@ -679,6 +719,25 @@ const LoginPage = ({ role, onLogin }) => {
 };
 
 // --- App Router ---
+const GrassBorder = () => (
+  <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none z-0 overflow-hidden">
+     <div className="absolute bottom-0 w-full h-24 bg-[#95E2B9] opacity-20 blur-3xl" />
+     <div className="absolute bottom-0 w-full flex items-end justify-around px-20">
+        {[...Array(12)].map((_, i) => (
+           <div key={i} className="flex flex-col items-center">
+              <div className={`w-8 h-${i % 2 === 0 ? '16' : '12'} bg-[#95E2B9]/30 rounded-t-full relative`}>
+                 {i % 4 === 0 && (
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                       <Star className="w-4 h-4 text-yellow-400 fill-current opacity-40" />
+                    </div>
+                 )}
+              </div>
+           </div>
+        ))}
+     </div>
+  </div>
+);
+
 export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [activeStudent, setActiveStudent] = useState(null);
