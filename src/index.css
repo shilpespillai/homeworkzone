@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
-    @apply text-[#334155] antialiased bg-white;
+    @apply text-blue-900 antialiased bg-[#F9F9FF];
     font-family: 'Fredoka', sans-serif;
   }
 }
@@ -40,9 +42,9 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-slate-100;
+  @apply bg-blue-50;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 rounded-full border-4 border-slate-100;
+  @apply bg-purple-200 rounded-full border-4 border-blue-50;
 }
