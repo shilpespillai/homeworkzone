@@ -56,6 +56,10 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [rewardsTab, setRewardsTab] = useState('Overview');
   const [messagesTab, setMessagesTab] = useState('Inbox');
   const [activeChat, setActiveChat] = useState(null);
+  const [homeworkSubject, setHomeworkSubject] = useState('English');
+  const [homeworkTitle, setHomeworkTitle] = useState('');
+  const [homeworkInstructions, setHomeworkInstructions] = useState('');
+  const [homeworkPoints, setHomeworkPoints] = useState(10);
 
   const saveAiKeys = () => {
     localStorage.setItem('hwz_gemini_key', aiKeys.gemini);
@@ -555,7 +559,204 @@ const TeacherDashboard = ({ user, onLogout }) => {
                </div>
             );
          case 'Homework':
-            return <PlaceholderView title="Homework" icon="/ic-homework.png" description="Craft and assign illustrative homework tasks." />;
+            return (
+               <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative overflow-y-auto custom-scrollbar">
+                  <div className="flex items-center justify-between">
+                     <div className="space-y-1">
+                        <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">Create Homework</h1>
+                        <p className="text-sm font-bold text-blue-300 italic">Prepare fun and meaningful homework for your students!</p>
+                     </div>
+                     <div className="flex items-center gap-6">
+                        <div className="bg-white px-6 py-2 rounded-full border border-blue-50 shadow-sm flex items-center gap-2">
+                           <Star className="w-4 h-4 text-rose-400 fill-current" />
+                           <span className="text-xs font-black text-[#1E3A8A]">Hi, Teacher!</span>
+                           <ChevronDown className="w-4 h-4 text-blue-300" />
+                        </div>
+                        <div className="w-24 h-24 relative">
+                           <img src="/dino-reading.png" className="w-full h-full object-contain mix-blend-multiply drop-shadow-xl animate-float" alt="Mascot" />
+                        </div>
+                     </div>
+                  </div>
+
+                  {/* Step 1: Choose Subject */}
+                  <div className="space-y-6">
+                     <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-[#8A70FF] rounded-full flex-center text-white text-xs font-black">1</div>
+                        <h2 className="text-xl font-black text-[#1E3A8A] tracking-tight">Choose Subject</h2>
+                     </div>
+                     <div className="grid grid-cols-3 gap-8">
+                        <SubjectCard 
+                           title="English" 
+                           description="Reading, writing, grammar and more!" 
+                           icon="/ic-homework.png"
+                           color="bg-[#FFF9DB]"
+                           borderColor="border-[#FFE066]"
+                           active={homeworkSubject === 'English'}
+                           onClick={() => setHomeworkSubject('English')}
+                        />
+                        <SubjectCard 
+                           title="Maths" 
+                           description="Numbers, shapes, patterns and more!" 
+                           icon="/ic-reports.png"
+                           color="bg-[#E7F5FF]"
+                           borderColor="border-[#A5D8FF]"
+                           active={homeworkSubject === 'Maths'}
+                           onClick={() => setHomeworkSubject('Maths')}
+                        />
+                        <SubjectCard 
+                           title="Science" 
+                           description="Discover, explore and learn amazing things!" 
+                           icon="/ic-students.png"
+                           color="bg-[#EBFBEE]"
+                           borderColor="border-[#B2F2BB]"
+                           active={homeworkSubject === 'Science'}
+                           onClick={() => setHomeworkSubject('Science')}
+                        />
+                     </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-12">
+                     {/* Step 2: Homework Details */}
+                     <div className="space-y-8">
+                        <div className="flex items-center gap-3">
+                           <div className="w-8 h-8 bg-[#8A70FF] rounded-full flex-center text-white text-xs font-black">2</div>
+                           <h2 className="text-xl font-black text-[#1E3A8A] tracking-tight">Homework Details</h2>
+                        </div>
+                        
+                        <div className="space-y-6">
+                           <div className="space-y-2">
+                              <label className="text-xs font-black text-[#1E3A8A] ml-2 uppercase tracking-widest">Title</label>
+                              <div className="relative">
+                                 <input 
+                                    type="text" 
+                                    placeholder="Enter homework title..."
+                                    value={homeworkTitle}
+                                    onChange={(e) => setHomeworkTitle(e.target.value)}
+                                    className="w-full bg-white border-2 border-blue-50 rounded-[24px] py-4 px-6 text-sm font-bold text-blue-900 placeholder-blue-300 focus:border-[#8A70FF] outline-none transition-all shadow-sm"
+                                 />
+                                 <Search className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300 rotate-90" />
+                              </div>
+                           </div>
+
+                           <div className="space-y-2">
+                              <label className="text-xs font-black text-[#1E3A8A] ml-2 uppercase tracking-widest">Instructions for Students</label>
+                              <div className="relative">
+                                 <textarea 
+                                    placeholder="Write clear instructions here..."
+                                    value={homeworkInstructions}
+                                    onChange={(e) => setHomeworkInstructions(e.target.value)}
+                                    rows={4}
+                                    className="w-full bg-white border-2 border-blue-50 rounded-[32px] py-6 px-8 text-sm font-bold text-blue-900 placeholder-blue-300 focus:border-[#8A70FF] outline-none transition-all shadow-sm resize-none"
+                                 />
+                                 <div className="absolute right-6 bottom-6 w-8 h-8 bg-purple-50 rounded-xl flex-center">
+                                    <BookOpen className="w-4 h-4 text-[#8A70FF]" />
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div className="space-y-2">
+                              <label className="text-xs font-black text-[#1E3A8A] ml-2 uppercase tracking-widest">Attach Resources <span className="text-blue-300 capitalize">(optional)</span></label>
+                              <div className="border-2 border-dashed border-purple-200 rounded-[32px] bg-purple-50/20 p-8 flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-purple-50/40 transition-all">
+                                 <div className="w-12 h-12 bg-white rounded-2xl flex-center shadow-sm text-purple-400 mb-4 group-hover:scale-110 transition-transform">
+                                    <Plus className="w-6 h-6" />
+                                 </div>
+                                 <p className="text-xs font-black text-[#8A70FF]">Upload worksheets, images or videos</p>
+                                 <p className="text-[10px] font-bold text-blue-300 mt-1">Drag & drop or click to upload</p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+
+                     {/* Step 3: Assign To */}
+                     <div className="space-y-8">
+                        <div className="flex items-center gap-3">
+                           <div className="w-8 h-8 bg-[#8A70FF] rounded-full flex-center text-white text-xs font-black">3</div>
+                           <h2 className="text-xl font-black text-[#1E3A8A] tracking-tight">Assign To</h2>
+                        </div>
+
+                        <div className="space-y-6 relative">
+                           <div className="space-y-2">
+                              <label className="text-xs font-black text-[#1E3A8A] ml-2 uppercase tracking-widest">Class</label>
+                              <div className="relative">
+                                 <select className="w-full bg-white border-2 border-blue-50 rounded-[24px] py-4 px-12 text-sm font-bold text-blue-900 appearance-none outline-none shadow-sm cursor-pointer focus:border-[#8A70FF] transition-all">
+                                    <option>Select a class</option>
+                                    {classrooms.map(c => <option key={c.id}>{c.name}</option>)}
+                                 </select>
+                                 <Users className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300" />
+                                 <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300" />
+                              </div>
+                           </div>
+
+                           <div className="space-y-2">
+                              <label className="text-xs font-black text-[#1E3A8A] ml-2 uppercase tracking-widest">Due Date</label>
+                              <div className="relative">
+                                 <input type="text" placeholder="Select due date" className="w-full bg-white border-2 border-blue-50 rounded-[24px] py-4 px-12 text-sm font-bold text-blue-900 outline-none shadow-sm cursor-pointer focus:border-[#8A70FF] transition-all" />
+                                 <Calendar className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300" />
+                                 <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300" />
+                              </div>
+                           </div>
+
+                           <div className="space-y-2">
+                              <label className="text-xs font-black text-[#1E3A8A] ml-2 uppercase tracking-widest">Time <span className="text-blue-300 capitalize">(optional)</span></label>
+                              <div className="relative">
+                                 <input type="text" placeholder="Select time" className="w-full bg-white border-2 border-blue-50 rounded-[24px] py-4 px-12 text-sm font-bold text-blue-900 outline-none shadow-sm cursor-pointer focus:border-[#8A70FF] transition-all" />
+                                 <Zap className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-orange-400 fill-current" />
+                                 <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300" />
+                              </div>
+                           </div>
+
+                           {/* Illustration Anchor */}
+                           <div className="absolute -right-10 top-full mt-4 flex flex-col items-center">
+                              <div className="bg-white px-6 py-3 rounded-[24px] shadow-xl border border-rose-50 mb-4 relative">
+                                 <p className="text-[10px] font-black text-[#1E3A8A] leading-tight text-center">
+                                    You're making<br/>learning awesome! 🌟
+                                 </p>
+                                 <div className="absolute -bottom-2 right-8 w-4 h-4 bg-white border-b border-r border-rose-50 rotate-45" />
+                                 <Heart className="absolute -top-1 -left-1 w-3 h-3 text-rose-400 fill-current" />
+                              </div>
+                              <img src="/kids-pair.png" className="w-48 h-48 object-contain mix-blend-multiply drop-shadow-xl" alt="Studying child" />
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  {/* Bottom Controls */}
+                  <div className="pt-20 flex items-center justify-between border-t border-blue-50 mt-20">
+                     <div className="flex items-center gap-6">
+                        <div className="flex flex-col gap-2">
+                           <label className="text-[10px] font-black text-blue-300 uppercase tracking-widest ml-4">Add Points <span className="capitalize">(optional)</span></label>
+                           <div className="flex items-center gap-3">
+                              <div className="relative">
+                                 <select 
+                                    value={homeworkPoints}
+                                    onChange={(e) => setHomeworkPoints(Number(e.target.value))}
+                                    className="bg-white border-2 border-blue-50 rounded-[20px] py-3 px-10 text-xs font-black text-blue-900 appearance-none outline-none shadow-sm cursor-pointer"
+                                 >
+                                    <option>10</option>
+                                    <option>20</option>
+                                    <option>50</option>
+                                    <option>100</option>
+                                 </select>
+                                 <Star className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-amber-400 fill-current" />
+                                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-3 h-3 text-blue-300" />
+                              </div>
+                              <span className="text-[10px] font-bold text-blue-300 italic">Reward your students!</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div className="flex items-center gap-6">
+                        <button className="px-10 py-5 bg-[#EBE4FF] text-[#7C3AED] rounded-[24px] font-black text-sm hover:bg-purple-100 transition-all">
+                           Save as Draft
+                        </button>
+                        <button className="px-12 py-5 bg-[#40C057] text-white rounded-[24px] font-black text-sm shadow-xl shadow-green-100 flex items-center gap-3 hover:scale-105 transition-all">
+                           Publish Homework <Zap className="w-5 h-5 fill-current" />
+                        </button>
+                     </div>
+                  </div>
+
+                  <GrassBorder />
+               </div>
+            );
          case 'Messages':
             const chats = [
                { id: 1, name: 'Grade 2A Parents', lastMsg: 'Thank you for attending the...', time: '10:30 AM', type: 'Class', date: '3 May 2024' },
@@ -1113,6 +1314,24 @@ const AiKeyInput = ({ label, value, onChange, placeholder, icon }) => (
         />
      </div>
   </div>
+);
+
+const SubjectCard = ({ title, description, icon, color, borderColor, active, onClick }) => (
+   <button 
+      onClick={onClick}
+      className={`relative p-8 rounded-[40px] border-4 transition-all flex flex-col items-center text-center gap-4 group ${color} ${active ? `${borderColor} shadow-xl scale-[1.02]` : 'border-transparent hover:scale-[1.01]'}`}
+   >
+      <div className={`absolute top-6 right-6 w-6 h-6 rounded-full border-2 flex-center transition-all ${active ? 'bg-[#8A70FF] border-[#8A70FF]' : 'border-blue-200 bg-white'}`}>
+         {active && <Star className="w-3 h-3 text-white fill-current" />}
+      </div>
+      <div className="w-32 h-32 flex-center relative">
+         <img src={icon} className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform" alt={title} />
+      </div>
+      <div className="space-y-1">
+         <h3 className="text-2xl font-black text-[#1E3A8A]">{title}</h3>
+         <p className="text-[10px] font-bold text-blue-400 leading-tight">{description}</p>
+      </div>
+   </button>
 );
 
 export default TeacherDashboard;
