@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-[#334155] antialiased bg-white;
+    font-family: 'Fredoka', sans-serif;
+  }
+}
+
+@layer components {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .clip-path-custom-1 {
+    clip-path: polygon(5% 15%, 95% 5%, 100% 85%, 10% 95%);
+  }
+
+  .clip-path-custom-2 {
+    clip-path: polygon(0% 5%, 90% 10%, 95% 90%, 5% 100%);
+  }
+}
+
+/* Custom Stick Animation for Hero Mascot */
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Hide scrollbar for a cleaner kiddy look */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full border-4 border-slate-100;
+}
