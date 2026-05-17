@@ -1,239 +1,429 @@
 import React, { useState } from 'react';
 import { 
-  Sparkles, 
-  Globe, 
   BookOpen, 
   FlaskConical, 
-  Calculator,
-  ChevronRight,
-  BrainCircuit,
+  Pencil, 
+  Book, 
+  Upload, 
+  Users, 
+  Calendar, 
+  Clock, 
+  Star,
+  Rocket,
+  Wand2,
   Loader2,
   CheckCircle2,
-  Star,
-  Rocket
+  ChevronRight,
+  Sparkles
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-const CURRICULUMS = [
-  { id: 'au', name: 'Australia', icon: '🇦🇺' },
-  { id: 'uk', name: 'United Kingdom', icon: '🇬🇧' },
-  { id: 'us', name: 'United States', icon: '🇺🇸' },
-  { id: 'in', name: 'India', icon: '🇮🇳' },
-];
-
-const GRADES = ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6'];
+import { db } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { useAI } from '../context/AIContext';
 
 const SUBJECTS = [
-  { id: 'english', name: 'English', icon: <BookOpen className="w-6 h-6" />, color: 'bg-english text-white shadow-[0_5px_0_0_#b04c95]' },
-  { id: 'maths', name: 'Maths', icon: <Calculator className="w-6 h-6" />, color: 'bg-maths text-white shadow-[0_5px_0_0_#d35400]' },
-  { id: 'science', name: 'Science', icon: <FlaskConical className="w-6 h-6" />, color: 'bg-science text-white shadow-[0_5px_0_0_#1591a3]' },
+  { 
+    id: 'english', 
+    name: 'English', 
+    titleColor: 'text-orange-500',
+    bgColor: 'bg-[#fffdf0]', 
+    borderColor: 'border-orange-200',
+    selectedBorder: 'border-orange-400 ring-4 ring-orange-100',
+    desc: 'Reading, writing, grammar and more!',
+    renderGraphic: () => (
+      <div className="w-16 h-20 bg-orange-500 rounded-lg flex items-center justify-center text-white font-black text-2xl shadow-[0_4px_0_0_#c2410c] transform -rotate-6">
+        Aa
+      </div>
+    )
+  },
+  { 
+    id: 'maths', 
+    name: 'Maths', 
+    titleColor: 'text-blue-500',
+    bgColor: 'bg-[#f4faff]', 
+    borderColor: 'border-blue-200',
+    selectedBorder: 'border-blue-400 ring-4 ring-blue-100',
+    desc: 'Numbers, shapes, patterns and more!',
+    renderGraphic: () => (
+      <div className="flex gap-1 transform rotate-2">
+        <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center text-white font-black shadow-[0_4px_0_0_#c2410c] -translate-y-2">1</div>
+        <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center text-white font-black shadow-[0_4px_0_0_#15803d]">2</div>
+        <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center text-white font-black shadow-[0_4px_0_0_#1d4ed8] translate-y-2">3</div>
+      </div>
+    )
+  },
+  { 
+    id: 'science', 
+    name: 'Science', 
+    titleColor: 'text-green-600',
+    bgColor: 'bg-[#f4fbf4]', 
+    borderColor: 'border-green-200',
+    selectedBorder: 'border-green-500 ring-4 ring-green-100',
+    desc: 'Discover, explore and learn amazing things!',
+    renderGraphic: () => (
+      <div className="w-16 h-20 bg-green-100 rounded-full flex items-center justify-center text-green-500 shadow-inner overflow-hidden border-4 border-green-200">
+        <FlaskConical className="w-10 h-10 text-green-500" />
+      </div>
+    )
+  },
 ];
 
-export default function HomeworkGenerator() {
-  const [step, setStep] = useState(1);
-  const [config, setConfig] = useState({
-    country: 'au',
-    grade: 'Grade 3',
+export default function HomeworkGenerator({ user, classrooms = [] }) {
+  const { apiKey, model } = useAI();
+  const [formData, setFormData] = useState({
     subject: 'maths',
-    topic: '',
-    questionCount: 5
+    title: '',
+    instructions: '',
+    classId: '',
+    dueDate: '',
+    time: '',
+    points: '10'
   });
+  
   const [isGenerating, setIsGenerating] = useState(false);
-  const [result, setResult] = useState(null);
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [generatedQuestions, setGeneratedQuestions] = useState(null);
 
-  const handleGenerate = () => {
+  const handleGenerateAI = async () => {
+    if (!apiKey) return alert("Please set your AI API Key in settings first! 🔑");
+    if (!formData.title) return alert("Please provide a Title first so AI knows what to generate! 🎯");
+
     setIsGenerating(true);
-    setTimeout(() => {
+    try {
+      const prompt = `You are an expert teacher. Generate 5 multiple-choice questions for students on the subject of ${formData.subject}. Topic: ${formData.title}. Additional Instructions: ${formData.instructions}. Return ONLY a JSON object with a single key "questions" containing an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), and "answer" (string, matching one option exactly). Do not include any markdown formatting.`;
+
+      let questions = [];
+
+      if (model.includes('gpt')) {
+        const res = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: model,
+            messages: [{ role: 'user', content: prompt }],
+            temperature: 0.7,
+            response_format: { type: "json_object" }
+          })
+        });
+        
+        if (!res.ok) throw new Error("OpenAI request failed");
+        
+        const data = await res.json();
+        const content = JSON.parse(data.choices[0].message.content);
+        questions = content.questions;
+      } else if (model.includes('gemini')) {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: {
+              temperature: 0.7,
+              responseMimeType: "application/json"
+            }
+          })
+        });
+
+        if (!res.ok) throw new Error("Gemini request failed");
+
+        const data = await res.json();
+        const contentText = data.candidates[0].content.parts[0].text;
+        const content = JSON.parse(contentText);
+        questions = content.questions || content;
+      }
+
+      setGeneratedQuestions(questions);
+    } catch (err) {
+      console.error("AI Gen Error:", err);
+      alert("Failed to generate questions. ❌");
+    } finally {
       setIsGenerating(false);
-      setResult({
-        title: `${config.subject.toUpperCase()}: ${config.topic || 'General Review'}`,
-        questions: [
-          { id: 1, text: "What is 12 + 15?", options: ["25", "27", "30", "22"], answer: "27" },
-          { id: 2, text: "What is half of 50?", options: ["20", "25", "30", "15"], answer: "25" },
-        ]
+    }
+  };
+
+  const handlePublish = async () => {
+    if (!formData.title || !formData.classId) {
+      alert("Please fill in the title and select a class! 🎒");
+      return;
+    }
+
+    setIsPublishing(true);
+    try {
+      const payload = {
+        title: formData.title,
+        subject: formData.subject,
+        instructions: formData.instructions,
+        assignedClassId: formData.classId,
+        dueDate: formData.dueDate,
+        time: formData.time,
+        points: formData.points,
+        questions: generatedQuestions || [], // if AI generated, save them
+        teacherId: user?.uid,
+        status: 'published',
+        createdAt: serverTimestamp()
+      };
+
+      await addDoc(collection(db, 'homeworks'), payload);
+      alert("Homework Published Successfully! 🚀");
+      
+      // Reset form
+      setFormData({
+        subject: 'maths',
+        title: '',
+        instructions: '',
+        classId: '',
+        dueDate: '',
+        time: '',
+        points: '10'
       });
-      setStep(4);
-    }, 3000);
+      setGeneratedQuestions(null);
+    } catch (err) {
+      console.error("Publish Error:", err);
+      alert("Failed to publish homework. ❌");
+    }
+    setIsPublishing(false);
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-12 animate-in pb-20">
-      <div className="flex items-center gap-5">
-        <div className="w-16 h-16 bg-yellow-50 text-yellow-500 flex-center rounded-[24px] shadow-tactile border-2 border-yellow-100/50">
-          <Sparkles className="w-8 h-8" />
-        </div>
+    <div className="max-w-6xl mx-auto animate-in font-nunito pb-10">
+      
+      {/* Header */}
+      <div className="flex justify-between items-start mb-12">
         <div>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight lowercase">Homework Generator</h2>
-          <p className="text-xs text-slate-400 uppercase font-black tracking-[0.25em]">Create AI missions for your classroom</p>
+          <h1 className="text-5xl font-black text-[#1a237e] tracking-tight mb-2">Create Homework</h1>
+          <div className="relative inline-block">
+             <p className="text-lg text-slate-500 font-bold">Prepare fun and meaningful homework for your students!</p>
+             <svg className="absolute -bottom-2 left-0 w-32 h-3 text-purple-400 opacity-60" viewBox="0 0 100 20" preserveAspectRatio="none">
+               <path d="M0,10 Q10,20 20,10 T40,10 T60,10 T80,10 T100,10" fill="none" stroke="currentColor" strokeWidth="3" />
+             </svg>
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-4 relative mt-4">
+          <div className="bg-white border-2 border-pink-100 rounded-full px-4 py-2 flex items-center gap-2 shadow-sm relative z-10">
+            <Star className="w-5 h-5 text-pink-400 fill-current" />
+            <span className="font-bold text-slate-700">Hi, Teacher!</span>
+            <ChevronRight className="w-4 h-4 text-slate-400" />
+          </div>
+          <img src="/mascot.png" alt="Mascot" className="w-20 h-20 object-contain absolute -top-8 -left-16 drop-shadow-md" />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-        {/* Step 1: Core Settings */}
-        <div className={`card-bubble space-y-8 transition-all border-none bg-white shadow-2xl shadow-slate-200/40 ${step === 1 ? 'ring-4 ring-primary/10' : 'opacity-40 grayscale-[0.5]'}`}>
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-slate-900 text-white flex-center rounded-2xl text-sm font-black rotate-[-10deg]">01</div>
-            <h3 className="text-xl font-black lowercase">core settings</h3>
-          </div>
-
-          <div className="space-y-6">
-            <div className="space-y-4">
-              <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Select Country</label>
-              <div className="grid grid-cols-2 gap-3">
-                {CURRICULUMS.map(c => (
-                  <div 
-                    key={c.id}
-                    onClick={() => setConfig({...config, country: c.id})}
-                    className={`p-4 rounded-[20px] border-2 text-sm font-black cursor-pointer transition-all flex items-center gap-3 ${
-                      config.country === c.id ? 'border-primary bg-primary/5 text-primary shadow-tactile' : 'border-slate-50 hover:border-slate-100 bg-slate-50/50'
-                    }`}
-                  >
-                    <span className="text-xl">{c.icon}</span> {c.name}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Target Grade</label>
-              <select 
-                value={config.grade}
-                onChange={(e) => setConfig({...config, grade: e.target.value})}
-                className="input h-14 rounded-[20px] border-4 border-slate-50 font-black text-md"
-              >
-                {GRADES.map(g => <option key={g} value={g}>{g}</option>)}
-              </select>
-            </div>
-          </div>
-          
-          {step === 1 && <button onClick={() => setStep(2)} className="btn-bubble btn-primary w-full h-14">next mission <ChevronRight className="w-5 h-5" /></button>}
+      {/* Step 1: Choose Subject */}
+      <div className="mb-12">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center font-black">1</div>
+          <h2 className="text-2xl font-black text-[#1a237e]">Choose Subject</h2>
         </div>
-
-        {/* Step 2: Subject Matter */}
-        <div className={`card-bubble space-y-8 transition-all border-none bg-white shadow-2xl shadow-slate-200/40 ${step === 2 ? 'ring-4 ring-primary/10' : 'opacity-40 grayscale-[0.5]'}`}>
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-slate-900 text-white flex-center rounded-2xl text-sm font-black rotate-[5deg]">02</div>
-            <h3 className="text-xl font-black lowercase">subject matter</h3>
-          </div>
-
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 gap-3">
-              {SUBJECTS.map(s => (
-                <div 
-                  key={s.id}
-                  onClick={() => setConfig({...config, subject: s.id})}
-                  className={`p-5 rounded-[24px] border-2 cursor-pointer transition-all flex items-center gap-5 ${
-                    config.subject === s.id ? 'border-primary bg-primary/5 ring-4 ring-primary/5' : 'border-slate-50 hover:border-slate-100 bg-slate-50/50'
-                  }`}
-                >
-                  <div className={`w-14 h-14 flex-center rounded-[20px] ${s.color}`}>{s.icon}</div>
-                  <span className="text-lg font-black lowercase">{s.name}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="space-y-3">
-              <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Mission Topic (Optional)</label>
-              <input 
-                type="text" 
-                placeholder="e.g. Fractions, Space, Poetry" 
-                value={config.topic}
-                onChange={(e) => setConfig({...config, topic: e.target.value})}
-                className="input h-14 rounded-[20px] border-4 border-slate-50 font-bold"
-              />
-            </div>
-          </div>
-
-          {step === 2 && (
-            <div className="flex gap-4">
-              <button onClick={() => setStep(1)} className="btn-bubble bg-white border-4 border-slate-50 text-slate-400 h-14 px-6 shadow-tactile">back</button>
-              <button onClick={() => setStep(3)} className="btn-bubble btn-primary h-14 flex-1">review AI</button>
-            </div>
-          )}
-        </div>
-
-        {/* Step 3: AI Execution */}
-        <div className={`card-bubble space-y-8 transition-all border-none bg-white shadow-2xl shadow-slate-200/40 ${step === 3 ? 'ring-4 ring-primary/10' : 'opacity-40 grayscale-[0.5]'}`}>
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-slate-900 text-white flex-center rounded-2xl text-sm font-black rotate-[-5deg]">03</div>
-            <h3 className="text-xl font-black lowercase">AI Execution</h3>
-          </div>
-
-          <div className="p-6 bg-[#f8f9fe] rounded-[32px] border-2 border-slate-50 space-y-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-white rounded-2xl flex-center shadow-tactile text-primary">
-                <BrainCircuit className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Selected Engine</p>
-                <p className="text-sm font-black text-slate-900">GPT-4o legacy</p>
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Mission Summary</p>
-              <p className="text-sm text-slate-500 font-bold leading-relaxed lowercase">
-                Building <span className="text-primary font-black">{config.questionCount} challenges</span> for <span className="text-primary font-black">{config.grade}</span> students in <span className="text-primary font-black">{config.subject}</span>.
-              </p>
-            </div>
-          </div>
-
-          {step === 3 && (
-            <button 
-              onClick={handleGenerate}
-              disabled={isGenerating}
-              className="btn-bubble btn-primary w-full h-16 text-xl bg-slate-900 hover:bg-black shadow-[0_8px_0_0_#000000]"
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {SUBJECTS.map((sub) => (
+            <div 
+              key={sub.id}
+              onClick={() => setFormData({...formData, subject: sub.id})}
+              className={`relative p-8 rounded-3xl border-2 cursor-pointer transition-all flex flex-col items-center text-center group ${sub.bgColor} ${formData.subject === sub.id ? sub.selectedBorder : sub.borderColor}`}
             >
-              {isGenerating ? <Loader2 className="w-6 h-6 animate-spin" /> : <Rocket className="w-6 h-6 text-yellow-400" />}
-              {isGenerating ? 'igniting...' : 'launch mission!'}
-            </button>
-          )}
+              {/* Radio Button */}
+              <div className={`absolute top-6 right-6 w-6 h-6 rounded-full border-2 flex items-center justify-center ${formData.subject === sub.id ? 'border-blue-500' : 'border-slate-300 bg-white'}`}>
+                {formData.subject === sub.id && <div className="w-3 h-3 rounded-full bg-blue-500" />}
+              </div>
+              
+              <h3 className={`text-2xl font-black mb-8 ${sub.titleColor}`}>{sub.name}</h3>
+              
+              <div className="h-24 flex items-center justify-center mb-6">
+                {sub.renderGraphic()}
+              </div>
+              
+              <p className="text-slate-600 font-bold text-sm px-4">{sub.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
 
-      <AnimatePresence>
-        {step === 4 && result && (
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="card-bubble p-12 border-none bg-white shadow-2xl shadow-emerald-200/30 ring-4 ring-emerald-50"
-          >
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12">
-              <div className="flex items-center gap-5">
-                <div className="w-16 h-16 bg-emerald-500 text-white flex-center rounded-[24px] shadow-[0_6px_0_0_#065f46] animate-bounce">
-                  <Star className="w-8 h-8 fill-white" />
-                </div>
-                <div>
-                  <h3 className="text-3xl font-black text-slate-900 lowercase">Mission Built Successfully!</h3>
-                  <p className="text-sm text-slate-400 font-bold uppercase tracking-widest">ready to deploy to your classroom</p>
-                </div>
-              </div>
-              <div className="flex gap-4">
-                <button className="btn-bubble bg-white border-4 border-slate-50 text-slate-400 px-8 shadow-tactile">preview</button>
-                <button className="btn-bubble btn-primary bg-emerald-500 hover:bg-emerald-600 shadow-[0_6px_0_0_#065f46] px-10">Assign to Students!</button>
+      {/* Main Form Area */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        
+        {/* Left Col: Details */}
+        <div className="space-y-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center font-black">2</div>
+            <h2 className="text-2xl font-black text-[#1a237e]">Homework Details</h2>
+          </div>
+
+          <div className="space-y-2">
+            <label className="font-bold text-[#1a237e]">Title</label>
+            <div className="relative">
+              <input 
+                type="text"
+                placeholder="Enter homework title..."
+                value={formData.title}
+                onChange={(e) => setFormData({...formData, title: e.target.value})}
+                className="w-full h-14 bg-white border-2 border-slate-200 rounded-2xl px-4 text-slate-700 font-bold outline-none focus:border-purple-400 transition-colors"
+              />
+              <Pencil className="absolute right-4 top-4 w-5 h-5 text-slate-400" />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="font-bold text-[#1a237e]">Instructions for Students</label>
+            <div className="relative">
+              <textarea 
+                placeholder="Write clear instructions here..."
+                value={formData.instructions}
+                onChange={(e) => setFormData({...formData, instructions: e.target.value})}
+                className="w-full h-32 bg-white border-2 border-slate-200 rounded-2xl p-4 text-slate-700 font-bold outline-none focus:border-purple-400 transition-colors resize-none"
+              />
+              <Book className="absolute right-4 bottom-4 w-6 h-6 text-purple-400 opacity-50" />
+            </div>
+          </div>
+
+          {/* AI Generator Box inside Details */}
+          <div className="bg-purple-50 p-6 rounded-2xl border-2 border-purple-100 flex flex-col items-center text-center space-y-4">
+             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-purple-600">
+               <Wand2 className="w-6 h-6" />
+             </div>
+             <div>
+                <h4 className="font-black text-purple-900">AI Magic Quiz Builder</h4>
+                <p className="text-xs font-bold text-purple-600/70">Let AI generate 5 multiple-choice questions based on your title & instructions.</p>
+             </div>
+             {generatedQuestions ? (
+               <div className="w-full bg-white p-4 rounded-xl border border-emerald-200 flex items-center justify-between">
+                 <div className="flex items-center gap-3 text-emerald-600 font-bold text-sm">
+                   <CheckCircle2 className="w-5 h-5" />
+                   5 Questions Generated Successfully!
+                 </div>
+                 <button onClick={() => setGeneratedQuestions(null)} className="text-xs text-rose-500 font-bold hover:underline">Discard</button>
+               </div>
+             ) : (
+               <button 
+                 onClick={handleGenerateAI}
+                 disabled={isGenerating}
+                 className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl font-black text-sm flex items-center gap-2 shadow-sm transition-all"
+               >
+                 {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                 {isGenerating ? 'Generating...' : 'Auto-Generate Questions'}
+               </button>
+             )}
+          </div>
+
+          <div className="space-y-2">
+            <label className="font-bold text-[#1a237e] flex items-center gap-2">
+              Attach Resources <span className="text-slate-400 font-normal">(optional)</span>
+            </label>
+            <div className="border-2 border-dashed border-purple-200 bg-purple-50/50 rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer hover:bg-purple-50 transition-colors text-center">
+              <Upload className="w-6 h-6 text-purple-400 mb-2" />
+              <p className="font-bold text-purple-600 text-sm">Upload worksheets, images or videos</p>
+              <p className="text-xs font-bold text-slate-400">Drag & drop or click to upload</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Col: Assign To */}
+        <div className="space-y-8 relative">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center font-black">3</div>
+            <h2 className="text-2xl font-black text-[#1a237e]">Assign To</h2>
+          </div>
+
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <label className="font-bold text-[#1a237e]">Class</label>
+              <div className="relative">
+                <Users className="absolute left-4 top-4 w-5 h-5 text-blue-400" />
+                <select 
+                  value={formData.classId}
+                  onChange={(e) => setFormData({...formData, classId: e.target.value})}
+                  className="w-full h-14 bg-white border-2 border-slate-200 rounded-2xl pl-12 pr-4 text-slate-700 font-bold outline-none focus:border-purple-400 appearance-none"
+                >
+                  <option value="">Select a class</option>
+                  {classrooms.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                </select>
+                <ChevronRight className="absolute right-4 top-4 w-5 h-5 text-slate-400 rotate-90" />
               </div>
             </div>
 
-            <div className="bg-[#f8f9fe] p-10 rounded-[40px] space-y-8">
-              <p className="text-2xl font-black text-slate-900 lowercase border-b-4 border-white pb-6">{result.title}</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {result.questions.map(q => (
-                  <div key={q.id} className="card-bubble p-6 bg-white border-none shadow-sm group hover:border-primary transition-all">
-                    <p className="text-md font-black text-slate-900 mb-6 lowercase">{q.id}. {q.text}</p>
-                    <div className="grid grid-cols-1 gap-3">
-                      {q.options.map(opt => (
-                        <div key={opt} className={`p-3 rounded-2xl border-2 text-xs font-black transition-all ${opt === q.answer ? 'bg-emerald-50 border-emerald-200 text-emerald-600' : 'bg-slate-50/50 border-slate-50 text-slate-400'}`}>
-                          {opt}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+            <div className="space-y-2">
+              <label className="font-bold text-[#1a237e]">Due Date</label>
+              <div className="relative">
+                <Calendar className="absolute left-4 top-4 w-5 h-5 text-blue-400" />
+                <input 
+                  type="date"
+                  value={formData.dueDate}
+                  onChange={(e) => setFormData({...formData, dueDate: e.target.value})}
+                  className="w-full h-14 bg-white border-2 border-slate-200 rounded-2xl pl-12 pr-4 text-slate-700 font-bold outline-none focus:border-purple-400 appearance-none"
+                />
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
+            <div className="space-y-2">
+              <label className="font-bold text-[#1a237e] flex items-center gap-2">
+                Time <span className="text-slate-400 font-normal">(optional)</span>
+              </label>
+              <div className="relative">
+                <Clock className="absolute left-4 top-4 w-5 h-5 text-rose-400" />
+                <input 
+                  type="time"
+                  value={formData.time}
+                  onChange={(e) => setFormData({...formData, time: e.target.value})}
+                  className="w-full h-14 bg-white border-2 border-slate-200 rounded-2xl pl-12 pr-4 text-slate-700 font-bold outline-none focus:border-purple-400 appearance-none"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Kid Illustration Box */}
+          <div className="mt-8 bg-orange-50/50 rounded-3xl p-8 relative flex flex-col items-center justify-end h-64 border-2 border-orange-100 overflow-visible">
+             <div className="absolute -top-6 right-4 bg-pink-100 px-6 py-4 rounded-2xl rounded-br-sm shadow-sm border border-pink-200 z-10">
+                <p className="font-black text-pink-700 text-sm">You're making<br/>learning awesome! 🌟</p>
+             </div>
+             {/* Simple drawing if mascot image doesn't exist */}
+             <div className="w-48 h-48 bg-contain bg-bottom bg-no-repeat opacity-90" style={{ backgroundImage: "url('/dino-reading.png')" }}></div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Bottom Footer Bar */}
+      <div className="mt-12 border-t border-slate-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-500">
+            <Star className="w-6 h-6 fill-current" />
+          </div>
+          <div>
+            <label className="font-bold text-[#1a237e] text-sm flex items-center gap-2">
+              Add Points <span className="text-slate-400 font-normal text-xs">(optional)</span>
+            </label>
+            <select 
+              value={formData.points}
+              onChange={(e) => setFormData({...formData, points: e.target.value})}
+              className="bg-transparent font-black text-slate-700 outline-none cursor-pointer"
+            >
+              <option value="5">5 Points</option>
+              <option value="10">10 Points</option>
+              <option value="20">20 Points</option>
+              <option value="50">50 Points</option>
+            </select>
+          </div>
+          <span className="text-xs font-bold text-slate-400 ml-2">Reward your students!</span>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <button className="bg-purple-50 hover:bg-purple-100 text-purple-600 font-black px-8 py-4 rounded-2xl transition-colors">
+            Save as Draft
+          </button>
+          <button 
+            onClick={handlePublish}
+            disabled={isPublishing}
+            className="bg-[#2ecc71] hover:bg-[#27ae60] text-white font-black px-10 py-4 rounded-2xl flex items-center gap-3 transition-colors shadow-[0_4px_0_0_#219653] hover:translate-y-1 hover:shadow-none disabled:opacity-50"
+          >
+            {isPublishing ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Publish Homework 🚀'}
+          </button>
+        </div>
+      </div>
+
     </div>
   );
 }

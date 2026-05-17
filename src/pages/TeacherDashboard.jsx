@@ -29,9 +29,11 @@ import {
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
-import { collection, doc, setDoc, getDocs, query, orderBy, deleteDoc } from 'firebase/firestore';
+import { collection, doc, setDoc, getDocs, query, orderBy, deleteDoc, where } from 'firebase/firestore';
+import HomeworkGenerator from './HomeworkGenerator';
 
 const TeacherDashboard = ({ user, onLogout }) => {
+  console.log("TeacherDashboard Rendered. User:", user);
   const [classrooms, setClassrooms] = useState([]);
   const [activeClassroom, setActiveClassroom] = useState(null);
   const [students, setStudents] = useState([]);
@@ -60,6 +62,39 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [homeworkTitle, setHomeworkTitle] = useState('');
   const [homeworkInstructions, setHomeworkInstructions] = useState('');
   const [homeworkPoints, setHomeworkPoints] = useState(10);
+  const [selectedSubjects, setSelectedSubjects] = useState(['English', 'Maths', 'Science']);
+  const [submissions, setSubmissions] = useState([]);
+
+  const fetchSubmissions = async () => {
+    if (!user?.uid) return;
+    try {
+      const q = query(
+        collection(db, 'submissions'), 
+        where('teacherId', '==', user.uid),
+        orderBy('submittedAt', 'desc')
+      );
+      const snap = await getDocs(q);
+      const subList = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setSubmissions(subList);
+    } catch (err) {
+      console.error("Fetch Submissions Error:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'Gradebook') {
+       fetchSubmissions();
+    }
+  }, [activeTab]);
+
+  const SUBJECT_ICONS = {
+    'English': '/ic-homework.png',
+    'Maths': '/ic-reports.png',
+    'Science': '/ic-students.png',
+    'Art': '/ic-rewards.png',
+    'Music': '/ic-messages.png',
+    'History': '/ic-classes.png'
+  };
 
   const saveAiKeys = () => {
     localStorage.setItem('hwz_gemini_key', aiKeys.gemini);
@@ -83,33 +118,89 @@ const TeacherDashboard = ({ user, onLogout }) => {
   }, [user, activeClassroom]);
 
   const fetchClassrooms = async () => {
+    if (!user?.uid) return;
     try {
-      const q = query(collection(db, 'teachers', user.uid, 'classrooms'), orderBy('name'));
+      console.log("TeacherDashboard: Fetching classrooms for:", user.uid);
+      const q = query(collection(db, 'teachers', user.uid, 'classrooms'));
       const querySnapshot = await getDocs(q);
-      const list = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setClassrooms(list);
+      
+      const list = await Promise.all(querySnapshot.docs.map(async docSnapshot => {
+        const data = docSnapshot.data();
+        const studentsSnap = await getDocs(collection(db, 'teachers', user.uid, 'classrooms', docSnapshot.id, 'students'));
+        return { 
+          id: docSnapshot.id, 
+          ...data,
+          studentCount: studentsSnap.size
+        };
+      }));
+
+      console.log("TeacherDashboard: Classrooms updated:", list.length);
+      setClassrooms([...list]); // Use spread to force new reference
+      
       if (list.length > 0 && !activeClassroom) {
         setActiveClassroom(list[0]);
+      } else if (list.length === 0) {
+        setActiveClassroom(null);
       }
     } catch (err) {
-      console.error("Fetch Classrooms Error:", err);
+      console.error("TeacherDashboard: Fetch Classrooms Error:", err);
     }
   };
 
   const handleAddClassroom = async () => {
-    if (!newClassName.trim() || !user?.uid) return;
+    console.log("Add Classroom triggered:", { newClassName, userId: user?.uid });
+    if (!newClassName.trim() || !user?.uid) {
+      alert("Missing class name or teacher session! ⚠️");
+      return;
+    }
+    
+    setIsAddingClass(true);
     try {
       const classId = newClassName.trim().toLowerCase().replace(/\s+/g, '-');
       const classRef = doc(db, 'teachers', user.uid, 'classrooms', classId);
+      
       await setDoc(classRef, {
         name: newClassName.trim(),
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        teacherUid: user.uid,
+        subjects: selectedSubjects
       });
+      
+      console.log("Class created successfully:", classId);
       setNewClassName('');
-      fetchClassrooms();
+      await fetchClassrooms();
       setShowAddClassModal(false);
+      alert("Class created successfully! 🎨✨");
     } catch (err) {
       console.error("Add Classroom Error:", err);
+      alert(`Oops! Failed to create class: ${err.message} ❌`);
+    } finally {
+      setIsAddingClass(false);
+    }
+  };
+
+  const handleDeleteClassroom = async (classId) => {
+    console.log("TeacherDashboard: Starting deletion process for:", classId);
+    if (!user?.uid) {
+      alert("Session expired. Please log in again. ⚠️");
+      return;
+    }
+    
+    try {
+      const classRef = doc(db, 'teachers', user.uid, 'classrooms', classId);
+      console.log("TeacherDashboard: Executing deleteDoc at path:", classRef.path);
+      await deleteDoc(classRef);
+      console.log("TeacherDashboard: deleteDoc successfully resolved.");
+      
+      if (activeClassroom?.id === classId) {
+        setActiveClassroom(null);
+      }
+      
+      await fetchClassrooms();
+      alert("Class deleted successfully! 🗑️✨");
+    } catch (err) {
+      console.error("TeacherDashboard: Delete Error:", err);
+      alert(`Oops! Delete failed: ${err.message} ❌`);
     }
   };
 
@@ -176,108 +267,91 @@ const TeacherDashboard = ({ user, onLogout }) => {
     }
   }, [activeTab, classrooms]);
 
-  const handleDeleteStudent = async (e, studentId, studentName) => {
+  const handleDeleteStudent = async (e, studentId, studentName, classId) => {
     e.stopPropagation();
-    if (!user?.uid || !activeClassroom || !window.confirm(`Remove ${studentName} from your class? 🍎`)) return;
+    const targetClassId = classId || activeClassroom?.id;
+    if (!user?.uid || !targetClassId || !window.confirm(`Remove ${studentName} from the class? 🍎`)) return;
+    
     try {
-      const studentRef = doc(db, 'teachers', user.uid, 'classrooms', activeClassroom.id, 'students', studentId);
+      const studentRef = doc(db, 'teachers', user.uid, 'classrooms', targetClassId, 'students', studentId);
       await deleteDoc(studentRef);
-      setStudents(prev => prev.filter(s => s.id !== studentId));
+      
+      // Refresh both states to ensure consistency
+      fetchAllStudents();
+      fetchStudents(); 
+      fetchClassrooms(); // Update counts on main dashboard
+      
+      alert(`${studentName} has been removed. ✨`);
     } catch (err) {
       console.error("Delete Student Error:", err);
+      alert("Oops! Failed to remove student. ❌");
     }
   };
 
   const renderContent = () => {
       switch (activeTab) {
-         case 'Dashboard':
+         case 'Dashboard': {
             const dashboardTopEarners = allStudents.sort((a, b) => b.name.length - a.name.length).slice(0, 3);
             const avgScoreTotal = 75 + (allStudents.length % 15);
 
             return (
                <div className="px-10 py-10 space-y-12 pb-40 relative min-h-[calc(100vh-64px)]">
                   <div className="flex items-center justify-between">
-                     <div className="flex items-center gap-6">
-                        <div>
-                           <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">Dashboard</h1>
-                           <p className="text-sm font-bold text-blue-300 italic">Welcome back! Here's how your school is sparkling today.</p>
-                        </div>
-                        <div className="relative">
-                           <button 
-                             onClick={() => setShowClassDropdown(!showClassDropdown)}
-                             className="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-blue-100 cursor-pointer hover:bg-blue-50 transition-all shadow-sm"
-                           >
-                              <span className="text-sm font-bold text-[#1E3A8A]">{activeClassroom?.name || 'Main Class'}</span>
-                              <ChevronDown className={`w-4 h-4 text-blue-300 transition-transform ${showClassDropdown ? 'rotate-180' : ''}`} />
-                           </button>
-                           <AnimatePresence>
-                              {showClassDropdown && (
-                                 <motion.div 
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: 10 }}
-                                    className="absolute top-full left-0 mt-2 w-56 bg-white rounded-3xl shadow-2xl border border-blue-50 z-[100] overflow-hidden"
-                                 >
-                                    <div className="p-4 border-b border-blue-50"><span className="text-[10px] font-black text-blue-300 uppercase tracking-widest">Switch Classroom</span></div>
-                                    <div className="max-h-60 overflow-y-auto">
-                                       {classrooms.map(room => (
-                                          <button 
-                                             key={room.id}
-                                             onClick={() => { setActiveClassroom(room); setShowClassDropdown(false); }}
-                                             className={`w-full flex items-center justify-between px-6 py-4 text-left transition-all ${activeClassroom?.id === room.id ? 'bg-blue-50 text-blue-600' : 'text-blue-900 hover:bg-blue-50/50'}`}
-                                          >
-                                             <span className="text-sm font-bold">{room.name}</span>
-                                             {activeClassroom?.id === room.id && <Zap className="w-4 h-4 fill-current" />}
-                                          </button>
-                                       ))}
-                                    </div>
-                                 </motion.div>
-                              )}
-                           </AnimatePresence>
-                        </div>
-                     </div>
-                     <div className="flex items-center gap-4">
-                        <div className="relative">
-                           <input type="text" placeholder="Search students..." className="bg-white border-none rounded-full py-3 px-12 text-sm font-bold text-blue-900 placeholder-blue-300 shadow-sm focus:ring-2 focus:ring-blue-100 transition-all w-72" />
-                           <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300" />
-                        </div>
-                        <button className="w-12 h-12 bg-white rounded-full flex-center text-blue-300 shadow-sm hover:text-blue-600 transition-all"><Bell className="w-5 h-5" /></button>
-                     </div>
-                  </div>
+                      <div className="space-y-1">
+                         <h1 className="text-3xl font-black text-slate-800 tracking-tight">Daily Summary</h1>
+                         <p className="text-sm font-bold text-slate-400">Real-time performance metrics across your active classrooms.</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                         <div className="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-indigo-100">
+                            Live Updates
+                         </div>
+                      </div>
+                   </div>
 
                   {/* KPI Row */}
-                  <div className="grid grid-cols-4 gap-6">
-                     <RewardKPICard title="Total Students" value={allStudents.length || students.length} subtitle="+5 this month" bgColor="bg-purple-50/50" textColor="text-purple-600" />
-                     <RewardKPICard title="Average Score" value={`${avgScoreTotal}%`} subtitle="+8% this month" bgColor="bg-emerald-50/50" textColor="text-emerald-600" />
-                     <RewardKPICard title="Homework Sub" value="85%" subtitle="+10% this month" bgColor="bg-amber-50/50" textColor="text-amber-600" />
-                     <RewardKPICard title="Active Now" value={Math.round((allStudents.length || students.length) * 0.9)} subtitle="90% of total" bgColor="bg-blue-50/50" textColor="text-blue-600" />
-                  </div>
+                   <div className="grid grid-cols-4 gap-6">
+                      <RewardKPICard title="Total Students" value={allStudents.length || students.length} subtitle="+5 this month" bgColor="bg-slate-50/50" textColor="text-slate-800" />
+                      <RewardKPICard title="Average Score" value={`${avgScoreTotal}%`} subtitle="+8% this month" bgColor="bg-emerald-50/50" textColor="text-emerald-600" />
+                      <RewardKPICard title="Homework Completion" value="85%" subtitle="+10% today" bgColor="bg-amber-50/50" textColor="text-amber-600" />
+                      <RewardKPICard title="Active Sessions" value={Math.round((allStudents.length || students.length) * 0.9)} subtitle="90% engagement" bgColor="bg-indigo-50/50" textColor="text-indigo-600" />
+                   </div>
 
                   <div className="grid grid-cols-12 gap-10">
                      {/* Performance Chart */}
-                     <div className="col-span-8 bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 space-y-8">
-                        <div className="flex items-center justify-between">
-                           <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Class Performance Overview</h3>
-                           <div className="flex items-center gap-4">
-                              <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-purple-400" /><span className="text-[10px] font-black text-blue-300 uppercase">English</span></div>
-                              <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-[#95E2B9]" /><span className="text-[10px] font-black text-blue-300 uppercase">Maths</span></div>
-                              <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-[#FFD97D]" /><span className="text-[10px] font-black text-blue-300 uppercase">Science</span></div>
-                           </div>
-                        </div>
+                      <div className="col-span-8 bg-white rounded-[40px] border border-slate-100/60 shadow-sm p-10 space-y-10">
+                         <div className="flex items-center justify-between">
+                            <div>
+                               <h3 className="text-xl font-bold text-slate-800 tracking-tight">Class Performance</h3>
+                               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Weekly progress across core subjects</p>
+                            </div>
+                            <div className="flex items-center gap-6">
+                               <div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-sm" /><span className="text-[10px] font-bold text-slate-400 uppercase">English</span></div>
+                               <div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-sm" /><span className="text-[10px] font-bold text-slate-400 uppercase">Maths</span></div>
+                               <div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-sm" /><span className="text-[10px] font-bold text-slate-400 uppercase">Science</span></div>
+                            </div>
+                         </div>
 
-                        <div className="h-64 flex items-end justify-between px-4 pb-8 border-b border-blue-50">
-                           {['Grade 2A', 'Grade 3B', 'Grade 4C'].map((grade, i) => (
-                              <div key={grade} className="flex flex-col items-center gap-4 flex-1">
-                                 <div className="flex items-end gap-2 h-full">
-                                    <motion.div initial={{ height: 0 }} animate={{ height: `${70 + i * 5}%` }} className="w-4 bg-purple-400 rounded-t-xl" />
-                                    <motion.div initial={{ height: 0 }} animate={{ height: `${85 - i * 10}%` }} className="w-4 bg-[#95E2B9] rounded-t-xl" />
-                                    <motion.div initial={{ height: 0 }} animate={{ height: `${75 + i * 2}%` }} className="w-4 bg-[#FFD97D] rounded-t-xl" />
-                                 </div>
-                                 <span className="text-xs font-black text-blue-300">{grade}</span>
-                              </div>
-                           ))}
-                        </div>
-                     </div>
+                         <div className="h-72 flex items-end justify-around gap-8 px-6 pb-10 border-b border-slate-50 relative">
+                            {/* Background Grid Lines */}
+                            <div className="absolute inset-x-0 top-0 bottom-10 flex flex-col justify-between pointer-events-none opacity-[0.03]">
+                               {[...Array(5)].map((_, i) => <div key={i} className="w-full h-px bg-slate-900" />)}
+                            </div>
+                            
+                            {['Grade 2A', 'Grade 3B', 'Grade 4C'].map((grade, i) => (
+                               <div key={grade} className="flex flex-col items-center gap-6 flex-1 group">
+                                  <div className="flex items-end gap-3 h-full relative z-10">
+                                     <motion.div initial={{ height: 0 }} animate={{ height: `${70 + i * 8}%` }} className="w-5 bg-indigo-500 rounded-t-xl shadow-lg shadow-indigo-100 group-hover:scale-110 transition-transform" />
+                                     <motion.div initial={{ height: 0 }} animate={{ height: `${85 - i * 12}%` }} className="w-5 bg-emerald-400 rounded-t-xl shadow-lg shadow-emerald-100 group-hover:scale-110 transition-transform" />
+                                     <motion.div initial={{ height: 0 }} animate={{ height: `${75 + i * 4}%` }} className="w-5 bg-amber-400 rounded-t-xl shadow-lg shadow-amber-100 group-hover:scale-110 transition-transform" />
+                                  </div>
+                                  <div className="flex flex-col items-center">
+                                     <span className="text-xs font-bold text-slate-800">{grade}</span>
+                                     <span className="text-[9px] font-bold text-slate-300 uppercase">Section {i+1}</span>
+                                  </div>
+                               </div>
+                            ))}
+                         </div>
+                      </div>
 
                      {/* Top Performers */}
                      <div className="col-span-4 bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 flex flex-col justify-between">
@@ -325,9 +399,36 @@ const TeacherDashboard = ({ user, onLogout }) => {
                   <div className="grid grid-cols-12 gap-10 pb-20">
                      <div className="col-span-7 bg-white rounded-[40px] p-10 border border-blue-50 shadow-sm flex flex-col gap-8">
                         <div className="flex items-center justify-between">
-                           <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Active Class Roster</h3>
-                           <button className="text-xs font-black text-blue-400 hover:text-blue-600 transition-all">View All Students</button>
-                        </div>
+                            <div>
+                               <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Active Class Roster</h3>
+                               <p className="text-[10px] font-bold text-blue-300 uppercase tracking-widest">{activeClassroom?.name || 'No Class Selected'}</p>
+                            </div>
+                            <div className="flex items-center gap-3">
+                               <div className="relative">
+                                  <input 
+                                     type="text"
+                                     placeholder="Quick add student..."
+                                     value={newStudent}
+                                     onChange={(e) => setNewStudent(e.target.value)}
+                                     onKeyDown={(e) => e.key === 'Enter' && handleAddStudent()}
+                                     className="bg-blue-50/50 border border-blue-100 rounded-2xl py-2 px-4 text-xs font-bold text-blue-900 placeholder-blue-300 focus:ring-2 focus:ring-blue-100 outline-none w-48"
+                                  />
+                                  <button 
+                                     onClick={handleAddStudent}
+                                     disabled={isAdding || !newStudent.trim()}
+                                     className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-400 hover:text-blue-600 disabled:opacity-30"
+                                  >
+                                     <Plus className="w-4 h-4" />
+                                  </button>
+                               </div>
+                               <button 
+                                 onClick={() => setActiveTab('Students')}
+                                 className="text-xs font-black text-blue-400 hover:text-blue-600 transition-all ml-2"
+                               >
+                                 View All
+                               </button>
+                            </div>
+                         </div>
                         <div className="grid grid-cols-2 gap-4">
                            {students.slice(0, 6).map((student, idx) => (
                               <div key={idx} className="bg-blue-50/30 p-4 rounded-3xl border border-blue-50 flex items-center gap-4">
@@ -364,6 +465,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                   <GrassBorder />
                </div>
             );
+         }
          case 'My Classes':
             return (
                <div className="px-10 py-10 space-y-12 relative min-h-[calc(100vh-64px)] pb-40">
@@ -373,7 +475,10 @@ const TeacherDashboard = ({ user, onLogout }) => {
                         <p className="text-sm font-bold text-blue-300 italic">Manage your classes and view class details.</p>
                      </div>
                      <div className="flex items-center gap-6">
-                        <button className="bg-gradient-to-r from-[#8A70FF] to-[#7C3AED] text-white px-8 py-4 rounded-3xl font-black text-sm shadow-xl shadow-purple-100 flex items-center gap-3 hover:scale-105 transition-all">
+                        <button 
+                          onClick={() => setShowAddClassModal(true)}
+                          className="bg-gradient-to-r from-[#8A70FF] to-[#7C3AED] text-white px-8 py-4 rounded-3xl font-black text-sm shadow-xl shadow-purple-100 flex items-center gap-3 hover:scale-105 transition-all"
+                        >
                            <Plus className="w-5 h-5" /> Create Class
                         </button>
                         <div className="w-32 h-32 relative">
@@ -385,109 +490,81 @@ const TeacherDashboard = ({ user, onLogout }) => {
                      </div>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-8">
-                     <ClassCard 
-                        name="Grade 2A" 
-                        students="20" 
-                        bgColor="bg-[#F3E8FF]" 
-                        kidsImg="/kids-pair.png"
-                        subjects={[
-                           { name: 'English', icon: '/ic-homework.png' },
-                           { name: 'Maths', icon: '/ic-reports.png' },
-                           { name: 'Science', icon: '/ic-students.png' }
-                        ]}
-                     />
-                     <ClassCard 
-                        name="Grade 3B" 
-                        students="18" 
-                        bgColor="bg-[#FFF9DB]" 
-                        kidsImg="/kids-pair.png"
-                        subjects={[
-                           { name: 'English', icon: '/ic-homework.png' },
-                           { name: 'Maths', icon: '/ic-reports.png' },
-                           { name: 'Science', icon: '/ic-students.png' }
-                        ]}
-                     />
-                     <ClassCard 
-                        name="Grade 4C" 
-                        students="22" 
-                        bgColor="bg-[#E6FCF5]" 
-                        kidsImg="/kids-pair.png"
-                        subjects={[
-                           { name: 'English', icon: '/ic-homework.png' },
-                           { name: 'Maths', icon: '/ic-reports.png' },
-                           { name: 'Science', icon: '/ic-students.png' }
-                        ]}
-                     />
-                  </div>
-
-                  <div className="border-2 border-dashed border-purple-200 rounded-[40px] p-12 bg-purple-50/20 flex flex-col items-center justify-center text-center space-y-4 group cursor-pointer hover:bg-purple-50/40 transition-all">
-                     <div className="w-12 h-12 bg-gradient-to-br from-[#8A70FF] to-[#7C3AED] rounded-full flex-center text-white shadow-lg">
-                        <Plus className="w-6 h-6" />
-                     </div>
-                     <div className="space-y-1">
-                        <h3 className="text-xl font-black text-[#1E3A8A]">Create New Class</h3>
-                        <p className="text-xs font-bold text-blue-300 italic">Add a new class and start learning!</p>
-                     </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                     {classrooms.map((room, i) => (
+                        <ClassCard 
+                           key={room.id}
+                           name={room.name}
+                           students={room.studentCount || 0}
+                           bgColor={['bg-[#F3E8FF]', 'bg-[#FFF9DB]', 'bg-[#E6FCF5]', 'bg-[#E0F2FE]', 'bg-[#FFF0F0]'][i % 5]} 
+                           kidsImg={['/kids-pair.png', '/kiddy_hero_kids.png', '/student_avatar_main.png'][i % 3]} 
+                           subjects={(room.subjects || ['English', 'Maths', 'Science']).map(sub => ({
+                               name: sub,
+                               icon: SUBJECT_ICONS[sub] || '/ic-homework.png'
+                            }))}
+                           onDelete={() => handleDeleteClassroom(room.id)}
+                            onView={() => { 
+                               setActiveClassroom(room); 
+                               setFilterClass(room.name);
+                               setActiveTab('Students'); 
+                            }}
+                        />
+                     ))}
+                     
+                     {classrooms.length === 0 && (
+                       <div className="col-span-full py-20 flex flex-col items-center justify-center text-center space-y-6">
+                          <div className="w-40 h-40 bg-slate-50 rounded-[40px] flex-center">
+                             <img src="/dino-reading.png" className="w-32 h-32 object-contain mix-blend-multiply opacity-20 grayscale" alt="Empty" />
+                          </div>
+                          <div className="space-y-1">
+                             <h3 className="text-2xl font-black text-slate-300">No classes found</h3>
+                             <p className="text-sm font-bold text-slate-300 italic">Create your first class to get started!</p>
+                          </div>
+                       </div>
+                     )}
                   </div>
 
                   <GrassBorder />
                </div>
             );
-         case 'Students':
-            const filteredStudents = allStudents.filter(s => {
-               const matchesClass = filterClass === 'All Classes' || s.className === filterClass;
-               const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase()) || s.email.toLowerCase().includes(searchQuery.toLowerCase());
-               return matchesClass && matchesSearch;
+         case 'Students': {
+            const filteredStudents = students.filter(s => {
+               return s.name.toLowerCase().includes(searchQuery.toLowerCase());
             });
 
             return (
                <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
                   <div className="flex items-center justify-between">
-                     <div>
-                        <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">Students</h1>
-                        <p className="text-sm font-bold text-blue-300 italic">View and manage your students.</p>
-                     </div>
-                     <div className="flex items-center gap-6">
-                        <button className="bg-[#8A70FF] text-white px-8 py-4 rounded-3xl font-black text-sm shadow-xl shadow-purple-100 flex items-center gap-3 hover:scale-105 transition-all">
-                           <Plus className="w-5 h-5" /> Add Student
-                        </button>
-                        <div className="w-24 h-24">
-                           <img src="/dino-reading.png" className="w-full h-full object-contain mix-blend-multiply drop-shadow-xl" alt="Mascot" />
-                        </div>
-                     </div>
-                  </div>
+                      <div>
+                         <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">Student Details</h1>
+                         <p className="text-sm font-bold text-blue-300 italic">
+                            Manage your class roster.
+                         </p>
+                      </div>
+                      <div className="flex items-center gap-6">
+                         <div className="relative">
+                            <input 
+                               type="text"
+                               placeholder={`Add student to ${activeClassroom?.name}...`}
+                               value={newStudent}
+                               onChange={(e) => setNewStudent(e.target.value)}
+                               onKeyDown={(e) => e.key === 'Enter' && handleAddStudent()}
+                               className="bg-white border-2 border-[#8A70FF]/20 rounded-[24px] py-4 px-8 text-sm font-bold text-blue-900 placeholder-blue-300 focus:border-[#8A70FF] outline-none transition-all shadow-sm min-w-[300px]"
+                            />
+                            <button 
+                               onClick={handleAddStudent}
+                               disabled={isAdding || !newStudent.trim()}
+                               className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#8A70FF] text-white p-2 rounded-xl shadow-lg shadow-purple-100 hover:scale-105 transition-all disabled:opacity-30"
+                            >
+                               <Plus className="w-5 h-5" />
+                            </button>
+                         </div>
+                         <div className="w-24 h-24">
+                            <img src="/dino-reading.png" className="w-full h-full object-contain mix-blend-multiply drop-shadow-xl" alt="Mascot" />
+                         </div>
+                      </div>
+                   </div>
 
-                  {/* Filters */}
-                  <div className="flex items-center gap-6">
-                     <div className="flex-1 relative">
-                        <input 
-                           type="text" 
-                           placeholder="Search students..."
-                           value={searchQuery}
-                           onChange={(e) => setSearchQuery(e.target.value)}
-                           className="w-full bg-white border border-blue-50 rounded-[24px] py-4 px-14 text-sm font-bold text-blue-900 placeholder-blue-300 shadow-sm focus:ring-2 focus:ring-blue-100 transition-all"
-                        />
-                        <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-300" />
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <select 
-                           value={filterClass}
-                           onChange={(e) => setFilterClass(e.target.value)}
-                           className="bg-white border border-blue-50 rounded-[24px] py-4 px-8 text-sm font-bold text-blue-900 shadow-sm focus:ring-2 focus:ring-blue-100 outline-none appearance-none cursor-pointer pr-12 min-w-[180px]"
-                        >
-                           <option>All Classes</option>
-                           {classrooms.map(cls => (
-                              <option key={cls.id}>{cls.name}</option>
-                           ))}
-                        </select>
-                        <select className="bg-white border border-blue-50 rounded-[24px] py-4 px-8 text-sm font-bold text-blue-900 shadow-sm focus:ring-2 focus:ring-blue-100 outline-none appearance-none cursor-pointer pr-12 min-w-[160px]">
-                           <option>All Status</option>
-                           <option>Active</option>
-                           <option>Inactive</option>
-                        </select>
-                     </div>
-                  </div>
 
                   {/* Students Table */}
                   <div className="bg-white rounded-[40px] border border-blue-50 shadow-sm overflow-hidden">
@@ -523,8 +600,12 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                     <span className="text-[10px] font-black text-blue-400">{progress}%</span>
                                  </div>
                                  <div className="col-span-2 flex items-center justify-end gap-3 pr-4">
-                                    <button className="p-2 text-blue-200 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all">
-                                       <Search className="w-4 h-4" />
+                                    <button 
+                                      onClick={(e) => handleDeleteStudent(e, student.id, student.name, student.classId)}
+                                      className="p-2 text-rose-200 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all"
+                                      title="Remove Student"
+                                    >
+                                       <Trash2 className="w-4 h-4" />
                                     </button>
                                     <button className="p-2 text-blue-200 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all">
                                        <MoreVertical className="w-4 h-4" />
@@ -554,210 +635,74 @@ const TeacherDashboard = ({ user, onLogout }) => {
                         <button className="w-10 h-10 flex-center text-blue-300 hover:text-blue-600">
                            <ChevronRight className="w-5 h-5" />
                         </button>
-                     </div>
                   </div>
                </div>
+               </div>
             );
-         case 'Homework':
+         }
+          case 'Homework':
             return (
-               <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative overflow-y-auto custom-scrollbar">
-                  <div className="flex items-center justify-between">
-                     <div className="space-y-1">
-                        <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">Create Homework</h1>
-                        <p className="text-sm font-bold text-blue-300 italic">Prepare fun and meaningful homework for your students!</p>
-                     </div>
-                     <div className="flex items-center gap-6">
-                        <div className="bg-white px-6 py-2 rounded-full border border-blue-50 shadow-sm flex items-center gap-2">
-                           <Star className="w-4 h-4 text-rose-400 fill-current" />
-                           <span className="text-xs font-black text-[#1E3A8A]">Hi, Teacher!</span>
-                           <ChevronDown className="w-4 h-4 text-blue-300" />
-                        </div>
-                        <div className="w-24 h-24 relative">
-                           <img src="/dino-reading.png" className="w-full h-full object-contain mix-blend-multiply drop-shadow-xl animate-float" alt="Mascot" />
-                        </div>
-                     </div>
-                  </div>
-
-                  {/* Step 1: Choose Subject */}
-                  <div className="space-y-6">
-                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-[#8A70FF] rounded-full flex-center text-white text-xs font-black">1</div>
-                        <h2 className="text-xl font-black text-[#1E3A8A] tracking-tight">Choose Subject</h2>
-                     </div>
-                     <div className="grid grid-cols-3 gap-8">
-                        <SubjectCard 
-                           title="English" 
-                           description="Reading, writing, grammar and more!" 
-                           icon="/ic-homework.png"
-                           color="bg-[#FFF9DB]"
-                           borderColor="border-[#FFE066]"
-                           active={homeworkSubject === 'English'}
-                           onClick={() => setHomeworkSubject('English')}
-                        />
-                        <SubjectCard 
-                           title="Maths" 
-                           description="Numbers, shapes, patterns and more!" 
-                           icon="/ic-reports.png"
-                           color="bg-[#E7F5FF]"
-                           borderColor="border-[#A5D8FF]"
-                           active={homeworkSubject === 'Maths'}
-                           onClick={() => setHomeworkSubject('Maths')}
-                        />
-                        <SubjectCard 
-                           title="Science" 
-                           description="Discover, explore and learn amazing things!" 
-                           icon="/ic-students.png"
-                           color="bg-[#EBFBEE]"
-                           borderColor="border-[#B2F2BB]"
-                           active={homeworkSubject === 'Science'}
-                           onClick={() => setHomeworkSubject('Science')}
-                        />
-                     </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-12">
-                     {/* Step 2: Homework Details */}
-                     <div className="space-y-8">
-                        <div className="flex items-center gap-3">
-                           <div className="w-8 h-8 bg-[#8A70FF] rounded-full flex-center text-white text-xs font-black">2</div>
-                           <h2 className="text-xl font-black text-[#1E3A8A] tracking-tight">Homework Details</h2>
-                        </div>
-                        
-                        <div className="space-y-6">
-                           <div className="space-y-2">
-                              <label className="text-xs font-black text-[#1E3A8A] ml-2 uppercase tracking-widest">Title</label>
-                              <div className="relative">
-                                 <input 
-                                    type="text" 
-                                    placeholder="Enter homework title..."
-                                    value={homeworkTitle}
-                                    onChange={(e) => setHomeworkTitle(e.target.value)}
-                                    className="w-full bg-white border-2 border-blue-50 rounded-[24px] py-4 px-6 text-sm font-bold text-blue-900 placeholder-blue-300 focus:border-[#8A70FF] outline-none transition-all shadow-sm"
-                                 />
-                                 <Search className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300 rotate-90" />
-                              </div>
-                           </div>
-
-                           <div className="space-y-2">
-                              <label className="text-xs font-black text-[#1E3A8A] ml-2 uppercase tracking-widest">Instructions for Students</label>
-                              <div className="relative">
-                                 <textarea 
-                                    placeholder="Write clear instructions here..."
-                                    value={homeworkInstructions}
-                                    onChange={(e) => setHomeworkInstructions(e.target.value)}
-                                    rows={4}
-                                    className="w-full bg-white border-2 border-blue-50 rounded-[32px] py-6 px-8 text-sm font-bold text-blue-900 placeholder-blue-300 focus:border-[#8A70FF] outline-none transition-all shadow-sm resize-none"
-                                 />
-                                 <div className="absolute right-6 bottom-6 w-8 h-8 bg-purple-50 rounded-xl flex-center">
-                                    <BookOpen className="w-4 h-4 text-[#8A70FF]" />
-                                 </div>
-                              </div>
-                           </div>
-
-                           <div className="space-y-2">
-                              <label className="text-xs font-black text-[#1E3A8A] ml-2 uppercase tracking-widest">Attach Resources <span className="text-blue-300 capitalize">(optional)</span></label>
-                              <div className="border-2 border-dashed border-purple-200 rounded-[32px] bg-purple-50/20 p-8 flex flex-col items-center justify-center text-center group cursor-pointer hover:bg-purple-50/40 transition-all">
-                                 <div className="w-12 h-12 bg-white rounded-2xl flex-center shadow-sm text-purple-400 mb-4 group-hover:scale-110 transition-transform">
-                                    <Plus className="w-6 h-6" />
-                                 </div>
-                                 <p className="text-xs font-black text-[#8A70FF]">Upload worksheets, images or videos</p>
-                                 <p className="text-[10px] font-bold text-blue-300 mt-1">Drag & drop or click to upload</p>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-
-                     {/* Step 3: Assign To */}
-                     <div className="space-y-8">
-                        <div className="flex items-center gap-3">
-                           <div className="w-8 h-8 bg-[#8A70FF] rounded-full flex-center text-white text-xs font-black">3</div>
-                           <h2 className="text-xl font-black text-[#1E3A8A] tracking-tight">Assign To</h2>
-                        </div>
-
-                        <div className="space-y-6 relative">
-                           <div className="space-y-2">
-                              <label className="text-xs font-black text-[#1E3A8A] ml-2 uppercase tracking-widest">Class</label>
-                              <div className="relative">
-                                 <select className="w-full bg-white border-2 border-blue-50 rounded-[24px] py-4 px-12 text-sm font-bold text-blue-900 appearance-none outline-none shadow-sm cursor-pointer focus:border-[#8A70FF] transition-all">
-                                    <option>Select a class</option>
-                                    {classrooms.map(c => <option key={c.id}>{c.name}</option>)}
-                                 </select>
-                                 <Users className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300" />
-                                 <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300" />
-                              </div>
-                           </div>
-
-                           <div className="space-y-2">
-                              <label className="text-xs font-black text-[#1E3A8A] ml-2 uppercase tracking-widest">Due Date</label>
-                              <div className="relative">
-                                 <input type="text" placeholder="Select due date" className="w-full bg-white border-2 border-blue-50 rounded-[24px] py-4 px-12 text-sm font-bold text-blue-900 outline-none shadow-sm cursor-pointer focus:border-[#8A70FF] transition-all" />
-                                 <Calendar className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300" />
-                                 <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300" />
-                              </div>
-                           </div>
-
-                           <div className="space-y-2">
-                              <label className="text-xs font-black text-[#1E3A8A] ml-2 uppercase tracking-widest">Time <span className="text-blue-300 capitalize">(optional)</span></label>
-                              <div className="relative">
-                                 <input type="text" placeholder="Select time" className="w-full bg-white border-2 border-blue-50 rounded-[24px] py-4 px-12 text-sm font-bold text-blue-900 outline-none shadow-sm cursor-pointer focus:border-[#8A70FF] transition-all" />
-                                 <Zap className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-orange-400 fill-current" />
-                                 <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300" />
-                              </div>
-                           </div>
-
-                           {/* Illustration Anchor */}
-                           <div className="absolute -right-10 top-full mt-4 flex flex-col items-center">
-                              <div className="bg-white px-6 py-3 rounded-[24px] shadow-xl border border-rose-50 mb-4 relative">
-                                 <p className="text-[10px] font-black text-[#1E3A8A] leading-tight text-center">
-                                    You're making<br/>learning awesome! 🌟
-                                 </p>
-                                 <div className="absolute -bottom-2 right-8 w-4 h-4 bg-white border-b border-r border-rose-50 rotate-45" />
-                                 <Heart className="absolute -top-1 -left-1 w-3 h-3 text-rose-400 fill-current" />
-                              </div>
-                              <img src="/kids-pair.png" className="w-48 h-48 object-contain mix-blend-multiply drop-shadow-xl" alt="Studying child" />
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-
-                  {/* Bottom Controls */}
-                  <div className="pt-20 flex items-center justify-between border-t border-blue-50 mt-20">
-                     <div className="flex items-center gap-6">
-                        <div className="flex flex-col gap-2">
-                           <label className="text-[10px] font-black text-blue-300 uppercase tracking-widest ml-4">Add Points <span className="capitalize">(optional)</span></label>
-                           <div className="flex items-center gap-3">
-                              <div className="relative">
-                                 <select 
-                                    value={homeworkPoints}
-                                    onChange={(e) => setHomeworkPoints(Number(e.target.value))}
-                                    className="bg-white border-2 border-blue-50 rounded-[20px] py-3 px-10 text-xs font-black text-blue-900 appearance-none outline-none shadow-sm cursor-pointer"
-                                 >
-                                    <option>10</option>
-                                    <option>20</option>
-                                    <option>50</option>
-                                    <option>100</option>
-                                 </select>
-                                 <Star className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-amber-400 fill-current" />
-                                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-3 h-3 text-blue-300" />
-                              </div>
-                              <span className="text-[10px] font-bold text-blue-300 italic">Reward your students!</span>
-                           </div>
-                        </div>
-                     </div>
-                     <div className="flex items-center gap-6">
-                        <button className="px-10 py-5 bg-[#EBE4FF] text-[#7C3AED] rounded-[24px] font-black text-sm hover:bg-purple-100 transition-all">
-                           Save as Draft
-                        </button>
-                        <button className="px-12 py-5 bg-[#40C057] text-white rounded-[24px] font-black text-sm shadow-xl shadow-green-100 flex items-center gap-3 hover:scale-105 transition-all">
-                           Publish Homework <Zap className="w-5 h-5 fill-current" />
-                        </button>
-                     </div>
-                  </div>
-
+               <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
+                  <HomeworkGenerator user={user} classrooms={classrooms} />
                   <GrassBorder />
                </div>
             );
-         case 'Messages':
+          case 'Gradebook':
+            return (
+               <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
+                  <div className="flex items-center justify-between">
+                     <div className="space-y-1">
+                        <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">Gradebook</h1>
+                        <p className="text-sm font-bold text-blue-300 italic">Review AI-graded results and student feedback.</p>
+                     </div>
+                     <div className="w-24 h-24">
+                        <img src="/mascot.png" className="w-full h-full object-contain mix-blend-multiply drop-shadow-xl" alt="Mascot" />
+                     </div>
+                  </div>
+                  
+                  {/* Mock Gradebook Table */}
+                  <div className="bg-white rounded-[40px] border border-blue-50 shadow-sm overflow-hidden">
+                     <div className="grid grid-cols-12 px-8 py-6 bg-blue-50/20 text-[10px] font-black text-blue-200 uppercase tracking-widest border-b border-blue-50">
+                        <div className="col-span-4">Student Name</div>
+                        <div className="col-span-3">Mission</div>
+                        <div className="col-span-2 text-center">Score</div>
+                        <div className="col-span-3 text-right">Date</div>
+                     </div>
+                     <div className="divide-y divide-blue-50">
+                        {submissions.length > 0 ? (
+                           submissions.map((sub, idx) => (
+                              <div key={sub.id || idx} className="grid grid-cols-12 px-8 py-6 items-center hover:bg-blue-50/10 transition-all">
+                                 <div className="col-span-4 flex items-center gap-4">
+                                    <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${sub.studentName}`} className="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt={sub.studentName} />
+                                    <div className="flex flex-col">
+                                       <span className="text-sm font-black text-[#1E3A8A]">{sub.studentName}</span>
+                                       <span className="text-[10px] font-bold text-blue-400 italic">Feedback: "{sub.feedback}"</span>
+                                    </div>
+                                 </div>
+                                 <div className="col-span-3">
+                                    <span className="text-xs font-bold text-blue-400">Mission ID: {sub.homeworkId.slice(0, 8)}...</span>
+                                 </div>
+                                 <div className="col-span-2 text-center">
+                                    <span className={`px-4 py-1 rounded-full text-xs font-black ${sub.score >= 80 ? 'bg-emerald-50 text-emerald-600' : sub.score >= 50 ? 'bg-blue-50 text-blue-600' : 'bg-rose-50 text-rose-600'}`}>
+                                       {sub.score}%
+                                    </span>
+                                 </div>
+                                 <div className="col-span-3 text-right text-xs font-bold text-blue-300">
+                                    {sub.submittedAt ? new Date(sub.submittedAt.toDate()).toLocaleDateString() : 'Just now'}
+                                 </div>
+                              </div>
+                           ))
+                        ) : (
+                           <div className="py-20 text-center text-blue-300 italic font-bold">
+                              No mission reports yet. 🚀
+                           </div>
+                        )}
+                     </div>
+                  </div>
+               <GrassBorder />
+            </div>
+         );
+         case 'Messages': {
             const chats = [
                { id: 1, name: 'Grade 2A Parents', lastMsg: 'Thank you for attending the...', time: '10:30 AM', type: 'Class', date: '3 May 2024' },
                { id: 2, name: 'Ananya Patel (Parent)', lastMsg: 'Regarding homework...', time: 'Yesterday', type: 'Individual' },
@@ -877,7 +822,8 @@ const TeacherDashboard = ({ user, onLogout }) => {
                   </div>
                </div>
             );
-         case 'Rewards':
+         }
+         case 'Rewards': {
             const topEarner = allStudents.sort((a, b) => b.name.length - a.name.length)[0] || { name: 'Vihaan Gupta' };
             const totalPoints = allStudents.reduce((acc, s) => acc + (100 + (s.name.length * 5)), 0);
 
@@ -956,76 +902,125 @@ const TeacherDashboard = ({ user, onLogout }) => {
                   </div>
                </div>
             );
+         }
          default:
             return null;
       }
    };
 
-  return (
-    <div className="flex min-h-screen bg-[#F5F7FA] font-sans">
-      {/* --- Executive Sidebar --- */}
-      <aside className="w-[300px] bg-[#FDFDFF] border-r border-blue-50 flex flex-col p-6 sticky top-0 h-screen overflow-hidden">
-         <div className="mb-10 -mx-6 flex-center">
-            <img src="/logo.png" className="w-[85%] h-36 object-contain mix-blend-multiply" alt="Homework Zone" />
+   return (
+    <div className="flex min-h-screen bg-[#F8FAFC] font-sans">
+      {/* --- Executive Hub Sidebar --- */}
+      <aside className="w-80 bg-white border-r border-slate-100/60 flex flex-col shrink-0 h-screen sticky top-0 overflow-hidden">
+         <div className="p-8 mb-4 flex justify-center">
+            <img src="/logo.png" className="w-[85%] h-32 object-contain mix-blend-multiply" alt="Homework Zone" />
          </div>
 
-         <nav className="flex-1 space-y-2">
-            <SidebarItem id="Dashboard" label="Dashboard" icon={<LayoutDashboard />} iconColor="text-[#8A70FF]" active={activeTab === 'Dashboard'} onClick={setActiveTab} />
-            <SidebarItem id="My Classes" label="My Classes" icon={<img src="/ic-classes.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="My Classes" />} active={activeTab === 'My Classes'} onClick={setActiveTab} />
-            <SidebarItem id="Students" label="Students" icon={<img src="/ic-students.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Students" />} active={activeTab === 'Students'} onClick={setActiveTab} />
+         <nav className="flex-1 px-6 space-y-2 overflow-y-auto custom-scrollbar">
+            <SidebarItem id="Dashboard" label="Dashboard" icon={<LayoutDashboard />} iconColor="text-blue-500" active={activeTab === 'Dashboard'} onClick={setActiveTab} />
+            <SidebarItem id="My Classes" label="My Classes" icon={<img src="/ic-classes.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Classes" />} active={activeTab === 'My Classes'} onClick={setActiveTab} />
             <SidebarItem id="Homework" label="Homework" icon={<img src="/ic-homework.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Homework" />} active={activeTab === 'Homework'} onClick={setActiveTab} />
+            <SidebarItem id="Gradebook" label="Gradebook" icon={<Trophy className="w-5 h-5 text-emerald-500" />} active={activeTab === 'Gradebook'} onClick={setActiveTab} />
             <SidebarItem id="Messages" label="Messages" icon={<img src="/ic-messages.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Messages" />} active={activeTab === 'Messages'} onClick={setActiveTab} />
             <SidebarItem id="Rewards" label="Rewards" icon={<img src="/ic-rewards.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Rewards" />} active={activeTab === 'Rewards'} onClick={setActiveTab} />
          </nav>
 
-         {/* Mascot Section */}
-         <div className="mt-10 relative">
-            <div className="bg-amber-50 rounded-[32px] p-6 border border-amber-100 relative mb-8">
-               <p className="text-[11px] font-black text-amber-900 leading-relaxed text-center italic">
-                  Great teachers make bright futures! ❤️
+         {/* Mascot Bottom Support */}
+         <div className="p-6 mt-auto">
+            <div className="bg-indigo-50/50 rounded-[32px] p-8 relative group overflow-hidden border border-indigo-100/50">
+               <div className="absolute top-2 left-2 w-3 h-3 bg-white rounded-full opacity-40" />
+               <p className="text-[11px] font-bold text-indigo-900 leading-tight text-center relative z-10 italic">
+                  Guiding every student<br/>to their best! 🍎
                </p>
-               <img src="/mascot.png" className="w-full h-40 object-contain drop-shadow-xl animate-float mix-blend-multiply" alt="Mascot" />
+               <div className="mt-4 flex-center">
+                  <img src="/mascot.png" className="w-36 h-36 object-contain animate-float mix-blend-multiply drop-shadow-xl" alt="Mascot" />
+               </div>
+               <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-indigo-200/20 rounded-full blur-2xl" />
             </div>
-            <div className="h-20 bg-emerald-400 -mx-6 -mb-6 rounded-t-[40px] opacity-20" />
          </div>
       </aside>
 
-      <main className="flex-1 overflow-y-auto no-scrollbar pb-20 bg-[#F9F9FF] relative">
-      {/* --- Top Navigation --- */}
-      <header className="h-16 bg-white border-b border-blue-50 flex items-center justify-between px-10 sticky top-0 z-50 shadow-sm">
-        <div className="flex items-center gap-4">
-           <div className="flex gap-1">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#FF9B9B]" />
-              <div className="w-2.5 h-2.5 rounded-full bg-[#FFD97D]" />
-              <div className="w-2.5 h-2.5 rounded-full bg-[#95E2B9]" />
-              <div className="w-2.5 h-2.5 rounded-full bg-[#8A70FF]" />
-           </div>
-           <div className="h-8 w-[1px] bg-blue-50 mx-2" />
-           <div className="bg-[#F0EEFF] px-4 py-1.5 rounded-xl border border-purple-100 flex items-center gap-2">
-              <span className="text-[10px] font-black text-[#8A70FF] uppercase tracking-widest">Your Code:</span>
-              <span className="text-sm font-black text-[#1E3A8A] tracking-tighter">{user?.teacherCode || 'HWZ-OFFLINE'}</span>
-           </div>
-        </div>
+      <main className="flex-1 overflow-y-auto no-scrollbar bg-[#F9F9FF] relative p-4 lg:p-6 flex flex-col">
+        <div className="flex-1 bg-white rounded-[40px] shadow-sm flex flex-col border border-slate-100/50 relative overflow-hidden">
+        {/* --- Dynamic Top Navigation --- */}
+         {activeTab === 'Dashboard' && (
+            <header className="h-24 bg-white border-b border-slate-50 flex items-center justify-between px-10 sticky top-0 z-50">
+              <div className="flex items-center gap-8">
+                 <div className="flex flex-col">
+                    <h2 className="text-xl font-bold text-slate-800 tracking-tight">Executive Dashboard</h2>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Global Overview • {activeClassroom?.name || 'All Classes'}</p>
+                 </div>
+                 
+                 <div className="relative">
+                    <button 
+                      onClick={() => setShowClassDropdown(!showClassDropdown)}
+                      className="flex items-center gap-3 px-5 py-2.5 bg-slate-50 rounded-2xl border border-slate-100 hover:bg-slate-100 transition-all group"
+                    >
+                       <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                       <span className="text-sm font-bold text-slate-700">{activeClassroom?.name || 'Select Class'}</span>
+                       <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showClassDropdown ? 'rotate-180' : ''}`} />
+                    </button>
+                    <AnimatePresence>
+                       {showClassDropdown && (
+                          <motion.div 
+                             initial={{ opacity: 0, y: 10 }}
+                             animate={{ opacity: 1, y: 0 }}
+                             exit={{ opacity: 0, y: 10 }}
+                             className="absolute top-full left-0 mt-3 w-64 bg-white rounded-[32px] shadow-2xl border border-slate-100 z-[100] overflow-hidden p-2"
+                          >
+                             <div className="px-4 py-3 border-b border-slate-50 mb-1">
+                                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Switch Workspaces</span>
+                             </div>
+                             <div className="max-h-[300px] overflow-y-auto no-scrollbar">
+                                {classrooms.map(room => (
+                                   <button 
+                                      key={room.id}
+                                      onClick={() => { setActiveClassroom(room); setShowClassDropdown(false); }}
+                                      className="w-full text-left px-4 py-3 rounded-2xl hover:bg-slate-50 transition-all group/item flex items-center gap-3"
+                                   >
+                                      <div className={`w-1.5 h-1.5 rounded-full ${activeClassroom?.id === room.id ? 'bg-indigo-600' : 'bg-slate-200 group-hover/item:bg-indigo-300'}`} />
+                                      <span className={`text-sm font-bold ${activeClassroom?.id === room.id ? 'text-indigo-600' : 'text-slate-600 group-hover/item:text-slate-900'}`}>{room.name}</span>
+                                   </button>
+                                ))}
+                             </div>
+                          </motion.div>
+                       )}
+                    </AnimatePresence>
+                 </div>
+              </div>
 
-        <div className="flex items-center gap-6">
-           <button 
-             onClick={() => setShowAiSettings(!showAiSettings)}
-             className={`text-sm font-bold flex items-center gap-2 px-4 py-1.5 rounded-full transition-all ${showAiSettings ? 'bg-purple-600 text-white shadow-lg' : 'text-purple-500 hover:bg-purple-50'}`}
-           >
-             <Zap className="w-4 h-4" /> AI Hub
-           </button>
-           <div className="flex flex-col items-end">
-              <span className="text-xs font-black text-[#1E3A8A] tracking-tight">Teacher Portal</span>
-              <span className="text-[10px] font-bold text-blue-300 uppercase">Management Hub</span>
-           </div>
-           <button 
-             onClick={onLogout}
-             className="w-10 h-10 bg-rose-50 text-rose-500 rounded-full flex-center hover:bg-rose-100 transition-all shadow-sm"
-           >
-              <LogOut className="w-5 h-5" />
-           </button>
-        </div>
-      </header>
+              <div className="flex items-center gap-6">
+                 <div className="flex items-center gap-2 bg-slate-50 rounded-2xl p-1.5 border border-slate-100">
+                    <button className="w-10 h-10 bg-white rounded-xl flex-center text-slate-400 shadow-sm border border-slate-100 hover:text-indigo-600 transition-all"><Search size={18} /></button>
+                    <button className="w-10 h-10 bg-white rounded-xl flex-center text-slate-400 shadow-sm border border-slate-100 hover:text-indigo-600 transition-all relative">
+                       <Bell size={18} />
+                       <div className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white" />
+                    </button>
+                    <button 
+                      onClick={() => setShowAiSettings(!showAiSettings)}
+                      className={`w-10 h-10 rounded-xl flex-center transition-all ${showAiSettings ? 'bg-indigo-600 text-white shadow-lg' : 'bg-white text-indigo-500 border border-slate-100 hover:bg-indigo-50 shadow-sm'}`}
+                    >
+                       <Zap size={18} className={showAiSettings ? 'fill-current' : ''} />
+                    </button>
+                 </div>
+
+                 <div className="h-10 w-px bg-slate-100" />
+
+                 <div className="flex items-center gap-4">
+                    <div className="flex flex-col items-end">
+                       <span className="text-sm font-bold text-slate-800">{user?.displayName || 'Teacher'}</span>
+                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{user?.email || 'Administrator'}</span>
+                    </div>
+                    <button 
+                      onClick={onLogout}
+                      className="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex-center text-rose-500 shadow-sm hover:bg-rose-50 transition-all group"
+                    >
+                       <LogOut size={20} className="group-hover:scale-110 transition-transform" />
+                    </button>
+                 </div>
+              </div>
+            </header>
+         )}
 
       {/* --- AI Settings Panel --- */}
       <AnimatePresence>
@@ -1107,6 +1102,76 @@ const TeacherDashboard = ({ user, onLogout }) => {
       </AnimatePresence>
 
       {renderContent()}
+
+      {/* --- Add Class Modal --- */}
+      <AnimatePresence>
+        {showAddClassModal && (
+          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[200] flex-center p-6">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="max-w-md w-full bg-white rounded-[40px] p-10 space-y-8 shadow-2xl border-8 border-indigo-100"
+            >
+              <div className="text-center space-y-2">
+                <h2 className="text-3xl font-black text-slate-800 tracking-tight">Create New Class</h2>
+                <p className="text-sm font-bold text-slate-400">Give your new class a fun name! 🎨</p>
+              </div>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest ml-4">Class Name</label>
+                  <input 
+                    type="text" 
+                    value={newClassName}
+                    onChange={(e) => setNewClassName(e.target.value)}
+                    placeholder="e.g. Grade 5 Adventure"
+                    className="w-full bg-slate-50 border-4 border-slate-50 rounded-[24px] py-4 px-6 text-sm font-bold focus:bg-white focus:border-indigo-100 transition-all outline-none"
+                    autoFocus
+                  />
+                </div>
+
+                <div className="space-y-3">
+                  <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest ml-4">Subjects to Teach</label>
+                  <div className="flex flex-wrap gap-2 px-2">
+                    {Object.keys(SUBJECT_ICONS).map(subject => (
+                      <button
+                        key={subject}
+                        onClick={() => {
+                          if (selectedSubjects.includes(subject)) {
+                            setSelectedSubjects(selectedSubjects.filter(s => s !== subject));
+                          } else {
+                            setSelectedSubjects([...selectedSubjects, subject]);
+                          }
+                        }}
+                        className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-tight transition-all ${selectedSubjects.includes(subject) ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-100 scale-105' : 'bg-slate-50 text-slate-400 hover:bg-slate-100'}`}
+                      >
+                        {subject}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4 pt-4">
+                  <button 
+                    onClick={handleAddClassroom}
+                    disabled={isAddingClass}
+                    className={`flex-1 bg-indigo-600 text-white py-4 rounded-[24px] font-black text-sm shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-95 ${isAddingClass ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  >
+                    {isAddingClass ? 'Creating...' : 'Create Class'}
+                  </button>
+                  <button 
+                    onClick={() => setShowAddClassModal(false)}
+                    className="px-8 py-4 bg-slate-100 text-slate-400 rounded-[24px] font-black text-sm hover:bg-slate-200 transition-all"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+        </div>
       </main>
     </div>
    );
@@ -1143,35 +1208,79 @@ const PlaceholderView = ({ title, icon, description }) => (
    </div>
 );
 
-const ClassCard = ({ name, students, bgColor, kidsImg, subjects }) => (
-  <div className={`${bgColor} rounded-[40px] p-8 border border-white/50 shadow-sm flex flex-col gap-6 group hover:shadow-xl transition-all`}>
-     <div className="text-center space-y-1">
-        <h3 className="text-2xl font-black text-[#1E3A8A]">{name}</h3>
-        <p className="text-xs font-bold text-blue-400">{students} Students</p>
-     </div>
-     <div className="h-40 flex-center">
-        <img src={kidsImg} className="h-full object-contain mix-blend-multiply" alt="Kids" />
-     </div>
-     <div className="flex items-center justify-around">
-        {subjects.map((sub, i) => (
-           <div key={i} className="flex flex-col items-center gap-1">
-              <div className="w-10 h-10 bg-white rounded-2xl flex-center shadow-sm">
-                 <img src={sub.icon} className="w-6 h-6 object-contain mix-blend-multiply" alt={sub.name} />
-              </div>
-              <span className="text-[10px] font-black text-blue-400">{sub.name}</span>
-           </div>
-        ))}
-     </div>
-     <div className="flex items-center gap-3">
-        <button className="flex-1 bg-[#8A70FF] text-white py-4 rounded-3xl font-black text-sm shadow-lg shadow-purple-100 hover:scale-[1.02] transition-all">
-           View Class
-        </button>
-        <button className="w-12 h-12 bg-white rounded-2xl flex-center text-blue-300 shadow-sm hover:text-blue-600 transition-all">
-           <MoreVertical className="w-5 h-5" />
-        </button>
-     </div>
-  </div>
-);
+const ClassCard = ({ name, students, bgColor, kidsImg, subjects, onDelete, onView }) => {
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  return (
+    <div className={`${bgColor} rounded-[40px] p-8 border border-white/50 shadow-sm flex flex-col gap-6 group hover:shadow-xl transition-all relative overflow-hidden`}>
+       <AnimatePresence>
+         {showConfirm && (
+           <motion.div 
+             initial={{ opacity: 0 }}
+             animate={{ opacity: 1 }}
+             exit={{ opacity: 0 }}
+             className="absolute inset-0 bg-rose-600/95 z-50 flex flex-col items-center justify-center p-6 text-center space-y-4"
+           >
+             <div className="w-16 h-16 bg-white/20 rounded-full flex-center text-white">
+                <Trash2 className="w-8 h-8" />
+             </div>
+             <div className="space-y-1">
+                <h4 className="text-white font-black text-xl">Delete Class?</h4>
+                <p className="text-white/80 text-xs font-bold leading-tight">This will remove all students and data! ⚠️</p>
+             </div>
+             <div className="flex items-center gap-3 w-full">
+                <button 
+                  onClick={(e) => { e.stopPropagation(); onDelete(); }}
+                  className="flex-1 bg-white text-rose-600 py-3 rounded-2xl font-black text-xs shadow-xl"
+                >
+                   Delete Now
+                </button>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); setShowConfirm(false); }}
+                  className="flex-1 bg-black/20 text-white py-3 rounded-2xl font-black text-xs"
+                >
+                   Cancel
+                </button>
+             </div>
+           </motion.div>
+         )}
+       </AnimatePresence>
+
+       <div className="text-center space-y-1">
+          <h3 className="text-2xl font-black text-[#1E3A8A]">{name}</h3>
+          <p className="text-xs font-bold text-blue-400">{students} Students</p>
+       </div>
+       <div className="h-40 flex-center">
+          <img src={kidsImg} className="h-full object-contain mix-blend-multiply" alt="Kids" />
+       </div>
+       <div className="flex items-center justify-around">
+          {subjects.map((sub, i) => (
+             <div key={i} className="flex flex-col items-center gap-1">
+                <div className="w-10 h-10 bg-white rounded-2xl flex-center shadow-sm">
+                   <img src={sub.icon} className="w-6 h-6 object-contain mix-blend-multiply" alt={sub.name} />
+                </div>
+                <span className="text-[10px] font-black text-blue-400">{sub.name}</span>
+             </div>
+          ))}
+       </div>
+       <div className="flex items-center gap-3">
+          <button 
+            onClick={onView}
+            className="flex-1 bg-[#8A70FF] text-white py-4 rounded-3xl font-black text-sm shadow-lg shadow-purple-100 hover:scale-[1.02] transition-all"
+          >
+             View Class
+          </button>
+          <button 
+             onClick={(e) => { e.stopPropagation(); setShowConfirm(true); }}
+             className="w-12 h-12 bg-white rounded-2xl flex-center text-rose-300 shadow-sm hover:text-rose-600 hover:bg-rose-50 transition-all z-10"
+             title="Delete Class"
+          >
+             <Trash2 className="w-5 h-5" />
+          </button>
+       </div>
+    </div>
+  );
+};
 
 const GrassBorder = () => (
   <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none z-0 overflow-hidden">
