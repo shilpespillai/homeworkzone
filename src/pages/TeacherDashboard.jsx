@@ -1202,18 +1202,125 @@ const TeacherDashboard = ({ user, onLogout }) => {
             );
          }
          case 'Rewards': {
-            const topEarner = allStudents.sort((a, b) => b.name.length - a.name.length)[0] || { name: 'Vihaan Gupta' };
-            const totalPoints = allStudents.reduce((acc, s) => acc + (100 + (s.name.length * 5)), 0);
+            // Filter students list based on selected class
+            const filteredStudentsList = allStudents.filter(s => {
+               if (filterClass === 'All Classes') return true;
+               return s.className === filterClass;
+            });
+
+            // Map each student to computed points, badges and averages based on their actual submissions
+            const computedStudents = filteredStudentsList.map(student => {
+               const studentSubs = allSubmissions.filter(sub => 
+                  sub.studentName?.toLowerCase() === student.name?.toLowerCase()
+               );
+
+               const completedCount = studentSubs.length;
+               const totalScore = studentSubs.reduce((acc, sub) => acc + (sub.score || 0), 0);
+               const basePoints = 100;
+               const calculatedPoints = basePoints + (completedCount * 50) + totalScore;
+
+               // Group scores by subject
+               const subjectScores = {};
+               studentSubs.forEach(sub => {
+                  const hw = allHomeworks.find(h => h.id === sub.homeworkId);
+                  const subject = hw ? hw.subject : 'General';
+                  if (!subjectScores[subject]) subjectScores[subject] = [];
+                  subjectScores[subject].push(sub.score || 0);
+               });
+
+               const getAvg = (subject) => {
+                  const scores = subjectScores[subject];
+                  if (!scores || scores.length === 0) return 0;
+                  return scores.reduce((acc, s) => acc + s, 0) / scores.length;
+               };
+
+               const badges = [];
+               const mathsAvg = getAvg('Maths');
+               const scienceAvg = getAvg('Science');
+               const englishAvg = getAvg('English');
+
+               if (mathsAvg >= 80) {
+                  badges.push({ name: 'Maths Whiz', desc: 'Scored 80%+ in Maths', icon: '⚡', color: 'bg-blue-50 text-blue-600 border-blue-100' });
+               }
+               if (scienceAvg >= 80) {
+                  badges.push({ name: 'Science Explorer', desc: 'Scored 80%+ in Science', icon: '🚀', color: 'bg-emerald-50 text-emerald-600 border-emerald-100' });
+               }
+               if (englishAvg >= 80) {
+                  badges.push({ name: 'Super Writer', desc: 'Scored 80%+ in English', icon: '📝', color: 'bg-amber-50 text-amber-600 border-amber-100' });
+               }
+               if (completedCount >= 3) {
+                  badges.push({ name: 'Homework Hero', desc: 'Completed 3+ quizzes', icon: '🏆', color: 'bg-purple-50 text-purple-600 border-purple-100' });
+               } else if (completedCount >= 1) {
+                  badges.push({ name: 'Rising Star', desc: 'Active and scoring', icon: '⭐', color: 'bg-rose-50 text-rose-600 border-rose-100' });
+               }
+
+               return {
+                  ...student,
+                  points: calculatedPoints,
+                  completedCount,
+                  avgScore: completedCount > 0 ? Math.round(totalScore / completedCount) : 0,
+                  badges,
+                  recentSub: studentSubs.length > 0 ? studentSubs.sort((a,b) => new Date(b.submittedAt) - new Date(a.submittedAt))[0] : null
+               };
+            });
+
+            // Derive aggregate values
+            const totalPoints = computedStudents.reduce((acc, s) => acc + s.points, 0);
+            const totalBadges = computedStudents.reduce((acc, s) => acc + s.badges.length, 0);
+            const rewardedCount = computedStudents.filter(s => s.completedCount > 0).length;
+            
+            // Sort by points to find the top earner
+            const sortedByPoints = [...computedStudents].sort((a, b) => b.points - a.points);
+            const topEarner = sortedByPoints[0] || { name: 'No Student Yet', points: 100 };
+
+            // Calculate badge distributions for the badge row display
+            const badgeCounts = {
+               'Maths Whiz': computedStudents.filter(s => s.badges.some(b => b.name === 'Maths Whiz')).length,
+               'Science Explorer': computedStudents.filter(s => s.badges.some(b => b.name === 'Science Explorer')).length,
+               'Super Writer': computedStudents.filter(s => s.badges.some(b => b.name === 'Super Writer')).length,
+               'Homework Hero': computedStudents.filter(s => s.badges.some(b => b.name === 'Homework Hero')).length
+            };
+
+            // Get recent rewards based on actual submissions for the selected classroom
+            const recentSubmissions = allSubmissions
+               .filter(sub => {
+                  const student = allStudents.find(s => s.name?.toLowerCase() === sub.studentName?.toLowerCase());
+                  if (!student) return false;
+                  if (filterClass === 'All Classes') return true;
+                  return student.className === filterClass;
+               })
+               .sort((a, b) => {
+                  const dateA = a.submittedAt ? (a.submittedAt.seconds ? a.submittedAt.seconds * 1000 : new Date(a.submittedAt).getTime()) : 0;
+                  const dateB = b.submittedAt ? (b.submittedAt.seconds ? b.submittedAt.seconds * 1000 : new Date(b.submittedAt).getTime()) : 0;
+                  return dateB - dateA;
+               })
+               .slice(0, 4);
 
             return (
                <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
                   <div className="flex items-center justify-between">
                      <div>
                         <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">Rewards</h1>
-                        <p className="text-sm font-bold text-blue-300 italic">Motivate students with points and badges.</p>
+                        <p className="text-sm font-bold text-blue-300 italic">Motivate students with points and badges based on performance.</p>
                      </div>
-                     <div className="w-24 h-24">
-                        <img src="/mascot.png" className="w-full h-full object-contain mix-blend-multiply drop-shadow-xl" alt="Mascot" />
+                     <div className="flex items-center gap-6">
+                        {/* Class/Grade filter dropdown */}
+                        <div className="flex items-center gap-3 bg-white border border-blue-50 py-3 px-5 rounded-2xl shadow-sm">
+                           <span className="text-[10px] font-black uppercase text-blue-300 tracking-wider">Grade</span>
+                           <select 
+                              value={filterClass} 
+                              onChange={(e) => setFilterClass(e.target.value)}
+                              className="bg-transparent border-none text-xs font-black text-[#1E3A8A] focus:outline-none cursor-pointer"
+                           >
+                              <option value="All Classes">All Classes</option>
+                              {classrooms.map(c => (
+                                 <option key={c.id} value={c.name}>{c.name}</option>
+                              ))}
+                           </select>
+                        </div>
+                        <div className="w-20 h-20">
+                           <img src="/mascot.png" className="w-full h-full object-contain mix-blend-multiply drop-shadow-xl" alt="Mascot" />
+                        </div>
                      </div>
                   </div>
 
@@ -1231,53 +1338,162 @@ const TeacherDashboard = ({ user, onLogout }) => {
                      ))}
                   </div>
 
-                  {/* KPI Row */}
-                  <div className="grid grid-cols-4 gap-6">
-                     <RewardKPICard title="Total Points" value={totalPoints} subtitle="+150 this week" bgColor="bg-blue-50/50" textColor="text-blue-600" />
-                     <RewardKPICard title="Badges Earned" value="24" subtitle={<Star className="w-4 h-4 text-yellow-400 fill-current" />} bgColor="bg-rose-50/50" textColor="text-rose-600" />
-                     <RewardKPICard title="Students Rewarded" value={Math.round(allStudents.length * 0.75)} subtitle={`${75}% of total`} bgColor="bg-emerald-50/50" textColor="text-emerald-600" />
-                     <RewardKPICard title="This Week's Top" value={topEarner.name} subtitle={<Trophy className="w-4 h-4 text-amber-400 fill-current" />} bgColor="bg-amber-50/50" textColor="text-amber-600" />
-                  </div>
+                  {rewardsTab === 'Overview' && (
+                     <>
+                        {/* KPI Row */}
+                        <div className="grid grid-cols-4 gap-6">
+                           <RewardKPICard title="Total Points" value={totalPoints} subtitle="Derived from grades & quizzes" bgColor="bg-blue-50/50" textColor="text-blue-600" />
+                           <RewardKPICard title="Badges Earned" value={totalBadges} subtitle="Star, Whiz & Explorer" bgColor="bg-rose-50/50" textColor="text-rose-600" />
+                           <RewardKPICard title="Rewarded Kids" value={rewardedCount} subtitle={`${rewardedCount}/${computedStudents.length} active students`} bgColor="bg-emerald-50/50" textColor="text-emerald-600" />
+                           <RewardKPICard title="Class Champion" value={topEarner.name} subtitle={`${topEarner.points || 0} Points 🔥`} bgColor="bg-amber-50/50" textColor="text-amber-600" />
+                        </div>
 
-                  <div className="grid grid-cols-12 gap-10">
-                     {/* Recent Rewards */}
-                     <div className="col-span-7 bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 space-y-8">
-                        <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Recent Rewards</h3>
-                        <div className="space-y-6">
-                           {allStudents.slice(0, 4).map((s, idx) => (
-                              <div key={idx} className="flex items-center justify-between group">
-                                 <div className="flex items-center gap-4">
-                                    <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${s.name}`} className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt={s.name} />
-                                    <div>
-                                       <p className="text-sm font-black text-[#1E3A8A]">{s.name}</p>
-                                       <p className="text-[10px] font-bold text-blue-300 italic">{idx % 2 === 0 ? 'Excellent in Maths Quiz' : 'Great Homework Completion'}</p>
+                        <div className="grid grid-cols-12 gap-10">
+                           {/* Recent Rewards Feed */}
+                           <div className="col-span-7 bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 space-y-8">
+                              <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Recent Rewards</h3>
+                              <div className="space-y-6">
+                                 {recentSubmissions.length > 0 ? (
+                                    recentSubmissions.map((sub, idx) => {
+                                       const hw = allHomeworks.find(h => h.id === sub.homeworkId);
+                                       const subject = hw ? hw.subject : 'Homework';
+                                       const displayDate = sub.submittedAt ? (
+                                          sub.submittedAt.seconds ? new Date(sub.submittedAt.seconds * 1000) : new Date(sub.submittedAt)
+                                       ).toLocaleDateString(undefined, {month: 'short', day: 'numeric'}) : '';
+
+                                       return (
+                                          <div key={sub.id} className="flex items-center justify-between group">
+                                             <div className="flex items-center gap-4">
+                                                <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${sub.studentName}`} className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt={sub.studentName} />
+                                                <div>
+                                                   <p className="text-sm font-black text-[#1E3A8A]">{sub.studentName}</p>
+                                                   <p className="text-[10px] font-bold text-blue-300 italic">Excellent work in {subject} (Scored {sub.score}%)</p>
+                                                </div>
+                                             </div>
+                                             <div className="text-right">
+                                                <p className="text-sm font-black text-emerald-500">+{sub.score + 50} pts</p>
+                                                <p className="text-[9px] font-bold text-blue-200 uppercase tracking-widest">{displayDate}</p>
+                                             </div>
+                                          </div>
+                                       );
+                                    })
+                                 ) : (
+                                    <div className="py-20 text-center text-blue-300 font-bold italic text-sm">
+                                       No homework submissions to reward yet! 🌟
                                     </div>
-                                 </div>
-                                 <div className="text-right">
-                                    <p className="text-sm font-black text-emerald-500">+{30 + (idx * 10)} points</p>
-                                    <p className="text-[9px] font-bold text-blue-200 uppercase tracking-widest">{idx + 1} May</p>
+                                 )}
+                              </div>
+                           </div>
+
+                           {/* Top Badges */}
+                           <div className="col-span-5 bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 flex flex-col justify-between">
+                              <div className="space-y-8">
+                                 <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Badge Distribution</h3>
+                                 <div className="space-y-6">
+                                    <BadgeRow name="Maths Whiz" count={badgeCounts['Maths Whiz']} icon={<Zap className="w-5 h-5 text-blue-400 fill-current" />} color="bg-blue-50" />
+                                    <BadgeRow name="Science Explorer" count={badgeCounts['Science Explorer']} icon={<Zap className="w-5 h-5 text-emerald-400 fill-current" />} color="bg-emerald-50" />
+                                    <BadgeRow name="Super Writer" count={badgeCounts['Super Writer']} icon={<Zap className="w-5 h-5 text-amber-400 fill-current" />} color="bg-amber-50" />
+                                    <BadgeRow name="Homework Hero" count={badgeCounts['Homework Hero']} icon={<Star className="w-5 h-5 text-purple-400 fill-current" />} color="bg-purple-50" />
                                  </div>
                               </div>
-                           ))}
-                        </div>
-                     </div>
-
-                     {/* Top Badges */}
-                     <div className="col-span-5 bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 flex flex-col justify-between">
-                        <div className="space-y-8">
-                           <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Top Badges</h3>
-                           <div className="space-y-6">
-                              <BadgeRow name="Super Star" count="20" icon={<Star className="w-5 h-5 text-yellow-400 fill-current" />} color="bg-yellow-50" />
-                              <BadgeRow name="Maths Whiz" count="18" icon={<Zap className="w-5 h-5 text-blue-400 fill-current" />} color="bg-blue-50" />
-                              <BadgeRow name="Science Explorer" count="15" icon={<Zap className="w-5 h-5 text-emerald-400 fill-current" />} color="bg-emerald-50" />
-                              <BadgeRow name="Helpful Friend" count="12" icon={<Heart className="w-5 h-5 text-rose-400 fill-current" />} color="bg-rose-50" />
+                              <button onClick={() => setRewardsTab('Badges')} className="w-full bg-blue-50 text-blue-600 py-4 rounded-3xl font-black text-xs hover:bg-blue-100 transition-all mt-10">
+                                 View All Badge Earners
+                              </button>
                            </div>
                         </div>
-                        <button className="w-full bg-blue-50 text-blue-600 py-4 rounded-3xl font-black text-xs hover:bg-blue-100 transition-all mt-10">
-                           View All Badges
-                        </button>
+                     </>
+                  )}
+
+                  {rewardsTab === 'Badges' && (
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {[
+                           { name: 'Maths Whiz', desc: 'Scored 80% or more in Mathematics homework quizzes.', icon: '⚡', color: 'bg-blue-50 border-blue-100 text-blue-600' },
+                           { name: 'Science Explorer', desc: 'Scored 80% or more in Science homework quizzes.', icon: '🚀', color: 'bg-emerald-50 border-emerald-100 text-emerald-600' },
+                           { name: 'Super Writer', desc: 'Scored 80% or more in English homework quizzes.', icon: '📝', color: 'bg-amber-50 border-amber-100 text-amber-600' },
+                           { name: 'Homework Hero', desc: 'Completed at least 3 homework assignments.', icon: '🏆', color: 'bg-purple-50 border-purple-100 text-purple-600' },
+                           { name: 'Rising Star', desc: 'Earned by student after submitting their first homework quiz.', icon: '⭐', color: 'bg-rose-50 border-rose-100 text-rose-600' }
+                        ].map((badge) => {
+                           const earners = computedStudents.filter(s => s.badges.some(b => b.name === badge.name));
+
+                           return (
+                              <div key={badge.name} className="bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 space-y-6 flex flex-col justify-between">
+                                 <div className="space-y-4">
+                                    <div className="flex items-center gap-4">
+                                       <span className="text-4xl">{badge.icon}</span>
+                                       <div>
+                                          <h4 className="text-lg font-black text-[#1E3A8A]">{badge.name}</h4>
+                                          <p className="text-xs font-bold text-blue-300 italic">{badge.desc}</p>
+                                       </div>
+                                    </div>
+                                    
+                                    <div className="border-t border-slate-50 pt-4 space-y-2">
+                                       <p className="text-[9px] font-black uppercase tracking-wider text-slate-400">Earned By</p>
+                                       <div className="flex flex-wrap gap-2 pt-1">
+                                          {earners.map(earner => (
+                                             <span key={earner.id} className="bg-slate-50 text-slate-700 text-[10px] font-black px-3.5 py-2 rounded-full border border-slate-100 flex items-center gap-2">
+                                                <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${earner.name}`} className="w-5 h-5 rounded-full bg-white border border-slate-200 p-0.5" alt="earner" />
+                                                {earner.name}
+                                             </span>
+                                          ))}
+                                          {earners.length === 0 && (
+                                             <span className="text-blue-300 font-bold text-xs italic">No students have unlocked this yet! Keep going! 🚀</span>
+                                          )}
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           );
+                        })}
                      </div>
-                  </div>
+                  )}
+
+                  {rewardsTab === 'Leaderboard' && (
+                     <div className="bg-white rounded-[40px] border border-blue-50 shadow-sm overflow-hidden">
+                        <div className="grid grid-cols-12 px-8 py-6 bg-blue-50/20 text-[10px] font-black text-blue-200 uppercase tracking-widest border-b border-blue-50">
+                           <div className="col-span-1 text-center">Rank</div>
+                           <div className="col-span-4">Student Name</div>
+                           <div className="col-span-2 text-center">Class / Grade</div>
+                           <div className="col-span-2 text-center">Quizzes Done</div>
+                           <div className="col-span-2 text-center">Average Score</div>
+                           <div className="col-span-1 text-right pr-4">Total Points</div>
+                        </div>
+                        <div className="divide-y divide-blue-50">
+                           {sortedByPoints.length > 0 ? (
+                              sortedByPoints.map((student, idx) => {
+                                 let rankIcon = `#${idx + 1}`;
+                                 if (idx === 0) rankIcon = '🥇';
+                                 else if (idx === 1) rankIcon = '🥈';
+                                 else if (idx === 2) rankIcon = '🥉';
+
+                                 return (
+                                    <div key={student.id} className="grid grid-cols-12 px-8 py-6 items-center text-sm font-bold text-slate-600 hover:bg-blue-50/10 transition-colors">
+                                       <div className="col-span-1 text-center text-base font-black">{rankIcon}</div>
+                                       <div className="col-span-4 flex items-center gap-3">
+                                          <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${student.name}`} className="w-10 h-10 rounded-full border border-slate-100 bg-white p-0.5" alt={student.name} />
+                                          <div>
+                                             <p className="font-black text-[#1E3A8A]">{student.name}</p>
+                                             <div className="flex gap-1.5 mt-0.5">
+                                                {student.badges.map(b => (
+                                                   <span key={b.name} title={b.desc} className="cursor-help">{b.icon}</span>
+                                                ))}
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div className="col-span-2 text-center text-xs font-black text-blue-300">{student.className}</div>
+                                       <div className="col-span-2 text-center text-xs font-black">{student.completedCount}</div>
+                                       <div className="col-span-2 text-center text-xs font-black text-emerald-500">{student.avgScore}%</div>
+                                       <div className="col-span-1 text-right pr-4 font-black text-[#8A70FF]">{student.points}</div>
+                                    </div>
+                                 );
+                              })
+                           ) : (
+                              <div className="py-20 text-center text-blue-300 font-bold italic text-sm">
+                                 No students in this class roster yet. Add students to get started! 🍎
+                              </div>
+                           )}
+                        </div>
+                     </div>
+                  )}
                </div>
             );
          }
