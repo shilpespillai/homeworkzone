@@ -40,15 +40,18 @@ const MessagingModule = ({ studentName, teacher, classroom }) => {
     // Fetch all messages involving this teacher (since student is linked to teacher)
     const q = query(
       messagesRef, 
-      where('teacherId', '==', teacher.uid),
-      orderBy('createdAt', 'desc')
+      where('teacherId', '==', teacher.uid)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const allMsgs = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
-      }));
+      })).sort((a, b) => {
+         const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+         const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+         return dateB - dateA;
+      });
 
       // Filter based on roles and recipient types
       const filtered = allMsgs.filter(msg => {

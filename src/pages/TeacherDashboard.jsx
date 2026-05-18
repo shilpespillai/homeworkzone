@@ -25,7 +25,8 @@ import {
   User,
   MessageSquare,
   BarChart,
-  Trophy
+  Trophy,
+  X
 } from 'lucide-react';
 
 import { motion, AnimatePresence } from 'framer-motion';
@@ -137,14 +138,17 @@ const TeacherDashboard = ({ user, onLogout }) => {
     const messagesRef = collection(db, 'messages');
     const q = query(
       messagesRef, 
-      where('teacherId', '==', user.uid),
-      orderBy('createdAt', 'desc')
+      where('teacherId', '==', user.uid)
     );
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const allMsgs = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
-      }));
+      })).sort((a, b) => {
+         const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+         const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+         return dateB - dateA;
+      });
       setTeacherMessages(allMsgs);
     }, (err) => {
       console.error("Error loading teacher messages:", err);
