@@ -66,6 +66,13 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [rewardsTab, setRewardsTab] = useState('Overview');
   const [messagesTab, setMessagesTab] = useState('Inbox');
   const [activeChat, setActiveChat] = useState(null);
+  const [teacherMessages, setTeacherMessages] = useState([]);
+  const [replyText, setReplyText] = useState('');
+  const [showNewMsgModal, setShowNewMsgModal] = useState(false);
+  const [newMsgRecipientType, setNewMsgRecipientType] = useState('student');
+  const [newMsgRecipientId, setNewMsgRecipientId] = useState('');
+  const [newMsgSubject, setNewMsgSubject] = useState('');
+  const [newMsgBody, setNewMsgBody] = useState('');
   const [homeworkSubject, setHomeworkSubject] = useState('English');
   const [homeworkTitle, setHomeworkTitle] = useState('');
   const [homeworkInstructions, setHomeworkInstructions] = useState('');
@@ -124,6 +131,26 @@ const TeacherDashboard = ({ user, onLogout }) => {
       fetchStudents();
     }
   }, [user, activeClassroom]);
+
+  useEffect(() => {
+    if (!user?.uid) return;
+    const messagesRef = collection(db, 'messages');
+    const q = query(
+      messagesRef, 
+      where('teacherId', '==', user.uid),
+      orderBy('createdAt', 'desc')
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const allMsgs = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setTeacherMessages(allMsgs);
+    }, (err) => {
+      console.error("Error loading teacher messages:", err);
+    });
+    return () => unsubscribe();
+  }, [user]);
 
   const fetchClassrooms = async () => {
     if (!user?.uid) return;
@@ -347,7 +374,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   };
 
   useEffect(() => {
-    if (activeTab === 'Students') {
+    if (activeTab === 'Students' || activeTab === 'Messages') {
        fetchAllStudents();
     }
   }, [activeTab, classrooms]);
@@ -819,28 +846,118 @@ const TeacherDashboard = ({ user, onLogout }) => {
                      </div>
                   )}
 
-               <GrassBorder />
-            </div>
-         );
+                  <GrassBorder />
+               </div>
+            );
          }
          case 'Messages': {
-            const chats = [
-               { id: 1, name: 'Grade 2A Parents', lastMsg: 'Thank you for attending the...', time: '10:30 AM', type: 'Class', date: '3 May 2024' },
-               { id: 2, name: 'Ananya Patel (Parent)', lastMsg: 'Regarding homework...', time: 'Yesterday', type: 'Individual' },
-               { id: 3, name: 'Vihaan Gupta (Parent)', lastMsg: 'Thank you for the update!', time: 'Yesterday', type: 'Individual' },
-               { id: 4, name: 'Grade 3B Parents', lastMsg: 'Reminder: Science project...', time: '2 May', type: 'Class' },
-               { id: 5, name: 'Myra Singh (Parent)', lastMsg: 'Can we schedule a meeting?', time: '1 May', type: 'Individual' }
-            ];
-            const currentChat = activeChat || chats[0];
+            const filteredMessages = teacherMessages.filter(msg => {
+               if (messagesTab === 'Inbox') {
+                  return msg.senderRole === 'student';
+               } else if (messagesTab === 'Sent') {
+                  return msg.senderRole === 'teacher' && msg.recipientType === 'student';
+               } else if (messagesTab === 'Announcements') {
+                  return msg.senderRole === 'teacher' && (msg.recipientType === 'class' || msg.recipientType === 'all');
+               }
+               return false;
+            });
+
+            const currentChat = activeChat && filteredMessages.find(m => m.id === activeChat.id)
+               ? activeChat 
+               : (filteredMessages[0] || null);
+
+            const handleSendReply = async () => {
+               if (!replyText.trim() || !currentChat) return;
+               try {
+                  await addDoc(collection(db, 'messages'), {
+                     teacherId: user.uid,
+                     senderId: user.uid,
+                     senderName: user.displayName || 'Teacher',
+                     senderRole: 'teacher',
+                     recipientType: 'student',
+                     recipientId: currentChat.senderId,
+                     recipientName: currentChat.senderName,
+                     subject: `Re: ${currentChat.subject || 'Message'}`,
+                     content: replyText.trim(),
+                     createdAt: new Date().toISOString(),
+                     classId: currentChat.classId || null
+                   });
+                  setReplyText('');
+                  setMessagesTab('Sent');
+                  alert('Reply sent! 🚀');
+               } catch (err) {
+                  console.error("Error replying:", err);
+               }
+            };
+
+            const handleSendNewMessage = async (e) => {
+               e.preventDefault();
+               if (!newMsgBody.trim()) return;
+
+               let recId = '';
+               let recName = '';
+
+               if (newMsgRecipientType === 'student') {
+                  recId = newMsgRecipientId;
+                  recName = newMsgRecipientId;
+               } else if (newMsgRecipientType === 'class') {
+                  const cls = classrooms.find(c => c.id === newMsgRecipientId);
+                  recId = newMsgRecipientId;
+                  recName = cls ? cls.name : 'Class';
+               } else {
+                  recId = 'all';
+                  recName = 'All Classes';
+               }
+
+               try {
+                  await addDoc(collection(db, 'messages'), {
+                     teacherId: user.uid,
+                     senderId: user.uid,
+                     senderName: user.displayName || 'Teacher',
+                     senderRole: 'teacher',
+                     recipientType: newMsgRecipientType,
+                     recipientId: recId,
+                     recipientName: recName,
+                     subject: newMsgSubject.trim() || 'Announcement',
+                     content: newMsgBody.trim(),
+                     createdAt: new Date().toISOString(),
+                     classId: newMsgRecipientType === 'class' ? recId : null
+                   });
+
+                  setNewMsgSubject('');
+                  setNewMsgBody('');
+                  setShowNewMsgModal(false);
+                  
+                  if (newMsgRecipientType === 'student') {
+                     setMessagesTab('Sent');
+                  } else {
+                     setMessagesTab('Announcements');
+                  }
+                  alert('Message sent successfully! 🚀');
+               } catch (err) {
+                  console.error("Error creating message:", err);
+                  alert("Failed to send: " + err.message);
+               }
+            };
 
             return (
                <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
                   <div className="flex items-center justify-between">
                      <div>
                         <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">Messages</h1>
-                        <p className="text-sm font-bold text-blue-300 italic">Communicate with students and parents.</p>
+                        <p className="text-sm font-bold text-blue-300 italic">Communicate with students and classrooms live.</p>
                      </div>
-                     <button className="bg-[#8A70FF] text-white px-8 py-4 rounded-3xl font-black text-sm shadow-xl shadow-purple-100 flex items-center gap-3 hover:scale-105 transition-all">
+                     <button 
+                        onClick={() => {
+                           if (allStudents.length > 0 && !newMsgRecipientId) {
+                              setNewMsgRecipientId(allStudents[0].name);
+                           } else if (classrooms.length > 0 && newMsgRecipientType === 'class') {
+                              setNewMsgRecipientId(classrooms[0].id);
+                           } 
+                           setShowNewMsgModal(true);
+                        }}
+                        className="bg-[#8A70FF] text-white px-8 py-4 rounded-3xl font-black text-sm shadow-xl shadow-purple-100 flex items-center gap-3 hover:scale-105 transition-all"
+                     >
                         <Plus className="w-5 h-5" /> New Message
                      </button>
                   </div>
@@ -850,7 +967,10 @@ const TeacherDashboard = ({ user, onLogout }) => {
                      {['Inbox', 'Sent', 'Announcements'].map(tab => (
                         <button 
                            key={tab}
-                           onClick={() => setMessagesTab(tab)}
+                           onClick={() => {
+                              setMessagesTab(tab);
+                              setActiveChat(null);
+                           }}
                            className={`text-sm font-black transition-all relative py-2 ${messagesTab === tab ? 'text-[#8A70FF]' : 'text-blue-300 hover:text-blue-500'}`}
                         >
                            {tab}
@@ -869,78 +989,211 @@ const TeacherDashboard = ({ user, onLogout }) => {
                            </div>
                         </div>
                         <div className="flex-1 overflow-y-auto divide-y divide-blue-50 custom-scrollbar">
-                           {chats.map(chat => (
-                              <button 
-                                 key={chat.id}
-                                 onClick={() => setActiveChat(chat)}
-                                 className={`w-full text-left p-6 flex items-center gap-4 transition-all ${currentChat.id === chat.id ? 'bg-blue-50/50' : 'hover:bg-blue-50/30'}`}
-                              >
-                                 <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${chat.name}`} className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt={chat.name} />
-                                 <div className="flex-1 min-w-0">
-                                    <div className="flex items-center justify-between">
-                                       <p className="text-sm font-black text-[#1E3A8A] truncate">{chat.name}</p>
-                                       <span className="text-[9px] font-bold text-blue-300">{chat.time}</span>
+                           {filteredMessages.length > 0 ? (
+                              filteredMessages.map(msg => (
+                                 <button 
+                                    key={msg.id}
+                                    onClick={() => setActiveChat(msg)}
+                                    className={`w-full text-left p-6 flex items-center gap-4 transition-all ${currentChat?.id === msg.id ? 'bg-blue-50/50' : 'hover:bg-blue-50/30'}`}
+                                 >
+                                    <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${msg.senderName}`} className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt="avatar" />
+                                    <div className="flex-1 min-w-0">
+                                       <div className="flex items-center justify-between">
+                                          <p className="text-sm font-black text-[#1E3A8A] truncate">
+                                             {messagesTab === 'Inbox' ? msg.senderName : `To: ${msg.recipientName}`}
+                                          </p>
+                                          <span className="text-[9px] font-bold text-blue-300">
+                                             {msg.createdAt ? new Date(msg.createdAt).toLocaleDateString(undefined, {month: 'short', day: 'numeric'}) : ''}
+                                          </span>
+                                       </div>
+                                       <p className="text-xs font-bold text-blue-300 truncate">{msg.content}</p>
                                     </div>
-                                    <p className="text-xs font-bold text-blue-300 truncate">{chat.lastMsg}</p>
-                                 </div>
-                              </button>
-                           ))}
+                                 </button>
+                              ))
+                           ) : (
+                              <div className="py-20 text-center text-blue-300 font-bold italic text-sm">
+                                 No messages in {messagesTab} yet.
+                              </div>
+                           )}
                         </div>
                      </div>
 
                      {/* Chat View */}
-                     <div className="col-span-8 bg-white rounded-[40px] border border-blue-50 shadow-sm flex flex-col overflow-hidden">
-                        <div className="p-8 border-b border-blue-50 flex items-center justify-between">
-                           <div>
-                              <h3 className="text-lg font-black text-[#1E3A8A]">{currentChat.name}</h3>
-                              <p className="text-[10px] font-bold text-blue-300 uppercase tracking-widest">{currentChat.date || 'Today'}</p>
-                           </div>
-                           <div className="flex items-center gap-4">
-                              <button className="w-10 h-10 bg-blue-50 text-blue-400 rounded-xl flex-center hover:bg-blue-100 transition-all"><Settings className="w-4 h-4" /></button>
-                              <button className="w-10 h-10 bg-blue-50 text-blue-400 rounded-xl flex-center hover:bg-blue-100 transition-all"><MoreVertical className="w-4 h-4" /></button>
-                           </div>
-                        </div>
-
-                        <div className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar bg-blue-50/10">
-                           <div className="flex flex-col gap-4 max-w-[80%]">
-                              <div className="bg-[#EBE4FF] p-6 rounded-[32px] rounded-tl-none border border-blue-100 shadow-sm">
-                                 <p className="text-sm font-bold text-[#1E3A8A] leading-relaxed">
-                                    Thank you for attending the parent meeting today. Please find the homework guidelines attached.
-                                 </p>
-                                 <p className="text-sm font-bold text-[#1E3A8A] mt-4">Let me know if you have any questions!</p>
-                                 <div className="flex items-center gap-2 mt-4">
-                                    <Heart className="w-4 h-4 text-rose-400 fill-current" />
-                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-200" />
-                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-200" />
-                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-200" />
+                     <div className="col-span-8 bg-white rounded-[40px] border border-blue-50 shadow-sm flex flex-col overflow-hidden bg-blue-50/5">
+                        {currentChat ? (
+                           <div className="flex flex-col h-full justify-between bg-white">
+                              <div className="p-8 border-b border-blue-50 flex items-center justify-between bg-white">
+                                 <div>
+                                    <h3 className="text-lg font-black text-[#1E3A8A]">{currentChat.subject}</h3>
+                                    <p className="text-[10px] font-bold text-blue-300 uppercase tracking-widest mt-1">
+                                       From: {currentChat.senderName} • To: {currentChat.recipientName} • {currentChat.createdAt ? new Date(currentChat.createdAt).toLocaleString() : ''}
+                                    </p>
                                  </div>
                               </div>
-                              <div className="bg-white p-4 rounded-3xl border border-blue-50 flex items-center justify-between group cursor-pointer hover:shadow-md transition-all">
-                                 <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 bg-rose-50 rounded-xl flex-center text-rose-500">
-                                       <BookOpen className="w-5 h-5" />
-                                    </div>
-                                    <div>
-                                       <p className="text-xs font-black text-[#1E3A8A]">Homework_Guidelines.pdf</p>
-                                       <p className="text-[10px] font-bold text-blue-300">1.4 MB</p>
+
+                              <div className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar bg-slate-50/30">
+                                 <div className="flex flex-col gap-4 max-w-[90%]">
+                                    <div className="bg-[#EBE4FF] p-6 rounded-[32px] rounded-tl-none border border-blue-100 shadow-sm">
+                                       <p className="text-sm font-bold text-[#1E3A8A] leading-relaxed">
+                                          {currentChat.content}
+                                       </p>
                                     </div>
                                  </div>
-                                 <button className="p-2 text-blue-200 group-hover:text-blue-600"><Plus className="w-5 h-5 rotate-45" /></button>
                               </div>
-                           </div>
-                        </div>
 
-                        <div className="p-6 border-t border-blue-50 flex items-center gap-4">
-                           <button className="w-12 h-12 bg-blue-50 text-blue-400 rounded-2xl flex-center hover:bg-blue-100 transition-all"><Plus className="w-6 h-6" /></button>
-                           <div className="flex-1 relative">
-                              <input type="text" placeholder="Type your message..." className="w-full bg-blue-50/50 border-none rounded-2xl py-4 px-6 text-sm font-bold text-blue-900 placeholder-blue-300" />
+                              {messagesTab === 'Inbox' && (
+                                 <div className="p-6 border-t border-blue-50 flex items-center gap-4 bg-white">
+                                    <div className="flex-1 relative">
+                                       <input 
+                                          type="text" 
+                                          value={replyText}
+                                          onChange={(e) => setReplyText(e.target.value)}
+                                          placeholder="Type your reply..." 
+                                          className="w-full bg-blue-50/50 border-none rounded-2xl py-4 px-6 text-sm font-bold text-blue-900 placeholder-blue-300" 
+                                       />
+                                    </div>
+                                    <button 
+                                       onClick={handleSendReply}
+                                       className="w-12 h-12 bg-[#8A70FF] text-white rounded-2xl flex-center shadow-lg shadow-purple-100 hover:scale-105 transition-all"
+                                    >
+                                       <ArrowRight className="w-6 h-6" />
+                                    </button>
+                                 </div>
+                              )}
                            </div>
-                           <button className="w-12 h-12 bg-[#8A70FF] text-white rounded-2xl flex-center shadow-lg shadow-purple-100 hover:scale-105 transition-all">
-                              <ArrowRight className="w-6 h-6" />
-                           </button>
-                        </div>
+                        ) : (
+                           <div className="flex-1 flex flex-col items-center justify-center text-blue-300 font-bold italic text-sm gap-2">
+                              <MessageSquare size={48} className="stroke-1 text-blue-200" />
+                              <span>Select a chat to read & reply! 💌</span>
+                           </div>
+                        )}
                      </div>
                   </div>
+
+                  {/* New Message Popup Modal */}
+                  {showNewMsgModal && (
+                     <div className="fixed inset-0 bg-[#1E3A8A]/20 backdrop-blur-sm z-[999] flex-center p-4">
+                        <div className="bg-white rounded-[32px] border border-blue-50 w-full max-w-lg p-8 shadow-2xl relative">
+                           <button 
+                              onClick={() => setShowNewMsgModal(false)}
+                              className="absolute top-6 right-6 text-blue-300 hover:text-blue-500 transition-all"
+                           >
+                              <X size={20} strokeWidth={3} />
+                           </button>
+                           <h3 className="text-2xl font-black text-[#1E3A8A] mb-6 flex items-center gap-3">
+                              <MessageSquare className="text-[#8A70FF]" /> Create New Message
+                           </h3>
+                           
+                           <form onSubmit={handleSendNewMessage} className="space-y-5">
+                              <div>
+                                 <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest block mb-2">Recipient Type</label>
+                                 <div className="flex gap-4">
+                                    {['student', 'class', 'all'].map((type) => (
+                                       <button
+                                          key={type}
+                                          type="button"
+                                          onClick={() => {
+                                             setNewMsgRecipientType(type);
+                                             if (type === 'student' && allStudents.length > 0) {
+                                                setNewMsgRecipientId(allStudents[0].name);
+                                             } else if (type === 'class' && classrooms.length > 0) {
+                                                setNewMsgRecipientId(classrooms[0].id);
+                                             } else {
+                                                setNewMsgRecipientId('all');
+                                             }
+                                          }}
+                                          className={`flex-1 py-2 rounded-xl text-xs font-black capitalize border transition-all ${newMsgRecipientType === type ? 'bg-purple-50 border-purple-200 text-purple-600' : 'bg-white border-slate-100 text-slate-400 hover:bg-slate-50'}`}
+                                       >
+                                          {type}
+                                       </button>
+                                    ))}
+                                 </div>
+                              </div>
+
+                              {newMsgRecipientType === 'student' && (
+                                 <div>
+                                    <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest block mb-2">Select Student</label>
+                                    <select
+                                       value={newMsgRecipientId}
+                                       onChange={(e) => setNewMsgRecipientId(e.target.value)}
+                                       className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-slate-600 focus:outline-none focus:ring-4 focus:ring-purple-50 transition-all"
+                                       required
+                                    >
+                                       {allStudents.map(s => (
+                                          <option key={s.id} value={s.name}>{s.name} ({s.className})</option>
+                                       ))}
+                                    </select>
+                                 </div>
+                              )}
+
+                              {newMsgRecipientType === 'class' && (
+                                 <div>
+                                    <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest block mb-2">Select Class</label>
+                                    <select
+                                       value={newMsgRecipientId}
+                                       onChange={(e) => setNewMsgRecipientId(e.target.value)}
+                                       className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-slate-600 focus:outline-none focus:ring-4 focus:ring-purple-50 transition-all"
+                                       required
+                                    >
+                                       {classrooms.map(c => (
+                                          <option key={c.id} value={c.id}>{c.name}</option>
+                                       ))}
+                                    </select>
+                                 </div>
+                              )}
+
+                              {newMsgRecipientType === 'all' && (
+                                 <div>
+                                    <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest block mb-2">Recipient</label>
+                                    <div className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-slate-600">
+                                       📢 All Classes & Classrooms
+                                    </div>
+                                 </div>
+                              )}
+
+                              <div>
+                                 <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest block mb-2">Subject</label>
+                                 <input 
+                                    type="text" 
+                                    value={newMsgSubject}
+                                    onChange={(e) => setNewMsgSubject(e.target.value)}
+                                    placeholder="e.g. Science Experiment Guidelines"
+                                    className="w-full bg-white border border-blue-100 rounded-2xl py-3.5 px-5 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-purple-50 transition-all text-slate-700"
+                                    required
+                                 />
+                              </div>
+
+                              <div>
+                                 <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest block mb-2">Message</label>
+                                 <textarea 
+                                    value={newMsgBody}
+                                    onChange={(e) => setNewMsgBody(e.target.value)}
+                                    placeholder="Write your announcement or direct message here..."
+                                    rows={4}
+                                    className="w-full bg-white border border-blue-100 rounded-2xl py-3.5 px-5 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-purple-50 transition-all text-slate-700 resize-none"
+                                    required
+                                 />
+                              </div>
+
+                              <div className="pt-2 flex gap-4">
+                                 <button 
+                                    type="button"
+                                    onClick={() => setShowNewMsgModal(false)}
+                                    className="flex-1 bg-slate-50 hover:bg-slate-100 text-slate-500 py-4 rounded-2xl font-black text-sm transition-colors border border-slate-100"
+                                 >
+                                    Cancel
+                                 </button>
+                                 <button 
+                                    type="submit"
+                                    className="flex-1 bg-[#8A70FF] hover:bg-[#765EEF] text-white py-4 rounded-2xl font-black text-sm transition-colors shadow-lg shadow-purple-100"
+                                 >
+                                    Send Message 🚀
+                                 </button>
+                              </div>
+                           </form>
+                        </div>
+                     </div>
+                  )}
                </div>
             );
          }

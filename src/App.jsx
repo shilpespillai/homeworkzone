@@ -1399,8 +1399,8 @@ const LoginPage = ({ role, onLogin }) => {
           }
 
           if (studentFound) {
-            onLogin({ teacher: teacherData, name: studentName, classroom: studentClass });
-            navigate('/dashboard/student');
+             onLogin({ teacher: { uid: teacherDoc.id, ...teacherData }, name: studentName, classroom: studentClass });
+             navigate('/dashboard/student');
           } else {
             alert("Oops! Your name isn't on the class list yet. Talk to your teacher to join the Homework Zone! 🍎");
           }

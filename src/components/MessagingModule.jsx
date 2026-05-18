@@ -260,7 +260,7 @@ const MessagingModule = ({ studentName, teacher, classroom }) => {
                 </div>
 
                 {/* Footer Section (Message Input for Direct Message Replies) */}
-                {activeTab !== 'Announcements' && (
+                {activeTab === 'Inbox' && (
                   <div className="pt-6 mt-4 border-t border-blue-50/50 flex items-center gap-4 bg-transparent">
                     <div className="flex-1 relative">
                       <input 
