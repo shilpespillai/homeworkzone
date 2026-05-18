@@ -983,7 +983,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
            )}
 
            {activeNav === 'My Messages' && (
-              <MessagingModule />
+              <MessagingModule studentName={studentName} teacher={teacher} classroom={classroom} />
            )}
 
            {activeNav === 'My Profile' && (

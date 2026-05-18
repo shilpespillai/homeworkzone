@@ -30,7 +30,7 @@ import {
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
-import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where } from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where, onSnapshot, addDoc } from 'firebase/firestore';
 import HomeworkGenerator from './HomeworkGenerator';
 
 const TeacherDashboard = ({ user, onLogout }) => {
