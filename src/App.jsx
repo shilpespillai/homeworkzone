@@ -40,7 +40,12 @@ import {
   Home,
   Users,
   User,
-  Check
+  Check,
+  Cloud,
+  Filter,
+  BarChart2,
+  Book,
+  FlaskConical
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -96,10 +101,10 @@ const BlobChart = ({ value }) => (
 );
 
 // --- Student Profile Component (High Fidelity) ---
-const StudentProfile = ({ studentName, teacher }) => {
+const StudentProfile = ({ studentName, teacher, classroom }) => {
   const [profile, setProfile] = useState({
     name: studentName || '',
-    grade: 'Grade 08',
+    grade: classroom?.name || 'Grade 08',
     birthdate: '2010-05-11',
     contact: ''
   });
@@ -190,18 +195,11 @@ const StudentProfile = ({ studentName, teacher }) => {
          </div>
 
          <div className="grid grid-cols-12 gap-4 items-center">
-            <label className="col-span-3 text-lg font-semibold text-[#2D3748]">Grade</label>
+            <label className="col-span-3 text-lg font-semibold text-[#2D3748]">Class</label>
             <div className="col-span-9 relative">
-               <select 
-                  value={profile.grade}
-                  onChange={(e) => setProfile({...profile, grade: e.target.value})}
-                  className="w-full bg-white border border-slate-200 p-3.5 rounded-2xl text-base font-semibold text-[#475569] shadow-sm focus:border-[#8A70FF] outline-none appearance-none cursor-pointer transition-all pr-12"
-               >
-                  <option>Grade 07</option>
-                  <option>Grade 08</option>
-                  <option>Grade 09</option>
-               </select>
-               <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
+               <div className="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-2xl text-base font-semibold text-[#475569] shadow-sm text-left opacity-80 cursor-not-allowed">
+                  {classroom?.name || profile.grade}
+               </div>
             </div>
          </div>
 
@@ -300,99 +298,240 @@ const StudentProfile = ({ studentName, teacher }) => {
   );
 };
 
-const HomeworkCard = ({ title, status, date, timestamp, delay, onStart }) => (
-   <motion.div 
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
+
+const SubjectIcon = ({ subject }) => {
+  const normalized = subject?.toLowerCase() || 'general';
+  if (normalized === 'english') {
+    return (
+      <div className="flex flex-col items-center">
+        <div className="w-14 h-14 bg-orange-500 rounded-full flex-center text-white font-black text-2xl shadow-[0_4px_0_0_#c2410c] transform -rotate-6">Aa</div>
+        <span className="text-sm font-black text-orange-500 mt-2">English</span>
+      </div>
+    );
+  }
+  if (normalized === 'maths') {
+    return (
+      <div className="flex flex-col items-center">
+        <div className="w-14 h-14 bg-blue-500 rounded-full flex-center text-white font-black text-2xl shadow-[0_4px_0_0_#1d4ed8] transform rotate-3">123</div>
+        <span className="text-sm font-black text-blue-500 mt-2">Maths</span>
+      </div>
+    );
+  }
+  if (normalized === 'science') {
+    return (
+      <div className="flex flex-col items-center">
+        <div className="w-14 h-14 bg-green-500 rounded-full flex-center text-white shadow-[0_4px_0_0_#15803d]">
+          <FlaskConical className="w-7 h-7" />
+        </div>
+        <span className="text-sm font-black text-green-500 mt-2">Science</span>
+      </div>
+    );
+  }
+  return (
+    <div className="flex flex-col items-center">
+      <div className="w-14 h-14 bg-purple-500 rounded-full flex-center text-white shadow-[0_4px_0_0_#6D28D9]">
+        <Cloud className="w-7 h-7" />
+      </div>
+      <span className="text-sm font-black text-purple-500 mt-2">General</span>
+    </div>
+  );
+};
+
+const HomeworkCard = ({ hw, completedSubmission, delay, onStart }) => {
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ delay }}
-      onClick={onStart}
-      className="bg-white rounded-[24px] p-5 border border-slate-100 shadow-sm flex items-center gap-4 group hover:scale-[1.01] transition-all cursor-pointer"
-   >
-      <div className="w-12 h-12 bg-emerald-50 rounded-full flex-center shrink-0">
-         <div className="w-8 h-8 bg-emerald-500 rounded-full flex-center text-white shadow-md">
-            <Check size={20} strokeWidth={4} />
-         </div>
+      className="bg-white rounded-[24px] p-6 border border-slate-100 shadow-sm flex flex-col md:flex-row items-center gap-8 relative overflow-hidden group hover:shadow-md transition-all"
+    >
+      {/* Subject Icon Column */}
+      <div className="shrink-0 w-24 flex justify-center">
+        <SubjectIcon subject={hw.subject} />
       </div>
       
-      <div className="flex-1 space-y-1">
-         <div className="flex items-center justify-between">
-            <h4 className="text-lg font-semibold text-[#2D3748] group-hover:text-[#8A70FF] transition-colors">{title}</h4>
-            <span className="text-xs font-semibold text-slate-400">{timestamp}</span>
-         </div>
-         <p className="text-sm font-semibold text-[#475569]">{status} - Submit by {date}</p>
-         
-         <div className="pt-2">
-            <button className="flex items-center gap-2 bg-[#F8FAFC] border border-slate-200 px-4 py-2 rounded-xl text-xs font-semibold text-[#2D3748] hover:bg-slate-100 transition-all">
-               <div className="w-6 h-6 bg-rose-500 rounded-lg flex-center text-white">
-                  <FileText size={14} />
-               </div>
-               Attached Files
-            </button>
-         </div>
+      {/* Content Column */}
+      <div className="flex-1 space-y-2">
+        <h3 className="text-xl font-black text-slate-800">{hw.title}</h3>
+        <p className="text-sm font-bold text-slate-500 line-clamp-2">{hw.instructions || 'Answer the questions below.'}</p>
+        
+        <div className="flex items-center gap-3 pt-2">
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-orange-50 rounded-lg">
+             <FileText className="w-4 h-4 text-orange-500" />
+             <span className="text-[10px] font-black text-orange-600 uppercase tracking-widest">{hw.questions?.length || 1} Worksheet</span>
+          </div>
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-50 rounded-lg">
+             <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+             <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest">{hw.points || 15} Points</span>
+          </div>
+        </div>
       </div>
-   </motion.div>
-);
+      
+      {/* Action Column */}
+      <div className="shrink-0 flex flex-col items-end justify-center gap-4 min-w-[200px]">
+        <div className="flex items-center gap-2 text-blue-500">
+           <Calendar className="w-5 h-5" />
+           <div className="flex flex-col">
+              <span className="text-sm font-black text-slate-700">Due: {hw.dueDate ? new Date(hw.dueDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'No Due Date'}</span>
+              <span className="text-xs font-bold text-slate-400">{hw.dueDate ? new Date(hw.dueDate).toLocaleDateString('en-GB', { weekday: 'long' }) : ''}</span>
+           </div>
+        </div>
+        
+        {completedSubmission ? (
+           <div className="w-full">
+              <button onClick={() => onStart(hw.id, completedSubmission)} className="w-full bg-emerald-100 hover:bg-emerald-200 text-emerald-700 font-black py-3 px-6 rounded-2xl shadow-[0_4px_0_0_#34d399] active:translate-y-1 active:shadow-none transition-all">
+                 Completed (Review)
+              </button>
+           </div>
+        ) : (
+           <div className="w-full">
+              <button onClick={() => onStart(hw.id, null)} className="w-full bg-orange-500 hover:bg-orange-400 text-white font-black py-3 px-6 rounded-2xl shadow-[0_4px_0_0_#c2410c] active:translate-y-1 active:shadow-none transition-all">
+                 Start Homework
+              </button>
+           </div>
+        )}
+      </div>
+    </motion.div>
+  );
+};
 
 const MyHomework = ({ studentName, teacher, onStartMission }) => {
-   const [activeTab, setActiveTab] = useState('Due Soon');
+   const [activeTab, setActiveTab] = useState('All');
+   const [subjectFilter, setSubjectFilter] = useState('All Subjects');
    const [homeworks, setHomeworks] = useState([]);
+   const [submissions, setSubmissions] = useState([]);
    const [loading, setLoading] = useState(true);
 
    useEffect(() => {
-      const fetchHomeworks = async () => {
+      const fetchData = async () => {
          const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student'));
          if (savedStudent && savedStudent.classroom) {
             try {
-               const q = query(
-                  collection(db, 'homeworks'), 
-                  where('assignedClassId', '==', savedStudent.classroom.id),
-                  where('status', '==', 'assigned')
-               );
-               const snap = await getDocs(q);
-               setHomeworks(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+               // Fetch homeworks
+               const hwQ = query(collection(db, 'homeworks'), where('assignedClassId', '==', savedStudent.classroom.id));
+               const hwSnap = await getDocs(hwQ);
+               const hwList = hwSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+               setHomeworks(hwList);
+
+               // Fetch submissions
+               const subQ = query(collection(db, 'submissions'), where('studentName', '==', studentName));
+               const subSnap = await getDocs(subQ);
+               const subList = subSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+               setSubmissions(subList);
             } catch (err) {
-               console.error("Fetch HW Error:", err);
+               console.error("Fetch Data Error:", err);
             }
          }
          setLoading(false);
       };
-      fetchHomeworks();
-   }, []);
+      fetchData();
+   }, [studentName]);
+
+   const completedHwIds = new Set(submissions.map(s => s.homeworkId));
+   const todoHws = homeworks.filter(hw => !completedHwIds.has(hw.id));
+   const completedHws = homeworks.filter(hw => completedHwIds.has(hw.id));
+   
+   let displayedHomeworks = homeworks;
+   if (activeTab === 'To Do') displayedHomeworks = todoHws;
+   if (activeTab === 'Completed') displayedHomeworks = completedHws;
+   if (activeTab === 'In Progress') displayedHomeworks = []; // Mocked for now
+
+   if (subjectFilter !== 'All Subjects') {
+      displayedHomeworks = displayedHomeworks.filter(hw => hw.subject?.toLowerCase() === subjectFilter.toLowerCase());
+   }
+
+   const tabs = [
+     { id: 'All', label: `All (${homeworks.length})` },
+     { id: 'To Do', label: `To Do (${todoHws.length})` },
+     { id: 'In Progress', label: `In Progress (0)` },
+     { id: 'Completed', label: `Completed (${completedHws.length})` }
+   ];
 
    return (
-      <div className="max-w-4xl mx-auto py-4 space-y-6 pb-20">
-         {/* ... Header Actions ... */}
-         <div className="flex items-center justify-between px-2">
-            <div className="space-y-1">
-               <h1 className="text-3xl font-semibold text-[#2D3748] tracking-tighter">My Homework</h1>
-               <p className="text-sm font-semibold text-slate-400">All missions assigned by your teacher.</p>
+      <div className="max-w-5xl mx-auto py-6 space-y-8 pb-20">
+         {/* Header area with custom illustrations */}
+         <div className="flex items-center justify-between px-2 pt-4">
+            <div className="flex items-center gap-4 relative z-10">
+               <div className="w-16 h-16 bg-orange-500 rounded-[20px] shadow-[0_6px_0_0_#c2410c] flex-center transform -rotate-6">
+                 <Book className="w-8 h-8 text-white" />
+               </div>
+               <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tighter">My Homework</h1>
+            </div>
+            {/* Decorative Stars & Books */}
+            <div className="relative w-40 h-24 hidden md:block z-0">
+               <div className="absolute right-0 bottom-0 text-[80px] leading-none z-10 animate-float drop-shadow-xl">⭐</div>
+               <div className="absolute right-12 bottom-2 text-5xl z-0">📚</div>
+               <div className="absolute left-4 top-4 text-amber-300 animate-pulse">✨</div>
+            </div>
+         </div>
+
+         {/* Navigation Tabs & Filter */}
+         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-2 border-slate-100 pb-4 relative z-10">
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 md:pb-0">
+               {tabs.map(tab => (
+                 <button 
+                   key={tab.id}
+                   onClick={() => setActiveTab(tab.id)}
+                   className={`px-6 py-2.5 rounded-full text-sm font-black whitespace-nowrap transition-all ${activeTab === tab.id ? 'bg-orange-500 text-white shadow-md' : 'text-slate-500 hover:bg-slate-100'}`}
+                 >
+                   {tab.label}
+                 </button>
+               ))}
+            </div>
+            
+            <div className="relative shrink-0">
+               <select 
+                 value={subjectFilter}
+                 onChange={(e) => setSubjectFilter(e.target.value)}
+                 className="appearance-none bg-white border-2 border-slate-100 rounded-full pl-10 pr-10 py-2.5 text-sm font-black text-slate-600 outline-none focus:border-[#8A70FF] cursor-pointer"
+               >
+                 <option>All Subjects</option>
+                 <option>English</option>
+                 <option>Maths</option>
+                 <option>Science</option>
+                 <option>General</option>
+               </select>
+               <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+               <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
             </div>
          </div>
 
          {/* Homework List */}
-         <div className="space-y-4">
+         <div className="space-y-4 relative z-10">
             {loading ? (
-               <p className="text-center py-10 font-bold text-slate-400">Searching for missions... 🛸</p>
-            ) : homeworks.length > 0 ? (
-               homeworks.map((hw, i) => (
+               <div className="flex-center py-20"><div className="w-10 h-10 border-4 border-[#8A70FF] border-t-transparent rounded-full animate-spin" /></div>
+            ) : displayedHomeworks.length > 0 ? (
+               displayedHomeworks.map((hw, i) => (
                   <HomeworkCard 
                      key={hw.id}
-                     title={hw.title} 
-                     status={hw.config.subject} 
-                     date="Due Soon" 
-                     timestamp="New Mission" 
+                     hw={hw}
+                     completedSubmission={submissions.find(s => s.homeworkId === hw.id)}
                      delay={i * 0.1} 
-                     onStart={() => onStartMission(hw.id)}
+                     onStart={onStartMission}
                   />
                ))
             ) : (
-               <div className="text-center py-20 space-y-4">
-                  <div className="w-20 h-20 bg-slate-50 rounded-full flex-center mx-auto grayscale opacity-30">
-                     <BookOpen size={40} />
-                  </div>
-                  <p className="text-lg font-bold text-slate-300 italic">No missions assigned yet. Take a break! 🍦</p>
+               <div className="text-center py-20 bg-white rounded-[32px] border-2 border-dashed border-slate-200">
+                  <div className="text-6xl mb-4 grayscale opacity-30">🍦</div>
+                  <p className="text-xl font-black text-slate-300">Nothing here! Take a break.</p>
                </div>
             )}
+         </div>
+         
+         {/* Footer Mascot Banner */}
+         <div className="bg-[#fff9d6] rounded-[32px] p-6 border-2 border-[#ffe87a] flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden mt-8">
+            <div className="flex items-center gap-6 relative z-10">
+               <img src="/assets/owl_mascot.png" className="w-24 h-24 object-contain animate-float drop-shadow-xl" alt="Mascot" />
+               <p className="text-lg font-black text-slate-800">
+                 Keep it up, {(studentName || 'Student').split(' ')[0]}! Small steps every day lead to big results! 🌈
+               </p>
+            </div>
+            <button className="bg-orange-500 hover:bg-orange-400 text-white font-black py-3 px-8 rounded-2xl shadow-[0_4px_0_0_#c2410c] active:translate-y-1 active:shadow-none transition-all relative z-10 whitespace-nowrap flex items-center gap-2">
+               <BarChart2 className="w-5 h-5" />
+               View Progress
+            </button>
+            
+            <div className="absolute right-10 top-0 w-64 h-64 bg-yellow-200/50 rounded-full blur-3xl -z-0 pointer-events-none" />
          </div>
       </div>
    );
@@ -610,7 +749,7 @@ const MyRewards = ({ studentName }) => {
 };
 
 // --- Student Dashboard (Equip Final Redesign) ---
-const StudentDashboard = ({ teacher, studentName, onLogout }) => {
+const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
   const navigate = useNavigate();
   const [activeNav, setActiveNav] = useState('Dashboard');
   const [activeMission, setActiveMission] = useState(null);
@@ -618,7 +757,8 @@ const StudentDashboard = ({ teacher, studentName, onLogout }) => {
   if (activeMission) {
      return (
         <StudentQuiz 
-           homeworkId={activeMission} 
+           homeworkId={activeMission.id} 
+           initialSubmission={activeMission.pastSubmission}
            studentName={studentName} 
            teacher={teacher} 
            onComplete={() => setActiveMission(null)} 
@@ -669,7 +809,7 @@ const StudentDashboard = ({ teacher, studentName, onLogout }) => {
                       <h1 className="text-2xl font-semibold text-[#2D3748] tracking-tighter leading-none">
                         Hello, <span className="text-[#8A70FF]">{studentName || 'Student'}</span>!
                       </h1>
-                      <p className="text-base font-semibold text-[#475569] tracking-tight mt-0.5">Ready to learn?</p>
+                      <p className="text-base font-semibold text-[#475569] tracking-tight mt-0.5">{classroom?.name ? `${classroom.name} Student` : 'Ready to learn?'}</p>
                   </div>
                   <div className="w-16 h-16 relative">
                       <img src="/assets/owl_mascot.png" className="w-full h-full object-contain drop-shadow-xl animate-float" alt="Owl Mascot" />
@@ -689,7 +829,7 @@ const StudentDashboard = ({ teacher, studentName, onLogout }) => {
                       </button>
                   </div>
                   <div className="flex items-center gap-1 border-b-2 border-[#8A70FF] pb-1 cursor-pointer">
-                      <span className="text-base font-semibold text-[#2D3748]">{activeTab}</span>
+                      <span className="text-base font-semibold text-[#2D3748]">{activeNav}</span>
                   </div>
                   <button onClick={onLogout} className="flex items-center gap-2 bg-rose-50 px-4 py-2 rounded-xl text-[9px] font-semibold text-rose-600 hover:bg-rose-100 transition-all border border-rose-100 shadow-sm"><LogOut className="w-3.5 h-3.5" /> Sign Out</button>
                 </div>
@@ -831,7 +971,7 @@ const StudentDashboard = ({ teacher, studentName, onLogout }) => {
            )}
 
            {activeNav === 'My Homework' && (
-              <MyHomework studentName={studentName} teacher={teacher} onStartMission={setActiveMission} />
+              <MyHomework studentName={studentName} teacher={teacher} onStartMission={(id, pastSubmission) => setActiveMission({ id, pastSubmission })} />
            )}
 
            {activeNav === 'Mission Reports' && (
@@ -847,7 +987,7 @@ const StudentDashboard = ({ teacher, studentName, onLogout }) => {
            )}
 
            {activeNav === 'My Profile' && (
-              <StudentProfile studentName={studentName} teacher={teacher} />
+              <StudentProfile studentName={studentName} teacher={teacher} classroom={classroom} />
            )}
         </div>
           </main>
@@ -1396,22 +1536,27 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  const handleLogout = async () => {
+  const handleTeacherLogout = async () => {
     try {
       await auth.signOut();
       setCurrentUser(null);
-      setActiveStudent(null);
-      localStorage.removeItem('hwz_active_student');
       window.location.href = '/'; // Clean reset to landing
     } catch (error) {
       console.error("Logout Error:", error);
     }
   };
 
+  const handleStudentLogout = () => {
+    setActiveStudent(null);
+    localStorage.removeItem('hwz_active_student');
+    window.location.href = '/'; // Clean reset to landing
+  };
+
   const handleStudentLogin = async (data) => {
     const studentData = {
       teacher: data.teacher,
-      name: data.name
+      name: data.name,
+      classroom: data.classroom
     };
     setActiveStudent(studentData);
     localStorage.setItem('hwz_active_student', JSON.stringify(studentData));
@@ -1443,8 +1588,8 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login/teacher" element={<LoginPage role="teacher" onLogin={setCurrentUser} />} />
         <Route path="/login/student" element={<LoginPage role="student" onLogin={handleStudentLogin} />} />
-        <Route path="/dashboard/teacher" element={currentUser ? <TeacherDashboard user={currentUser} onLogout={handleLogout} /> : <Navigate to="/login/teacher" />} />
-        <Route path="/dashboard/student" element={<StudentDashboard teacher={activeStudent?.teacher} studentName={activeStudent?.name} onLogout={handleLogout} />} />
+        <Route path="/dashboard/teacher" element={currentUser ? <TeacherDashboard user={currentUser} onLogout={handleTeacherLogout} /> : <Navigate to="/login/teacher" />} />
+        <Route path="/dashboard/student" element={<StudentDashboard teacher={activeStudent?.teacher} studentName={activeStudent?.name} classroom={activeStudent?.classroom} onLogout={handleStudentLogout} />} />
         <Route path="/quiz/sample" element={<StudentQuiz />} />
       </Routes>
     </Router>

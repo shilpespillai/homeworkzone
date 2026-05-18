@@ -29,7 +29,7 @@ import {
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
-import { collection, doc, setDoc, getDocs, query, orderBy, deleteDoc, where } from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where } from 'firebase/firestore';
 import HomeworkGenerator from './HomeworkGenerator';
 
 const TeacherDashboard = ({ user, onLogout }) => {
@@ -41,6 +41,12 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [newClassName, setNewClassName] = useState('');
   const [isAdding, setIsAdding] = useState(false);
   const [activeTab, setActiveTab] = useState('Dashboard');
+  const [dashboardTimeFilter, setDashboardTimeFilter] = useState('Weekly');
+  const [timeFilteredSubmissions, setTimeFilteredSubmissions] = useState([]);
+  const [selectedSubmission, setSelectedSubmission] = useState(null);
+  const [reviewHomework, setReviewHomework] = useState(null);
+  const [isFetchingReview, setIsFetchingReview] = useState(false);
+  const [allSubmissions, setAllSubmissions] = useState([]);
   const [showClassDropdown, setShowClassDropdown] = useState(false);
   const [isAddingClass, setIsAddingClass] = useState(false);
   const [aiKeys, setAiKeys] = useState({
@@ -238,6 +244,50 @@ const TeacherDashboard = ({ user, onLogout }) => {
     setIsAdding(false);
   };
 
+  const fetchDashboardSubmissions = async () => {
+    if (!user) return;
+    try {
+      const q = query(collection(db, 'submissions'), where('teacherId', '==', user.uid));
+      const snap = await getDocs(q);
+      setAllSubmissions(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+    } catch (err) { console.error(err); }
+  };
+
+  useEffect(() => {
+    if (user) fetchDashboardSubmissions();
+  }, [user]);
+
+  useEffect(() => {
+    const now = new Date();
+    let cutoffDate = new Date();
+    if (dashboardTimeFilter === 'Weekly') cutoffDate.setDate(now.getDate() - 7);
+    else if (dashboardTimeFilter === 'Monthly') cutoffDate.setMonth(now.getMonth() - 1);
+    else cutoffDate.setDate(now.getDate() - 1); // Daily
+
+    const filtered = allSubmissions.filter(s => {
+      const subDate = s.submittedAt?.toDate ? s.submittedAt.toDate() : new Date(s.submittedAt);
+      return subDate >= cutoffDate;
+    });
+    setTimeFilteredSubmissions(filtered);
+  }, [dashboardTimeFilter, allSubmissions]);
+
+  useEffect(() => {
+    const fetchHomeworkDetails = async () => {
+      if (!selectedSubmission) return;
+      setIsFetchingReview(true);
+      try {
+        const hwDoc = await getDoc(doc(db, 'homeworks', selectedSubmission.homeworkId));
+        if (hwDoc.exists()) setReviewHomework(hwDoc.data());
+        else setReviewHomework(null);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsFetchingReview(false);
+      }
+    };
+    fetchHomeworkDetails();
+  }, [selectedSubmission]);
+
   const fetchAllStudents = async () => {
     if (!user?.uid || classrooms.length === 0) return;
     try {
@@ -291,8 +341,52 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const renderContent = () => {
       switch (activeTab) {
          case 'Dashboard': {
-            const dashboardTopEarners = allStudents.sort((a, b) => b.name.length - a.name.length).slice(0, 3);
-            const avgScoreTotal = 75 + (allStudents.length % 15);
+            const uniqueSubmitters = new Set(timeFilteredSubmissions.map(s => s.studentName)).size;
+            const avgScoreTotal = timeFilteredSubmissions.length > 0 
+               ? Math.round(timeFilteredSubmissions.reduce((acc, sub) => acc + sub.score, 0) / timeFilteredSubmissions.length)
+               : 0;
+
+            const studentAvgScores = {};
+            timeFilteredSubmissions.forEach(sub => {
+               if (!studentAvgScores[sub.studentName]) studentAvgScores[sub.studentName] = { total: 0, count: 0 };
+               studentAvgScores[sub.studentName].total += sub.score;
+               studentAvgScores[sub.studentName].count += 1;
+            });
+
+            const topPerformers = Object.entries(studentAvgScores)
+               .map(([name, data]) => ({ name, avgScore: Math.round(data.total / data.count), count: data.count }))
+               .sort((a, b) => b.avgScore - a.avgScore)
+               .slice(0, 3);
+
+            let chartLabels = [];
+            let chartData = [];
+            
+            if (dashboardTimeFilter === 'Weekly') {
+               chartLabels = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
+               chartData = [[], [], [], [], [], [], []];
+               const now = new Date();
+               timeFilteredSubmissions.forEach(sub => {
+                  const subDate = sub.submittedAt?.toDate ? sub.submittedAt.toDate() : new Date(sub.submittedAt);
+                  const diffDays = Math.floor((now - subDate) / (1000 * 60 * 60 * 24));
+                  if (diffDays >= 0 && diffDays < 7) {
+                     chartData[6 - diffDays].push(sub.score);
+                  }
+               });
+            } else {
+               chartLabels = ['Wk1', 'Wk2', 'Wk3', 'Wk4'];
+               chartData = [[], [], [], []];
+               const now = new Date();
+               timeFilteredSubmissions.forEach(sub => {
+                  const subDate = sub.submittedAt?.toDate ? sub.submittedAt.toDate() : new Date(sub.submittedAt);
+                  const diffWeeks = Math.floor((now - subDate) / (1000 * 60 * 60 * 24 * 7));
+                  if (diffWeeks >= 0 && diffWeeks < 4) {
+                     chartData[3 - diffWeeks].push(sub.score);
+                  }
+               });
+            }
+
+            const chartAverages = chartData.map(bucket => bucket.length > 0 ? Math.round(bucket.reduce((a,b)=>a+b,0)/bucket.length) : 0);
+            const chartCounts = chartData.map(bucket => bucket.length);
 
             return (
                <div className="px-10 py-10 space-y-12 pb-40 relative min-h-[calc(100vh-64px)]">
@@ -301,168 +395,89 @@ const TeacherDashboard = ({ user, onLogout }) => {
                          <h1 className="text-3xl font-black text-slate-800 tracking-tight">Daily Summary</h1>
                          <p className="text-sm font-bold text-slate-400">Real-time performance metrics across your active classrooms.</p>
                       </div>
-                      <div className="flex items-center gap-2">
-                         <div className="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-indigo-100">
-                            Live Updates
-                         </div>
+                      <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-2xl">
+                         {['Daily', 'Weekly', 'Monthly'].map(f => (
+                            <button 
+                               key={f}
+                               onClick={() => setDashboardTimeFilter(f)}
+                               className={`px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${dashboardTimeFilter === f ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                            >
+                               {f}
+                            </button>
+                         ))}
                       </div>
                    </div>
 
-                  {/* KPI Row */}
-                   <div className="grid grid-cols-4 gap-6">
-                      <RewardKPICard title="Total Students" value={allStudents.length || students.length} subtitle="+5 this month" bgColor="bg-slate-50/50" textColor="text-slate-800" />
-                      <RewardKPICard title="Average Score" value={`${avgScoreTotal}%`} subtitle="+8% this month" bgColor="bg-emerald-50/50" textColor="text-emerald-600" />
-                      <RewardKPICard title="Homework Completion" value="85%" subtitle="+10% today" bgColor="bg-amber-50/50" textColor="text-amber-600" />
-                      <RewardKPICard title="Active Sessions" value={Math.round((allStudents.length || students.length) * 0.9)} subtitle="90% engagement" bgColor="bg-indigo-50/50" textColor="text-indigo-600" />
-                   </div>
+                  <div className="grid grid-cols-4 gap-6">
+                     <RewardKPICard title="Total Students" value={allStudents.length || students.length} subtitle="Active Roster" bgColor="bg-slate-50/50" textColor="text-slate-800" />
+                     <RewardKPICard title="Average Score" value={`${avgScoreTotal}%`} subtitle="Across all subjects" bgColor="bg-emerald-50/50" textColor="text-emerald-600" />
+                     <RewardKPICard title="Participation" value={students.length > 0 ? Math.round((uniqueSubmitters/students.length)*100) + '%' : '0%'} subtitle="Missions complete" bgColor="bg-amber-50/50" textColor="text-amber-600" />
+                     <RewardKPICard title="Submissions" value={timeFilteredSubmissions.length} subtitle={`This ${dashboardTimeFilter.toLowerCase()}`} bgColor="bg-indigo-50/50" textColor="text-indigo-600" />
+                  </div>
 
                   <div className="grid grid-cols-12 gap-10">
-                     {/* Performance Chart */}
-                      <div className="col-span-8 bg-white rounded-[40px] border border-slate-100/60 shadow-sm p-10 space-y-10">
-                         <div className="flex items-center justify-between">
-                            <div>
-                               <h3 className="text-xl font-bold text-slate-800 tracking-tight">Class Performance</h3>
-                               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Weekly progress across core subjects</p>
-                            </div>
-                            <div className="flex items-center gap-6">
-                               <div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-sm" /><span className="text-[10px] font-bold text-slate-400 uppercase">English</span></div>
-                               <div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-sm" /><span className="text-[10px] font-bold text-slate-400 uppercase">Maths</span></div>
-                               <div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-sm" /><span className="text-[10px] font-bold text-slate-400 uppercase">Science</span></div>
-                            </div>
+                      <div className="col-span-8 bg-white rounded-[40px] border border-slate-100/60 shadow-sm p-8 space-y-8">
+                         <div>
+                            <h3 className="text-xl font-bold text-slate-800 tracking-tight">Class Performance</h3>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{dashboardTimeFilter} progress across core subjects</p>
                          </div>
 
-                         <div className="h-72 flex items-end justify-around gap-8 px-6 pb-10 border-b border-slate-50 relative">
-                            {/* Background Grid Lines */}
-                            <div className="absolute inset-x-0 top-0 bottom-10 flex flex-col justify-between pointer-events-none opacity-[0.03]">
-                               {[...Array(5)].map((_, i) => <div key={i} className="w-full h-px bg-slate-900" />)}
+                         <div className="h-64 flex items-end justify-between gap-2 pr-4 pb-8 border-b border-slate-50 relative">
+                            {/* Y-Axis Guidelines */}
+                            <div className="absolute inset-x-0 top-0 bottom-8 flex flex-col justify-between pointer-events-none z-0">
+                               {[100, 75, 50, 25, 0].map((val, i) => (
+                                  <div key={i} className="w-full flex items-center gap-4">
+                                     <span className="text-[10px] font-bold text-slate-300 w-8 text-right">{val}%</span>
+                                     <div className="flex-1 h-px bg-slate-900 opacity-[0.04]" />
+                                  </div>
+                               ))}
                             </div>
                             
-                            {['Grade 2A', 'Grade 3B', 'Grade 4C'].map((grade, i) => (
-                               <div key={grade} className="flex flex-col items-center gap-6 flex-1 group">
-                                  <div className="flex items-end gap-3 h-full relative z-10">
-                                     <motion.div initial={{ height: 0 }} animate={{ height: `${70 + i * 8}%` }} className="w-5 bg-indigo-500 rounded-t-xl shadow-lg shadow-indigo-100 group-hover:scale-110 transition-transform" />
-                                     <motion.div initial={{ height: 0 }} animate={{ height: `${85 - i * 12}%` }} className="w-5 bg-emerald-400 rounded-t-xl shadow-lg shadow-emerald-100 group-hover:scale-110 transition-transform" />
-                                     <motion.div initial={{ height: 0 }} animate={{ height: `${75 + i * 4}%` }} className="w-5 bg-amber-400 rounded-t-xl shadow-lg shadow-amber-100 group-hover:scale-110 transition-transform" />
+                            <div className="w-8 shrink-0 hidden md:block" />
+
+                            {chartLabels.map((label, i) => (
+                               <div key={i} className="flex flex-col items-center gap-4 flex-1 group relative h-full pt-4 z-10">
+                                  <div className="flex-1 flex items-end gap-3 relative w-full h-full justify-center">
+                                     {chartAverages[i] > 0 && (
+                                         <div className="absolute -top-8 flex flex-col items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                             <span className="text-[11px] font-black text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full shadow-sm">{chartAverages[i]}%</span>
+                                             <span className="text-[9px] font-bold text-slate-400 mt-1 whitespace-nowrap">{chartCounts[i]} items</span>
+                                         </div>
+                                     )}
+                                     <div className="w-12 bg-indigo-500 rounded-t-lg shadow-lg shadow-indigo-100 transition-all duration-1000 ease-out absolute bottom-0" style={{ height: `${Math.max(2, chartAverages[i] || 0)}%` }} />
                                   </div>
-                                  <div className="flex flex-col items-center">
-                                     <span className="text-xs font-bold text-slate-800">{grade}</span>
-                                     <span className="text-[9px] font-bold text-slate-300 uppercase">Section {i+1}</span>
-                                  </div>
+                                  <span className="text-[10px] font-bold text-slate-800">{label}</span>
                                </div>
                             ))}
                          </div>
                       </div>
 
-                     {/* Top Performers */}
-                     <div className="col-span-4 bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 flex flex-col justify-between">
-                        <div className="space-y-8">
+                     <div className="col-span-4 bg-white rounded-[40px] border border-blue-50 shadow-sm p-8 flex flex-col justify-between">
+                        <div className="space-y-6">
                            <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Top Performers</h3>
-                           <div className="space-y-6">
-                              {(allStudents.length > 0 ? allStudents : students).sort((a, b) => b.name.length - a.name.length).slice(0, 3).map((s, idx) => (
-                                 <div key={idx} className="flex items-center justify-between">
+                           <div className="space-y-4">
+                              {topPerformers.length > 0 ? topPerformers.map((s, idx) => (
+                                 <div key={idx} className="flex items-center justify-between p-2 hover:bg-slate-50 rounded-2xl transition-colors">
                                     <div className="flex items-center gap-4">
                                        <span className="text-sm font-black text-blue-200">{idx + 1}.</span>
                                        <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${s.name}`} className="w-10 h-10 rounded-full bg-blue-50" alt={s.name} />
-                                       <span className="text-sm font-black text-[#1E3A8A]">{s.name}</span>
+                                       <div className="flex flex-col">
+                                          <span className="text-sm font-black text-[#1E3A8A]">{s.name}</span>
+                                          <span className="text-[10px] font-bold text-slate-400">{s.count} Missions Completed</span>
+                                       </div>
                                     </div>
-                                    <span className="text-sm font-black text-blue-400">{95 - idx * 3}%</span>
+                                    <div className="flex flex-col items-end">
+                                       <span className="text-sm font-black text-blue-400">{s.avgScore}%</span>
+                                       <span className="text-[9px] font-bold text-slate-300 uppercase tracking-wider">Avg Score</span>
+                                    </div>
                                  </div>
-                              ))}
+                              )) : (
+                                 <div className="text-xs font-bold text-slate-400 text-center py-4">No data this period</div>
+                              )}
                            </div>
                         </div>
-                        <button className="w-full bg-blue-50 text-blue-600 py-4 rounded-3xl font-black text-xs hover:bg-blue-100 transition-all mt-10">
-                           View Full Report
-                        </button>
                      </div>
                   </div>
-
-                  {/* Value-Add: AI Quick Insights */}
-                  <div className="bg-gradient-to-r from-purple-600 to-[#7C3AED] rounded-[40px] p-10 text-white flex items-center justify-between shadow-2xl shadow-purple-200 overflow-hidden relative">
-                     <div className="relative z-10 space-y-2">
-                        <div className="flex items-center gap-2 bg-white/20 w-fit px-3 py-1 rounded-full border border-white/30">
-                           <Zap className="w-3 h-3" />
-                           <span className="text-[8px] font-black uppercase tracking-widest">AI Hub Insight</span>
-                        </div>
-                        <h2 className="text-2xl font-black tracking-tight">Grade 3B participation is up by 25% this week! 🚀</h2>
-                        <p className="text-xs font-bold opacity-80 italic">Consider sending a "Science Explorer" badge to Vihaan Gupta to maintain momentum.</p>
-                     </div>
-                     <div className="relative z-10">
-                        <button className="bg-white text-purple-600 px-8 py-4 rounded-[24px] font-black text-sm shadow-xl hover:scale-105 transition-all">
-                           Action Insight
-                        </button>
-                     </div>
-                     <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-20 -mt-20" />
-                     <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -ml-10 -mb-10" />
-                  </div>
-
-                  {/* Quick Roster & Prep */}
-                  <div className="grid grid-cols-12 gap-10 pb-20">
-                     <div className="col-span-7 bg-white rounded-[40px] p-10 border border-blue-50 shadow-sm flex flex-col gap-8">
-                        <div className="flex items-center justify-between">
-                            <div>
-                               <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Active Class Roster</h3>
-                               <p className="text-[10px] font-bold text-blue-300 uppercase tracking-widest">{activeClassroom?.name || 'No Class Selected'}</p>
-                            </div>
-                            <div className="flex items-center gap-3">
-                               <div className="relative">
-                                  <input 
-                                     type="text"
-                                     placeholder="Quick add student..."
-                                     value={newStudent}
-                                     onChange={(e) => setNewStudent(e.target.value)}
-                                     onKeyDown={(e) => e.key === 'Enter' && handleAddStudent()}
-                                     className="bg-blue-50/50 border border-blue-100 rounded-2xl py-2 px-4 text-xs font-bold text-blue-900 placeholder-blue-300 focus:ring-2 focus:ring-blue-100 outline-none w-48"
-                                  />
-                                  <button 
-                                     onClick={handleAddStudent}
-                                     disabled={isAdding || !newStudent.trim()}
-                                     className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-400 hover:text-blue-600 disabled:opacity-30"
-                                  >
-                                     <Plus className="w-4 h-4" />
-                                  </button>
-                               </div>
-                               <button 
-                                 onClick={() => setActiveTab('Students')}
-                                 className="text-xs font-black text-blue-400 hover:text-blue-600 transition-all ml-2"
-                               >
-                                 View All
-                               </button>
-                            </div>
-                         </div>
-                        <div className="grid grid-cols-2 gap-4">
-                           {students.slice(0, 6).map((student, idx) => (
-                              <div key={idx} className="bg-blue-50/30 p-4 rounded-3xl border border-blue-50 flex items-center gap-4">
-                                 <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${student.name}`} className="w-10 h-10 rounded-full bg-white" alt="Student" />
-                                 <div>
-                                    <p className="text-sm font-black text-[#1E3A8A]">{student.name}</p>
-                                    <p className="text-[10px] font-bold text-blue-300">Level {10 + idx}</p>
-                                 </div>
-                              </div>
-                           ))}
-                        </div>
-                     </div>
-                     <div className="col-span-5 bg-white rounded-[40px] p-10 border border-blue-50 shadow-sm flex flex-col justify-between group cursor-pointer hover:shadow-2xl transition-all relative overflow-hidden">
-                        <div className="space-y-6 relative z-10">
-                           <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Teacher Prep</h3>
-                           <div className="space-y-4">
-                              <div className="p-4 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-4">
-                                 <div className="w-10 h-10 bg-white rounded-2xl flex-center shadow-sm text-orange-400"><Zap className="w-5 h-5" /></div>
-                                 <div><p className="text-xs font-black text-orange-900">Weekly Quiz</p><p className="text-[10px] font-bold text-orange-400">Tuesday, 10 AM</p></div>
-                              </div>
-                              <div className="p-4 bg-blue-50 rounded-3xl border border-blue-100 flex items-center gap-4">
-                                 <div className="w-10 h-10 bg-white rounded-2xl flex-center shadow-sm text-blue-400"><BookOpen className="w-5 h-5" /></div>
-                                 <div><p className="text-xs font-black text-blue-900">Homework Drafts</p><p className="text-[10px] font-bold text-blue-400">3 Pending Review</p></div>
-                              </div>
-                           </div>
-                        </div>
-                        <button className="bg-[#1E3A8A] text-white w-full py-4 rounded-3xl font-black text-sm shadow-xl mt-10 flex items-center justify-center gap-3">
-                           Go to Prep Center <ArrowRight className="w-4 h-4" />
-                        </button>
-                        <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-blue-50 rounded-full blur-3xl opacity-20 pointer-events-none" />
-                     </div>
-                  </div>
-
-                  <GrassBorder />
                </div>
             );
          }
@@ -666,11 +681,11 @@ const TeacherDashboard = ({ user, onLogout }) => {
                         <div className="col-span-4">Student Name</div>
                         <div className="col-span-3">Mission</div>
                         <div className="col-span-2 text-center">Score</div>
-                        <div className="col-span-3 text-right">Date</div>
+                        <div className="col-span-3 text-right">Actions</div>
                      </div>
                      <div className="divide-y divide-blue-50">
-                        {submissions.length > 0 ? (
-                           submissions.map((sub, idx) => (
+                        {allSubmissions.length > 0 ? (
+                           allSubmissions.sort((a,b) => b.submittedAt - a.submittedAt).map((sub, idx) => (
                               <div key={sub.id || idx} className="grid grid-cols-12 px-8 py-6 items-center hover:bg-blue-50/10 transition-all">
                                  <div className="col-span-4 flex items-center gap-4">
                                     <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${sub.studentName}`} className="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt={sub.studentName} />
@@ -687,8 +702,16 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                        {sub.score}%
                                     </span>
                                  </div>
-                                 <div className="col-span-3 text-right text-xs font-bold text-blue-300">
-                                    {sub.submittedAt ? new Date(sub.submittedAt.toDate()).toLocaleDateString() : 'Just now'}
+                                 <div className="col-span-3 text-right flex flex-col items-end gap-2">
+                                    <span className="text-xs font-bold text-blue-300">
+                                       {sub.submittedAt ? new Date(sub.submittedAt.toDate ? sub.submittedAt.toDate() : sub.submittedAt).toLocaleDateString() : 'Just now'}
+                                    </span>
+                                    <button 
+                                       onClick={() => setSelectedSubmission(sub)}
+                                       className="text-[10px] font-black text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-4 py-2 rounded-xl transition-colors border border-indigo-100 shadow-sm"
+                                    >
+                                       View Answers
+                                    </button>
                                  </div>
                               </div>
                            ))
@@ -903,6 +926,23 @@ const TeacherDashboard = ({ user, onLogout }) => {
                </div>
             );
          }
+         case 'AI Hub':
+            return (
+               <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
+                  <div className="flex items-center justify-between">
+                     <div>
+                        <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">AI Settings Hub</h1>
+                        <p className="text-sm font-bold text-blue-300 italic">Configure your AI providers.</p>
+                     </div>
+                  </div>
+                  <div className="bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 max-w-2xl">
+                     <p className="text-blue-400 font-bold mb-6">Manage API keys and configurations here.</p>
+                     <div className="space-y-6">
+                       <AiKeyInput label="OpenAI Key" value="" onChange={()=>{}} placeholder="sk-..." icon="/ic-homework.png" />
+                     </div>
+                  </div>
+               </div>
+            );
          default:
             return null;
       }
@@ -912,17 +952,23 @@ const TeacherDashboard = ({ user, onLogout }) => {
     <div className="flex min-h-screen bg-[#F8FAFC] font-sans">
       {/* --- Executive Hub Sidebar --- */}
       <aside className="w-80 bg-white border-r border-slate-100/60 flex flex-col shrink-0 h-screen sticky top-0 overflow-hidden">
-         <div className="p-8 mb-4 flex justify-center">
-            <img src="/logo.png" className="w-[85%] h-32 object-contain mix-blend-multiply" alt="Homework Zone" />
+         <div className="p-8 pb-4 mb-2 flex flex-col items-center border-b border-slate-100/60">
+            <img src="/logo.png" className="w-[85%] h-24 object-contain mix-blend-multiply mb-4" alt="Homework Zone" />
+
+            <div className="bg-slate-50 border border-slate-100 rounded-2xl px-4 py-2 flex flex-col items-center w-full">
+               <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Teacher Code</span>
+               <span className="text-sm font-black text-slate-700 tracking-wider">{user?.uid?.slice(0, 6).toUpperCase()}</span>
+            </div>
          </div>
 
-         <nav className="flex-1 px-6 space-y-2 overflow-y-auto custom-scrollbar">
+         <nav className="flex-1 px-6 space-y-2 overflow-y-auto custom-scrollbar pt-2">
             <SidebarItem id="Dashboard" label="Dashboard" icon={<LayoutDashboard />} iconColor="text-blue-500" active={activeTab === 'Dashboard'} onClick={setActiveTab} />
             <SidebarItem id="My Classes" label="My Classes" icon={<img src="/ic-classes.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Classes" />} active={activeTab === 'My Classes'} onClick={setActiveTab} />
             <SidebarItem id="Homework" label="Homework" icon={<img src="/ic-homework.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Homework" />} active={activeTab === 'Homework'} onClick={setActiveTab} />
             <SidebarItem id="Gradebook" label="Gradebook" icon={<Trophy className="w-5 h-5 text-emerald-500" />} active={activeTab === 'Gradebook'} onClick={setActiveTab} />
             <SidebarItem id="Messages" label="Messages" icon={<img src="/ic-messages.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Messages" />} active={activeTab === 'Messages'} onClick={setActiveTab} />
             <SidebarItem id="Rewards" label="Rewards" icon={<img src="/ic-rewards.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Rewards" />} active={activeTab === 'Rewards'} onClick={setActiveTab} />
+            <SidebarItem id="AI Hub" label="AI Hub" icon={<Zap className="w-5 h-5 text-purple-500" />} active={showAiSettings} onClick={() => setShowAiSettings(true)} />
          </nav>
 
          {/* Mascot Bottom Support */}
@@ -996,12 +1042,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                        <Bell size={18} />
                        <div className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white" />
                     </button>
-                    <button 
-                      onClick={() => setShowAiSettings(!showAiSettings)}
-                      className={`w-10 h-10 rounded-xl flex-center transition-all ${showAiSettings ? 'bg-indigo-600 text-white shadow-lg' : 'bg-white text-indigo-500 border border-slate-100 hover:bg-indigo-50 shadow-sm'}`}
-                    >
-                       <Zap size={18} className={showAiSettings ? 'fill-current' : ''} />
-                    </button>
+                    
                  </div>
 
                  <div className="h-10 w-px bg-slate-100" />
@@ -1022,84 +1063,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
             </header>
          )}
 
-      {/* --- AI Settings Panel --- */}
-      <AnimatePresence>
-        {showAiSettings && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] bg-white rounded-[40px] border-8 border-purple-100 shadow-2xl z-[100] p-10 space-y-8"
-          >
-             <div className="flex items-center justify-between">
-                <div>
-                   <div className="flex items-center gap-2">
-                      <h2 className="text-2xl font-black text-blue-900 tracking-tight">AI Power Hub</h2>
-                      <div className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full flex items-center gap-1 border border-emerald-100">
-                         <Lock className="w-3 h-3" />
-                         <span className="text-[8px] font-black uppercase tracking-widest">Local Only</span>
-                      </div>
-                   </div>
-                   <p className="text-xs font-bold text-blue-400">Your keys never touch our servers. Choose your preferred engine.</p>
-                </div>
-                <div className="w-12 h-12 bg-purple-100 rounded-2xl flex-center text-purple-600 shadow-inner">
-                   <Zap className="w-6 h-6" />
-                </div>
-             </div>
-
-             <div className="flex items-center gap-3 bg-blue-50/50 p-2 rounded-[32px] border border-blue-100">
-                <AiSelector active={activeAi === 'gemini'} onClick={() => setActiveAi('gemini')} label="Gemini" icon="https://img.icons8.com/color/96/google-logo.png" />
-                <AiSelector active={activeAi === 'openai'} onClick={() => setActiveAi('openai')} label="OpenAI" icon="https://img.icons8.com/color/96/chatgpt.png" />
-                <AiSelector active={activeAi === 'anthropic'} onClick={() => setActiveAi('anthropic')} label="Claude" icon="https://img.icons8.com/color/96/brain.png" />
-             </div>
-
-             <div className="space-y-6 pt-4 min-h-[100px]">
-                {activeAi === 'gemini' && (
-                  <AiKeyInput 
-                    label="Google Gemini" 
-                    value={aiKeys.gemini} 
-                    onChange={(v) => setAiKeys({...aiKeys, gemini: v})} 
-                    placeholder="Enter Gemini API Key..." 
-                    icon="https://img.icons8.com/color/96/google-logo.png"
-                  />
-                )}
-                {activeAi === 'openai' && (
-                  <AiKeyInput 
-                    label="OpenAI (GPT-4)" 
-                    value={aiKeys.openai} 
-                    onChange={(v) => setAiKeys({...aiKeys, openai: v})} 
-                    placeholder="Enter OpenAI API Key..." 
-                    icon="https://img.icons8.com/color/96/chatgpt.png"
-                  />
-                )}
-                {activeAi === 'anthropic' && (
-                  <AiKeyInput 
-                    label="Anthropic (Claude)" 
-                    value={aiKeys.anthropic} 
-                    onChange={(v) => setAiKeys({...aiKeys, anthropic: v})} 
-                    placeholder="Enter Anthropic API Key..." 
-                    icon="https://img.icons8.com/color/96/brain.png"
-                  />
-                )}
-             </div>
-
-             <div className="flex items-center gap-4 pt-4">
-                <button 
-                  onClick={saveAiKeys}
-                  className="flex-1 bg-purple-600 text-white py-4 rounded-[24px] font-black text-sm uppercase tracking-widest shadow-xl shadow-purple-200 hover:bg-purple-700 transition-all active:scale-95"
-                >
-                   Save AI Configuration
-                </button>
-                <button 
-                  onClick={() => setShowAiSettings(false)}
-                  className="px-8 py-4 bg-blue-50 text-blue-400 rounded-[24px] font-black text-sm uppercase tracking-widest hover:bg-blue-100 transition-all"
-                >
-                   Cancel
-                </button>
-             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      
 
       {renderContent()}
 
@@ -1171,7 +1135,175 @@ const TeacherDashboard = ({ user, onLogout }) => {
           </div>
         )}
       </AnimatePresence>
+        
+      {/* Review Modal */}
+      <AnimatePresence>
+        {selectedSubmission && (
+           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+              <motion.div 
+                 initial={{ opacity: 0 }} 
+                 animate={{ opacity: 1 }} 
+                 exit={{ opacity: 0 }}
+                 className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+                 onClick={() => setSelectedSubmission(null)}
+              />
+              <motion.div 
+                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                 animate={{ opacity: 1, scale: 1, y: 0 }}
+                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                 className="relative bg-white rounded-[40px] shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden border border-blue-100"
+              >
+                 <div className="px-10 py-8 bg-blue-50/30 border-b border-blue-50 flex items-center justify-between shrink-0">
+                    <div className="flex items-center gap-6">
+                       <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${selectedSubmission.studentName}`} className="w-16 h-16 rounded-full border-4 border-white shadow-md bg-blue-100" alt="Student" />
+                       <div>
+                          <h2 className="text-3xl font-black text-[#1E3A8A]">{selectedSubmission.studentName}'s Report</h2>
+                          <div className="flex items-center gap-4 mt-2">
+                             <span className="text-sm font-bold text-blue-400">Score: {selectedSubmission.score}%</span>
+                             <span className="w-1.5 h-1.5 rounded-full bg-blue-200" />
+                             <span className="text-sm font-bold text-blue-400">Mission: {selectedSubmission.homeworkId.slice(0, 8)}</span>
+                          </div>
+                       </div>
+                    </div>
+                    <button 
+                       onClick={() => setSelectedSubmission(null)}
+                       className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-blue-400 hover:text-rose-500 hover:bg-rose-50 hover:scale-110 transition-all shadow-sm border border-blue-50"
+                    >
+                       ✕
+                    </button>
+                 </div>
+
+                 <div className="flex-1 overflow-y-auto p-10 custom-scrollbar space-y-10">
+                    {selectedSubmission.feedback && (
+                      <div className="bg-amber-50/50 border border-amber-100 rounded-[32px] p-8 flex gap-6">
+                         <div className="w-12 h-12 shrink-0 bg-amber-400 rounded-2xl flex items-center justify-center text-white shadow-sm">
+                            <Zap className="w-6 h-6" />
+                         </div>
+                         <div className="space-y-2">
+                            <h4 className="text-sm font-black text-amber-800 uppercase tracking-widest">System Feedback</h4>
+                            <p className="text-amber-900 font-bold leading-relaxed">{selectedSubmission.feedback}</p>
+                         </div>
+                      </div>
+                    )}
+
+                    <div className="space-y-6">
+                       <h3 className="text-xl font-black text-[#1E3A8A]">Question Breakdown</h3>
+                       
+                       {isFetchingReview ? (
+                          <div className="py-20 flex justify-center">
+                             <div className="w-10 h-10 border-4 border-blue-200 border-t-[#8A70FF] rounded-full animate-spin" />
+                          </div>
+                       ) : reviewHomework?.questions ? (
+                           <div className="space-y-8">
+                              {reviewHomework.questions.map((q, qIdx) => {
+                                 const studentSelection = selectedSubmission.answers?.[q.id];
+                                 const actualAnswer = q.answer;
+                                 
+                                 return (
+                                    <div key={q.id || qIdx} className="bg-[#f8f9fa] rounded-[24px] p-6 lg:p-8 space-y-5">
+                                       <p className="text-[15px] font-bold text-slate-800 tracking-tight">
+                                          <span className="text-purple-700 font-black mr-2">Q{qIdx + 1}.</span> 
+                                          {q.text}
+                                       </p>
+                                       
+                                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                          {q.options.map((opt, optIdx) => {
+                                             const isStudentSelection = opt === studentSelection;
+                                             const isActualCorrect = opt === actualAnswer;
+                                             
+                                             let optionClasses = "px-5 py-3.5 rounded-xl border flex items-center gap-4 transition-all ";
+                                             
+                                             if (isActualCorrect) {
+                                                optionClasses += "bg-[#d1f5d3] border-emerald-300 text-emerald-900";
+                                             } else if (isStudentSelection && !isActualCorrect) {
+                                                optionClasses += "bg-rose-50 border-rose-200 text-rose-900";
+                                             } else {
+                                                optionClasses += "bg-white border-slate-200 text-slate-600";
+                                             }
+
+                                             return (
+                                                <div key={optIdx} className={optionClasses}>
+                                                   <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-[11px] font-black ${isActualCorrect ? 'bg-emerald-200/60 text-emerald-800' : isStudentSelection && !isActualCorrect ? 'bg-rose-200/60 text-rose-800' : 'bg-slate-50 text-slate-500'}`}>
+                                                      {String.fromCharCode(65 + optIdx)}
+                                                   </div>
+                                                   <span className="text-[13px] font-bold flex-1">{opt}</span>
+                                                </div>
+                                             );
+                                          })}
+                                       </div>
+                                    </div>
+                                 );
+                              })}
+                           </div>
+                       ) : (
+                          <div className="py-20 text-center text-blue-300 italic font-bold">
+                             Homework data not available.
+                          </div>
+                       )}
+                    </div>
+                 </div>
+              </motion.div>
+           </div>
+        )}
+      </AnimatePresence>
         </div>
+      
+      {/* AI Settings Centered Modal */}
+      <AnimatePresence>
+        {showAiSettings && (
+           <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[200] flex-center p-6">
+             <motion.div 
+               initial={{ opacity: 0, scale: 0.9 }}
+               animate={{ opacity: 1, scale: 1 }}
+               exit={{ opacity: 0, scale: 0.9 }}
+               className="max-w-md w-full bg-white rounded-[40px] p-10 space-y-8 shadow-2xl border border-blue-50 relative"
+             >
+               <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                     <Zap className="w-6 h-6 text-purple-600 fill-current" />
+                     <h2 className="text-xl font-black text-[#1E3A8A] tracking-tight uppercase">AI Power Hub</h2>
+                  </div>
+                  <div className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full flex items-center gap-1 border border-emerald-100">
+                     <Lock className="w-3 h-3" />
+                     <span className="text-[9px] font-black uppercase tracking-widest">Local</span>
+                  </div>
+               </div>
+
+               <div className="flex bg-blue-50/50 rounded-2xl p-1.5 shadow-sm border border-blue-100">
+                  <button onClick={() => setActiveAi('gemini')} className={`flex-1 py-3 rounded-xl flex-center gap-2 text-xs font-black transition-all ${activeAi === 'gemini' ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}>
+                     <img src="https://img.icons8.com/color/48/google-logo.png" className="w-5 h-5" alt="Gemini" /> G
+                  </button>
+                  <button onClick={() => setActiveAi('openai')} className={`flex-1 py-3 rounded-xl flex-center gap-2 text-xs font-black transition-all ${activeAi === 'openai' ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}>
+                     <img src="https://img.icons8.com/color/48/chatgpt.png" className="w-5 h-5" alt="OpenAI" /> O
+                  </button>
+                  <button onClick={() => setActiveAi('anthropic')} className={`flex-1 py-3 rounded-xl flex-center gap-2 text-xs font-black transition-all ${activeAi === 'anthropic' ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}>
+                     <img src="https://img.icons8.com/color/48/brain.png" className="w-5 h-5" alt="Claude" /> C
+                  </button>
+               </div>
+               
+               <div className="space-y-2">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-blue-400 ml-4">{activeAi === 'gemini' ? 'Google Gemini' : activeAi === 'openai' ? 'OpenAI' : 'Claude'}</span>
+                  <input 
+                    type="password" 
+                    value={aiKeys[activeAi]}
+                    onChange={(e) => setAiKeys({...aiKeys, [activeAi]: e.target.value})}
+                    placeholder="•••••••••••••••••••••••••••••••••"
+                    className="w-full bg-blue-50/30 border-2 border-indigo-50 rounded-2xl px-6 py-4 text-xl focus:border-purple-200 outline-none tracking-[0.2em] text-[#1E3A8A]"
+                  />
+               </div>
+               
+               <div className="flex gap-4">
+                  <button onClick={saveAiKeys} className="flex-1 bg-[#8A70FF] text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-[#7455FF] transition-colors shadow-lg shadow-purple-200">
+                     Save Key
+                  </button>
+                  <button onClick={() => setShowAiSettings(false)} className="w-1/3 bg-blue-50 text-blue-400 py-4 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-blue-100 hover:text-blue-600 transition-colors">
+                     Cancel
+                  </button>
+               </div>
+             </motion.div>
+           </div>
+        )}
+      </AnimatePresence>
       </main>
     </div>
    );
