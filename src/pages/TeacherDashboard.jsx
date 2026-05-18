@@ -1361,13 +1361,20 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                           sub.submittedAt.seconds ? new Date(sub.submittedAt.seconds * 1000) : new Date(sub.submittedAt)
                                        ).toLocaleDateString(undefined, {month: 'short', day: 'numeric'}) : '';
 
+                                       const getScoreFeedback = (score) => {
+                                          if (score >= 85) return `Outstanding effort in ${subject}! 🚀`;
+                                          if (score >= 70) return `Great work in ${subject}! 🌟`;
+                                          if (score >= 50) return `Good progress in ${subject}! 👍`;
+                                          return `Completed ${subject} quiz • Keep practicing! 💪`;
+                                       };
+
                                        return (
                                           <div key={sub.id} className="flex items-center justify-between group">
                                              <div className="flex items-center gap-4">
                                                 <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${sub.studentName}`} className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt={sub.studentName} />
                                                 <div>
                                                    <p className="text-sm font-black text-[#1E3A8A]">{sub.studentName}</p>
-                                                   <p className="text-[10px] font-bold text-blue-300 italic">Excellent work in {subject} (Scored {sub.score}%)</p>
+                                                   <p className="text-[10px] font-bold text-blue-300 italic">{getScoreFeedback(sub.score)} (Scored {sub.score}%)</p>
                                                 </div>
                                              </div>
                                              <div className="text-right">
