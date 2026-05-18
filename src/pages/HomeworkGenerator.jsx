@@ -73,7 +73,7 @@ const SUBJECTS = [
   },
 ];
 
-export default function HomeworkGenerator({ user, classrooms = [] }) {
+export default function HomeworkGenerator({ user, classrooms = [], activeClassroom }) {
   const [formData, setFormData] = useState({
     subject: 'maths',
     title: '',
@@ -100,10 +100,9 @@ export default function HomeworkGenerator({ user, classrooms = [] }) {
     if (!user?.uid) return;
     setIsLoadingHistory(true);
     try {
-      const q = query(
-        collection(db, 'homeworks'),
-        where('teacherId', '==', user.uid)
-      );
+      const q = activeClassroom 
+        ? query(collection(db, 'homeworks'), where('teacherId', '==', user.uid), where('assignedClassId', '==', activeClassroom.id))
+        : query(collection(db, 'homeworks'), where('teacherId', '==', user.uid));
       const snap = await getDocs(q);
       const hwList = snap.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
       
@@ -124,7 +123,7 @@ export default function HomeworkGenerator({ user, classrooms = [] }) {
     if (activeTab === 'history') {
       fetchPastHomeworks();
     }
-  }, [activeTab, user]);
+  }, [activeTab, user, activeClassroom]);
 
   const handleDeleteHomework = async (hwId) => {
     if (!window.confirm("Are you sure you want to delete this homework? 🗑️")) return;

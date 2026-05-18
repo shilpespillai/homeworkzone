@@ -1360,6 +1360,10 @@ const LoginPage = ({ role, onLogin }) => {
           });
         } else {
           teacherCode = docSnap.data().teacherCode;
+          if (!teacherCode) {
+            teacherCode = generateTeacherCode();
+            await setDoc(userDoc, { teacherCode }, { merge: true });
+          }
         }
         onLogin({ 
           uid: result.user.uid, 

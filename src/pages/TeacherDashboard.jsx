@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
+import {
+  Pencil,
   LayoutDashboard, 
   BookOpen, 
   Search, 
@@ -47,6 +48,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [reviewHomework, setReviewHomework] = useState(null);
   const [isFetchingReview, setIsFetchingReview] = useState(false);
   const [allSubmissions, setAllSubmissions] = useState([]);
+  const [allHomeworks, setAllHomeworks] = useState([]);
   const [showClassDropdown, setShowClassDropdown] = useState(false);
   const [isAddingClass, setIsAddingClass] = useState(false);
   const [aiKeys, setAiKeys] = useState({
@@ -185,6 +187,22 @@ const TeacherDashboard = ({ user, onLogout }) => {
     }
   };
 
+  
+  const handleRenameClassroom = async (classId, newName) => {
+    if (!user?.uid) return;
+    try {
+      const classRef = doc(db, 'teachers', user.uid, 'classrooms', classId);
+      await setDoc(classRef, { name: newName }, { merge: true });
+      setClassrooms(prev => prev.map(c => c.id === classId ? { ...c, name: newName } : c));
+      if (activeClassroom?.id === classId) {
+         setActiveClassroom(prev => ({ ...prev, name: newName }));
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to rename class. Please try again.");
+    }
+  };
+
   const handleDeleteClassroom = async (classId) => {
     console.log("TeacherDashboard: Starting deletion process for:", classId);
     if (!user?.uid) {
@@ -247,9 +265,24 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const fetchDashboardSubmissions = async () => {
     if (!user) return;
     try {
+      const hwQ = query(collection(db, 'homeworks'), where('teacherId', '==', user.uid));
+      const hwSnap = await getDocs(hwQ);
+      const hwMap = {};
+      const hwList = [];
+      hwSnap.docs.forEach(d => {
+         const data = d.data();
+         hwMap[d.id] = data.assignedClassId;
+         hwList.push({ id: d.id, ...data });
+      });
+      setAllHomeworks(hwList);
+
       const q = query(collection(db, 'submissions'), where('teacherId', '==', user.uid));
       const snap = await getDocs(q);
-      setAllSubmissions(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      setAllSubmissions(snap.docs.map(d => ({ 
+         id: d.id, 
+         ...d.data(),
+         classId: d.data().classId || hwMap[d.data().homeworkId] || null
+      })));
     } catch (err) { console.error(err); }
   };
 
@@ -266,10 +299,12 @@ const TeacherDashboard = ({ user, onLogout }) => {
 
     const filtered = allSubmissions.filter(s => {
       const subDate = s.submittedAt?.toDate ? s.submittedAt.toDate() : new Date(s.submittedAt);
-      return subDate >= cutoffDate;
+      const isTimeValid = subDate >= cutoffDate;
+      const isClassValid = activeClassroom ? s.classId === activeClassroom.id : true;
+      return isTimeValid && isClassValid;
     });
     setTimeFilteredSubmissions(filtered);
-  }, [dashboardTimeFilter, allSubmissions]);
+  }, [dashboardTimeFilter, allSubmissions, activeClassroom]);
 
   useEffect(() => {
     const fetchHomeworkDetails = async () => {
@@ -409,9 +444,9 @@ const TeacherDashboard = ({ user, onLogout }) => {
                    </div>
 
                   <div className="grid grid-cols-4 gap-6">
-                     <RewardKPICard title="Total Students" value={allStudents.length || students.length} subtitle="Active Roster" bgColor="bg-slate-50/50" textColor="text-slate-800" />
+                     <RewardKPICard title="Total Students" value={activeClassroom ? students.length : allStudents.length} subtitle={activeClassroom ? "Class Roster" : "Global Roster"} bgColor="bg-slate-50/50" textColor="text-slate-800" />
                      <RewardKPICard title="Average Score" value={`${avgScoreTotal}%`} subtitle="Across all subjects" bgColor="bg-emerald-50/50" textColor="text-emerald-600" />
-                     <RewardKPICard title="Participation" value={students.length > 0 ? Math.round((uniqueSubmitters/students.length)*100) + '%' : '0%'} subtitle="Missions complete" bgColor="bg-amber-50/50" textColor="text-amber-600" />
+                     <RewardKPICard title="Participation" value={(activeClassroom ? students.length : allStudents.length) > 0 ? Math.round((uniqueSubmitters/(activeClassroom ? students.length : allStudents.length))*100) + '%' : '0%'} subtitle="Missions complete" bgColor="bg-amber-50/50" textColor="text-amber-600" />
                      <RewardKPICard title="Submissions" value={timeFilteredSubmissions.length} subtitle={`This ${dashboardTimeFilter.toLowerCase()}`} bgColor="bg-indigo-50/50" textColor="text-indigo-600" />
                   </div>
 
@@ -518,6 +553,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                icon: SUBJECT_ICONS[sub] || '/ic-homework.png'
                             }))}
                            onDelete={() => handleDeleteClassroom(room.id)}
+                           onRename={(newName) => handleRenameClassroom(room.id, newName)}
                             onView={() => { 
                                setActiveClassroom(room); 
                                setFilterClass(room.name);
@@ -658,11 +694,29 @@ const TeacherDashboard = ({ user, onLogout }) => {
           case 'Homework':
             return (
                <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
-                  <HomeworkGenerator user={user} classrooms={classrooms} />
+                  <HomeworkGenerator user={user} classrooms={classrooms} activeClassroom={activeClassroom} />
                   <GrassBorder />
                </div>
             );
-          case 'Gradebook':
+          case 'Gradebook': {
+            const currentSubmissions = activeClassroom ? allSubmissions.filter(s => s.classId === activeClassroom.id) : allSubmissions;
+            const currentStudents = activeClassroom ? students : allStudents;
+            const currentHomeworks = activeClassroom ? allHomeworks.filter(h => h.assignedClassId === activeClassroom.id) : allHomeworks;
+            
+            const missingReports = [];
+            currentStudents.forEach(student => {
+               const studentSubs = currentSubmissions.filter(s => s.studentName?.toLowerCase() === student.name?.toLowerCase());
+               const submittedHwIds = new Set(studentSubs.map(s => s.homeworkId));
+               
+               const missingHws = currentHomeworks.filter(hw => !submittedHwIds.has(hw.id));
+               if (missingHws.length > 0) {
+                  missingReports.push({
+                     student,
+                     missingHws
+                  });
+               }
+            });
+
             return (
                <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
                   <div className="flex items-center justify-between">
@@ -684,8 +738,8 @@ const TeacherDashboard = ({ user, onLogout }) => {
                         <div className="col-span-3 text-right">Actions</div>
                      </div>
                      <div className="divide-y divide-blue-50">
-                        {allSubmissions.length > 0 ? (
-                           allSubmissions.sort((a,b) => b.submittedAt - a.submittedAt).map((sub, idx) => (
+                        {(activeClassroom ? allSubmissions.filter(s => s.classId === activeClassroom.id) : allSubmissions).length > 0 ? (
+                           (activeClassroom ? allSubmissions.filter(s => s.classId === activeClassroom.id) : allSubmissions).sort((a,b) => b.submittedAt - a.submittedAt).map((sub, idx) => (
                               <div key={sub.id || idx} className="grid grid-cols-12 px-8 py-6 items-center hover:bg-blue-50/10 transition-all">
                                  <div className="col-span-4 flex items-center gap-4">
                                     <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${sub.studentName}`} className="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt={sub.studentName} />
@@ -722,9 +776,53 @@ const TeacherDashboard = ({ user, onLogout }) => {
                         )}
                      </div>
                   </div>
+
+                  {missingReports.length > 0 && (
+                     <div className="bg-white rounded-[40px] border border-rose-50 shadow-sm overflow-hidden mt-10">
+                        <div className="px-8 py-6 bg-rose-50/30 border-b border-rose-50 flex items-center justify-between">
+                           <h3 className="text-xl font-black text-rose-900 tracking-tight">Pending Missions (Not Started)</h3>
+                           <span className="text-xs font-bold text-rose-400 bg-white px-3 py-1 rounded-full border border-rose-100">{missingReports.length} Students Pending</span>
+                        </div>
+                        <div className="divide-y divide-rose-50/50">
+                           {missingReports.map(({ student, missingHws }, idx) => (
+                              <div key={student.id || idx} className="grid grid-cols-12 px-8 py-6 items-center hover:bg-rose-50/10 transition-all">
+                                 <div className="col-span-8 flex items-center gap-4">
+                                    <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${student.name}`} className="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt={student.name} />
+                                    <div className="flex flex-col">
+                                       <span className="text-sm font-black text-rose-900">{student.name}</span>
+                                       <div className="flex flex-col mt-2 gap-1.5">
+                                          {missingHws.map(h => {
+                                             const dateStr = h.createdAt?.toDate ? h.createdAt.toDate().toLocaleDateString() : '';
+                                             return (
+                                                <span key={h.id} className="text-[10px] font-black text-rose-600 bg-rose-50 px-3 py-1.5 rounded-lg inline-block w-fit border border-rose-100 shadow-sm">
+                                                   {h.subject || 'Mission'} 
+                                                   <span className="text-rose-400 font-bold ml-1">
+                                                      • ID: {h.id.slice(0,6).toUpperCase()} {dateStr ? `• ${dateStr}` : ''}
+                                                   </span>
+                                                </span>
+                                             );
+                                          })}
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div className="col-span-4 text-right">
+                                    <button 
+                                      onClick={() => alert(`Reminder sent to ${student.name}'s parents!`)}
+                                      className="text-[10px] font-black text-rose-600 bg-rose-50 hover:bg-rose-100 px-4 py-2 rounded-xl transition-colors border border-rose-100 shadow-sm"
+                                    >
+                                       Send Reminder
+                                    </button>
+                                 </div>
+                              </div>
+                           ))}
+                        </div>
+                     </div>
+                  )}
+
                <GrassBorder />
             </div>
          );
+         }
          case 'Messages': {
             const chats = [
                { id: 1, name: 'Grade 2A Parents', lastMsg: 'Thank you for attending the...', time: '10:30 AM', type: 'Class', date: '3 May 2024' },
@@ -957,7 +1055,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
 
             <div className="bg-slate-50 border border-slate-100 rounded-2xl px-4 py-2 flex flex-col items-center w-full">
                <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Teacher Code</span>
-               <span className="text-sm font-black text-slate-700 tracking-wider">{user?.uid?.slice(0, 6).toUpperCase()}</span>
+               <span className="text-sm font-black text-slate-700 tracking-wider">{user?.teacherCode || user?.uid?.slice(0, 6).toUpperCase()}</span>
             </div>
          </div>
 
@@ -989,12 +1087,12 @@ const TeacherDashboard = ({ user, onLogout }) => {
       <main className="flex-1 overflow-y-auto no-scrollbar bg-[#F9F9FF] relative p-4 lg:p-6 flex flex-col">
         <div className="flex-1 bg-white rounded-[40px] shadow-sm flex flex-col border border-slate-100/50 relative overflow-hidden">
         {/* --- Dynamic Top Navigation --- */}
-         {activeTab === 'Dashboard' && (
+         {activeTab !== 'My Classes' && (
             <header className="h-24 bg-white border-b border-slate-50 flex items-center justify-between px-10 sticky top-0 z-50">
               <div className="flex items-center gap-8">
                  <div className="flex flex-col">
-                    <h2 className="text-xl font-bold text-slate-800 tracking-tight">Executive Dashboard</h2>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Global Overview • {activeClassroom?.name || 'All Classes'}</p>
+                    <h2 className="text-xl font-bold text-slate-800 tracking-tight">{activeTab === 'Dashboard' ? 'Executive Dashboard' : activeTab}</h2>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{activeTab === 'Dashboard' ? 'Global Overview' : 'Class View'} • {activeClassroom?.name || 'All Classes'}</p>
                  </div>
                  
                  <div className="relative">
@@ -1062,8 +1160,6 @@ const TeacherDashboard = ({ user, onLogout }) => {
               </div>
             </header>
          )}
-
-      
 
       {renderContent()}
 
@@ -1340,8 +1436,25 @@ const PlaceholderView = ({ title, icon, description }) => (
    </div>
 );
 
-const ClassCard = ({ name, students, bgColor, kidsImg, subjects, onDelete, onView }) => {
+const ClassCard = ({ name, students, bgColor, kidsImg, subjects, onDelete, onView, onRename }) => {
   const [showConfirm, setShowConfirm] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editName, setEditName] = useState(name);
+
+  const handleRename = () => {
+    if (editName.trim() && editName.trim() !== name) {
+      onRename(editName.trim());
+    }
+    setIsEditing(false);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') handleRename();
+    if (e.key === 'Escape') {
+       setEditName(name);
+       setIsEditing(false);
+    }
+  };
 
   return (
     <div className={`${bgColor} rounded-[40px] p-8 border border-white/50 shadow-sm flex flex-col gap-6 group hover:shadow-xl transition-all relative overflow-hidden`}>
@@ -1379,7 +1492,26 @@ const ClassCard = ({ name, students, bgColor, kidsImg, subjects, onDelete, onVie
        </AnimatePresence>
 
        <div className="text-center space-y-1">
-          <h3 className="text-2xl font-black text-[#1E3A8A]">{name}</h3>
+          {isEditing ? (
+             <input 
+                type="text" 
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+                onBlur={handleRename}
+                onKeyDown={handleKeyDown}
+                className="text-2xl font-black text-[#1E3A8A] bg-white/50 border-2 border-[#8A70FF]/30 rounded-xl px-2 py-1 outline-none text-center w-[90%] focus:border-[#8A70FF] transition-all"
+                autoFocus
+             />
+          ) : (
+             <h3 
+               className="text-2xl font-black text-[#1E3A8A] flex items-center justify-center gap-2 group/title cursor-pointer hover:text-[#7455FF] transition-colors" 
+               onClick={(e) => { e.stopPropagation(); setIsEditing(true); }}
+               title="Click to rename"
+             >
+               {name}
+               <Pencil className="w-4 h-4 text-blue-300 opacity-0 group-hover/title:opacity-100 transition-opacity" />
+             </h3>
+          )}
           <p className="text-xs font-bold text-blue-400">{students} Students</p>
        </div>
        <div className="h-40 flex-center">

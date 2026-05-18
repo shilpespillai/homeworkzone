@@ -146,6 +146,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         homeworkId,
         studentName,
         teacherId: teacher.uid,
+        classId: homework.assignedClassId || null,
         score: finalScore,
         correctCount,
         totalQuestions: homework.questions.length,
