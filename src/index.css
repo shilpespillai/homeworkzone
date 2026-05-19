@@ -26,6 +26,15 @@
   .clip-path-custom-2 {
     clip-path: polygon(0% 5%, 90% 10%, 95% 90%, 5% 100%);
   }
+
+  .btn-bubble {
+    @apply inline-flex items-center justify-center gap-2 rounded-[24px] py-3 px-6 transition-all duration-200 active:scale-95 active:translate-y-0.5 cursor-pointer select-none;
+    font-weight: 800 !important;
+  }
+
+  .btn-primary {
+    @apply bg-orange-500 hover:bg-orange-400 text-white shadow-[0_4px_0_0_#c2410c] active:shadow-none;
+  }
 }
 
 /* Custom Stick Animation for Hero Mascot */

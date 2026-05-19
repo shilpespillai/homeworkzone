@@ -392,19 +392,25 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         <button 
           onClick={() => setCurrentIdx(prev => Math.max(0, prev - 1))}
           disabled={currentIdx === 0}
-          className="btn-bubble bg-white border-2 border-slate-100 text-slate-400 shadow-[0_6px_0_0_#f1f2f6] disabled:opacity-30"
+          className="btn-bubble inline-flex items-center justify-center gap-2 rounded-[24px] py-3 px-8 bg-white border-2 border-slate-200 text-slate-500 shadow-[0_6px_0_0_#f1f2f6] disabled:opacity-30 text-base font-black active:scale-[0.98] active:translate-y-0.5 transition-all select-none cursor-pointer hover:bg-slate-50"
         >
-          <ChevronLeft className="w-6 h-6" /> back
+          <ChevronLeft className="w-5 h-5 shrink-0" /> back
         </button>
 
         {isReviewing ? (
            currentIdx === homework.questions.length - 1 ? (
-             <button onClick={() => setIsReviewing(false)} className="btn-bubble bg-orange-500 text-white px-16 text-xl shadow-[0_8px_0_0_#c2410c]">
-               finish review <CheckCircle2 className="w-6 h-6" />
+             <button 
+               onClick={() => setIsReviewing(false)} 
+               className="btn-bubble inline-flex items-center justify-center gap-2 rounded-[24px] py-3.5 px-12 bg-orange-500 text-white shadow-[0_8px_0_0_#c2410c] text-lg font-black active:scale-[0.98] active:translate-y-0.5 transition-all select-none cursor-pointer hover:bg-orange-400"
+             >
+               finish review <CheckCircle2 className="w-5 h-5 shrink-0" />
              </button>
            ) : (
-             <button onClick={() => setCurrentIdx(prev => Math.min(homework.questions.length - 1, prev + 1))} className="btn-bubble bg-orange-500 text-white px-16 text-xl shadow-[0_8px_0_0_#c2410c]">
-               next <ChevronRight className="w-6 h-6" />
+             <button 
+               onClick={() => setCurrentIdx(prev => Math.min(homework.questions.length - 1, prev + 1))} 
+               className="btn-bubble inline-flex items-center justify-center gap-2 rounded-[24px] py-3.5 px-12 bg-orange-500 text-white shadow-[0_8px_0_0_#c2410c] text-lg font-black active:scale-[0.98] active:translate-y-0.5 transition-all select-none cursor-pointer hover:bg-orange-400"
+             >
+               next <ChevronRight className="w-5 h-5 shrink-0" />
              </button>
            )
         ) : (
@@ -412,16 +418,22 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             <button 
               onClick={handleSubmit}
               disabled={isSubmitting || !answers[currentQuestion.id]}
-              className="btn-bubble bg-orange-500 text-white px-16 text-xl shadow-[0_8px_0_0_#c2410c]"
+              className="btn-bubble inline-flex items-center justify-center gap-2 rounded-[24px] py-3.5 px-12 bg-orange-500 text-white shadow-[0_8px_0_0_#c2410c] text-lg font-black active:scale-[0.98] active:translate-y-0.5 transition-all select-none cursor-pointer hover:bg-orange-400 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? <Loader2 className="w-6 h-6 animate-spin" /> : <>submit mission! <Star className="w-6 h-6 text-yellow-300 fill-yellow-300" /></>}
+              {isSubmitting ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <>
+                  submit mission! <Star className="w-5 h-5 text-yellow-300 fill-yellow-300 shrink-0" />
+                </>
+              )}
             </button>
           ) : (
             <button 
               onClick={() => setCurrentIdx(prev => Math.min(homework.questions.length - 1, prev + 1))}
-              className="btn-bubble bg-orange-500 text-white px-16 text-xl shadow-[0_8px_0_0_#c2410c]"
+              className="btn-bubble inline-flex items-center justify-center gap-2 rounded-[24px] py-3.5 px-12 bg-orange-500 text-white shadow-[0_8px_0_0_#c2410c] text-lg font-black active:scale-[0.98] active:translate-y-0.5 transition-all select-none cursor-pointer hover:bg-orange-400"
             >
-              next quest! <ChevronRight className="w-6 h-6" />
+              next quest! <ChevronRight className="w-5 h-5 shrink-0" />
             </button>
           )
         )}
