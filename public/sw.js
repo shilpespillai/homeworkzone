@@ -1,4 +1,4 @@
-const CACHE_NAME = 'homeworkzone-v2';
+const CACHE_NAME = 'homeworkzone-v3';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -56,17 +56,48 @@ self.addEventListener('fetch', (event) => {
   // Network-First for HTML/navigation requests to prevent cached index.html referencing deleted hashes
   if (event.request.mode === 'navigate' || requestUrl.pathname === '/' || requestUrl.pathname === '/index.html') {
     event.respondWith(
-      fetch(event.request).then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200) {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
+      fetch(event.request)
+        .then((networkResponse) => {
+          // If the network response is successful (status 200), return and cache it
+          if (networkResponse && networkResponse.status === 200) {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
+            return networkResponse;
+          }
+          // If the server returns a 404 or other non-200 status (e.g. client-side route not handled by server),
+          // fall back to the cached App Shell (index.html)
+          return caches.match('/index.html').then((cachedIndex) => {
+            if (cachedIndex) {
+              return cachedIndex;
+            }
+            return caches.match('/').then((cachedRoot) => {
+              return cachedRoot || networkResponse;
+            });
           });
-        }
-        return networkResponse;
-      }).catch(() => {
-        return caches.match('/index.html') || caches.match('/');
-      })
+        })
+        .catch(() => {
+          // If network fetch fails completely (e.g. offline), fall back to cached App Shell
+          return caches.match('/index.html').then((cachedIndex) => {
+            if (cachedIndex) {
+              return cachedIndex;
+            }
+            return caches.match('/').then((cachedRoot) => {
+              if (cachedRoot) {
+                return cachedRoot;
+              }
+              // If nothing is in cache, return a basic offline error response
+              return new Response(
+                '<h1>Offline</h1><p>You are offline and the app shell could not be loaded from cache. Please reconnect to the internet.</p>',
+                {
+                  status: 503,
+                  headers: { 'Content-Type': 'text/html' }
+                }
+              );
+            });
+          });
+        })
     );
     return;
   }
@@ -78,19 +109,25 @@ self.addEventListener('fetch', (event) => {
         return cachedResponse;
       }
 
-      return fetch(event.request).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+      return fetch(event.request)
+        .then((networkResponse) => {
+          if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+            return networkResponse;
+          }
+
+          // Cache new static assets
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+
           return networkResponse;
-        }
-
-        // Cache new static assets
-        const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
+        })
+        .catch((error) => {
+          console.warn('[Service Worker] Fetch failed for static asset:', event.request.url, error);
+          // Return a basic 404 or network error response so the promise doesn't reject uncaught
+          return new Response('Asset not found', { status: 404, statusText: 'Not Found' });
         });
-
-        return networkResponse;
-      });
     })
   );
 });

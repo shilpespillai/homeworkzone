@@ -1531,60 +1531,6 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
             <div className="max-w-[100%] mx-auto w-full">
            {activeNav === 'Dashboard' && (
               <div className="grid grid-cols-12 gap-6 animate-in fade-in duration-300">
-                 {/* Row 1 Left: To-Do List */}
-                 <div className="col-span-12 lg:col-span-5 bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm space-y-6">
-                    <h2 className="text-xl font-semibold text-[#2D3748]">To-Do List</h2>
-                    <div className="space-y-3">
-                       {todoItems.slice(0, 3).map((item, idx) => (
-                          <TodoCard 
-                             key={idx}
-                             title={item.title} 
-                             subtitle={item.subtitle} 
-                             btnText={item.btnText} 
-                             icon={item.icon}
-                             color={item.color}
-                             btnColor={item.btnColor}
-                             onClick={item.onClick}
-                          />
-                       ))}
-                    </div>
-                 </div>
-
-                 {/* Row 1 Right: My Learning Path */}
-                 <div className="col-span-12 lg:col-span-7 bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm space-y-6 relative overflow-hidden">
-                    <h2 className="text-xl font-semibold text-[#2D3748]">My Learning Path</h2>
-                    <div className="flex items-center gap-4 relative">
-                       <div className="absolute top-1/2 left-0 w-full h-1 bg-slate-100 -translate-y-1/2 z-0" />
-                       {learningPath.map((pathItem, idx) => {
-                           const handleResumeLearning = () => {
-                              const subHws = homeworks.filter(hw => hw.subject?.toLowerCase() === pathItem.title.toLowerCase());
-                              const pendingSubHws = subHws.filter(hw => !completedHwIds.has(hw.id));
-                              
-                              if (pendingSubHws.length > 0) {
-                                 handleLaunchHw(pendingSubHws[0]);
-                              } else if (subHws.length > 0) {
-                                 handleLaunchHw(subHws[0]);
-                              } else {
-                                 alert(`No homework missions found for ${pathItem.title} yet. Check back soon! 🌟`);
-                              }
-                           };
-
-                           return (
-                              <LearningPathCard 
-                                 key={idx}
-                                 title={pathItem.title} 
-                                 progress={pathItem.progress} 
-                                 stars={pathItem.stars} 
-                                 color={pathItem.color} 
-                                 active={pathItem.active} 
-                                 btnText={pathItem.active ? "Continue" : "Start"}
-                                 onClick={handleResumeLearning}
-                              />
-                           );
-                        })}
-                    </div>
-                 </div>
-
                  {/* Row 2 Left: Recent Achievements & Weekly Activity Chart */}
                  <div className="col-span-12 lg:col-span-8 bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm space-y-6">
                     <div className="grid grid-cols-12 gap-6">
