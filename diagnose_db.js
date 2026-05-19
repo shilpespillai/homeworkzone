@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBsW3KhUinSuxr4Y3dbIVXWazyC9DeVOiU",
@@ -14,38 +14,22 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 async function run() {
-  console.log("=== DIAGNOSING FIRESTORE STATE ===");
-  
-  // 1. Teachers
-  const teachersSnap = await getDocs(collection(db, "teachers"));
-  console.log(`Found ${teachersSnap.size} teachers.`);
-  for (const teacherDoc of teachersSnap.docs) {
-     const tData = teacherDoc.data();
-     console.log(`\nTeacher: ${tData.name || 'No Name'} (ID: ${teacherDoc.id}, Code: ${tData.teacherCode})`);
-     
-     // Classrooms
-     const classroomsSnap = await getDocs(collection(db, "teachers", teacherDoc.id, "classrooms"));
-     console.log(`  - Found ${classroomsSnap.size} classrooms.`);
-     for (const classDoc of classroomsSnap.docs) {
-        const cData = classDoc.data();
-        console.log(`    Classroom: ${cData.name} (ID: ${classDoc.id})`);
-        
-        // Students
-        const studentsSnap = await getDocs(collection(db, "teachers", teacherDoc.id, "classrooms", classDoc.id, "students"));
-        console.log(`      * Found ${studentsSnap.size} students:`);
-        studentsSnap.forEach(stDoc => {
-           console.log(`        Student Doc ID: "${stDoc.id}" => `, stDoc.data());
-        });
-     }
+  console.log("=== DIAGNOSING FIRESTORE WRITE FOR HOMEWORKS ===");
+  try {
+    const payload = {
+      title: "Diagnostic Test",
+      subject: "maths",
+      instructions: "Just a test",
+      assignedClassId: "test-class-id",
+      status: "draft",
+      createdAt: new Date()
+    };
+    console.log("Attempting to write dummy homework to Firestore...");
+    const docRef = await addDoc(collection(db, "homeworks"), payload);
+    console.log("SUCCESS! Wrote document with ID:", docRef.id);
+  } catch (err) {
+    console.error("WRITE FAILED with error:", err);
   }
-
-  // 2. Submissions
-  console.log("\n=== ALL SUBMISSIONS IN DATABASE ===");
-  const subSnap = await getDocs(collection(db, "submissions"));
-  subSnap.forEach(sDoc => {
-     const data = sDoc.data();
-     console.log(`Submission ID: ${sDoc.id} => Student: "${data.studentName}", ClassId: "${data.classId}", Score: ${data.score}`);
-  });
 }
 
 run().catch(console.error);

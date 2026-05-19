@@ -255,7 +255,7 @@ const StudentProfile = ({ studentName, teacher, classroom, onProfileUpdate }) =>
     <motion.div 
        initial={{ opacity: 0, y: 20 }}
        animate={{ opacity: 1, y: 0 }}
-       className="max-w-4xl mx-auto py-4 space-y-6 pb-20"
+       className="max-w-[100%] mx-auto w-full py-4 space-y-6 pb-20"
     >
       {/* Header Actions */}
       <div className="flex items-center justify-between">
@@ -465,7 +465,7 @@ const SubjectIcon = ({ subject }) => {
   );
 };
 
-const HomeworkCard = ({ hw, completedSubmission, delay, onStart }) => {
+const HomeworkCard = ({ hw, completedSubmission, hasDraft, delay, onStart }) => {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -484,6 +484,12 @@ const HomeworkCard = ({ hw, completedSubmission, delay, onStart }) => {
         <p className="text-sm font-bold text-slate-500 line-clamp-2">{hw.instructions || 'Answer the questions below.'}</p>
         
         <div className="flex items-center gap-3 pt-2">
+          {hasDraft && !completedSubmission && (
+             <div className="flex items-center gap-1.5 px-3 py-1 bg-indigo-50 rounded-lg animate-pulse">
+                <span className="w-2 h-2 rounded-full bg-indigo-500" />
+                <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">In Progress</span>
+             </div>
+          )}
           <div className="flex items-center gap-1.5 px-3 py-1 bg-orange-50 rounded-lg">
              <FileText className="w-4 h-4 text-orange-500" />
              <span className="text-[10px] font-black text-orange-600 uppercase tracking-widest">{hw.questions?.length || 1} Worksheet</span>
@@ -511,6 +517,12 @@ const HomeworkCard = ({ hw, completedSubmission, delay, onStart }) => {
                  Completed (Review)
               </button>
            </div>
+        ) : hasDraft ? (
+           <div className="w-full">
+              <button onClick={() => onStart(hw.id, null)} className="w-full bg-indigo-500 hover:bg-indigo-400 text-white font-black py-3 px-6 rounded-2xl shadow-[0_4px_0_0_#4338ca] active:translate-y-1 active:shadow-none transition-all">
+                 Resume Mission 🚀
+              </button>
+           </div>
         ) : (
            <div className="w-full">
               <button onClick={() => onStart(hw.id, null)} className="w-full bg-orange-500 hover:bg-orange-400 text-white font-black py-3 px-6 rounded-2xl shadow-[0_4px_0_0_#c2410c] active:translate-y-1 active:shadow-none transition-all">
@@ -523,14 +535,20 @@ const HomeworkCard = ({ hw, completedSubmission, delay, onStart }) => {
   );
 };
 
-const MyHomework = ({ studentName, teacher, onStartMission }) => {
+const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHomeworks, submissions: initialSubmissions }) => {
    const [activeTab, setActiveTab] = useState('All');
    const [subjectFilter, setSubjectFilter] = useState('All Subjects');
-   const [homeworks, setHomeworks] = useState([]);
-   const [submissions, setSubmissions] = useState([]);
-   const [loading, setLoading] = useState(true);
+   const [homeworks, setHomeworks] = useState(initialHomeworks || []);
+   const [submissions, setSubmissions] = useState(initialSubmissions || []);
+   const [loading, setLoading] = useState(!initialHomeworks || !initialSubmissions);
 
    useEffect(() => {
+      if (initialHomeworks && initialSubmissions) {
+         setHomeworks(initialHomeworks);
+         setSubmissions(initialSubmissions);
+         setLoading(false);
+         return;
+      }
       const fetchData = async () => {
          const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student'));
          if (savedStudent && savedStudent.classroom) {
@@ -541,7 +559,7 @@ const MyHomework = ({ studentName, teacher, onStartMission }) => {
                const hwList = hwSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                setHomeworks(hwList);
 
-                // Server-filtered parallel queries - massive scaling win!
+                // Server-filtered parallel queries
                 const cleanName = studentName?.trim();
                 const subQ1 = query(collection(db, 'submissions'), where('studentName', '==', cleanName));
                 const subQ2 = query(collection(db, 'submissions'), where('studentName', '==', toTitleCase(cleanName)));
@@ -560,16 +578,33 @@ const MyHomework = ({ studentName, teacher, onStartMission }) => {
          setLoading(false);
       };
       fetchData();
-   }, [studentName]);
+   }, [studentName, initialHomeworks, initialSubmissions]);
 
    const completedHwIds = new Set(submissions.map(s => s.homeworkId));
-   const todoHws = homeworks.filter(hw => !completedHwIds.has(hw.id));
+   
+   // Compute in-progress based on local storage drafts
+   const inProgressHws = homeworks.filter(hw => {
+      if (completedHwIds.has(hw.id)) return false;
+      const draft = localStorage.getItem(`hz_draft_${studentName}_${hw.id}`);
+      if (draft) {
+         try {
+            const parsed = JSON.parse(draft);
+            return parsed && Object.keys(parsed.answers || {}).length > 0;
+         } catch(e) {
+            return false;
+         }
+      }
+      return false;
+   });
+
+   const inProgressHwIds = new Set(inProgressHws.map(hw => hw.id));
+   const todoHws = homeworks.filter(hw => !completedHwIds.has(hw.id) && !inProgressHwIds.has(hw.id));
    const completedHws = homeworks.filter(hw => completedHwIds.has(hw.id));
    
    let displayedHomeworks = homeworks;
    if (activeTab === 'To Do') displayedHomeworks = todoHws;
    if (activeTab === 'Completed') displayedHomeworks = completedHws;
-   if (activeTab === 'In Progress') displayedHomeworks = []; // Mocked for now
+   if (activeTab === 'In Progress') displayedHomeworks = inProgressHws;
 
    if (subjectFilter !== 'All Subjects') {
       displayedHomeworks = displayedHomeworks.filter(hw => hw.subject?.toLowerCase() === subjectFilter.toLowerCase());
@@ -578,12 +613,12 @@ const MyHomework = ({ studentName, teacher, onStartMission }) => {
    const tabs = [
      { id: 'All', label: `All (${homeworks.length})` },
      { id: 'To Do', label: `To Do (${todoHws.length})` },
-     { id: 'In Progress', label: `In Progress (0)` },
+     { id: 'In Progress', label: `In Progress (${inProgressHws.length})` },
      { id: 'Completed', label: `Completed (${completedHws.length})` }
    ];
 
    return (
-      <div className="max-w-5xl mx-auto py-6 space-y-8 pb-20">
+      <div className="max-w-[100%] mx-auto w-full py-6 space-y-8 pb-20">
          {/* Header area with custom illustrations */}
          <div className="flex items-center justify-between px-2 pt-4">
             <div className="flex items-center gap-4 relative z-10">
@@ -616,15 +651,15 @@ const MyHomework = ({ studentName, teacher, onStartMission }) => {
             
             <div className="relative shrink-0">
                <select 
-                 value={subjectFilter}
-                 onChange={(e) => setSubjectFilter(e.target.value)}
-                 className="appearance-none bg-white border-2 border-slate-100 rounded-full pl-10 pr-10 py-2.5 text-sm font-black text-slate-600 outline-none focus:border-[#8A70FF] cursor-pointer"
+                  value={subjectFilter}
+                  onChange={(e) => setSubjectFilter(e.target.value)}
+                  className="appearance-none bg-white border-2 border-slate-100 rounded-full pl-10 pr-10 py-2.5 text-sm font-black text-slate-600 outline-none focus:border-[#8A70FF] cursor-pointer"
                >
-                 <option>All Subjects</option>
-                 <option>English</option>
-                 <option>Maths</option>
-                 <option>Science</option>
-                 <option>General</option>
+                  <option>All Subjects</option>
+                  <option>English</option>
+                  <option>Maths</option>
+                  <option>Science</option>
+                  <option>General</option>
                </select>
                <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
@@ -636,15 +671,26 @@ const MyHomework = ({ studentName, teacher, onStartMission }) => {
             {loading ? (
                <div className="flex-center py-20"><div className="w-10 h-10 border-4 border-[#8A70FF] border-t-transparent rounded-full animate-spin" /></div>
             ) : displayedHomeworks.length > 0 ? (
-               displayedHomeworks.map((hw, i) => (
-                  <HomeworkCard 
-                     key={hw.id}
-                     hw={hw}
-                     completedSubmission={submissions.find(s => s.homeworkId === hw.id)}
-                     delay={i * 0.1} 
-                     onStart={onStartMission}
-                  />
-               ))
+               displayedHomeworks.map((hw, i) => {
+                  const draftStr = localStorage.getItem(`hz_draft_${studentName}_${hw.id}`);
+                  let hasDraft = false;
+                  if (draftStr) {
+                     try {
+                        const parsed = JSON.parse(draftStr);
+                        hasDraft = parsed && Object.keys(parsed.answers || {}).length > 0;
+                     } catch(e) {}
+                  }
+                  return (
+                     <HomeworkCard 
+                        key={hw.id}
+                        hw={hw}
+                        completedSubmission={submissions.find(s => s.homeworkId === hw.id)}
+                        hasDraft={hasDraft}
+                        delay={i * 0.1} 
+                        onStart={onStartMission}
+                     />
+                  );
+               })
             ) : (
                <div className="text-center py-20 bg-white rounded-[32px] border-2 border-dashed border-slate-200">
                   <div className="text-6xl mb-4 grayscale opacity-30">🍦</div>
@@ -658,7 +704,7 @@ const MyHomework = ({ studentName, teacher, onStartMission }) => {
             <div className="flex items-center gap-6 relative z-10">
                <img src="/assets/owl_mascot.png" className="w-24 h-24 object-contain animate-float drop-shadow-xl" alt="Mascot" />
                <p className="text-lg font-black text-slate-800">
-                 Keep it up, {(studentName || 'Student').split(' ')[0]}! Small steps every day lead to big results! 🌈
+                  Keep it up, {(studentName || 'Student').split(' ')[0]}! Small steps every day lead to big results! 🌈
                </p>
             </div>
             <button className="bg-orange-500 hover:bg-orange-400 text-white font-black py-3 px-8 rounded-2xl shadow-[0_4px_0_0_#c2410c] active:translate-y-1 active:shadow-none transition-all relative z-10 whitespace-nowrap flex items-center gap-2">
@@ -672,11 +718,16 @@ const MyHomework = ({ studentName, teacher, onStartMission }) => {
    );
 };
 
-const MissionReports = ({ studentName, teacher }) => {
-   const [submissions, setSubmissions] = useState([]);
-   const [loading, setLoading] = useState(true);
+const MissionReports = ({ studentName, teacher, submissions: initialSubmissions }) => {
+   const [submissions, setSubmissions] = useState(initialSubmissions || []);
+   const [loading, setLoading] = useState(!initialSubmissions);
 
    useEffect(() => {
+      if (initialSubmissions) {
+         setSubmissions(initialSubmissions);
+         setLoading(false);
+         return;
+      }
       const fetchSubmissions = async () => {
          try {
              const cleanName = studentName?.trim();
@@ -704,10 +755,10 @@ const MissionReports = ({ studentName, teacher }) => {
          setLoading(false);
       };
       fetchSubmissions();
-   }, [studentName]);
+   }, [studentName, initialSubmissions]);
 
    return (
-      <div className="max-w-4xl mx-auto py-4 space-y-10 pb-20">
+      <div className="max-w-[100%] mx-auto w-full py-4 space-y-10 pb-20">
          <div className="space-y-1 px-2">
             <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">Mission Reports</h1>
             <p className="text-sm font-bold text-blue-300 italic">Review your performance and AI feedback.</p>
@@ -910,7 +961,7 @@ const MyRewards = ({ studentName, classroom, homeworks, submissions, getStudentA
    };
 
    return (
-      <div className="max-w-4xl mx-auto py-4 space-y-8 pb-20">
+      <div className="max-w-[100%] mx-auto w-full py-4 space-y-8 pb-20">
          {/* Hero Header */}
          <div className="flex items-center justify-between px-2 relative">
             <div className="space-y-4">
@@ -1042,12 +1093,22 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
             const subQ1 = query(collection(db, 'submissions'), where('classId', '==', actualClassroom.id));
             const subQ2 = query(collection(db, 'submissions'), where('studentName', '==', cleanName));
             const subQ3 = query(collection(db, 'submissions'), where('studentName', '==', toTitleCase(cleanName)));
+            const subQ4 = query(collection(db, 'submissions'), where('studentName', '==', cleanName.toLowerCase()));
+            const subQ5 = query(collection(db, 'submissions'), where('studentName', '==', cleanName.toUpperCase()));
             
-            const [snap1, snap2, snap3] = await Promise.all([getDocs(subQ1), getDocs(subQ2), getDocs(subQ3)]);
+            const [snap1, snap2, snap3, snap4, snap5] = await Promise.all([
+               getDocs(subQ1), 
+               getDocs(subQ2), 
+               getDocs(subQ3),
+               getDocs(subQ4),
+               getDocs(subQ5)
+             ]);
             const combinedMap = {};
             snap1.docs.forEach(doc => combinedMap[doc.id] = { id: doc.id, ...doc.data() });
             snap2.docs.forEach(doc => combinedMap[doc.id] = { id: doc.id, ...doc.data() });
             snap3.docs.forEach(doc => combinedMap[doc.id] = { id: doc.id, ...doc.data() });
+            snap4.docs.forEach(doc => combinedMap[doc.id] = { id: doc.id, ...doc.data() });
+            snap5.docs.forEach(doc => combinedMap[doc.id] = { id: doc.id, ...doc.data() });
             
             const subList = Object.values(combinedMap);
             setSubmissions(subList);
@@ -1092,13 +1153,22 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
   // 1. Dynamic To-Do List
   const todoItems = [];
   pendingHws.forEach(hw => {
+     const draftStr = localStorage.getItem(`hz_draft_${studentName}_${hw.id}`);
+     let hasDraft = false;
+     if (draftStr) {
+        try {
+           const parsed = JSON.parse(draftStr);
+           hasDraft = parsed && Object.keys(parsed.answers || {}).length > 0;
+        } catch(e) {}
+     }
+
      todoItems.push({
         title: hw.title,
         subtitle: `${hw.subject || 'Homework'} - ${hw.questionCount || 5} Questions`,
-        btnText: "Start Mission 🚀",
+        btnText: hasDraft ? "Resume Mission 🚀" : "Start Mission 🚀",
         icon: <BookOpen className="w-5 h-5 text-purple-500" />,
         color: "bg-[#F5F3FF]",
-        btnColor: "bg-[#8A70FF]",
+        btnColor: hasDraft ? "bg-indigo-500" : "bg-[#8A70FF]",
         onClick: () => setActiveMission({ id: hw.id })
      });
   });
@@ -1448,11 +1518,11 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
            )}
 
            {activeNav === 'My Homework' && (
-              <MyHomework studentName={studentName} teacher={teacher} onStartMission={(id, pastSubmission) => setActiveMission({ id, pastSubmission })} />
+              <MyHomework studentName={studentName} teacher={teacher} homeworks={homeworks} submissions={mySubmissions} onStartMission={(id, pastSubmission) => setActiveMission({ id, pastSubmission })} />
            )}
 
            {activeNav === 'Mission Reports' && (
-              <MissionReports studentName={studentName} teacher={teacher} />
+              <MissionReports studentName={studentName} teacher={teacher} submissions={mySubmissions} />
            )}
 
            {activeNav === 'My Rewards' && (
@@ -1461,6 +1531,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                   classroom={classroom}
                   homeworks={homeworks}
                   submissions={submissions}
+                  getStudentAvatar={getStudentAvatar}
+                  classroomStudents={classroomStudents}
                />
            )}
 
@@ -1777,9 +1849,12 @@ const LoginPage = ({ role, onLogin }) => {
   const [code, setCode] = useState('');
   const [studentName, setStudentName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleSubmit = async () => {
+    setErrorMsg('');
     if (role === 'student' && (!code || !studentName)) {
+      setErrorMsg("Please enter both the Teacher Code and your name! 🎒");
       alert("Please enter both the Teacher Code and your name! 🎒");
       return;
     }
@@ -1829,29 +1904,44 @@ const LoginPage = ({ role, onLogin }) => {
           
           let studentFound = false;
           let studentClass = null;
+          let matchedStudentName = null;
+
+          const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
+          const cleanInputName = normalizeName(studentName);
 
           for (const classDoc of classroomsSnap.docs) {
-             const studentRef = doc(db, 'teachers', teacherDoc.id, 'classrooms', classDoc.id, 'students', studentName.toLowerCase());
-             const studentSnap = await getDoc(studentRef);
-             if (studentSnap.exists()) {
-               studentFound = true;
-               studentClass = { id: classDoc.id, ...classDoc.data() };
-               break;
+             const studentsRef = collection(db, 'teachers', teacherDoc.id, 'classrooms', classDoc.id, 'students');
+             const studentsSnap = await getDocs(studentsRef);
+             
+             const matchedDoc = studentsSnap.docs.find(stDoc => {
+                const stData = stDoc.data();
+                return normalizeName(stDoc.id) === cleanInputName || 
+                       normalizeName(stData.name) === cleanInputName;
+             });
+
+             if (matchedDoc) {
+                studentFound = true;
+                studentClass = { id: classDoc.id, ...classDoc.data() };
+                matchedStudentName = matchedDoc.data().name || matchedDoc.id;
+                break;
              }
           }
 
           if (studentFound) {
-             onLogin({ teacher: { uid: teacherDoc.id, ...teacherData }, name: studentName, classroom: studentClass });
+             onLogin({ teacher: { uid: teacherDoc.id, ...teacherData }, name: matchedStudentName, classroom: studentClass });
              navigate('/dashboard/student');
           } else {
-            alert("Oops! Your name isn't on the class list yet. Talk to your teacher to join the Homework Zone! 🍎");
+             setErrorMsg("Oops! Your name isn't on the class list yet. Talk to your teacher to join the Homework Zone! 🍎");
+             alert("Oops! Your name isn't on the class list yet. Talk to your teacher to join the Homework Zone! 🍎");
           }
         } else {
+          setErrorMsg("Invalid Teacher Code. Please check with your teacher! 🔍");
           alert("Invalid Teacher Code. Please check with your teacher! 🔍");
         }
       }
     } catch (error) {
       console.error("Login Error:", error);
+      setErrorMsg("Login failed. Please try again! 🔄");
       alert("Login failed. Please try again! 🔄");
     }
     setIsLoading(false);
@@ -1907,6 +1997,12 @@ const LoginPage = ({ role, onLogin }) => {
             </div>
           )}
         </div>
+
+        {errorMsg && (
+          <div className="bg-rose-50 border-4 border-[#2D3748] text-rose-600 px-6 py-4 rounded-3xl text-sm font-black text-center shadow-[4px_4px_0_0_#2D3748] animate-bounce-short">
+             {errorMsg}
+          </div>
+        )}
 
         <button 
           onClick={handleSubmit} 

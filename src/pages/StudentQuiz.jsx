@@ -24,8 +24,35 @@ import { decryptText } from '../utils/crypto';
 export default function StudentQuiz({ homeworkId, studentName, teacher, initialSubmission, onComplete }) {
   const [resolvedAiConfig, setResolvedAiConfig] = useState(null);
   const [homework, setHomework] = useState(null);
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [answers, setAnswers] = useState(initialSubmission ? initialSubmission.answers : {});
+  
+  const [currentIdx, setCurrentIdx] = useState(() => {
+    if (initialSubmission) return 0;
+    try {
+      const draft = localStorage.getItem(`hz_draft_${studentName}_${homeworkId}`);
+      if (draft) {
+        const parsed = JSON.parse(draft);
+        return typeof parsed.currentIdx === 'number' ? parsed.currentIdx : 0;
+      }
+    } catch (e) {
+      console.error("Error loading draft currentIdx:", e);
+    }
+    return 0;
+  });
+
+  const [answers, setAnswers] = useState(() => {
+    if (initialSubmission) return initialSubmission.answers || {};
+    try {
+      const draft = localStorage.getItem(`hz_draft_${studentName}_${homeworkId}`);
+      if (draft) {
+        const parsed = JSON.parse(draft);
+        return parsed.answers || {};
+      }
+    } catch (e) {
+      console.error("Error loading draft answers:", e);
+    }
+    return {};
+  });
+
   const [isSubmitted, setIsSubmitted] = useState(!!initialSubmission);
   const [isReviewing, setIsReviewing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -76,6 +103,17 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
     };
     fetchHomework();
   }, [homeworkId]);
+
+  // Auto-save draft progress to localStorage
+  useEffect(() => {
+    if (isSubmitted || loading || !homework) return;
+    if (Object.keys(answers).length > 0 || currentIdx > 0) {
+      localStorage.setItem(`hz_draft_${studentName}_${homeworkId}`, JSON.stringify({
+        answers,
+        currentIdx
+      }));
+    }
+  }, [answers, currentIdx, isSubmitted, studentName, homeworkId, loading, homework]);
 
   if (loading) {
     return (
@@ -184,6 +222,9 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         submittedAt: serverTimestamp()
       });
       
+      // Clean up the draft progress in localStorage
+      localStorage.removeItem(`hz_draft_${studentName}_${homeworkId}`);
+      
       setIsSubmitted(true);
     } catch (err) {
       console.error("Submit Error:", err);
@@ -208,10 +249,13 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
            setCurrentIdx(0);
            setScore(null);
            setFeedback('');
+           // Clean up draft on retake
+           localStorage.removeItem(`hz_draft_${studentName}_${homeworkId}`);
         }}
       />
     );
   }
+
 
   return (
     <div className="min-h-screen bg-[#f8f9fe] p-6 md:p-12 flex flex-col relative overflow-hidden">

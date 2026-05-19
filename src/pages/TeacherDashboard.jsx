@@ -45,6 +45,8 @@ import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, wh
 import HomeworkGenerator from './HomeworkGenerator';
 import { encryptText, decryptText } from '../utils/crypto';
 
+const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
+
 const TeacherDashboard = ({ user, onLogout }) => {
   console.log("TeacherDashboard Rendered. User:", user);
   const [classrooms, setClassrooms] = useState([]);
@@ -87,12 +89,61 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [newMsgRecipientId, setNewMsgRecipientId] = useState('');
   const [newMsgSubject, setNewMsgSubject] = useState('');
   const [newMsgBody, setNewMsgBody] = useState('');
+  const [subjectPrompts, setSubjectPrompts] = useState({
+    maths: 'Make 5 questions about adding fractions with unlike denominators. This is for grade 4 students.',
+    english: 'Make 5 questions about identifying nouns vs verbs in a sentence. This is for grade 4 students.',
+    science: 'Make 5 questions about the solar system and planets. This is for grade 4 students.'
+  });
+  const [newSubjectName, setNewSubjectName] = useState('');
+  const [isSavingPrompts, setIsSavingPrompts] = useState(false);
   const getStudentAvatar = (name) => {
      const st = allStudents.find(s => s.id?.toLowerCase() === name?.toLowerCase() || s.name?.toLowerCase() === name?.toLowerCase());
      if (st?.avatarUrl) {
         return st.avatarUrl;
      }
      return `https://api.dicebear.com/7.x/adventurer/svg?seed=${name || 'student'}`;
+  };
+
+  const handleSavePrompts = async () => {
+    if (!user?.uid) return;
+    setIsSavingPrompts(true);
+    try {
+      await setDoc(doc(db, 'teachers', user.uid), {
+        subjectPrompts: subjectPrompts
+      }, { merge: true });
+      alert("Generic Subject Prompts saved successfully! 🚀🪄");
+    } catch (err) {
+      console.error("Save Prompts Error:", err);
+      alert("Failed to save prompts. ❌");
+    }
+    setIsSavingPrompts(false);
+  };
+
+  const handleAddSubject = () => {
+    if (!newSubjectName.trim()) {
+      alert("Please enter a subject name! 🎒");
+      return;
+    }
+    const cleanName = newSubjectName.trim().toLowerCase();
+    if (subjectPrompts[cleanName] !== undefined) {
+      alert("This subject already exists! ⚠️");
+      return;
+    }
+    setSubjectPrompts(prev => ({
+      ...prev,
+      [cleanName]: `Make 5 questions about ${cleanName}. This is for grade 4 students.`
+    }));
+    setNewSubjectName('');
+  };
+
+  const handleDeleteSubject = (subKey) => {
+    if (window.confirm(`Are you sure you want to delete the generic prompt for "${subKey}"?`)) {
+      setSubjectPrompts(prev => {
+        const copy = { ...prev };
+        delete copy[subKey];
+        return copy;
+      });
+    }
   };
 
   const [homeworkSubject, setHomeworkSubject] = useState('English');
@@ -192,6 +243,9 @@ const TeacherDashboard = ({ user, onLogout }) => {
           if (data.activeAi) {
             setActiveAi(data.activeAi);
             localStorage.setItem('hwz_active_ai', data.activeAi);
+          }
+          if (data.subjectPrompts) {
+            setSubjectPrompts(data.subjectPrompts);
           }
           const code = user.teacherCode || data.teacherCode || user.uid.slice(0, 6).toUpperCase();
           
@@ -564,7 +618,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
       const classStudents = allStudents.filter(s => s.classId === activeClassroom.id);
       const computedStudents = classStudents.map(student => {
          const studentSubs = allSubmissions.filter(sub => 
-            sub.studentName?.toLowerCase() === student.name?.toLowerCase()
+            normalizeName(sub.studentName) === normalizeName(student.name)
          );
          const completedCount = studentSubs.length;
          const totalScore = studentSubs.reduce((acc, sub) => acc + (sub.score || 0), 0);
@@ -614,7 +668,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
 
              const computedStudents = classStudents.map(student => {
                 const studentSubs = allSubmissions.filter(sub => 
-                   sub.studentName?.toLowerCase() === student.name?.toLowerCase()
+                   normalizeName(sub.studentName) === normalizeName(student.name)
                 );
                 const completedCount = studentSubs.length;
                 const totalScore = studentSubs.reduce((acc, sub) => acc + (sub.score || 0), 0);
@@ -713,7 +767,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
 
              const studentAverages = {};
              classStudents.forEach(student => {
-                const subs = classSubmissions.filter(sub => sub.studentName?.toLowerCase() === student.name?.toLowerCase());
+                const subs = classSubmissions.filter(sub => normalizeName(sub.studentName) === normalizeName(student.name));
                 if (subs.length > 0) {
                    const total = subs.reduce((acc, sub) => acc + (sub.score || 0), 0);
                    studentAverages[student.name] = {
@@ -1575,6 +1629,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                      classrooms={classrooms} 
                      activeClassroom={activeClassroom} 
                      initialDraft={selectedDraft}
+                     subjectPrompts={subjectPrompts}
                      onHomeworkCreated={() => {
                         setSelectedDraft(null);
                         fetchDashboardSubmissions();
@@ -1590,7 +1645,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
             
             const missingReports = [];
             currentStudents.forEach(student => {
-               const studentSubs = currentSubmissions.filter(s => s.studentName?.toLowerCase() === student.name?.toLowerCase());
+               const studentSubs = currentSubmissions.filter(s => normalizeName(s.studentName) === normalizeName(student.name));
                const submittedHwIds = new Set(studentSubs.map(s => s.homeworkId));
                
                const missingHws = currentHomeworks.filter(hw => !submittedHwIds.has(hw.id));
@@ -1626,8 +1681,46 @@ const TeacherDashboard = ({ user, onLogout }) => {
                            (activeClassroom ? allSubmissions.filter(s => s.classId === activeClassroom.id) : allSubmissions).sort((a,b) => b.submittedAt - a.submittedAt).map((sub, idx) => (
                               <div key={sub.id || idx} className="grid grid-cols-12 px-8 py-6 items-center hover:bg-blue-50/10 transition-all">
                                  <div className="col-span-6 flex items-center gap-4">
-                                    <img src={getStudentAvatar(sub.studentName)} className="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt={sub.studentName} />
-                                    <span className="text-sm font-black text-[#1E3A8A]">{sub.studentName}</span>
+                                    <img src={getStudentAvatar(sub.studentName)} className="w-10 h-10 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt={sub.studentName} />
+                                    <div className="flex flex-col">
+                                       <span className="text-sm font-black text-[#1E3A8A]">{sub.studentName}</span>
+                                       {(() => {
+                                          const hw = allHomeworks.find(h => h.id === sub.homeworkId);
+                                          if (!hw) return <span className="text-[10px] text-slate-400 font-bold mt-1">Unknown Assignment</span>;
+                                          
+                                          // Format short code from document ID
+                                          const hwCode = hw.id ? `HW-${hw.id.slice(0, 5).toUpperCase()}` : 'N/A';
+                                          
+                                          // Format due date nicely
+                                          const formattedDueDate = hw.dueDate ? new Date(hw.dueDate).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'No Due Date';
+
+                                          return (
+                                             <div className="flex flex-col gap-1.5 mt-1.5">
+                                                <div className="flex items-center gap-2">
+                                                   <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-md border ${
+                                                      hw.subject === 'maths' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+                                                      hw.subject === 'science' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                                                      'bg-pink-50 text-pink-600 border-pink-100'
+                                                   }`}>
+                                                      {hw.subject}
+                                                   </span>
+                                                   <span className="text-xs font-black text-slate-700 truncate max-w-[200px]" title={hw.title}>
+                                                      {hw.title}
+                                                   </span>
+                                                </div>
+                                                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400">
+                                                   <span className="bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100 font-mono text-[9px] text-slate-500">
+                                                      {hwCode}
+                                                   </span>
+                                                   <span>•</span>
+                                                   <span className="text-rose-500">
+                                                      Due: {formattedDueDate}
+                                                   </span>
+                                                </div>
+                                             </div>
+                                          );
+                                       })()}
+                                    </div>
                                  </div>
                                  <div className="col-span-3 text-center">
                                     <span className={`px-4 py-1 rounded-full text-xs font-black ${sub.score >= 80 ? 'bg-emerald-50 text-emerald-600' : sub.score >= 50 ? 'bg-blue-50 text-blue-600' : 'bg-rose-50 text-rose-600'}`}>
@@ -1847,7 +1940,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                     onClick={() => setActiveChat(msg)}
                                     className={`w-full text-left p-6 flex items-center gap-4 transition-all ${currentChat?.id === msg.id ? 'bg-blue-50/50' : 'hover:bg-blue-50/30'}`}
                                  >
-                                    <img src={getStudentAvatar(msg.senderName)} className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt="avatar" />
+                                    <img src={getStudentAvatar(messagesTab === 'Inbox' ? msg.senderName : msg.recipientName)} className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt="avatar" />
                                     <div className="flex-1 min-w-0">
                                        <div className="flex items-center justify-between">
                                           <p className="text-sm font-black text-[#1E3A8A] truncate">
@@ -2058,7 +2151,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
             // Map each student to computed points, badges and averages based on their actual submissions
             const computedStudents = filteredStudentsList.map(student => {
                const studentSubs = allSubmissions.filter(sub => 
-                  sub.studentName?.toLowerCase() === student.name?.toLowerCase()
+                  normalizeName(sub.studentName) === normalizeName(student.name)
                );
 
                const completedCount = studentSubs.length;
@@ -2131,7 +2224,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
             // Get recent rewards based on actual submissions for the selected classroom
             const recentSubmissions = allSubmissions
                .filter(sub => {
-                  const student = allStudents.find(s => s.name?.toLowerCase() === sub.studentName?.toLowerCase());
+                  const student = allStudents.find(s => normalizeName(s.name) === normalizeName(sub.studentName));
                   if (!student) return false;
                   if (filterClass === 'All Classes') return true;
                   return student.className === filterClass;
@@ -2381,7 +2474,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
              const classStudents = allStudents.filter(s => s.classId === activeClassroom.id);
              const computedStudents = classStudents.map(student => {
                 const studentSubs = allSubmissions.filter(sub => 
-                   sub.studentName?.toLowerCase() === student.name?.toLowerCase()
+                   normalizeName(sub.studentName) === normalizeName(student.name)
                 );
                 const completedCount = studentSubs.length;
                 const totalScore = studentSubs.reduce((acc, sub) => acc + (sub.score || 0), 0);
@@ -2554,9 +2647,102 @@ const TeacherDashboard = ({ user, onLogout }) => {
                 </div>
              );
           }
+           case 'My Prompts': {
+              return (
+                 <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
+                    {/* Top Header */}
+                    <div className="flex items-center justify-between">
+                       <div>
+                          <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">My AI Prompts</h1>
+                          <p className="text-sm font-bold text-blue-300 italic">Configure default templates that automatically pre-fill the Magic Quiz Builder when a subject is chosen.</p>
+                       </div>
+                    </div>
 
-         default:
-            return null;
+                    {/* Main Form container */}
+                    <div className="grid grid-cols-12 gap-8 items-start">
+                       {/* Left: Prompts List */}
+                       <div className="col-span-8 space-y-6">
+                          {Object.keys(subjectPrompts).length > 0 ? (
+                             Object.keys(subjectPrompts).map(subKey => (
+                                <div key={subKey} className="bg-white rounded-[32px] border border-blue-50 shadow-sm p-6 space-y-4 hover:shadow-md transition-all relative overflow-hidden group">
+                                   <div className="flex items-center justify-between">
+                                      <div className="flex items-center gap-3">
+                                         <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-500 font-black text-xs uppercase shadow-sm">
+                                            {subKey.slice(0, 3)}
+                                         </div>
+                                         <h3 className="text-base font-black text-[#1E3A8A] capitalize">{subKey}</h3>
+                                      </div>
+                                      <button 
+                                         onClick={() => handleDeleteSubject(subKey)}
+                                         className="text-red-400 hover:text-red-600 transition-colors w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-50"
+                                         title="Delete Subject"
+                                      >
+                                         <Trash2 className="w-4 h-4" />
+                                      </button>
+                                   </div>
+                                   <div className="relative">
+                                      <textarea 
+                                         value={subjectPrompts[subKey]}
+                                         onChange={(e) => setSubjectPrompts(prev => ({ ...prev, [subKey]: e.target.value }))}
+                                         className="w-full h-32 bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-slate-700 font-bold outline-none focus:border-indigo-400 transition-colors resize-none text-xs"
+                                         placeholder={`Enter generic prompt for ${subKey}...`}
+                                      />
+                                   </div>
+                                </div>
+                             ))
+                          ) : (
+                             <div className="text-center py-20 bg-white rounded-[32px] border border-blue-50">
+                                <p className="text-blue-300 font-bold italic">No generic prompts configured. Add a subject on the right!</p>
+                             </div>
+                          )}
+
+                          {/* Save Button */}
+                          <div className="flex justify-end pt-4">
+                             <button
+                                onClick={handleSavePrompts}
+                                disabled={isSavingPrompts}
+                                className="bg-indigo-600 hover:bg-indigo-500 text-white font-black py-4 px-10 rounded-[24px] shadow-lg shadow-indigo-100 active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50"
+                             >
+                                {isSavingPrompts ? 'Saving...' : 'Save All Prompts ✨'}
+                             </button>
+                          </div>
+                       </div>
+
+                       {/* Right: Add Subject Controls */}
+                       <div className="col-span-4 bg-white rounded-[32px] border border-blue-50 shadow-sm p-6 space-y-6">
+                          <div className="space-y-2">
+                             <h3 className="text-lg font-black text-[#1E3A8A]">Add New Subject</h3>
+                             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Create a custom prompt section</p>
+                          </div>
+
+                          <div className="space-y-4">
+                             <div className="space-y-1">
+                                <label className="text-xs font-black text-slate-500 block ml-1">Subject Name</label>
+                                <input 
+                                   type="text"
+                                   value={newSubjectName}
+                                   onChange={(e) => setNewSubjectName(e.target.value)}
+                                   placeholder="e.g. History"
+                                   className="w-full bg-slate-50 border border-slate-100 p-3.5 rounded-2xl text-xs font-semibold text-[#475569] shadow-inner focus:border-indigo-400 outline-none transition-all"
+                                />
+                             </div>
+                             <button
+                                onClick={handleAddSubject}
+                                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-black py-3.5 rounded-2xl shadow-md hover:scale-[1.02] active:scale-95 transition-all text-xs"
+                             >
+                                Create Subject Card ➕
+                             </button>
+                          </div>
+                       </div>
+                    </div>
+
+                    <GrassBorder />
+                 </div>
+              );
+           }
+ 
+          default:
+             return null;
       }
    };
 
@@ -2580,6 +2766,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
             <SidebarItem id="Gradebook" label="Gradebook" icon={<Trophy className="w-5 h-5 text-emerald-500" />} active={activeTab === 'Gradebook'} onClick={setActiveTab} />
             <SidebarItem id="Messages" label="Messages" icon={<img src="/ic-messages.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Messages" />} active={activeTab === 'Messages'} onClick={setActiveTab} />
             <SidebarItem id="Rewards" label="Rewards" icon={<img src="/ic-rewards.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Rewards" />} active={activeTab === 'Rewards'} onClick={setActiveTab} />
+            <SidebarItem id="My Prompts" label="My Prompts" icon={<MessageSquare className="w-5 h-5 text-indigo-500" />} active={activeTab === 'My Prompts'} onClick={setActiveTab} />
             <SidebarItem id="AI Hub" label="AI Hub" icon={<Zap className="w-5 h-5 text-purple-500" />} active={showAiSettings} onClick={() => setShowAiSettings(true)} />
          </nav>
 

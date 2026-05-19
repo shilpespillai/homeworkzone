@@ -5,6 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HomeworkZone | AI-Native Education</title>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#4f46e5" />
+    <link rel="apple-touch-icon" href="/logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@500;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -34,5 +37,14 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((reg) => console.log('Service Worker registered successfully!', reg.scope))
+            .catch((err) => console.log('Service Worker registration failed:', err));
+        });
+      }
+    </script>
   </body>
 </html>
