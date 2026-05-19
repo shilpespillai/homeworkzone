@@ -1,4 +1,4 @@
-const CACHE_NAME = 'homeworkzone-v1';
+const CACHE_NAME = 'homeworkzone-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -38,7 +38,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch Event (Network Falling Back to Cache for SPA routes, Cache first for assets)
+// Fetch Event
 self.addEventListener('fetch', (event) => {
   const requestUrl = new URL(event.request.url);
 
@@ -53,6 +53,25 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Network-First for HTML/navigation requests to prevent cached index.html referencing deleted hashes
+  if (event.request.mode === 'navigate' || requestUrl.pathname === '/' || requestUrl.pathname === '/index.html') {
+    event.respondWith(
+      fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+        }
+        return networkResponse;
+      }).catch(() => {
+        return caches.match('/index.html') || caches.match('/');
+      })
+    );
+    return;
+  }
+
+  // Cache-First for other static assets
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
@@ -71,11 +90,6 @@ self.addEventListener('fetch', (event) => {
         });
 
         return networkResponse;
-      }).catch(() => {
-        // Fallback for SPA routing offline: return index.html
-        if (event.request.mode === 'navigate') {
-          return caches.match('/index.html');
-        }
       });
     })
   );
