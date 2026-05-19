@@ -24,7 +24,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
-import { collection, addDoc, serverTimestamp, getDocs, query, where, orderBy, deleteDoc, doc, getDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, getDocs, query, where, orderBy, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 import { decryptText } from '../utils/crypto';
 
 const SUBJECTS = [
@@ -74,7 +74,7 @@ const SUBJECTS = [
   },
 ];
 
-export default function HomeworkGenerator({ user, classrooms = [], activeClassroom }) {
+export default function HomeworkGenerator({ user, classrooms = [], activeClassroom, initialDraft, onHomeworkCreated }) {
   const [formData, setFormData] = useState({
     subject: 'maths',
     title: '',
@@ -95,6 +95,23 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
 
   const [activeTab, setActiveTab] = useState('create');
   const [pastHomeworks, setPastHomeworks] = useState([]);
+  
+  useEffect(() => {
+    if (initialDraft) {
+      setFormData({
+        subject: initialDraft.subject || 'maths',
+        title: initialDraft.title || '',
+        instructions: initialDraft.instructions || '',
+        classId: initialDraft.assignedClassId || '',
+        dueDate: initialDraft.dueDate || '',
+        time: initialDraft.time || '',
+        points: initialDraft.points || '10'
+      });
+      setGeneratedQuestions(initialDraft.questions || null);
+      setIsAiAccepted(true);
+      setActiveTab('create');
+    }
+  }, [initialDraft]);
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
   const [filterDate, setFilterDate] = useState('');
   const [expandedHomeworkId, setExpandedHomeworkId] = useState(null);
@@ -294,7 +311,11 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         createdAt: serverTimestamp()
       };
 
-      await addDoc(collection(db, 'homeworks'), payload);
+      if (initialDraft?.id) {
+        await setDoc(doc(db, 'homeworks', initialDraft.id), payload, { merge: true });
+      } else {
+        await addDoc(collection(db, 'homeworks'), payload);
+      }
       alert("Homework Published Successfully! 🚀");
       
       // Reset form
@@ -309,6 +330,10 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       });
       setGeneratedQuestions(null);
       setIsAiAccepted(false);
+      
+      if (typeof onHomeworkCreated === 'function') {
+        onHomeworkCreated();
+      }
     } catch (err) {
       console.error("Publish Error:", err);
       alert("Failed to publish homework. ❌");
@@ -338,7 +363,11 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         createdAt: serverTimestamp()
       };
 
-      await addDoc(collection(db, 'homeworks'), payload);
+      if (initialDraft?.id) {
+        await setDoc(doc(db, 'homeworks', initialDraft.id), payload, { merge: true });
+      } else {
+        await addDoc(collection(db, 'homeworks'), payload);
+      }
       alert("Homework Saved as Draft! 📝🚀");
       
       // Reset form
@@ -353,6 +382,10 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       });
       setGeneratedQuestions(null);
       setIsAiAccepted(false);
+      
+      if (typeof onHomeworkCreated === 'function') {
+        onHomeworkCreated();
+      }
       
       fetchPastHomeworks();
     } catch (err) {

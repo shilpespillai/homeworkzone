@@ -54,6 +54,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [newClassName, setNewClassName] = useState('');
   const [isAdding, setIsAdding] = useState(false);
   const [activeTab, setActiveTab] = useState('Dashboard');
+  const [selectedDraft, setSelectedDraft] = useState(null);
   const [dashboardTimeFilter, setDashboardTimeFilter] = useState('Weekly');
   const [timeFilteredSubmissions, setTimeFilteredSubmissions] = useState([]);
   const [selectedSubmission, setSelectedSubmission] = useState(null);
@@ -972,6 +973,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                            </div>
                                            <button 
                                               onClick={() => {
+                                                 setSelectedDraft(draft);
                                                  setActiveTab('Homework');
                                               }}
                                               className="text-[10px] font-black bg-[#C23C9F] text-white px-3 py-1.5 rounded-xl hover:bg-[#A13083] transition-colors shrink-0"
@@ -1025,7 +1027,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                               <span className={`text-xs font-black ${textColor}`}>{gap.average}% Mastery</span>
                                            </div>
                                            <div className="h-1.5 w-full bg-slate-50 rounded-full overflow-hidden border border-slate-100">
-                                              <div className={`h-full rounded-full ${progressColor}`} style={{ width: `${gap.average}%` }} />
+                                              <div className={`h-full ${progressColor}`} style={{ width: `${gap.average}%` }} />
                                            </div>
                                            <div className="bg-[#FAF2FF] rounded-xl p-3 border border-[#E8C6FF]/30">
                                               <span className="text-[8px] font-black uppercase text-purple-400 tracking-wider block mb-0.5">💡 Teacher Prep Hint</span>
@@ -1568,7 +1570,16 @@ const TeacherDashboard = ({ user, onLogout }) => {
           case 'Homework':
             return (
                <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
-                  <HomeworkGenerator user={user} classrooms={classrooms} activeClassroom={activeClassroom} onHomeworkCreated={fetchDashboardSubmissions} />
+                  <HomeworkGenerator 
+                     user={user} 
+                     classrooms={classrooms} 
+                     activeClassroom={activeClassroom} 
+                     initialDraft={selectedDraft}
+                     onHomeworkCreated={() => {
+                        setSelectedDraft(null);
+                        fetchDashboardSubmissions();
+                     }} 
+                  />
                   <GrassBorder />
                </div>
             );
