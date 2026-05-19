@@ -51,3 +51,30 @@
 ::-webkit-scrollbar-thumb {
   @apply bg-purple-200 rounded-full border-4 border-blue-50;
 }
+
+/* Unbold the font for a lighter, playful look in all student pages and student login */
+.student-theme h1,
+.student-theme h2,
+.student-theme h3,
+.student-theme h4,
+.student-theme h5,
+.student-theme h6 {
+  font-weight: 500 !important;
+}
+
+.student-theme p,
+.student-theme span,
+.student-theme div,
+.student-theme button,
+.student-theme input,
+.student-theme label,
+.student-theme small,
+.student-theme strong,
+.student-theme select,
+.student-theme textarea,
+.student-theme a,
+.student-theme li,
+.student-theme td,
+.student-theme th {
+  font-weight: 400 !important;
+}

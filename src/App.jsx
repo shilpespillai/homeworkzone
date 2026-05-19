@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Lottie from "lottie-react";
 import { BrowserRouter as Router, Routes, Route, useNavigate, Link, Navigate } from 'react-router-dom';
+
+const toTitleCase = (str) => {
+  if (!str) return '';
+  return str
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
 import { 
   LayoutDashboard, 
   BookOpen, 
@@ -40,6 +50,8 @@ import {
   Home,
   Users,
   User,
+  Camera,
+  Upload,
   Check,
   Cloud,
   Filter,
@@ -101,21 +113,65 @@ const BlobChart = ({ value }) => (
 );
 
 // --- Student Profile Component (High Fidelity) ---
-const StudentProfile = ({ studentName, teacher, classroom }) => {
+const StudentProfile = ({ studentName, teacher, classroom, onProfileUpdate }) => {
   const [profile, setProfile] = useState({
     name: studentName || '',
     grade: classroom?.name || 'Grade 08',
     birthdate: '2010-05-11',
-    contact: ''
+    contact: '',
+    avatarUrl: ''
   });
   const [isSaving, setIsSaving] = useState(false);
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState('');
+
+  const handleSaveAvatar = async (avatarUrlToSave) => {
+     try {
+        const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student'));
+        const actualClass = classroom || savedStudent?.classroom;
+        const actualTeacher = teacher || savedStudent?.teacher;
+        
+        if (savedStudent && actualClass && actualTeacher) {
+           const studentRef = doc(db, 'teachers', actualTeacher.uid, 'classrooms', actualClass.id, 'students', studentName.toLowerCase());
+           
+           // Instantly write new avatar choice to Firestore
+           await setDoc(studentRef, {
+              avatarUrl: avatarUrlToSave,
+              updatedAt: new Date().toISOString()
+           }, { merge: true });
+           
+           // Sync state instantly
+           setProfile(prev => ({ ...prev, avatarUrl: avatarUrlToSave }));
+           
+           // Notify parent dashboard to reload rosters
+           if (onProfileUpdate) {
+              onProfileUpdate();
+           }
+        }
+     } catch (err) {
+        console.error("Instant Save Avatar Error:", err);
+     }
+  };
+
+  const animatedMascots = [
+     { name: "Owl 🦉", url: "https://img.icons8.com/fluency/96/owl.png" },
+     { name: "Fox 🦊", url: "https://img.icons8.com/fluency/96/fox.png" },
+     { name: "Panda 🐼", url: "https://img.icons8.com/fluency/96/panda.png" },
+     { name: "Lion 🦁", url: "https://img.icons8.com/fluency/96/lion-head.png" },
+     { name: "Koala 🐨", url: "https://img.icons8.com/fluency/96/koala.png" },
+     { name: "Dino 🦖", url: "https://img.icons8.com/fluency/96/dinosaur.png" },
+     { name: "Unicorn 🦄", url: "https://img.icons8.com/fluency/96/unicorn.png" },
+     { name: "Tiger 🐯", url: "https://img.icons8.com/fluency/96/tiger.png" }
+  ];
 
   useEffect(() => {
-    // Load existing profile data from Firestore
+    // Load existing profile data from Firestore with safe auth fallback
     const fetchProfile = async () => {
        const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student'));
-       if (savedStudent && savedStudent.classroom && teacher) {
-          const studentRef = doc(db, 'teachers', teacher.uid, 'classrooms', savedStudent.classroom.id, 'students', studentName.toLowerCase());
+       const actualClass = classroom || savedStudent?.classroom;
+       const actualTeacher = teacher || savedStudent?.teacher;
+       if (savedStudent && actualClass && actualTeacher) {
+          const studentRef = doc(db, 'teachers', actualTeacher.uid, 'classrooms', actualClass.id, 'students', studentName.toLowerCase());
           const snap = await getDoc(studentRef);
           if (snap.exists()) {
              const data = snap.data();
@@ -124,23 +180,69 @@ const StudentProfile = ({ studentName, teacher, classroom }) => {
                 ...data,
                 name: data.name || studentName
              }));
+             if (data.avatarUrl) {
+                setSelectedAvatar(data.avatarUrl);
+             }
           }
        }
     };
     fetchProfile();
-  }, [studentName, teacher]);
+  }, [studentName, teacher, classroom]);
+
+  const handleCustomPhotoUpload = (e) => {
+     const file = e.target.files?.[0];
+     if (!file) return;
+
+     const reader = new FileReader();
+     reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+           const canvas = document.createElement('canvas');
+           const ctx = canvas.getContext('2d');
+           canvas.width = 256;
+           canvas.height = 256;
+           
+           const minDim = Math.min(img.width, img.height);
+           const sx = (img.width - minDim) / 2;
+           const sy = (img.height - minDim) / 2;
+           
+           ctx.drawImage(img, sx, sy, minDim, minDim, 0, 0, 256, 256);
+           
+           const base64Url = canvas.toDataURL('image/jpeg', 0.85);
+           setSelectedAvatar(base64Url);
+           handleSaveAvatar(base64Url);
+           setIsAvatarModalOpen(false);
+        };
+        img.src = event.target.result;
+     };
+     reader.readAsDataURL(file);
+  };
 
   const handleSave = async () => {
      setIsSaving(true);
      try {
         const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student'));
-        if (savedStudent && savedStudent.classroom && teacher) {
-           const studentRef = doc(db, 'teachers', teacher.uid, 'classrooms', savedStudent.classroom.id, 'students', studentName.toLowerCase());
-           await updateDoc(studentRef, {
+        const actualClass = classroom || savedStudent?.classroom;
+        const actualTeacher = teacher || savedStudent?.teacher;
+        
+        if (savedStudent && actualClass && actualTeacher) {
+           const studentRef = doc(db, 'teachers', actualTeacher.uid, 'classrooms', actualClass.id, 'students', studentName.toLowerCase());
+           const cleanName = toTitleCase(profile.name || studentName);
+           
+           // Use setDoc with { merge: true } so it safely creates the document if it doesn't exist yet
+           await setDoc(studentRef, {
               ...profile,
+              name: cleanName,
               updatedAt: new Date().toISOString()
-           });
-           alert("Profile saved! Your teacher can now see your updates. ✨");
+           }, { merge: true });
+           
+           alert("Profile saved successfully! Your teacher can now see your updates. ✨");
+           if (onProfileUpdate) {
+              onProfileUpdate();
+           }
+        } else {
+           console.error("Auth context missing on profile save:", { savedStudent, actualClass, actualTeacher });
+           alert("Could not save: Missing login context. Please log out and log back in! 🔒");
         }
      } catch (err) {
         console.error("Save Profile Error:", err);
@@ -177,10 +279,92 @@ const StudentProfile = ({ studentName, teacher, classroom }) => {
       {/* Top Section: Avatar & Name */}
       <div className="flex flex-col items-center gap-2">
          <div className="w-32 h-32 bg-[#FFE4D6] rounded-full p-1 shadow-lg relative group transition-transform hover:scale-105">
-            <img src={`https://api.dicebear.com/7.x/lorelei/svg?seed=${profile.name}`} className="w-full h-full rounded-full object-cover" alt="Avatar" />
+            <img src={profile.avatarUrl || `https://api.dicebear.com/7.x/lorelei/svg?seed=${profile.name}`} className="w-full h-full rounded-full object-cover" alt="Avatar" />
+            <button 
+               onClick={() => {
+                  setSelectedAvatar(profile.avatarUrl);
+                  setIsAvatarModalOpen(true);
+               }}
+               className="absolute bottom-0 right-0 w-10 h-10 bg-[#8A70FF] text-white rounded-full flex-center shadow-lg border-2 border-white hover:scale-110 active:scale-95 transition-all"
+            >
+               <Camera size={18} />
+            </button>
          </div>
          <h2 className="text-2xl font-semibold text-[#2D3748] mt-2">{profile.name}</h2>
       </div>
+
+      {/* Premium Avatar & Mascot Picker Modal */}
+      {isAvatarModalOpen && (
+         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[9999] flex-center p-4">
+            <div className="bg-white rounded-[36px] border border-slate-100 max-w-lg w-full p-8 space-y-6 shadow-2xl relative">
+               <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-semibold text-[#2D3748] tracking-tighter">Choose Profile Mascot 🎨</h3>
+                  <button 
+                     onClick={() => setIsAvatarModalOpen(false)}
+                     className="w-9 h-9 bg-slate-50 rounded-full flex-center text-slate-400 hover:bg-slate-100 transition-all font-black text-sm"
+                  >
+                     ✕
+                  </button>
+               </div>
+
+               <div className="space-y-4">
+                  <h4 className="text-xs font-black uppercase text-slate-400 tracking-wider">Option A: Predefined Animated Mascots</h4>
+                  <div className="grid grid-cols-4 gap-4">
+                     {animatedMascots.map((mascot, idx) => (
+                        <button 
+                           key={idx}
+                           onClick={() => setSelectedAvatar(mascot.url)}
+                           className={`p-2 rounded-2xl border-2 transition-all hover:scale-105 relative ${selectedAvatar === mascot.url ? 'border-[#8A70FF] bg-purple-50/30' : 'border-slate-100 bg-slate-50/50 hover:border-slate-200'}`}
+                        >
+                           <img src={mascot.url} className="w-12 h-12 object-contain mx-auto" alt={mascot.name} />
+                           <span className="text-[9px] font-semibold text-slate-400 block mt-1 text-center leading-none">{mascot.name}</span>
+                           {selectedAvatar === mascot.url && (
+                              <div className="absolute top-1 right-1 w-4 h-4 bg-[#8A70FF] text-white rounded-full flex-center text-[8px] font-bold">✓</div>
+                           )}
+                        </button>
+                     ))}
+                  </div>
+               </div>
+
+               <div className="h-px bg-slate-100" />
+
+               <div className="space-y-4">
+                  <h4 className="text-xs font-black uppercase text-slate-400 tracking-wider">Option B: Upload Custom Photo</h4>
+                  
+                  <label className="border-2 border-dashed border-slate-200 hover:border-[#8A70FF] rounded-3xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all bg-slate-50/50 hover:bg-purple-50/10 group">
+                     <Upload className="w-8 h-8 text-slate-400 group-hover:text-[#8A70FF] transition-all" />
+                     <span className="text-xs font-semibold text-slate-600">Click to upload custom picture</span>
+                     <span className="text-[10px] font-semibold text-slate-400">PNG, JPG or GIF (Auto-sized)</span>
+                     <input 
+                        type="file" 
+                        accept="image/*"
+                        onChange={handleCustomPhotoUpload}
+                        className="hidden" 
+                     />
+                  </label>
+               </div>
+
+               <div className="flex items-center gap-3 pt-2">
+                  <button 
+                     onClick={() => {
+                        handleSaveAvatar(selectedAvatar);
+                        setIsAvatarModalOpen(false);
+                     }}
+                     className="flex-1 bg-[#8A70FF] text-white py-3.5 rounded-2xl font-semibold text-sm shadow-lg shadow-purple-100 hover:scale-105 active:scale-95 transition-all"
+                  >
+                     Equip Mascot 🚀
+                  </button>
+                  <button 
+                     onClick={() => setIsAvatarModalOpen(false)}
+                     className="px-6 bg-slate-100 text-slate-500 py-3.5 rounded-2xl font-semibold text-sm hover:bg-slate-200 transition-all"
+                  >
+                     Cancel
+                  </button>
+               </div>
+            </div>
+         </div>
+      )}
+
 
       {/* Form Section */}
       <div className="space-y-4 px-4">
@@ -196,21 +380,22 @@ const StudentProfile = ({ studentName, teacher, classroom }) => {
 
          <div className="grid grid-cols-12 gap-4 items-center">
             <label className="col-span-3 text-lg font-semibold text-[#2D3748]">Class</label>
-            <div className="col-span-9 relative">
-               <div className="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-2xl text-base font-semibold text-[#475569] shadow-sm text-left opacity-80 cursor-not-allowed">
-                  {classroom?.name || profile.grade}
-               </div>
-            </div>
+            <input 
+               type="text" 
+               value={profile.grade || ''}
+               onChange={(e) => setProfile({...profile, grade: e.target.value})}
+               className="col-span-9 bg-white border border-slate-200 p-3.5 rounded-2xl text-base font-semibold text-[#475569] shadow-sm focus:border-[#8A70FF] outline-none transition-all"
+            />
          </div>
 
          <div className="grid grid-cols-12 gap-4 items-center">
             <label className="col-span-3 text-lg font-semibold text-[#2D3748]">Birthdate</label>
             <div className="col-span-9 relative">
                <input 
-                  type="text" 
-                  value="May 11, 2020"
-                  readOnly
-                  className="w-full bg-white border border-slate-200 p-3.5 rounded-2xl text-base font-semibold text-[#475569] shadow-sm outline-none transition-all pr-12"
+                  type="date" 
+                  value={profile.birthdate || '2020-05-11'}
+                  onChange={(e) => setProfile({...profile, birthdate: e.target.value})}
+                  className="w-full bg-white border border-slate-200 p-3.5 rounded-2xl text-base font-semibold text-[#475569] shadow-sm focus:border-[#8A70FF] outline-none transition-all pr-12"
                />
                <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
             </div>
@@ -220,72 +405,15 @@ const StudentProfile = ({ studentName, teacher, classroom }) => {
             <label className="col-span-3 text-lg font-semibold text-[#2D3748]">Contact Info</label>
             <input 
                type="text" 
-               value={profile.contact}
+               value={profile.contact || ''}
                onChange={(e) => setProfile({...profile, contact: e.target.value})}
                className="col-span-9 bg-white border border-slate-200 p-3.5 rounded-2xl text-base font-semibold text-[#475569] shadow-sm focus:border-[#8A70FF] outline-none transition-all"
             />
          </div>
       </div>
 
-      {/* Achievements & Skills Box */}
-      <div className="bg-white rounded-[32px] p-8 border border-slate-100 shadow-sm space-y-6 mt-4">
-         <h2 className="text-2xl font-semibold text-[#2D3748]">Achievements & Skills</h2>
-         
-         <div className="space-y-8">
-            {/* Badges Row */}
-            <div className="grid grid-cols-4 gap-4">
-               <div className="flex flex-col items-center gap-2">
-                  <div className="w-16 h-16 bg-[#FFB21D] rounded-full flex-center shadow-lg hover:scale-110 transition-transform">
-                     <span className="text-3xl">🐝</span>
-                  </div>
-                  <span className="text-[10px] font-semibold text-[#2D3748] text-center uppercase tracking-tight">Speiling Box</span>
-               </div>
-               <div className="flex flex-col items-center gap-2">
-                  <div className="w-16 h-16 bg-[#52B788] rounded-full flex-center shadow-lg hover:scale-110 transition-transform">
-                     <span className="text-3xl">🧮</span>
-                  </div>
-                  <span className="text-[10px] font-semibold text-[#2D3748] text-center uppercase tracking-tight">Number Croncher</span>
-               </div>
-               <div className="flex flex-col items-center gap-2">
-                  <div className="w-16 h-16 bg-[#38BDF8] rounded-full flex-center shadow-lg hover:scale-110 transition-transform">
-                     <span className="text-3xl">⭐</span>
-                  </div>
-                  <span className="text-[10px] font-semibold text-[#2D3748] text-center uppercase tracking-tight">Star Reader</span>
-               </div>
-               <div className="flex flex-col items-center gap-2">
-                  <div className="w-16 h-16 bg-[#FFD93D] rounded-full flex-center shadow-lg hover:scale-110 transition-transform">
-                     <span className="text-3xl">😊</span>
-                  </div>
-                  <span className="text-[10px] font-semibold text-[#2D3748] text-center uppercase tracking-tight">Helpful Fear</span>
-               </div>
-            </div>
-
-            {/* Skills List */}
-            <div className="space-y-4 pt-2">
-               <div className="flex items-center gap-4 group">
-                  <div className="w-14 h-14 bg-[#38BDF8]/20 rounded-full flex-center shrink-0 shadow-sm group-hover:scale-110 transition-transform">
-                     <GraduationCap className="w-8 h-8 text-[#8A70FF]" />
-                  </div>
-                  <div>
-                     <h4 className="text-base font-semibold text-[#2D3748]">Skills</h4>
-                     <p className="text-[10px] font-semibold text-slate-400">Corrext decomptation on aheritants</p>
-                  </div>
-               </div>
-               <div className="flex items-center gap-4 group">
-                  <div className="w-14 h-14 bg-[#52B788]/20 rounded-full flex-center shrink-0 shadow-sm group-hover:scale-110 transition-transform">
-                     <Trophy className="w-8 h-8 text-[#52B788]" />
-                  </div>
-                  <div>
-                     <h4 className="text-base font-semibold text-[#2D3748]">Skills</h4>
-                     <p className="text-[10px] font-semibold text-slate-400">Cuvrent buiderisles skills, and convetiones</p>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-
       {/* Save Button Floating */}
-      <div className="flex justify-center pt-2">
+      <div className="flex justify-center pt-6">
          <button 
             onClick={handleSave}
             disabled={isSaving}
@@ -413,11 +541,18 @@ const MyHomework = ({ studentName, teacher, onStartMission }) => {
                const hwList = hwSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                setHomeworks(hwList);
 
-               // Fetch submissions
-               const subQ = query(collection(db, 'submissions'), where('studentName', '==', studentName));
-               const subSnap = await getDocs(subQ);
-               const subList = subSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-               setSubmissions(subList);
+                // Server-filtered parallel queries - massive scaling win!
+                const cleanName = studentName?.trim();
+                const subQ1 = query(collection(db, 'submissions'), where('studentName', '==', cleanName));
+                const subQ2 = query(collection(db, 'submissions'), where('studentName', '==', toTitleCase(cleanName)));
+                
+                const [snap1, snap2] = await Promise.all([getDocs(subQ1), getDocs(subQ2)]);
+                const combinedMap = {};
+                snap1.docs.forEach(doc => combinedMap[doc.id] = { id: doc.id, ...doc.data() });
+                snap2.docs.forEach(doc => combinedMap[doc.id] = { id: doc.id, ...doc.data() });
+                
+                const subList = Object.values(combinedMap);
+                setSubmissions(subList);
             } catch (err) {
                console.error("Fetch Data Error:", err);
             }
@@ -544,13 +679,25 @@ const MissionReports = ({ studentName, teacher }) => {
    useEffect(() => {
       const fetchSubmissions = async () => {
          try {
-            const q = query(
-               collection(db, 'submissions'),
-               where('studentName', '==', studentName),
-               orderBy('submittedAt', 'desc')
-            );
-            const snap = await getDocs(q);
-            setSubmissions(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+             const cleanName = studentName?.trim();
+             const q1 = query(collection(db, 'submissions'), where('studentName', '==', cleanName));
+             const q2 = query(collection(db, 'submissions'), where('studentName', '==', toTitleCase(cleanName)));
+             
+             const [snap1, snap2] = await Promise.all([getDocs(q1), getDocs(q2)]);
+             const combinedMap = {};
+             snap1.docs.forEach(doc => combinedMap[doc.id] = { id: doc.id, ...doc.data() });
+             snap2.docs.forEach(doc => combinedMap[doc.id] = { id: doc.id, ...doc.data() });
+             
+             const subList = Object.values(combinedMap);
+            
+            // Sort client-side in memory to bypass Firebase composite index requirement
+            subList.sort((a, b) => {
+               const timeA = a.submittedAt?.toDate ? a.submittedAt.toDate().getTime() : (a.submittedAt || 0);
+               const timeB = b.submittedAt?.toDate ? b.submittedAt.toDate().getTime() : (b.submittedAt || 0);
+               return timeB - timeA;
+            });
+            
+            setSubmissions(subList);
          } catch (err) {
             console.error("Fetch Submissions Error:", err);
          }
@@ -576,12 +723,18 @@ const MissionReports = ({ studentName, teacher }) => {
                   className="bg-white rounded-[32px] p-8 border border-slate-100 shadow-sm flex items-center justify-between group hover:shadow-md transition-all"
                >
                   <div className="flex items-center gap-6">
-                     <div className="w-16 h-16 bg-blue-50 rounded-2xl flex-center shadow-sm">
+                     <div className="w-16 h-16 bg-blue-50 rounded-2xl flex-center shadow-sm shrink-0">
                         <Trophy className={`w-8 h-8 ${sub.score >= 80 ? 'text-amber-400' : 'text-blue-400'}`} />
                      </div>
-                     <div>
+                     <div className="space-y-1">
                         <h3 className="text-xl font-black text-slate-800 tracking-tight">Mission Result: {sub.score}%</h3>
-                        <p className="text-xs font-bold text-blue-400 italic">"{sub.feedback}"</p>
+                        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block">Classroom Assignment</span>
+                        {sub.feedback && (
+                          <div className="mt-3 bg-purple-50/50 border border-purple-100 p-4 rounded-2xl relative shadow-sm max-w-lg text-left">
+                            <span className="text-[9px] font-black uppercase text-purple-500 tracking-wider block mb-1">🤖 AI Teacher Feedback</span>
+                            <p className="text-xs font-bold text-[#5C4D9F] leading-relaxed italic">"${sub.feedback}"</p>
+                          </div>
+                        )}
                      </div>
                   </div>
                   <div className="text-right">
@@ -598,21 +751,31 @@ const MissionReports = ({ studentName, teacher }) => {
    );
 };
 
-const RewardBadge = ({ icon, label, color, delay }) => (
+const RewardBadge = ({ icon, label, color, delay, unlocked }) => (
    <motion.div 
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay }}
-      className="flex flex-col items-center gap-3 group cursor-pointer"
+      className={`flex flex-col items-center gap-3 group cursor-pointer relative ${unlocked ? '' : 'opacity-40 grayscale'}`}
    >
-      <div className={`w-20 h-20 ${color} rounded-full flex-center shadow-md border-4 border-white group-hover:scale-110 transition-all`}>
+      <div className={`w-20 h-20 ${color} rounded-full flex-center shadow-md border-4 border-white group-hover:scale-110 transition-all relative`}>
          <span className="text-4xl drop-shadow-sm">{icon}</span>
+         {!unlocked && (
+            <div className="absolute inset-0 bg-slate-900/10 rounded-full flex-center">
+               <span className="text-sm">🔒</span>
+            </div>
+         )}
       </div>
-      <span className="text-[11px] font-semibold text-[#2D3748] text-center leading-tight tracking-tight uppercase px-1">{label}</span>
+      <div className="text-center space-y-0.5">
+         <span className="text-[11px] font-black text-[#2D3748] text-center leading-tight tracking-tight uppercase px-1 block">{label}</span>
+         <span className={`text-[8px] font-bold uppercase tracking-widest ${unlocked ? 'text-emerald-500' : 'text-slate-400'}`}>
+            {unlocked ? 'Unlocked' : 'Locked'}
+         </span>
+      </div>
    </motion.div>
 );
 
-const RewardShopItem = ({ icon, title, subtitle, points, delay }) => (
+const RewardShopItem = ({ icon, title, subtitle, points, delay, onRedeem, canAfford }) => (
    <motion.div 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
@@ -632,11 +795,17 @@ const RewardShopItem = ({ icon, title, subtitle, points, delay }) => (
             </div>
          </div>
       </div>
-      <button className="bg-[#8A70FF] text-white px-5 py-2 rounded-xl text-[10px] font-semibold shadow-lg shadow-purple-100 hover:scale-105 active:scale-95 transition-all">redeem</button>
+      <button 
+         onClick={onRedeem}
+         disabled={!canAfford}
+         className={`px-5 py-2 rounded-xl text-[10px] font-semibold shadow-lg transition-all ${canAfford ? 'bg-[#8A70FF] text-white shadow-purple-100 hover:scale-105 active:scale-95 cursor-pointer' : 'bg-slate-100 text-slate-400 cursor-not-allowed shadow-none'}`}
+      >
+         {canAfford ? 'Redeem' : 'Locked'}
+      </button>
    </motion.div>
 );
 
-const LeaderboardRow = ({ rank, name, students, delay }) => (
+const LeaderboardRow = ({ rank, name, students, delay, avatarUrl }) => (
    <motion.div 
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
@@ -655,28 +824,101 @@ const LeaderboardRow = ({ rank, name, students, delay }) => (
          </div>
          <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-50 overflow-hidden shadow-sm">
-               <img src={`https://api.dicebear.com/7.x/lorelei/svg?seed=${name}`} className="w-full h-full object-cover" alt={name} />
+               <img src={avatarUrl || `https://api.dicebear.com/7.x/lorelei/svg?seed=${name}`} className="w-full h-full object-cover" alt={name} />
             </div>
             <div>
                <p className="text-sm font-semibold text-[#2D3748]">{name}</p>
-               <p className="text-[10px] font-semibold text-slate-400 italic">{students} students</p>
+               <p className="text-[10px] font-black text-[#8A70FF] uppercase tracking-widest">{students} Points</p>
             </div>
          </div>
       </div>
    </motion.div>
 );
 
-const MyRewards = ({ studentName }) => {
+const MyRewards = ({ studentName, classroom, homeworks, submissions, getStudentAvatar, classroomStudents = [] }) => {
+   const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
+   const mySubmissions = submissions.filter(s => normalizeName(s.studentName) === normalizeName(studentName));
+   const totalPoints = mySubmissions.reduce((acc, s) => acc + (s.correctCount || 0) * 10, 0);
+
+   // Unlocking Badge calculations
+   const hasMaths = mySubmissions.some(s => {
+      const hw = homeworks.find(h => h.id === s.homeworkId);
+      return hw?.subject?.toLowerCase() === 'maths';
+   });
+   const hasEnglish = mySubmissions.some(s => {
+      const hw = homeworks.find(h => h.id === s.homeworkId);
+      return hw?.subject?.toLowerCase() === 'english';
+   });
+   const hasScience = mySubmissions.some(s => {
+      const hw = homeworks.find(h => h.id === s.homeworkId);
+      return hw?.subject?.toLowerCase() === 'science';
+   });
+   const hasMusicOrArts = mySubmissions.some(s => {
+      const hw = homeworks.find(h => h.id === s.homeworkId);
+      return hw?.subject?.toLowerCase() === 'music' || hw?.subject?.toLowerCase() === 'arts';
+   });
+
+   const badgesList = [
+      { icon: "🐦", label: "Early Bird", color: "bg-amber-100", unlocked: mySubmissions.length >= 1 },
+      { icon: "🧮", label: "Number Ninja", color: "bg-emerald-100", unlocked: hasMaths },
+      { icon: "🧙", label: "Grammar Wizard", color: "bg-purple-100", unlocked: hasEnglish },
+      { icon: "🔬", label: "Little Einstein", color: "bg-blue-100", unlocked: hasScience },
+      { icon: "🎨", label: "Creative Genius", color: "bg-rose-100", unlocked: hasMusicOrArts },
+      { icon: "⭐", label: "Perfect Score", color: "bg-purple-100", unlocked: mySubmissions.some(s => s.score === 100) },
+      { icon: "🚀", label: "Fast Learner", color: "bg-blue-100", unlocked: mySubmissions.some(s => s.score >= 80) },
+      { icon: "📚", label: "Bookworm", color: "bg-emerald-100", unlocked: mySubmissions.length >= 3 },
+      { icon: "🏆", label: "Grand Scholar", color: "bg-purple-100", unlocked: mySubmissions.length >= 5 },
+      { icon: "💬", label: "Co-Pilot Listener", color: "bg-blue-100", unlocked: mySubmissions.some(s => s.feedback) },
+      { icon: "🔥", label: "Super Scholar", color: "bg-amber-100", unlocked: mySubmissions.length >= 2 && (mySubmissions.reduce((acc, s) => acc + s.score, 0) / mySubmissions.length) >= 90 },
+      { icon: "👑", label: "Score Master", color: "bg-purple-100", unlocked: totalPoints >= 100 }
+   ];
+
+   const studentScores = {};
+   submissions.forEach(sub => {
+      const subName = normalizeName(sub.studentName);
+      const isInRoster = classroomStudents.some(s => normalizeName(s.id) === subName || normalizeName(s.name) === subName);
+      if (sub.classId === classroom?.id || !classroom?.id || isInRoster) {
+         const matchedRosterName = classroomStudents.find(s => normalizeName(s.name) === subName || normalizeName(s.id) === subName)?.name || sub.studentName;
+         studentScores[matchedRosterName] = (studentScores[matchedRosterName] || 0) + (sub.correctCount || 0) * 10;
+      }
+   });
+
+   const activeRegisteredName = classroomStudents.find(s => normalizeName(s.name) === normalizeName(studentName))?.name || studentName;
+   if (studentScores[activeRegisteredName] === undefined) {
+      studentScores[activeRegisteredName] = 0;
+   }
+
+   const sortedStudents = Object.keys(studentScores)
+      .map(name => ({ name, points: studentScores[name] }))
+      .sort((a,b) => b.points - a.points);
+
+   const activeStudentRankIdx = sortedStudents.findIndex(s => normalizeName(s.name) === normalizeName(studentName));
+   const activeStudentRank = activeStudentRankIdx !== -1 ? activeStudentRankIdx + 1 : 1;
+
+   const leaderStudent = sortedStudents[0] || { name: activeRegisteredName, points: 0 };
+   const currentStudentScore = studentScores[activeRegisteredName] || 0;
+
+   const shopItems = [
+      { icon: "https://img.icons8.com/fluency/96/astronaut-helmet.png", title: "Astronaut Helmet 🧑‍🚀", subtitle: "Accessory for your profile character", points: 30 },
+      { icon: "https://img.icons8.com/fluency/96/palette.png", title: "Cheerful Palette 🎨", subtitle: "Custom dashboard color theme pack", points: 20 },
+      { icon: "https://img.icons8.com/fluency/96/panda.png", title: "Panda Buddy 🐼", subtitle: "Premium dashboard floating companion mascot", points: 50 },
+      { icon: "https://img.icons8.com/fluency/96/medal.png", title: "Golden Badge Frame 🏅", subtitle: "Special golden border highlight for avatar", points: 15 }
+   ];
+
+   const handleRedeem = (item) => {
+      alert(`🎉 Redeemed successfully: ${item.title}! Head over to your profile to equip it!`);
+   };
+
    return (
       <div className="max-w-4xl mx-auto py-4 space-y-8 pb-20">
          {/* Hero Header */}
          <div className="flex items-center justify-between px-2 relative">
             <div className="space-y-4">
                <div className="space-y-1">
-                  <h1 className="text-3xl font-semibold text-[#2D3748] tracking-tighter">My Rewards</h1>
-                  <p className="text-sm font-semibold text-slate-400">Mohcute soccents with points and badges.</p>
+                  <h1 className="text-3xl font-semibold text-[#2D3748] tracking-tighter">My Rewards Hub</h1>
+                  <p className="text-sm font-semibold text-slate-400">Complete homework missions and unlock cool rewards!</p>
                </div>
-               <h2 className="text-6xl font-semibold text-[#2D3748] tracking-tighter">2450 <span className="text-3xl text-slate-400">points</span></h2>
+               <h2 className="text-6xl font-semibold text-[#2D3748] tracking-tighter">{totalPoints} <span className="text-3xl text-slate-400">points</span></h2>
             </div>
             <div className="w-48 h-48 relative">
                <motion.div 
@@ -694,20 +936,21 @@ const MyRewards = ({ studentName }) => {
 
          {/* Badges Hub */}
          <div className="bg-white rounded-[32px] p-10 border border-slate-100 shadow-sm space-y-10">
+            <div className="space-y-1">
+               <h3 className="text-xl font-semibold text-[#2D3748]">My Badges Collection</h3>
+               <p className="text-xs text-slate-400">Earn badges by completing learning quizzes and perfect scores.</p>
+            </div>
             <div className="grid grid-cols-6 gap-8">
-               <RewardBadge icon="🐝" label="Speiling Boo" color="bg-amber-100" delay={0.1} />
-               <RewardBadge icon="🧮" label="Number Cronsher" color="bg-emerald-100" delay={0.2} />
-               <RewardBadge icon="⭐" label="Star Reader" color="bg-purple-100" delay={0.3} />
-               <RewardBadge icon="😊" label="Helpful Four" color="bg-amber-100" delay={0.4} />
-               <RewardBadge icon="🌟" label="Star Reader" color="bg-blue-100" delay={0.5} />
-               <RewardBadge icon="✨" label="Super Star" color="bg-purple-100" delay={0.6} />
-               
-               <RewardBadge icon="🧙" label="Austie Avatar" color="bg-blue-100" delay={0.7} />
-               <RewardBadge icon="🍎" label="Suetlar Accessorie" color="bg-emerald-100" delay={0.8} />
-               <RewardBadge icon="🌌" label="Socter Nopes" color="bg-purple-100" delay={0.9} />
-               <RewardBadge icon="🌍" label="Wola Digs" color="bg-blue-100" delay={1.0} />
-               <RewardBadge icon="🏅" label="Badges" color="bg-amber-100" delay={1.1} />
-               <RewardBadge icon="🎨" label="Custom Themes" color="bg-purple-100" delay={1.2} />
+               {badgesList.map((badge, idx) => (
+                  <RewardBadge 
+                     key={idx}
+                     icon={badge.icon} 
+                     label={badge.label} 
+                     color={badge.color} 
+                     delay={idx * 0.05} 
+                     unlocked={badge.unlocked}
+                  />
+               ))}
             </div>
          </div>
 
@@ -716,31 +959,37 @@ const MyRewards = ({ studentName }) => {
             <div className="col-span-12 lg:col-span-7 bg-white rounded-[32px] p-8 border border-slate-100 shadow-sm space-y-6">
                <h2 className="text-2xl font-semibold text-[#2D3748]">Reward Shop</h2>
                <div className="space-y-4">
-                  <RewardShopItem 
-                     icon={`https://api.dicebear.com/7.x/lorelei/svg?seed=special`}
-                     title="Special avator Accessories"
-                     subtitle="Cumeu points"
-                     points={3}
-                     delay={1.3}
-                  />
-                  <div className="h-px bg-slate-100 mx-4" />
-                  <RewardShopItem 
-                     icon="https://img.icons8.com/fluency/96/palette.png"
-                     title="Custom Themes"
-                     subtitle="Cumeu points"
-                     points={2}
-                     delay={1.4}
-                  />
+                  {shopItems.map((item, idx) => (
+                     <div key={idx}>
+                        <RewardShopItem 
+                           icon={item.icon}
+                           title={item.title}
+                           subtitle={item.subtitle}
+                           points={item.points}
+                           delay={1.3 + (idx * 0.1)}
+                           onRedeem={() => handleRedeem(item)}
+                           canAfford={totalPoints >= item.points}
+                        />
+                        {idx < shopItems.length - 1 && <div className="h-px bg-slate-100 mx-4 mt-4" />}
+                     </div>
+                  ))}
                </div>
             </div>
 
             {/* Leaderboard */}
             <div className="col-span-12 lg:col-span-5 bg-white rounded-[32px] p-8 border border-slate-100 shadow-sm space-y-6">
-               <h2 className="text-2xl font-semibold text-[#2D3748]">Leaderboard</h2>
+               <h2 className="text-2xl font-semibold text-[#2D3748]">Class Leaderboard</h2>
                <div className="space-y-2">
-                  <LeaderboardRow rank={1} name="Vleun-Gayas" students={20} delay={1.5} />
-                  <LeaderboardRow rank={2} name="Aranya Sharms" students={50} delay={1.6} />
-                  <LeaderboardRow rank={3} name="Oredia Nizkel" students={30} delay={1.7} />
+                  {sortedStudents.slice(0, 5).map((row, idx) => (
+                     <LeaderboardRow 
+                        key={idx} 
+                        rank={idx + 1} 
+                        name={row.name} 
+                        students={row.points} 
+                        delay={1.5 + (idx * 0.1)} 
+                        avatarUrl={getStudentAvatar ? getStudentAvatar(row.name) : `https://api.dicebear.com/7.x/lorelei/svg?seed=${row.name}`}
+                     />
+                  ))}
                </div>
             </div>
          </div>
@@ -754,20 +1003,261 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
   const [activeNav, setActiveNav] = useState('Dashboard');
   const [activeMission, setActiveMission] = useState(null);
 
+  const [homeworks, setHomeworks] = useState([]);
+  const [submissions, setSubmissions] = useState([]);
+  const [classroomStudents, setClassroomStudents] = useState([]);
+  const [currentStudentProfile, setCurrentStudentProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+     try {
+        const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student'));
+        const actualClassroom = classroom || savedStudent?.classroom;
+        const actualTeacher = teacher || savedStudent?.teacher;
+        
+        if (actualClassroom?.id) {
+           // Fetch homeworks for this class
+           const hwQ = query(collection(db, 'homeworks'), where('assignedClassId', '==', actualClassroom.id));
+           const hwSnap = await getDocs(hwQ);
+           const hwList = hwSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+           setHomeworks(hwList);
+        }
+        
+        if (actualClassroom?.id && actualTeacher?.uid) {
+           // Fetch classroom student rosters
+           const studentsSnap = await getDocs(collection(db, 'teachers', actualTeacher.uid, 'classrooms', actualClassroom.id, 'students'));
+           setClassroomStudents(studentsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+           
+           // Direct student profile fetch
+           const studentRef = doc(db, 'teachers', actualTeacher.uid, 'classrooms', actualClassroom.id, 'students', studentName.toLowerCase());
+           const studentSnap = await getDoc(studentRef);
+           if (studentSnap.exists()) {
+              setCurrentStudentProfile(studentSnap.data());
+           }
+        }
+        
+         // 🚀 Hardened Scalable Query: Parallel class-filtered and student-filtered queries!
+         if (actualClassroom?.id) {
+            const cleanName = studentName?.trim();
+            const subQ1 = query(collection(db, 'submissions'), where('classId', '==', actualClassroom.id));
+            const subQ2 = query(collection(db, 'submissions'), where('studentName', '==', cleanName));
+            const subQ3 = query(collection(db, 'submissions'), where('studentName', '==', toTitleCase(cleanName)));
+            
+            const [snap1, snap2, snap3] = await Promise.all([getDocs(subQ1), getDocs(subQ2), getDocs(subQ3)]);
+            const combinedMap = {};
+            snap1.docs.forEach(doc => combinedMap[doc.id] = { id: doc.id, ...doc.data() });
+            snap2.docs.forEach(doc => combinedMap[doc.id] = { id: doc.id, ...doc.data() });
+            snap3.docs.forEach(doc => combinedMap[doc.id] = { id: doc.id, ...doc.data() });
+            
+            const subList = Object.values(combinedMap);
+            setSubmissions(subList);
+         } else {
+            setSubmissions([]);
+         }
+     } catch (err) {
+        console.error("Dashboard Fetch Data Error:", err);
+     }
+     setLoading(false);
+  };
+
+  useEffect(() => {
+     fetchData();
+  }, [studentName, classroom, activeNav, teacher]);
+
+  const getStudentAvatar = (name) => {
+     const cleanName = name?.trim().toLowerCase();
+     
+     // 1. Direct logged-in student check
+     if (cleanName === studentName?.trim().toLowerCase() || cleanName === currentStudentProfile?.name?.trim().toLowerCase()) {
+        if (currentStudentProfile?.avatarUrl) {
+           return currentStudentProfile.avatarUrl;
+        }
+     }
+     
+     // 2. Search classroom rosters
+     const st = classroomStudents.find(s => s.id?.trim().toLowerCase() === cleanName || s.name?.trim().toLowerCase() === cleanName);
+     if (st?.avatarUrl) {
+        return st.avatarUrl;
+     }
+     return `https://api.dicebear.com/7.x/lorelei/svg?seed=${name || 'student'}`;
+  };
+
+  // Compute dynamic variables
+  const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  const mySubmissions = submissions.filter(s => normalizeName(s.studentName) === normalizeName(studentName));
+  const completedHwIds = new Set(mySubmissions.map(s => s.homeworkId));
+  const pendingHws = homeworks.filter(hw => !completedHwIds.has(hw.id));
+  const recentlyGraded = mySubmissions.filter(s => s.feedback).sort((a,b) => b.submittedAt - a.submittedAt);
+
+  // 1. Dynamic To-Do List
+  const todoItems = [];
+  pendingHws.forEach(hw => {
+     todoItems.push({
+        title: hw.title,
+        subtitle: `${hw.subject || 'Homework'} - ${hw.questionCount || 5} Questions`,
+        btnText: "Start Mission 🚀",
+        icon: <BookOpen className="w-5 h-5 text-purple-500" />,
+        color: "bg-[#F5F3FF]",
+        btnColor: "bg-[#8A70FF]",
+        onClick: () => setActiveMission({ id: hw.id })
+     });
+  });
+
+  recentlyGraded.slice(0, 2).forEach(sub => {
+     const correspondingHw = homeworks.find(hw => hw.id === sub.homeworkId);
+     todoItems.push({
+        title: correspondingHw ? `Review: ${correspondingHw.title}` : "Review Feedback",
+        subtitle: `AI Teacher gave encouragement!`,
+        btnText: "View Feedback 💬",
+        icon: <MessageSquare className="w-5 h-5 text-amber-500" />,
+        color: "bg-amber-50",
+        btnColor: "bg-amber-500",
+        onClick: () => setActiveNav('Mission Reports')
+     });
+  });
+
+  if (todoItems.length === 0) {
+     todoItems.push({
+        title: "All Missions Completed! 🎉",
+        subtitle: "Awesome job, superstar! You are completely up to date.",
+        btnText: "My Rewards 🎁",
+        icon: <Trophy className="w-5 h-5 text-emerald-500" />,
+        color: "bg-emerald-50",
+        btnColor: "bg-emerald-500",
+        onClick: () => setActiveNav('My Rewards')
+     });
+  }
+
+  // 2. Dynamic Learning Path (Grade 2 has Music and Arts, others have standard subjects)
+  const subjects = classroom?.selectedSubjects || ['Maths', 'English', 'Science'];
+  const learningPath = subjects.map((subName, index) => {
+     const hwInSub = homeworks.filter(hw => hw.subject?.toLowerCase() === subName.toLowerCase());
+     const completedInSub = hwInSub.filter(hw => completedHwIds.has(hw.id));
+     const progress = hwInSub.length > 0 ? Math.round((completedInSub.length / hwInSub.length) * 100) : 0;
+     
+     const subsInSub = mySubmissions.filter(s => {
+        const correspondingHw = homeworks.find(hw => hw.id === s.homeworkId);
+        return correspondingHw?.subject?.toLowerCase() === subName.toLowerCase();
+     });
+     const avgScore = subsInSub.length > 0 ? (subsInSub.reduce((acc, s) => acc + (s.score || 0), 0) / subsInSub.length) : 0;
+     const stars = avgScore > 0 ? Math.max(1, Math.min(5, Math.ceil(avgScore / 20))) : 0;
+
+     const colors = ["bg-[#F5F3FF]", "bg-amber-50", "bg-emerald-50", "bg-rose-50", "bg-cyan-50"];
+     const color = colors[index % colors.length];
+
+     return {
+        title: subName,
+        progress,
+        stars,
+        color,
+        active: index === 0
+     };
+  });
+
+  // 3. Dynamic Ranks & Achievements
+  const studentScores = {};
+  submissions.forEach(sub => {
+     const subName = normalizeName(sub.studentName);
+     const isInRoster = classroomStudents.some(s => normalizeName(s.id) === subName || normalizeName(s.name) === subName);
+     if (sub.classId === classroom?.id || !classroom?.id || isInRoster) {
+        const name = (sub.studentName?.trim() || "Student").replace(/\s+/g, ' ');
+        const matchedRosterName = classroomStudents.find(s => normalizeName(s.name) === normalizeName(name))?.name || name;
+        studentScores[matchedRosterName] = (studentScores[matchedRosterName] || 0) + (sub.correctCount || 0) * 10;
+     }
+  });
+
+  const activeRegisteredName = classroomStudents.find(s => normalizeName(s.name) === normalizeName(studentName))?.name || studentName;
+  if (studentScores[activeRegisteredName] === undefined) {
+     studentScores[activeRegisteredName] = 0;
+  }
+
+  const sortedStudents = Object.keys(studentScores)
+     .map(name => ({ name, points: studentScores[name] }))
+     .sort((a,b) => b.points - a.points);
+
+  const activeStudentRankIdx = sortedStudents.findIndex(s => normalizeName(s.name) === normalizeName(studentName));
+  const activeStudentRank = activeStudentRankIdx !== -1 ? activeStudentRankIdx + 1 : 1;
+
+  const leaderStudent = sortedStudents[0] || { name: activeRegisteredName, points: 0 };
+  const currentStudentScore = studentScores[activeRegisteredName] || 0;
+
+  // Standings
+  const standings = sortedStudents.slice(0, 3).map((st, idx) => ({
+     rank: idx + 1,
+     name: st.name,
+     students: st.points,
+     progress: idx === 0 ? "+25" : idx === 1 ? "+15" : "+5",
+     color: "text-emerald-500"
+  }));
+
+  if (standings.length < 3) {
+     const mockPeers = [
+        { rank: 1, name: "Vansh Pillai", students: 120, progress: "+20", color: "text-emerald-500" },
+        { rank: 2, name: "Ved Pillai", students: 80, progress: "+10", color: "text-emerald-500" },
+        { rank: 3, name: studentName, students: currentStudentScore, progress: "+5", color: "text-[#8A70FF]" }
+     ];
+     mockPeers.forEach(peer => {
+        if (peer.name !== studentName && !standings.some(s => s.name === peer.name)) {
+           standings.push(peer);
+        }
+     });
+     standings.sort((a,b) => b.students - a.students);
+     standings.forEach((s, i) => s.rank = i + 1);
+  }
+
+  // Dynamic Badges
+  const badges = [
+     { icon: "🐦", label: "Early Bird", color: mySubmissions.length >= 1 ? "bg-amber-100" : "bg-slate-50 opacity-40" },
+     { icon: "🧮", label: "Math Wizard", color: (mySubmissions.filter(s => {
+        const correspondingHw = homeworks.find(hw => hw.id === s.homeworkId);
+        return correspondingHw?.subject === 'Maths';
+     }).reduce((acc, s) => acc + s.score, 0) / Math.max(1, mySubmissions.filter(s => {
+        const correspondingHw = homeworks.find(hw => hw.id === s.homeworkId);
+        return correspondingHw?.subject === 'Maths';
+     }).length)) >= 80 ? "bg-purple-100" : "bg-slate-50 opacity-40" },
+     { icon: "⭐", label: "Star Scholar", color: mySubmissions.some(s => s.score === 100) ? "bg-emerald-100" : "bg-slate-50 opacity-40" },
+     { icon: "🏆", label: "Knowledge Champ", color: mySubmissions.length >= 3 ? "bg-rose-100" : "bg-slate-50 opacity-40" }
+  ];
+
+  // Dynamic Calendar HW due dates
+  const calendarHW = {};
+  pendingHws.forEach((hw, idx) => {
+     const dayOffset = (idx * 5) + 3;
+     calendarHW[dayOffset % 31] = hw.subject;
+  });
+
+  // Dynamic Feed reminder
+  const feedPosts = [
+     {
+        author: teacher?.name || "AI Coach",
+        time: "Today",
+        content: pendingHws.length > 0 
+           ? `Hey ${studentName.split(' ')[0]}! You have ${pendingHws.length} fun learning missions waiting for you. Let's start one today! 🚀` 
+           : `Wow, superstar! You've completed all of your active missions. Excellent job! 🌟`
+     },
+     {
+        author: "System Bot",
+        time: "Yesterday",
+        content: "Welcome to the Homework Zone dashboard! Complete missions to earn points and shop in the Reward store! 🎉"
+     }
+  ];
+
   if (activeMission) {
      return (
-        <StudentQuiz 
-           homeworkId={activeMission.id} 
-           initialSubmission={activeMission.pastSubmission}
-           studentName={studentName} 
-           teacher={teacher} 
-           onComplete={() => setActiveMission(null)} 
-        />
+         <div className="student-theme">
+            <StudentQuiz 
+               homeworkId={activeMission.id} 
+               initialSubmission={activeMission.pastSubmission}
+               studentName={studentName} 
+               teacher={teacher} 
+               onComplete={() => setActiveMission(null)} 
+            />
+         </div>
      );
   }
 
   return (
-<div className="flex h-screen bg-[#F9F9FF] font-sans overflow-hidden">
+<div className="flex h-screen bg-[#F9F9FF] font-sans overflow-hidden student-theme">
       {/* --- Sidebar (High Fidelity) --- */}
       <aside className="w-72 bg-[#FDFDFF] border-r border-blue-50 flex flex-col shrink-0 h-screen">
         <div className="mb-6 -mx-2 flex-center pt-8 shrink-0">
@@ -819,7 +1309,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                 <div className="flex items-center gap-6">
                   <div className="flex items-center gap-3">
                       <button className="w-9 h-9 bg-white rounded-xl flex-center shadow-sm border border-slate-100 hover:scale-110 transition-all overflow-hidden">
-                        <img src={`https://api.dicebear.com/7.x/lorelei/svg?seed=${studentName || 'student'}`} className="w-full h-full object-cover" alt="Profile" />
+                        <img src={getStudentAvatar(studentName)} className="w-full h-full object-cover" alt="Profile" />
                       </button>
                       <button className="w-9 h-9 bg-white rounded-xl flex-center shadow-sm border border-slate-100 text-[#8A70FF] hover:scale-110 transition-all">
                         <Plus className="w-5 h-5" />
@@ -840,35 +1330,23 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
           <main className="flex-1 overflow-y-auto no-scrollbar px-8 py-8">
             <div className="max-w-[100%] mx-auto w-full">
            {activeNav === 'Dashboard' && (
-              <div className="grid grid-cols-12 gap-6">
+              <div className="grid grid-cols-12 gap-6 animate-in fade-in duration-300">
                  {/* Row 1 Left: To-Do List */}
                  <div className="col-span-12 lg:col-span-5 bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm space-y-6">
                     <h2 className="text-xl font-semibold text-[#2D3748]">To-Do List</h2>
                     <div className="space-y-3">
-                       <TodoCard 
-                          title="Homework: Grade 58" 
-                          subtitle="English - Submit by May 5" 
-                          btnText="Start Homework" 
-                          icon={<BookOpen className="w-5 h-5 text-blue-400" />}
-                          color="bg-[#F5F3FF]"
-                          btnColor="bg-[#8A70FF]"
-                       />
-                       <TodoCard 
-                          title="Upcoming Test" 
-                          subtitle="Science - Planets, May 7" 
-                          btnText="Prepare" 
-                          icon={<Target className="w-5 h-5 text-blue-400" />}
-                          color="bg-[#F5F3FF]"
-                          btnColor="bg-[#F5F3FF]0"
-                       />
-                       <TodoCard 
-                          title="Review" 
-                          subtitle="Teacher Feedback on Maths Quiz" 
-                          btnText="View Feedback" 
-                          icon={<MessageSquare className="w-5 h-5 text-amber-400" />}
-                          color="bg-amber-50"
-                          btnColor="bg-amber-500"
-                       />
+                       {todoItems.slice(0, 3).map((item, idx) => (
+                          <TodoCard 
+                             key={idx}
+                             title={item.title} 
+                             subtitle={item.subtitle} 
+                             btnText={item.btnText} 
+                             icon={item.icon}
+                             color={item.color}
+                             btnColor={item.btnColor}
+                             onClick={item.onClick}
+                          />
+                       ))}
                     </div>
                  </div>
 
@@ -877,25 +1355,16 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                     <h2 className="text-xl font-semibold text-[#2D3748]">My Learning Path</h2>
                     <div className="flex items-center gap-4 relative">
                        <div className="absolute top-1/2 left-0 w-full h-1 bg-slate-100 -translate-y-1/2 z-0" />
-                       <LearningPathCard 
-                          title="English Grammar 1" 
-                          progress={10} 
-                          stars={3} 
-                          color="bg-[#F5F3FF]" 
-                          active 
-                       />
-                       <LearningPathCard 
-                          title="Maths: Division Basics" 
-                          progress={50} 
-                          stars={3} 
-                          color="bg-amber-50" 
-                       />
-                       <LearningPathCard 
-                          title="Science: Plants" 
-                          progress={50} 
-                          stars={4} 
-                          color="bg-emerald-50" 
-                       />
+                       {learningPath.map((pathItem, idx) => (
+                          <LearningPathCard 
+                             key={idx}
+                             title={pathItem.title} 
+                             progress={pathItem.progress} 
+                             stars={pathItem.stars} 
+                             color={pathItem.color} 
+                             active={pathItem.active} 
+                          />
+                       ))}
                     </div>
                  </div>
 
@@ -904,17 +1373,16 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                     <h2 className="text-xl font-semibold text-[#2D3748]">My Recent Achievements</h2>
                     <div className="grid grid-cols-12 gap-6 items-center">
                        <div className="col-span-7 grid grid-cols-4 gap-3">
-                          <AchievementBadge icon="🐝" label="Spelling Bee" color="bg-amber-50" />
-                          <AchievementBadge icon="🧮" label="Math Wizard" color="bg-[#F5F3FF]" />
-                          <AchievementBadge icon="⭐" label="Star Reader" color="bg-[#F5F3FF]" />
-                          <AchievementBadge icon="🦁" label="Helpful" color="bg-emerald-50" />
+                          {badges.map((badge, idx) => (
+                             <AchievementBadge key={idx} icon={badge.icon} label={badge.label} color={badge.color} />
+                          ))}
                           <div className="col-span-4 pt-2">
-                             <button className="bg-[#8A70FF] text-white px-6 py-2 rounded-xl font-semibold text-[10px] shadow-lg hover:scale-105 transition-all">View All Badges</button>
+                             <button onClick={() => setActiveNav('My Rewards')} className="bg-[#8A70FF] text-white px-6 py-2 rounded-xl font-semibold text-[10px] shadow-lg hover:scale-105 transition-all">View All Badges</button>
                           </div>
                        </div>
                        <div className="col-span-5 flex gap-3">
-                          <RankCard rank={1} name="Virsan Shanna" detail="Grade 1" isAlt={false} />
-                          <RankCard rank={3} name="Vimen Single" detail="Leader" isAlt={true} />
+                          <RankCard rank={1} name={leaderStudent.name} detail="Class Leader" isAlt={false} avatarUrl={getStudentAvatar(leaderStudent.name)} />
+                          <RankCard rank={activeStudentRank} name={studentName} detail={`${currentStudentScore} Points`} isAlt={true} avatarUrl={getStudentAvatar(studentName)} />
                        </div>
                     </div>
                  </div>
@@ -923,9 +1391,17 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                  <div className="col-span-12 lg:col-span-4 bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm space-y-6">
                     <h2 className="text-xl font-semibold text-[#2D3748]">Class Standings</h2>
                     <div className="space-y-4">
-                       <StandingRow rank={1} name="Vhsen Oopla" students={64} progress="+5" color="text-emerald-500" />
-                       <StandingRow rank={2} name="Aronya Bhanna" students={64} progress="+20" color="text-emerald-500" />
-                       <StandingRow rank={3} name="Brohin Hetel" students={64} progress="-2" color="text-rose-500" />
+                       {standings.map((row, idx) => (
+                          <StandingRow 
+                             key={idx}
+                             rank={row.rank} 
+                             name={row.name} 
+                             students={row.students} 
+                             progress={row.progress} 
+                             color={row.color} 
+                             avatarUrl={getStudentAvatar(row.name)}
+                          />
+                       ))}
                     </div>
                  </div>
 
@@ -939,12 +1415,14 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                     <div className="grid grid-cols-7 gap-1">
                        {[...Array(35)].map((_, i) => {
                           const day = (i % 31) + 1;
+                          const hwDue = calendarHW[day];
                           return (
                              <div key={i} className={`h-16 border border-slate-50 rounded-xl p-1.5 relative group hover:bg-slate-50 transition-all ${i === 3 ? 'bg-[#F5F3FF]/50' : ''}`}>
                                 <span className="text-[10px] font-semibold text-slate-400">{day}</span>
-                                {i === 3 && <div className="absolute top-1.5 right-1.5 w-3 h-3 rounded-full bg-orange-400 border-2 border-white" />}
-                                {i === 11 && <div className="mt-1 bg-rose-50 text-rose-500 text-[7px] font-semibold p-0.5 rounded-md">Due Test</div>}
-                                {i === 18 && <div className="mt-1 bg-[#F5F3FF] text-[#8A70FF] text-[7px] font-semibold p-0.5 rounded-md">Due HW</div>}
+                                {i === 3 && <div className="absolute top-1.5 right-1.5 w-3 h-3 rounded-full bg-orange-400 border-2 border-white animate-ping" />}
+                                {hwDue && (
+                                   <div className="mt-1 bg-[#F5F3FF] text-[#8A70FF] text-[6px] font-black p-0.5 rounded-md truncate uppercase tracking-tighter">Due {hwDue}</div>
+                                )}
                              </div>
                           );
                        })}
@@ -955,16 +1433,15 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                  <div className="col-span-12 lg:col-span-4 bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm space-y-6">
                     <h2 className="text-xl font-semibold text-[#2D3748]">Teacher Feed</h2>
                     <div className="space-y-6">
-                       <FeedPost 
-                          author="Asrey Summum" 
-                          time="1 day ago" 
-                          content="Today we explored the solar system! Don't forget to check your assignments." 
-                       />
-                       <FeedPost 
-                          author="Ngeo Raghi" 
-                          time="2 days ago" 
-                          content="Great job on the Science quiz! Keep up the work." 
-                       />
+                       {feedPosts.map((post, idx) => (
+                          <FeedPost 
+                             key={idx}
+                             author={post.author} 
+                             time={post.time} 
+                             content={post.content} 
+                             avatarUrl={getStudentAvatar(post.author)}
+                          />
+                       ))}
                     </div>
                  </div>
               </div>
@@ -979,15 +1456,25 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
            )}
 
            {activeNav === 'My Rewards' && (
-              <MyRewards studentName={studentName} />
+              <MyRewards 
+                  studentName={studentName} 
+                  classroom={classroom}
+                  homeworks={homeworks}
+                  submissions={submissions}
+               />
            )}
 
            {activeNav === 'My Messages' && (
-              <MessagingModule studentName={studentName} teacher={teacher} classroom={classroom} />
+              <MessagingModule studentName={studentName} teacher={teacher} classroom={classroom} getStudentAvatar={getStudentAvatar} />
            )}
 
            {activeNav === 'My Profile' && (
-              <StudentProfile studentName={studentName} teacher={teacher} classroom={classroom} />
+              <StudentProfile 
+                 studentName={studentName} 
+                 teacher={teacher} 
+                 classroom={classroom} 
+                 onProfileUpdate={() => fetchData()}
+              />
            )}
         </div>
           </main>
@@ -1016,7 +1503,7 @@ const SidebarNavItem = ({ icon, label, active, color, onClick }) => (
   </div>
 );
 
-const TodoCard = ({ title, subtitle, btnText, icon, color, btnColor }) => (
+const TodoCard = ({ title, subtitle, btnText, icon, color, btnColor, onClick }) => (
    <div className={`${color} p-6 rounded-[32px] flex items-center justify-between group transition-all hover:scale-[1.02] border border-white/50 shadow-sm`}>
       <div className="flex items-center gap-6">
          <div className="w-14 h-14 bg-white rounded-2xl flex-center shadow-sm group-hover:scale-110 transition-transform">{icon}</div>
@@ -1025,7 +1512,7 @@ const TodoCard = ({ title, subtitle, btnText, icon, color, btnColor }) => (
             <p className="text-[10px] font-semibold text-slate-400 italic">{subtitle}</p>
          </div>
       </div>
-      <button className={`${btnColor} text-white px-6 py-3 rounded-2xl font-semibold text-xs shadow-lg hover:brightness-110 transition-all`}>{btnText}</button>
+      <button onClick={onClick} className={`${btnColor} text-white px-6 py-3 rounded-2xl font-semibold text-xs shadow-lg hover:brightness-110 transition-all`}>{btnText}</button>
    </div>
 );
 
@@ -1059,11 +1546,11 @@ const AchievementBadge = ({ icon, label, color }) => (
    </div>
 );
 
-const RankCard = ({ rank, name, detail, isAlt }) => (
+const RankCard = ({ rank, name, detail, isAlt, avatarUrl }) => (
    <div className={`flex-1 ${isAlt ? 'bg-amber-50 border-amber-100' : 'bg-[#F5F3FF] border-purple-100'} p-6 rounded-[32px] border flex flex-col items-center text-center gap-4 relative overflow-hidden group hover:scale-105 transition-all shadow-sm`}>
       <div className="absolute -top-4 -right-4 w-12 h-12 bg-white/50 rounded-full flex-center font-semibold text-2xl text-[#2D3748]/20">{rank}</div>
       <div className="w-16 h-16 rounded-full border-2 border-white bg-white p-1 overflow-hidden">
-         <img src={`https://api.dicebear.com/7.x/lorelei/svg?seed=${name}`} className="w-full h-full object-cover" alt={name} />
+         <img src={avatarUrl || `https://api.dicebear.com/7.x/lorelei/svg?seed=${name}`} className="w-full h-full object-cover" alt={name} />
       </div>
       <div>
          <p className="text-xs font-semibold text-[#2D3748]">{name}</p>
@@ -1073,12 +1560,12 @@ const RankCard = ({ rank, name, detail, isAlt }) => (
    </div>
 );
 
-const StandingRow = ({ rank, name, students, progress, color }) => (
+const StandingRow = ({ rank, name, students, progress, color, avatarUrl }) => (
    <div className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-all cursor-pointer border border-transparent hover:border-slate-100 group">
       <div className="flex items-center gap-4">
          <span className="text-lg font-semibold text-[#2D3748] w-6">{rank}</span>
          <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-50 overflow-hidden">
-            <img src={`https://api.dicebear.com/7.x/lorelei/svg?seed=${name}`} className="w-full h-full object-cover" alt={name} />
+            <img src={avatarUrl || `https://api.dicebear.com/7.x/lorelei/svg?seed=${name}`} className="w-full h-full object-cover" alt={name} />
          </div>
          <div>
             <p className="text-sm font-semibold text-[#2D3748]">{name}</p>
@@ -1089,12 +1576,12 @@ const StandingRow = ({ rank, name, students, progress, color }) => (
    </div>
 );
 
-const FeedPost = ({ author, time, content }) => (
+const FeedPost = ({ author, time, content, avatarUrl }) => (
    <div className="space-y-4 group p-4 hover:bg-slate-50/50 rounded-3xl transition-all border border-transparent hover:border-slate-100">
       <div className="flex items-center justify-between">
          <div className="flex items-center gap-4">
             <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-50 overflow-hidden">
-               <img src={`https://api.dicebear.com/7.x/lorelei/svg?seed=${author}`} className="w-full h-full object-cover" alt={author} />
+               <img src={avatarUrl || `https://api.dicebear.com/7.x/lorelei/svg?seed=${author}`} className="w-full h-full object-cover" alt={author} />
             </div>
             <div>
                <p className="text-sm font-semibold text-[#2D3748]">{author}</p>
@@ -1163,6 +1650,7 @@ const LegendItem = ({ label, value, color }) => (
 // --- Landing Page (Redesigned from Reference) ---
 const LandingPage = () => {
   const navigate = useNavigate();
+  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#E0F2FE] font-sans overflow-x-hidden pb-20">
@@ -1185,33 +1673,78 @@ const LandingPage = () => {
             </div>
          </div>
 
-         {/* Playful Header Icons */}
-         <div className="hidden md:flex items-center gap-10">
-            <div className="w-20 h-20 bg-white rounded-3xl border-4 border-[#2D3748] flex-center shadow-[6px_6px_0_0_#2D3748] rotate-3 hover:rotate-0 transition-all cursor-pointer">
-               <img src="https://img.icons8.com/color/96/pencil.png" className="w-12 h-12" alt="Pencil" />
-            </div>
-            <div className="w-20 h-20 bg-white rounded-3xl border-4 border-[#2D3748] flex-center shadow-[6px_6px_0_0_#2D3748] -rotate-6 hover:rotate-0 transition-all cursor-pointer">
-               <img src="https://img.icons8.com/color/96/star.png" className="w-12 h-12" alt="Star" />
-            </div>
-            <div className="w-20 h-20 bg-white rounded-3xl border-4 border-[#2D3748] flex-center shadow-[6px_6px_0_0_#2D3748] rotate-6 hover:rotate-0 transition-all cursor-pointer">
-               <img src="https://img.icons8.com/color/96/alarm-clock.png" className="w-12 h-12" alt="Clock" />
-            </div>
-            <div className="flex flex-col gap-2 ml-6">
-               <div className="flex gap-3">
-                  {[...Array(6)].map((_, i) => (
-                    <div key={i} className={`w-6 h-10 ${['bg-red-400', 'bg-yellow-400', 'bg-blue-400', 'bg-green-400', 'bg-purple-400', 'bg-pink-400'][i]} rounded-b-xl border-4 border-[#2D3748] shadow-md`} />
-                  ))}
-               </div>
-            </div>
-         </div>
       </header>
+      {/* --- Expandable Login Bar --- */}
+      <section className="max-w-[95%] mx-auto px-6 mb-10 relative z-30">
+         <AnimatePresence mode="wait">
+            {!isExpanded ? (
+               <motion.button
+                  layoutId="login-bar"
+                  onClick={() => setIsExpanded(true)}
+                  className="w-full bg-[#38BDF8] hover:bg-[#8A70FF] text-white border-[6px] border-[#2D3748] py-6 px-10 rounded-[32px] font-semibold text-2xl md:text-4xl uppercase tracking-wider shadow-[0_10px_0_0_#2D3748] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-4 cursor-pointer"
+               >
+                  <span>🔑 Click to Enter Your Homework Zone!</span>
+                  <motion.span animate={{ x: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>🚀</motion.span>
+               </motion.button>
+            ) : (
+               <motion.div
+                  layoutId="login-bar"
+                  className="w-full bg-white border-[8px] border-[#2D3748] p-10 rounded-[48px] shadow-[0_20px_0_0_#2D3748] space-y-8 relative"
+               >
+                  <button 
+                     onClick={() => setIsExpanded(false)}
+                     className="absolute top-6 right-6 w-12 h-12 bg-slate-50 border-4 border-[#2D3748] rounded-full flex-center text-[#2D3748] hover:bg-slate-100 font-black text-xl shadow-[2px_2px_0_0_#2D3748] active:translate-y-0.5 active:shadow-none transition-all"
+                  >
+                     ✕
+                  </button>
+                  <div className="text-center space-y-2">
+                     <h3 className="text-3xl font-semibold text-[#2D3748] uppercase tracking-tight">Select your portal to start! 🚀</h3>
+                     <p className="text-sm font-semibold uppercase text-slate-400 tracking-wider">Are you a student or a teacher/parent?</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                     <div 
+                        onClick={() => navigate('/login/student')}
+                        className="group bg-[#E0F2FE] hover:bg-[#BAE6FD] border-6 border-[#2D3748] rounded-[36px] p-8 text-center cursor-pointer transition-all hover:-translate-y-2 shadow-[0_10px_0_0_#2D3748] active:translate-y-1 active:shadow-none"
+                     >
+                        <div className="w-20 h-20 bg-white rounded-3xl border-4 border-[#2D3748] flex-center mx-auto shadow-[4px_4px_0_0_#2D3748] mb-6 group-hover:rotate-6 transition-all">
+                           <span className="text-4xl">🎒</span>
+                        </div>
+                        <h4 className="text-2xl font-semibold text-[#2D3748] uppercase mb-2">Student Portal</h4>
+                        <p className="text-xs font-semibold text-[#475569] uppercase tracking-wider mb-6">Start your learning missions & earn points!</p>
+                        <button className="bg-[#38BDF8] text-white border-4 border-[#2D3748] px-8 py-3 rounded-2xl font-bold uppercase tracking-wider shadow-[0_4px_0_0_#2D3748] group-hover:bg-[#8A70FF] transition-all">
+                           Let's Go!
+                        </button>
+                     </div>
+                     <div 
+                        onClick={() => navigate('/login/teacher')}
+                        className="group bg-[#FEF3C7] hover:bg-[#FDE68A] border-6 border-[#2D3748] rounded-[36px] p-8 text-center cursor-pointer transition-all hover:-translate-y-2 shadow-[0_10px_0_0_#2D3748] active:translate-y-1 active:shadow-none"
+                     >
+                        <div className="w-20 h-20 bg-white rounded-3xl border-4 border-[#2D3748] flex-center mx-auto shadow-[4px_4px_0_0_#2D3748] mb-6 group-hover:-rotate-6 transition-all">
+                           <span className="text-4xl">🍎</span>
+                        </div>
+                        <h4 className="text-2xl font-semibold text-[#2D3748] uppercase mb-2">Teacher & Parent Zone</h4>
+                        <p className="text-xs font-semibold text-[#475569] uppercase tracking-wider mb-6">Create homework, manage classes & grades!</p>
+                        <button className="bg-[#F59E0B] text-white border-4 border-[#2D3748] px-8 py-3 rounded-2xl font-bold uppercase tracking-wider shadow-[0_4px_0_0_#2D3748] group-hover:bg-[#D97706] transition-all">
+                           Sign In
+                        </button>
+                     </div>
+                  </div>
+               </motion.div>
+            )}
+         </AnimatePresence>
+      </section>
 
       {/* --- Main Hero Banner Area --- */}
       <section className="max-w-[95%] mx-auto px-6 mt-8">
          <div className="relative bg-white rounded-[60px] border-[12px] border-[#2D3748] shadow-[0_30px_0_0_#2D3748] overflow-hidden group">
             {/* The Kids & School Illustration */}
-            <div className="relative h-[400px] md:h-[600px]">
-               <img src="/assets/hero_banner.png" className="w-full h-full object-cover" alt="Homework Zone Adventure" />
+            <div className="relative h-[480px] sm:h-[580px] md:h-[720px] lg:h-[820px] xl:h-[900px]">
+               <img 
+                  src="/assets/hero_banner.png" 
+                  className="w-full h-full object-cover" 
+                  style={{ objectPosition: 'center 62%' }}
+                  alt="Homework Zone Adventure" 
+               />
                
                {/* Welcome Banner Overlay */}
                <div className="absolute top-16 left-1/2 -translate-x-1/2 w-[90%] md:w-auto text-center">
@@ -1224,110 +1757,19 @@ const LandingPage = () => {
                      </p>
                   </div>
                </div>
-
-               {/* Start Homework Button */}
-               <div className="absolute bottom-16 left-1/2 -translate-x-1/2">
-                  <button 
-                    onClick={() => navigate('/login/student')}
-                    className="bg-[#38BDF8] hover:bg-[#8A70FF] text-white border-[6px] border-[#2D3748] px-20 py-8 rounded-[40px] font-semibold text-3xl md:text-5xl uppercase tracking-tighter shadow-[0_12px_0_0_#2D3748] active:translate-y-2 active:shadow-none transition-all"
-                  >
-                    Start Homework!
-                  </button>
-               </div>
             </div>
          </div>
       </section>
 
-      {/* --- Action Cards Grid --- */}
-      <section className="max-w-[95%] mx-auto px-6 mt-32 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          <ZoneCard 
-            title="Daily Missions" 
-            subtitle="Today's Homework!"
-            image="/assets/card_daily_sticker.png"
-            color="bg-[#BFDBFE]"
-            btnColor="bg-[#F87171]"
-            btnText="GO!"
-            onClick={() => navigate('/login/student')}
-         />
-         <ZoneCard 
-            title="Fun Games" 
-            subtitle="Play & Learn!"
-            image="/assets/card_games_sticker.png"
-            color="bg-[#FEF9C3]"
-            btnColor="bg-[#FB923C]"
-            btnText="PLAY!"
-            onClick={() => navigate('/login/student')}
-         />
-         <ZoneCard 
-            title="Library" 
-            subtitle="Read Stories!"
-            image="/assets/card_library_sticker.png"
-            color="bg-[#DCFCE7]"
-            btnColor="bg-[#4ADE80]"
-            btnText="GO!"
-            onClick={() => navigate('/login/student')}
-         />
-         <ZoneCard 
-            title="My Profile" 
-            subtitle="Track Progress!"
-            image="/assets/card_profile_sticker.png"
-            color="bg-[#DBEAFE]"
-            btnColor="bg-[#60A5FA]"
-            btnText="GO!"
-            onClick={() => navigate('/login/student')}
-         />
-      </section>
-
       {/* --- Simple Footer Icons --- */}
       <footer className="max-w-[95%] mx-auto px-6 mt-32 flex items-center justify-between py-10 border-t-8 border-white/20">
-         <div className="flex items-center gap-10">
-            <FooterBtn icon="https://img.icons8.com/fluency/144/help.png" label="Help" />
-            <FooterBtn 
-              icon="https://img.icons8.com/fluency/144/family.png" 
-              label="Parent Zone" 
-              onClick={() => navigate('/login/teacher')}
-            />
-            <FooterBtn icon="https://img.icons8.com/fluency/144/settings.png" label="Settings" />
-         </div>
+         <div />
          <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest italic">© 2026 HOMEWORK ZONE ALL RIGHTS RESERVED.</p>
       </footer>
     </div>
   );
 };
 
-const ZoneCard = ({ title, subtitle, image, color, btnColor, btnText, onClick }) => (
-  <div className={`group ${color} border-[6px] border-[#2D3748] rounded-[48px] overflow-hidden shadow-[0_20px_0_0_#2D3748] flex flex-col cursor-pointer transition-all hover:-translate-y-4`}>
-     {/* Card Header */}
-     <div className="bg-white border-b-[6px] border-[#2D3748] p-8 flex items-center justify-center">
-        <h3 className="text-2xl font-semibold text-[#2D3748] uppercase tracking-tight">{title}</h3>
-     </div>
-     
-     {/* Card Image */}
-     <div className="flex-1 p-10 flex-center relative overflow-hidden bg-white/40">
-        <img src={image} className="w-full h-full object-contain drop-shadow-xl transform group-hover:scale-110 transition-transform" alt={title} />
-     </div>
-
-     {/* Card Footer Content */}
-     <div className="p-10 bg-white space-y-6 text-center">
-        <p className="text-xl font-semibold text-[#2D3748]">{subtitle}</p>
-        <button 
-          onClick={onClick}
-          className={`${btnColor} text-white border-[6px] border-[#2D3748] w-full py-5 rounded-[24px] font-semibold text-xl uppercase tracking-[0.2em] shadow-[0_8px_0_0_#2D3748] active:translate-y-2 active:shadow-none transition-all`}
-        >
-          {btnText}
-        </button>
-     </div>
-  </div>
-);
-
-const FooterBtn = ({ icon, label, onClick }) => (
-  <div onClick={onClick} className="flex flex-col items-center gap-2 group cursor-pointer">
-     <div className="w-16 h-16 bg-white rounded-[20px] border-4 border-[#2D3748] flex-center shadow-[4px_4px_0_0_#2D3748] group-hover:-translate-y-2 transition-all">
-        <img src={icon} className="w-10 h-10" alt={label} />
-     </div>
-     <span className="text-[10px] font-semibold text-[#475569] uppercase tracking-widest">{label}</span>
-  </div>
-);
 
 // --- Mock Login Pages ---
 const LoginPage = ({ role, onLogin }) => {
@@ -1591,9 +2033,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login/teacher" element={<LoginPage role="teacher" onLogin={setCurrentUser} />} />
-        <Route path="/login/student" element={<LoginPage role="student" onLogin={handleStudentLogin} />} />
+        <Route path="/login/student" element={<div className="student-theme"><LoginPage role="student" onLogin={handleStudentLogin} /></div>} />
         <Route path="/dashboard/teacher" element={currentUser ? <TeacherDashboard user={currentUser} onLogout={handleTeacherLogout} /> : <Navigate to="/login/teacher" />} />
-        <Route path="/dashboard/student" element={<StudentDashboard teacher={activeStudent?.teacher} studentName={activeStudent?.name} classroom={activeStudent?.classroom} onLogout={handleStudentLogout} />} />
+        <Route path="/dashboard/student" element={<div className="student-theme"><StudentDashboard teacher={activeStudent?.teacher} studentName={activeStudent?.name} classroom={activeStudent?.classroom} onLogout={handleStudentLogout} /></div>} />
         <Route path="/quiz/sample" element={<StudentQuiz />} />
       </Routes>
     </Router>

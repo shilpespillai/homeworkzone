@@ -31,8 +31,19 @@ import {
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
+
+const toTitleCase = (str) => {
+  if (!str) return '';
+  return str
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
 import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where, onSnapshot, addDoc } from 'firebase/firestore';
 import HomeworkGenerator from './HomeworkGenerator';
+import { encryptText, decryptText } from '../utils/crypto';
 
 const TeacherDashboard = ({ user, onLogout }) => {
   console.log("TeacherDashboard Rendered. User:", user);
@@ -61,6 +72,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [showAiSettings, setShowAiSettings] = useState(false);
   const [newStudentName, setNewStudentName] = useState('');
   const [showAddClassModal, setShowAddClassModal] = useState(false);
+  const [selectedSubjects, setSelectedSubjects] = useState([]);
   const [allStudents, setAllStudents] = useState([]);
   const [filterClass, setFilterClass] = useState('All Classes');
   const [searchQuery, setSearchQuery] = useState('');
@@ -74,12 +86,26 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [newMsgRecipientId, setNewMsgRecipientId] = useState('');
   const [newMsgSubject, setNewMsgSubject] = useState('');
   const [newMsgBody, setNewMsgBody] = useState('');
+  const getStudentAvatar = (name) => {
+     const st = allStudents.find(s => s.id?.toLowerCase() === name?.toLowerCase() || s.name?.toLowerCase() === name?.toLowerCase());
+     if (st?.avatarUrl) {
+        return st.avatarUrl;
+     }
+     return `https://api.dicebear.com/7.x/adventurer/svg?seed=${name || 'student'}`;
+  };
+
   const [homeworkSubject, setHomeworkSubject] = useState('English');
   const [homeworkTitle, setHomeworkTitle] = useState('');
   const [homeworkInstructions, setHomeworkInstructions] = useState('');
   const [homeworkPoints, setHomeworkPoints] = useState(10);
-  const [selectedSubjects, setSelectedSubjects] = useState(['English', 'Maths', 'Science']);
   const [submissions, setSubmissions] = useState([]);
+  
+  const [selectedCalendarHw, setSelectedCalendarHw] = useState(null);
+  const [showCalendarModal, setShowCalendarModal] = useState(false);
+  const [isEditingGoal, setIsEditingGoal] = useState(false);
+  const [newGoalTitle, setNewGoalTitle] = useState('Dino Pizza Party! 🍕');
+  const [newGoalTarget, setNewGoalTarget] = useState(1500);
+  const [dashboardRosterTab, setDashboardRosterTab] = useState('Support');
 
   const fetchSubmissions = async () => {
     if (!user?.uid) return;
@@ -112,14 +138,99 @@ const TeacherDashboard = ({ user, onLogout }) => {
     'History': '/ic-classes.png'
   };
 
-  const saveAiKeys = () => {
+  const CLASS_IMAGES = [
+    '/mascot.png',
+    '/dino-reading.png',
+    '/rocket_mascot.png',
+    '/equip_mascot.png',
+    '/student_avatar.png'
+  ];
+
+  const saveAiKeys = async () => {
     localStorage.setItem('hwz_gemini_key', aiKeys.gemini);
     localStorage.setItem('hwz_openai_key', aiKeys.openai);
     localStorage.setItem('hwz_anthropic_key', aiKeys.anthropic);
     localStorage.setItem('hwz_active_ai', activeAi);
-    alert("AI Configuration saved locally! 🧠🔒");
+    
+    if (user?.uid) {
+      try {
+        const teacherDoc = await getDoc(doc(db, 'teachers', user.uid));
+        const dbCode = teacherDoc.exists() ? teacherDoc.data().teacherCode : '';
+        const code = user.teacherCode || dbCode || user.uid.slice(0, 6).toUpperCase();
+        
+        const encGemini = aiKeys.gemini ? await encryptText(aiKeys.gemini, code) : '';
+        const encOpenai = aiKeys.openai ? await encryptText(aiKeys.openai, code) : '';
+        const encAnthropic = aiKeys.anthropic ? await encryptText(aiKeys.anthropic, code) : '';
+        
+        await setDoc(doc(db, 'teachers', user.uid), {
+          encryptedAiKeys: {
+            gemini: encGemini,
+            openai: encOpenai,
+            anthropic: encAnthropic
+          },
+          activeAi: activeAi
+        }, { merge: true });
+        alert("AI Configuration saved securely to Cloud and locally! 🧠🔒");
+      } catch (err) {
+        console.error("Save AI settings to Firestore failed:", err);
+        alert("AI Configuration saved locally, but failed to sync to Cloud. ⚠️");
+      }
+    } else {
+      alert("AI Configuration saved locally! 🧠🔒");
+    }
     setShowAiSettings(false);
   };
+
+  useEffect(() => {
+    const loadCloudAiSettings = async () => {
+      if (!user?.uid) return;
+      try {
+        const teacherDoc = await getDoc(doc(db, 'teachers', user.uid));
+        if (teacherDoc.exists()) {
+          const data = teacherDoc.data();
+          if (data.activeAi) {
+            setActiveAi(data.activeAi);
+            localStorage.setItem('hwz_active_ai', data.activeAi);
+          }
+          const code = user.teacherCode || data.teacherCode || user.uid.slice(0, 6).toUpperCase();
+          
+          if (data.encryptedAiKeys) {
+            const decryptedGemini = await decryptText(data.encryptedAiKeys.gemini, code);
+            const decryptedOpenai = await decryptText(data.encryptedAiKeys.openai, code);
+            const decryptedAnthropic = await decryptText(data.encryptedAiKeys.anthropic, code);
+            
+            setAiKeys({
+              gemini: decryptedGemini,
+              openai: decryptedOpenai,
+              anthropic: decryptedAnthropic
+            });
+            
+            if (decryptedGemini) localStorage.setItem('hwz_gemini_key', decryptedGemini);
+            if (decryptedOpenai) localStorage.setItem('hwz_openai_key', decryptedOpenai);
+            if (decryptedAnthropic) localStorage.setItem('hwz_anthropic_key', decryptedAnthropic);
+          } else if (aiKeys.gemini || aiKeys.openai || aiKeys.anthropic) {
+            // Migrate local keys to Cloud
+            const encGemini = aiKeys.gemini ? await encryptText(aiKeys.gemini, code) : '';
+            const encOpenai = aiKeys.openai ? await encryptText(aiKeys.openai, code) : '';
+            const encAnthropic = aiKeys.anthropic ? await encryptText(aiKeys.anthropic, code) : '';
+            
+            await setDoc(doc(db, 'teachers', user.uid), {
+              encryptedAiKeys: {
+                gemini: encGemini,
+                openai: encOpenai,
+                anthropic: encAnthropic
+              },
+              activeAi: activeAi
+            }, { merge: true });
+            console.log("Legacy local storage keys migrated to encrypted cloud successfully.");
+          }
+        }
+      } catch (err) {
+        console.error("Load cloud AI settings error:", err);
+      }
+    };
+    loadCloudAiSettings();
+  }, [user]);
 
   useEffect(() => {
     if (user?.uid) {
@@ -131,7 +242,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
     if (user?.uid && activeClassroom) {
       fetchStudents();
     }
-  }, [user, activeClassroom]);
+  }, [user, activeClassroom, activeTab]);
 
   useEffect(() => {
     if (!user?.uid) return;
@@ -173,7 +284,20 @@ const TeacherDashboard = ({ user, onLogout }) => {
         };
       }));
 
-      console.log("TeacherDashboard: Classrooms updated:", list.length);
+      const getGradeNumber = (name) => {
+        if (!name) return 999;
+        const match = name.match(/\d+/);
+        return match ? parseInt(match[0], 10) : 999;
+      };
+
+      list.sort((a, b) => {
+        const gradeA = getGradeNumber(a.name);
+        const gradeB = getGradeNumber(b.name);
+        if (gradeA !== gradeB) return gradeA - gradeB;
+        return (a.name || '').localeCompare(b.name || '');
+      });
+
+      console.log("TeacherDashboard: Classrooms updated & sorted:", list.length);
       setClassrooms([...list]); // Use spread to force new reference
       
       if (list.length > 0 && !activeClassroom) {
@@ -207,6 +331,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
       
       console.log("Class created successfully:", classId);
       setNewClassName('');
+      setSelectedSubjects([]);
       await fetchClassrooms();
       setShowAddClassModal(false);
       alert("Class created successfully! 🎨✨");
@@ -279,14 +404,16 @@ const TeacherDashboard = ({ user, onLogout }) => {
     if (!studentName.trim() || !user?.uid || !activeClassroom) return;
     setIsAdding(true);
     try {
-      const studentRef = doc(db, 'teachers', user.uid, 'classrooms', activeClassroom.id, 'students', studentName.trim().toLowerCase());
+      const cleanName = toTitleCase(studentName);
+      const studentRef = doc(db, 'teachers', user.uid, 'classrooms', activeClassroom.id, 'students', cleanName.toLowerCase());
       await setDoc(studentRef, {
-        name: studentName.trim(),
+        name: cleanName,
         addedAt: new Date().toISOString()
       });
       setNewStudentName('');
       setNewStudent('');
       fetchStudents();
+      fetchAllStudents();
     } catch (err) {
       console.error("Add Student Error:", err);
     }
@@ -324,9 +451,10 @@ const TeacherDashboard = ({ user, onLogout }) => {
   useEffect(() => {
     const now = new Date();
     let cutoffDate = new Date();
-    if (dashboardTimeFilter === 'Weekly') cutoffDate.setDate(now.getDate() - 7);
-    else if (dashboardTimeFilter === 'Monthly') cutoffDate.setMonth(now.getMonth() - 1);
-    else cutoffDate.setDate(now.getDate() - 1); // Daily
+    if (dashboardTimeFilter === 'Daily') cutoffDate.setDate(now.getDate() - 7); // Daily shows every day of the week
+    else if (dashboardTimeFilter === 'Weekly') cutoffDate.setMonth(now.getMonth() - 1); // Weekly shows every week of the month
+    else if (dashboardTimeFilter === 'Monthly') cutoffDate.setFullYear(now.getFullYear() - 1); // Monthly shows every month of the year
+    else cutoffDate.setDate(now.getDate() - 1); // fallback
 
     const filtered = allSubmissions.filter(s => {
       const subDate = s.submittedAt?.toDate ? s.submittedAt.toDate() : new Date(s.submittedAt);
@@ -378,10 +506,10 @@ const TeacherDashboard = ({ user, onLogout }) => {
   };
 
   useEffect(() => {
-    if (activeTab === 'Students' || activeTab === 'Messages') {
+    if (user && classrooms.length > 0) {
        fetchAllStudents();
     }
-  }, [activeTab, classrooms]);
+  }, [user, classrooms, activeTab]);
 
   const handleDeleteStudent = async (e, studentId, studentName, classId) => {
     e.stopPropagation();
@@ -404,149 +532,864 @@ const TeacherDashboard = ({ user, onLogout }) => {
     }
   };
 
+  const handleSaveGoal = async () => {
+    if (!activeClassroom) return;
+    try {
+      await setDoc(doc(db, 'teachers', user.uid, 'classrooms', activeClassroom.id), {
+        goalTitle: newGoalTitle,
+        goalTarget: Number(newGoalTarget)
+      }, { merge: true });
+      
+      // Update activeClassroom locally so the UI updates instantly!
+      setActiveClassroom(prev => ({
+        ...prev,
+        goalTitle: newGoalTitle,
+        goalTarget: Number(newGoalTarget)
+      }));
+      setIsEditingGoal(false);
+      alert("Classroom collaborative goal saved successfully! 🚀");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save goal.");
+    }
+  };
+
+  const handleResetGoalProgress = async () => {
+    if (!activeClassroom) return;
+    if (!window.confirm("Are you sure you want to reset the combined points progress for this classroom goal? 🔄\n\nThis will reset the thermometer and pizza back to 0, but will NOT delete any student grades, homework submissions, or history!")) return;
+    
+    try {
+      // Re-calculate raw points right now so we have the absolute current total
+      const classStudents = allStudents.filter(s => s.classId === activeClassroom.id);
+      const computedStudents = classStudents.map(student => {
+         const studentSubs = allSubmissions.filter(sub => 
+            sub.studentName?.toLowerCase() === student.name?.toLowerCase()
+         );
+         const completedCount = studentSubs.length;
+         const totalScore = studentSubs.reduce((acc, sub) => acc + (sub.score || 0), 0);
+         const basePoints = 100;
+         return basePoints + (completedCount * 50) + totalScore;
+      });
+
+      const currentClassRawPoints = computedStudents.reduce((acc, points) => acc + points, 0);
+
+      // Save the raw points as the new reset offset in Firestore
+      await setDoc(doc(db, 'teachers', user.uid, 'classrooms', activeClassroom.id), {
+        goalResetPointsOffset: currentClassRawPoints
+      }, { merge: true });
+
+      // Update local activeClassroom state
+      setActiveClassroom(prev => ({
+        ...prev,
+        goalResetPointsOffset: currentClassRawPoints
+      }));
+
+      setIsEditingGoal(false);
+      alert("Goal points progress has been reset back to 0! 🔄🎒 Let's build a new adventure!");
+    } catch (err) {
+      console.error("Reset Goal Progress Error:", err);
+      alert("Oops! Failed to reset goal progress. ❌");
+    }
+  };
+
   const renderContent = () => {
       switch (activeTab) {
-         case 'Dashboard': {
-            const uniqueSubmitters = new Set(timeFilteredSubmissions.map(s => s.studentName)).size;
-            const avgScoreTotal = timeFilteredSubmissions.length > 0 
-               ? Math.round(timeFilteredSubmissions.reduce((acc, sub) => acc + sub.score, 0) / timeFilteredSubmissions.length)
-               : 0;
+          case 'Dashboard': {
+             const uniqueSubmitters = new Set(timeFilteredSubmissions.map(s => s.studentName)).size;
+             const avgScoreTotal = timeFilteredSubmissions.length > 0 
+                ? Math.round(timeFilteredSubmissions.reduce((acc, sub) => acc + sub.score, 0) / timeFilteredSubmissions.length)
+                : 0;
 
-            const studentAvgScores = {};
-            timeFilteredSubmissions.forEach(sub => {
-               if (!studentAvgScores[sub.studentName]) studentAvgScores[sub.studentName] = { total: 0, count: 0 };
-               studentAvgScores[sub.studentName].total += sub.score;
-               studentAvgScores[sub.studentName].count += 1;
-            });
+             // Classrooms student point math
+             const classStudents = allStudents.filter(s => !activeClassroom || s.classId === activeClassroom.id);
+             const classHomeworks = allHomeworks.filter(hw => hw.status === 'published' && (!activeClassroom || hw.assignedClassId === activeClassroom.id));
+             const pendingDrafts = allHomeworks.filter(hw => hw.status === 'draft' && (!activeClassroom || hw.assignedClassId === activeClassroom.id));
+             const classSubmissions = allSubmissions.filter(sub => {
+                if (!activeClassroom) return true;
+                const hw = allHomeworks.find(h => h.id === sub.homeworkId);
+                const subClassId = sub.classId || hw?.assignedClassId;
+                return subClassId === activeClassroom.id;
+             });
 
-            const topPerformers = Object.entries(studentAvgScores)
-               .map(([name, data]) => ({ name, avgScore: Math.round(data.total / data.count), count: data.count }))
-               .sort((a, b) => b.avgScore - a.avgScore)
-               .slice(0, 3);
+             const computedStudents = classStudents.map(student => {
+                const studentSubs = allSubmissions.filter(sub => 
+                   sub.studentName?.toLowerCase() === student.name?.toLowerCase()
+                );
+                const completedCount = studentSubs.length;
+                const totalScore = studentSubs.reduce((acc, sub) => acc + (sub.score || 0), 0);
+                const basePoints = 100;
+                return {
+                   ...student,
+                   points: basePoints + (completedCount * 50) + totalScore,
+                   completedCount
+                };
+             });
 
-            let chartLabels = [];
-            let chartData = [];
-            
-            if (dashboardTimeFilter === 'Weekly') {
-               chartLabels = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
-               chartData = [[], [], [], [], [], [], []];
-               const now = new Date();
-               timeFilteredSubmissions.forEach(sub => {
-                  const subDate = sub.submittedAt?.toDate ? sub.submittedAt.toDate() : new Date(sub.submittedAt);
-                  const diffDays = Math.floor((now - subDate) / (1000 * 60 * 60 * 24));
-                  if (diffDays >= 0 && diffDays < 7) {
-                     chartData[6 - diffDays].push(sub.score);
-                  }
-               });
-            } else {
-               chartLabels = ['Wk1', 'Wk2', 'Wk3', 'Wk4'];
-               chartData = [[], [], [], []];
-               const now = new Date();
-               timeFilteredSubmissions.forEach(sub => {
-                  const subDate = sub.submittedAt?.toDate ? sub.submittedAt.toDate() : new Date(sub.submittedAt);
-                  const diffWeeks = Math.floor((now - subDate) / (1000 * 60 * 60 * 24 * 7));
-                  if (diffWeeks >= 0 && diffWeeks < 4) {
-                     chartData[3 - diffWeeks].push(sub.score);
-                  }
-               });
-            }
+             const rawClassPoints = computedStudents.reduce((acc, s) => acc + s.points, 0);
+             const resetOffset = activeClassroom?.goalResetPointsOffset || 0;
+             const currentClassPoints = Math.max(0, rawClassPoints - resetOffset);
+             const targetTitle = activeClassroom?.goalTitle || 'Dino Pizza Party! 🍕';
+             const targetGoal = activeClassroom?.goalTarget || 1500;
+             const progressPercent = Math.min(Math.round((currentClassPoints / targetGoal) * 100), 100);
 
-            const chartAverages = chartData.map(bucket => bucket.length > 0 ? Math.round(bucket.reduce((a,b)=>a+b,0)/bucket.length) : 0);
-            const chartCounts = chartData.map(bucket => bucket.length);
+             // Calculate subject averages (always pre-populate the three core areas)
+             const subjectStats = {
+                'Maths': { total: 0, count: 0 },
+                'Science': { total: 0, count: 0 },
+                'English': { total: 0, count: 0 }
+             };
+             classSubmissions.forEach(sub => {
+                const hw = allHomeworks.find(h => h.id === sub.homeworkId);
+                let subject = hw ? hw.subject : 'General';
+                if (subject?.toLowerCase() === 'maths' || subject?.toLowerCase() === 'math') subject = 'Maths';
+                else if (subject?.toLowerCase() === 'science') subject = 'Science';
+                else if (subject?.toLowerCase() === 'english') subject = 'English';
+                else subject = 'General';
 
-            return (
-               <div className="px-10 py-10 space-y-12 pb-40 relative min-h-[calc(100vh-64px)]">
-                  <div className="flex items-center justify-between">
-                      <div className="space-y-1">
-                         <h1 className="text-3xl font-black text-slate-800 tracking-tight">Daily Summary</h1>
-                         <p className="text-sm font-bold text-slate-400">Real-time performance metrics across your active classrooms.</p>
-                      </div>
-                      <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-2xl">
-                         {['Daily', 'Weekly', 'Monthly'].map(f => (
-                            <button 
-                               key={f}
-                               onClick={() => setDashboardTimeFilter(f)}
-                               className={`px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${dashboardTimeFilter === f ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
-                            >
-                               {f}
-                            </button>
-                         ))}
-                      </div>
+                if (!subjectStats[subject]) subjectStats[subject] = { total: 0, count: 0 };
+                subjectStats[subject].total += sub.score || 0;
+                subjectStats[subject].count += 1;
+             });
+
+             const subjectAverages = Object.entries(subjectStats)
+                .map(([subj, data]) => ({
+                   subject: subj,
+                   average: data.count > 0 ? Math.round(data.total / data.count) : 0,
+                   count: data.count
+                }))
+                .filter(sa => ['Maths', 'Science', 'English'].includes(sa.subject) || sa.count > 0);
+
+             const activeSubjectAverages = subjectAverages.filter(sa => sa.count > 0);
+             const sortedByAvg = [...activeSubjectAverages].sort((a, b) => a.average - b.average);
+             const weakness = sortedByAvg[0] || { subject: 'None yet', average: 100 };
+
+             // Dynamic AI Learning Gaps Analysis based on actual student homework grades
+             const learningGaps = [];
+             subjectAverages.forEach(sa => {
+                if (sa.count > 0 && sa.average < 75) {
+                   // Find the homework in this subject with the lowest class average
+                   const subjectHws = classHomeworks.filter(h => {
+                      let subj = h.subject || 'General';
+                      if (subj?.toLowerCase() === 'maths' || subj?.toLowerCase() === 'math') subj = 'Maths';
+                      else if (subj?.toLowerCase() === 'science') subj = 'Science';
+                      else if (subj?.toLowerCase() === 'english') subj = 'English';
+                      return subj === sa.subject;
+                   });
+
+                   let worstHw = null;
+                   let lowestAvg = 100;
+                   subjectHws.forEach(hw => {
+                      const hwSubs = classSubmissions.filter(sub => sub.homeworkId === hw.id);
+                      if (hwSubs.length > 0) {
+                         const avg = Math.round(hwSubs.reduce((a, b) => a + (b.score || 0), 0) / hwSubs.length);
+                         if (avg < lowestAvg) {
+                            lowestAvg = avg;
+                            worstHw = hw;
+                         }
+                      }
+                   });
+
+                   let focusTopic = worstHw ? worstHw.title : 'General Concepts';
+                   let tip = '';
+                   if (sa.subject === 'Maths') {
+                      tip = `Review fraction partitioning and numerator/denominator definitions in the next lesson.`;
+                   } else if (sa.subject === 'Science') {
+                      tip = `Use orbital visual aids and reinforce planet order/distances.`;
+                   } else if (sa.subject === 'English') {
+                      tip = `Spend 10 minutes practicing core vocabulary rules and dictionary spelling checks.`;
+                   } else {
+                      tip = `Conduct a 5-minute warm-up quiz on recent content before lecturing.`;
+                   }
+
+                   learningGaps.push({
+                      subject: sa.subject,
+                      average: sa.average,
+                      topic: focusTopic,
+                      tip: tip
+                   });
+                }
+             });
+
+             const studentAverages = {};
+             classStudents.forEach(student => {
+                const subs = classSubmissions.filter(sub => sub.studentName?.toLowerCase() === student.name?.toLowerCase());
+                if (subs.length > 0) {
+                   const total = subs.reduce((acc, sub) => acc + (sub.score || 0), 0);
+                   studentAverages[student.name] = {
+                      avg: Math.round(total / subs.length),
+                      count: subs.length
+                   };
+                }
+             });
+
+             const struggling = Object.entries(studentAverages)
+                .filter(([name, data]) => data.avg < 60)
+                .map(([name, data]) => ({ name, ...data }));
+
+             const risingStars = Object.entries(studentAverages)
+                .filter(([name, data]) => data.avg >= 85 && data.count >= 1)
+                .map(([name, data]) => ({ name, ...data }));
+
+             let chartLabels = [];
+             let chartData = [];
+             
+             if (dashboardTimeFilter === 'Daily') {
+                const getDayLabel = (daysAgo) => {
+                   const d = new Date();
+                   d.setDate(d.getDate() - daysAgo);
+                   return d.toLocaleDateString('en-US', { weekday: 'short' });
+                };
+                chartLabels = [getDayLabel(6), getDayLabel(5), getDayLabel(4), getDayLabel(3), getDayLabel(2), getDayLabel(1), getDayLabel(0)];
+                chartData = [[], [], [], [], [], [], []];
+                const now = new Date();
+                timeFilteredSubmissions.forEach(sub => {
+                   const subDate = sub.submittedAt?.toDate ? sub.submittedAt.toDate() : new Date(sub.submittedAt);
+                   const diffDays = Math.floor((now - subDate) / (1000 * 60 * 60 * 24));
+                   if (diffDays >= 0 && diffDays < 7) {
+                      chartData[6 - diffDays].push(sub.score);
+                   }
+                });
+             } else if (dashboardTimeFilter === 'Weekly') {
+                chartLabels = ['Wk1', 'Wk2', 'Wk3', 'Wk4'];
+                chartData = [[], [], [], []];
+                const now = new Date();
+                timeFilteredSubmissions.forEach(sub => {
+                   const subDate = sub.submittedAt?.toDate ? sub.submittedAt.toDate() : new Date(sub.submittedAt);
+                   const diffWeeks = Math.floor((now - subDate) / (1000 * 60 * 60 * 24 * 7));
+                   if (diffWeeks >= 0 && diffWeeks < 4) {
+                      chartData[3 - diffWeeks].push(sub.score);
+                   }
+                });
+             } else {
+                const getMonthLabel = (monthsAgo) => {
+                   const d = new Date();
+                   d.setMonth(d.getMonth() - monthsAgo);
+                   return d.toLocaleDateString('en-US', { month: 'short' });
+                };
+                chartLabels = [
+                   getMonthLabel(11), getMonthLabel(10), getMonthLabel(9), getMonthLabel(8),
+                   getMonthLabel(7), getMonthLabel(6), getMonthLabel(5), getMonthLabel(4),
+                   getMonthLabel(3), getMonthLabel(2), getMonthLabel(1), getMonthLabel(0)
+                ];
+                chartData = [[], [], [], [], [], [], [], [], [], [], [], []];
+                const now = new Date();
+                timeFilteredSubmissions.forEach(sub => {
+                   const subDate = sub.submittedAt?.toDate ? sub.submittedAt.toDate() : new Date(sub.submittedAt);
+                   const diffMonths = (now.getFullYear() - subDate.getFullYear()) * 12 + (now.getMonth() - subDate.getMonth());
+                   if (diffMonths >= 0 && diffMonths < 12) {
+                      chartData[11 - diffMonths].push(sub.score);
+                   }
+                });
+             }
+
+             const chartAverages = chartData.map(bucket => bucket.length > 0 ? Math.round(bucket.reduce((a,b)=>a+b,0)/bucket.length) : 0);
+             const chartCounts = chartData.map(bucket => bucket.length);
+             const timePeriodLabel = dashboardTimeFilter === 'Daily' ? 'week' : (dashboardTimeFilter === 'Weekly' ? 'month' : 'year');
+
+             return (
+                <div className="px-6 py-6 space-y-6 pb-20 relative min-h-[calc(100vh-64px)] bg-[#FAF9FF]">
+                   {/* Top Summary Banner */}
+                   <div className="flex items-center justify-between">
+                       <div className="space-y-1">
+                          <h1 className="text-3xl font-black text-[#3C2E75] tracking-tight">Daily Summary Hub</h1>
+                          <p className="text-sm font-bold text-[#8C83B5]">Real-time learning diagnostic metrics across your classrooms.</p>
+                       </div>
+                       <div className="flex items-center gap-2 bg-[#FFF0FA] p-1.5 rounded-2xl border border-[#FFDDF5]">
+                          {['Daily', 'Weekly', 'Monthly'].map(f => (
+                             <button 
+                                key={f}
+                                onClick={() => setDashboardTimeFilter(f)}
+                                className={`px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${dashboardTimeFilter === f ? 'bg-white text-[#C23C9F] shadow-sm' : 'text-[#C23C9F]/60 hover:text-[#C23C9F]'}`}
+                             >
+                                {f}
+                             </button>
+                          ))}
+                       </div>
+                    </div>
+
+                   {/* Colorful KPI Metrics (Curated Pastels) */}
+                   <div className="grid grid-cols-4 gap-6">
+                      <RewardKPICard title="Total Roster" value={activeClassroom ? students.length : allStudents.length} subtitle={activeClassroom ? "Class Active Roster" : "Global Roster"} bgColor="bg-[#FAF2FF] border-[#E8C6FF]" textColor="text-[#7828B4]" />
+                      <RewardKPICard title="Average Grade" value={`${avgScoreTotal}%`} subtitle="Class Diagnostic Avg" bgColor="bg-[#EAFBF7] border-[#BCEEE2]" textColor="text-[#1E8A74]" />
+                      <RewardKPICard title="Team Points Goal" value={`${progressPercent}%`} subtitle={`${currentClassPoints} / ${targetGoal} pts`} bgColor="bg-[#FFF0EB] border-[#FFD2C4]" textColor="text-[#C64F33]" />
+                      <RewardKPICard title="Submissions" value={timeFilteredSubmissions.length} subtitle={`Completed this ${timePeriodLabel}`} bgColor="bg-[#FFFCE8] border-[#FCEE9D]" textColor="text-[#8C761E]" />
                    </div>
 
-                  <div className="grid grid-cols-4 gap-6">
-                     <RewardKPICard title="Total Students" value={activeClassroom ? students.length : allStudents.length} subtitle={activeClassroom ? "Class Roster" : "Global Roster"} bgColor="bg-slate-50/50" textColor="text-slate-800" />
-                     <RewardKPICard title="Average Score" value={`${avgScoreTotal}%`} subtitle="Across all subjects" bgColor="bg-emerald-50/50" textColor="text-emerald-600" />
-                     <RewardKPICard title="Participation" value={(activeClassroom ? students.length : allStudents.length) > 0 ? Math.round((uniqueSubmitters/(activeClassroom ? students.length : allStudents.length))*100) + '%' : '0%'} subtitle="Missions complete" bgColor="bg-amber-50/50" textColor="text-amber-600" />
-                     <RewardKPICard title="Submissions" value={timeFilteredSubmissions.length} subtitle={`This ${dashboardTimeFilter.toLowerCase()}`} bgColor="bg-indigo-50/50" textColor="text-indigo-600" />
-                  </div>
+                   {/* Split Row: Performance vs Goals / AI Hub */}
+                   <div className="grid grid-cols-12 gap-6">
+                      {/* Left: Class Performance, Subject Mastery, & Team Goal Thermometer */}
+                      <div className="col-span-8 space-y-6">
+                         {/* Class Performance Graph */}
+                         <div className="bg-white rounded-[32px] border border-[#E9E4FF] shadow-sm p-6 space-y-4">
+                            <div>
+                               <h3 className="text-sm font-black text-[#3C2E75] tracking-tight">Class Academic Progress</h3>
+                               <p className="text-[9px] font-black text-[#8C83B5] uppercase tracking-widest">{dashboardTimeFilter} progress across core subjects</p>
+                            </div>
 
-                  <div className="grid grid-cols-12 gap-10">
-                      <div className="col-span-8 bg-white rounded-[40px] border border-slate-100/60 shadow-sm p-8 space-y-8">
-                         <div>
-                            <h3 className="text-xl font-bold text-slate-800 tracking-tight">Class Performance</h3>
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{dashboardTimeFilter} progress across core subjects</p>
-                         </div>
+                            <div className="h-48 flex items-end justify-between gap-2 pr-4 pb-4 border-b border-[#FAF2FF] relative">
+                               {/* Y-Axis Guidelines */}
+                               <div className="absolute inset-x-0 top-0 bottom-8 flex flex-col justify-between pointer-events-none z-0">
+                                  {[100, 75, 50, 25, 0].map((val, i) => (
+                                     <div key={i} className="w-full flex items-center gap-4">
+                                        <span className="text-[10px] font-black text-[#B0A7D4] w-8 text-right">{val}%</span>
+                                        <div className="flex-1 h-px bg-[#8A70FF] opacity-[0.08]" />
+                                     </div>
+                                  ))}
+                               </div>
+                               
+                               <div className="w-8 shrink-0 hidden md:block" />
 
-                         <div className="h-64 flex items-end justify-between gap-2 pr-4 pb-8 border-b border-slate-50 relative">
-                            {/* Y-Axis Guidelines */}
-                            <div className="absolute inset-x-0 top-0 bottom-8 flex flex-col justify-between pointer-events-none z-0">
-                               {[100, 75, 50, 25, 0].map((val, i) => (
-                                  <div key={i} className="w-full flex items-center gap-4">
-                                     <span className="text-[10px] font-bold text-slate-300 w-8 text-right">{val}%</span>
-                                     <div className="flex-1 h-px bg-slate-900 opacity-[0.04]" />
+                               {chartLabels.map((label, i) => (
+                                  <div key={i} className="flex flex-col items-center gap-4 flex-1 group relative h-full pt-4 z-10">
+                                     <div className="flex-1 flex items-end gap-3 relative w-full h-full justify-center">
+                                        {chartAverages[i] > 0 && (
+                                            <div className="absolute -top-8 flex flex-col items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <span className="text-[11px] font-black text-[#C23C9F] bg-[#FFF0FA] px-2 py-0.5 rounded-full shadow-sm">{chartAverages[i]}%</span>
+                                                <span className="text-[9px] font-bold text-slate-400 mt-1 whitespace-nowrap">{chartCounts[i]} items</span>
+                                            </div>
+                                        )}
+                                        {/* Colorful soft purple bar */}
+                                        <div className="w-12 bg-gradient-to-t from-[#8A70FF] to-[#CE93D8] rounded-t-xl shadow-lg shadow-purple-50 transition-all duration-1000 ease-out absolute bottom-0" style={{ height: `${Math.max(2, chartAverages[i] || 0)}%` }} />
+                                     </div>
+                                     <span className="text-[10px] font-black text-[#5C4D9F]">{label}</span>
                                   </div>
                                ))}
                             </div>
-                            
-                            <div className="w-8 shrink-0 hidden md:block" />
-
-                            {chartLabels.map((label, i) => (
-                               <div key={i} className="flex flex-col items-center gap-4 flex-1 group relative h-full pt-4 z-10">
-                                  <div className="flex-1 flex items-end gap-3 relative w-full h-full justify-center">
-                                     {chartAverages[i] > 0 && (
-                                         <div className="absolute -top-8 flex flex-col items-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                             <span className="text-[11px] font-black text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full shadow-sm">{chartAverages[i]}%</span>
-                                             <span className="text-[9px] font-bold text-slate-400 mt-1 whitespace-nowrap">{chartCounts[i]} items</span>
-                                         </div>
-                                     )}
-                                     <div className="w-12 bg-indigo-500 rounded-t-lg shadow-lg shadow-indigo-100 transition-all duration-1000 ease-out absolute bottom-0" style={{ height: `${Math.max(2, chartAverages[i] || 0)}%` }} />
-                                  </div>
-                                  <span className="text-[10px] font-bold text-slate-800">{label}</span>
-                               </div>
-                            ))}
                          </div>
+
+                         {/* Subject Diagnostic Mastery Breakdown (AI Gaps) */}
+                         <div className="bg-white rounded-[32px] border border-[#E9E4FF] shadow-sm p-6 space-y-4">
+                            <div className="flex justify-between items-center">
+                               <div>
+                                  <h3 className="text-sm font-black text-[#3C2E75] tracking-tight">Subject Diagnostic Mastery</h3>
+                                  <p className="text-[9px] font-black text-[#8C83B5] uppercase tracking-widest">Calculated average scores by subject area</p>
+                               </div>
+                            </div>
+                            <div className="grid grid-cols-3 gap-4">
+                               {subjectAverages.map(sa => {
+                                  let barColor = "bg-[#CE93D8]";
+                                  let textColor = "text-[#7828B4]";
+                                  let cardBg = "bg-[#FAF2FF] border-[#E8C6FF]/40";
+                                  if (sa.subject === 'Maths') {
+                                     barColor = "bg-[#FF7043]";
+                                     textColor = "text-[#C64F33]";
+                                     cardBg = "bg-[#FFF0EB] border-[#FFD2C4]/40";
+                                  } else if (sa.subject === 'Science') {
+                                     barColor = "bg-[#26A69A]";
+                                     textColor = "text-[#1E8A74]";
+                                     cardBg = "bg-[#EAFBF7] border-[#BCEEE2]/40";
+                                  } else if (sa.subject === 'English') {
+                                     barColor = "bg-[#FFCA28]";
+                                     textColor = "text-[#8C761E]";
+                                     cardBg = "bg-[#FFFCE8] border-[#FCEE9D]/40";
+                                  }
+
+                                  return (
+                                     <div key={sa.subject} className={`p-4 rounded-2xl border ${cardBg} space-y-2 flex flex-col justify-between`}>
+                                        <div className="flex justify-between items-center">
+                                           <span className="text-xs font-black text-[#3C2E75]">{sa.subject}</span>
+                                           <span className={`text-xs font-black ${textColor}`}>{sa.count > 0 ? `${sa.average}%` : 'N/A'}</span>
+                                        </div>
+                                        <div className="h-2 w-full bg-white rounded-full overflow-hidden border border-slate-100">
+                                           <div className={`h-full rounded-full ${barColor}`} style={{ width: `${sa.average}%` }} />
+                                        </div>
+                                        <span className="text-[8px] font-bold text-slate-400 block text-right">
+                                           {sa.count > 0 ? `${sa.count} assignment${sa.count > 1 ? 's' : ''}` : 'No submissions yet'}
+                                        </span>
+                                     </div>
+                                  );
+                               })}
+                               {subjectAverages.length === 0 && (
+                                  <div className="col-span-3 text-center text-slate-400 font-bold text-xs italic py-6">No diagnostic mastery data available yet.</div>
+                               )}
+                            </div>
+                         </div>
+
+                         {/* Classroom Collaborative Goal Thermometer */}
+                         {false && activeClassroom && (
+                            <div className="bg-white rounded-[32px] border border-[#E9E4FF] shadow-sm p-6 space-y-4">
+                               <div className="flex justify-between items-center">
+                                  <div className="space-y-1">
+                                     <span className="text-[10px] font-black uppercase text-[#FFAB91] tracking-wider">Active Classroom Collaborative Goal</span>
+                                     <h3 className="text-xl font-black text-[#3C2E75]">{targetTitle}</h3>
+                                  </div>
+                                  <button 
+                                     onClick={() => {
+                                        setNewGoalTitle(targetTitle);
+                                        setNewGoalTarget(targetGoal);
+                                        setIsEditingGoal(true);
+                                     }}
+                                     className="px-5 py-2.5 border-2 border-[#FFE0D6] hover:border-[#FFAB91] text-[#C64F33] rounded-2xl text-xs font-black transition-all bg-white"
+                                  >
+                                     Change Goal ✏️
+                                  </button>
+                               </div>
+
+                               <div className="space-y-4 pt-2">
+                                  <div className="flex justify-between text-sm font-black text-[#3C2E75]">
+                                     <span>Class Combined Journey Points</span>
+                                     <span className="text-[#FF7043]">{currentClassPoints} / {targetGoal} Points</span>
+                                  </div>
+                                  
+                                  {/* Beautiful Pink Thermometer Progress Bar */}
+                                  <div className="h-8 w-full bg-[#FFF9F9] border border-[#FFE3E3] rounded-3xl overflow-hidden p-1 shadow-inner relative flex items-center">
+                                     <div 
+                                        className="h-full rounded-2xl bg-gradient-to-r from-[#FF7043] to-pink-400 transition-all duration-1000 flex items-center justify-end pr-4 shadow-[0_0_12px_rgba(255,112,67,0.35)]"
+                                        style={{ width: `${progressPercent}%` }}
+                                     >
+                                        <span className="text-[10px] font-black text-white uppercase tracking-wider">{progressPercent}%</span>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         )}
                       </div>
 
-                     <div className="col-span-4 bg-white rounded-[40px] border border-blue-50 shadow-sm p-8 flex flex-col justify-between">
-                        <div className="space-y-6">
-                           <h3 className="text-xl font-black text-[#1E3A8A] tracking-tight">Top Performers</h3>
-                           <div className="space-y-4">
-                              {topPerformers.length > 0 ? topPerformers.map((s, idx) => (
-                                 <div key={idx} className="flex items-center justify-between p-2 hover:bg-slate-50 rounded-2xl transition-colors">
-                                    <div className="flex items-center gap-4">
-                                       <span className="text-sm font-black text-blue-200">{idx + 1}.</span>
-                                       <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${s.name}`} className="w-10 h-10 rounded-full bg-blue-50" alt={s.name} />
-                                       <div className="flex flex-col">
-                                          <span className="text-sm font-black text-[#1E3A8A]">{s.name}</span>
-                                          <span className="text-[10px] font-bold text-slate-400">{s.count} Missions Completed</span>
-                                       </div>
-                                    </div>
-                                    <div className="flex flex-col items-end">
-                                       <span className="text-sm font-black text-blue-400">{s.avgScore}%</span>
-                                       <span className="text-[9px] font-bold text-slate-300 uppercase tracking-wider">Avg Score</span>
-                                    </div>
-                                 </div>
-                              )) : (
-                                 <div className="text-xs font-bold text-slate-400 text-center py-4">No data this period</div>
-                              )}
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            );
-         }
+                      {/* Right: AI Teaching Co-Pilot Diagnostic Card */}
+                      <div className="col-span-4 space-y-6">
+                         {/* Pending Drafts Warning Card */}
+                         {pendingDrafts.length > 0 && (
+                            <div className="bg-gradient-to-br from-[#FFF0FA] to-[#FFE5F6] rounded-[32px] border border-[#FFD5F0] shadow-sm p-6 space-y-4 animate-in slide-in-from-top duration-300">
+                               <div className="flex items-center gap-3">
+                                  <span className="text-3xl animate-bounce">📝</span>
+                                  <div>
+                                     <h3 className="text-xl font-black text-[#8A1F6E] tracking-tight">Drafts Pending Review</h3>
+                                     <p className="text-[9px] font-black text-[#C6339A] uppercase tracking-widest">Left to be checked & published</p>
+                                  </div>
+                               </div>
+                               
+                               <div className="space-y-2">
+                                  <p className="text-xs font-bold text-[#8A1F6E]/80">
+                                     You have <span className="font-black text-[#C6339A] text-sm">{pendingDrafts.length} draft homework{pendingDrafts.length > 1 ? 's' : ''}</span> saved that are not visible to students yet.
+                                  </p>
+                                  
+                                  <div className="space-y-1.5 max-h-[160px] overflow-y-auto pr-1">
+                                     {pendingDrafts.map(draft => (
+                                        <div key={draft.id} className="bg-white/95 backdrop-blur-sm border border-[#FFDDF5] p-3 rounded-2xl flex items-center justify-between shadow-sm">
+                                           <div className="flex flex-col min-w-0">
+                                              <span className="text-xs font-black text-slate-800 truncate">{draft.title}</span>
+                                              <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">{draft.subject}</span>
+                                           </div>
+                                           <button 
+                                              onClick={() => {
+                                                 setActiveTab('Homework');
+                                              }}
+                                              className="text-[10px] font-black bg-[#C23C9F] text-white px-3 py-1.5 rounded-xl hover:bg-[#A13083] transition-colors shrink-0"
+                                           >
+                                              Check & Publish 🚀
+                                           </button>
+                                        </div>
+                                     ))}
+                                  </div>
+                               </div>
+                            </div>
+                         )}
+
+                         {/* AI Co-Pilot Intervention */}
+                         <div className="bg-gradient-to-br from-[#FAF2FF] to-[#F1E0FF] rounded-[32px] border border-[#E8C6FF] shadow-sm p-6 space-y-4">
+                            <div className="flex items-center gap-3">
+                               <span className="text-3xl">🤖</span>
+                               <div className="space-y-0.5">
+                                  <h3 className="text-xl font-black text-[#3C2E75] tracking-tight">AI Co-Pilot Diagnosis</h3>
+                                  <p className="text-[9px] font-black text-purple-400 uppercase tracking-widest">Real-time conceptual learning gaps</p>
+                               </div>
+                            </div>
+                            
+                            <div className="space-y-3">
+                               {learningGaps.length > 0 ? (
+                                  learningGaps.map(gap => {
+                                     let textColor = "text-[#7828B4]";
+                                     let badgeBg = "bg-[#FAF2FF] border-[#E8C6FF]/40";
+                                     let progressColor = "bg-[#CE93D8]";
+                                     if (gap.subject === 'Maths') {
+                                        textColor = "text-[#C64F33]";
+                                        badgeBg = "bg-[#FFF0EB] border-[#FFD2C4]/40";
+                                        progressColor = "bg-[#FF7043]";
+                                     } else if (gap.subject === 'Science') {
+                                        textColor = "text-[#1E8A74]";
+                                        badgeBg = "bg-[#EAFBF7] border-[#BCEEE2]/40";
+                                        progressColor = "bg-[#26A69A]";
+                                     } else if (gap.subject === 'English') {
+                                        textColor = "text-[#8C761E]";
+                                        badgeBg = "bg-[#FFFCE8] border-[#FCEE9D]/40";
+                                        progressColor = "bg-[#FFCA28]";
+                                     }
+                                     
+                                     return (
+                                        <div key={gap.subject} className="bg-white/95 backdrop-blur-sm border border-[#EBE4FF] p-4 rounded-2xl space-y-3 shadow-[0_2px_8px_-3px_rgba(122,105,214,0.1)]">
+                                           <div className="flex justify-between items-center">
+                                              <div className="flex items-center gap-2">
+                                                 <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-lg border ${badgeBg} ${textColor}`}>{gap.subject}</span>
+                                                 <span className="text-[10px] font-black text-[#3C2E75] truncate max-w-[140px]" title={gap.topic}>"{gap.topic}"</span>
+                                              </div>
+                                              <span className={`text-xs font-black ${textColor}`}>{gap.average}% Mastery</span>
+                                           </div>
+                                           <div className="h-1.5 w-full bg-slate-50 rounded-full overflow-hidden border border-slate-100">
+                                              <div className={`h-full rounded-full ${progressColor}`} style={{ width: `${gap.average}%` }} />
+                                           </div>
+                                           <div className="bg-[#FAF2FF] rounded-xl p-3 border border-[#E8C6FF]/30">
+                                              <span className="text-[8px] font-black uppercase text-purple-400 tracking-wider block mb-0.5">💡 Teacher Prep Hint</span>
+                                              <p className="text-[11px] font-bold text-[#5C4D9F] leading-snug">{gap.tip}</p>
+                                           </div>
+                                        </div>
+                                     );
+                                  })
+                               ) : (
+                                  <div className="bg-white/80 backdrop-blur-sm border border-[#E9E4FF] p-5 rounded-2xl text-center space-y-2">
+                                     <span className="text-2xl block">🎉</span>
+                                     <p className="text-xs font-black text-[#3C2E75]">All clear! No active learning gaps</p>
+                                     <p className="text-[10px] font-bold text-slate-400 leading-snug">
+                                        {activeSubjectAverages.length > 0 
+                                           ? "Classroom averages are healthy (75%+). Students are demonstrating solid mastery!" 
+                                           : "No student submission data is available yet to diagnose learning gaps."
+                                        }
+                                     </p>
+                                  </div>
+                                )}
+                            </div>
+                         </div>
+
+                         {/* Compact Support & Flyers Roster (Tabbed AI Insights) */}
+                         <div className="bg-white rounded-[32px] border border-[#E9E4FF] shadow-sm p-6 space-y-4">
+                            <div className="flex justify-between items-center border-b border-[#FAF2FF] pb-2">
+                               <h3 className="text-sm font-black text-[#3C2E75] tracking-tight">Class Support Hub</h3>
+                               <div className="flex bg-[#F5F3FF] p-1 rounded-xl border border-[#EBE4FF]">
+                                  <button 
+                                     onClick={() => setDashboardRosterTab('Support')} 
+                                     className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase transition-all ${dashboardRosterTab === 'Support' ? 'bg-white text-amber-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                                  >
+                                     ⚠️ Support ({struggling.length})
+                                  </button>
+                                  <button 
+                                     onClick={() => setDashboardRosterTab('Flyers')} 
+                                     className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase transition-all ${dashboardRosterTab === 'Flyers' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                                  >
+                                     ⭐ Flyers ({risingStars.length})
+                                  </button>
+                               </div>
+                            </div>
+                            
+                            <div className="space-y-3 max-h-[160px] overflow-y-auto no-scrollbar">
+                               {dashboardRosterTab === 'Support' ? (
+                                  struggling.map(st => (
+                                     <div key={st.name} className="flex items-center justify-between border-b border-[#FAF2FF] pb-2">
+                                        <div className="flex items-center gap-2">
+                                           <img src={getStudentAvatar(st.name)} className="w-8 h-8 rounded-full border border-slate-100 bg-white" />
+                                           <span className="text-xs font-black text-[#5C4D9F]">{st.name}</span>
+                                        </div>
+                                        <span className="text-xs font-black text-amber-500 bg-amber-50 px-2 py-0.5 rounded-full">{st.avg}% avg</span>
+                                     </div>
+                                  ))
+                               ) : (
+                                  risingStars.map(st => (
+                                     <div key={st.name} className="flex items-center justify-between border-b border-[#FAF2FF] pb-2">
+                                        <div className="flex items-center gap-2">
+                                           <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${st.name}`} className="w-8 h-8 rounded-full border border-slate-100 bg-white" />
+                                           <span className="text-xs font-black text-[#5C4D9F]">{st.name}</span>
+                                        </div>
+                                        <span className="text-xs font-black text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-full">{st.avg}% avg</span>
+                                     </div>
+                                  ))
+                               )}
+                               {dashboardRosterTab === 'Support' && struggling.length === 0 && (
+                                  <div className="text-xs text-emerald-500 font-black italic text-center py-4">All students scoring above 60%! 🎉</div>
+                               )}
+                               {dashboardRosterTab === 'Flyers' && risingStars.length === 0 && (
+                                  <div className="text-xs text-slate-400 font-black italic text-center py-4">No high flyers registered yet. 🚀</div>
+                               )}
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+
+                    {/* Collaborative Goal & Calendar Side-by-Side Section */}
+                    {activeClassroom && (
+                       <div className="grid grid-cols-12 gap-6">
+                          {/* Left: Dino Pizza Party Collaborative Goal (col-span-5) */}
+                          <div className="col-span-5 bg-white rounded-[32px] border border-[#E9E4FF] shadow-sm p-6 flex flex-col justify-between space-y-4">
+                             <div className="space-y-3">
+                                <div className="flex justify-between items-start">
+                                   <div className="space-y-0.5">
+                                      <span className="text-[9px] font-black uppercase text-[#FFAB91] tracking-wider block">Collaborative Goal</span>
+                                      <h3 className="text-lg font-black text-[#3C2E75] leading-snug">{targetTitle}</h3>
+                                   </div>
+                                   <button 
+                                      onClick={() => {
+                                         setNewGoalTitle(targetTitle);
+                                         setNewGoalTarget(targetGoal);
+                                         setIsEditingGoal(true);
+                                      }}
+                                      className="px-3 py-1.5 border border-[#FFE0D6] hover:border-[#FFAB91] text-[#C64F33] rounded-xl text-[10px] font-black transition-all bg-white hover:bg-orange-50/20 shrink-0"
+                                   >
+                                      Change Goal ✏️
+                                   </button>
+                                </div>
+
+                                <div className="flex items-center justify-between text-xs font-black text-[#3C2E75] pt-1">
+                                   <span className="text-[#8C83B5]">Combined Points</span>
+                                   <span className="text-[#FF7043] bg-[#FFF0EB] px-2.5 py-1 rounded-lg border border-[#FFD2C4]">{currentClassPoints} / {targetGoal} pts</span>
+                                </div>
+                             </div>
+
+                             {/* Premium Round Pizza Progress Visual */}
+                             <div className="flex-1 py-6 flex flex-col items-center justify-center min-h-[360px]">
+                                <div className="relative w-72 h-72 md:w-80 md:h-80 flex items-center justify-center bg-gradient-to-br from-slate-200 via-slate-100 to-slate-300 border-8 border-slate-400 rounded-full shadow-2xl p-2 select-none">
+                                   {/* Steel tray details */}
+                                   <div className="absolute inset-4 rounded-full border-2 border-slate-400/25" />
+                                   <div className="absolute inset-8 rounded-full border border-slate-400/15" />
+                                   <div className="absolute inset-16 rounded-full border border-slate-400/10" />
+                                   <span className="absolute text-5xl opacity-15 select-none font-black text-slate-800">🍽️</span>
+
+                                   {/* Crumbs & Grease marks on empty tray */}
+                                   <div className="absolute top-1/4 left-1/3 w-2 h-2 rounded-full bg-amber-800/10" />
+                                   <div className="absolute bottom-1/3 right-1/4 w-3 h-1.5 rounded-full bg-amber-800/15" />
+                                   <div className="absolute bottom-1/4 left-1/4 w-1.5 h-1.5 rounded-full bg-amber-800/10" />
+
+                                   {/* The Pizza Itself (Clipped/Masked by conic progress) */}
+                                   <div 
+                                      className="absolute inset-2 rounded-full overflow-hidden transition-all duration-1000 shadow-md"
+                                      style={{
+                                         WebkitMaskImage: `conic-gradient(black 0% ${progressPercent}%, transparent ${progressPercent}% 100%)`,
+                                         maskImage: `conic-gradient(black 0% ${progressPercent}%, transparent ${progressPercent}% 100%)`
+                                      }}
+                                   >
+                                      {/* Pizza Outer Crust (Deep Golden Woodfired) */}
+                                      <div className="absolute inset-0 rounded-full bg-[#E65100] border-[16px] border-[#8D6E63] shadow-[inset_0_4px_16px_rgba(0,0,0,0.3)] flex items-center justify-center">
+                                         {/* Outer golden-brown ring */}
+                                         <div className="absolute inset-0.5 rounded-full border-[10px] border-[#FFE0B2]/10" />
+                                      </div>
+
+                                      {/* Rich Marinara Tomato Sauce Base */}
+                                      <div className="absolute inset-4 rounded-full bg-gradient-to-br from-[#D32F2F] via-[#C62828] to-[#B71C1C] shadow-[inset_0_4px_10px_rgba(0,0,0,0.4)] flex items-center justify-center">
+                                         {/* Melty Cheese layer */}
+                                         <div className="absolute inset-1 rounded-full bg-gradient-to-br from-[#FFF59D] via-[#FFD54F] to-[#FFB300] shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)] flex items-center justify-center overflow-hidden">
+                                            {/* Toasted cheese spots */}
+                                            <div className="absolute top-8 left-12 w-6 h-4 rounded-full bg-[#E58F12]/15 blur-[1px]" />
+                                            <div className="absolute bottom-12 right-16 w-8 h-5 rounded-full bg-[#E58F12]/20 blur-[1px]" />
+                                            <div className="absolute bottom-20 left-16 w-5 h-3 rounded-full bg-[#E58F12]/15 blur-[1px]" />
+                                            <div className="absolute top-16 right-10 w-7 h-4 rounded-full bg-[#E58F12]/15 blur-[1px]" />
+
+                                            {/* Scattered Toppings (Rich variety) */}
+                                            {[
+                                               // Pepperonis (Rich red circles with crispy edges & grease highlight)
+                                               { type: 'pepperoni', top: '15%', left: '48%', scale: 1.0 },
+                                               { type: 'pepperoni', top: '28%', left: '68%', scale: 0.95 },
+                                               { type: 'pepperoni', top: '45%', left: '58%', scale: 1.05 },
+                                               { type: 'pepperoni', top: '72%', left: '46%', scale: 1.0 },
+                                               { type: 'pepperoni', top: '65%', left: '22%', scale: 0.9 },
+                                               { type: 'pepperoni', top: '28%', left: '26%', scale: 1.05 },
+                                               { type: 'pepperoni', top: '40%', left: '40%', scale: 1.0 },
+                                               { type: 'pepperoni', top: '50%', left: '72%', scale: 0.95 },
+
+                                               // Basil Leaves (Vibrant green leaf shapes)
+                                               { type: 'basil', top: '22%', left: '38%', rotate: '45deg' },
+                                               { type: 'basil', top: '42%', left: '78%', rotate: '115deg' },
+                                               { type: 'basil', top: '68%', left: '60%', rotate: '180deg' },
+                                               { type: 'basil', top: '52%', left: '15%', rotate: '-45deg' },
+                                               { type: 'basil', top: '18%', left: '28%', rotate: '15deg' },
+                                               { type: 'basil', top: '60%', left: '38%', rotate: '95deg' },
+
+                                               // Mushrooms (Grey-brown caps with stems)
+                                               { type: 'mushroom', top: '28%', left: '55%', rotate: '-15deg' },
+                                               { type: 'mushroom', top: '55%', left: '72%', rotate: '60deg' },
+                                               { type: 'mushroom', top: '62%', left: '22%', rotate: '135deg' },
+                                               { type: 'mushroom', top: '42%', left: '25%', rotate: '-90deg' },
+                                               { type: 'mushroom', top: '45%', left: '48%', rotate: '10deg' }
+                                            ].map((top, i) => {
+                                               if (top.type === 'pepperoni') {
+                                                  return (
+                                                     <div 
+                                                        key={i}
+                                                        className="absolute rounded-full bg-gradient-to-br from-[#EF5350] to-[#C62828] border-2 border-[#800F0F] shadow-[0_2px_4px_rgba(0,0,0,0.25)] flex items-center justify-center animate-in zoom-in duration-300"
+                                                        style={{
+                                                           width: '38px',
+                                                           height: '38px',
+                                                           top: top.top,
+                                                           left: top.left,
+                                                           transform: `scale(${top.scale || 1})`,
+                                                           zIndex: 5
+                                                        }}
+                                                     >
+                                                        {/* Crispy edge rim */}
+                                                        <div className="absolute inset-0.5 rounded-full border border-[#D32F2F] opacity-40" />
+                                                        {/* Grease shine */}
+                                                        <div className="absolute top-1 left-1.5 w-2.5 h-2.5 rounded-full bg-white/35" />
+                                                        {/* Toasted spots */}
+                                                        <div className="absolute bottom-1 right-2 w-1.5 h-1.5 rounded-full bg-black/15" />
+                                                     </div>
+                                                  );
+                                               } else if (top.type === 'basil') {
+                                                  return (
+                                                     <div 
+                                                        key={i}
+                                                        className="absolute bg-gradient-to-br from-[#4CAF50] to-[#2E7D32] border border-[#1B5E20] shadow-[0_1px_2px_rgba(0,0,0,0.15)] animate-in zoom-in duration-300"
+                                                        style={{
+                                                           width: '20px',
+                                                           height: '11px',
+                                                           top: top.top,
+                                                           left: top.left,
+                                                           borderRadius: '50% 0 50% 0',
+                                                           transform: `rotate(${top.rotate || '0deg'})`,
+                                                           zIndex: 4
+                                                        }}
+                                                     />
+                                                  );
+                                               } else if (top.type === 'mushroom') {
+                                                  return (
+                                                     <div 
+                                                        key={i}
+                                                        className="absolute flex flex-col items-center animate-in zoom-in duration-300"
+                                                        style={{
+                                                           top: top.top,
+                                                           left: top.left,
+                                                           transform: `rotate(${top.rotate || '0deg'})`,
+                                                           zIndex: 3
+                                                        }}
+                                                     >
+                                                        {/* Mushroom Cap */}
+                                                        <div className="w-7 h-4.5 bg-gradient-to-br from-[#E0D8D5] to-[#BCAAA4] border border-[#5D4037] rounded-t-full shadow-[0_1.5px_2px_rgba(0,0,0,0.15)]" />
+                                                        {/* Mushroom Stem */}
+                                                        <div className="w-3 h-3 bg-[#E0D8D5] border-x border-b border-[#5D4037] -mt-0.5" />
+                                                     </div>
+                                                  );
+                                               }
+                                               return null;
+                                            })}
+
+                                            {/* Slice cut lines on active pizza */}
+                                            <div className="absolute inset-0 opacity-15 pointer-events-none z-10">
+                                               <div className="absolute inset-y-0 left-1/2 w-0.5 bg-amber-950" />
+                                               <div className="absolute inset-x-0 top-1/2 h-0.5 bg-amber-955" />
+                                               <div className="absolute inset-0 rotate-45 flex items-center justify-center">
+                                                  <div className="w-full h-0.5 bg-amber-955" />
+                                               </div>
+                                               <div className="absolute inset-0 -rotate-45 flex items-center justify-center">
+                                                  <div className="w-full h-0.5 bg-amber-955" />
+                                               </div>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+
+                                   {/* Slice lines to represent 8 pre-cut slices on tray background */}
+                                   <div className="absolute inset-0 opacity-10 pointer-events-none z-0">
+                                      <div className="absolute inset-y-0 left-1/2 w-px bg-slate-400" />
+                                      <div className="absolute inset-x-0 top-1/2 h-px bg-slate-400" />
+                                      <div className="absolute inset-0 rotate-45 flex items-center justify-center">
+                                         <div className="w-full h-px bg-slate-400" />
+                                      </div>
+                                      <div className="absolute inset-0 -rotate-45 flex items-center justify-center">
+                                         <div className="w-full h-px bg-slate-400" />
+                                      </div>
+                                   </div>
+
+                                   {/* Center floating baked status badge */}
+                                   <div className="absolute z-20 bg-white/95 backdrop-blur-sm border-2 border-amber-500 px-3.5 py-1.5 rounded-2xl shadow-xl flex flex-col items-center">
+                                      <span className="text-sm font-black text-[#3C2E75] leading-none">{progressPercent}%</span>
+                                      <span className="text-[7px] font-black text-rose-500 uppercase tracking-widest mt-0.5">BAKED!</span>
+                                   </div>
+                                </div>
+                             </div>
+
+                             {/* Compact Reward Message */}
+                             <div className="bg-[#FAF2FF] rounded-2xl p-4 border border-[#E8C6FF]/35 flex items-center gap-3">
+                                <span className="text-2xl">🦖</span>
+                                <div className="min-w-0 flex-1">
+                                   <p className="text-[10px] font-black text-[#3C2E75] uppercase tracking-wider mb-0.5">Mascot Party Reward</p>
+                                   <p className="text-[11px] font-bold text-[#5C4D9F] leading-snug">
+                                      {progressPercent >= 100 
+                                         ? `Fantastic! Dino Pizza Party is unlocked! 🎈🍕`
+                                         : `Need ${targetGoal - currentClassPoints} more points to bake the pizza party!`}
+                                   </p>
+                                </div>
+                             </div>
+                          </div>
+
+                          {/* Right: Learning Calendar & Reminder Center (col-span-7) */}
+                          <div className="col-span-7 bg-gradient-to-br from-[#FCF8FF] to-[#F3EFFF] border border-[#E5DFFF] rounded-[32px] p-6 space-y-4 shadow-sm flex flex-col justify-between">
+                             <div className="flex justify-between items-center border-b border-[#EBE4FF] pb-3">
+                                <div className="space-y-0.5">
+                                   <h3 className="text-base font-black text-[#3B2B85] tracking-tight flex items-center gap-1.5">
+                                      <span>📅</span> Learning Calendar & Reminder Center
+                                   </h3>
+                                   <p className="text-[10px] font-bold text-[#7A69D6]">Click active quiz dates to review submissions and send reminder pings.</p>
+                                </div>
+                                <div className="bg-[#FFF0FA] border border-[#FFDDF5] rounded-xl px-3 py-1.5 flex items-center gap-1.5 shrink-0">
+                                   <span className="text-[#C23C9F] text-[10px] font-black uppercase tracking-wider">May 2026</span>
+                                </div>
+                             </div>
+
+                             {/* Calendar Grid */}
+                             <div className="grid grid-cols-7 gap-2 flex-1 pt-2">
+                                {/* Day headers */}
+                                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, idx) => (
+                                   <div key={day} className={`text-center text-[9px] font-black uppercase tracking-wider py-1 rounded-lg ${idx >= 5 ? 'bg-[#FFF0FA] text-[#C23C9F]' : 'bg-[#EEECFF] text-[#553EC9]'}`}>{day}</div>
+                                ))}
+
+                                {/* Empty spacer days (May 1, 2026 was a Friday, so Mon-Thu empty) */}
+                                {Array.from({ length: 4 }).map((_, idx) => (
+                                   <div key={`empty-${idx}`} className="aspect-square bg-[#FFF9F9]/40 border border-dashed border-[#FFE3E3] rounded-2xl" />
+                                ))}
+
+                                {/* Calendar days */}
+                                {Array.from({ length: 31 }, (_, i) => i + 1).map(day => {
+                                   const dayStr = day < 10 ? `0${day}` : `${day}`;
+                                   const activeHw = classHomeworks.find(hw => {
+                                      const hwDueDate = hw.dueDate || '';
+                                      return hwDueDate.includes(`-05-${dayStr}`) || hwDueDate.includes(`-5-${day}`);
+                                   });
+
+                                   // Vibrant kid-friendly pastel coloring by subject
+                                   let dayCardStyle = "bg-white border border-[#E9E4FF] text-[#5C4D9F] hover:bg-[#F9F8FF] hover:border-[#BA68C8]";
+                                   let tagStyle = "";
+
+                                   if (activeHw) {
+                                      const subj = activeHw.subject || 'General';
+                                      if (subj === 'Maths') {
+                                         dayCardStyle = "bg-gradient-to-br from-[#FFF0EB] to-[#FFE0D6] border-[#FFCCBC] text-[#A83D23] shadow-md shadow-orange-50/50";
+                                         tagStyle = "bg-[#FFCCBC] text-[#A83D23]";
+                                      } else if (subj === 'Science') {
+                                         dayCardStyle = "bg-gradient-to-br from-[#EAFBF7] to-[#D1F7EC] border-[#BCEEE2] text-[#1E8A74] shadow-md shadow-teal-50/50";
+                                         tagStyle = "bg-[#BCEEE2] text-[#1E8A74]";
+                                      } else if (subj === 'English') {
+                                         dayCardStyle = "bg-gradient-to-br from-[#FFFCE8] to-[#FFF9C4] border-[#FCEE9D] text-[#8C761E] shadow-md shadow-yellow-50/50";
+                                         tagStyle = "bg-[#FCEE9D] text-[#8C761E]";
+                                      } else {
+                                         dayCardStyle = "bg-gradient-to-br from-[#FAF2FF] to-[#F1E0FF] border-[#E8C6FF] text-[#7828B4] shadow-md shadow-purple-50/50";
+                                         tagStyle = "bg-[#E8C6FF] text-[#7828B4]";
+                                      }
+                                   }
+
+                                   return (
+                                      <div 
+                                         key={day} 
+                                         className={`aspect-square rounded-2xl p-2 flex flex-col justify-between transition-all duration-300 cursor-pointer relative overflow-hidden group hover:scale-[1.04] ${dayCardStyle}`}
+                                         onClick={() => {
+                                            if (activeHw) {
+                                               setSelectedCalendarHw(activeHw);
+                                               setShowCalendarModal(true);
+                                            }
+                                         }}
+                                      >
+                                         <span className="text-xs font-black">{day}</span>
+                                         
+                                         {activeHw && (
+                                            <div className={`px-1.5 py-0.5 rounded-lg text-[8px] font-black truncate shadow-sm mt-1 flex items-center gap-1 ${tagStyle}`}>
+                                               <span className="w-1 h-1 rounded-full bg-current shrink-0" />
+                                               {activeHw.subject}
+                                            </div>
+                                         )}
+                                      </div>
+                                   );
+                                })}
+                             </div>
+                          </div>
+                       </div>
+                    )}
+                </div>
+             );
+          }
+
          case 'My Classes':
             return (
                <div className="px-10 py-10 space-y-12 relative min-h-[calc(100vh-64px)] pb-40">
@@ -578,7 +1421,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                            name={room.name}
                            students={room.studentCount || 0}
                            bgColor={['bg-[#F3E8FF]', 'bg-[#FFF9DB]', 'bg-[#E6FCF5]', 'bg-[#E0F2FE]', 'bg-[#FFF0F0]'][i % 5]} 
-                           kidsImg={['/kids-pair.png', '/kiddy_hero_kids.png', '/student_avatar_main.png'][i % 3]} 
+                           kidsImg={CLASS_IMAGES[i % CLASS_IMAGES.length]} 
                            subjects={(room.subjects || ['English', 'Maths', 'Science']).map(sub => ({
                                name: sub,
                                icon: SUBJECT_ICONS[sub] || '/ic-homework.png'
@@ -666,7 +1509,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                            return (
                               <div key={idx} className="grid grid-cols-12 px-8 py-6 items-center hover:bg-blue-50/10 transition-all group">
                                  <div className="col-span-3 flex items-center gap-4">
-                                    <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${student.name}`} className="w-10 h-10 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt={student.name} />
+                                    <img src={getStudentAvatar(student.name)} className="w-10 h-10 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt={student.name} />
                                     <span className="text-sm font-black text-[#1E3A8A]">{student.name}</span>
                                  </div>
                                  <div className="col-span-2">
@@ -725,7 +1568,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
           case 'Homework':
             return (
                <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
-                  <HomeworkGenerator user={user} classrooms={classrooms} activeClassroom={activeClassroom} />
+                  <HomeworkGenerator user={user} classrooms={classrooms} activeClassroom={activeClassroom} onHomeworkCreated={fetchDashboardSubmissions} />
                   <GrassBorder />
                </div>
             );
@@ -763,26 +1606,19 @@ const TeacherDashboard = ({ user, onLogout }) => {
                   {/* Mock Gradebook Table */}
                   <div className="bg-white rounded-[40px] border border-blue-50 shadow-sm overflow-hidden">
                      <div className="grid grid-cols-12 px-8 py-6 bg-blue-50/20 text-[10px] font-black text-blue-200 uppercase tracking-widest border-b border-blue-50">
-                        <div className="col-span-4">Student Name</div>
-                        <div className="col-span-3">Mission</div>
-                        <div className="col-span-2 text-center">Score</div>
+                        <div className="col-span-6">Student Name</div>
+                        <div className="col-span-3 text-center">Score</div>
                         <div className="col-span-3 text-right">Actions</div>
                      </div>
                      <div className="divide-y divide-blue-50">
                         {(activeClassroom ? allSubmissions.filter(s => s.classId === activeClassroom.id) : allSubmissions).length > 0 ? (
                            (activeClassroom ? allSubmissions.filter(s => s.classId === activeClassroom.id) : allSubmissions).sort((a,b) => b.submittedAt - a.submittedAt).map((sub, idx) => (
                               <div key={sub.id || idx} className="grid grid-cols-12 px-8 py-6 items-center hover:bg-blue-50/10 transition-all">
-                                 <div className="col-span-4 flex items-center gap-4">
-                                    <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${sub.studentName}`} className="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt={sub.studentName} />
-                                    <div className="flex flex-col">
-                                       <span className="text-sm font-black text-[#1E3A8A]">{sub.studentName}</span>
-                                       <span className="text-[10px] font-bold text-blue-400 italic">Feedback: "{sub.feedback}"</span>
-                                    </div>
+                                 <div className="col-span-6 flex items-center gap-4">
+                                    <img src={getStudentAvatar(sub.studentName)} className="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt={sub.studentName} />
+                                    <span className="text-sm font-black text-[#1E3A8A]">{sub.studentName}</span>
                                  </div>
-                                 <div className="col-span-3">
-                                    <span className="text-xs font-bold text-blue-400">Mission ID: {sub.homeworkId.slice(0, 8)}...</span>
-                                 </div>
-                                 <div className="col-span-2 text-center">
+                                 <div className="col-span-3 text-center">
                                     <span className={`px-4 py-1 rounded-full text-xs font-black ${sub.score >= 80 ? 'bg-emerald-50 text-emerald-600' : sub.score >= 50 ? 'bg-blue-50 text-blue-600' : 'bg-rose-50 text-rose-600'}`}>
                                        {sub.score}%
                                     </span>
@@ -818,7 +1654,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                            {missingReports.map(({ student, missingHws }, idx) => (
                               <div key={student.id || idx} className="grid grid-cols-12 px-8 py-6 items-center hover:bg-rose-50/10 transition-all">
                                  <div className="col-span-8 flex items-center gap-4">
-                                    <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${student.name}`} className="w-10 h-10 rounded-full border-2 border-white shadow-sm" alt={student.name} />
+                                    <img src={getStudentAvatar(student.name)} className="w-10 h-10 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt={student.name} />
                                     <div className="flex flex-col">
                                        <span className="text-sm font-black text-rose-900">{student.name}</span>
                                        <div className="flex flex-col mt-2 gap-1.5">
@@ -1000,7 +1836,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                     onClick={() => setActiveChat(msg)}
                                     className={`w-full text-left p-6 flex items-center gap-4 transition-all ${currentChat?.id === msg.id ? 'bg-blue-50/50' : 'hover:bg-blue-50/30'}`}
                                  >
-                                    <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${msg.senderName}`} className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt="avatar" />
+                                    <img src={getStudentAvatar(msg.senderName)} className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt="avatar" />
                                     <div className="flex-1 min-w-0">
                                        <div className="flex items-center justify-between">
                                           <p className="text-sm font-black text-[#1E3A8A] truncate">
@@ -1438,7 +2274,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                        <div className="flex flex-wrap gap-2 pt-1">
                                           {earners.map(earner => (
                                              <span key={earner.id} className="bg-slate-50 text-slate-700 text-[10px] font-black px-3.5 py-2 rounded-full border border-slate-100 flex items-center gap-2">
-                                                <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${earner.name}`} className="w-5 h-5 rounded-full bg-white border border-slate-200 p-0.5" alt="earner" />
+                                                <img src={getStudentAvatar(earner.name)} className="w-5 h-5 rounded-full bg-white border border-slate-200 p-0.5" alt="earner" />
                                                 {earner.name}
                                              </span>
                                           ))}
@@ -1504,23 +2340,210 @@ const TeacherDashboard = ({ user, onLogout }) => {
                </div>
             );
          }
-         case 'AI Hub':
-            return (
-               <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
-                  <div className="flex items-center justify-between">
-                     <div>
-                        <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">AI Settings Hub</h1>
-                        <p className="text-sm font-bold text-blue-300 italic">Configure your AI providers.</p>
-                     </div>
-                  </div>
-                  <div className="bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 max-w-2xl">
-                     <p className="text-blue-400 font-bold mb-6">Manage API keys and configurations here.</p>
-                     <div className="space-y-6">
-                       <AiKeyInput label="OpenAI Key" value="" onChange={()=>{}} placeholder="sk-..." icon="/ic-homework.png" />
-                     </div>
-                  </div>
-               </div>
-            );
+          case 'AI Hub':
+             return (
+                <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
+                   <div className="flex items-center justify-between">
+                      <div>
+                         <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">AI Settings Hub</h1>
+                         <p className="text-sm font-bold text-blue-300 italic">Configure your AI providers.</p>
+                      </div>
+                   </div>
+                   <div className="bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 max-w-2xl">
+                      <p className="text-blue-400 font-bold mb-6">Manage API keys and configurations here.</p>
+                      <div className="space-y-6">
+                        <AiKeyInput label="OpenAI Key" value="" onChange={()=>{}} placeholder="sk-..." icon="/ic-homework.png" />
+                      </div>
+                   </div>
+                </div>
+             );
+          case 'Class Goals': {
+             if (!activeClassroom) {
+                return (
+                   <div className="px-10 py-20 text-center text-blue-300 font-bold italic text-sm">
+                      Please select a class to view and configure collaborative goals! 🏆
+                   </div>
+                );
+             }
+
+             // Calculate classroom combined points
+             const classStudents = allStudents.filter(s => s.classId === activeClassroom.id);
+             const computedStudents = classStudents.map(student => {
+                const studentSubs = allSubmissions.filter(sub => 
+                   sub.studentName?.toLowerCase() === student.name?.toLowerCase()
+                );
+                const completedCount = studentSubs.length;
+                const totalScore = studentSubs.reduce((acc, sub) => acc + (sub.score || 0), 0);
+                const basePoints = 100;
+                return basePoints + (completedCount * 50) + totalScore;
+             });
+
+             const rawClassPoints = computedStudents.reduce((acc, points) => acc + points, 0);
+             const resetOffset = activeClassroom.goalResetPointsOffset || 0;
+             const currentClassPoints = Math.max(0, rawClassPoints - resetOffset);
+
+             // Fetch goal parameters with beautiful fallbacks
+             const targetTitle = activeClassroom.goalTitle || 'Dino Pizza Party! 🍕';
+             const targetGoal = activeClassroom.goalTarget || 1500;
+             const progressPercent = Math.min(Math.round((currentClassPoints / targetGoal) * 100), 100);
+
+             return (
+                <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
+                   <div className="flex items-center justify-between">
+                      <div>
+                         <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">Classroom Collaborative Goals</h1>
+                         <p className="text-sm font-bold text-blue-300 italic">Work together as a team to reach point goals and unlock class-wide prizes!</p>
+                      </div>
+                      <div className="w-24 h-24">
+                         <img src="/mascot.png" className="w-full h-full object-contain mix-blend-multiply drop-shadow-xl animate-float" alt="Mascot" />
+                      </div>
+                   </div>
+
+                   <div className="grid grid-cols-12 gap-10">
+                      {/* Goal Thermometer */}
+                      <div className="col-span-8 bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 space-y-8 flex flex-col justify-between">
+                         <div className="space-y-4">
+                            <div className="flex justify-between items-center">
+                               <div>
+                                  <span className="text-[10px] font-black uppercase text-purple-400 tracking-wider">Active Classroom Goal</span>
+                                  <h3 className="text-2xl font-black text-[#1E3A8A]">{targetTitle}</h3>
+                               </div>
+                               <button 
+                                  onClick={() => {
+                                     setNewGoalTitle(targetTitle);
+                                     setNewGoalTarget(targetGoal);
+                                     setIsEditingGoal(true);
+                                  }}
+                                  className="px-4 py-2 border-2 border-purple-100 hover:border-purple-200 text-[#8A70FF] rounded-2xl text-xs font-black transition-all bg-white"
+                               >
+                                  Customize Goal ✏️
+                               </button>
+                            </div>
+
+                            <div className="pt-6 space-y-4">
+                               <div className="flex justify-between text-sm font-black text-[#1E3A8A]">
+                                  <span>Class Combined Points</span>
+                                  <span>{currentClassPoints} / {targetGoal} Points</span>
+                               </div>
+                               
+                               {/* Boutique Thermometer Progress Bar */}
+                               <div className="h-8 w-full bg-slate-50 border border-slate-100 rounded-3xl overflow-hidden p-1 shadow-inner relative flex items-center">
+                                  <div 
+                                     className="h-full rounded-2xl bg-gradient-to-r from-[#8A70FF] to-pink-400 transition-all duration-1000 flex items-center justify-end pr-4 shadow-[0_0_12px_rgba(138,112,255,0.3)]"
+                                     style={{ width: `${progressPercent}%` }}
+                                  >
+                                     <span className="text-[9px] font-black text-white uppercase tracking-wider">{progressPercent}%</span>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+
+                         <div className="bg-purple-50/50 rounded-3xl p-6 border border-purple-100/50 flex items-center gap-4">
+                            <span className="text-4xl">🎉</span>
+                            <div>
+                               <p className="text-sm font-black text-[#1E3A8A]">Goal Progress Message</p>
+                               <p className="text-xs font-bold text-blue-400 italic">
+                                  {progressPercent >= 100 
+                                     ? `Incredible! Your class reached the goal! The Dino party is unlocked on their student panels! 🎈🦖`
+                                     : `You need ${targetGoal - currentClassPoints} more points to unlock this prize. Keep submitting homework quizzes!`}
+                               </p>
+                            </div>
+                         </div>
+                      </div>
+
+                      {/* Reward Lock Status */}
+                      <div className="col-span-4 bg-gradient-to-br from-indigo-50/30 to-[#EBE4FF]/20 rounded-[40px] border border-blue-50 shadow-sm p-10 flex flex-col items-center justify-center text-center space-y-6">
+                         <div className={`w-32 h-32 rounded-full border-4 border-white shadow-xl flex-center ${progressPercent >= 100 ? 'bg-emerald-50 border-emerald-200 text-emerald-500' : 'bg-slate-50 border-slate-200 text-slate-400'}`}>
+                            <span className="text-5xl">{progressPercent >= 100 ? '🦖' : '🔒'}</span>
+                         </div>
+                         <div className="space-y-1">
+                            <h4 className="text-lg font-black text-[#1E3A8A]">Party Mascot Unlock</h4>
+                            <p className="text-xs font-bold text-blue-300 italic">{progressPercent >= 100 ? 'Unlocked & Active! 🦕' : 'Goal Locked'}</p>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             );
+          }
+          case 'Calendar': {
+             const classHomeworks = allHomeworks.filter(hw => !activeClassroom || hw.assignedClassId === activeClassroom.id);
+             const classSubmissions = allSubmissions.filter(sub => {
+                if (!activeClassroom) return true;
+                const hw = allHomeworks.find(h => h.id === sub.homeworkId);
+                const subClassId = sub.classId || hw?.assignedClassId;
+                return subClassId === activeClassroom.id;
+             });
+
+             // Generate calendar dates for May 2026
+             const daysInMonth = 31;
+             const calendarDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+
+             return (
+                <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
+                   <div className="flex items-center justify-between">
+                      <div>
+                         <h1 className="text-4xl font-black text-[#1E3A8A] tracking-tight">Homework Planner Calendar</h1>
+                         <p className="text-sm font-bold text-blue-300 italic">Schedule assignments, track deadlines, and send live reminder pings.</p>
+                      </div>
+                      <div className="w-24 h-24">
+                         <img src="/mascot.png" className="w-full h-full object-contain mix-blend-multiply drop-shadow-xl animate-float" alt="Mascot" />
+                      </div>
+                   </div>
+
+                   <div className="bg-white rounded-[40px] border border-blue-50 shadow-sm p-10 space-y-8">
+                      <div className="flex justify-between items-center border-b border-slate-50 pb-6">
+                         <h3 className="text-xl font-black text-[#1E3A8A]">May 2026</h3>
+                         <span className="text-[10px] font-black uppercase text-blue-300 tracking-wider">Active Classroom: {activeClassroom?.name || 'All Classes'}</span>
+                      </div>
+
+                      {/* Calendar Grid */}
+                      <div className="grid grid-cols-7 gap-4">
+                         {/* Day headers */}
+                         {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
+                            <div key={day} className="text-center text-[10px] font-black text-blue-300 uppercase tracking-widest py-2">{day}</div>
+                         ))}
+
+                         {/* Empty spacer days (May 1, 2026 was a Friday, so Mon-Thu empty) */}
+                         {Array.from({ length: 4 }).map((_, idx) => (
+                            <div key={`empty-${idx}`} className="aspect-square bg-slate-50/20 border border-slate-100/10 rounded-2xl" />
+                         ))}
+
+                         {/* Calendar days */}
+                         {calendarDays.map(day => {
+                            const dayStr = day < 10 ? `0${day}` : `${day}`;
+                            const activeHw = classHomeworks.find(hw => {
+                               const hwDueDate = hw.dueDate || '';
+                               return hwDueDate.includes(`-05-${dayStr}`) || hwDueDate.includes(`-5-${day}`);
+                            });
+
+                            return (
+                               <div 
+                                  key={day} 
+                                  className="aspect-square bg-slate-50/30 border border-slate-50 rounded-[24px] p-3 flex flex-col justify-between hover:bg-slate-50 transition-all cursor-pointer relative overflow-hidden group hover:scale-[1.03]"
+                                  onClick={() => {
+                                     if (activeHw) {
+                                        setSelectedCalendarHw(activeHw);
+                                        setShowCalendarModal(true);
+                                     }
+                                  }}
+                               >
+                                  <span className="text-xs font-black text-[#1E3A8A]">{day}</span>
+                                  
+                                  {activeHw && (
+                                     <div className="bg-[#EBE4FF] border border-purple-100/60 p-2 rounded-xl text-[9px] font-black text-purple-600 truncate shadow-sm mt-2 flex items-center gap-1">
+                                        <span className="w-2 h-2 rounded-full bg-purple-400" />
+                                        {activeHw.subject}: {activeHw.title}
+                                     </div>
+                                  )}
+                               </div>
+                            );
+                         })}
+                      </div>
+                   </div>
+                </div>
+             );
+          }
+
          default:
             return null;
       }
@@ -1531,7 +2554,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
       {/* --- Executive Hub Sidebar --- */}
       <aside className="w-80 bg-white border-r border-slate-100/60 flex flex-col shrink-0 h-screen sticky top-0 overflow-hidden">
          <div className="p-8 pb-4 mb-2 flex flex-col items-center border-b border-slate-100/60">
-            <img src="/logo.png" className="w-[85%] h-24 object-contain mix-blend-multiply mb-4" alt="Homework Zone" />
+            <img src="/logo.png" className="w-full h-36 object-contain mix-blend-multiply mb-2" alt="Homework Zone" />
 
             <div className="bg-slate-50 border border-slate-100 rounded-2xl px-4 py-2 flex flex-col items-center w-full">
                <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Teacher Code</span>
@@ -1641,7 +2664,143 @@ const TeacherDashboard = ({ user, onLogout }) => {
             </header>
          )}
 
-      {renderContent()}
+            {renderContent()}
+
+            {/* Goal Edit Modal - Globally Accessible across tabs */}
+            {isEditingGoal && (
+               <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[200] flex-center p-6">
+                  <div className="max-w-md w-full bg-white rounded-[40px] p-10 space-y-8 shadow-2xl border border-blue-50 relative">
+                     <h3 className="text-2xl font-black text-[#1E3A8A]">Customize Class Goal</h3>
+                     <div className="space-y-4">
+                        <div>
+                           <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest block mb-2">Goal Name / Title</label>
+                           <input 
+                              type="text" 
+                              value={newGoalTitle} 
+                              onChange={(e) => setNewGoalTitle(e.target.value)} 
+                              className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-[#1E3A8A] focus:outline-none"
+                              placeholder="e.g. Pizza Party! 🍕"
+                           />
+                        </div>
+                        <div>
+                           <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest block mb-2">Target Points</label>
+                           <input 
+                              type="number" 
+                              value={newGoalTarget} 
+                              onChange={(e) => setNewGoalTarget(e.target.value)} 
+                              className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-[#1E3A8A] focus:outline-none"
+                              placeholder="e.g. 1500"
+                           />
+                        </div>
+                     </div>
+                     <div className="flex flex-col gap-3">
+                        <div className="flex gap-4">
+                           <button onClick={handleSaveGoal} className="flex-1 bg-[#8A70FF] text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#7455FF] transition-all shadow-lg shadow-purple-100">
+                              Save Goal 🚀
+                           </button>
+                           <button onClick={() => setIsEditingGoal(false)} className="flex-1 bg-slate-50 hover:bg-slate-100 text-slate-500 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-colors">
+                              Cancel
+                           </button>
+                        </div>
+                        <button 
+                           onClick={handleResetGoalProgress}
+                           className="w-full bg-red-50 hover:bg-red-100/80 text-red-500 py-3.5 rounded-2xl font-black text-xs uppercase tracking-widest transition-all border border-red-100"
+                        >
+                           Reset Goal Progress 🔄
+                        </button>
+                     </div>
+                  </div>
+               </div>
+            )}
+{/* Global Calendar Reminder Modal */}
+      {showCalendarModal && selectedCalendarHw && (() => {
+         const submissions = allSubmissions.filter(s => s.homeworkId === selectedCalendarHw.id && (!activeClassroom || s.classId === activeClassroom.id));
+         const classStudents = allStudents.filter(s => s.classId === selectedCalendarHw.assignedClassId);
+         const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
+         const submittedStudentNames = new Set(submissions.map(s => normalizeName(s.studentName)));
+         const pendingStudents = classStudents.filter(s => !submittedStudentNames.has(normalizeName(s.name)));
+
+         const handleSendReminderPing = async (student) => {
+            try {
+               await addDoc(collection(db, 'messages'), {
+                  teacherId: user.uid,
+                  senderId: user.uid,
+                  senderName: user.displayName || 'Teacher',
+                  senderRole: 'teacher',
+                  recipientType: 'student',
+                  recipientId: student.name,
+                  recipientName: student.name,
+                  subject: `⚠️ Reminder: ${selectedCalendarHw.title}`,
+                  content: `Hi ${student.name}! Friendly reminder to finish your ${selectedCalendarHw.subject} quiz on "${selectedCalendarHw.title}" as soon as possible! 🚀`,
+                  createdAt: new Date().toISOString()
+               });
+               alert(`Reminder sent live to ${student.name}! 🚀`);
+            } catch (err) {
+               console.error(err);
+               alert("Failed to send reminder.");
+            }
+         };
+
+         return (
+            <div className="fixed inset-0 bg-[#3C2E75]/40 backdrop-blur-sm z-[200] flex-center p-6">
+               <div className="max-w-2xl w-full bg-white rounded-[40px] p-10 space-y-8 shadow-2xl border-8 border-[#F3EFFF] relative max-h-[90vh] overflow-y-auto custom-scrollbar">
+                  <div className="flex justify-between items-start">
+                     <div>
+                        <span className="text-[9px] font-black uppercase text-[#806BFF] tracking-wider">Mission Details</span>
+                        <h3 className="text-2xl font-black text-[#3B2B85]">{selectedCalendarHw.title}</h3>
+                        <p className="text-xs font-bold text-[#7A69D6] italic">{selectedCalendarHw.subject} • Due: {selectedCalendarHw.dueDate}</p>
+                     </div>
+                     <button onClick={() => setShowCalendarModal(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
+                        <X size={20} strokeWidth={3} />
+                     </button>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-8 pt-4">
+                     {/* Submitted List */}
+                     <div className="space-y-4">
+                        <h4 className="text-sm font-black text-emerald-500 uppercase tracking-widest flex items-center gap-2">
+                           <span>✅</span> Submitted ({submissions.length})
+                        </h4>
+                        <div className="space-y-2 max-h-[250px] overflow-y-auto no-scrollbar">
+                           {submissions.map(sub => (
+                              <div key={sub.id} className="flex justify-between items-center bg-emerald-50/30 border border-emerald-50 p-3 rounded-2xl text-xs font-bold text-[#5C4D9F]">
+                                 <span>{sub.studentName}</span>
+                                 <span className="font-black text-emerald-500">{sub.score}%</span>
+                              </div>
+                           ))}
+                           {submissions.length === 0 && (
+                              <span className="text-xs text-blue-300 italic">No submissions yet.</span>
+                           )}
+                        </div>
+                     </div>
+
+                     {/* Pending List */}
+                     <div className="space-y-4">
+                        <h4 className="text-sm font-black text-amber-500 uppercase tracking-widest flex items-center gap-2">
+                           <span>⏳</span> Pending ({pendingStudents.length})
+                        </h4>
+                        <div className="space-y-2 max-h-[250px] overflow-y-auto no-scrollbar">
+                           {pendingStudents.map(student => (
+                              <div key={student.id} className="flex justify-between items-center bg-amber-50/30 border border-amber-50 p-3 rounded-2xl text-xs font-bold text-[#5C4D9F]">
+                                 <span>{student.name}</span>
+                                 <button 
+                                    onClick={() => handleSendReminderPing(student)}
+                                    className="px-2.5 py-1 bg-amber-400 hover:bg-amber-500 text-white rounded-lg text-[9px] font-black transition-colors"
+                                 >
+                                    Send Ping 🔔
+                                 </button>
+                              </div>
+                           ))}
+                           {pendingStudents.length === 0 && (
+                              <span className="text-xs text-emerald-500 font-black italic">Excellent! Everyone has submitted! 🎉</span>
+                           )}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         );
+      })()}
 
       {/* --- Add Class Modal --- */}
       <AnimatePresence>
@@ -1731,7 +2890,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
               >
                  <div className="px-10 py-8 bg-blue-50/30 border-b border-blue-50 flex items-center justify-between shrink-0">
                     <div className="flex items-center gap-6">
-                       <img src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${selectedSubmission.studentName}`} className="w-16 h-16 rounded-full border-4 border-white shadow-md bg-blue-100" alt="Student" />
+                       <img src={getStudentAvatar(selectedSubmission.studentName)} className="w-16 h-16 rounded-full border-4 border-white shadow-md bg-blue-100" alt="Student" />
                        <div>
                           <h2 className="text-3xl font-black text-[#1E3A8A]">{selectedSubmission.studentName}'s Report</h2>
                           <div className="flex items-center gap-4 mt-2">

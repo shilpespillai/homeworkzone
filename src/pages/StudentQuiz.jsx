@@ -19,8 +19,10 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
 import { doc, getDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { decryptText } from '../utils/crypto';
 
 export default function StudentQuiz({ homeworkId, studentName, teacher, initialSubmission, onComplete }) {
+  const [resolvedAiConfig, setResolvedAiConfig] = useState(null);
   const [homework, setHomework] = useState(null);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState(initialSubmission ? initialSubmission.answers : {});
@@ -30,6 +32,33 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
   const [score, setScore] = useState(initialSubmission ? initialSubmission.correctCount : null);
   const [feedback, setFeedback] = useState(initialSubmission ? initialSubmission.feedback : '');
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTeacherAiConfig = async () => {
+      if (!teacher?.uid) return;
+      try {
+        const teacherDoc = await getDoc(doc(db, 'teachers', teacher.uid));
+        if (teacherDoc.exists()) {
+          const data = teacherDoc.data();
+          const activeModel = data.activeAi || 'gemini';
+          let activeKey = '';
+          
+          if (data.encryptedAiKeys && data.encryptedAiKeys[activeModel]) {
+            const code = teacher.teacherCode || data.teacherCode || teacher.uid.slice(0, 6).toUpperCase();
+            activeKey = await decryptText(data.encryptedAiKeys[activeModel], code);
+          }
+          
+          setResolvedAiConfig({
+            activeModel,
+            activeKey
+          });
+        }
+      } catch (err) {
+        console.error("Error fetching teacher AI config:", err);
+      }
+    };
+    fetchTeacherAiConfig();
+  }, [teacher]);
 
   useEffect(() => {
     const fetchHomework = async () => {
@@ -97,8 +126,8 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         ? "Good effort! A bit more practice and you'll be a pro. 📚" 
         : "Don't give up! Review the core concepts and try again. 🦾";
 
-    const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
-    const activeKey = localStorage.getItem(`hwz_${activeModel}_key`);
+    const activeModel = resolvedAiConfig?.activeModel || localStorage.getItem('hwz_active_ai') || 'gemini';
+    const activeKey = resolvedAiConfig?.activeKey || localStorage.getItem(`hwz_${activeModel}_key`);
 
     if (activeKey) {
       try {

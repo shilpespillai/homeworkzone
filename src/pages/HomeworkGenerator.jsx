@@ -24,7 +24,8 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
-import { collection, addDoc, serverTimestamp, getDocs, query, where, orderBy, deleteDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, getDocs, query, where, orderBy, deleteDoc, doc, getDoc } from 'firebase/firestore';
+import { decryptText } from '../utils/crypto';
 
 const SUBJECTS = [
   { 
@@ -84,8 +85,11 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
     points: '10'
   });
   
+  // Real-time AI key resolution will be done on-the-fly during generation.
+  
   const [isGenerating, setIsGenerating] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
+  const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [generatedQuestions, setGeneratedQuestions] = useState(null);
   const [isAiAccepted, setIsAiAccepted] = useState(false);
 
@@ -144,19 +148,65 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   };
 
   const handleGenerateAI = async () => {
-    const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
-    const activeKey = localStorage.getItem(`hwz_${activeModel}_key`);
-
-    if (!activeKey) return alert("Please set your API Key in the Power Hub first! 🔑");
-    if (!formData.title) return alert("Please provide a Title first to guide generation! 🎯");
-
     setIsAiAccepted(false);
     setIsGenerating(true);
+
     try {
+      // 1. Resolve active AI model from local storage
+      let activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
+      
+      // 2. Resolve key: start with Local Storage
+      let activeKey = localStorage.getItem(`hwz_${activeModel}_key`) || '';
+
+      // 3. Fallback: If Local Storage is empty, fetch and decrypt from Cloud Firestore
+      if (!activeKey && user?.uid) {
+        try {
+          console.log("[AI Generator] Local key empty. Attempting Cloud fallback...");
+          const teacherDoc = await getDoc(doc(db, 'teachers', user.uid));
+          if (teacherDoc.exists()) {
+            const data = teacherDoc.data();
+            if (data.activeAi) {
+              activeModel = data.activeAi;
+            }
+            if (data.encryptedAiKeys && data.encryptedAiKeys[activeModel]) {
+              const code = user.teacherCode || data.teacherCode || user.uid.slice(0, 6).toUpperCase();
+              const decrypted = await decryptText(data.encryptedAiKeys[activeModel], code);
+              if (decrypted) {
+                activeKey = decrypted;
+                console.log("[AI Generator] Successfully resolved key from Cloud.");
+              }
+            }
+          }
+        } catch (dbErr) {
+          console.warn("[AI Generator] Cloud key resolution failed:", dbErr);
+        }
+      }
+
+      console.log("[AI Generator] Triggered with resolved keys.", {
+        activeModel,
+        hasKey: !!activeKey,
+        keyLength: activeKey ? activeKey.length : 0,
+        title: formData.title,
+        instructions: formData.instructions
+      });
+
+      if (!activeKey) {
+        alert("Please set your API Key in the Power Hub first! 🔑");
+        setIsGenerating(false);
+        return;
+      }
+
+      if (!formData.title && !formData.instructions) {
+        alert("Please provide either a Title or Instructions to guide generation! 🎯");
+        setIsGenerating(false);
+        return;
+      }
+
+      const topic = formData.title || (formData.instructions ? formData.instructions.slice(0, 45) + '...' : 'General Quiz');
       const prompt = `You are an expert curriculum designer. 
       Create a ${questionCount}-question multiple-choice quiz for students about the following topic:
       Subject: ${formData.subject}
-      Topic: ${formData.title}
+      Topic: ${topic}
       Specific Content Instructions: ${formData.instructions}
       
       Ensure the questions test the students' knowledge on the specific content instructions provided. DO NOT generate meta-questions about the instructions themselves.
@@ -264,6 +314,52 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       alert("Failed to publish homework. ❌");
     }
     setIsPublishing(false);
+  };
+
+  const handleSaveDraft = async () => {
+    if (!formData.title || !formData.classId) {
+      alert("Please fill in the title and select a class! 🎒");
+      return;
+    }
+
+    setIsSavingDraft(true);
+    try {
+      const payload = {
+        title: formData.title,
+        subject: formData.subject,
+        instructions: formData.instructions,
+        assignedClassId: formData.classId,
+        dueDate: formData.dueDate || '',
+        time: formData.time || '',
+        points: formData.points,
+        questions: generatedQuestions || [],
+        teacherId: user?.uid,
+        status: 'draft',
+        createdAt: serverTimestamp()
+      };
+
+      await addDoc(collection(db, 'homeworks'), payload);
+      alert("Homework Saved as Draft! 📝🚀");
+      
+      // Reset form
+      setFormData({
+        subject: 'maths',
+        title: '',
+        instructions: '',
+        classId: '',
+        dueDate: '',
+        time: '',
+        points: '10'
+      });
+      setGeneratedQuestions(null);
+      setIsAiAccepted(false);
+      
+      fetchPastHomeworks();
+    } catch (err) {
+      console.error("Save Draft Error:", err);
+      alert("Failed to save draft. ❌");
+    }
+    setIsSavingDraft(false);
   };
 
   return (
@@ -385,76 +481,88 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
             </div>
           </div>
 
-          <div className="space-y-2">
-            <label className="font-bold text-[#1a237e]">Prompt / Instructions for Students</label>
-            <div className="relative">
-              <textarea 
-                placeholder={getPlaceholder()}
-                value={formData.instructions}
-                onChange={(e) => setFormData({...formData, instructions: e.target.value})}
-                className="w-full h-32 bg-white border-2 border-slate-200 rounded-2xl p-4 text-slate-700 font-bold outline-none focus:border-purple-400 transition-colors resize-none"
-              />
-              <Book className="absolute right-4 bottom-4 w-6 h-6 text-purple-400 opacity-50" />
-            </div>
-          </div>
+          {/* Unified Magic Quiz Builder Panel */}
+          <div className="bg-purple-50/50 p-6 rounded-3xl border-2 border-purple-100/80 flex flex-col space-y-5">
+             <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm text-[#8A70FF] shrink-0 border border-purple-100">
+                  <Wand2 className="w-5 h-5" />
+                </div>
+                <div className="text-left">
+                   <h4 className="font-black text-purple-900 text-sm">Magic Quiz Builder</h4>
+                   <p className="text-[10px] font-bold text-purple-600/70">Automatically generate {questionCount} multiple-choice questions based on your title & instructions.</p>
+                </div>
+             </div>
 
-          {/* AI Generator Box inside Details */}
-          <div className="bg-purple-50 p-6 rounded-2xl border-2 border-purple-100 flex flex-col items-center text-center space-y-4">
-             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-purple-600">
-               <Wand2 className="w-6 h-6" />
+             <div className="space-y-1.5 text-left">
+               <label className="font-bold text-[#1a237e] text-xs block ml-1">Prompt / Instructions for Students</label>
+               <div className="relative">
+                 <textarea 
+                   placeholder={getPlaceholder()}
+                   value={formData.instructions}
+                   onChange={(e) => setFormData({...formData, instructions: e.target.value})}
+                   className="w-full h-32 bg-white border-2 border-slate-200 rounded-2xl p-4 text-slate-700 font-bold outline-none focus:border-purple-400 transition-colors resize-none text-xs"
+                 />
+                 <Book className="absolute right-4 bottom-4 w-5 h-5 text-purple-400 opacity-50" />
+               </div>
              </div>
-             <div>
-                <h4 className="font-black text-purple-900">Magic Quiz Builder</h4>
-                <p className="text-xs font-bold text-purple-600/70">Automatically generate {questionCount} multiple-choice questions based on your title & instructions.</p>
-             </div>
+
              {generatedQuestions ? (
-               isAiAccepted ? (
-                 <div className="w-full bg-emerald-50 p-4 rounded-xl border border-emerald-200 flex items-center justify-between animate-in zoom-in duration-300">
-                   <div className="flex items-center gap-3 text-emerald-700 font-bold text-sm">
-                     <CheckCircle2 className="w-5 h-5" />
-                     {generatedQuestions.length} Questions Saved to Draft! Scroll down to publish.
-                   </div>
-                   <button onClick={() => setIsAiAccepted(false)} className="text-xs text-emerald-600 font-bold hover:underline px-4 py-2 bg-white rounded-lg border border-emerald-200">View Questions</button>
-                 </div>
-               ) : (
-                 <div className="w-full text-left bg-white p-6 rounded-2xl border border-purple-200 space-y-6">
-                   <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-                     <div className="flex items-center gap-2 text-emerald-600 font-black">
-                       <CheckCircle2 className="w-5 h-5" /> {generatedQuestions.length} Questions Ready!
-                     </div>
-                     <div className="flex gap-2">
-                       <button onClick={() => setIsAiAccepted(true)} className="text-xs text-white font-bold px-4 py-2 bg-emerald-500 hover:bg-emerald-600 rounded-lg shadow-sm transition-colors">Accept & Continue</button>
-                     </div>
-                   </div>
-                   <div className="space-y-4 max-h-96 overflow-y-auto custom-scrollbar pr-2">
-                     {generatedQuestions.map((q, idx) => (
-                       <div key={idx} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                         <p className="font-bold text-slate-800 text-sm mb-3"><span className="text-purple-600 mr-1">Q{idx + 1}.</span> {q.text}</p>
-                         <div className="grid grid-cols-2 gap-2">
-                           {q.options.map((opt, i) => (
-                             <div key={i} className={`px-3 py-2 rounded-lg text-xs font-bold border ${opt === q.answer ? 'bg-emerald-100 border-emerald-300 text-emerald-800' : 'bg-white border-slate-200 text-slate-600'}`}>
-                               {opt}
-                             </div>
-                           ))}
-                         </div>
-                       </div>
-                     ))}
-                   </div>
-                   <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
-                     <button onClick={handleGenerateAI} className="text-xs text-purple-600 font-bold hover:underline px-4 py-2 bg-purple-50 rounded-lg">Regenerate</button>
-                     <button onClick={() => {setGeneratedQuestions(null); setIsAiAccepted(false);}} className="text-xs text-rose-500 font-bold hover:underline px-4 py-2 bg-rose-50 rounded-lg">Discard</button>
-                   </div>
-                 </div>
-               )
+                isAiAccepted ? (
+                  <div className="w-full bg-emerald-50 p-4 rounded-xl border border-emerald-200 flex items-center justify-between animate-in zoom-in duration-300">
+                    <div className="flex items-center gap-3 text-emerald-700 font-bold text-xs">
+                      <CheckCircle2 className="w-5 h-5" />
+                      {generatedQuestions.length} Questions Saved to Draft! Scroll down to publish.
+                    </div>
+                    <button onClick={() => setIsAiAccepted(false)} className="text-xs text-emerald-600 font-bold hover:underline px-4 py-2 bg-white rounded-lg border border-emerald-200">View Questions</button>
+                  </div>
+                ) : (
+                  <div className="w-full text-left bg-white p-6 rounded-2xl border border-purple-200 space-y-6">
+                    <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+                      <div className="flex items-center gap-2 text-emerald-600 font-black text-sm">
+                        <CheckCircle2 className="w-5 h-5" /> {generatedQuestions.length} Questions Ready!
+                      </div>
+                      <div className="flex gap-2">
+                        <button onClick={() => setIsAiAccepted(true)} className="text-xs text-white font-bold px-4 py-2 bg-emerald-500 hover:bg-emerald-600 rounded-lg shadow-sm transition-colors">Accept & Continue</button>
+                      </div>
+                    </div>
+                    <div className="space-y-4 max-h-96 overflow-y-auto custom-scrollbar pr-2">
+                      {generatedQuestions.map((q, idx) => (
+                        <div key={idx} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                          <p className="font-bold text-slate-800 text-xs mb-3"><span className="text-purple-600 mr-1 font-black">Q{idx + 1}.</span> {q.text}</p>
+                          <div className="grid grid-cols-2 gap-2">
+                            {q.options.map((opt, i) => (
+                              <div key={i} className={`px-3 py-2 rounded-lg text-[10px] font-bold border ${opt === q.answer ? 'bg-emerald-100 border-emerald-300 text-emerald-800' : 'bg-white border-slate-200 text-slate-600'}`}>
+                                {opt}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+                      <button onClick={handleGenerateAI} className="text-xs text-purple-600 font-bold hover:underline px-4 py-2 bg-purple-50 rounded-lg">Regenerate</button>
+                      <button onClick={() => {setGeneratedQuestions(null); setIsAiAccepted(false);}} className="text-xs text-rose-500 font-bold hover:underline px-4 py-2 bg-rose-50 rounded-lg">Discard</button>
+                    </div>
+                  </div>
+                )
              ) : (
-               <button 
-                 onClick={handleGenerateAI}
-                 disabled={isGenerating}
-                 className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl font-black text-sm flex items-center gap-2 shadow-sm transition-all"
-               >
-                 {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                 {isGenerating ? 'Generating...' : 'Auto-Generate Questions'}
-               </button>
+                <button 
+                  onClick={handleGenerateAI}
+                  disabled={isGenerating}
+                  className="w-full bg-[#8A70FF] hover:bg-[#7455FF] text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg shadow-purple-100/50 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {isGenerating ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Generating Questions...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4" />
+                      Auto-Generate Questions
+                    </>
+                  )}
+                </button>
              )}
           </div>
 
@@ -560,8 +668,12 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         </div>
 
         <div className="flex items-center gap-4">
-          <button className="bg-purple-50 hover:bg-purple-100 text-purple-600 font-black px-8 py-4 rounded-2xl transition-colors">
-            Save as Draft
+          <button 
+            onClick={handleSaveDraft}
+            disabled={isSavingDraft}
+            className="bg-purple-50 hover:bg-purple-100 text-purple-600 font-black px-8 py-4 rounded-2xl transition-colors disabled:opacity-50 flex items-center gap-2"
+          >
+            {isSavingDraft ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Save as Draft 📝'}
           </button>
           <button 
             onClick={handlePublish}

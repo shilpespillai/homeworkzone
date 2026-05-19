@@ -22,7 +22,7 @@ import {
   onSnapshot 
 } from 'firebase/firestore';
 
-const MessagingModule = ({ studentName, teacher, classroom }) => {
+const MessagingModule = ({ studentName, teacher, classroom, getStudentAvatar }) => {
   const [activeTab, setActiveTab] = useState('Inbox');
   const [messages, setMessages] = useState([]);
   const [activeMessage, setActiveMessage] = useState(null);
@@ -201,7 +201,7 @@ const MessagingModule = ({ studentName, teacher, classroom }) => {
                       <Volume2 className="text-[#8A70FF] w-6 h-6" />
                     ) : (
                       <img 
-                        src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${item.senderName || 'Felix'}`} 
+                        src={getStudentAvatar ? getStudentAvatar(item.senderName) : `https://api.dicebear.com/7.x/adventurer/svg?seed=${item.senderName || 'Felix'}`} 
                         alt="Avatar" 
                         className="w-full h-full object-cover" 
                       />
