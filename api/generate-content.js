@@ -79,7 +79,8 @@ export default async function handler(req, res) {
 
     if (provider === 'gemini') {
       apiKey = process.env.GEMINI_API_KEY;
-      modelName = 'gemini-1.5-flash';
+      // Using gemini-pro (1.0) as it has the widest region/key compatibility
+      modelName = 'gemini-pro';
       if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY not configured' });
       endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
       headers = { 'Content-Type': 'application/json' };
