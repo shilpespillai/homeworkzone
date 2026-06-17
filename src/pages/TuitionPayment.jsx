@@ -15,7 +15,7 @@ import { db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 
 // ─── Fee Card ─────────────────────────────────────────────────────────────────
-const FeeCard = ({ amount, label, description, icon, color, gradient, delay }) => (
+const FeeCard = ({ amount, label, description, icon, color, gradient, delay, currency = 'USD', currencySymbol = '$' }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -31,8 +31,8 @@ const FeeCard = ({ amount, label, description, icon, color, gradient, delay }) =
           {icon}
         </div>
         <div className="text-right">
-          <p className="text-4xl font-black text-slate-800 tracking-tight">${amount}</p>
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mt-0.5">USD</p>
+          <p className="text-4xl font-black text-slate-800 tracking-tight">{currencySymbol}{amount}</p>
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mt-0.5">{currency}</p>
         </div>
       </div>
       <h3 className="text-base font-bold text-slate-800 leading-tight">{label}</h3>
@@ -71,7 +71,9 @@ const TuitionPayment = ({ studentName, teacher, classroom }) => {
 
   const studentGrade = resolveGradeFromClassroomName(classroom?.name);
   const [packages, setPackages] = useState(DEFAULT_PACKAGES);
+  const [currency, setCurrency] = useState('USD');
   const [loading, setLoading] = useState(true);
+  const CURRENCIES = { USD: '$', EUR: '€', GBP: '£', AUD: 'A$', CAD: 'C$', NZD: 'NZ$', INR: '₹', ZAR: 'R', SGD: 'S$' };
 
   useEffect(() => {
     if (!teacher?.uid) { setLoading(false); return; }
@@ -82,6 +84,7 @@ const TuitionPayment = ({ studentName, teacher, classroom }) => {
         let loadedPackages = null;
         if (snap.exists()) {
           const data = snap.data();
+          if (data.currency) setCurrency(data.currency);
           if (data[studentGrade] && data[studentGrade].length) {
             loadedPackages = data[studentGrade];
           }
@@ -190,7 +193,7 @@ const TuitionPayment = ({ studentName, teacher, classroom }) => {
         ) : (
           <div className="grid grid-cols-2 gap-4">
             {packages.map((pkg, i) => (
-              <FeeCard key={pkg.id} {...pkg} delay={i * 0.08} />
+              <FeeCard key={pkg.id} {...pkg} delay={i * 0.08} currency={currency} currencySymbol={CURRENCIES[currency] || '$'} />
             ))}
           </div>
         )}

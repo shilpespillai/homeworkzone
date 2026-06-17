@@ -6054,9 +6054,9 @@ const TeacherDashboard = ({ user, onLogout }) => {
 
                            {/* Price */}
                            <div className="relative z-10">
-                              <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">Price (USD)</label>
+                              <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">Price ({tuitionCurrency})</label>
                               <div className="relative">
-                                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-black text-slate-400">$</span>
+                                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-black text-slate-400">{CURRENCIES[tuitionCurrency] || '$'}</span>
                                  <input
                                     type="number"
                                     min="1"
@@ -6078,8 +6078,8 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                     <p className="text-xs text-slate-400 font-medium mt-0.5">{pkg.description || 'Description'}</p>
                                  </div>
                                  <div className="text-right">
-                                    <p className="text-2xl font-black text-slate-800">${pkg.amount}</p>
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase">USD</p>
+                                    <p className="text-2xl font-black text-slate-800">{CURRENCIES[tuitionCurrency] || '$'}{pkg.amount}</p>
+                                    <p className="text-[10px] font-bold text-slate-400 uppercase">{tuitionCurrency}</p>
                                  </div>
                               </div>
                            </div>
@@ -6276,7 +6276,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                            <div>
                               <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">Revenue Collected</p>
                               <p className="text-3xl font-black text-emerald-600 tracking-tight mt-1">
-                                 ${collectedRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                 {CURRENCIES[tuitionCurrency] || '$'}{collectedRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                               </p>
                               <p className="text-[10px] text-slate-400 font-bold mt-1">
                                  {revenueMode === 'Monthly' ? 'For this month' : `YTD for ${revenueYear}`}
@@ -6295,7 +6295,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                            <div>
                               <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">Expected Revenue</p>
                               <p className="text-3xl font-black text-[#14532d] tracking-tight mt-1">
-                                 ${expectedRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                 {CURRENCIES[tuitionCurrency] || '$'}{expectedRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                               </p>
                               <p className="text-[10px] text-slate-400 font-bold mt-1">
                                  Based on active student packages
@@ -6411,7 +6411,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                      <div className="grid grid-cols-12 px-8 py-4 bg-blue-50/20 text-[10px] font-black text-blue-200 uppercase tracking-widest border-b border-orange-100">
                         <div className="col-span-3">Student Name</div>
                         <div className="col-span-3">Assigned Package</div>
-                        <div className="col-span-2">Price (USD)</div>
+                        <div className="col-span-2">Price ({tuitionCurrency})</div>
                         <div className="col-span-2">Payment Status</div>
                         <div className="col-span-2 text-right pr-4">Action</div>
                      </div>
