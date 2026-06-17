@@ -430,10 +430,11 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             <div className="flex flex-col md:flex-row items-center gap-8 mb-10">
               <div className="w-40 h-40 md:w-48 md:h-48 rounded-[24px] overflow-hidden shrink-0 shadow-inner bg-slate-50 flex-center">
                 <img 
-                  src={`https://image.pollinations.ai/prompt/${encodeURIComponent('cute simple flat vector cartoon illustration ' + (currentQuestion.imagePrompt || currentQuestion.text))}?width=400&height=400&nologo=true`}
+                  src={`https://image.pollinations.ai/prompt/${encodeURIComponent('cute cartoon illustration ' + (currentQuestion.imagePrompt || currentQuestion.text).substring(0, 60))}?width=400&height=400&nologo=true`}
                   alt="Question illustration"
                   className="w-full h-full object-cover mix-blend-multiply"
                   loading="lazy"
+                  onError={(e) => { e.target.src = 'https://api.dicebear.com/7.x/shapes/svg?seed=' + currentQuestion.id; }}
                 />
               </div>
               <h1 className="text-2xl md:text-[28px] font-black text-slate-800 leading-snug uppercase text-center md:text-left tracking-tight">
