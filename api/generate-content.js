@@ -79,8 +79,7 @@ export default async function handler(req, res) {
 
     if (provider === 'gemini') {
       apiKey = process.env.GEMINI_API_KEY;
-      // Using gemini-pro (1.0) as it has the widest region/key compatibility
-      modelName = 'gemini-pro';
+      modelName = 'gemini-1.5-pro';
       if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY not configured' });
       endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
       headers = { 'Content-Type': 'application/json' };
@@ -110,8 +109,20 @@ export default async function handler(req, res) {
     const resAi = await fetchWithRetry(endpoint, { method: 'POST', headers, body: JSON.stringify(bodyObj) });
     if (!resAi.ok) {
       const errorBody = await resAi.text().catch(() => '');
-      console.error(`[AI API Error] ${endpoint} -> ${resAi.status} ${errorBody}`);
-      throw new Error(`${provider} API error: ${resAi.status} - ${errorBody}`);
+      let extraInfo = '';
+      
+      // If 404 from Gemini, fetch available models
+      if (provider === 'gemini' && resAi.status === 404) {
+        try {
+          const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+          const listData = await listRes.json();
+          const availableModels = (listData.models || []).map(m => m.name).join(', ');
+          extraInfo = `\nAvailable models on your API Key: ${availableModels}`;
+        } catch(e) {}
+      }
+
+      console.error(`[AI API Error] ${endpoint} -> ${resAi.status} ${errorBody} ${extraInfo}`);
+      throw new Error(`${provider} API error: ${resAi.status} - ${errorBody} ${extraInfo}`);
     }
     const data = await resAi.json();
     let textResult = provider === 'gemini' ? data.candidates?.[0]?.content?.parts?.[0]?.text : (provider === 'openai' ? data.choices?.[0]?.message?.content : data.content?.[0]?.text) || '';
