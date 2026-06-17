@@ -230,6 +230,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [newClassName, setNewClassName] = useState('');
   const [isAdding, setIsAdding] = useState(false);
   const [activeTab, setActiveTab] = useState('Dashboard');
+   const [completionTab, setCompletionTab] = useState('lagging');
   const [teacherBilling, setTeacherBilling] = useState(null);
   const [teacherData, setTeacherData] = useState(null);
   
@@ -2789,73 +2790,213 @@ const TeacherDashboard = ({ user, onLogout }) => {
                             </div>
                          )}
 
-                         {/* Visual Lagging Students Report */}
-                         <div className="bg-white rounded-[32px] border border-rose-100 shadow-sm p-6 space-y-5 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-rose-50 rounded-bl-full opacity-50 pointer-events-none" />
-                            <div className="flex justify-between items-center relative z-10">
-                               <div>
-                                  <h3 className="text-lg font-black text-rose-600 tracking-tight flex items-center gap-2">
-                                     <span className="text-2xl animate-pulse">⚠️</span> Lagging Students Watchlist
-                                  </h3>
-                                  <p className="text-[10px] font-black text-rose-400 uppercase tracking-widest mt-0.5">Students with missing homework assignments</p>
-                               </div>
-                               <div className="bg-rose-50 text-rose-600 px-4 py-1.5 rounded-xl border border-rose-100 flex items-center gap-2 shadow-sm">
-                                  <span className="text-sm font-black">{laggingCount}</span>
-                                  <span className="text-[10px] font-bold uppercase tracking-wider">Lagging</span>
-                               </div>
-                            </div>
-
-                            {dashboardMissingReports.length > 0 ? (
-                               <div className="space-y-4 relative z-10">
-                                  {/* Sort by most missing first */}
-                                  {[...dashboardMissingReports].sort((a, b) => b.missingHws.length - a.missingHws.length).slice(0, 8).map((report, idx) => {
-                                     // Find max missing to calculate percentage width
-                                     const maxMissing = Math.max(...dashboardMissingReports.map(r => r.missingHws.length));
-                                     const pct = Math.max(15, Math.round((report.missingHws.length / Math.max(maxMissing, 1)) * 100));
-                                     
-                                     return (
-                                        <div key={report.student.id || report.student.name} className="flex items-center gap-4 group">
-                                           <div className="flex items-center gap-3 w-40 shrink-0">
-                                              <span className="text-[10px] font-black text-rose-300 w-4">{idx + 1}.</span>
-                                              <img src={getStudentAvatar(report.student.name)} className="w-8 h-8 rounded-full border-2 border-white shadow-sm group-hover:scale-110 transition-transform" />
-                                              <span className="text-xs font-black text-slate-700 truncate">{report.student.name}</span>
-                                           </div>
-                                           <div className="flex-1 flex items-center gap-3">
-                                              <div className="h-6 flex-1 bg-slate-50 rounded-full overflow-hidden border border-slate-100 relative">
-                                                 <div 
-                                                    className="h-full rounded-full bg-gradient-to-r from-rose-400 to-rose-500 flex items-center pr-3 transition-all duration-1000 ease-out" 
-                                                    style={{ width: `${pct}%` }}
-                                                 >
-                                                    {/* Stripe overlay */}
-                                                    <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,1) 10px, rgba(255,255,255,1) 20px)' }} />
-                                                 </div>
-                                              </div>
-                                              <div className="w-16 shrink-0 flex flex-col items-end">
-                                                 <span className="text-sm font-black text-rose-600">{report.missingHws.length}</span>
-                                                 <span className="text-[8px] font-black text-rose-400 uppercase tracking-widest">Missing</span>
-                                              </div>
-                                           </div>
-                                        </div>
-                                     );
-                                  })}
-                                  {dashboardMissingReports.length > 8 && (
-                                     <div className="text-center pt-2">
-                                        <span className="text-xs font-bold text-slate-400">And {dashboardMissingReports.length - 8} more students lagging...</span>
-                                     </div>
-                                  )}
-                               </div>
-                            ) : (
-                               <div className="bg-emerald-50 rounded-2xl p-8 border border-emerald-100 flex flex-col items-center justify-center text-center space-y-3 relative z-10">
-                                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm border border-emerald-100">
-                                     <span className="text-3xl">🌟</span>
-                                  </div>
-                                  <div>
-                                     <h4 className="text-emerald-700 font-black text-lg">Amazing Work!</h4>
-                                     <p className="text-emerald-600/80 text-xs font-bold mt-1">Every single student is fully caught up on their assignments.</p>
-                                  </div>
-                               </div>
-                            )}
-                         </div>
+                          {/* ── Homework Completion Hub ── */}
+                          {(() => {
+                             const completionData = classStudents.map(student => {
+                                const submitted = classSubmissions.filter(s => normalizeName(s.studentName) === normalizeName(student.name));
+                                const submittedIds = new Set(submitted.map(s => s.homeworkId));
+                                const missing = classHomeworks.filter(hw => !submittedIds.has(hw.id));
+                                const completedCount = classHomeworks.length - missing.length;
+                                const completionPct = classHomeworks.length > 0 ? Math.round((completedCount / classHomeworks.length) * 100) : 100;
+                                const avgScore = submitted.length > 0 ? Math.round(submitted.reduce((a, s) => a + (s.score || 0), 0) / submitted.length) : null;
+                                return { student, submitted, missing, completedCount, completionPct, avgScore };
+                             });
+                             const onTrackStudents = completionData.filter(d => d.missing.length === 0);
+                             const laggingStudents = completionData.filter(d => d.missing.length > 0).sort((a, b) => b.missing.length - a.missing.length);
+                             const totalStudents = completionData.length;
+                             const onTrackNum = onTrackStudents.length;
+                             const laggingNum = laggingStudents.length;
+                             const onTrackPct = totalStudents > 0 ? Math.round((onTrackNum / totalStudents) * 100) : 0;
+                             const RADIUS = 52;
+                             const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+                             const onTrackDash = (onTrackPct / 100) * CIRCUMFERENCE;
+                             const laggingDash = CIRCUMFERENCE - onTrackDash;
+                             return (
+                                <div className="bg-white rounded-[32px] border border-[#E9E4FF] shadow-sm p-6 space-y-5 relative overflow-hidden">
+                                   <div className="absolute top-0 right-0 w-48 h-48 opacity-[0.04] pointer-events-none" style={{ background: 'radial-gradient(circle, #7C3AED 0%, transparent 70%)' }} />
+                                   <div className="flex justify-between items-start relative z-10">
+                                      <div>
+                                         <h3 className="text-lg font-black text-[#3C2E75] tracking-tight flex items-center gap-2">
+                                            📋 Homework Completion Hub
+                                         </h3>
+                                         <p className="text-[10px] font-black text-[#8C83B5] uppercase tracking-widest mt-0.5">
+                                            Real-time student completion vs lagging breakdown
+                                         </p>
+                                      </div>
+                                      <div className="flex gap-2">
+                                         <div className="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-xl border border-emerald-100 shadow-sm">
+                                            <span className="text-sm font-black">{onTrackNum}</span>
+                                            <span className="text-[9px] font-bold uppercase tracking-wider">On Track</span>
+                                         </div>
+                                         <div className="flex items-center gap-1.5 bg-rose-50 text-rose-600 px-3 py-1.5 rounded-xl border border-rose-100 shadow-sm">
+                                            <span className="text-sm font-black">{laggingNum}</span>
+                                            <span className="text-[9px] font-bold uppercase tracking-wider">Lagging</span>
+                                         </div>
+                                      </div>
+                                   </div>
+                                   <div className="flex items-center gap-8 relative z-10">
+                                      <div className="relative shrink-0 w-36 h-36">
+                                         <svg viewBox="0 0 140 140" className="w-full h-full -rotate-90">
+                                            <circle cx="70" cy="70" r={RADIUS} fill="none" stroke="#F3F0FF" strokeWidth="16" />
+                                            <circle cx="70" cy="70" r={RADIUS} fill="none" stroke="#FDA4AF" strokeWidth="16"
+                                               strokeDasharray={`${laggingDash} ${CIRCUMFERENCE}`} strokeDashoffset="0" strokeLinecap="round" />
+                                            <circle cx="70" cy="70" r={RADIUS} fill="none" stroke="#34D399" strokeWidth="16"
+                                               strokeDasharray={`${onTrackDash} ${CIRCUMFERENCE}`} strokeDashoffset={`-${laggingDash}`} strokeLinecap="round" />
+                                         </svg>
+                                         <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                            <span className="text-2xl font-black text-[#3C2E75] leading-none">{onTrackPct}%</span>
+                                            <span className="text-[9px] font-black text-[#8C83B5] uppercase tracking-widest mt-0.5">On Track</span>
+                                         </div>
+                                      </div>
+                                      <div className="flex-1 space-y-4">
+                                         <div className="space-y-2">
+                                            <div className="flex justify-between items-center">
+                                               <div className="flex items-center gap-2">
+                                                  <span className="w-3 h-3 rounded-full bg-emerald-400 inline-block" />
+                                                  <span className="text-xs font-black text-[#3C2E75]">Completed All</span>
+                                               </div>
+                                               <span className="text-xs font-black text-emerald-600">{onTrackNum} student{onTrackNum !== 1 ? 's' : ''}</span>
+                                            </div>
+                                            <div className="h-2.5 w-full bg-slate-50 rounded-full overflow-hidden border border-slate-100">
+                                               <div className="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full transition-all duration-1000" style={{ width: `${onTrackPct}%` }} />
+                                            </div>
+                                         </div>
+                                         <div className="space-y-2">
+                                            <div className="flex justify-between items-center">
+                                               <div className="flex items-center gap-2">
+                                                  <span className="w-3 h-3 rounded-full bg-rose-400 inline-block" />
+                                                  <span className="text-xs font-black text-[#3C2E75]">Missing Homework</span>
+                                               </div>
+                                               <span className="text-xs font-black text-rose-500">{laggingNum} student{laggingNum !== 1 ? 's' : ''}</span>
+                                            </div>
+                                            <div className="h-2.5 w-full bg-slate-50 rounded-full overflow-hidden border border-slate-100">
+                                               <div className="h-full bg-gradient-to-r from-rose-400 to-rose-500 rounded-full transition-all duration-1000" style={{ width: `${100 - onTrackPct}%` }} />
+                                            </div>
+                                         </div>
+                                         <div className="pt-1 flex gap-3">
+                                            <div className="flex-1 bg-[#F5F3FF] rounded-2xl p-3 border border-[#E9E4FF] text-center">
+                                               <p className="text-base font-black text-[#3C2E75]">{classHomeworks.length}</p>
+                                               <p className="text-[9px] font-black text-[#8C83B5] uppercase tracking-wider">Total HW</p>
+                                            </div>
+                                            <div className="flex-1 bg-[#EAFBF7] rounded-2xl p-3 border border-[#BCEEE2] text-center">
+                                               <p className="text-base font-black text-emerald-600">{classSubmissions.length}</p>
+                                               <p className="text-[9px] font-black text-emerald-400 uppercase tracking-wider">Submissions</p>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+                                   <div className="flex bg-[#F5F3FF] p-1 rounded-2xl border border-[#E9E4FF] relative z-10">
+                                      <button
+                                         onClick={() => setCompletionTab('lagging')}
+                                         className={`flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${completionTab === 'lagging' ? 'bg-white text-rose-600 shadow-sm' : 'text-[#8C83B5] hover:text-[#3C2E75]'}`}
+                                      >
+                                         ⚠️ Lagging ({laggingNum})
+                                      </button>
+                                      <button
+                                         onClick={() => setCompletionTab('ontrack')}
+                                         className={`flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${completionTab === 'ontrack' ? 'bg-white text-emerald-600 shadow-sm' : 'text-[#8C83B5] hover:text-[#3C2E75]'}`}
+                                      >
+                                         ✅ On Track ({onTrackNum})
+                                      </button>
+                                   </div>
+                                   <div className="space-y-2 max-h-[280px] overflow-y-auto relative z-10">
+                                      {completionTab === 'lagging' && (
+                                         <>
+                                            {laggingStudents.length > 0 ? laggingStudents.map((d, idx) => (
+                                               <div key={d.student.id || d.student.name} className="bg-[#FFF9FB] border border-rose-100 rounded-2xl p-3 space-y-2 hover:border-rose-200 transition-all group">
+                                                  <div className="flex items-center justify-between">
+                                                     <div className="flex items-center gap-2.5">
+                                                        <span className="text-[10px] font-black text-rose-300 w-4 shrink-0">{idx + 1}.</span>
+                                                        <img src={getStudentAvatar(d.student.name)} className="w-8 h-8 rounded-full border-2 border-white shadow-sm group-hover:scale-105 transition-transform" alt={d.student.name} />
+                                                        <div>
+                                                           <p className="text-xs font-black text-[#3C2E75]">{d.student.name}</p>
+                                                           <p className="text-[9px] font-bold text-[#8C83B5]">{d.completedCount}/{classHomeworks.length} completed{d.avgScore !== null ? ` • ${d.avgScore}% avg` : ''}</p>
+                                                        </div>
+                                                     </div>
+                                                     <div className="flex items-center gap-2">
+                                                        <span className="text-[10px] font-black text-rose-500 bg-rose-50 px-2 py-0.5 rounded-lg border border-rose-100">{d.missing.length} missing</span>
+                                                        <button
+                                                           onClick={async () => {
+                                                              try {
+                                                                 const { addDoc, collection } = await import('firebase/firestore');
+                                                                 const { db: fdb } = await import('../firebase');
+                                                                 await addDoc(collection(fdb, 'messages'), {
+                                                                    teacherId: user.uid, senderId: user.uid,
+                                                                    senderName: user.displayName || 'Teacher', senderRole: 'teacher',
+                                                                    recipientType: 'student', recipientId: d.student.name, recipientName: d.student.name,
+                                                                    subject: '⏰ Homework Reminder!',
+                                                                    content: `Hi ${d.student.name}! You have ${d.missing.length} assignment${d.missing.length > 1 ? 's' : ''} still to complete. Please check your homework portal and submit soon! 🚀`,
+                                                                    createdAt: new Date().toISOString()
+                                                                 });
+                                                                 alert(`✅ Reminder sent to ${d.student.name}!`);
+                                                              } catch (err) { console.error(err); alert('Failed to send reminder.'); }
+                                                           }}
+                                                           className="text-[9px] font-black bg-rose-500 hover:bg-rose-600 text-white px-2.5 py-1 rounded-xl transition-colors shrink-0"
+                                                        >
+                                                           Remind 🔔
+                                                        </button>
+                                                     </div>
+                                                  </div>
+                                                  <div className="flex items-center gap-3">
+                                                     <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
+                                                        <div className="h-full rounded-full bg-gradient-to-r from-rose-400 to-amber-400 transition-all duration-700" style={{ width: `${Math.max(5, d.completionPct)}%` }} />
+                                                     </div>
+                                                     <span className="text-[10px] font-black text-rose-500 w-8 text-right">{d.completionPct}%</span>
+                                                  </div>
+                                                  <div className="flex flex-wrap gap-1 pl-10">
+                                                     {d.missing.slice(0, 4).map(hw => (
+                                                        <span key={hw.id} className="text-[8px] font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded uppercase tracking-wider truncate max-w-[100px]" title={hw.title}>{hw.title}</span>
+                                                     ))}
+                                                     {d.missing.length > 4 && <span className="text-[8px] font-bold text-rose-400 bg-rose-50 px-1.5 py-0.5 rounded">+{d.missing.length - 4} more</span>}
+                                                  </div>
+                                               </div>
+                                            )) : (
+                                               <div className="bg-emerald-50 rounded-2xl p-8 border border-emerald-100 flex flex-col items-center text-center space-y-3">
+                                                  <span className="text-4xl">🎉</span>
+                                                  <div>
+                                                     <h4 className="text-emerald-700 font-black text-base">Everyone is caught up!</h4>
+                                                     <p className="text-emerald-600/80 text-xs font-bold mt-1">All students have completed their assigned homework.</p>
+                                                  </div>
+                                               </div>
+                                            )}
+                                         </>
+                                      )}
+                                      {completionTab === 'ontrack' && (
+                                         <>
+                                            {onTrackStudents.length > 0 ? onTrackStudents.map((d, idx) => (
+                                               <div key={d.student.id || d.student.name} className="bg-[#F0FDF6] border border-emerald-100 rounded-2xl p-3 flex items-center justify-between hover:border-emerald-200 transition-all group">
+                                                  <div className="flex items-center gap-2.5">
+                                                     <span className="text-[10px] font-black text-emerald-300 w-4 shrink-0">{idx + 1}.</span>
+                                                     <img src={getStudentAvatar(d.student.name)} className="w-8 h-8 rounded-full border-2 border-white shadow-sm group-hover:scale-105 transition-transform" alt={d.student.name} />
+                                                     <div>
+                                                        <p className="text-xs font-black text-[#3C2E75]">{d.student.name}</p>
+                                                        <p className="text-[9px] font-bold text-[#8C83B5]">All {classHomeworks.length} done{d.avgScore !== null ? ` • ${d.avgScore}% avg` : ''}</p>
+                                                     </div>
+                                                  </div>
+                                                  <div className="flex items-center gap-2">
+                                                     {d.avgScore !== null && (
+                                                        <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-xl border ${d.avgScore >= 85 ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : d.avgScore >= 65 ? 'bg-amber-50 text-amber-600 border-amber-100' : 'bg-rose-50 text-rose-500 border-rose-100'}`}>
+                                                           {d.avgScore}% avg
+                                                        </span>
+                                                     )}
+                                                     <span className="text-lg">✅</span>
+                                                  </div>
+                                               </div>
+                                            )) : (
+                                               <div className="bg-amber-50 rounded-2xl p-8 border border-amber-100 flex flex-col items-center text-center space-y-3">
+                                                  <span className="text-4xl">📚</span>
+                                                  <div>
+                                                     <h4 className="text-amber-700 font-black text-base">No submissions yet</h4>
+                                                     <p className="text-amber-600/80 text-xs font-bold mt-1">No student has completed all assignments yet.</p>
+                                                  </div>
+                                               </div>
+                                            )}
+                                         </>
+                                      )}
+                                   </div>
+                                </div>
+                             );
+                          })()}
                       </div>
 
                       {/* Right: AI Teaching Co-Pilot Diagnostic Card */}
