@@ -482,8 +482,8 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [gradebookSearch, setGradebookSearch] = useState('');
   const [filterClass, setFilterClass] = useState('All Classes');
   const [revenueClassFilter, setRevenueClassFilter] = useState('All Classes');
-  const [calendarYear, setCalendarYear] = useState(2026);
-  const [calendarMonth, setCalendarMonth] = useState(4); // 0-indexed, 4 = May
+  const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
+  const [calendarMonth, setCalendarMonth] = useState(new Date().getMonth());
   const [searchQuery, setSearchQuery] = useState('');
   const [rewardsTab, setRewardsTab] = useState('Overview');
   const [showAwardBadgeModal, setShowAwardBadgeModal] = useState(false);
