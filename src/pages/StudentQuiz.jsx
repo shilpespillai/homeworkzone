@@ -15,7 +15,10 @@ import {
   MessageSquare,
   Loader2,
   Paperclip,
-  Sparkles
+  Sparkles,
+  Upload,
+  Copy,
+  Download
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
@@ -338,115 +341,133 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
 
 
   return (
-    <div className="min-h-screen bg-[#f8f9fe] p-6 md:p-12 flex flex-col relative overflow-hidden">
-      {/* Playful Background Blobs */}
-      <div className="absolute w-[500px] h-[500px] bg-orange-500/10 rounded-full blur-3xl -top-64 -left-32 animate-pulse pointer-events-none" />
-      <div className="absolute w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-3xl -bottom-32 -right-32 animate-pulse pointer-events-none" style={{ animationDelay: '1s' }} />
+    <div className="min-h-screen bg-[#AEE6FE] p-6 md:p-8 flex flex-col relative overflow-hidden font-sans">
+      {/* Playful Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <Star className="absolute top-12 left-[10%] w-6 h-6 text-yellow-400 fill-yellow-400 opacity-80 rotate-12" />
+        <Star className="absolute top-32 right-[15%] w-8 h-8 text-yellow-400 fill-yellow-400 opacity-90 -rotate-12" />
+        <Star className="absolute bottom-24 left-[20%] w-5 h-5 text-yellow-400 fill-yellow-400 opacity-80 rotate-45" />
+        <Star className="absolute top-[40%] right-[5%] w-6 h-6 text-yellow-400 fill-yellow-400 opacity-70 rotate-90" />
+        <div className="absolute top-20 right-[30%] w-3 h-3 bg-pink-400 rounded-sm rotate-45 opacity-80" />
+        <div className="absolute bottom-32 right-[25%] w-2 h-4 bg-emerald-400 rounded-full -rotate-12 opacity-80" />
+        <div className="absolute top-1/2 left-[5%] w-4 h-4 bg-purple-400 rounded-full opacity-80" />
+        <span className="absolute top-16 right-[40%] text-blue-500/20 font-black text-xl rotate-12">5%</span>
+        <span className="absolute bottom-40 left-[15%] text-blue-500/20 font-black text-2xl -rotate-12">%</span>
+      </div>
 
       {/* Header & Progress */}
-      <header className="max-w-4xl mx-auto w-full space-y-8 mb-12 relative z-10">
-        <div className="flex flex-col gap-4">
-          <button onClick={isReviewing ? () => setIsReviewing(false) : onComplete} className="flex items-center gap-2 text-slate-400 hover:text-orange-500 w-fit font-black text-sm uppercase tracking-widest transition-colors">
-            <ChevronLeft className="w-4 h-4" /> {isReviewing ? "Back to Results" : "Back to Dashboard"}
+      <header className="max-w-5xl mx-auto w-full mb-8 relative z-10">
+        <div className="flex justify-between items-center mb-4 px-4">
+          <button onClick={isReviewing ? () => setIsReviewing(false) : onComplete} className="flex items-center gap-3 text-slate-700 hover:text-slate-900 font-black text-xs uppercase tracking-widest transition-colors">
+            <ChevronLeft className="w-5 h-5" /> 
+            <div className="flex flex-col text-left leading-tight">
+              <span>{isReviewing ? "BACK TO RESULTS" : "BACK TO DASHBOARD"}</span>
+              <span className="text-[9px] text-slate-500">BACK TO HOMEWORK ZONE!</span>
+            </div>
           </button>
-          <div className="flex items-center justify-between w-full">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 bg-orange-500 text-white flex-center rounded-[20px] shadow-[0_6px_0_0_#c2410c]">
-                <Sparkles className="w-8 h-8" />
-              </div>
-              <div>
-                <h2 className="text-2xl font-black text-slate-900 tracking-tight lowercase">{homework.title} {isReviewing && "(Review)"}</h2>
-                <div className="flex items-center gap-2">
-                  <span className="px-3 py-0.5 bg-orange-50 text-orange-500 rounded-full text-[10px] font-black uppercase tracking-widest">{homework.subject}</span>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">{homework.questions.length} questions</span>
-                </div>
-              </div>
-            </div>
-            {homework.resources && homework.resources.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-4">
-                {homework.resources.map((res, i) => (
-                  <a key={i} href={res.url} target="_blank" rel="noreferrer" className="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-xl text-xs font-bold hover:bg-blue-100 flex items-center gap-2 transition-colors">
-                    <Paperclip className="w-3.5 h-3.5" />
-                    <span className="truncate max-w-[200px]">{res.name}</span>
-                  </a>
-                ))}
-              </div>
-            )}
-            <div className="flex items-center gap-2 px-4 py-2 bg-white border-2 border-slate-100 rounded-full shadow-tactile">
-              <Timer className="w-4 h-4 text-orange-500" />
-              <span className="text-sm font-black text-slate-700">{formatTime(secondsSpent)}</span>
-            </div>
+          
+          <div className="flex items-center gap-2">
+             <button className="w-10 h-10 rounded-full bg-slate-500/20 text-slate-600 flex-center hover:bg-slate-500/30 transition-colors"><Upload className="w-5 h-5" /></button>
+             <button className="w-10 h-10 rounded-full bg-slate-500/20 text-slate-600 flex-center hover:bg-slate-500/30 transition-colors"><Copy className="w-5 h-5" /></button>
+             <button className="w-10 h-10 rounded-full bg-slate-500/20 text-slate-600 flex-center hover:bg-slate-500/30 transition-colors"><Download className="w-5 h-5" /></button>
           </div>
         </div>
 
-        <div className="relative pt-4">
-          <div className="progress-track h-5 bg-white border-2 border-slate-100 rounded-full overflow-hidden">
-            <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              className="progress-fill h-full bg-orange-500 shadow-[0_4px_0_0_#c2410c]"
-            />
-          </div>
-          <motion.div 
-            animate={{ left: `${progress}%` }}
-            className="absolute top-0 -ml-4"
-          >
-            <div className="w-8 h-8 bg-white border-2 border-orange-500 rounded-full flex-center shadow-lg">
-              <Rocket className="w-4 h-4 text-orange-500 -rotate-45" />
+        <div className="bg-white/95 backdrop-blur-md rounded-[32px] p-6 shadow-[0_8px_0_0_rgba(255,255,255,0.6)]">
+          <div className="flex justify-between items-start mb-6">
+            <div className="w-14 h-14 bg-[#F97316] text-white flex-center rounded-2xl shadow-[0_4px_0_0_#C2410C] shrink-0">
+              <Sparkles className="w-7 h-7" />
             </div>
-          </motion.div>
+            
+            <div className="text-center flex-1 px-4">
+               <h2 className="text-3xl font-black text-[#F97316] uppercase tracking-tight">{homework.title} {isReviewing && "(REVIEW)"}</h2>
+               <p className="text-[#F97316] font-bold text-sm tracking-[0.2em] uppercase mt-0.5">ADVENTURE QUEST</p>
+               <p className="text-slate-700 font-black text-sm uppercase tracking-widest mt-3">{homework.subject} - {homework.questions.length} QUESTIONS</p>
+            </div>
+
+            <div className="bg-[#B45309] p-1.5 rounded-[20px] shadow-[0_4px_0_0_#78350F] shrink-0">
+              <div className="bg-[#FDE68A] border-2 border-[#D97706] rounded-xl px-4 py-2 flex items-center gap-2 shadow-inner">
+                 <Timer className="w-5 h-5 text-[#B45309]" />
+                 <span className="font-black text-[#B45309] tracking-wider text-lg">{formatTime(secondsSpent)}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4 px-2">
+            <span className="text-[10px] font-black uppercase text-slate-500 tracking-widest shrink-0 whitespace-nowrap">
+              QUESTION {currentIdx + 1} OF {homework.questions.length}
+            </span>
+            <div className="flex-1 relative flex items-center h-8">
+              <div className="w-full h-4 bg-[#E0F2FE] rounded-full overflow-hidden shadow-inner">
+                 <motion.div 
+                   initial={{ width: 0 }}
+                   animate={{ width: `${progress}%` }}
+                   className="h-full bg-gradient-to-r from-[#38BDF8] to-[#F97316]"
+                 />
+              </div>
+              <motion.div 
+                animate={{ left: `${progress}%` }}
+                className="absolute -ml-5 z-10 drop-shadow-md text-3xl"
+              >
+                🚀
+              </motion.div>
+            </div>
+          </div>
         </div>
       </header>
 
       {/* Question Area */}
-      <main className="max-w-3xl mx-auto w-full flex-1 relative z-10">
+      <main className="max-w-4xl mx-auto w-full flex-1 relative z-10">
         <AnimatePresence mode="wait">
           <motion.div 
             key={currentIdx}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
-            className="space-y-12"
+            className="bg-white rounded-[32px] p-6 md:p-10 shadow-[0_8px_0_0_rgba(255,255,255,0.6)]"
           >
-            <div className="space-y-4 text-center">
-              <div className="inline-flex items-center gap-2 px-4 py-1 bg-white border-2 border-slate-100 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
-                Question {currentIdx + 1} of {homework.questions.length}
+            {/* Question Text & Image */}
+            <div className="flex flex-col md:flex-row items-center gap-8 mb-10">
+              <div className="w-40 h-40 md:w-48 md:h-48 rounded-[24px] overflow-hidden shrink-0 shadow-inner bg-slate-50 flex-center">
+                <img 
+                  src={`https://image.pollinations.ai/prompt/${encodeURIComponent('cute simple flat vector cartoon illustration ' + (currentQuestion.imagePrompt || currentQuestion.text))}?width=400&height=400&nologo=true`}
+                  alt="Question illustration"
+                  className="w-full h-full object-cover mix-blend-multiply"
+                  loading="lazy"
+                />
               </div>
-              <h1 className="text-4xl font-black text-slate-900 leading-tight">
+              <h1 className="text-2xl md:text-[28px] font-black text-slate-800 leading-snug uppercase text-center md:text-left tracking-tight">
                 {currentQuestion.text}
               </h1>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Options */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               {currentQuestion.options.map((option, i) => {
                 const isSelected = answers[currentQuestion.id] === option;
                 const isCorrectOption = currentQuestion.answer === option;
                 
-                let optionClass = "border-white bg-white hover:border-slate-200 shadow-[0_8px_0_0_#f1f2f6]";
-                let iconClass = "bg-slate-100 text-slate-400 group-hover:rotate-6";
-                let textClass = "text-slate-700";
+                const colorStyles = [
+                  "bg-[#5CD6C6] shadow-[0_6px_0_0_#3B9D91] text-[#0F766E]", // A Teal
+                  "bg-[#FFDE59] shadow-[0_6px_0_0_#C9A71D] text-[#854D0E]", // B Yellow
+                  "bg-[#CB99FF] shadow-[0_6px_0_0_#8C52FF] text-[#581C87]", // C Purple
+                  "bg-[#FF8A65] shadow-[0_6px_0_0_#D84315] text-[#7F1D1D]"  // D Coral
+                ];
+                
+                const baseColor = colorStyles[i % 4];
+                const activeState = isSelected && !isReviewing ? "ring-4 ring-offset-2 ring-white" : "";
+                
+                let reviewState = "";
                 let showIcon = null;
 
                 if (isReviewing) {
                   if (isCorrectOption) {
-                    optionClass = "border-emerald-500 bg-emerald-50 shadow-[0_8px_0_0_#059669]";
-                    iconClass = "bg-emerald-500 text-white rotate-12";
-                    textClass = "text-emerald-700";
-                    showIcon = <CheckCircle2 className="w-8 h-8 text-emerald-500" />;
+                    showIcon = <CheckCircle2 className="w-8 h-8 text-white fill-emerald-500" />;
                   } else if (isSelected) {
-                    optionClass = "border-rose-500 bg-rose-50 shadow-[0_8px_0_0_#e11d48]";
-                    iconClass = "bg-rose-500 text-white rotate-12";
-                    textClass = "text-rose-700";
-                    showIcon = <XCircle className="w-8 h-8 text-rose-500" />;
+                    reviewState = "opacity-50 grayscale";
+                    showIcon = <XCircle className="w-8 h-8 text-white fill-rose-500" />;
                   } else {
-                    optionClass = "border-slate-100 bg-white opacity-50";
-                  }
-                } else {
-                  if (isSelected) {
-                    optionClass = "border-orange-500 bg-orange-50 shadow-[0_8px_0_0_#c2410c]";
-                    iconClass = "bg-orange-500 text-white rotate-12";
-                    textClass = "text-orange-500";
-                    showIcon = <CheckCircle2 className="w-8 h-8 text-orange-500" />;
+                    reviewState = "opacity-50";
                   }
                 }
 
@@ -454,13 +475,13 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                   <button
                     key={option}
                     onClick={() => { if (!isReviewing) handleSelect(option); }}
-                    className={`group relative p-8 text-left rounded-[32px] border-2 transition-all flex items-center justify-between overflow-hidden ${isReviewing ? 'cursor-default' : 'active:scale-[0.95]'} ${optionClass}`}
+                    className={`group relative p-5 md:p-6 text-left rounded-[24px] transition-all flex items-center justify-between ${isReviewing ? 'cursor-default' : 'active:translate-y-[6px] hover:brightness-105 active:shadow-none'} ${baseColor} ${activeState} ${reviewState}`}
                   >
-                    <div className="flex items-center gap-6">
-                      <div className={`w-12 h-12 flex-center rounded-2xl text-lg font-black transition-all ${iconClass}`}>
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 flex-center rounded-xl bg-white/40 shadow-inner text-xl font-black">
                         {String.fromCharCode(65 + i)}
                       </div>
-                      <span className={`text-xl font-black ${textClass}`}>
+                      <span className={`text-xl font-black`}>
                         {option}
                       </span>
                     </div>
@@ -500,7 +521,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         <button 
           onClick={() => setCurrentIdx(prev => Math.max(0, prev - 1))}
           disabled={currentIdx === 0}
-          className="btn-bubble inline-flex items-center justify-center gap-2 rounded-[24px] py-3 px-8 bg-white border-2 border-slate-200 text-slate-500 shadow-[0_6px_0_0_#f1f2f6] disabled:opacity-30 text-base font-black active:scale-[0.98] active:translate-y-0.5 transition-all select-none cursor-pointer hover:bg-slate-50"
+          className="inline-flex items-center justify-center gap-2 rounded-full py-3.5 px-8 bg-white text-slate-500 shadow-[0_6px_0_0_#f1f2f6] disabled:opacity-30 text-base font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-slate-50"
         >
           <ChevronLeft className="w-5 h-5 shrink-0" /> back
         </button>
@@ -509,14 +530,14 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
            currentIdx === homework.questions.length - 1 ? (
              <button 
                onClick={() => setIsReviewing(false)} 
-               className="btn-bubble inline-flex items-center justify-center gap-2 rounded-[24px] py-3.5 px-12 bg-orange-500 text-white shadow-[0_8px_0_0_#c2410c] text-lg font-black active:scale-[0.98] active:translate-y-0.5 transition-all select-none cursor-pointer hover:bg-orange-400"
+               className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
              >
                finish review <CheckCircle2 className="w-5 h-5 shrink-0" />
              </button>
            ) : (
              <button 
                onClick={() => setCurrentIdx(prev => Math.min(homework.questions.length - 1, prev + 1))} 
-               className="btn-bubble inline-flex items-center justify-center gap-2 rounded-[24px] py-3.5 px-12 bg-orange-500 text-white shadow-[0_8px_0_0_#c2410c] text-lg font-black active:scale-[0.98] active:translate-y-0.5 transition-all select-none cursor-pointer hover:bg-orange-400"
+               className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
              >
                next <ChevronRight className="w-5 h-5 shrink-0" />
              </button>
@@ -526,7 +547,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             <button 
               onClick={handleSubmit}
               disabled={isSubmitting || !answers[currentQuestion.id]}
-              className="btn-bubble inline-flex items-center justify-center gap-2 rounded-[24px] py-3.5 px-12 bg-orange-500 text-white shadow-[0_8px_0_0_#c2410c] text-lg font-black active:scale-[0.98] active:translate-y-0.5 transition-all select-none cursor-pointer hover:bg-orange-400 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C] disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-[0_6px_0_0_#C2410C] disabled:active:translate-y-0"
             >
               {isSubmitting ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -539,9 +560,9 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
           ) : (
             <button 
               onClick={() => setCurrentIdx(prev => Math.min(homework.questions.length - 1, prev + 1))}
-              className="btn-bubble inline-flex items-center justify-center gap-2 rounded-[24px] py-3.5 px-12 bg-orange-500 text-white shadow-[0_8px_0_0_#c2410c] text-lg font-black active:scale-[0.98] active:translate-y-0.5 transition-all select-none cursor-pointer hover:bg-orange-400"
+              className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
             >
-              next quest! <ChevronRight className="w-5 h-5 shrink-0" />
+              NEXT QUEST! <ChevronRight className="w-5 h-5 shrink-0" />
             </button>
           )
         )}

@@ -357,7 +357,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
          - The "answer" field MUST exactly match one of the 4 values inside the "options" array.
          - All options must be age-appropriate for elementary/middle school students.
       
-      Return ONLY a JSON object with a single key "questions" containing an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), and "subtopic" (string, a specific subtopic or concept under the main topic, e.g. "Adding Fractions", "Identifying Nouns", "Photosynthesis", etc.). Do not include any markdown formatting.`;
+      Return ONLY a JSON object with a single key "questions" containing an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), "subtopic" (string, a specific subtopic or concept under the main topic), and "imagePrompt" (string, a 3-5 word descriptive prompt optimized for generating a cute, flat, kid-friendly cartoon vector illustration of the question's subject matter. Do not use the word "illustration" in the prompt). Do not include any markdown formatting.`;
 
       const textResponse = await generateContent({
         prompt,
