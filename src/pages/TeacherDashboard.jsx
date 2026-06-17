@@ -400,6 +400,8 @@ const TeacherDashboard = ({ user, onLogout }) => {
   ];
   const [tuitionPackages, setTuitionPackages] = useState(DEFAULT_PACKAGES);
   const [allGradeFees, setAllGradeFees] = useState({});
+  const [tuitionCurrency, setTuitionCurrency] = useState('USD');
+  const CURRENCIES = { USD: '$', EUR: '€', GBP: '£', AUD: 'A$', CAD: 'C$', NZD: 'NZ$', INR: '₹', ZAR: 'R', SGD: 'S$' };
   
   // selectedTuitionGrade is dynamically derived from the active classroom selected at the top header
   const selectedTuitionGrade = resolveGradeFromClassroomName(activeClassroom?.name);
@@ -1233,7 +1235,9 @@ const TeacherDashboard = ({ user, onLogout }) => {
         const ref = doc(db, 'teachers', user.uid, 'settings', 'tuitionFees');
         const snap = await getDoc(ref);
         if (snap.exists()) {
-          setAllGradeFees(snap.data());
+          const data = snap.data();
+          setAllGradeFees(data);
+          if (data.currency) setTuitionCurrency(data.currency);
         }
       } catch (e) { console.error('Load fees error', e); }
     };
@@ -1263,6 +1267,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
       const ref = doc(db, 'teachers', user.uid, 'settings', 'tuitionFees');
       await setDoc(ref, { 
         [selectedTuitionGrade]: tuitionPackages, 
+        currency: tuitionCurrency,
         updatedAt: new Date().toISOString() 
       }, { merge: true });
       
@@ -5982,6 +5987,24 @@ const TeacherDashboard = ({ user, onLogout }) => {
                         </p>
                      </div>
                      <div className="flex items-center gap-3 shrink-0 self-end md:self-auto">
+                        <div className="flex flex-col items-end mr-2">
+                           <label className="text-[9px] font-black uppercase text-slate-400 mb-1">Currency</label>
+                           <select 
+                              value={tuitionCurrency}
+                              onChange={(e) => setTuitionCurrency(e.target.value)}
+                              className="bg-white border-2 border-slate-200 text-[#3C2E75] text-xs font-black rounded-xl px-3 py-1.5 outline-none focus:border-green-400 focus:ring-2 focus:ring-green-100 transition-all cursor-pointer"
+                           >
+                              <option value="USD">USD ($)</option>
+                              <option value="EUR">EUR (€)</option>
+                              <option value="GBP">GBP (£)</option>
+                              <option value="AUD">AUD (A$)</option>
+                              <option value="CAD">CAD (C$)</option>
+                              <option value="NZD">NZD (NZ$)</option>
+                              <option value="INR">INR (₹)</option>
+                              <option value="ZAR">ZAR (R)</option>
+                              <option value="SGD">SGD (S$)</option>
+                           </select>
+                        </div>
                         <button
                            onClick={handleSaveTuitionFees}
                            disabled={isSavingFees}
