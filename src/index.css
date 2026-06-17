@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-blue-900 antialiased bg-[#F9F9FF];
+    font-family: 'Nunito', 'Fredoka', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fredoka', sans-serif;
+  }
+}
+
+@layer components {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .clip-path-custom-1 {
+    clip-path: polygon(5% 15%, 95% 5%, 100% 85%, 10% 95%);
+  }
+
+  .clip-path-custom-2 {
+    clip-path: polygon(0% 5%, 90% 10%, 95% 90%, 5% 100%);
+  }
+
+  .btn-bubble {
+    @apply inline-flex items-center justify-center gap-2 rounded-[24px] py-3 px-6 transition-all duration-200 active:scale-95 active:translate-y-0.5 cursor-pointer select-none;
+    font-weight: 800 !important;
+  }
+
+  .btn-primary {
+    @apply bg-orange-500 hover:bg-orange-400 text-white shadow-[0_4px_0_0_#c2410c] active:shadow-none;
+  }
+}
+
+/* Custom Stick Animation for Hero Mascot */
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Hide scrollbar for a cleaner kiddy look */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-blue-50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-green-200 rounded-full border-4 border-blue-50;
+}
+
+/* Unbold the font for a lighter, playful look in all student pages and student login */
+.student-theme h1,
+.student-theme h2,
+.student-theme h3,
+.student-theme h4,
+.student-theme h5,
+.student-theme h6 {
+  font-weight: 500 !important;
+}
+
+.student-theme p,
+.student-theme span,
+.student-theme div,
+.student-theme button,
+.student-theme input,
+.student-theme label,
+.student-theme small,
+.student-theme strong,
+.student-theme select,
+.student-theme textarea,
+.student-theme a,
+.student-theme li,
+.student-theme td,
+.student-theme th {
+  font-weight: 400 !important;
+}
+
+/* Unbold the font for a lighter, clean look in all teacher pages and teacher login */
+.teacher-theme h1,
+.teacher-theme h2,
+.teacher-theme h3,
+.teacher-theme h4,
+.teacher-theme h5,
+.teacher-theme h6 {
+  font-weight: 400 !important;
+}
+
+.teacher-theme p,
+.teacher-theme span,
+.teacher-theme div,
+.teacher-theme button,
+.teacher-theme input,
+.teacher-theme label,
+.teacher-theme small,
+.teacher-theme strong,
+.teacher-theme select,
+.teacher-theme textarea,
+.teacher-theme a,
+.teacher-theme li,
+.teacher-theme td,
+.teacher-theme th {
+  font-weight: 400 !important;
+}
+
+/* Birthday Celebration Animations */
+@keyframes sprinkle-fly {
+  0% {
+    transform: translate(-50%, -50%) scale(0) rotate(0deg);
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 3s ease-in-out infinite;
+}

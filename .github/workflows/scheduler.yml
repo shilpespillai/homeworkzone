@@ -1,0 +1,33 @@
+name: Homework Scheduler
+
+on:
+  schedule:
+    # Runs every 10 minutes (UTC)
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Allow manual trigger from GitHub Actions UI
+
+jobs:
+  run-scheduler:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Trigger homework scheduler
+        run: |
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X GET \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "${{ secrets.VERCEL_URL }}/api/run-scheduler")
+          
+          echo "HTTP Status: $RESPONSE"
+          
+          if [ "$RESPONSE" -eq 200 ]; then
+            echo "✅ Scheduler ran successfully"
+          else
+            echo "❌ Scheduler returned status $RESPONSE"
+            exit 1
+          fi
+
+      - name: Log result
+        if: always()
+        run: echo "Scheduler job completed at $(date -u)"
