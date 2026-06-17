@@ -107,7 +107,11 @@ export default async function handler(req, res) {
     }
 
     const resAi = await fetchWithRetry(endpoint, { method: 'POST', headers, body: JSON.stringify(bodyObj) });
-    if (!resAi.ok) throw new Error(`${provider} API error: ${resAi.status}`);
+    if (!resAi.ok) {
+      const errorBody = await resAi.text().catch(() => '');
+      console.error(`[AI API Error] ${endpoint} -> ${resAi.status} ${errorBody}`);
+      throw new Error(`${provider} API error: ${resAi.status} - ${errorBody}`);
+    }
     const data = await resAi.json();
     let textResult = provider === 'gemini' ? data.candidates?.[0]?.content?.parts?.[0]?.text : (provider === 'openai' ? data.choices?.[0]?.message?.content : data.content?.[0]?.text) || '';
 
