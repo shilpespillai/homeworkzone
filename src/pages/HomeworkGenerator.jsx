@@ -223,6 +223,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [isGenerating, setIsGenerating] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
   const [isSavingDraft, setIsSavingDraft] = useState(false);
+  const [isDiscardingDraft, setIsDiscardingDraft] = useState(false);
   const [generatedQuestions, setGeneratedQuestions] = useState(null);
   const [isAiAccepted, setIsAiAccepted] = useState(false);
 
@@ -456,6 +457,41 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       alert("Failed to publish homework. ❌");
     }
     setIsPublishing(false);
+  };
+
+  const handleDiscardDraft = async () => {
+    if (!initialDraft?.id) return;
+    if (!(await window.confirmCustom("Are you sure you want to completely discard and delete this draft? 🗑️"))) return;
+    
+    setIsDiscardingDraft(true);
+    try {
+      await deleteDoc(doc(db, 'homeworks', initialDraft.id));
+      alert("Draft Discarded Successfully! 🗑️");
+      
+      // Reset form
+      setFormData({
+        subject: 'maths',
+        title: '',
+        instructions: 'Read each question carefully and select the best answer! 🚀',
+        aiPrompt: '',
+        classId: activeClassroom?.id || '',
+        dueDate: '',
+        time: '',
+        points: '10',
+        assignType: 'all',
+        assignedStudentIds: []
+      });
+      setGeneratedQuestions(null);
+      setIsAiAccepted(false);
+      
+      if (typeof onHomeworkCreated === 'function') {
+        onHomeworkCreated();
+      }
+    } catch (err) {
+      console.error("Discard Draft Error:", err);
+      alert("Failed to discard draft. ❌");
+    }
+    setIsDiscardingDraft(false);
   };
 
   const handleSaveDraft = async () => {
@@ -731,7 +767,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                     </div>
                     <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
                       <button onClick={handleGenerateAI} className="text-xs text-green-600 font-bold hover:underline px-4 py-2 bg-green-50 rounded-lg">Regenerate</button>
-                      <button onClick={() => {setGeneratedQuestions(null); setIsAiAccepted(false);}} className="text-xs text-rose-500 font-bold hover:underline px-4 py-2 bg-rose-50 rounded-lg">Discard</button>
+                      <button onClick={() => {setGeneratedQuestions(null); setIsAiAccepted(false);}} className="text-xs text-rose-500 font-bold hover:underline px-4 py-2 bg-rose-50 rounded-lg">Clear Questions</button>
                     </div>
                   </div>
                 )
@@ -982,6 +1018,15 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         </div>
 
         <div className="flex items-center gap-4">
+          {initialDraft?.id && (
+            <button 
+              onClick={handleDiscardDraft}
+              disabled={isDiscardingDraft}
+              className="bg-rose-50 hover:bg-rose-100 text-rose-600 font-black px-8 py-4 rounded-2xl transition-colors disabled:opacity-50 flex items-center gap-2"
+            >
+              {isDiscardingDraft ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Delete Draft 🗑️'}
+            </button>
+          )}
           <button 
             onClick={handleSaveDraft}
             disabled={isSavingDraft}
