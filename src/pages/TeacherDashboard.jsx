@@ -3477,7 +3477,6 @@ const TeacherDashboard = ({ user, onLogout }) => {
                           </div>
                        </div>
                     )}
-                    )}
                 </div>
              );
           }
