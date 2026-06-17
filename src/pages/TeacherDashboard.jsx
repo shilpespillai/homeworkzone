@@ -2790,213 +2790,6 @@ const TeacherDashboard = ({ user, onLogout }) => {
                             </div>
                          )}
 
-                          {/* ── Homework Completion Hub ── */}
-                          {(() => {
-                             const completionData = classStudents.map(student => {
-                                const submitted = classSubmissions.filter(s => normalizeName(s.studentName) === normalizeName(student.name));
-                                const submittedIds = new Set(submitted.map(s => s.homeworkId));
-                                const missing = classHomeworks.filter(hw => !submittedIds.has(hw.id));
-                                const completedCount = classHomeworks.length - missing.length;
-                                const completionPct = classHomeworks.length > 0 ? Math.round((completedCount / classHomeworks.length) * 100) : 100;
-                                const avgScore = submitted.length > 0 ? Math.round(submitted.reduce((a, s) => a + (s.score || 0), 0) / submitted.length) : null;
-                                return { student, submitted, missing, completedCount, completionPct, avgScore };
-                             });
-                             const onTrackStudents = completionData.filter(d => d.missing.length === 0);
-                             const laggingStudents = completionData.filter(d => d.missing.length > 0).sort((a, b) => b.missing.length - a.missing.length);
-                             const totalStudents = completionData.length;
-                             const onTrackNum = onTrackStudents.length;
-                             const laggingNum = laggingStudents.length;
-                             const onTrackPct = totalStudents > 0 ? Math.round((onTrackNum / totalStudents) * 100) : 0;
-                             const RADIUS = 52;
-                             const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
-                             const onTrackDash = (onTrackPct / 100) * CIRCUMFERENCE;
-                             const laggingDash = CIRCUMFERENCE - onTrackDash;
-                             return (
-                                <div className="bg-white rounded-[32px] border border-[#E9E4FF] shadow-sm p-6 space-y-5 relative overflow-hidden">
-                                   <div className="absolute top-0 right-0 w-48 h-48 opacity-[0.04] pointer-events-none" style={{ background: 'radial-gradient(circle, #7C3AED 0%, transparent 70%)' }} />
-                                   <div className="flex justify-between items-start relative z-10">
-                                      <div>
-                                         <h3 className="text-lg font-black text-[#3C2E75] tracking-tight flex items-center gap-2">
-                                            📋 Homework Completion Hub
-                                         </h3>
-                                         <p className="text-[10px] font-black text-[#8C83B5] uppercase tracking-widest mt-0.5">
-                                            Real-time student completion vs lagging breakdown
-                                         </p>
-                                      </div>
-                                      <div className="flex gap-2">
-                                         <div className="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-xl border border-emerald-100 shadow-sm">
-                                            <span className="text-sm font-black">{onTrackNum}</span>
-                                            <span className="text-[9px] font-bold uppercase tracking-wider">On Track</span>
-                                         </div>
-                                         <div className="flex items-center gap-1.5 bg-rose-50 text-rose-600 px-3 py-1.5 rounded-xl border border-rose-100 shadow-sm">
-                                            <span className="text-sm font-black">{laggingNum}</span>
-                                            <span className="text-[9px] font-bold uppercase tracking-wider">Lagging</span>
-                                         </div>
-                                      </div>
-                                   </div>
-                                   <div className="flex items-center gap-8 relative z-10">
-                                      <div className="relative shrink-0 w-36 h-36">
-                                         <svg viewBox="0 0 140 140" className="w-full h-full -rotate-90">
-                                            <circle cx="70" cy="70" r={RADIUS} fill="none" stroke="#F3F0FF" strokeWidth="16" />
-                                            <circle cx="70" cy="70" r={RADIUS} fill="none" stroke="#FDA4AF" strokeWidth="16"
-                                               strokeDasharray={`${laggingDash} ${CIRCUMFERENCE}`} strokeDashoffset="0" strokeLinecap="round" />
-                                            <circle cx="70" cy="70" r={RADIUS} fill="none" stroke="#34D399" strokeWidth="16"
-                                               strokeDasharray={`${onTrackDash} ${CIRCUMFERENCE}`} strokeDashoffset={`-${laggingDash}`} strokeLinecap="round" />
-                                         </svg>
-                                         <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                            <span className="text-2xl font-black text-[#3C2E75] leading-none">{onTrackPct}%</span>
-                                            <span className="text-[9px] font-black text-[#8C83B5] uppercase tracking-widest mt-0.5">On Track</span>
-                                         </div>
-                                      </div>
-                                      <div className="flex-1 space-y-4">
-                                         <div className="space-y-2">
-                                            <div className="flex justify-between items-center">
-                                               <div className="flex items-center gap-2">
-                                                  <span className="w-3 h-3 rounded-full bg-emerald-400 inline-block" />
-                                                  <span className="text-xs font-black text-[#3C2E75]">Completed All</span>
-                                               </div>
-                                               <span className="text-xs font-black text-emerald-600">{onTrackNum} student{onTrackNum !== 1 ? 's' : ''}</span>
-                                            </div>
-                                            <div className="h-2.5 w-full bg-slate-50 rounded-full overflow-hidden border border-slate-100">
-                                               <div className="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full transition-all duration-1000" style={{ width: `${onTrackPct}%` }} />
-                                            </div>
-                                         </div>
-                                         <div className="space-y-2">
-                                            <div className="flex justify-between items-center">
-                                               <div className="flex items-center gap-2">
-                                                  <span className="w-3 h-3 rounded-full bg-rose-400 inline-block" />
-                                                  <span className="text-xs font-black text-[#3C2E75]">Missing Homework</span>
-                                               </div>
-                                               <span className="text-xs font-black text-rose-500">{laggingNum} student{laggingNum !== 1 ? 's' : ''}</span>
-                                            </div>
-                                            <div className="h-2.5 w-full bg-slate-50 rounded-full overflow-hidden border border-slate-100">
-                                               <div className="h-full bg-gradient-to-r from-rose-400 to-rose-500 rounded-full transition-all duration-1000" style={{ width: `${100 - onTrackPct}%` }} />
-                                            </div>
-                                         </div>
-                                         <div className="pt-1 flex gap-3">
-                                            <div className="flex-1 bg-[#F5F3FF] rounded-2xl p-3 border border-[#E9E4FF] text-center">
-                                               <p className="text-base font-black text-[#3C2E75]">{classHomeworks.length}</p>
-                                               <p className="text-[9px] font-black text-[#8C83B5] uppercase tracking-wider">Total HW</p>
-                                            </div>
-                                            <div className="flex-1 bg-[#EAFBF7] rounded-2xl p-3 border border-[#BCEEE2] text-center">
-                                               <p className="text-base font-black text-emerald-600">{classSubmissions.length}</p>
-                                               <p className="text-[9px] font-black text-emerald-400 uppercase tracking-wider">Submissions</p>
-                                            </div>
-                                         </div>
-                                      </div>
-                                   </div>
-                                   <div className="flex bg-[#F5F3FF] p-1 rounded-2xl border border-[#E9E4FF] relative z-10">
-                                      <button
-                                         onClick={() => setCompletionTab('lagging')}
-                                         className={`flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${completionTab === 'lagging' ? 'bg-white text-rose-600 shadow-sm' : 'text-[#8C83B5] hover:text-[#3C2E75]'}`}
-                                      >
-                                         ⚠️ Lagging ({laggingNum})
-                                      </button>
-                                      <button
-                                         onClick={() => setCompletionTab('ontrack')}
-                                         className={`flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${completionTab === 'ontrack' ? 'bg-white text-emerald-600 shadow-sm' : 'text-[#8C83B5] hover:text-[#3C2E75]'}`}
-                                      >
-                                         ✅ On Track ({onTrackNum})
-                                      </button>
-                                   </div>
-                                   <div className="space-y-2 max-h-[280px] overflow-y-auto relative z-10">
-                                      {completionTab === 'lagging' && (
-                                         <>
-                                            {laggingStudents.length > 0 ? laggingStudents.map((d, idx) => (
-                                               <div key={d.student.id || d.student.name} className="bg-[#FFF9FB] border border-rose-100 rounded-2xl p-3 space-y-2 hover:border-rose-200 transition-all group">
-                                                  <div className="flex items-center justify-between">
-                                                     <div className="flex items-center gap-2.5">
-                                                        <span className="text-[10px] font-black text-rose-300 w-4 shrink-0">{idx + 1}.</span>
-                                                        <img src={getStudentAvatar(d.student.name)} className="w-8 h-8 rounded-full border-2 border-white shadow-sm group-hover:scale-105 transition-transform" alt={d.student.name} />
-                                                        <div>
-                                                           <p className="text-xs font-black text-[#3C2E75]">{d.student.name}</p>
-                                                           <p className="text-[9px] font-bold text-[#8C83B5]">{d.completedCount}/{classHomeworks.length} completed{d.avgScore !== null ? ` • ${d.avgScore}% avg` : ''}</p>
-                                                        </div>
-                                                     </div>
-                                                     <div className="flex items-center gap-2">
-                                                        <span className="text-[10px] font-black text-rose-500 bg-rose-50 px-2 py-0.5 rounded-lg border border-rose-100">{d.missing.length} missing</span>
-                                                        <button
-                                                           onClick={async () => {
-                                                              try {
-                                                                 const { addDoc, collection } = await import('firebase/firestore');
-                                                                 const { db: fdb } = await import('../firebase');
-                                                                 await addDoc(collection(fdb, 'messages'), {
-                                                                    teacherId: user.uid, senderId: user.uid,
-                                                                    senderName: user.displayName || 'Teacher', senderRole: 'teacher',
-                                                                    recipientType: 'student', recipientId: d.student.name, recipientName: d.student.name,
-                                                                    subject: '⏰ Homework Reminder!',
-                                                                    content: `Hi ${d.student.name}! You have ${d.missing.length} assignment${d.missing.length > 1 ? 's' : ''} still to complete. Please check your homework portal and submit soon! 🚀`,
-                                                                    createdAt: new Date().toISOString()
-                                                                 });
-                                                                 alert(`✅ Reminder sent to ${d.student.name}!`);
-                                                              } catch (err) { console.error(err); alert('Failed to send reminder.'); }
-                                                           }}
-                                                           className="text-[9px] font-black bg-rose-500 hover:bg-rose-600 text-white px-2.5 py-1 rounded-xl transition-colors shrink-0"
-                                                        >
-                                                           Remind 🔔
-                                                        </button>
-                                                     </div>
-                                                  </div>
-                                                  <div className="flex items-center gap-3">
-                                                     <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
-                                                        <div className="h-full rounded-full bg-gradient-to-r from-rose-400 to-amber-400 transition-all duration-700" style={{ width: `${Math.max(5, d.completionPct)}%` }} />
-                                                     </div>
-                                                     <span className="text-[10px] font-black text-rose-500 w-8 text-right">{d.completionPct}%</span>
-                                                  </div>
-                                                  <div className="flex flex-wrap gap-1 pl-10">
-                                                     {d.missing.slice(0, 4).map(hw => (
-                                                        <span key={hw.id} className="text-[8px] font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded uppercase tracking-wider truncate max-w-[100px]" title={hw.title}>{hw.title}</span>
-                                                     ))}
-                                                     {d.missing.length > 4 && <span className="text-[8px] font-bold text-rose-400 bg-rose-50 px-1.5 py-0.5 rounded">+{d.missing.length - 4} more</span>}
-                                                  </div>
-                                               </div>
-                                            )) : (
-                                               <div className="bg-emerald-50 rounded-2xl p-8 border border-emerald-100 flex flex-col items-center text-center space-y-3">
-                                                  <span className="text-4xl">🎉</span>
-                                                  <div>
-                                                     <h4 className="text-emerald-700 font-black text-base">Everyone is caught up!</h4>
-                                                     <p className="text-emerald-600/80 text-xs font-bold mt-1">All students have completed their assigned homework.</p>
-                                                  </div>
-                                               </div>
-                                            )}
-                                         </>
-                                      )}
-                                      {completionTab === 'ontrack' && (
-                                         <>
-                                            {onTrackStudents.length > 0 ? onTrackStudents.map((d, idx) => (
-                                               <div key={d.student.id || d.student.name} className="bg-[#F0FDF6] border border-emerald-100 rounded-2xl p-3 flex items-center justify-between hover:border-emerald-200 transition-all group">
-                                                  <div className="flex items-center gap-2.5">
-                                                     <span className="text-[10px] font-black text-emerald-300 w-4 shrink-0">{idx + 1}.</span>
-                                                     <img src={getStudentAvatar(d.student.name)} className="w-8 h-8 rounded-full border-2 border-white shadow-sm group-hover:scale-105 transition-transform" alt={d.student.name} />
-                                                     <div>
-                                                        <p className="text-xs font-black text-[#3C2E75]">{d.student.name}</p>
-                                                        <p className="text-[9px] font-bold text-[#8C83B5]">All {classHomeworks.length} done{d.avgScore !== null ? ` • ${d.avgScore}% avg` : ''}</p>
-                                                     </div>
-                                                  </div>
-                                                  <div className="flex items-center gap-2">
-                                                     {d.avgScore !== null && (
-                                                        <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-xl border ${d.avgScore >= 85 ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : d.avgScore >= 65 ? 'bg-amber-50 text-amber-600 border-amber-100' : 'bg-rose-50 text-rose-500 border-rose-100'}`}>
-                                                           {d.avgScore}% avg
-                                                        </span>
-                                                     )}
-                                                     <span className="text-lg">✅</span>
-                                                  </div>
-                                               </div>
-                                            )) : (
-                                               <div className="bg-amber-50 rounded-2xl p-8 border border-amber-100 flex flex-col items-center text-center space-y-3">
-                                                  <span className="text-4xl">📚</span>
-                                                  <div>
-                                                     <h4 className="text-amber-700 font-black text-base">No submissions yet</h4>
-                                                     <p className="text-amber-600/80 text-xs font-bold mt-1">No student has completed all assignments yet.</p>
-                                                  </div>
-                                               </div>
-                                            )}
-                                         </>
-                                      )}
-                                   </div>
-                                </div>
-                             );
-                          })()}
                       </div>
 
                       {/* Right: AI Teaching Co-Pilot Diagnostic Card */}
@@ -3108,360 +2901,577 @@ const TeacherDashboard = ({ user, onLogout }) => {
                       </div>
                    </div>
 
-                    {/* Collaborative Goal & Calendar Side-by-Side Section */}
+                    {/* Homework Completion & Learning Calendar Row */}
                     {activeClassroom && (
-                       <div className="grid grid-cols-12 gap-6">
-                          {/* Left: Dino Pizza Party Collaborative Goal (col-span-5) */}
-                          <div className="col-span-5 bg-white rounded-[32px] border border-[#E9E4FF] shadow-sm p-6 flex flex-col justify-between space-y-4">
-                             <div className="space-y-3">
-                                <div className="flex justify-between items-start">
-                                   <div className="space-y-0.5">
-                                      <span className="text-[9px] font-black uppercase text-[#FFAB91] tracking-wider block">Collaborative Goal</span>
-                                      <h3 className="text-lg font-black text-[#3C2E75] leading-snug">{targetTitle}</h3>
-                                   </div>
-                                   <button 
-                                      onClick={() => {
-                                         setNewGoalTitle(targetTitle);
-                                         setNewGoalTarget(targetGoal);
-                                         setNewGoalTrack(activeClassroom?.activeTrack || 'forest');
-                                         setIsEditingGoal(true);
-                                      }}
-                                      className="px-3 py-1.5 border border-[#FFE0D6] hover:border-[#FFAB91] text-[#C64F33] rounded-xl text-[10px] font-black transition-all bg-white hover:bg-orange-50/20 shrink-0"
-                                   >
-                                      Change Goal ✏️
-                                   </button>
-                                </div>
-
-                                <div className="flex items-center justify-between text-xs font-black text-[#3C2E75] pt-1">
-                                   <span className="text-[#8C83B5]">Combined Points</span>
-                                   <span className="text-[#FF7043] bg-[#FFF0EB] px-2.5 py-1 rounded-lg border border-[#FFD2C4]">{currentClassPoints} / {targetGoal} pts</span>
-                                </div>
+                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+                          <div className="space-y-6">
+                             {/* ── Homework Completion Hub ── */}
+                             {(() => {
+                             const completionData = classStudents.map(student => {
+                             const submitted = classSubmissions.filter(s => normalizeName(s.studentName) === normalizeName(student.name));
+                             const submittedIds = new Set(submitted.map(s => s.homeworkId));
+                             const missing = classHomeworks.filter(hw => !submittedIds.has(hw.id));
+                             const completedCount = classHomeworks.length - missing.length;
+                             const completionPct = classHomeworks.length > 0 ? Math.round((completedCount / classHomeworks.length) * 100) : 100;
+                             const avgScore = submitted.length > 0 ? Math.round(submitted.reduce((a, s) => a + (s.score || 0), 0) / submitted.length) : null;
+                             return { student, submitted, missing, completedCount, completionPct, avgScore };
+                             });
+                             const onTrackStudents = completionData.filter(d => d.missing.length === 0);
+                             const laggingStudents = completionData.filter(d => d.missing.length > 0).sort((a, b) => b.missing.length - a.missing.length);
+                             const totalStudents = completionData.length;
+                             const onTrackNum = onTrackStudents.length;
+                             const laggingNum = laggingStudents.length;
+                             const onTrackPct = totalStudents > 0 ? Math.round((onTrackNum / totalStudents) * 100) : 0;
+                             const RADIUS = 52;
+                             const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+                             const onTrackDash = (onTrackPct / 100) * CIRCUMFERENCE;
+                             const laggingDash = CIRCUMFERENCE - onTrackDash;
+                             return (
+                             <div className="bg-white rounded-[32px] border border-[#E9E4FF] shadow-sm p-6 space-y-5 relative overflow-hidden">
+                             <div className="absolute top-0 right-0 w-48 h-48 opacity-[0.04] pointer-events-none" style={{ background: 'radial-gradient(circle, #7C3AED 0%, transparent 70%)' }} />
+                             <div className="flex justify-between items-start relative z-10">
+                             <div>
+                             <h3 className="text-lg font-black text-[#3C2E75] tracking-tight flex items-center gap-2">
+                             📋 Homework Completion Hub
+                             </h3>
+                             <p className="text-[10px] font-black text-[#8C83B5] uppercase tracking-widest mt-0.5">
+                             Real-time student completion vs lagging breakdown
+                             </p>
                              </div>
-
-                             {/* Premium Round Pizza Progress Visual */}
-                             <div className="flex-1 py-6 flex flex-col items-center justify-center min-h-[360px]">
-                                <div className="relative w-72 h-72 md:w-80 md:h-80 flex items-center justify-center bg-gradient-to-br from-slate-200 via-slate-100 to-slate-300 border-8 border-slate-400 rounded-full shadow-2xl p-2 select-none">
-                                   {/* Steel tray details */}
-                                   <div className="absolute inset-4 rounded-full border-2 border-slate-400/25" />
-                                   <div className="absolute inset-8 rounded-full border border-slate-400/15" />
-                                   <div className="absolute inset-16 rounded-full border border-slate-400/10" />
-                                   <span className="absolute text-5xl opacity-15 select-none font-black text-slate-800">🍽️</span>
-
-                                   {/* Crumbs & Grease marks on empty tray */}
-                                   <div className="absolute top-1/4 left-1/3 w-2 h-2 rounded-full bg-amber-800/10" />
-                                   <div className="absolute bottom-1/3 right-1/4 w-3 h-1.5 rounded-full bg-amber-800/15" />
-                                   <div className="absolute bottom-1/4 left-1/4 w-1.5 h-1.5 rounded-full bg-amber-800/10" />
-
-                                   {/* The Pizza Itself (Clipped/Masked by conic progress) */}
-                                   <div 
-                                      className="absolute inset-2 rounded-full overflow-hidden transition-all duration-1000 shadow-md"
-                                      style={{
-                                         WebkitMaskImage: `conic-gradient(black 0% ${progressPercent}%, transparent ${progressPercent}% 100%)`,
-                                         maskImage: `conic-gradient(black 0% ${progressPercent}%, transparent ${progressPercent}% 100%)`
-                                      }}
-                                   >
-                                      {/* Pizza Outer Crust (Deep Golden Woodfired) */}
-                                      <div className="absolute inset-0 rounded-full bg-[#E65100] border-[16px] border-[#8D6E63] shadow-[inset_0_4px_16px_rgba(0,0,0,0.3)] flex items-center justify-center">
-                                         {/* Outer golden-brown ring */}
-                                         <div className="absolute inset-0.5 rounded-full border-[10px] border-[#FFE0B2]/10" />
-                                      </div>
-
-                                      {/* Rich Marinara Tomato Sauce Base */}
-                                      <div className="absolute inset-4 rounded-full bg-gradient-to-br from-[#D32F2F] via-[#C62828] to-[#B71C1C] shadow-[inset_0_4px_10px_rgba(0,0,0,0.4)] flex items-center justify-center">
-                                         {/* Melty Cheese layer */}
-                                         <div className="absolute inset-1 rounded-full bg-gradient-to-br from-[#FFF59D] via-[#FFD54F] to-[#FFB300] shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)] flex items-center justify-center overflow-hidden">
-                                            {/* Toasted cheese spots */}
-                                            <div className="absolute top-8 left-12 w-6 h-4 rounded-full bg-[#E58F12]/15 blur-[1px]" />
-                                            <div className="absolute bottom-12 right-16 w-8 h-5 rounded-full bg-[#E58F12]/20 blur-[1px]" />
-                                            <div className="absolute bottom-20 left-16 w-5 h-3 rounded-full bg-[#E58F12]/15 blur-[1px]" />
-                                            <div className="absolute top-16 right-10 w-7 h-4 rounded-full bg-[#E58F12]/15 blur-[1px]" />
-
-                                            {/* Scattered Toppings (Rich variety) */}
-                                            {[
-                                               // Pepperonis (Rich red circles with crispy edges & grease highlight)
-                                               { type: 'pepperoni', top: '15%', left: '48%', scale: 1.0 },
-                                               { type: 'pepperoni', top: '28%', left: '68%', scale: 0.95 },
-                                               { type: 'pepperoni', top: '45%', left: '58%', scale: 1.05 },
-                                               { type: 'pepperoni', top: '72%', left: '46%', scale: 1.0 },
-                                               { type: 'pepperoni', top: '65%', left: '22%', scale: 0.9 },
-                                               { type: 'pepperoni', top: '28%', left: '26%', scale: 1.05 },
-                                               { type: 'pepperoni', top: '40%', left: '40%', scale: 1.0 },
-                                               { type: 'pepperoni', top: '50%', left: '72%', scale: 0.95 },
-
-                                               // Basil Leaves (Vibrant green leaf shapes)
-                                               { type: 'basil', top: '22%', left: '38%', rotate: '45deg' },
-                                               { type: 'basil', top: '42%', left: '78%', rotate: '115deg' },
-                                               { type: 'basil', top: '68%', left: '60%', rotate: '180deg' },
-                                               { type: 'basil', top: '52%', left: '15%', rotate: '-45deg' },
-                                               { type: 'basil', top: '18%', left: '28%', rotate: '15deg' },
-                                               { type: 'basil', top: '60%', left: '38%', rotate: '95deg' },
-
-                                               // Mushrooms (Grey-brown caps with stems)
-                                               { type: 'mushroom', top: '28%', left: '55%', rotate: '-15deg' },
-                                               { type: 'mushroom', top: '55%', left: '72%', rotate: '60deg' },
-                                               { type: 'mushroom', top: '62%', left: '22%', rotate: '135deg' },
-                                               { type: 'mushroom', top: '42%', left: '25%', rotate: '-90deg' },
-                                               { type: 'mushroom', top: '45%', left: '48%', rotate: '10deg' }
-                                            ].map((top, i) => {
-                                               if (top.type === 'pepperoni') {
-                                                  return (
-                                                     <div 
-                                                        key={i}
-                                                        className="absolute rounded-full bg-gradient-to-br from-[#EF5350] to-[#C62828] border-2 border-[#800F0F] shadow-[0_2px_4px_rgba(0,0,0,0.25)] flex items-center justify-center animate-in zoom-in duration-300"
-                                                        style={{
-                                                           width: '38px',
-                                                           height: '38px',
-                                                           top: top.top,
-                                                           left: top.left,
-                                                           transform: `scale(${top.scale || 1})`,
-                                                           zIndex: 5
-                                                        }}
-                                                     >
-                                                        {/* Crispy edge rim */}
-                                                        <div className="absolute inset-0.5 rounded-full border border-[#D32F2F] opacity-40" />
-                                                        {/* Grease shine */}
-                                                        <div className="absolute top-1 left-1.5 w-2.5 h-2.5 rounded-full bg-white/35" />
-                                                        {/* Toasted spots */}
-                                                        <div className="absolute bottom-1 right-2 w-1.5 h-1.5 rounded-full bg-black/15" />
-                                                     </div>
-                                                  );
-                                               } else if (top.type === 'basil') {
-                                                  return (
-                                                     <div 
-                                                        key={i}
-                                                        className="absolute bg-gradient-to-br from-[#4CAF50] to-[#2E7D32] border border-[#1B5E20] shadow-[0_1px_2px_rgba(0,0,0,0.15)] animate-in zoom-in duration-300"
-                                                        style={{
-                                                           width: '20px',
-                                                           height: '11px',
-                                                           top: top.top,
-                                                           left: top.left,
-                                                           borderRadius: '50% 0 50% 0',
-                                                           transform: `rotate(${top.rotate || '0deg'})`,
-                                                           zIndex: 4
-                                                        }}
-                                                     />
-                                                  );
-                                               } else if (top.type === 'mushroom') {
-                                                  return (
-                                                     <div 
-                                                        key={i}
-                                                        className="absolute flex flex-col items-center animate-in zoom-in duration-300"
-                                                        style={{
-                                                           top: top.top,
-                                                           left: top.left,
-                                                           transform: `rotate(${top.rotate || '0deg'})`,
-                                                           zIndex: 3
-                                                        }}
-                                                     >
-                                                        {/* Mushroom Cap */}
-                                                        <div className="w-7 h-4.5 bg-gradient-to-br from-[#E0D8D5] to-[#BCAAA4] border border-[#5D4037] rounded-t-full shadow-[0_1.5px_2px_rgba(0,0,0,0.15)]" />
-                                                        {/* Mushroom Stem */}
-                                                        <div className="w-3 h-3 bg-[#E0D8D5] border-x border-b border-[#5D4037] -mt-0.5" />
-                                                     </div>
-                                                  );
-                                               }
-                                               return null;
-                                            })}
-
-                                            {/* Slice cut lines on active pizza */}
-                                            <div className="absolute inset-0 opacity-15 pointer-events-none z-10">
-                                               <div className="absolute inset-y-0 left-1/2 w-0.5 bg-amber-950" />
-                                               <div className="absolute inset-x-0 top-1/2 h-0.5 bg-amber-955" />
-                                               <div className="absolute inset-0 rotate-45 flex items-center justify-center">
-                                                  <div className="w-full h-0.5 bg-amber-955" />
-                                               </div>
-                                               <div className="absolute inset-0 -rotate-45 flex items-center justify-center">
-                                                  <div className="w-full h-0.5 bg-amber-955" />
-                                               </div>
-                                            </div>
-                                         </div>
-                                      </div>
-                                   </div>
-
-                                   {/* Slice lines to represent 8 pre-cut slices on tray background */}
-                                   <div className="absolute inset-0 opacity-10 pointer-events-none z-0">
-                                      <div className="absolute inset-y-0 left-1/2 w-px bg-slate-400" />
-                                      <div className="absolute inset-x-0 top-1/2 h-px bg-slate-400" />
-                                      <div className="absolute inset-0 rotate-45 flex items-center justify-center">
-                                         <div className="w-full h-px bg-slate-400" />
-                                      </div>
-                                      <div className="absolute inset-0 -rotate-45 flex items-center justify-center">
-                                         <div className="w-full h-px bg-slate-400" />
-                                      </div>
-                                   </div>
-
-                                   {/* Center floating baked status badge */}
-                                   <div className="absolute z-20 bg-white/95 backdrop-blur-sm border-2 border-amber-500 px-3.5 py-1.5 rounded-2xl shadow-xl flex flex-col items-center">
-                                      <span className="text-sm font-black text-[#3C2E75] leading-none">{progressPercent}%</span>
-                                      <span className="text-[7px] font-black text-rose-500 uppercase tracking-widest mt-0.5">BAKED!</span>
-                                   </div>
-                                </div>
+                             <div className="flex gap-2">
+                             <div className="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-xl border border-emerald-100 shadow-sm">
+                             <span className="text-sm font-black">{onTrackNum}</span>
+                             <span className="text-[9px] font-bold uppercase tracking-wider">On Track</span>
                              </div>
-
-                             {/* Compact Reward Message */}
-                             <div className="bg-[#FAF2FF] rounded-2xl p-4 border border-[#E8C6FF]/35 flex items-center gap-3">
-                                <span className="text-2xl">🦖</span>
-                                <div className="min-w-0 flex-1">
-                                   <p className="text-[10px] font-black text-[#3C2E75] uppercase tracking-wider mb-0.5">Mascot Party Reward</p>
-                                   <p className="text-[11px] font-bold text-[#5C4D9F] leading-snug">
-                                      {progressPercent >= 100 
-                                         ? `Fantastic! Dino Pizza Party is unlocked! 🎈🍕`
-                                         : `Need ${targetGoal - currentClassPoints} more points to bake the pizza party!`}
-                                   </p>
-                                </div>
+                             <div className="flex items-center gap-1.5 bg-rose-50 text-rose-600 px-3 py-1.5 rounded-xl border border-rose-100 shadow-sm">
+                             <span className="text-sm font-black">{laggingNum}</span>
+                             <span className="text-[9px] font-bold uppercase tracking-wider">Lagging</span>
                              </div>
+                             </div>
+                             </div>
+                             <div className="flex items-center gap-8 relative z-10">
+                             <div className="relative shrink-0 w-36 h-36">
+                             <svg viewBox="0 0 140 140" className="w-full h-full -rotate-90">
+                             <circle cx="70" cy="70" r={RADIUS} fill="none" stroke="#F3F0FF" strokeWidth="16" />
+                             <circle cx="70" cy="70" r={RADIUS} fill="none" stroke="#FDA4AF" strokeWidth="16"
+                             strokeDasharray={`${laggingDash} ${CIRCUMFERENCE}`} strokeDashoffset="0" strokeLinecap="round" />
+                             <circle cx="70" cy="70" r={RADIUS} fill="none" stroke="#34D399" strokeWidth="16"
+                             strokeDasharray={`${onTrackDash} ${CIRCUMFERENCE}`} strokeDashoffset={`-${laggingDash}`} strokeLinecap="round" />
+                             </svg>
+                             <div className="absolute inset-0 flex flex-col items-center justify-center">
+                             <span className="text-2xl font-black text-[#3C2E75] leading-none">{onTrackPct}%</span>
+                             <span className="text-[9px] font-black text-[#8C83B5] uppercase tracking-widest mt-0.5">On Track</span>
+                             </div>
+                             </div>
+                             <div className="flex-1 space-y-4">
+                             <div className="space-y-2">
+                             <div className="flex justify-between items-center">
+                             <div className="flex items-center gap-2">
+                             <span className="w-3 h-3 rounded-full bg-emerald-400 inline-block" />
+                             <span className="text-xs font-black text-[#3C2E75]">Completed All</span>
+                             </div>
+                             <span className="text-xs font-black text-emerald-600">{onTrackNum} student{onTrackNum !== 1 ? 's' : ''}</span>
+                             </div>
+                             <div className="h-2.5 w-full bg-slate-50 rounded-full overflow-hidden border border-slate-100">
+                             <div className="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full transition-all duration-1000" style={{ width: `${onTrackPct}%` }} />
+                             </div>
+                             </div>
+                             <div className="space-y-2">
+                             <div className="flex justify-between items-center">
+                             <div className="flex items-center gap-2">
+                             <span className="w-3 h-3 rounded-full bg-rose-400 inline-block" />
+                             <span className="text-xs font-black text-[#3C2E75]">Missing Homework</span>
+                             </div>
+                             <span className="text-xs font-black text-rose-500">{laggingNum} student{laggingNum !== 1 ? 's' : ''}</span>
+                             </div>
+                             <div className="h-2.5 w-full bg-slate-50 rounded-full overflow-hidden border border-slate-100">
+                             <div className="h-full bg-gradient-to-r from-rose-400 to-rose-500 rounded-full transition-all duration-1000" style={{ width: `${100 - onTrackPct}%` }} />
+                             </div>
+                             </div>
+                             <div className="pt-1 flex gap-3">
+                             <div className="flex-1 bg-[#F5F3FF] rounded-2xl p-3 border border-[#E9E4FF] text-center">
+                             <p className="text-base font-black text-[#3C2E75]">{classHomeworks.length}</p>
+                             <p className="text-[9px] font-black text-[#8C83B5] uppercase tracking-wider">Total HW</p>
+                             </div>
+                             <div className="flex-1 bg-[#EAFBF7] rounded-2xl p-3 border border-[#BCEEE2] text-center">
+                             <p className="text-base font-black text-emerald-600">{classSubmissions.length}</p>
+                             <p className="text-[9px] font-black text-emerald-400 uppercase tracking-wider">Submissions</p>
+                             </div>
+                             </div>
+                             </div>
+                             </div>
+                             <div className="flex bg-[#F5F3FF] p-1 rounded-2xl border border-[#E9E4FF] relative z-10">
+                             <button
+                             onClick={() => setCompletionTab('lagging')}
+                             className={`flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${completionTab === 'lagging' ? 'bg-white text-rose-600 shadow-sm' : 'text-[#8C83B5] hover:text-[#3C2E75]'}`}
+                             >
+                             ⚠️ Lagging ({laggingNum})
+                             </button>
+                             <button
+                             onClick={() => setCompletionTab('ontrack')}
+                             className={`flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${completionTab === 'ontrack' ? 'bg-white text-emerald-600 shadow-sm' : 'text-[#8C83B5] hover:text-[#3C2E75]'}`}
+                             >
+                             ✅ On Track ({onTrackNum})
+                             </button>
+                             </div>
+                             <div className="space-y-2 max-h-[280px] overflow-y-auto relative z-10">
+                             {completionTab === 'lagging' && (
+                             <>
+                             {laggingStudents.length > 0 ? laggingStudents.map((d, idx) => (
+                             <div key={d.student.id || d.student.name} className="bg-[#FFF9FB] border border-rose-100 rounded-2xl p-3 space-y-2 hover:border-rose-200 transition-all group">
+                             <div className="flex items-center justify-between">
+                             <div className="flex items-center gap-2.5">
+                             <span className="text-[10px] font-black text-rose-300 w-4 shrink-0">{idx + 1}.</span>
+                             <img src={getStudentAvatar(d.student.name)} className="w-8 h-8 rounded-full border-2 border-white shadow-sm group-hover:scale-105 transition-transform" alt={d.student.name} />
+                             <div>
+                             <p className="text-xs font-black text-[#3C2E75]">{d.student.name}</p>
+                             <p className="text-[9px] font-bold text-[#8C83B5]">{d.completedCount}/{classHomeworks.length} completed{d.avgScore !== null ? ` • ${d.avgScore}% avg` : ''}</p>
+                             </div>
+                             </div>
+                             <div className="flex items-center gap-2">
+                             <span className="text-[10px] font-black text-rose-500 bg-rose-50 px-2 py-0.5 rounded-lg border border-rose-100">{d.missing.length} missing</span>
+                             <button
+                             onClick={async () => {
+                             try {
+                             const { addDoc, collection } = await import('firebase/firestore');
+                             const { db: fdb } = await import('../firebase');
+                             await addDoc(collection(fdb, 'messages'), {
+                             teacherId: user.uid, senderId: user.uid,
+                             senderName: user.displayName || 'Teacher', senderRole: 'teacher',
+                             recipientType: 'student', recipientId: d.student.name, recipientName: d.student.name,
+                             subject: '⏰ Homework Reminder!',
+                             content: `Hi ${d.student.name}! You have ${d.missing.length} assignment${d.missing.length > 1 ? 's' : ''} still to complete. Please check your homework portal and submit soon! 🚀`,
+                             createdAt: new Date().toISOString()
+                             });
+                             alert(`✅ Reminder sent to ${d.student.name}!`);
+                             } catch (err) { console.error(err); alert('Failed to send reminder.'); }
+                             }}
+                             className="text-[9px] font-black bg-rose-500 hover:bg-rose-600 text-white px-2.5 py-1 rounded-xl transition-colors shrink-0"
+                             >
+                             Remind 🔔
+                             </button>
+                             </div>
+                             </div>
+                             <div className="flex items-center gap-3">
+                             <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
+                             <div className="h-full rounded-full bg-gradient-to-r from-rose-400 to-amber-400 transition-all duration-700" style={{ width: `${Math.max(5, d.completionPct)}%` }} />
+                             </div>
+                             <span className="text-[10px] font-black text-rose-500 w-8 text-right">{d.completionPct}%</span>
+                             </div>
+                             <div className="flex flex-wrap gap-1 pl-10">
+                             {d.missing.slice(0, 4).map(hw => (
+                             <span key={hw.id} className="text-[8px] font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded uppercase tracking-wider truncate max-w-[100px]" title={hw.title}>{hw.title}</span>
+                             ))}
+                             {d.missing.length > 4 && <span className="text-[8px] font-bold text-rose-400 bg-rose-50 px-1.5 py-0.5 rounded">+{d.missing.length - 4} more</span>}
+                             </div>
+                             </div>
+                             )) : (
+                             <div className="bg-emerald-50 rounded-2xl p-8 border border-emerald-100 flex flex-col items-center text-center space-y-3">
+                             <span className="text-4xl">🎉</span>
+                             <div>
+                             <h4 className="text-emerald-700 font-black text-base">Everyone is caught up!</h4>
+                             <p className="text-emerald-600/80 text-xs font-bold mt-1">All students have completed their assigned homework.</p>
+                             </div>
+                             </div>
+                             )}
+                             </>
+                             )}
+                             {completionTab === 'ontrack' && (
+                             <>
+                             {onTrackStudents.length > 0 ? onTrackStudents.map((d, idx) => (
+                             <div key={d.student.id || d.student.name} className="bg-[#F0FDF6] border border-emerald-100 rounded-2xl p-3 flex items-center justify-between hover:border-emerald-200 transition-all group">
+                             <div className="flex items-center gap-2.5">
+                             <span className="text-[10px] font-black text-emerald-300 w-4 shrink-0">{idx + 1}.</span>
+                             <img src={getStudentAvatar(d.student.name)} className="w-8 h-8 rounded-full border-2 border-white shadow-sm group-hover:scale-105 transition-transform" alt={d.student.name} />
+                             <div>
+                             <p className="text-xs font-black text-[#3C2E75]">{d.student.name}</p>
+                             <p className="text-[9px] font-bold text-[#8C83B5]">All {classHomeworks.length} done{d.avgScore !== null ? ` • ${d.avgScore}% avg` : ''}</p>
+                             </div>
+                             </div>
+                             <div className="flex items-center gap-2">
+                             {d.avgScore !== null && (
+                             <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-xl border ${d.avgScore >= 85 ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : d.avgScore >= 65 ? 'bg-amber-50 text-amber-600 border-amber-100' : 'bg-rose-50 text-rose-500 border-rose-100'}`}>
+                             {d.avgScore}% avg
+                             </span>
+                             )}
+                             <span className="text-lg">✅</span>
+                             </div>
+                             </div>
+                             )) : (
+                             <div className="bg-amber-50 rounded-2xl p-8 border border-amber-100 flex flex-col items-center text-center space-y-3">
+                             <span className="text-4xl">📚</span>
+                             <div>
+                             <h4 className="text-amber-700 font-black text-base">No submissions yet</h4>
+                             <p className="text-amber-600/80 text-xs font-bold mt-1">No student has completed all assignments yet.</p>
+                             </div>
+                             </div>
+                             )}
+                             </>
+                             )}
+                             </div>
+                             </div>
+                             );
+                             })()}
                           </div>
-
-                          {/* Right: Learning Calendar & Reminder Center (col-span-7) */}
-                          <div className="col-span-7 bg-gradient-to-br from-[#FCF8FF] to-[#F3EFFF] border border-[#E5DFFF] rounded-[32px] p-6 space-y-4 shadow-sm flex flex-col justify-between">
+                          <div className="space-y-6 flex flex-col h-full">
+                             {/* Right: Learning Calendar & Reminder Center (col-span-7) */}
+                             <div className="h-full bg-gradient-to-br from-[#FCF8FF] to-[#F3EFFF] border border-[#E5DFFF] rounded-[32px] p-6 space-y-4 shadow-sm flex flex-col justify-between">
                              <div className="flex justify-between items-center border-b border-[#FFEDD5] pb-3">
-                                <div className="space-y-0.5">
-                                   <h3 className="text-base font-black text-[#3B2B85] tracking-tight flex items-center gap-1.5">
-                                      <span>📅</span> Learning Calendar & Reminder Center
-                                   </h3>
-                                   <p className="text-[10px] font-bold text-[#7A69D6]">Click active quiz dates to review submissions and send reminder pings.</p>
-                                </div>
-                                <div className="bg-[#FFF0FA] border border-[#FFDDF5] rounded-xl px-2.5 py-1 flex items-center gap-2 shrink-0">
-                                    <button 
-                                       onClick={() => {
-                                          if (calendarMonth === 0) {
-                                             setCalendarMonth(11);
-                                             setCalendarYear(prev => prev - 1);
-                                          } else {
-                                             setCalendarMonth(prev => prev - 1);
-                                          }
-                                       }}
-                                       className="w-6 h-6 hover:bg-[#FFDDF5] rounded-lg flex items-center justify-center text-[#C23C9F] text-xs font-black transition-all"
-                                    >
-                                       ◀
-                                    </button>
-                                    <span className="text-[#C23C9F] text-[10px] font-black uppercase tracking-wider select-none min-w-[80px] text-center">
-                                       {monthNames[calendarMonth]} {calendarYear}
-                                    </span>
-                                    <button 
-                                       onClick={() => {
-                                          if (calendarMonth === 11) {
-                                             setCalendarMonth(0);
-                                             setCalendarYear(prev => prev + 1);
-                                          } else {
-                                             setCalendarMonth(prev => prev + 1);
-                                          }
-                                       }}
-                                       className="w-6 h-6 hover:bg-[#FFDDF5] rounded-lg flex items-center justify-center text-[#C23C9F] text-xs font-black transition-all"
-                                    >
-                                       ▶
-                                    </button>
-                                 </div>
+                             <div className="space-y-0.5">
+                             <h3 className="text-base font-black text-[#3B2B85] tracking-tight flex items-center gap-1.5">
+                             <span>📅</span> Learning Calendar & Reminder Center
+                             </h3>
+                             <p className="text-[10px] font-bold text-[#7A69D6]">Click active quiz dates to review submissions and send reminder pings.</p>
                              </div>
-
+                             <div className="bg-[#FFF0FA] border border-[#FFDDF5] rounded-xl px-2.5 py-1 flex items-center gap-2 shrink-0">
+                             <button
+                             onClick={() => {
+                             if (calendarMonth === 0) {
+                             setCalendarMonth(11);
+                             setCalendarYear(prev => prev - 1);
+                             } else {
+                             setCalendarMonth(prev => prev - 1);
+                             }
+                             }}
+                             className="w-6 h-6 hover:bg-[#FFDDF5] rounded-lg flex items-center justify-center text-[#C23C9F] text-xs font-black transition-all"
+                             >
+                             ◀
+                             </button>
+                             <span className="text-[#C23C9F] text-[10px] font-black uppercase tracking-wider select-none min-w-[80px] text-center">
+                             {monthNames[calendarMonth]} {calendarYear}
+                             </span>
+                             <button
+                             onClick={() => {
+                             if (calendarMonth === 11) {
+                             setCalendarMonth(0);
+                             setCalendarYear(prev => prev + 1);
+                             } else {
+                             setCalendarMonth(prev => prev + 1);
+                             }
+                             }}
+                             className="w-6 h-6 hover:bg-[#FFDDF5] rounded-lg flex items-center justify-center text-[#C23C9F] text-xs font-black transition-all"
+                             >
+                             ▶
+                             </button>
+                             </div>
+                             </div>
+                             
                              {/* Calendar Grid */}
                              <div className="grid grid-cols-7 gap-2 flex-1 pt-2">
-                                {/* Day headers */}
-                                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, idx) => (
-                                    <div key={day} className={`text-center text-[9px] font-black uppercase tracking-wider py-1 rounded-lg ${idx >= 5 ? 'bg-[#FFF0FA] text-[#C23C9F]' : 'bg-[#EEECFF] text-[#553EC9]'}`}>{day}</div>
-                                ))}
-
-                                {/* Empty spacer days */}
-                                {Array.from({ length: emptySpaces }).map((_, idx) => (
-                                   <div key={`empty-${idx}`} className="aspect-square bg-[#FFF9F9]/40 border border-dashed border-[#FFE3E3] rounded-2xl" />
-                                ))}
-
-                                {/* Calendar days */}
-                                {Array.from({ length: totalDays }, (_, i) => i + 1).map(day => {
-                                   const activeHw = classHomeworks.find(hw => {
-                                      if (!hw.dueDate) return false;
-                                      try {
-                                         const hwDate = new Date(hw.dueDate);
-                                         return hwDate.getFullYear() === calendarYear && hwDate.getMonth() === calendarMonth && hwDate.getDate() === day;
-                                      } catch (e) {
-                                         return false;
-                                      }
-                                   });
-
-                                   // Find students whose birthday is on this calendar month and day
-                                   const bdays = (activeClassroom ? students : allStudents).filter(student => {
-                                      if (!student.birthdate) return false;
-                                      try {
-                                         const parts = student.birthdate.split('-');
-                                         if (parts.length === 3) {
-                                            const bMonth = parseInt(parts[1], 10) - 1;
-                                            const bDay = parseInt(parts[2], 10);
-                                            return bMonth === calendarMonth && bDay === day;
-                                         }
-                                         const bdayDate = new Date(student.birthdate);
-                                         return !isNaN(bdayDate.getTime()) && bdayDate.getMonth() === calendarMonth && bdayDate.getDate() === day;
-                                      } catch (e) {
-                                         return false;
-                                      }
-                                   });
-
-                                   // Vibrant kid-friendly pastel coloring by subject
-                                   let dayCardStyle = "bg-white border border-[#E9E4FF] text-[#5C4D9F] hover:bg-[#F9F8FF] hover:border-[#BA68C8]";
-                                   let tagStyle = "";
-
-                                   if (activeHw) {
-                                      const subj = activeHw.subject || 'General';
-                                      if (subj === 'Maths') {
-                                         dayCardStyle = "bg-gradient-to-br from-[#FFF0EB] to-[#FFE0D6] border-[#FFCCBC] text-[#A83D23] shadow-md shadow-orange-50/50";
-                                         tagStyle = "bg-[#FFCCBC] text-[#A83D23]";
-                                      } else if (subj === 'Science') {
-                                         dayCardStyle = "bg-gradient-to-br from-[#EAFBF7] to-[#D1F7EC] border-[#BCEEE2] text-[#1E8A74] shadow-md shadow-teal-50/50";
-                                         tagStyle = "bg-[#BCEEE2] text-[#1E8A74]";
-                                      } else if (subj === 'English') {
-                                         dayCardStyle = "bg-gradient-to-br from-[#FFFCE8] to-[#FFF9C4] border-[#FCEE9D] text-[#8C761E] shadow-md shadow-yellow-50/50";
-                                         tagStyle = "bg-[#FCEE9D] text-[#8C761E]";
-                                      } else {
-                                         dayCardStyle = "bg-gradient-to-br from-[#FAF2FF] to-[#F1E0FF] border-[#E8C6FF] text-[#7828B4] shadow-md shadow-green-50/50";
-                                         tagStyle = "bg-[#E8C6FF] text-[#7828B4]";
-                                      }
-                                   } else if (bdays.length > 0) {
-                                      // Soft pink birthday theme highlight
-                                      dayCardStyle = "bg-gradient-to-br from-[#FFF0F6] to-[#FFE3EC] border-[#FFB6C1] text-[#C2185B] shadow-md shadow-pink-50/50";
-                                   }
-
-                                   return (
-                                      <div 
-                                         key={day} 
-                                         className={`aspect-square rounded-2xl p-2 flex flex-col justify-between transition-all duration-300 cursor-pointer relative overflow-hidden group hover:scale-[1.04] ${dayCardStyle}`}
-                                         onClick={() => {
-                                            if (activeHw) {
-                                               setSelectedCalendarHw(activeHw);
-                                               setShowCalendarModal(true);
-                                            } else if (bdays.length > 0) {
-                                               alert(`🎉 Birthday celebration today for: ${bdays.map(s => s.name).join(', ')}! 🎂`);
-                                            }
-                                         }}
-                                      >
-                                         <div className="flex items-center justify-between w-full">
-                                            <span className="text-xs font-black">{day}</span>
-                                            {bdays.length > 0 && (
-                                               <span 
-                                                  className="text-xs animate-bounce" 
-                                                  title={`Birthday: ${bdays.map(s => s.name).join(', ')}`}
-                                               >
-                                                  🎂
-                                               </span>
-                                            )}
-                                         </div>
-                                         
-                                         {activeHw && (
-                                            <div className={`px-1.5 py-0.5 rounded-lg text-[8px] font-black truncate shadow-sm mt-1 flex items-center gap-1 ${tagStyle}`}>
-                                               <span className="w-1 h-1 rounded-full bg-current shrink-0" />
-                                               {activeHw.subject}
-                                            </div>
-                                         )}
-
-                                         {!activeHw && bdays.length > 0 && (
-                                            <div className="bg-white/60 border border-pink-200/50 text-[#C2185B] px-1 py-0.5 rounded-lg text-[7px] font-black truncate text-center select-none mt-1">
-                                               🎉 {bdays.map(s => s.name).join(', ')}
-                                            </div>
-                                         )}
-                                      </div>
-                                   );
-                                })}
+                             {/* Day headers */}
+                             {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, idx) => (
+                             <div key={day} className={`text-center text-[9px] font-black uppercase tracking-wider py-1 rounded-lg ${idx >= 5 ? 'bg-[#FFF0FA] text-[#C23C9F]' : 'bg-[#EEECFF] text-[#553EC9]'}`}>{day}</div>
+                             ))}
+                             
+                             {/* Empty spacer days */}
+                             {Array.from({ length: emptySpaces }).map((_, idx) => (
+                             <div key={`empty-${idx}`} className="aspect-square bg-[#FFF9F9]/40 border border-dashed border-[#FFE3E3] rounded-2xl" />
+                             ))}
+                             
+                             {/* Calendar days */}
+                             {Array.from({ length: totalDays }, (_, i) => i + 1).map(day => {
+                             const activeHw = classHomeworks.find(hw => {
+                             if (!hw.dueDate) return false;
+                             try {
+                             const hwDate = new Date(hw.dueDate);
+                             return hwDate.getFullYear() === calendarYear && hwDate.getMonth() === calendarMonth && hwDate.getDate() === day;
+                             } catch (e) {
+                             return false;
+                             }
+                             });
+                             
+                             // Find students whose birthday is on this calendar month and day
+                             const bdays = (activeClassroom ? students : allStudents).filter(student => {
+                             if (!student.birthdate) return false;
+                             try {
+                             const parts = student.birthdate.split('-');
+                             if (parts.length === 3) {
+                             const bMonth = parseInt(parts[1], 10) - 1;
+                             const bDay = parseInt(parts[2], 10);
+                             return bMonth === calendarMonth && bDay === day;
+                             }
+                             const bdayDate = new Date(student.birthdate);
+                             return !isNaN(bdayDate.getTime()) && bdayDate.getMonth() === calendarMonth && bdayDate.getDate() === day;
+                             } catch (e) {
+                             return false;
+                             }
+                             });
+                             
+                             // Vibrant kid-friendly pastel coloring by subject
+                             let dayCardStyle = "bg-white border border-[#E9E4FF] text-[#5C4D9F] hover:bg-[#F9F8FF] hover:border-[#BA68C8]";
+                             let tagStyle = "";
+                             
+                             if (activeHw) {
+                             const subj = activeHw.subject || 'General';
+                             if (subj === 'Maths') {
+                             dayCardStyle = "bg-gradient-to-br from-[#FFF0EB] to-[#FFE0D6] border-[#FFCCBC] text-[#A83D23] shadow-md shadow-orange-50/50";
+                             tagStyle = "bg-[#FFCCBC] text-[#A83D23]";
+                             } else if (subj === 'Science') {
+                             dayCardStyle = "bg-gradient-to-br from-[#EAFBF7] to-[#D1F7EC] border-[#BCEEE2] text-[#1E8A74] shadow-md shadow-teal-50/50";
+                             tagStyle = "bg-[#BCEEE2] text-[#1E8A74]";
+                             } else if (subj === 'English') {
+                             dayCardStyle = "bg-gradient-to-br from-[#FFFCE8] to-[#FFF9C4] border-[#FCEE9D] text-[#8C761E] shadow-md shadow-yellow-50/50";
+                             tagStyle = "bg-[#FCEE9D] text-[#8C761E]";
+                             } else {
+                             dayCardStyle = "bg-gradient-to-br from-[#FAF2FF] to-[#F1E0FF] border-[#E8C6FF] text-[#7828B4] shadow-md shadow-green-50/50";
+                             tagStyle = "bg-[#E8C6FF] text-[#7828B4]";
+                             }
+                             } else if (bdays.length > 0) {
+                             // Soft pink birthday theme highlight
+                             dayCardStyle = "bg-gradient-to-br from-[#FFF0F6] to-[#FFE3EC] border-[#FFB6C1] text-[#C2185B] shadow-md shadow-pink-50/50";
+                             }
+                             
+                             return (
+                             <div
+                             key={day}
+                             className={`aspect-square rounded-2xl p-2 flex flex-col justify-between transition-all duration-300 cursor-pointer relative overflow-hidden group hover:scale-[1.04] ${dayCardStyle}`}
+                             onClick={() => {
+                             if (activeHw) {
+                             setSelectedCalendarHw(activeHw);
+                             setShowCalendarModal(true);
+                             } else if (bdays.length > 0) {
+                             alert(`🎉 Birthday celebration today for: ${bdays.map(s => s.name).join(', ')}! 🎂`);
+                             }
+                             }}
+                             >
+                             <div className="flex items-center justify-between w-full">
+                             <span className="text-xs font-black">{day}</span>
+                             {bdays.length > 0 && (
+                             <span
+                             className="text-xs animate-bounce"
+                             title={`Birthday: ${bdays.map(s => s.name).join(', ')}`}
+                             >
+                             🎂
+                             </span>
+                             )}
+                             </div>
+                             
+                             {activeHw && (
+                             <div className={`px-1.5 py-0.5 rounded-lg text-[8px] font-black truncate shadow-sm mt-1 flex items-center gap-1 ${tagStyle}`}>
+                             <span className="w-1 h-1 rounded-full bg-current shrink-0" />
+                             {activeHw.subject}
+                             </div>
+                             )}
+                             
+                             {!activeHw && bdays.length > 0 && (
+                             <div className="bg-white/60 border border-pink-200/50 text-[#C2185B] px-1 py-0.5 rounded-lg text-[7px] font-black truncate text-center select-none mt-1">
+                             🎉 {bdays.map(s => s.name).join(', ')}
+                             </div>
+                             )}
+                             </div>
+                             );
+                             })}
+                             </div>
                              </div>
                           </div>
                        </div>
+                    )}
+
+                    {/* Collaborative Goal Row */}
+                    {activeClassroom && (
+                       <div className="grid grid-cols-12 gap-6 mt-6">
+                          {/* Left: Dino Pizza Party Collaborative Goal (col-span-5) */}
+                          <div className="col-span-12 max-w-4xl mx-auto w-full bg-white rounded-[32px] border border-[#E9E4FF] shadow-sm p-6 flex flex-col justify-between space-y-4">
+                          <div className="space-y-3">
+                          <div className="flex justify-between items-start">
+                          <div className="space-y-0.5">
+                          <span className="text-[9px] font-black uppercase text-[#FFAB91] tracking-wider block">Collaborative Goal</span>
+                          <h3 className="text-lg font-black text-[#3C2E75] leading-snug">{targetTitle}</h3>
+                          </div>
+                          <button
+                          onClick={() => {
+                          setNewGoalTitle(targetTitle);
+                          setNewGoalTarget(targetGoal);
+                          setNewGoalTrack(activeClassroom?.activeTrack || 'forest');
+                          setIsEditingGoal(true);
+                          }}
+                          className="px-3 py-1.5 border border-[#FFE0D6] hover:border-[#FFAB91] text-[#C64F33] rounded-xl text-[10px] font-black transition-all bg-white hover:bg-orange-50/20 shrink-0"
+                          >
+                          Change Goal ✏️
+                          </button>
+                          </div>
+                          
+                          <div className="flex items-center justify-between text-xs font-black text-[#3C2E75] pt-1">
+                          <span className="text-[#8C83B5]">Combined Points</span>
+                          <span className="text-[#FF7043] bg-[#FFF0EB] px-2.5 py-1 rounded-lg border border-[#FFD2C4]">{currentClassPoints} / {targetGoal} pts</span>
+                          </div>
+                          </div>
+                          
+                          {/* Premium Round Pizza Progress Visual */}
+                          <div className="flex-1 py-6 flex flex-col items-center justify-center min-h-[360px]">
+                          <div className="relative w-72 h-72 md:w-80 md:h-80 flex items-center justify-center bg-gradient-to-br from-slate-200 via-slate-100 to-slate-300 border-8 border-slate-400 rounded-full shadow-2xl p-2 select-none">
+                          {/* Steel tray details */}
+                          <div className="absolute inset-4 rounded-full border-2 border-slate-400/25" />
+                          <div className="absolute inset-8 rounded-full border border-slate-400/15" />
+                          <div className="absolute inset-16 rounded-full border border-slate-400/10" />
+                          <span className="absolute text-5xl opacity-15 select-none font-black text-slate-800">🍽️</span>
+                          
+                          {/* Crumbs & Grease marks on empty tray */}
+                          <div className="absolute top-1/4 left-1/3 w-2 h-2 rounded-full bg-amber-800/10" />
+                          <div className="absolute bottom-1/3 right-1/4 w-3 h-1.5 rounded-full bg-amber-800/15" />
+                          <div className="absolute bottom-1/4 left-1/4 w-1.5 h-1.5 rounded-full bg-amber-800/10" />
+                          
+                          {/* The Pizza Itself (Clipped/Masked by conic progress) */}
+                          <div
+                          className="absolute inset-2 rounded-full overflow-hidden transition-all duration-1000 shadow-md"
+                          style={{
+                          WebkitMaskImage: `conic-gradient(black 0% ${progressPercent}%, transparent ${progressPercent}% 100%)`,
+                          maskImage: `conic-gradient(black 0% ${progressPercent}%, transparent ${progressPercent}% 100%)`
+                          }}
+                          >
+                          {/* Pizza Outer Crust (Deep Golden Woodfired) */}
+                          <div className="absolute inset-0 rounded-full bg-[#E65100] border-[16px] border-[#8D6E63] shadow-[inset_0_4px_16px_rgba(0,0,0,0.3)] flex items-center justify-center">
+                          {/* Outer golden-brown ring */}
+                          <div className="absolute inset-0.5 rounded-full border-[10px] border-[#FFE0B2]/10" />
+                          </div>
+                          
+                          {/* Rich Marinara Tomato Sauce Base */}
+                          <div className="absolute inset-4 rounded-full bg-gradient-to-br from-[#D32F2F] via-[#C62828] to-[#B71C1C] shadow-[inset_0_4px_10px_rgba(0,0,0,0.4)] flex items-center justify-center">
+                          {/* Melty Cheese layer */}
+                          <div className="absolute inset-1 rounded-full bg-gradient-to-br from-[#FFF59D] via-[#FFD54F] to-[#FFB300] shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)] flex items-center justify-center overflow-hidden">
+                          {/* Toasted cheese spots */}
+                          <div className="absolute top-8 left-12 w-6 h-4 rounded-full bg-[#E58F12]/15 blur-[1px]" />
+                          <div className="absolute bottom-12 right-16 w-8 h-5 rounded-full bg-[#E58F12]/20 blur-[1px]" />
+                          <div className="absolute bottom-20 left-16 w-5 h-3 rounded-full bg-[#E58F12]/15 blur-[1px]" />
+                          <div className="absolute top-16 right-10 w-7 h-4 rounded-full bg-[#E58F12]/15 blur-[1px]" />
+                          
+                          {/* Scattered Toppings (Rich variety) */}
+                          {[
+                          // Pepperonis (Rich red circles with crispy edges & grease highlight)
+                          { type: 'pepperoni', top: '15%', left: '48%', scale: 1.0 },
+                          { type: 'pepperoni', top: '28%', left: '68%', scale: 0.95 },
+                          { type: 'pepperoni', top: '45%', left: '58%', scale: 1.05 },
+                          { type: 'pepperoni', top: '72%', left: '46%', scale: 1.0 },
+                          { type: 'pepperoni', top: '65%', left: '22%', scale: 0.9 },
+                          { type: 'pepperoni', top: '28%', left: '26%', scale: 1.05 },
+                          { type: 'pepperoni', top: '40%', left: '40%', scale: 1.0 },
+                          { type: 'pepperoni', top: '50%', left: '72%', scale: 0.95 },
+                          
+                          // Basil Leaves (Vibrant green leaf shapes)
+                          { type: 'basil', top: '22%', left: '38%', rotate: '45deg' },
+                          { type: 'basil', top: '42%', left: '78%', rotate: '115deg' },
+                          { type: 'basil', top: '68%', left: '60%', rotate: '180deg' },
+                          { type: 'basil', top: '52%', left: '15%', rotate: '-45deg' },
+                          { type: 'basil', top: '18%', left: '28%', rotate: '15deg' },
+                          { type: 'basil', top: '60%', left: '38%', rotate: '95deg' },
+                          
+                          // Mushrooms (Grey-brown caps with stems)
+                          { type: 'mushroom', top: '28%', left: '55%', rotate: '-15deg' },
+                          { type: 'mushroom', top: '55%', left: '72%', rotate: '60deg' },
+                          { type: 'mushroom', top: '62%', left: '22%', rotate: '135deg' },
+                          { type: 'mushroom', top: '42%', left: '25%', rotate: '-90deg' },
+                          { type: 'mushroom', top: '45%', left: '48%', rotate: '10deg' }
+                          ].map((top, i) => {
+                          if (top.type === 'pepperoni') {
+                          return (
+                          <div
+                          key={i}
+                          className="absolute rounded-full bg-gradient-to-br from-[#EF5350] to-[#C62828] border-2 border-[#800F0F] shadow-[0_2px_4px_rgba(0,0,0,0.25)] flex items-center justify-center animate-in zoom-in duration-300"
+                          style={{
+                          width: '38px',
+                          height: '38px',
+                          top: top.top,
+                          left: top.left,
+                          transform: `scale(${top.scale || 1})`,
+                          zIndex: 5
+                          }}
+                          >
+                          {/* Crispy edge rim */}
+                          <div className="absolute inset-0.5 rounded-full border border-[#D32F2F] opacity-40" />
+                          {/* Grease shine */}
+                          <div className="absolute top-1 left-1.5 w-2.5 h-2.5 rounded-full bg-white/35" />
+                          {/* Toasted spots */}
+                          <div className="absolute bottom-1 right-2 w-1.5 h-1.5 rounded-full bg-black/15" />
+                          </div>
+                          );
+                          } else if (top.type === 'basil') {
+                          return (
+                          <div
+                          key={i}
+                          className="absolute bg-gradient-to-br from-[#4CAF50] to-[#2E7D32] border border-[#1B5E20] shadow-[0_1px_2px_rgba(0,0,0,0.15)] animate-in zoom-in duration-300"
+                          style={{
+                          width: '20px',
+                          height: '11px',
+                          top: top.top,
+                          left: top.left,
+                          borderRadius: '50% 0 50% 0',
+                          transform: `rotate(${top.rotate || '0deg'})`,
+                          zIndex: 4
+                          }}
+                          />
+                          );
+                          } else if (top.type === 'mushroom') {
+                          return (
+                          <div
+                          key={i}
+                          className="absolute flex flex-col items-center animate-in zoom-in duration-300"
+                          style={{
+                          top: top.top,
+                          left: top.left,
+                          transform: `rotate(${top.rotate || '0deg'})`,
+                          zIndex: 3
+                          }}
+                          >
+                          {/* Mushroom Cap */}
+                          <div className="w-7 h-4.5 bg-gradient-to-br from-[#E0D8D5] to-[#BCAAA4] border border-[#5D4037] rounded-t-full shadow-[0_1.5px_2px_rgba(0,0,0,0.15)]" />
+                          {/* Mushroom Stem */}
+                          <div className="w-3 h-3 bg-[#E0D8D5] border-x border-b border-[#5D4037] -mt-0.5" />
+                          </div>
+                          );
+                          }
+                          return null;
+                          })}
+                          
+                          {/* Slice cut lines on active pizza */}
+                          <div className="absolute inset-0 opacity-15 pointer-events-none z-10">
+                          <div className="absolute inset-y-0 left-1/2 w-0.5 bg-amber-950" />
+                          <div className="absolute inset-x-0 top-1/2 h-0.5 bg-amber-955" />
+                          <div className="absolute inset-0 rotate-45 flex items-center justify-center">
+                          <div className="w-full h-0.5 bg-amber-955" />
+                          </div>
+                          <div className="absolute inset-0 -rotate-45 flex items-center justify-center">
+                          <div className="w-full h-0.5 bg-amber-955" />
+                          </div>
+                          </div>
+                          </div>
+                          </div>
+                          </div>
+                          
+                          {/* Slice lines to represent 8 pre-cut slices on tray background */}
+                          <div className="absolute inset-0 opacity-10 pointer-events-none z-0">
+                          <div className="absolute inset-y-0 left-1/2 w-px bg-slate-400" />
+                          <div className="absolute inset-x-0 top-1/2 h-px bg-slate-400" />
+                          <div className="absolute inset-0 rotate-45 flex items-center justify-center">
+                          <div className="w-full h-px bg-slate-400" />
+                          </div>
+                          <div className="absolute inset-0 -rotate-45 flex items-center justify-center">
+                          <div className="w-full h-px bg-slate-400" />
+                          </div>
+                          </div>
+                          
+                          {/* Center floating baked status badge */}
+                          <div className="absolute z-20 bg-white/95 backdrop-blur-sm border-2 border-amber-500 px-3.5 py-1.5 rounded-2xl shadow-xl flex flex-col items-center">
+                          <span className="text-sm font-black text-[#3C2E75] leading-none">{progressPercent}%</span>
+                          <span className="text-[7px] font-black text-rose-500 uppercase tracking-widest mt-0.5">BAKED!</span>
+                          </div>
+                          </div>
+                          </div>
+                          
+                          {/* Compact Reward Message */}
+                          <div className="bg-[#FAF2FF] rounded-2xl p-4 border border-[#E8C6FF]/35 flex items-center gap-3">
+                          <span className="text-2xl">🦖</span>
+                          <div className="min-w-0 flex-1">
+                          <p className="text-[10px] font-black text-[#3C2E75] uppercase tracking-wider mb-0.5">Mascot Party Reward</p>
+                          <p className="text-[11px] font-bold text-[#5C4D9F] leading-snug">
+                          {progressPercent >= 100
+                          ? `Fantastic! Dino Pizza Party is unlocked! 🎈🍕`
+                          : `Need ${targetGoal - currentClassPoints} more points to bake the pizza party!`}
+                          </p>
+                          </div>
+                          </div>
+                          </div>
+                       </div>
+                    )}
                     )}
                 </div>
              );
