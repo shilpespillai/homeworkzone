@@ -13,3 +13,5 @@ dist-ssr
 .vercel
 .env*
 scratch/
+
+.vercel
