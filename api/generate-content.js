@@ -10,6 +10,9 @@ async function fetchWithRetry(url, options, maxRetries = 3, initialDelay = 1000)
       }
       const errText = await res.text().catch(() => '');
       console.warn(`[AI Proxy] Request failed with status ${res.status}: ${errText}. Retrying in ${delay}ms... (Attempt ${attempt + 1}/${maxRetries})`);
+      if (attempt === maxRetries - 1) {
+        throw new Error(`AI request failed with ${res.status}: ${errText}`);
+      }
       await new Promise(resolve => setTimeout(resolve, delay));
       delay *= 2;
     } catch (err) {
@@ -76,7 +79,7 @@ export default async function handler(req, res) {
 
     if (provider === 'gemini') {
       apiKey = process.env.GEMINI_API_KEY;
-      modelName = 'gemini-flash-latest';
+      modelName = 'gemini-1.5-flash';
       if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY not configured' });
       endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
       headers = { 'Content-Type': 'application/json' };
