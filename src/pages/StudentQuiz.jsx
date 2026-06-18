@@ -345,17 +345,17 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
       {/* Planetary Adventure Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none select-none">
         {/* Floating Emojis */}
-        <div className="absolute top-[10%] left-[8%] text-5xl opacity-80 transform -rotate-12 animate-[bounce_5s_ease-in-out_infinite]">🪐</div>
-        <div className="absolute top-[15%] right-[10%] text-6xl opacity-90 transform rotate-12 animate-[bounce_6s_ease-in-out_infinite]">🚀</div>
-        <div className="absolute top-[60%] right-[5%] text-5xl opacity-80 transform rotate-[15deg] animate-[bounce_7s_ease-in-out_infinite]">🌍</div>
-        <div className="absolute bottom-[20%] left-[10%] text-5xl opacity-70 transform -rotate-[10deg] animate-[bounce_8s_ease-in-out_infinite]">🛸</div>
+        <div className="absolute top-[10%] left-[5%] md:left-[8%] text-[80px] md:text-[140px] opacity-80 transform -rotate-12 animate-[bounce_5s_ease-in-out_infinite]">🪐</div>
+        <div className="absolute top-[15%] right-[5%] md:right-[10%] text-[90px] md:text-[150px] opacity-90 transform rotate-12 animate-[bounce_6s_ease-in-out_infinite]">🚀</div>
+        <div className="absolute top-[60%] right-[2%] md:right-[5%] text-[80px] md:text-[140px] opacity-80 transform rotate-[15deg] animate-[bounce_7s_ease-in-out_infinite]">🌍</div>
+        <div className="absolute bottom-[20%] left-[5%] md:left-[10%] text-[80px] md:text-[130px] opacity-70 transform -rotate-[10deg] animate-[bounce_8s_ease-in-out_infinite]">🛸</div>
         
         {/* Cute Stars (some with faces) */}
-        <div className="absolute top-[8%] left-[40%] text-4xl opacity-90 animate-pulse">⭐</div>
-        <div className="absolute top-[25%] right-[20%] text-3xl opacity-80 animate-pulse" style={{ animationDelay: '1s' }}>🌟</div>
-        <div className="absolute bottom-[30%] left-[25%] text-4xl opacity-90 animate-pulse" style={{ animationDelay: '0.5s' }}>⭐</div>
-        <div className="absolute top-[45%] left-[5%] text-2xl opacity-70 animate-pulse">✨</div>
-        <div className="absolute bottom-[10%] right-[30%] text-4xl opacity-80 animate-pulse" style={{ animationDelay: '1.5s' }}>🌟</div>
+        <div className="absolute top-[8%] left-[40%] text-[50px] md:text-[80px] opacity-90 animate-pulse">⭐</div>
+        <div className="absolute top-[25%] right-[20%] text-[40px] md:text-[70px] opacity-80 animate-pulse" style={{ animationDelay: '1s' }}>🌟</div>
+        <div className="absolute bottom-[30%] left-[20%] md:left-[25%] text-[50px] md:text-[80px] opacity-90 animate-pulse" style={{ animationDelay: '0.5s' }}>⭐</div>
+        <div className="absolute top-[45%] left-[2%] md:left-[5%] text-[30px] md:text-[50px] opacity-70 animate-pulse">✨</div>
+        <div className="absolute bottom-[10%] right-[25%] md:right-[30%] text-[50px] md:text-[80px] opacity-80 animate-pulse" style={{ animationDelay: '1.5s' }}>🌟</div>
         
         {/* Confetti & Small elements */}
         <div className="absolute top-[20%] right-[35%] w-3 h-3 bg-pink-400 rounded-sm rotate-45 opacity-80" />
