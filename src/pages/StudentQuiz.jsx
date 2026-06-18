@@ -344,6 +344,18 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
     <div className="min-h-screen bg-[#AEE6FE] p-6 md:p-8 flex flex-col relative overflow-hidden font-sans">
       {/* Playful Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Floating Static Mascots (Visible on larger screens to fill empty space) */}
+        <div className="hidden xl:block absolute top-[15%] left-[6%] w-36 h-36 bg-white rounded-[32px] p-2 shadow-[0_8px_30px_rgb(0,0,0,0.08)] border-4 border-white transform -rotate-6 animate-[bounce_6s_ease-in-out_infinite]">
+           <img src="https://image.pollinations.ai/prompt/cute%203d%20cartoon%20baby%20owl%20wearing%20glasses%20reading%20book%20clean%20background?width=200&height=200&nologo=true" alt="Owl Mascot" className="w-full h-full rounded-[24px] object-cover" loading="lazy" />
+        </div>
+        <div className="hidden xl:block absolute top-[55%] right-[6%] w-40 h-40 bg-white rounded-[32px] p-2 shadow-[0_8px_30px_rgb(0,0,0,0.08)] border-4 border-white transform rotate-6 animate-[bounce_7s_ease-in-out_infinite]">
+           <img src="https://image.pollinations.ai/prompt/cute%203d%20cartoon%20friendly%20robot%20mascot%20waving%20clean%20background?width=200&height=200&nologo=true" alt="Robot Mascot" className="w-full h-full rounded-[24px] object-cover" loading="lazy" />
+        </div>
+        <div className="hidden xl:block absolute bottom-[15%] left-[10%] w-28 h-28 bg-white rounded-full p-2 shadow-[0_8px_30px_rgb(0,0,0,0.08)] border-4 border-white transform rotate-12 animate-[bounce_5s_ease-in-out_infinite]">
+           <img src="https://image.pollinations.ai/prompt/cute%203d%20cartoon%20rocket%20ship%20flying%20clean%20background?width=200&height=200&nologo=true" alt="Rocket Mascot" className="w-full h-full rounded-full object-cover" loading="lazy" />
+        </div>
+
+        {/* Scattered Shapes */}
         <Star className="absolute top-12 left-[10%] w-6 h-6 text-yellow-400 fill-yellow-400 opacity-80 rotate-12" />
         <Star className="absolute top-32 right-[15%] w-8 h-8 text-yellow-400 fill-yellow-400 opacity-90 -rotate-12" />
         <Star className="absolute bottom-24 left-[20%] w-5 h-5 text-yellow-400 fill-yellow-400 opacity-80 rotate-45" />
@@ -351,8 +363,10 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         <div className="absolute top-20 right-[30%] w-3 h-3 bg-pink-400 rounded-sm rotate-45 opacity-80" />
         <div className="absolute bottom-32 right-[25%] w-2 h-4 bg-emerald-400 rounded-full -rotate-12 opacity-80" />
         <div className="absolute top-1/2 left-[5%] w-4 h-4 bg-purple-400 rounded-full opacity-80" />
-        <span className="absolute top-16 right-[40%] text-blue-500/20 font-black text-xl rotate-12">5%</span>
-        <span className="absolute bottom-40 left-[15%] text-blue-500/20 font-black text-2xl -rotate-12">%</span>
+        <span className="absolute top-16 right-[40%] text-blue-500/30 font-black text-2xl rotate-12">5%</span>
+        <span className="absolute bottom-40 left-[15%] text-blue-500/30 font-black text-3xl -rotate-12">%</span>
+        <span className="absolute top-1/3 left-[2%] text-blue-500/20 font-black text-4xl rotate-45">+</span>
+        <span className="absolute bottom-1/4 right-[10%] text-blue-500/20 font-black text-4xl -rotate-12">×</span>
       </div>
 
       {/* Header & Progress */}
