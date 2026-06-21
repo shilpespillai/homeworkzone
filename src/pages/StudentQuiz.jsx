@@ -450,7 +450,9 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                 ];
                 
                 const baseColor = colorStyles[i % 4];
-                const activeState = isSelected && !isReviewing ? "ring-4 ring-offset-2 ring-white" : "";
+                const activeState = isSelected && !isReviewing 
+                  ? "ring-4 ring-offset-4 ring-slate-800 scale-[1.02] brightness-110 z-10" 
+                  : "opacity-90 hover:opacity-100 scale-100";
                 
                 let reviewState = "";
                 let showIcon = null;
@@ -464,6 +466,8 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                   } else {
                     reviewState = "opacity-50";
                   }
+                } else if (isSelected) {
+                  showIcon = <CheckCircle2 className="w-8 h-8 text-slate-800 fill-white drop-shadow-md" />;
                 }
 
                 return (
