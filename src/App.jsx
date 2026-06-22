@@ -765,10 +765,24 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
       });
    }, [homeworks]);
 
+   let baseFilteredHomeworks = homeworks;
+   if (subjectFilter !== 'All Subjects') {
+      baseFilteredHomeworks = baseFilteredHomeworks.filter(hw => hw.subject?.toLowerCase() === subjectFilter.toLowerCase());
+   }
+   if (monthFilter !== 'All Months') {
+      baseFilteredHomeworks = baseFilteredHomeworks.filter(hw => {
+         const date = getHomeworkDate(hw);
+         const year = date.getFullYear();
+         const month = date.getMonth();
+         const key = `${year}-${String(month + 1).padStart(2, '0')}`;
+         return key === monthFilter;
+      });
+   }
+
    const completedHwIds = new Set(submissions.map(s => s.homeworkId));
    
    // Compute in-progress based on local storage drafts
-   const inProgressHws = homeworks.filter(hw => {
+   const inProgressHws = baseFilteredHomeworks.filter(hw => {
       if (completedHwIds.has(hw.id)) return false;
       const draft = localStorage.getItem(`hz_draft_${studentName}_${hw.id}`);
       if (draft) {
@@ -783,30 +797,16 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
    });
 
    const inProgressHwIds = new Set(inProgressHws.map(hw => hw.id));
-   const todoHws = homeworks.filter(hw => !completedHwIds.has(hw.id) && !inProgressHwIds.has(hw.id));
-   const completedHws = homeworks.filter(hw => completedHwIds.has(hw.id));
+   const todoHws = baseFilteredHomeworks.filter(hw => !completedHwIds.has(hw.id) && !inProgressHwIds.has(hw.id));
+   const completedHws = baseFilteredHomeworks.filter(hw => completedHwIds.has(hw.id));
    
-   let displayedHomeworks = homeworks;
+   let displayedHomeworks = baseFilteredHomeworks;
    if (activeTab === 'To Do') displayedHomeworks = todoHws;
    if (activeTab === 'Completed') displayedHomeworks = completedHws;
    if (activeTab === 'In Progress') displayedHomeworks = inProgressHws;
 
-   if (subjectFilter !== 'All Subjects') {
-      displayedHomeworks = displayedHomeworks.filter(hw => hw.subject?.toLowerCase() === subjectFilter.toLowerCase());
-   }
-
-   if (monthFilter !== 'All Months') {
-      displayedHomeworks = displayedHomeworks.filter(hw => {
-         const date = getHomeworkDate(hw);
-         const year = date.getFullYear();
-         const month = date.getMonth();
-         const key = `${year}-${String(month + 1).padStart(2, '0')}`;
-         return key === monthFilter;
-      });
-   }
-
    const tabs = [
-     { id: 'All', label: `All (${homeworks.length})` },
+     { id: 'All', label: `All (${baseFilteredHomeworks.length})` },
      { id: 'To Do', label: `To Do (${todoHws.length})` },
      { id: 'In Progress', label: `In Progress (${inProgressHws.length})` },
      { id: 'Completed', label: `Completed (${completedHws.length})` }
