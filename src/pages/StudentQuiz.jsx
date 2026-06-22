@@ -421,7 +421,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             className="bg-white rounded-[32px] p-6 md:p-10 shadow-[0_8px_0_0_rgba(255,255,255,0.6)]"
           >
             {/* Question Text & Image */}
-            <div className="flex flex-col md:flex-row items-center gap-8 mb-10">
+            <div className={`flex ${currentQuestion.text?.length > 150 ? 'flex-col items-start' : 'flex-col md:flex-row items-center'} gap-6 md:gap-8 mb-10`}>
               <div className="w-40 h-40 md:w-48 md:h-48 rounded-[24px] overflow-hidden shrink-0 shadow-inner bg-slate-50 flex-center">
                 <img 
                   src={`https://image.pollinations.ai/prompt/${encodeURIComponent('cute cartoon illustration ' + (currentQuestion.imagePrompt || currentQuestion.text).substring(0, 60))}?width=400&height=400&nologo=true`}
@@ -431,9 +431,19 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                   onError={(e) => { e.target.src = 'https://api.dicebear.com/7.x/shapes/svg?seed=' + currentQuestion.id; }}
                 />
               </div>
-              <h1 className="text-2xl md:text-[28px] font-black text-slate-800 leading-snug uppercase text-center md:text-left tracking-tight">
-                {currentQuestion.text}
-              </h1>
+              <div className="flex-1 w-full">
+                {currentQuestion.text?.length > 150 ? (
+                  <div className="text-lg md:text-xl font-medium text-slate-700 leading-relaxed space-y-4">
+                    {currentQuestion.text.split('\n').map((paragraph, idx) => (
+                      <p key={idx}>{paragraph}</p>
+                    ))}
+                  </div>
+                ) : (
+                  <h1 className="text-2xl md:text-[28px] font-black text-slate-800 leading-snug uppercase text-center md:text-left tracking-tight">
+                    {currentQuestion.text}
+                  </h1>
+                )}
+              </div>
             </div>
 
             {/* Options */}
