@@ -2080,7 +2080,10 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                initialSubmission={activeMission.pastSubmission}
                studentName={studentName} 
                teacher={teacher} 
-               onComplete={() => setActiveMission(null)} 
+               onComplete={() => {
+                  setActiveMission(null);
+                  fetchData();
+               }} 
             />
          </div>
      );
