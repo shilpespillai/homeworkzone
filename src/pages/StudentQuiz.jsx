@@ -168,7 +168,12 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
   }
 
   const reviewQuestions = isReviewing 
-    ? homework.questions.filter(q => answers[q.id] !== q.answer) 
+    ? homework.questions.filter(q => {
+        if (Object.keys(answers).length > 0) {
+          return answers[q.id] !== q.answer;
+        }
+        return wrongAnswersExplanations && !!wrongAnswersExplanations[q.id];
+      }) 
     : homework.questions;
   
   // If they got everything right, just show all questions during review
