@@ -654,8 +654,12 @@ const QuizResults = ({ score, total, percentage, feedback, onHome, onReview, onR
 
         <div className="pt-4 flex flex-col gap-4">
           <div className="flex gap-4">
-             <button onClick={() => onReview('incorrect')} className="flex-1 bg-rose-100 hover:bg-rose-200 text-rose-700 py-4 rounded-[24px] font-black text-sm md:text-base transition-all shadow-[0_4px_0_0_#fecdd3] active:translate-y-1 active:shadow-none">Review Mistakes</button>
-             <button onClick={() => onReview('correct')} className="flex-1 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 py-4 rounded-[24px] font-black text-sm md:text-base transition-all shadow-[0_4px_0_0_#a7f3d0] active:translate-y-1 active:shadow-none">Review Correct</button>
+             {score < total && (
+               <button onClick={() => onReview('incorrect')} className="flex-1 bg-rose-100 hover:bg-rose-200 text-rose-700 py-4 rounded-[24px] font-black text-sm md:text-base transition-all shadow-[0_4px_0_0_#fecdd3] active:translate-y-1 active:shadow-none">Review Mistakes</button>
+             )}
+             {score > 0 && (
+               <button onClick={() => onReview('correct')} className="flex-1 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 py-4 rounded-[24px] font-black text-sm md:text-base transition-all shadow-[0_4px_0_0_#a7f3d0] active:translate-y-1 active:shadow-none">Review Correct</button>
+             )}
           </div>
           <div className="flex gap-4">
              <button onClick={onRetake} className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-4 rounded-[24px] font-black text-lg transition-all shadow-[0_4px_0_0_#e2e8f0] active:translate-y-1 active:shadow-none">Retake Mission</button>
