@@ -658,7 +658,7 @@ const QuizResults = ({ score, total, percentage, feedback, questions, answers, w
       <motion.div 
         initial={{ opacity: 0, scale: 0.8, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="max-w-4xl w-full bg-white/95 backdrop-blur-xl rounded-[48px] p-8 md:p-14 text-center shadow-[0_20px_50px_rgba(8,_112,_184,_0.07)] border-8 border-white relative z-10 flex flex-col md:flex-row gap-12 items-center md:items-stretch"
+        className="max-w-6xl w-full bg-white/95 backdrop-blur-xl rounded-[48px] p-8 md:p-14 text-center shadow-[0_20px_50px_rgba(8,_112,_184,_0.07)] border-8 border-white relative z-10 flex flex-col md:flex-row gap-12 md:gap-20 items-center md:items-stretch"
       >
         {/* Left Column: Mascot & Title */}
         <div className="flex-1 flex flex-col items-center justify-center relative w-full">
@@ -669,7 +669,7 @@ const QuizResults = ({ score, total, percentage, feedback, questions, answers, w
              <Rocket className="w-6 h-6 text-white" />
           </div>
 
-          <div className="relative mx-auto w-48 h-48 md:w-64 md:h-64 mb-8 group shrink-0">
+          <div className="relative mx-auto w-48 h-48 md:w-80 md:h-80 mb-8 group shrink-0">
             <motion.div 
               animate={{ y: [0, -15, 0] }}
               transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
@@ -699,15 +699,15 @@ const QuizResults = ({ score, total, percentage, feedback, questions, answers, w
         {/* Right Column: Stats & Actions */}
         <div className="flex-[1.2] flex flex-col justify-between w-full gap-8 border-t-4 md:border-t-0 md:border-l-4 border-slate-100/50 pt-8 md:pt-0 md:pl-12">
           
-          <div className="flex items-center justify-center gap-8 md:gap-12 py-6 px-4 bg-slate-50/50 rounded-[32px] border-4 border-white shadow-inner">
+          <div className="flex items-center justify-center gap-8 md:gap-16 py-8 px-4 bg-slate-50/50 rounded-[32px] border-4 border-white shadow-inner">
             <div className="text-center">
-              <p className="text-5xl md:text-6xl font-black text-slate-800 tracking-tighter">{score}<span className="text-2xl text-slate-400">/{total}</span></p>
-              <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2 bg-white inline-block px-3 py-1 rounded-full shadow-sm">Correct</p>
+              <p className="text-6xl md:text-8xl font-black text-slate-800 tracking-tighter">{score}<span className="text-3xl text-slate-400">/{total}</span></p>
+              <p className="text-xs font-black uppercase tracking-widest text-slate-400 mt-2 bg-white inline-block px-4 py-1.5 rounded-full shadow-sm">Correct</p>
             </div>
-            <div className="w-1 h-16 bg-slate-200 rounded-full"></div>
+            <div className="w-1 h-20 bg-slate-200 rounded-full"></div>
             <div className="text-center">
-              <p className={`text-5xl md:text-6xl font-black tracking-tighter ${scoreColor}`}>{Math.round(percentage)}%</p>
-              <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2 bg-white inline-block px-3 py-1 rounded-full shadow-sm">Score</p>
+              <p className={`text-6xl md:text-8xl font-black tracking-tighter ${scoreColor}`}>{Math.round(percentage)}%</p>
+              <p className="text-xs font-black uppercase tracking-widest text-slate-400 mt-2 bg-white inline-block px-4 py-1.5 rounded-full shadow-sm">Score</p>
             </div>
           </div>
 
