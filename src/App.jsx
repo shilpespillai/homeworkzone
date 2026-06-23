@@ -805,6 +805,21 @@ const SubjectDashboardCard = ({ subject, assignments, submissions, studentName, 
          <h3 className="text-white font-black text-lg md:text-xl leading-tight mb-1">{aes.subtitle}</h3>
          <p className="text-white/90 font-bold text-sm md:text-base leading-tight mb-4">{aes.topic}</p>
          
+         <div className="flex justify-center gap-3 w-full mb-4">
+            <div className="flex flex-col items-center bg-white/20 rounded-xl px-3 py-1">
+               <span className="text-white font-black text-lg leading-none">{completed}</span>
+               <span className="text-white/80 text-[10px] font-bold uppercase tracking-widest">Done</span>
+            </div>
+            <div className="flex flex-col items-center bg-white/20 rounded-xl px-3 py-1">
+               <span className="text-white font-black text-lg leading-none">{inProgress}</span>
+               <span className="text-white/80 text-[10px] font-bold uppercase tracking-widest">In Prog</span>
+            </div>
+            <div className="flex flex-col items-center bg-white/20 rounded-xl px-3 py-1">
+               <span className="text-white font-black text-lg leading-none">{total - completed - inProgress}</span>
+               <span className="text-white/80 text-[10px] font-bold uppercase tracking-widest">Pend</span>
+            </div>
+         </div>
+
          <div className="mt-auto pb-2">
             <span className={`${aes.pillBg} ${aes.pillText} px-6 py-2 md:py-2.5 rounded-full font-black text-sm shadow-[0_4px_0_0_rgba(0,0,0,0.15)] tracking-wide inline-block uppercase`}>
                {pillLabel}
@@ -816,7 +831,7 @@ const SubjectDashboardCard = ({ subject, assignments, submissions, studentName, 
 };
 
 const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHomeworks, submissions: initialSubmissions }) => {
-   const [activeTab, setActiveTab] = useState('All');
+   const [activeTab, setActiveTab] = useState('To Do');
    const [subjectFilter, setSubjectFilter] = useState('All Subjects');
    const [monthFilter, setMonthFilter] = useState('All Months');
    const [homeworks, setHomeworks] = useState(initialHomeworks || []);
@@ -951,7 +966,6 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
    if (activeTab === 'In Progress') displayedHomeworks = inProgressHws;
 
    const tabs = [
-     { id: 'All', label: `All (${baseFilteredHomeworks.length})` },
      { id: 'To Do', label: `To Do (${todoHws.length})` },
      { id: 'In Progress', label: `In Progress (${inProgressHws.length})` },
      { id: 'Completed', label: `Completed (${completedHws.length})` }
@@ -1038,25 +1052,8 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
                   <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                   <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                </div>
-
-               {/* Subject Filter Dropdown */}
-               <div className="relative shrink-0">
-                  <select 
-                     value={subjectFilter}
-                     onChange={(e) => setSubjectFilter(e.target.value)}
-                     className="appearance-none bg-white border-2 border-slate-100 rounded-full pl-10 pr-10 py-2.5 text-sm font-black text-slate-600 outline-none focus:border-[#EA580C] cursor-pointer"
-                  >
-                     <option>All Subjects</option>
-                     <option>English</option>
-                     <option>Maths</option>
-                     <option>Science</option>
-                     <option>General</option>
-                     </select>
-                     <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                     <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                  </div>
-               </div>
             </div>
+         </div>
 
             {/* Homework List */}
             <div className="space-y-4 relative z-10">
