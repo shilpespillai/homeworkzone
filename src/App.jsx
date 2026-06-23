@@ -1117,7 +1117,7 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
 const MissionReportModal = ({ submission, homework, onClose }) => {
    if (!submission || !homework) return null;
 
-   const incorrectQuestions = homework.questions.filter((q, i) => submission.answers && submission.answers[i] !== q.correctAnswer);
+   const incorrectQuestions = homework.questions.filter((q) => submission.answers && submission.answers[q.id] !== q.answer);
 
    return (
       <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex-center p-4">
@@ -1133,10 +1133,9 @@ const MissionReportModal = ({ submission, homework, onClose }) => {
                   <p className="text-center text-green-500 font-black text-xl py-10">Perfect! You got everything right. 🌟</p>
                ) : (
                   incorrectQuestions.map((q, idx) => {
-                     const qIndex = homework.questions.indexOf(q);
-                     const studentAnsIndex = submission.answers[qIndex];
-                     const studentAnsText = studentAnsIndex !== undefined ? q.options[studentAnsIndex] : "No Answer";
-                     const correctAnsText = q.options[q.correctAnswer];
+                     const studentAnsText = submission.answers[q.id] || "No Answer";
+                     const correctAnsText = q.answer;
+                     const explanationText = submission.wrongAnswersExplanations ? submission.wrongAnswersExplanations[q.id] : "";
                      
                      return (
                         <div key={idx} className="bg-slate-50 border-2 border-slate-100 rounded-[24px] p-6">
@@ -1151,6 +1150,12 @@ const MissionReportModal = ({ submission, homework, onClose }) => {
                                  <p className="text-green-700 font-bold">{correctAnsText}</p>
                               </div>
                            </div>
+                           {explanationText && (
+                              <div className="mt-4 bg-purple-50 border border-purple-200 rounded-xl p-4">
+                                 <span className="text-[10px] font-black uppercase text-purple-500 tracking-wider block mb-1">Teacher Feedback</span>
+                                 <p className="text-purple-700 font-bold text-sm italic">"{explanationText}"</p>
+                              </div>
+                           )}
                         </div>
                      )
                   })
