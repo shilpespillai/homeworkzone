@@ -169,14 +169,18 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
 
   const reviewQuestions = isReviewing 
     ? homework.questions.filter(q => {
+        let isWrong = false;
         if (Object.keys(answers).length > 0) {
-          return answers[q.id] !== q.answer;
+          isWrong = answers[q.id] !== q.answer;
+        } else {
+          isWrong = wrongAnswersExplanations && !!wrongAnswersExplanations[q.id];
         }
-        return wrongAnswersExplanations && !!wrongAnswersExplanations[q.id];
+        return isReviewing === 'correct' ? !isWrong : isWrong;
       }) 
     : homework.questions;
   
-  // If they got everything right, just show all questions during review
+  // If the filter returns empty, we can just show an empty state or fall back to all.
+  // For simplicity, if they have no correct/incorrect, we just show all but we will label it appropriately later.
   const displayQuestions = (isReviewing && reviewQuestions.length === 0) ? homework.questions : reviewQuestions;
 
   const currentQuestion = displayQuestions[currentIdx] || displayQuestions[0];
@@ -335,7 +339,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         percentage={(score / homework.questions.length) * 100} 
         feedback={feedback}
         onHome={onComplete}
-        onReview={() => { setIsReviewing(true); setCurrentIdx(0); }}
+        onReview={(type) => { setIsReviewing(type); setCurrentIdx(0); }}
         onRetake={() => {
            setIsSubmitted(false);
            setIsReviewing(false);
@@ -389,7 +393,9 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                <h2 className="text-3xl font-black text-[#F97316] uppercase tracking-tight">{homework.title} {isReviewing && "(REVIEW)"}</h2>
                <p className="text-[#F97316] font-bold text-sm tracking-[0.2em] uppercase mt-0.5">ADVENTURE QUEST</p>
                <p className="text-slate-700 font-black text-sm uppercase tracking-widest mt-3">
-                 {homework.subject} - {isReviewing ? (displayQuestions.length === homework.questions.length ? 'PERFECT SCORE REVIEW' : `${displayQuestions.length} MISTAKES TO REVIEW`) : `${homework.questions.length} QUESTIONS`}
+                 {homework.subject} - {!isReviewing 
+                   ? `${homework.questions.length} QUESTIONS` 
+                   : (isReviewing === 'correct' ? `${displayQuestions.length} CORRECT ANSWERS` : `${displayQuestions.length} MISTAKES TO REVIEW`)}
                </p>
             </div>
 
@@ -403,7 +409,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
 
           <div className="flex items-center gap-4 px-2">
             <span className="text-[10px] font-black uppercase text-slate-500 tracking-widest shrink-0 whitespace-nowrap">
-              {isReviewing && displayQuestions.length < homework.questions.length ? 'MISTAKE' : 'QUESTION'} {currentIdx + 1} OF {displayQuestions.length}
+              {isReviewing === 'correct' ? 'CORRECT' : (isReviewing === 'incorrect' ? 'MISTAKE' : 'QUESTION')} {currentIdx + 1} OF {displayQuestions.length}
             </span>
             <div className="flex-1 relative flex items-center h-8">
               <div className="w-full h-4 bg-[#E0F2FE] rounded-full overflow-hidden shadow-inner">
@@ -518,7 +524,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
               })}
             </div>
 
-            {isReviewing && answers[currentQuestion.id] !== currentQuestion.answer && (
+            {isReviewing && (Object.keys(answers).length > 0 ? answers[currentQuestion.id] !== currentQuestion.answer : !!wrongAnswersExplanations[currentQuestion.id]) && (
               <motion.div 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -648,7 +654,10 @@ const QuizResults = ({ score, total, percentage, feedback, onHome, onReview, onR
 
         <div className="pt-4 flex flex-col gap-4">
           <div className="flex gap-4">
-             <button onClick={onReview} className="flex-1 bg-orange-100 hover:bg-orange-200 text-orange-700 py-4 rounded-[24px] font-black text-lg transition-all shadow-[0_4px_0_0_#fed7aa] active:translate-y-1 active:shadow-none">Review Answers</button>
+             <button onClick={() => onReview('incorrect')} className="flex-1 bg-rose-100 hover:bg-rose-200 text-rose-700 py-4 rounded-[24px] font-black text-sm md:text-base transition-all shadow-[0_4px_0_0_#fecdd3] active:translate-y-1 active:shadow-none">Review Mistakes</button>
+             <button onClick={() => onReview('correct')} className="flex-1 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 py-4 rounded-[24px] font-black text-sm md:text-base transition-all shadow-[0_4px_0_0_#a7f3d0] active:translate-y-1 active:shadow-none">Review Correct</button>
+          </div>
+          <div className="flex gap-4">
              <button onClick={onRetake} className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-4 rounded-[24px] font-black text-lg transition-all shadow-[0_4px_0_0_#e2e8f0] active:translate-y-1 active:shadow-none">Retake Mission</button>
           </div>
           <button onClick={onHome} className="w-full bg-orange-500 hover:bg-orange-400 text-white py-4 rounded-[24px] font-black text-xl transition-all shadow-[0_6px_0_0_#c2410c] active:translate-y-1 active:shadow-none mt-2">Back to Dashboard</button>
