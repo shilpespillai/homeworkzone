@@ -27,12 +27,14 @@ Step 3: Final answer: ...`
     `ID: ${q.id}\nQuestion: "${q.text}"\nOptions: ${JSON.stringify(q.options)}\nCorrect Answer: "${q.answer}"\nSubtopic: "${q.subtopic || ''}"`
   ).join('\n\n');
 
-  const prompt = `You are a friendly and accurate teacher preparing explanations for a ${subject} quiz.
+  const prompt = `You are a friendly, highly-detailed, and accurate teacher preparing explanations for a ${subject} quiz.
 
-For EACH question below, write a clear and encouraging explanation (2-4 sentences) that:
-1. States why the correct answer is right
-2. Briefly explains why the other options are wrong (if relevant)
-3. Is friendly and appropriate for school-aged students
+For EACH question below, write an extremely detailed and encouraging explanation. You MUST follow this exact structure for EVERY explanation:
+
+1. **Concept First**: Start by explicitly teaching the underlying concept or rule being tested. Explain the "why" and "how" before even mentioning the specific question. Do not skip this, even for the smallest or simplest questions.
+2. **Step-by-Step Breakdown**: Walk through the problem step-by-step applying the concept.
+3. **Correct Answer Validation**: State exactly why the correct answer is right.
+4. **Incorrect Option Analysis**: Briefly explain why the other options are wrong (if relevant).
 
 ${mathInstruction}
 
