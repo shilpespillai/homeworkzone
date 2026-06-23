@@ -1169,12 +1169,12 @@ const MissionReportModal = ({ submission, homework, onClose }) => {
 const ReportSubjectCard = ({ subject, submissionsCount, averageScore, onSelect }) => {
   const getSubjectAesthetics = (sub) => {
     const s = (sub || '').toLowerCase();
-    if (s.includes('math')) return { bg: 'bg-[#1e293b]', title: 'MATH DOSSIER', img: '/subject_math.png', accent: 'text-blue-400' };
-    if (s.includes('read') || s.includes('english')) return { bg: 'bg-[#1e293b]', title: 'READING DOSSIER', img: '/subject_reading.png', accent: 'text-orange-400' };
-    if (s.includes('geo') || s.includes('hist')) return { bg: 'bg-[#1e293b]', title: 'GEO DOSSIER', img: '/subject_geography.png', accent: 'text-green-400' };
-    if (s.includes('art')) return { bg: 'bg-[#1e293b]', title: 'ART DOSSIER', img: '/subject_art.png', accent: 'text-rose-400' };
+    if (s.includes('math')) return { bg: 'bg-gradient-to-br from-blue-400 to-indigo-500 shadow-blue-500/30', title: 'MATH MISSIONS', img: '/subject_math.png' };
+    if (s.includes('read') || s.includes('english')) return { bg: 'bg-gradient-to-br from-orange-400 to-rose-500 shadow-orange-500/30', title: 'READING MISSIONS', img: '/subject_reading.png' };
+    if (s.includes('geo') || s.includes('hist')) return { bg: 'bg-gradient-to-br from-emerald-400 to-teal-500 shadow-emerald-500/30', title: 'GEO MISSIONS', img: '/subject_geography.png' };
+    if (s.includes('art')) return { bg: 'bg-gradient-to-br from-pink-400 to-purple-500 shadow-pink-500/30', title: 'ART MISSIONS', img: '/subject_art.png' };
     
-    return { bg: 'bg-[#1e293b]', title: (sub.toUpperCase() || 'GENERAL') + ' DOSSIER', img: '/science_hero.png', accent: 'text-yellow-400' };
+    return { bg: 'bg-gradient-to-br from-amber-400 to-orange-500 shadow-amber-500/30', title: (sub.toUpperCase() || 'GENERAL') + ' MISSIONS', img: '/science_hero.png' };
   };
 
   const aes = getSubjectAesthetics(subject);
@@ -1182,25 +1182,25 @@ const ReportSubjectCard = ({ subject, submissionsCount, averageScore, onSelect }
   return (
     <div 
       onClick={() => onSelect(subject)}
-      className={`${aes.bg} rounded-[32px] w-full relative overflow-hidden flex flex-col p-6 shadow-xl cursor-pointer hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 group border-2 border-slate-700/50`}
+      className={`${aes.bg} rounded-[32px] w-full min-h-[220px] relative overflow-hidden flex flex-col p-8 shadow-xl cursor-pointer hover:-translate-y-2 hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 group border-4 border-white/20`}
     >
-      <div className="flex items-center gap-4 mb-6">
-         <div className="w-16 h-16 rounded-2xl overflow-hidden bg-white/10 shrink-0">
-            <img src={aes.img} className="w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" alt={aes.title} />
+      <div className="flex flex-col items-center text-center gap-4 mb-6 relative z-10">
+         <div className="w-24 h-24 rounded-full overflow-hidden bg-white/20 border-4 border-white/30 shadow-lg shrink-0 group-hover:rotate-12 transition-transform duration-500">
+            <img src={aes.img} className="w-full h-full object-cover" alt={aes.title} />
          </div>
          <div>
-            <h4 className={`font-black tracking-widest text-xs mb-1 ${aes.accent}`}>{aes.title}</h4>
-            <div className="flex gap-3 text-white/60 text-xs font-bold uppercase">
+            <h4 className="font-black tracking-widest text-xl mb-2 text-white drop-shadow-sm">{aes.title}</h4>
+            <div className="inline-flex items-center gap-3 bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-white text-sm font-bold uppercase shadow-sm">
                <span>{submissionsCount} Reports</span>
-               <span>•</span>
+               <span className="opacity-50">•</span>
                <span>Avg {averageScore}%</span>
             </div>
          </div>
       </div>
       
-      <div className="mt-auto flex items-center justify-between">
-         <span className="text-white/40 text-sm font-bold group-hover:text-white transition-colors">Open Dossier</span>
-         <ChevronRight className="w-5 h-5 text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all" />
+      <div className="absolute bottom-0 left-0 right-0 p-4 bg-black/10 backdrop-blur-sm flex items-center justify-center gap-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+         <span className="text-white text-sm font-black uppercase tracking-widest">Review Mistakes</span>
+         <ChevronRight className="w-5 h-5 text-white" />
       </div>
     </div>
   );
