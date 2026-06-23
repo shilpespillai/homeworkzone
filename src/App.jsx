@@ -1114,10 +1114,102 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
    );
 };
 
+const MissionReportModal = ({ submission, homework, onClose }) => {
+   if (!submission || !homework) return null;
+
+   const incorrectQuestions = homework.questions.filter((q, i) => submission.answers && submission.answers[i] !== q.correctAnswer);
+
+   return (
+      <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex-center p-4">
+         <div className="bg-white rounded-[32px] w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl relative p-8 animate-in fade-in zoom-in duration-300">
+            <button onClick={onClose} className="absolute top-6 right-6 text-slate-400 hover:text-slate-600 transition-colors bg-slate-100 p-2 rounded-full hover:bg-slate-200">
+               <X className="w-5 h-5" />
+            </button>
+            <h2 className="text-3xl font-black text-[#14532d] mb-2">{homework.title}</h2>
+            <p className="text-slate-500 font-bold mb-6 text-sm">Reviewing {incorrectQuestions.length} incorrect answers.</p>
+
+            <div className="space-y-6">
+               {incorrectQuestions.length === 0 ? (
+                  <p className="text-center text-green-500 font-black text-xl py-10">Perfect! You got everything right. 🌟</p>
+               ) : (
+                  incorrectQuestions.map((q, idx) => {
+                     const qIndex = homework.questions.indexOf(q);
+                     const studentAnsIndex = submission.answers[qIndex];
+                     const studentAnsText = studentAnsIndex !== undefined ? q.options[studentAnsIndex] : "No Answer";
+                     const correctAnsText = q.options[q.correctAnswer];
+                     
+                     return (
+                        <div key={idx} className="bg-slate-50 border-2 border-slate-100 rounded-[24px] p-6">
+                           <h4 className="font-black text-slate-700 text-lg mb-4">Q: {q.text}</h4>
+                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div className="bg-rose-50 border border-rose-200 rounded-xl p-4">
+                                 <span className="text-[10px] font-black uppercase text-rose-500 tracking-wider block mb-1">Your Answer</span>
+                                 <p className="text-rose-700 font-bold">{studentAnsText}</p>
+                              </div>
+                              <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+                                 <span className="text-[10px] font-black uppercase text-green-500 tracking-wider block mb-1">Correct Answer</span>
+                                 <p className="text-green-700 font-bold">{correctAnsText}</p>
+                              </div>
+                           </div>
+                        </div>
+                     )
+                  })
+               )}
+            </div>
+         </div>
+      </div>
+   );
+};
+
+const ReportSubjectCard = ({ subject, submissionsCount, averageScore, onSelect }) => {
+  const getSubjectAesthetics = (sub) => {
+    const s = (sub || '').toLowerCase();
+    if (s.includes('math')) return { bg: 'bg-[#1e293b]', title: 'MATH DOSSIER', img: '/subject_math.png', accent: 'text-blue-400' };
+    if (s.includes('read') || s.includes('english')) return { bg: 'bg-[#1e293b]', title: 'READING DOSSIER', img: '/subject_reading.png', accent: 'text-orange-400' };
+    if (s.includes('geo') || s.includes('hist')) return { bg: 'bg-[#1e293b]', title: 'GEO DOSSIER', img: '/subject_geography.png', accent: 'text-green-400' };
+    if (s.includes('art')) return { bg: 'bg-[#1e293b]', title: 'ART DOSSIER', img: '/subject_art.png', accent: 'text-rose-400' };
+    
+    return { bg: 'bg-[#1e293b]', title: (sub.toUpperCase() || 'GENERAL') + ' DOSSIER', img: '/science_hero.png', accent: 'text-yellow-400' };
+  };
+
+  const aes = getSubjectAesthetics(subject);
+  
+  return (
+    <div 
+      onClick={() => onSelect(subject)}
+      className={`${aes.bg} rounded-[32px] w-full relative overflow-hidden flex flex-col p-6 shadow-xl cursor-pointer hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 group border-2 border-slate-700/50`}
+    >
+      <div className="flex items-center gap-4 mb-6">
+         <div className="w-16 h-16 rounded-2xl overflow-hidden bg-white/10 shrink-0">
+            <img src={aes.img} className="w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" alt={aes.title} />
+         </div>
+         <div>
+            <h4 className={`font-black tracking-widest text-xs mb-1 ${aes.accent}`}>{aes.title}</h4>
+            <div className="flex gap-3 text-white/60 text-xs font-bold uppercase">
+               <span>{submissionsCount} Reports</span>
+               <span>•</span>
+               <span>Avg {averageScore}%</span>
+            </div>
+         </div>
+      </div>
+      
+      <div className="mt-auto flex items-center justify-between">
+         <span className="text-white/40 text-sm font-bold group-hover:text-white transition-colors">Open Dossier</span>
+         <ChevronRight className="w-5 h-5 text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all" />
+      </div>
+    </div>
+  );
+};
+
 const MissionReports = ({ studentName, teacher, submissions: initialSubmissions, homeworks = [], onStartMission }) => {
    const [submissions, setSubmissions] = useState(initialSubmissions || []);
    const [loading, setLoading] = useState(!initialSubmissions);
-   const [selectedDueDate, setSelectedDueDate] = useState('');
+   
+   const [activeSubject, setActiveSubject] = useState(null);
+   const [selectedMonth, setSelectedMonth] = useState('Current Month');
+   
+   const [reviewSubmission, setReviewSubmission] = useState(null);
+   const [reviewHomework, setReviewHomework] = useState(null);
 
    useEffect(() => {
       if (initialSubmissions) {
@@ -1146,156 +1238,229 @@ const MissionReports = ({ studentName, teacher, submissions: initialSubmissions,
       fetchSubmissions();
    }, [studentName, initialSubmissions]);
 
-   // Sort client-side: Latest homework on top (by homework's createdAt descending, fallback to sub.submittedAt)
-   const sortedSubmissions = useMemo(() => {
-      const list = [...submissions];
-      list.sort((a, b) => {
-         const hwA = homeworks.find(hw => hw.id === a.homeworkId);
-         const hwB = homeworks.find(hw => hw.id === b.homeworkId);
-         
-         let timeA = 0;
-         if (hwA?.createdAt) {
-            timeA = hwA.createdAt.toDate ? hwA.createdAt.toDate().getTime() : new Date(hwA.createdAt).getTime();
-         } else {
-            timeA = a.submittedAt?.toDate ? a.submittedAt.toDate().getTime() : new Date(a.submittedAt || 0).getTime();
-         }
-         
-         let timeB = 0;
-         if (hwB?.createdAt) {
-            timeB = hwB.createdAt.toDate ? hwB.createdAt.toDate().getTime() : new Date(hwB.createdAt).getTime();
-         } else {
-            timeB = b.submittedAt?.toDate ? b.submittedAt.toDate().getTime() : new Date(b.submittedAt || 0).getTime();
-         }
-         
-         return timeB - timeA;
+   const subjectsMap = useMemo(() => {
+      const map = {};
+      submissions.forEach(sub => {
+         const hw = homeworks.find(h => h.id === sub.homeworkId);
+         if (!hw) return;
+         const subject = hw.subject || 'General';
+         if (!map[subject]) map[subject] = [];
+         map[subject].push({ sub, hw });
       });
-      return list;
+      return map;
    }, [submissions, homeworks]);
 
-   // Filter client-side: Filter by homework's due date
-   const filteredSubmissions = useMemo(() => {
-      if (!selectedDueDate) return sortedSubmissions;
-      return sortedSubmissions.filter(sub => {
-         const correspondingHw = homeworks.find(hw => hw.id === sub.homeworkId);
-         if (!correspondingHw?.dueDate) return false;
-         try {
-            const hwDate = new Date(correspondingHw.dueDate);
-            const filterDate = new Date(selectedDueDate);
-            return hwDate.toDateString() === filterDate.toDateString();
-         } catch (e) {
-            return false;
+   const availableSubjects = Object.keys(subjectsMap).sort();
+
+   const uniqueMonths = useMemo(() => {
+      if (!activeSubject) return [];
+      const items = subjectsMap[activeSubject] || [];
+      const monthsMap = {};
+      
+      const now = new Date();
+      const currentKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+      monthsMap[currentKey] = { key: 'Current Month', label: 'Current Month', year: now.getFullYear(), month: now.getMonth() };
+      
+      items.forEach(({ hw, sub }) => {
+         const date = sub.submittedAt?.toDate ? sub.submittedAt.toDate() : new Date(sub.submittedAt || Date.now());
+         const year = date.getFullYear();
+         const month = date.getMonth();
+         const key = `${year}-${String(month + 1).padStart(2, '0')}`;
+         if (key !== currentKey) {
+            const label = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            monthsMap[key] = { key, label, year, month };
          }
       });
-   }, [sortedSubmissions, selectedDueDate, homeworks]);
+      
+      return Object.values(monthsMap).sort((a, b) => {
+         if (a.key === 'Current Month') return -1;
+         if (b.key === 'Current Month') return 1;
+         if (a.year !== b.year) return b.year - a.year;
+         return b.month - a.month;
+      });
+   }, [activeSubject, subjectsMap]);
+
+   const filteredItems = useMemo(() => {
+      if (!activeSubject) return [];
+      let items = subjectsMap[activeSubject] || [];
+      
+      if (selectedMonth) {
+         let filterYear, filterMonth;
+         if (selectedMonth === 'Current Month') {
+            const now = new Date();
+            filterYear = now.getFullYear();
+            filterMonth = now.getMonth();
+         } else {
+            const match = uniqueMonths.find(m => m.key === selectedMonth);
+            if (match) {
+               filterYear = match.year;
+               filterMonth = match.month;
+            }
+         }
+         
+         if (filterYear !== undefined) {
+            items = items.filter(({ sub }) => {
+               const date = sub.submittedAt?.toDate ? sub.submittedAt.toDate() : new Date(sub.submittedAt || Date.now());
+               return date.getFullYear() === filterYear && date.getMonth() === filterMonth;
+            });
+         }
+      }
+      
+      return items.sort((a, b) => {
+         const timeA = a.sub.submittedAt?.toDate ? a.sub.submittedAt.toDate().getTime() : new Date(a.sub.submittedAt || 0).getTime();
+         const timeB = b.sub.submittedAt?.toDate ? b.sub.submittedAt.toDate().getTime() : new Date(b.sub.submittedAt || 0).getTime();
+         return timeB - timeA;
+      });
+   }, [activeSubject, selectedMonth, subjectsMap, uniqueMonths]);
 
    return (
-      <div className="max-w-[100%] mx-auto w-full py-4 space-y-10 pb-20">
+      <div className="max-w-[100%] mx-auto w-full py-4 space-y-10 pb-20 relative">
+         {reviewSubmission && reviewHomework && (
+            <MissionReportModal 
+               submission={reviewSubmission} 
+               homework={reviewHomework} 
+               onClose={() => { setReviewSubmission(null); setReviewHomework(null); }} 
+            />
+         )}
+
          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-2">
             <div className="space-y-1">
-               <h1 className="text-4xl font-black text-[#14532d] tracking-tight">Mission Reports</h1>
-               <p className="text-sm font-bold text-[#166534] italic">Review your performance and AI feedback.</p>
+               <div className="flex items-center gap-4">
+                  <h1 className="text-4xl font-black text-[#14532d] tracking-tight">Mission Reports</h1>
+                  {activeSubject && (
+                     <button 
+                        onClick={() => setActiveSubject(null)}
+                        className="text-[#16a34a] font-black text-sm flex items-center gap-1 hover:text-[#15803d] transition-colors bg-green-50 px-3 py-1.5 rounded-xl border border-green-200"
+                     >
+                        ← Back to Dossiers
+                     </button>
+                  )}
+               </div>
+               <p className="text-sm font-bold text-[#166534] italic">Review your performance and master your mistakes!</p>
             </div>
             
-             <div className="flex items-center gap-3 bg-white p-4 rounded-[24px] border border-slate-100 shadow-sm shrink-0">
-                <div className="flex items-center gap-2">
-                   <input 
-                      type="date" 
-                      value={selectedDueDate} 
-                      onChange={(e) => setSelectedDueDate(e.target.value)} 
-                      className="bg-slate-50 border-2 border-slate-200 text-slate-700 font-bold px-3 py-1.5 rounded-xl focus:border-green-300 focus:outline-none transition-all text-xs"
-                   />
-                   {selectedDueDate && (
-                      <button 
-                         onClick={() => setSelectedDueDate('')}
-                         className="bg-rose-50 hover:bg-rose-100 text-rose-500 font-black text-[10px] px-3 py-1.5 rounded-xl border border-rose-100 transition-all"
-                      >
-                         Clear ✕
-                      </button>
-                   )}
-                </div>
-             </div>
-         </div>
-
-         <div className="grid grid-cols-1 gap-6">
-            {filteredSubmissions.map((sub, i) => {
-               const correspondingHw = homeworks.find(hw => hw.id === sub.homeworkId);
-               const hwTitle = correspondingHw ? correspondingHw.title : `Mission Result: ${sub.score}%`;
-               const hwSubject = correspondingHw ? correspondingHw.subject : "Classroom Assignment";
-               
-               let formattedDate = 'Completed';
-               if (sub.submittedAt) {
-                  try {
-                     const date = sub.submittedAt.toDate ? sub.submittedAt.toDate() : new Date(sub.submittedAt);
-                     formattedDate = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-                  } catch (e) {}
-               }
-
-               return (
-                  <motion.div 
-                     initial={{ opacity: 0, x: -20 }}
-                     animate={{ opacity: 1, x: 0 }}
-                     transition={{ delay: i * 0.1 }}
-                     key={sub.id}
-                     className="bg-white rounded-[32px] p-8 border border-slate-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6 group hover:shadow-md transition-all"
-                  >
-                     <div className="flex items-start sm:items-center gap-6">
-                        <div className="w-16 h-16 bg-blue-50 rounded-2xl flex-center shadow-sm shrink-0">
-                           <Trophy className={`w-8 h-8 ${sub.score >= 80 ? 'text-amber-400' : 'text-blue-400'}`} />
-                        </div>
-                        <div className="space-y-1">
-                           <h3 className="text-xl font-black text-slate-800 tracking-tight">{hwTitle}</h3>
-                           <div className="flex items-center gap-2">
-                              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{hwSubject}</span>
-                              {correspondingHw && (
-                                 <>
-                                    <span className="text-slate-300 text-[10px]">•</span>
-                                    <span className="text-[10px] font-black text-green-600 bg-green-50 px-2 py-0.5 rounded-lg uppercase tracking-wider font-bold">Score: {sub.score}%</span>
-                                    {correspondingHw.dueDate && (
-                                       <>
-                                          <span className="text-slate-300 text-[10px]">•</span>
-                                          <span className="text-[10px] font-black text-slate-400 bg-slate-50 px-2 py-0.5 rounded-lg uppercase tracking-wider font-bold">
-                                             Due: {new Date(correspondingHw.dueDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-                                          </span>
-                                       </>
-                                    )}
-                                 </>
-                              )}
-                           </div>
-                           {sub.feedback && (
-                             <div className="mt-3 bg-green-50/50 border border-green-200 p-4 rounded-2xl relative shadow-sm max-w-lg text-left">
-                               <span className="text-[9px] font-black uppercase text-green-500 tracking-wider block mb-1">🤖 AI Teacher Feedback</span>
-                               <p className="text-xs font-bold text-[#5C4D9F] leading-relaxed italic">"{sub.feedback}"</p>
-                             </div>
-                           )}
-                        </div>
-                     </div>
-                     <div className="flex sm:flex-col items-start sm:items-end justify-between sm:justify-center gap-3 shrink-0 self-stretch sm:self-auto border-t sm:border-t-0 pt-4 sm:pt-0 border-slate-100">
-                        <div className="text-left sm:text-right">
-                           <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{formattedDate}</p>
-                           <p className="text-sm font-black text-emerald-500">+{sub.correctCount * 10} XP</p>
-                        </div>
-                        {onStartMission && sub.score < 100 && (
-                           <button 
-                              onClick={() => onStartMission(sub.homeworkId, sub)}
-                              className="bg-green-100 hover:bg-green-200 text-green-700 text-[10px] font-black py-2.5 px-5 rounded-xl shadow-sm hover:scale-102 transition-all whitespace-nowrap active:scale-[0.98]"
-                           >
-                              Review Mistakes 🔍
-                           </button>
-                        )}
-                     </div>
-                  </motion.div>
-               );
-            })}
-            {filteredSubmissions.length === 0 && !loading && (
-               <div className="text-center py-20 bg-slate-50/50 rounded-[32px] border-2 border-dashed border-slate-200">
-                  <p className="text-slate-400 font-bold italic">
-                     {selectedDueDate 
-                        ? `No missions due on ${new Date(selectedDueDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })} found. 📅`
-                        : 'No reports yet. Complete a mission first! 🚀'}
-                  </p>
+            {activeSubject && (
+               <div className="flex items-center gap-3 bg-white p-2 rounded-[24px] border border-slate-100 shadow-sm shrink-0">
+                  <div className="relative shrink-0">
+                     <select 
+                        value={selectedMonth}
+                        onChange={(e) => setSelectedMonth(e.target.value)}
+                        className="appearance-none bg-slate-50 border-2 border-slate-100 rounded-full pl-10 pr-10 py-2 text-sm font-black text-slate-600 outline-none focus:border-green-400 cursor-pointer"
+                     >
+                        {uniqueMonths.map(m => (
+                           <option key={m.key} value={m.key}>{m.label}</option>
+                        ))}
+                     </select>
+                     <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                     <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                  </div>
                </div>
             )}
          </div>
+
+         {loading ? (
+            <div className="flex-center py-20"><div className="w-10 h-10 border-4 border-[#16a34a] border-t-transparent rounded-full animate-spin" /></div>
+         ) : !activeSubject ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-2">
+               {availableSubjects.map(sub => {
+                  const subItems = subjectsMap[sub];
+                  const avgScore = Math.round(subItems.reduce((acc, curr) => acc + (curr.sub.score || 0), 0) / subItems.length);
+                  return (
+                     <ReportSubjectCard 
+                        key={sub}
+                        subject={sub}
+                        submissionsCount={subItems.length}
+                        averageScore={avgScore}
+                        onSelect={setActiveSubject}
+                     />
+                  );
+               })}
+               {availableSubjects.length === 0 && (
+                  <div className="col-span-full text-center py-20 bg-white rounded-[32px] border-2 border-dashed border-slate-200">
+                     <p className="text-xl font-black text-slate-300">No reports yet. Complete a mission first! 🚀</p>
+                  </div>
+               )}
+            </div>
+         ) : (
+            <div className="grid grid-cols-1 gap-6">
+               {filteredItems.map(({ sub, hw }, i) => {
+                  const hwTitle = hw ? hw.title : `Mission Result: ${sub.score}%`;
+                  const hwSubject = hw ? hw.subject : "Classroom Assignment";
+                  
+                  let formattedDate = 'Completed';
+                  if (sub.submittedAt) {
+                     try {
+                        const date = sub.submittedAt.toDate ? sub.submittedAt.toDate() : new Date(sub.submittedAt);
+                        formattedDate = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                     } catch (e) {}
+                  }
+
+                  const hasMistakes = sub.score < 100;
+
+                  return (
+                     <motion.div 
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        key={sub.id}
+                        className="bg-white rounded-[32px] p-8 border border-slate-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6 group hover:shadow-md transition-all"
+                     >
+                        <div className="flex items-start sm:items-center gap-6">
+                           <div className="w-16 h-16 bg-green-50 rounded-2xl flex-center shadow-sm shrink-0">
+                              <Trophy className={`w-8 h-8 ${sub.score >= 80 ? 'text-amber-400' : 'text-green-500'}`} />
+                           </div>
+                           <div className="space-y-1">
+                              <h3 className="text-xl font-black text-slate-800 tracking-tight">{hwTitle}</h3>
+                              <div className="flex items-center gap-2">
+                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{hwSubject}</span>
+                                 {hw && (
+                                    <>
+                                       <span className="text-slate-300 text-[10px]">•</span>
+                                       <span className={`text-[10px] font-black px-2 py-0.5 rounded-lg uppercase tracking-wider font-bold ${sub.score >= 80 ? 'text-green-600 bg-green-50' : 'text-orange-600 bg-orange-50'}`}>
+                                          Score: {sub.score}%
+                                       </span>
+                                    </>
+                                 )}
+                              </div>
+                              {sub.feedback && (
+                                <div className="mt-3 bg-purple-50/50 border border-purple-200 p-4 rounded-2xl relative shadow-sm max-w-lg text-left">
+                                  <span className="text-[9px] font-black uppercase text-purple-500 tracking-wider block mb-1">🤖 AI Teacher Feedback</span>
+                                  <p className="text-xs font-bold text-[#5C4D9F] leading-relaxed italic">"{sub.feedback}"</p>
+                                </div>
+                              )}
+                           </div>
+                        </div>
+                        <div className="flex sm:flex-col items-start sm:items-end justify-between sm:justify-center gap-3 shrink-0 self-stretch sm:self-auto border-t sm:border-t-0 pt-4 sm:pt-0 border-slate-100">
+                           <div className="text-left sm:text-right">
+                              <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{formattedDate}</p>
+                              <p className="text-sm font-black text-emerald-500">+{sub.correctCount * 10} XP</p>
+                           </div>
+                           {hasMistakes && (
+                              <button 
+                                 onClick={() => { setReviewSubmission(sub); setReviewHomework(hw); }}
+                                 className="bg-rose-100 hover:bg-rose-200 text-rose-700 text-xs font-black py-3 px-6 rounded-2xl shadow-[0_4px_0_0_#f43f5e] hover:scale-105 active:translate-y-1 active:shadow-none transition-all whitespace-nowrap"
+                              >
+                                 Review Mistakes 🔍
+                              </button>
+                           )}
+                           {!hasMistakes && (
+                              <div className="bg-green-100 text-green-700 text-xs font-black py-3 px-6 rounded-2xl shadow-sm whitespace-nowrap border border-green-200">
+                                 Perfect Score! 🏆
+                              </div>
+                           )}
+                        </div>
+                     </motion.div>
+                  );
+               })}
+               {filteredItems.length === 0 && (
+                  <div className="text-center py-20 bg-slate-50/50 rounded-[32px] border-2 border-dashed border-slate-200">
+                     <p className="text-slate-400 font-bold italic">
+                        No reports found for {selectedMonth}. 📅
+                     </p>
+                  </div>
+               )}
+            </div>
+         )}
       </div>
    );
 };
