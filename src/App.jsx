@@ -586,127 +586,84 @@ const SubjectIcon = ({ subject }) => {
 };
 
 const HomeworkCard = ({ hw, completedSubmission, hasDraft, delay, onStart, teacher }) => {
-  const getSubjectAesthetics = (subject) => {
-    const s = (subject || '').toLowerCase();
-    if (s.includes('science')) {
-      return {
-        bg: 'bg-[#1e3a8a]', // deep blue
-        badge: 'FUN WITH SCIENCE!',
-        image: 'https://image.pollinations.ai/prompt/cute%203d%20kids%20in%20rocket%20ship%20space%20planets%20alien%20vibrant%20colors%20solid%20hex%201e3a8a%20background?width=600&height=400&nologo=true',
-        accent: 'bg-yellow-400',
-        textAccent: 'text-yellow-400',
-        progressBarBg: 'bg-white/20'
-      };
-    }
-    if (s.includes('math')) {
-      return {
-        bg: 'bg-[#4c1d95]', // deep purple
-        badge: 'MATH MAGIC!',
-        image: 'https://image.pollinations.ai/prompt/cute%203d%20kids%20playing%20with%20giant%20glowing%20numbers%20vibrant%20colors%20solid%20hex%204c1d95%20background?width=600&height=400&nologo=true',
-        accent: 'bg-[#38bdf8]',
-        textAccent: 'text-[#38bdf8]',
-        progressBarBg: 'bg-white/20'
-      };
-    }
-    if (s.includes('english') || s.includes('reading') || s.includes('literacy')) {
-      return {
-        bg: 'bg-[#9f1239]', // deep rose
-        badge: 'READING ADVENTURE!',
-        image: 'https://image.pollinations.ai/prompt/cute%203d%20kids%20reading%20giant%20magical%20storybook%20vibrant%20colors%20solid%20hex%209f1239%20background?width=600&height=400&nologo=true',
-        accent: 'bg-[#f472b6]',
-        textAccent: 'text-[#f472b6]',
-        progressBarBg: 'bg-white/20'
-      };
-    }
-    // Default
-    return {
-      bg: 'bg-[#0f766e]', // deep teal
-      badge: 'LEARNING QUEST!',
-      image: 'https://image.pollinations.ai/prompt/cute%203d%20kids%20exploring%20with%20backpacks%20and%20treasure%20map%20vibrant%20colors%20solid%20hex%200f766e%20background?width=600&height=400&nologo=true',
-      accent: 'bg-[#fde047]',
-      textAccent: 'text-[#fde047]',
-      progressBarBg: 'bg-white/20'
-    };
-  };
-
-  const aes = getSubjectAesthetics(hw.subject);
-  
-  const isDueTomorrow = () => {
-    if (!hw.dueDate) return false;
-    const due = new Date(hw.dueDate);
-    const tmr = new Date();
-    tmr.setDate(tmr.getDate() + 1);
-    return due.getDate() === tmr.getDate() && due.getMonth() === tmr.getMonth() && due.getFullYear() === tmr.getFullYear();
-  };
-
-  const dueDateStr = hw.dueDate ? new Date(hw.dueDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : 'NO DUE DATE';
-  const dueLabel = isDueTomorrow() ? 'DUE TOMORROW' : `DUE ${dueDateStr.toUpperCase()}`;
-  
-  let buttonLabel = "START LEARNING!";
-  let buttonBg = "bg-[#FF6B00] shadow-[0_4px_0_0_#CC5500] hover:bg-[#FF8533]";
-  if (completedSubmission) {
-    buttonLabel = "REVIEW MISSION";
-    buttonBg = "bg-[#10B981] shadow-[0_4px_0_0_#059669] hover:bg-[#34D399]";
-  } else if (hasDraft) {
-    buttonLabel = "RESUME MISSION 🚀";
-    buttonBg = "bg-[#8B5CF6] shadow-[0_4px_0_0_#6D28D9] hover:bg-[#A78BFA]";
-  }
-
-  const numQuestions = hw.questions?.length || 1;
-
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay }}
-      className={`${aes.bg} rounded-[32px] p-6 md:p-10 w-full relative overflow-hidden flex flex-col md:flex-row items-center justify-between shadow-lg mb-6 group`}
+      className="bg-white rounded-[24px] p-6 border border-slate-100 shadow-sm flex flex-col md:flex-row items-center gap-8 relative overflow-hidden group hover:shadow-md transition-all"
     >
-      {/* Decorative Stars/Dots in background */}
-      <div className="absolute top-8 left-8 w-1.5 h-1.5 bg-white rounded-full opacity-50 shadow-[0_0_8px_white]"></div>
-      <div className="absolute top-1/4 right-1/3 w-2.5 h-2.5 bg-white rounded-full opacity-40 shadow-[0_0_10px_white]"></div>
-      <div className="absolute bottom-10 left-1/3 w-2 h-2 bg-white rounded-full opacity-30 shadow-[0_0_6px_white]"></div>
-      <div className="absolute bottom-8 right-10 w-3 h-3 bg-yellow-300 rounded-full opacity-60 shadow-[0_0_12px_yellow]"></div>
-
-      <div className="flex-1 w-full relative z-10 flex flex-col items-start">
-        <div className={`inline-block ${aes.accent} text-slate-900 px-4 py-1.5 rounded-full font-black text-xs md:text-sm mb-4 md:mb-5 uppercase tracking-widest shadow-sm`}>
-          {aes.badge}
-        </div>
-        
-        <h3 className="text-white text-3xl md:text-4xl lg:text-5xl font-black uppercase leading-tight mb-2 md:mb-3 tracking-tight drop-shadow-md">
-          {hw.title}
-        </h3>
-        
-        <p className="text-white/80 text-base md:text-lg lg:text-xl font-bold mb-6 md:mb-8 max-w-xl line-clamp-2 drop-shadow-sm">
-          {hw.instructions || 'Answer the questions below to complete your mission!'}
-        </p>
-        
-        <div className="mb-6 md:mb-8 w-full">
-          <p className={`${aes.textAccent} font-black text-sm md:text-base mb-1 uppercase tracking-wider drop-shadow-sm`}>
-            {dueLabel}
-          </p>
-          <p className="text-white/70 text-xs md:text-sm font-bold mb-3">
-            {numQuestions} {numQuestions === 1 ? 'Question' : 'Questions'} • {hw.points || 15} Points
-          </p>
-          <div className={`w-full max-w-sm h-3 md:h-4 ${aes.progressBarBg} rounded-full overflow-hidden`}>
-            <div className={`h-full ${aes.accent} rounded-full transition-all duration-1000 ease-out`} style={{ width: hasDraft ? '50%' : (completedSubmission ? '100%' : '5%') }} />
-          </div>
-        </div>
-        
-        <button 
-          onClick={() => onStart(hw.id, completedSubmission || null)} 
-          className={`${buttonBg} text-white px-8 md:px-10 py-3.5 md:py-4 rounded-full font-black text-lg md:text-xl transition-all active:translate-y-1 active:shadow-none inline-block uppercase tracking-wider drop-shadow-md z-20`}
-        >
-          {buttonLabel}
-        </button>
+      {/* Subject Icon Column */}
+      <div className="shrink-0 w-24 flex justify-center">
+        <SubjectIcon subject={hw.subject} />
       </div>
       
-      <div className="w-full md:w-[400px] lg:w-[500px] h-[250px] md:h-[350px] md:absolute md:-right-8 md:-bottom-8 shrink-0 mt-8 md:mt-0 z-0 opacity-95 group-hover:opacity-100 group-hover:scale-[1.03] transition-transform duration-500 pointer-events-none">
-        <img 
-          src={aes.image} 
-          className="w-full h-full object-contain md:object-right-bottom mix-blend-screen drop-shadow-2xl" 
-          alt="Subject Decoration" 
-          crossOrigin="anonymous"
-        />
+      {/* Content Column */}
+      <div className="flex-1 space-y-2">
+        <h3 className="text-xl font-black text-slate-800">{hw.title}</h3>
+        <p className="text-sm font-bold text-slate-500 line-clamp-2">{hw.instructions || 'Answer the questions below.'}</p>
+        
+        <div className="flex items-center flex-wrap gap-3 pt-2">
+          {hasDraft && !completedSubmission && (
+             <div className="flex items-center gap-1.5 px-3 py-1 bg-orange-50 rounded-lg animate-pulse">
+                <span className="w-2 h-2 rounded-full bg-orange-500" />
+                <span className="text-[10px] font-black text-orange-600 uppercase tracking-widest">In Progress</span>
+             </div>
+          )}
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-orange-50 rounded-lg">
+             <FileText className="w-4 h-4 text-orange-500" />
+             <span className="text-[10px] font-black text-orange-600 uppercase tracking-widest">{hw.questions?.length || 1} Worksheet</span>
+          </div>
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-50 rounded-lg">
+             <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+             <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest">{hw.points || 15} Points</span>
+          </div>
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 rounded-lg text-emerald-800">
+             <GraduationCap className="w-4 h-4 text-emerald-600" />
+             <span className="text-[10px] font-black uppercase tracking-widest">Teacher: {hw.teacherName || teacher?.displayName || 'Classroom Teacher'}</span>
+          </div>
+        </div>
+      </div>
+      
+      {/* Action Column */}
+      <div className="shrink-0 flex flex-col items-end justify-center gap-4 min-w-[200px]">
+        <div className="flex flex-col gap-1 items-end">
+           {hw.createdAt && (
+              <span className="text-xs font-bold text-slate-400">
+                 Assigned: {(() => {
+                    const d = hw.createdAt.toDate ? hw.createdAt.toDate() : new Date(hw.createdAt);
+                    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                 })()}
+              </span>
+           )}
+           <div className="flex items-center gap-2 text-blue-500">
+              <Calendar className="w-5 h-5" />
+              <div className="flex flex-col">
+                 <span className="text-sm font-black text-slate-700">Due: {hw.dueDate ? new Date(hw.dueDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'No Due Date'}</span>
+                 <span className="text-xs font-bold text-slate-400">{hw.dueDate ? new Date(hw.dueDate).toLocaleDateString('en-GB', { weekday: 'long' }) : ''}</span>
+              </div>
+           </div>
+        </div>
+        
+        {completedSubmission ? (
+           <div className="w-full">
+              <button onClick={() => onStart(hw.id, completedSubmission)} className="w-full bg-emerald-100 hover:bg-emerald-200 text-emerald-700 font-black py-3 px-6 rounded-2xl shadow-[0_4px_0_0_#34d399] active:translate-y-1 active:shadow-none transition-all">
+                 Completed (Review)
+              </button>
+           </div>
+        ) : hasDraft ? (
+           <div className="w-full">
+              <button onClick={() => onStart(hw.id, null)} className="w-full bg-orange-500 hover:bg-orange-400 text-white font-black py-3 px-6 rounded-2xl shadow-[0_4px_0_0_#4338ca] active:translate-y-1 active:shadow-none transition-all">
+                 Resume Mission 🚀
+              </button>
+           </div>
+        ) : (
+           <div className="w-full">
+              <button onClick={() => onStart(hw.id, null)} className="w-full bg-orange-500 hover:bg-orange-400 text-white font-black py-3 px-6 rounded-2xl shadow-[0_4px_0_0_#c2410c] active:translate-y-1 active:shadow-none transition-all">
+                 Start Homework
+              </button>
+           </div>
+        )}
       </div>
     </motion.div>
   );
