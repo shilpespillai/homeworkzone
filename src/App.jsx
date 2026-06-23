@@ -1119,6 +1119,23 @@ const MissionReportModal = ({ submission, homework, onClose }) => {
 
    const incorrectQuestions = homework.questions.filter((q) => submission.answers && submission.answers[q.id] !== q.answer);
 
+   const formatExplanation = (text) => {
+      if (!text) return null;
+      // Ensure "Step X:" starts on a new line if it doesn't already
+      const processedText = text.replace(/(?<!\n)\s+(Step\s+\d+:?)/gi, '\n$1');
+      
+      return processedText.split('\n').map((line, i) => {
+         const parts = line.split(/(Step\s+\d+:?)/gi);
+         return (
+            <div key={i} className="mb-2 last:mb-0 leading-relaxed">
+               {parts.map((part, j) => 
+                  /(Step\s+\d+:?)/gi.test(part) ? <strong key={j} className="text-purple-900 font-black block mt-2 mb-1">{part}</strong> : part
+               )}
+            </div>
+         );
+      });
+   };
+
    return (
       <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex-center p-4">
          <div className="bg-white rounded-[32px] w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl relative p-8 animate-in fade-in zoom-in duration-300">
@@ -1151,9 +1168,13 @@ const MissionReportModal = ({ submission, homework, onClose }) => {
                               </div>
                            </div>
                            {explanationText && (
-                              <div className="mt-4 bg-purple-50 border border-purple-200 rounded-xl p-4">
-                                 <span className="text-[10px] font-black uppercase text-purple-500 tracking-wider block mb-1">Teacher Feedback</span>
-                                 <p className="text-purple-700 font-bold text-sm italic">"{explanationText}"</p>
+                              <div className="mt-4 bg-purple-50 border border-purple-200 rounded-xl p-6">
+                                 <span className="text-[10px] font-black uppercase text-purple-500 tracking-wider block mb-3 flex items-center gap-2">
+                                    <span>🤖</span> Teacher Feedback
+                                 </span>
+                                 <div className="text-purple-800 font-medium text-sm">
+                                    {formatExplanation(explanationText)}
+                                 </div>
                               </div>
                            )}
                         </div>
