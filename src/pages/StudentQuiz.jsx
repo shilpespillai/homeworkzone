@@ -338,6 +338,9 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         total={homework.questions.length} 
         percentage={(score / homework.questions.length) * 100} 
         feedback={feedback}
+        questions={homework.questions}
+        answers={answers}
+        wrongAnswersExplanations={wrongAnswersExplanations}
         onHome={onComplete}
         onReview={(type) => { setIsReviewing(type); setCurrentIdx(0); }}
         onRetake={() => {
@@ -600,8 +603,40 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
   );
 }
 
-const QuizResults = ({ score, total, percentage, feedback, onHome, onReview, onRetake }) => {
+const QuizResults = ({ score, total, percentage, feedback, questions, answers, wrongAnswersExplanations, onHome, onReview, onRetake }) => {
   const isPassed = percentage >= 70;
+  
+  // Calculate stats by difficulty
+  const getDifficulty = (q) => {
+    if (q.difficulty) return q.difficulty.toLowerCase();
+    const len = q.text?.length || 0;
+    if (len > 120) return 'challenging';
+    if (len > 60) return 'medium';
+    return 'easy';
+  };
+
+  const stats = {
+    easy: { total: 0, correct: 0, color: 'bg-emerald-500', bg: 'bg-emerald-100', label: 'Easy' },
+    medium: { total: 0, correct: 0, color: 'bg-amber-500', bg: 'bg-amber-100', label: 'Medium' },
+    challenging: { total: 0, correct: 0, color: 'bg-rose-500', bg: 'bg-rose-100', label: 'Challenging' }
+  };
+
+  questions?.forEach(q => {
+    const diff = getDifficulty(q);
+    if (!stats[diff]) return;
+    stats[diff].total += 1;
+    
+    let isWrong = false;
+    if (answers && Object.keys(answers).length > 0) {
+      isWrong = answers[q.id] !== q.answer;
+    } else {
+      isWrong = wrongAnswersExplanations && !!wrongAnswersExplanations[q.id];
+    }
+    
+    if (!isWrong) {
+      stats[diff].correct += 1;
+    }
+  });
   
   // Mascot images for kids
   const mascotPassed = "https://image.pollinations.ai/prompt/cute%20happy%20celebrating%20astronaut%20mascot%203d%20character%20award%20winner%20vibrant%20colors%20white%20background?width=400&height=400&nologo=true";
@@ -623,76 +658,110 @@ const QuizResults = ({ score, total, percentage, feedback, onHome, onReview, onR
       <motion.div 
         initial={{ opacity: 0, scale: 0.8, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="max-w-2xl w-full bg-white/95 backdrop-blur-xl rounded-[48px] p-8 md:p-14 text-center shadow-[0_20px_50px_rgba(8,_112,_184,_0.07)] border-8 border-white relative z-10"
+        className="max-w-4xl w-full bg-white/95 backdrop-blur-xl rounded-[48px] p-8 md:p-14 text-center shadow-[0_20px_50px_rgba(8,_112,_184,_0.07)] border-8 border-white relative z-10 flex flex-col md:flex-row gap-12 items-center md:items-stretch"
       >
-        <div className="absolute -top-6 -left-6 w-12 h-12 bg-yellow-400 rounded-full flex-center animate-bounce shadow-lg rotate-12">
-           <Star className="w-6 h-6 text-white fill-white" />
-        </div>
-        <div className="absolute top-1/4 -right-8 w-16 h-16 bg-blue-400 rounded-2xl flex-center animate-pulse shadow-lg -rotate-12">
-           <Rocket className="w-8 h-8 text-white" />
-        </div>
+        {/* Left Column: Mascot & Title */}
+        <div className="flex-1 flex flex-col items-center justify-center relative w-full">
+          <div className="absolute -top-6 -left-6 w-12 h-12 bg-yellow-400 rounded-full flex-center animate-bounce shadow-lg rotate-12 z-20">
+             <Star className="w-6 h-6 text-white fill-white" />
+          </div>
+          <div className="absolute top-1/4 -right-4 w-12 h-12 bg-blue-400 rounded-2xl flex-center animate-pulse shadow-lg -rotate-12 z-20">
+             <Rocket className="w-6 h-6 text-white" />
+          </div>
 
-        <div className="relative mx-auto w-48 h-48 md:w-56 md:h-56 mb-8 group">
-          <motion.div 
-            animate={{ y: [0, -15, 0] }}
-            transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-            className={`w-full h-full flex-center rounded-full shadow-[0_0_0_8px_rgba(255,255,255,0.8)] overflow-hidden border-4 ${isPassed ? 'border-emerald-400 bg-emerald-50' : 'border-blue-400 bg-blue-50'} relative`}
-          >
-            <img src={isPassed ? mascotPassed : mascotFailed} className="w-full h-full object-cover mix-blend-multiply transform group-hover:scale-110 transition-transform duration-500" alt="Mascot" />
-          </motion.div>
-        </div>
+          <div className="relative mx-auto w-48 h-48 md:w-64 md:h-64 mb-8 group shrink-0">
+            <motion.div 
+              animate={{ y: [0, -15, 0] }}
+              transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+              className={`w-full h-full flex-center rounded-full shadow-[0_0_0_8px_rgba(255,255,255,0.8)] overflow-hidden border-4 ${isPassed ? 'border-emerald-400 bg-emerald-50' : 'border-blue-400 bg-blue-50'} relative`}
+            >
+              <img src={isPassed ? mascotPassed : mascotFailed} className="w-full h-full object-cover mix-blend-multiply transform group-hover:scale-110 transition-transform duration-500" alt="Mascot" />
+            </motion.div>
+          </div>
 
-        <div className="space-y-4 mb-10">
-          <h1 className={`text-5xl md:text-6xl font-black tracking-tight uppercase ${isPassed ? 'text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 drop-shadow-sm' : 'text-slate-800'}`}>
-            {isPassed ? 'Epic Win! 🎉' : "Keep Going! 💪"}
-          </h1>
-          
-          <div className="bg-slate-50/80 backdrop-blur-md p-6 rounded-[32px] border-2 border-dashed border-slate-200 flex flex-col md:flex-row items-center md:items-start gap-4 text-center md:text-left mx-auto max-w-lg transform hover:scale-[1.02] transition-transform">
-            <div className={`w-14 h-14 rounded-2xl flex-center shadow-inner shrink-0 ${isPassed ? 'bg-emerald-100 text-emerald-500' : 'bg-orange-100 text-orange-500'}`}>
-               <BrainCircuit className="w-8 h-8" />
+          <div className="space-y-4 w-full">
+            <h1 className={`text-4xl md:text-5xl font-black tracking-tight uppercase ${isPassed ? 'text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 drop-shadow-sm' : 'text-slate-800'}`}>
+              {isPassed ? 'Epic Win! 🎉' : "Keep Going! 💪"}
+            </h1>
+            
+            <div className="bg-slate-50/80 backdrop-blur-md p-4 rounded-[24px] border-2 border-dashed border-slate-200 flex flex-col md:flex-row items-center md:items-start gap-4 text-center md:text-left w-full transform hover:scale-[1.02] transition-transform">
+              <div className={`w-12 h-12 rounded-xl flex-center shadow-inner shrink-0 ${isPassed ? 'bg-emerald-100 text-emerald-500' : 'bg-orange-100 text-orange-500'}`}>
+                 <BrainCircuit className="w-6 h-6" />
+              </div>
+              <div className="flex-1">
+                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">AI Teacher says...</p>
+                 <h3 className="text-sm font-bold text-slate-700 leading-snug italic">"{feedback}"</h3>
+              </div>
             </div>
-            <div>
-               <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">AI Teacher says...</p>
-               <h3 className="text-base font-bold text-slate-700 leading-relaxed italic">"{feedback}"</h3>
+          </div>
+        </div>
+
+        {/* Right Column: Stats & Actions */}
+        <div className="flex-[1.2] flex flex-col justify-between w-full gap-8 border-t-4 md:border-t-0 md:border-l-4 border-slate-100/50 pt-8 md:pt-0 md:pl-12">
+          
+          <div className="flex items-center justify-center gap-8 md:gap-12 py-6 px-4 bg-slate-50/50 rounded-[32px] border-4 border-white shadow-inner">
+            <div className="text-center">
+              <p className="text-5xl md:text-6xl font-black text-slate-800 tracking-tighter">{score}<span className="text-2xl text-slate-400">/{total}</span></p>
+              <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2 bg-white inline-block px-3 py-1 rounded-full shadow-sm">Correct</p>
+            </div>
+            <div className="w-1 h-16 bg-slate-200 rounded-full"></div>
+            <div className="text-center">
+              <p className={`text-5xl md:text-6xl font-black tracking-tighter ${scoreColor}`}>{Math.round(percentage)}%</p>
+              <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2 bg-white inline-block px-3 py-1 rounded-full shadow-sm">Score</p>
             </div>
           </div>
-        </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 py-8 px-6 bg-slate-50/50 rounded-[40px] border-4 border-white shadow-inner mb-10">
-          <div className="text-center w-full md:w-auto">
-            <p className="text-6xl md:text-7xl font-black text-slate-800 tracking-tighter">{score}<span className="text-3xl text-slate-400">/{total}</span></p>
-            <p className="text-sm font-black uppercase tracking-widest text-slate-400 mt-2 bg-white inline-block px-4 py-1 rounded-full shadow-sm">Correct Answers</p>
+          {/* Difficulty Breakdown */}
+          <div className="w-full space-y-4">
+            <h3 className="text-sm font-black uppercase tracking-widest text-slate-400 text-left px-2">Strength Breakdown</h3>
+            <div className="space-y-3">
+              {['easy', 'medium', 'challenging'].map(diff => {
+                const stat = stats[diff];
+                if (stat.total === 0) return null;
+                const pct = Math.round((stat.correct / stat.total) * 100) || 0;
+                
+                return (
+                  <div key={diff} className="flex items-center gap-4 bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+                    <div className={`w-12 h-12 rounded-xl flex-center shrink-0 font-black text-xs ${stat.bg} ${stat.color.replace('bg-', 'text-')}`}>
+                       {pct}%
+                    </div>
+                    <div className="flex-1 text-left">
+                       <div className="flex justify-between items-end mb-1.5">
+                         <span className="text-xs font-black uppercase text-slate-700 tracking-wider">{stat.label}</span>
+                         <span className="text-[10px] font-bold text-slate-400">{stat.correct}/{stat.total}</span>
+                       </div>
+                       <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                         <div className={`h-full rounded-full ${stat.color}`} style={{ width: `${pct}%` }} />
+                       </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-          
-          <div className="w-full md:w-1 h-px md:h-20 bg-slate-200 rounded-full hidden md:block"></div>
-          
-          <div className="text-center w-full md:w-auto">
-            <p className={`text-6xl md:text-7xl font-black tracking-tighter ${scoreColor}`}>{Math.round(percentage)}%</p>
-            <p className="text-sm font-black uppercase tracking-widest text-slate-400 mt-2 bg-white inline-block px-4 py-1 rounded-full shadow-sm">Final Score</p>
-          </div>
-        </div>
 
-        <div className="flex flex-col gap-4 max-w-md mx-auto">
-          <div className="flex flex-col md:flex-row gap-4">
-             {score < total && (
-               <button onClick={() => onReview('incorrect')} className="flex-1 bg-rose-500 hover:bg-rose-400 text-white py-5 rounded-3xl font-black text-lg transition-all shadow-[0_6px_0_0_#be123c] active:translate-y-1 active:shadow-none flex-center gap-2">
-                 Mistakes <AlertCircle className="w-5 h-5" />
+          <div className="flex flex-col gap-3 w-full mt-4">
+            <div className="flex flex-col md:flex-row gap-3">
+               {score < total && (
+                 <button onClick={() => onReview('incorrect')} className="flex-1 bg-rose-500 hover:bg-rose-400 text-white py-4 rounded-3xl font-black text-sm md:text-base transition-all shadow-[0_4px_0_0_#be123c] active:translate-y-1 active:shadow-none flex-center gap-2">
+                   Mistakes <AlertCircle className="w-4 h-4" />
+                 </button>
+               )}
+               {score > 0 && (
+                 <button onClick={() => onReview('correct')} className="flex-1 bg-emerald-500 hover:bg-emerald-400 text-white py-4 rounded-3xl font-black text-sm md:text-base transition-all shadow-[0_4px_0_0_#047857] active:translate-y-1 active:shadow-none flex-center gap-2">
+                   Correct <CheckCircle2 className="w-4 h-4" />
+                 </button>
+               )}
+            </div>
+            <div className="flex gap-3">
+               <button onClick={onRetake} className="flex-1 bg-[#38BDF8] hover:bg-[#0EA5E9] text-white py-4 rounded-3xl font-black text-base transition-all shadow-[0_4px_0_0_#0284C7] active:translate-y-1 active:shadow-none flex-center gap-2">
+                 Play Again! <Rocket className="w-5 h-5" />
                </button>
-             )}
-             {score > 0 && (
-               <button onClick={() => onReview('correct')} className="flex-1 bg-emerald-500 hover:bg-emerald-400 text-white py-5 rounded-3xl font-black text-lg transition-all shadow-[0_6px_0_0_#047857] active:translate-y-1 active:shadow-none flex-center gap-2">
-                 Correct <CheckCircle2 className="w-5 h-5" />
+               <button onClick={onHome} className="flex-1 bg-[#1E293B] hover:bg-[#0F172A] text-white py-4 rounded-3xl font-black text-base transition-all shadow-[0_4px_0_0_#020617] active:translate-y-1 active:shadow-none">
+                 Back to Base
                </button>
-             )}
+            </div>
           </div>
-          
-          <button onClick={onRetake} className="w-full bg-[#38BDF8] hover:bg-[#0EA5E9] text-white py-5 rounded-3xl font-black text-xl transition-all shadow-[0_6px_0_0_#0284C7] active:translate-y-1 active:shadow-none flex-center gap-2">
-            Play Again! <Rocket className="w-6 h-6" />
-          </button>
-          
-          <button onClick={onHome} className="w-full bg-[#1E293B] hover:bg-[#0F172A] text-white py-5 rounded-3xl font-black text-xl transition-all shadow-[0_6px_0_0_#020617] active:translate-y-1 active:shadow-none mt-2">
-            Back to Base
-          </button>
         </div>
       </motion.div>
     </div>
