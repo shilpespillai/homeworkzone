@@ -602,69 +602,97 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
 
 const QuizResults = ({ score, total, percentage, feedback, onHome, onReview, onRetake }) => {
   const isPassed = percentage >= 70;
+  
+  // Mascot images for kids
+  const mascotPassed = "https://image.pollinations.ai/prompt/cute%20happy%20celebrating%20astronaut%20mascot%203d%20character%20award%20winner%20vibrant%20colors%20white%20background?width=400&height=400&nologo=true";
+  const mascotFailed = "https://image.pollinations.ai/prompt/cute%20determined%20little%20robot%20mascot%203d%20character%20studying%20hard%20vibrant%20colors%20white%20background?width=400&height=400&nologo=true";
+
+  // Score Color
+  let scoreColor = "text-rose-500";
+  if (percentage >= 90) scoreColor = "text-emerald-500";
+  else if (percentage >= 70) scoreColor = "text-amber-500";
+  else if (percentage >= 50) scoreColor = "text-blue-500";
 
   return (
-    <div className="min-h-screen bg-[#f8f9fe] flex-center p-6 relative overflow-hidden">
-      <div className="blob-bg w-[600px] h-[600px] bg-orange-500/20 -top-32 -right-32 animate-pulse" />
+    <div className="min-h-screen bg-gradient-to-br from-[#AEE6FE] via-[#FFD1FF] to-[#FAD0C4] flex-center p-4 md:p-8 relative overflow-hidden font-sans">
+      {/* Floating Background Elements */}
+      <div className="absolute top-10 left-10 w-32 h-32 bg-yellow-300 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-bounce" />
+      <div className="absolute top-10 right-10 w-32 h-32 bg-purple-300 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-pulse" />
+      <div className="absolute bottom-10 left-20 w-40 h-40 bg-pink-300 rounded-full mix-blend-multiply filter blur-2xl opacity-60" />
       
       <motion.div 
-        initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-        animate={{ opacity: 1, scale: 1, rotate: 0 }}
-        className="card-bubble max-w-xl w-full p-16 text-center space-y-10 shadow-2xl border-none relative z-10"
+        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        className="max-w-2xl w-full bg-white/95 backdrop-blur-xl rounded-[48px] p-8 md:p-14 text-center shadow-[0_20px_50px_rgba(8,_112,_184,_0.07)] border-8 border-white relative z-10"
       >
-        <div className="relative mx-auto w-40 h-40">
-          <motion.div 
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ repeat: Infinity, duration: 4 }}
-            className={`w-full h-full flex-center rounded-[48px] shadow-2xl ${isPassed ? 'bg-orange-500' : 'bg-rose-500'}`}
-          >
-            {isPassed ? <Trophy className="w-20 h-20 text-white" /> : <AlertCircle className="w-20 h-20 text-white" />}
-          </motion.div>
-          <div className="absolute -top-4 -right-4 bg-yellow-400 p-4 rounded-[24px] shadow-xl border-4 border-white animate-bounce">
-            <Star className="w-8 h-8 text-white fill-white" />
-          </div>
+        <div className="absolute -top-6 -left-6 w-12 h-12 bg-yellow-400 rounded-full flex-center animate-bounce shadow-lg rotate-12">
+           <Star className="w-6 h-6 text-white fill-white" />
+        </div>
+        <div className="absolute top-1/4 -right-8 w-16 h-16 bg-blue-400 rounded-2xl flex-center animate-pulse shadow-lg -rotate-12">
+           <Rocket className="w-8 h-8 text-white" />
         </div>
 
-        <div className="space-y-3">
-          <h1 className="text-5xl font-black tracking-tight text-slate-900 lowercase">
-            {isPassed ? 'mission cleared!' : 'keep trying!'}
+        <div className="relative mx-auto w-48 h-48 md:w-56 md:h-56 mb-8 group">
+          <motion.div 
+            animate={{ y: [0, -15, 0] }}
+            transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+            className={`w-full h-full flex-center rounded-full shadow-[0_0_0_8px_rgba(255,255,255,0.8)] overflow-hidden border-4 ${isPassed ? 'border-emerald-400 bg-emerald-50' : 'border-blue-400 bg-blue-50'} relative`}
+          >
+            <img src={isPassed ? mascotPassed : mascotFailed} className="w-full h-full object-cover mix-blend-multiply transform group-hover:scale-110 transition-transform duration-500" alt="Mascot" />
+          </motion.div>
+        </div>
+
+        <div className="space-y-4 mb-10">
+          <h1 className={`text-5xl md:text-6xl font-black tracking-tight uppercase ${isPassed ? 'text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 drop-shadow-sm' : 'text-slate-800'}`}>
+            {isPassed ? 'Epic Win! 🎉' : "Keep Going! 💪"}
           </h1>
-          <div className="bg-slate-50 p-6 rounded-[32px] border-2 border-slate-100 flex gap-4 text-left">
-            <div className="w-12 h-12 bg-white rounded-2xl flex-center shadow-sm shrink-0">
-               <BrainCircuit className="w-6 h-6 text-orange-500" />
+          
+          <div className="bg-slate-50/80 backdrop-blur-md p-6 rounded-[32px] border-2 border-dashed border-slate-200 flex flex-col md:flex-row items-center md:items-start gap-4 text-center md:text-left mx-auto max-w-lg transform hover:scale-[1.02] transition-transform">
+            <div className={`w-14 h-14 rounded-2xl flex-center shadow-inner shrink-0 ${isPassed ? 'bg-emerald-100 text-emerald-500' : 'bg-orange-100 text-orange-500'}`}>
+               <BrainCircuit className="w-8 h-8" />
             </div>
             <div>
-               <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Smart Feedback</p>
-               <h3 className="text-sm font-bold text-slate-800 leading-relaxed mt-1">{feedback}</h3>
+               <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">AI Teacher says...</p>
+               <h3 className="text-base font-bold text-slate-700 leading-relaxed italic">"{feedback}"</h3>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-12 py-10 bg-slate-50 rounded-[32px]">
-          <div className="text-center">
-            <p className="text-5xl font-black text-slate-900">{score}/{total}</p>
-            <p className="text-xs font-black uppercase tracking-widest text-slate-400 mt-2">Correct</p>
+        <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 py-8 px-6 bg-slate-50/50 rounded-[40px] border-4 border-white shadow-inner mb-10">
+          <div className="text-center w-full md:w-auto">
+            <p className="text-6xl md:text-7xl font-black text-slate-800 tracking-tighter">{score}<span className="text-3xl text-slate-400">/{total}</span></p>
+            <p className="text-sm font-black uppercase tracking-widest text-slate-400 mt-2 bg-white inline-block px-4 py-1 rounded-full shadow-sm">Correct Answers</p>
           </div>
-          <div className="w-px h-16 bg-slate-200"></div>
-          <div className="text-center">
-            <p className="text-5xl font-black text-slate-900">{Math.round(percentage)}%</p>
-            <p className="text-xs font-black uppercase tracking-widest text-slate-400 mt-2">Score</p>
+          
+          <div className="w-full md:w-1 h-px md:h-20 bg-slate-200 rounded-full hidden md:block"></div>
+          
+          <div className="text-center w-full md:w-auto">
+            <p className={`text-6xl md:text-7xl font-black tracking-tighter ${scoreColor}`}>{Math.round(percentage)}%</p>
+            <p className="text-sm font-black uppercase tracking-widest text-slate-400 mt-2 bg-white inline-block px-4 py-1 rounded-full shadow-sm">Final Score</p>
           </div>
         </div>
 
-        <div className="pt-4 flex flex-col gap-4">
-          <div className="flex gap-4">
+        <div className="flex flex-col gap-4 max-w-md mx-auto">
+          <div className="flex flex-col md:flex-row gap-4">
              {score < total && (
-               <button onClick={() => onReview('incorrect')} className="flex-1 bg-rose-100 hover:bg-rose-200 text-rose-700 py-4 rounded-[24px] font-black text-sm md:text-base transition-all shadow-[0_4px_0_0_#fecdd3] active:translate-y-1 active:shadow-none">Review Mistakes</button>
+               <button onClick={() => onReview('incorrect')} className="flex-1 bg-rose-500 hover:bg-rose-400 text-white py-5 rounded-3xl font-black text-lg transition-all shadow-[0_6px_0_0_#be123c] active:translate-y-1 active:shadow-none flex-center gap-2">
+                 Mistakes <AlertCircle className="w-5 h-5" />
+               </button>
              )}
              {score > 0 && (
-               <button onClick={() => onReview('correct')} className="flex-1 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 py-4 rounded-[24px] font-black text-sm md:text-base transition-all shadow-[0_4px_0_0_#a7f3d0] active:translate-y-1 active:shadow-none">Review Correct</button>
+               <button onClick={() => onReview('correct')} className="flex-1 bg-emerald-500 hover:bg-emerald-400 text-white py-5 rounded-3xl font-black text-lg transition-all shadow-[0_6px_0_0_#047857] active:translate-y-1 active:shadow-none flex-center gap-2">
+                 Correct <CheckCircle2 className="w-5 h-5" />
+               </button>
              )}
           </div>
-          <div className="flex gap-4">
-             <button onClick={onRetake} className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-4 rounded-[24px] font-black text-lg transition-all shadow-[0_4px_0_0_#e2e8f0] active:translate-y-1 active:shadow-none">Retake Mission</button>
-          </div>
-          <button onClick={onHome} className="w-full bg-orange-500 hover:bg-orange-400 text-white py-4 rounded-[24px] font-black text-xl transition-all shadow-[0_6px_0_0_#c2410c] active:translate-y-1 active:shadow-none mt-2">Back to Dashboard</button>
+          
+          <button onClick={onRetake} className="w-full bg-[#38BDF8] hover:bg-[#0EA5E9] text-white py-5 rounded-3xl font-black text-xl transition-all shadow-[0_6px_0_0_#0284C7] active:translate-y-1 active:shadow-none flex-center gap-2">
+            Play Again! <Rocket className="w-6 h-6" />
+          </button>
+          
+          <button onClick={onHome} className="w-full bg-[#1E293B] hover:bg-[#0F172A] text-white py-5 rounded-3xl font-black text-xl transition-all shadow-[0_6px_0_0_#020617] active:translate-y-1 active:shadow-none mt-2">
+            Back to Base
+          </button>
         </div>
       </motion.div>
     </div>
