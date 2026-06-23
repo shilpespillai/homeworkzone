@@ -167,8 +167,15 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
     );
   }
 
-  const currentQuestion = homework.questions[currentIdx];
-  const progress = ((currentIdx + 1) / homework.questions.length) * 100;
+  const reviewQuestions = isReviewing 
+    ? homework.questions.filter(q => answers[q.id] !== q.answer) 
+    : homework.questions;
+  
+  // If they got everything right, just show all questions during review
+  const displayQuestions = (isReviewing && reviewQuestions.length === 0) ? homework.questions : reviewQuestions;
+
+  const currentQuestion = displayQuestions[currentIdx] || displayQuestions[0];
+  const progress = ((currentIdx + 1) / displayQuestions.length) * 100;
 
   const handleSelect = (option) => {
     if (isSubmitted) return;
@@ -323,7 +330,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         percentage={(score / homework.questions.length) * 100} 
         feedback={feedback}
         onHome={onComplete}
-        onReview={() => setIsReviewing(true)}
+        onReview={() => { setIsReviewing(true); setCurrentIdx(0); }}
         onRetake={() => {
            setIsSubmitted(false);
            setIsReviewing(false);
@@ -376,7 +383,9 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             <div className="text-center flex-1 px-4">
                <h2 className="text-3xl font-black text-[#F97316] uppercase tracking-tight">{homework.title} {isReviewing && "(REVIEW)"}</h2>
                <p className="text-[#F97316] font-bold text-sm tracking-[0.2em] uppercase mt-0.5">ADVENTURE QUEST</p>
-               <p className="text-slate-700 font-black text-sm uppercase tracking-widest mt-3">{homework.subject} - {homework.questions.length} QUESTIONS</p>
+               <p className="text-slate-700 font-black text-sm uppercase tracking-widest mt-3">
+                 {homework.subject} - {isReviewing ? (displayQuestions.length === homework.questions.length ? 'PERFECT SCORE REVIEW' : `${displayQuestions.length} MISTAKES TO REVIEW`) : `${homework.questions.length} QUESTIONS`}
+               </p>
             </div>
 
             <div className="bg-[#B45309] p-1.5 rounded-[20px] shadow-[0_4px_0_0_#78350F] shrink-0">
@@ -389,7 +398,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
 
           <div className="flex items-center gap-4 px-2">
             <span className="text-[10px] font-black uppercase text-slate-500 tracking-widest shrink-0 whitespace-nowrap">
-              QUESTION {currentIdx + 1} OF {homework.questions.length}
+              {isReviewing && displayQuestions.length < homework.questions.length ? 'MISTAKE' : 'QUESTION'} {currentIdx + 1} OF {displayQuestions.length}
             </span>
             <div className="flex-1 relative flex items-center h-8">
               <div className="w-full h-4 bg-[#E0F2FE] rounded-full overflow-hidden shadow-inner">
@@ -536,7 +545,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         </button>
 
         {isReviewing ? (
-           currentIdx === homework.questions.length - 1 ? (
+           currentIdx === displayQuestions.length - 1 ? (
              <button 
                onClick={() => setIsReviewing(false)} 
                className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
@@ -545,14 +554,14 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
              </button>
            ) : (
              <button 
-               onClick={() => setCurrentIdx(prev => Math.min(homework.questions.length - 1, prev + 1))} 
+               onClick={() => setCurrentIdx(prev => Math.min(displayQuestions.length - 1, prev + 1))} 
                className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
              >
                next <ChevronRight className="w-5 h-5 shrink-0" />
              </button>
            )
         ) : (
-          currentIdx === homework.questions.length - 1 ? (
+          currentIdx === displayQuestions.length - 1 ? (
             <button 
               onClick={handleSubmit}
               disabled={isSubmitting || !answers[currentQuestion.id]}
@@ -568,7 +577,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             </button>
           ) : (
             <button 
-              onClick={() => setCurrentIdx(prev => Math.min(homework.questions.length - 1, prev + 1))}
+              onClick={() => setCurrentIdx(prev => Math.min(displayQuestions.length - 1, prev + 1))}
               className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
             >
               NEXT QUEST! <ChevronRight className="w-5 h-5 shrink-0" />
