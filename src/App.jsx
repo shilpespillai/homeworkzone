@@ -585,6 +585,84 @@ const SubjectIcon = ({ subject }) => {
   );
 };
 
+const HeroHomeworkCard = ({ hw, completedSubmission, hasDraft, onStart }) => {
+  const isDueTomorrow = () => {
+    if (!hw.dueDate) return false;
+    const due = new Date(hw.dueDate);
+    const tmr = new Date();
+    tmr.setDate(tmr.getDate() + 1);
+    return due.getDate() === tmr.getDate() && due.getMonth() === tmr.getMonth() && due.getFullYear() === tmr.getFullYear();
+  };
+
+  const dueDateStr = hw.dueDate ? new Date(hw.dueDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : 'NO DUE DATE';
+  const dueLabel = isDueTomorrow() ? 'DUE TOMORROW' : `DUE ${dueDateStr.toUpperCase()}`;
+  
+  let buttonLabel = "START LEARNING!";
+  let buttonBg = "bg-[#ff6a00] shadow-[0_4px_0_0_#cc5500] hover:bg-[#ff8533]";
+  if (completedSubmission) {
+    buttonLabel = "REVIEW MISSION";
+    buttonBg = "bg-[#10B981] shadow-[0_4px_0_0_#059669] hover:bg-[#34D399]";
+  } else if (hasDraft) {
+    buttonLabel = "RESUME MISSION 🚀";
+    buttonBg = "bg-[#8B5CF6] shadow-[0_4px_0_0_#6D28D9] hover:bg-[#A78BFA]";
+  }
+
+  return (
+    <div className="w-full mb-10">
+      <h2 className="text-2xl font-black text-slate-800 uppercase tracking-tight mb-4 flex items-center gap-2">
+        UP NEXT
+      </h2>
+      <div 
+        className="rounded-[24px] w-full relative overflow-hidden flex flex-col md:flex-row items-stretch justify-between shadow-xl group bg-[#1e3a8a]"
+      >
+        {/* The illustration on the right */}
+        <div className="absolute right-0 top-0 bottom-0 w-[60%] md:w-[50%] h-full z-0 opacity-90 md:opacity-100">
+          <div className="w-full h-full absolute inset-0 bg-gradient-to-r from-[#1e3a8a] via-[#1e3a8a]/60 to-transparent z-10" />
+          <img 
+            src="/science_hero.png" 
+            className="w-full h-full object-cover object-right" 
+            alt="Hero Illustration" 
+          />
+        </div>
+
+        {/* The content on the left */}
+        <div className="flex-1 w-full relative z-20 flex flex-col items-start p-8 md:p-12">
+          <div className="inline-block bg-[#ffce00] text-[#1e3a8a] px-4 py-1.5 rounded-full font-black text-xs md:text-sm mb-4 uppercase tracking-widest shadow-sm">
+            {hw.subject === 'Science' ? 'FUN WITH SCIENCE!' : 'LEARNING QUEST!'}
+          </div>
+          
+          <h3 className="text-white text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-2 tracking-tight drop-shadow-md">
+            {hw.title}
+          </h3>
+          
+          <p className="text-white/90 text-lg md:text-xl font-bold mb-6 max-w-xl line-clamp-2 drop-shadow-sm leading-snug">
+            {hw.instructions || 'Answer the questions below to complete your mission!'}
+          </p>
+          
+          <div className="mb-6 w-full">
+            <p className="text-[#ffce00] font-black text-sm md:text-base mb-1 uppercase tracking-wider drop-shadow-sm">
+              {dueLabel}
+            </p>
+            <p className="text-white/80 text-xs md:text-sm font-bold mb-3">
+              Task 1 of 4: {hw.topic || 'New Topic'}
+            </p>
+            <div className="w-full max-w-sm h-3 md:h-3.5 bg-black/30 rounded-full overflow-hidden">
+              <div className="h-full bg-[#ffce00] rounded-full transition-all duration-1000 ease-out" style={{ width: hasDraft ? '50%' : (completedSubmission ? '100%' : '5%') }} />
+            </div>
+          </div>
+          
+          <button 
+            onClick={() => onStart(hw.id, completedSubmission || null)} 
+            className={`${buttonBg} text-white px-8 md:px-10 py-3.5 rounded-full font-black text-lg transition-all active:translate-y-1 active:shadow-none inline-block uppercase tracking-wider drop-shadow-md z-20 mt-2`}
+          >
+            {buttonLabel}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const HomeworkCard = ({ hw, completedSubmission, hasDraft, delay, onStart, teacher }) => {
   return (
     <motion.div 
@@ -679,6 +757,64 @@ const getHomeworkDate = (hw) => {
   return new Date();
 };
 
+const SubjectDashboardCard = ({ subject, assignments, submissions, studentName, onSelect }) => {
+  const getSubjectAesthetics = (sub) => {
+    const s = (sub || '').toLowerCase();
+    if (s.includes('math')) return { bg: 'bg-[#1e88e5]', title: 'MATH', subtitle: 'MATH ADVENTURE:', topic: 'Fraction Fun!', img: '/subject_math.png', pillBg: 'bg-[#4ade80]', pillText: 'text-white' };
+    if (s.includes('read') || s.includes('english')) return { bg: 'bg-[#f97316]', title: 'READING', subtitle: 'STORY TIME:', topic: "Maya's Magic Map", img: '/subject_reading.png', pillBg: 'bg-[#38bdf8]', pillText: 'text-white' };
+    if (s.includes('geo') || s.includes('hist')) return { bg: 'bg-[#22c55e]', title: 'GEOGRAPHY', subtitle: 'WORLD EXPLORERS:', topic: 'Australia!', img: '/subject_geography.png', pillBg: 'bg-[#4ade80]', pillText: 'text-white' };
+    if (s.includes('art')) return { bg: 'bg-[#ef4444]', title: 'ART', subtitle: 'ART STUDIO:', topic: 'Colorful Creatures', img: '/subject_art.png', pillBg: 'bg-[#9f1239]', pillText: 'text-white' };
+    
+    return { bg: 'bg-[#0f766e]', title: sub.toUpperCase() || 'GENERAL', subtitle: 'LEARNING QUEST:', topic: 'New Adventures!', img: '/science_hero.png', pillBg: 'bg-[#fde047]', pillText: 'text-slate-800' };
+  };
+
+  const aes = getSubjectAesthetics(subject);
+  
+  const total = assignments.length;
+  let completed = 0;
+  let inProgress = 0;
+  assignments.forEach(hw => {
+     const sub = submissions.find(s => s.homeworkId === hw.id);
+     if (sub) {
+        completed++;
+     } else if (localStorage.getItem(`hz_draft_${studentName}_${hw.id}`)) {
+        inProgress++;
+     }
+  });
+  
+  const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
+  let pillLabel = `${pct}% Done`;
+  if (pct === 0 && inProgress === 0) pillLabel = "New";
+  else if (pct === 0 && inProgress > 0) pillLabel = "In Progress";
+  
+  return (
+    <div 
+      onClick={() => onSelect(subject)}
+      className={`${aes.bg} rounded-[32px] w-full min-h-[400px] relative overflow-hidden flex flex-col items-center p-4 md:p-6 shadow-xl cursor-pointer hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 group`}
+    >
+      <div className="absolute top-4 left-4 bg-white/20 p-2 rounded-lg backdrop-blur-sm">
+         <Book className="w-5 h-5 text-white" />
+      </div>
+      
+      <div className="w-full h-[200px] mt-10 md:mt-8 rounded-[24px] overflow-hidden bg-white/10 shadow-inner flex-center relative">
+         <img src={aes.img} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={aes.title} />
+      </div>
+      
+      <div className="mt-6 text-center w-full flex flex-col items-center flex-1">
+         <h4 className="text-white/90 font-black tracking-widest text-xs md:text-sm mb-1">{aes.title}</h4>
+         <h3 className="text-white font-black text-lg md:text-xl leading-tight mb-1">{aes.subtitle}</h3>
+         <p className="text-white/90 font-bold text-sm md:text-base leading-tight mb-4">{aes.topic}</p>
+         
+         <div className="mt-auto pb-2">
+            <span className={`${aes.pillBg} ${aes.pillText} px-6 py-2 md:py-2.5 rounded-full font-black text-sm shadow-[0_4px_0_0_rgba(0,0,0,0.15)] tracking-wide inline-block uppercase`}>
+               {pillLabel}
+            </span>
+         </div>
+      </div>
+    </div>
+  );
+};
+
 const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHomeworks, submissions: initialSubmissions }) => {
    const [activeTab, setActiveTab] = useState('All');
    const [subjectFilter, setSubjectFilter] = useState('All Subjects');
@@ -765,6 +901,15 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
       });
    }, [homeworks]);
 
+   // Build subject groupings for the grid
+   const subjectsMap = {};
+   homeworks.forEach(hw => {
+      const sub = hw.subject || 'General';
+      if (!subjectsMap[sub]) subjectsMap[sub] = [];
+      subjectsMap[sub].push(hw);
+   });
+   const availableSubjects = Object.keys(subjectsMap).sort();
+
    let baseFilteredHomeworks = homeworks;
    if (subjectFilter !== 'All Subjects') {
       baseFilteredHomeworks = baseFilteredHomeworks.filter(hw => hw.subject?.toLowerCase() === subjectFilter.toLowerCase());
@@ -814,15 +959,25 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
 
    return (
       <div className="max-w-[100%] mx-auto w-full py-6 space-y-8 pb-20">
-         {/* Header area with custom illustrations */}
+         {/* Header area */}
          <div className="flex items-center justify-between px-2 pt-4">
             <div className="flex items-center gap-4 relative z-10">
                <div className="w-16 h-16 bg-orange-500 rounded-[20px] shadow-[0_6px_0_0_#c2410c] flex-center transform -rotate-6">
                  <Book className="w-8 h-8 text-white" />
                </div>
-               <h1 className="text-4xl font-black text-[#14532d] tracking-tighter">My Homework</h1>
+               <div className="flex flex-col">
+                  <h1 className="text-4xl font-black text-[#14532d] tracking-tighter uppercase">My Assignments</h1>
+                  {subjectFilter !== 'All Subjects' && (
+                     <button 
+                        onClick={() => setSubjectFilter('All Subjects')}
+                        className="text-orange-500 font-black text-sm flex items-center gap-1 hover:text-orange-600 transition-colors mt-1 w-fit"
+                     >
+                        ← Back to Assignments Grid
+                     </button>
+                  )}
+               </div>
             </div>
-            {/* Decorative Stars & Books */}
+            {/* Decorative Stars */}
             <div className="relative w-40 h-24 hidden md:block z-0">
                <div className="absolute right-0 bottom-0 text-[80px] leading-none z-10 animate-float drop-shadow-xl">⭐</div>
                <div className="absolute right-12 bottom-2 text-5xl z-0">📚</div>
@@ -830,24 +985,47 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
             </div>
          </div>
 
-         {/* Navigation Tabs & Filter */}
-         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-2 border-slate-100 pb-4 relative z-10">
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 md:pb-0">
-               {tabs.map(tab => (
-                 <button 
-                   key={tab.id}
-                   onClick={() => setActiveTab(tab.id)}
-                   className={`px-6 py-2.5 rounded-full text-sm font-black whitespace-nowrap transition-all ${activeTab === tab.id ? 'bg-orange-500 text-white shadow-md' : 'text-slate-500 hover:bg-slate-100'}`}
-                 >
-                   {tab.label}
-                 </button>
+         {loading ? (
+            <div className="flex-center py-20"><div className="w-10 h-10 border-4 border-[#EA580C] border-t-transparent rounded-full animate-spin" /></div>
+         ) : subjectFilter === 'All Subjects' ? (
+            // Grid Mode
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-2 mt-8">
+               {availableSubjects.map(sub => (
+                  <SubjectDashboardCard 
+                     key={sub}
+                     subject={sub}
+                     assignments={subjectsMap[sub]}
+                     submissions={submissions}
+                     studentName={studentName}
+                     onSelect={setSubjectFilter}
+                  />
                ))}
+               {availableSubjects.length === 0 && (
+                  <div className="col-span-full text-center py-20 bg-white rounded-[32px] border-2 border-dashed border-slate-200">
+                     <p className="text-xl font-black text-slate-300">No assignments found!</p>
+                  </div>
+               )}
             </div>
-            
-            <div className="flex flex-wrap items-center gap-3 shrink-0">
-               {/* Month Filter Dropdown */}
-               <div className="relative shrink-0">
-                  <select 
+         ) : (
+            // List Mode for a Specific Subject
+            <div className="space-y-6">
+               {/* Navigation Tabs & Filter */}
+               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-2 border-slate-100 pb-4 relative z-10 mt-6">
+                  <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 md:pb-0">
+                     {tabs.map(tab => (
+                       <button 
+                         key={tab.id}
+                         onClick={() => setActiveTab(tab.id)}
+                         className={`px-6 py-2.5 rounded-full text-sm font-black whitespace-nowrap transition-all ${activeTab === tab.id ? 'bg-orange-500 text-white shadow-md' : 'text-slate-500 hover:bg-slate-100'}`}
+                       >
+                         {tab.label}
+                       </button>
+                     ))}
+                  </div>
+                  
+                  <div className="flex flex-wrap items-center gap-3 shrink-0">
+                     <div className="relative shrink-0">
+                        <select 
                      value={monthFilter}
                      onChange={(e) => setMonthFilter(e.target.value)}
                      className="appearance-none bg-white border-2 border-slate-100 rounded-full pl-10 pr-10 py-2.5 text-sm font-black text-slate-600 outline-none focus:border-[#EA580C] cursor-pointer"
@@ -873,46 +1051,56 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
                      <option>Maths</option>
                      <option>Science</option>
                      <option>General</option>
-                  </select>
-                  <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                     </select>
+                     <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                     <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                  </div>
                </div>
             </div>
-         </div>
 
-         {/* Homework List */}
-         <div className="space-y-4 relative z-10">
-            {loading ? (
-               <div className="flex-center py-20"><div className="w-10 h-10 border-4 border-[#EA580C] border-t-transparent rounded-full animate-spin" /></div>
-            ) : displayedHomeworks.length > 0 ? (
-               displayedHomeworks.map((hw, i) => {
-                  const draftStr = localStorage.getItem(`hz_draft_${studentName}_${hw.id}`);
-                  let hasDraft = false;
-                  if (draftStr) {
-                     try {
-                        const parsed = JSON.parse(draftStr);
-                        hasDraft = parsed && Object.keys(parsed.answers || {}).length > 0;
-                     } catch(e) {}
-                  }
-                  return (
-                     <HomeworkCard 
-                        key={hw.id}
-                        hw={hw}
-                        completedSubmission={submissions.find(s => s.homeworkId === hw.id)}
-                        hasDraft={hasDraft}
-                        delay={i * 0.1} 
-                        onStart={onStartMission}
-                        teacher={teacher}
-                     />
-                  );
-               })
-            ) : (
-               <div className="text-center py-20 bg-white rounded-[32px] border-2 border-dashed border-slate-200">
-                  <div className="text-6xl mb-4 grayscale opacity-30">🍦</div>
-                  <p className="text-xl font-black text-slate-300">Nothing here! Take a break.</p>
+            {/* Homework List */}
+            <div className="space-y-4 relative z-10">
+               {displayedHomeworks.length > 0 ? (
+                  <div className="flex flex-col gap-4">
+                     {displayedHomeworks.map((hw, idx) => {
+                        const isHero = todoHws.length > 0 && hw.id === todoHws[0].id;
+                        const submission = submissions.find(s => s.homeworkId === hw.id);
+                        const hasDraft = localStorage.getItem(`hz_draft_${studentName}_${hw.id}`) !== null;
+                        
+                        if (isHero) {
+                           return (
+                              <HeroHomeworkCard
+                                 key={hw.id}
+                                 hw={hw}
+                                 completedSubmission={submission}
+                                 hasDraft={hasDraft}
+                                 onStart={onStartMission}
+                              />
+                           );
+                        }
+
+                        return (
+                           <HomeworkCard 
+                              key={hw.id} 
+                              hw={hw} 
+                              completedSubmission={submission}
+                              hasDraft={hasDraft}
+                              delay={idx * 0.05}
+                              onStart={onStartMission}
+                              teacher={teacher}
+                           />
+                        );
+                     })}
+                  </div>
+               ) : (
+                  <div className="text-center py-20 bg-white rounded-[32px] border-2 border-dashed border-slate-200">
+                     <div className="text-6xl mb-4 grayscale opacity-30">🍦</div>
+                     <p className="text-xl font-black text-slate-300">Nothing here! Take a break.</p>
+                  </div>
+               )}
                </div>
-            )}
-         </div>
+            </div>
+         )}
          
          {/* Footer Mascot Banner */}
          <div className="bg-[#fff9d6] rounded-[32px] p-6 border-2 border-[#ffe87a] flex flex-col md:flex-row items-center gap-6 relative overflow-hidden mt-8">
