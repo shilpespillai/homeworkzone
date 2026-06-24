@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { db } from '../firebase';
 import { doc, collection, query, where, onSnapshot } from 'firebase/firestore';
-import { Compass, Map, Trophy, Users, Award, Sparkles } from 'lucide-react';
+import { Compass, Map, Trophy, Users, Award, Sparkles, X } from 'lucide-react';
 
 const TRACK_COORDS = {
   forest: [
@@ -87,6 +87,19 @@ const MILESTONE_DETAILS = {
   ]
 };
 
+const GIFTS = [
+  { emoji: "💎", name: "Crystal of Clarity", desc: "A glowing blue crystal that helps you focus." },
+  { emoji: "👑", name: "Crown of the Scholar", desc: "Worn by the wisest students in the realm." },
+  { emoji: "🐉", name: "Dragon Egg", desc: "It's warm to the touch. Keep it safe!" },
+  { emoji: "🪄", name: "Magic Wand", desc: "Sparks fly when you wave it." },
+  { emoji: "🦄", name: "Unicorn Horn", desc: "Shimmers with all the colors of the rainbow." },
+  { emoji: "🏆", name: "Golden Chalice", desc: "A legendary cup of victory." },
+  { emoji: "🌟", name: "Fallen Star", desc: "It still glows with cosmic energy." },
+  { emoji: "🧭", name: "Explorer's Compass", desc: "It always points towards your next goal." },
+  { emoji: "📜", name: "Ancient Scroll", desc: "Contains secrets of the old masters." },
+  { emoji: "🔮", name: "Mystic Orb", desc: "You can see galaxies swirling inside." }
+];
+
 const getSubmissionDate = (sub) => {
   if (sub.submittedAt?.toDate) return sub.submittedAt.toDate();
   if (sub.submittedAt) return new Date(sub.submittedAt);
@@ -143,6 +156,9 @@ export default function AdventureMazeView({
   const [liveSubmissions, setLiveSubmissions] = useState(submissions);
   const [hoveredStudent, setHoveredStudent] = useState(null);
   const [countdownText, setCountdownText] = useState(getWeeklyResetCountdown());
+  const [claimedTreasures, setClaimedTreasures] = useState([]);
+  const [isTreasureModalOpen, setIsTreasureModalOpen] = useState(false);
+  const [activeGift, setActiveGift] = useState(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -151,9 +167,29 @@ export default function AdventureMazeView({
     return () => clearInterval(timer);
   }, []);
 
-  const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student'));
+  const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student') || '{}');
   const teacherUid = teacher?.uid || savedStudent?.teacher?.uid;
   const classroomId = classroom?.id || savedStudent?.classroom?.id;
+
+  useEffect(() => {
+    if (studentName && classroomId) {
+      try {
+        const saved = localStorage.getItem(`hwz_treasures_${studentName}_${classroomId}`);
+        if (saved) setClaimedTreasures(JSON.parse(saved));
+      } catch (e) {}
+    }
+  }, [studentName, classroomId]);
+
+  const handleOpenTreasure = (lap) => {
+    const gift = GIFTS[(lap - 1) % GIFTS.length];
+    setActiveGift(gift);
+    setIsTreasureModalOpen(true);
+    const updated = [...claimedTreasures, lap];
+    setClaimedTreasures(updated);
+    if (studentName && classroomId) {
+      localStorage.setItem(`hwz_treasures_${studentName}_${classroomId}`, JSON.stringify(updated));
+    }
+  };
 
   // Real-time listener for classroom doc to track active map track changes
   useEffect(() => {
@@ -629,6 +665,29 @@ export default function AdventureMazeView({
             )}
           </div>
         )}
+
+        {/* Treasure Chest Overlay */}
+        {(() => {
+          const me = studentsWithMilestones.find(s => s.isMe);
+          if (me && me.milestone === 10 && !claimedTreasures.includes(me.lap)) {
+            const finalCoords = activeCoords[10];
+            return (
+              <div 
+                className="absolute z-20 cursor-pointer hover:scale-110 active:scale-95 transition-transform animate-bounce"
+                style={{ 
+                  left: `${(finalCoords.x / 1000) * 100}%`, 
+                  top: `${(finalCoords.y / 450) * 100}%`,
+                  transform: 'translate(-50%, -100%)',
+                  marginTop: '-15px'
+                }}
+                onClick={() => handleOpenTreasure(me.lap)}
+              >
+                <div className="text-4xl drop-shadow-[0_0_15px_rgba(255,215,0,0.8)] filter">🎁</div>
+              </div>
+            );
+          }
+          return null;
+        })()}
       </div>
 
       {/* Track Legend panel */}
@@ -672,6 +731,40 @@ export default function AdventureMazeView({
           </div>
         </div>
       </div>
+
+      {/* Treasure Modal */}
+      {isTreasureModalOpen && activeGift && (
+        <div className="fixed inset-0 z-50 flex-center p-4 bg-slate-900/80 backdrop-blur-sm animate-in fade-in duration-300">
+           <div className="bg-white rounded-[32px] w-full max-w-md p-8 text-center relative shadow-2xl animate-in zoom-in-75 duration-500 flex flex-col items-center">
+             <button 
+                onClick={() => setIsTreasureModalOpen(false)} 
+                className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 rounded-full p-2"
+             >
+                <X className="w-5 h-5" />
+             </button>
+             
+             <h3 className="text-2xl font-black text-slate-800 mb-2">You opened a chest!</h3>
+             <p className="text-sm font-bold text-slate-500 mb-8">A mysterious item was inside...</p>
+             
+             <div className="w-32 h-32 bg-amber-50 rounded-full flex-center text-6xl mb-6 shadow-inner border-4 border-amber-100 relative">
+               <div className="absolute inset-0 bg-amber-400 blur-2xl opacity-20 rounded-full animate-pulse"></div>
+               <span className="relative z-10 animate-bounce">{activeGift.emoji}</span>
+             </div>
+             
+             <h4 className="text-xl font-black text-amber-500 mb-2">{activeGift.name}</h4>
+             <p className="text-sm font-bold text-slate-600 leading-relaxed mb-6">
+               {activeGift.desc}
+             </p>
+             
+             <button 
+                onClick={() => setIsTreasureModalOpen(false)}
+                className="w-full py-4 bg-amber-400 hover:bg-amber-500 text-white rounded-2xl font-black text-lg transition-colors shadow-lg shadow-amber-400/30"
+             >
+                Awesome!
+             </button>
+           </div>
+        </div>
+      )}
     </div>
   );
 }
