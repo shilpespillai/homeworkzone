@@ -90,7 +90,19 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
   useEffect(() => {
     if (isSubmitted || loading || !homework || isSubmitting) return;
     const interval = setInterval(() => {
-      setSecondsSpent(prev => prev + 1);
+      setSecondsSpent(prev => {
+        const newTime = prev + 1;
+        // Auto-submit if it's a test and time has run out
+        if (homework.type === 'test' && homework.timeLimit) {
+          const limitSeconds = parseInt(homework.timeLimit) * 60;
+          if (newTime >= limitSeconds) {
+             clearInterval(interval);
+             // Call submit from here. But we need a ref or something to access handleFinish
+             // A simpler way is to use another useEffect to watch secondsSpent
+          }
+        }
+        return newTime;
+      });
     }, 1000);
     return () => clearInterval(interval);
   }, [isSubmitted, loading, homework, isSubmitting]);
@@ -142,6 +154,16 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
     }
   }, [answers, currentIdx, secondsSpent, isSubmitted, studentName, homeworkId, loading, homework]);
 
+  // Handle auto-submit for tests
+  useEffect(() => {
+    if (homework?.type === 'test' && homework?.timeLimit && !isSubmitted && !isSubmitting) {
+       const limitSeconds = parseInt(homework.timeLimit) * 60;
+       if (secondsSpent >= limitSeconds) {
+          handleSubmit();
+       }
+    }
+  }, [secondsSpent, homework, isSubmitted, isSubmitting]);
+
   if (loading) {
     return (
       <div className="min-h-screen flex-center bg-[#F9F9FF]">
@@ -191,7 +213,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
     setAnswers({ ...answers, [currentQuestion.id]: option });
   };
 
-  const handleSubmit = async () => {
+  async function handleSubmit() {
     setIsSubmitting(true);
     let correctCount = 0;
     homework.questions.forEach(q => {
@@ -299,7 +321,10 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
     setFeedback(aiFeedback);
 
     try {
-      await addDoc(collection(db, 'submissions'), {
+      const marksPerQ = homework.marksPerQuestion ? parseInt(homework.marksPerQuestion) : 1;
+      const totalMarksScored = homework.type === 'test' ? correctCount * marksPerQ : undefined;
+
+      const submissionPayload = {
         homeworkId,
         studentName,
         teacherId: teacher.uid,
@@ -312,7 +337,13 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         wrongAnswersExplanations: explanations,
         timeSpent: secondsSpent,
         submittedAt: serverTimestamp()
-      });
+      };
+
+      if (totalMarksScored !== undefined) {
+         submissionPayload.totalMarksScored = totalMarksScored;
+      }
+
+      await addDoc(collection(db, 'submissions'), submissionPayload);
       
       // Clean up the draft progress in localStorage
       localStorage.removeItem(`hz_draft_${studentName}_${homeworkId}`);
@@ -405,7 +436,11 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             <div className="bg-[#B45309] p-1.5 rounded-[20px] shadow-[0_4px_0_0_#78350F] shrink-0">
               <div className="bg-[#FDE68A] border-2 border-[#D97706] rounded-xl px-4 py-2 flex items-center gap-2 shadow-inner">
                  <Timer className="w-5 h-5 text-[#B45309]" />
-                 <span className="font-black text-[#B45309] tracking-wider text-lg">{formatTime(secondsSpent)}</span>
+                 <span className="font-black text-[#B45309] tracking-wider text-lg">
+                   {homework?.type === 'test' && homework?.timeLimit 
+                     ? formatTime(Math.max(0, parseInt(homework.timeLimit) * 60 - secondsSpent))
+                     : formatTime(secondsSpent)}
+                 </span>
               </div>
             </div>
           </div>
@@ -414,6 +449,11 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             <span className="text-[10px] font-black uppercase text-slate-500 tracking-widest shrink-0 whitespace-nowrap">
               {isReviewing === 'correct' ? 'CORRECT' : (isReviewing === 'incorrect' ? 'MISTAKE' : 'QUESTION')} {currentIdx + 1} OF {displayQuestions.length}
             </span>
+            {homework?.type === 'test' && (
+              <span className="text-[10px] font-black uppercase text-rose-500 tracking-widest shrink-0 whitespace-nowrap bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200">
+                {homework.marksPerQuestion || 1} MARKS
+              </span>
+            )}
             <div className="flex-1 relative flex items-center h-8">
               <div className="w-full h-4 bg-[#E0F2FE] rounded-full overflow-hidden shadow-inner">
                  <motion.div 

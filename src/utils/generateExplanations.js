@@ -38,6 +38,12 @@ For EACH question below, write an extremely detailed and encouraging explanation
 
 ${mathInstruction}
 
+CRITICAL FORMATTING RULES:
+- Ensure the explanation is highly detailed.
+- Use clear distinct steps.
+- Each step MUST be on a new line.
+- The step titles MUST be bolded (e.g., **Step 1: Identify the variables**).
+
 CRITICAL ACCURACY RULES:
 - All mathematical calculations must be 100% correct — double-check arithmetic
 - All scientific facts must be accurate

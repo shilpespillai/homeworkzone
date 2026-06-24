@@ -830,7 +830,7 @@ const SubjectDashboardCard = ({ subject, assignments, submissions, studentName, 
   );
 };
 
-const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHomeworks, submissions: initialSubmissions }) => {
+const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHomeworks, submissions: initialSubmissions, title = "My Assignments", mode = "homework" }) => {
    const [activeTab, setActiveTab] = useState('To Do');
    const [subjectFilter, setSubjectFilter] = useState('All Subjects');
    const [monthFilter, setMonthFilter] = useState('All Months');
@@ -980,7 +980,7 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
                  <Book className="w-8 h-8 text-white" />
                </div>
                <div className="flex flex-col">
-                  <h1 className="text-4xl font-black text-[#14532d] tracking-tighter uppercase">My Assignments</h1>
+                  <h1 className="text-4xl font-black text-[#14532d] tracking-tighter uppercase">{title}</h1>
                   {subjectFilter !== 'All Subjects' && (
                      <button 
                         onClick={() => setSubjectFilter('All Subjects')}
@@ -2497,6 +2497,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
         <nav className="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar">
            <SidebarNavItem icon={<LayoutDashboard className="w-5 h-5" />} label="Dashboard" active={activeNav === 'Dashboard'} color="text-red-500" onClick={() => setActiveNav('Dashboard')} />
            <SidebarNavItem icon={<img src="/ic-homework.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Homework" />} label="My Homework" active={activeNav === 'My Homework'} color="text-pink-500" onClick={() => setActiveNav('My Homework')} />
+           <SidebarNavItem icon={<Award className="w-5 h-5" />} label="Exam Arena" active={activeNav === 'Exam Arena'} color="text-rose-500" onClick={() => setActiveNav('Exam Arena')} />
            <SidebarNavItem icon={<Trophy className="w-5 h-5" />} label="Mission Reports" active={activeNav === 'Mission Reports'} color="text-emerald-500" onClick={() => setActiveNav('Mission Reports')} />
            <SidebarNavItem icon={<User className="w-5 h-5" />} label="My Profile" active={activeNav === 'My Profile'} color="text-green-500" onClick={() => setActiveNav('My Profile')} />
             <SidebarNavItem icon={<Compass className="w-5 h-5" />} label="Adventure Maze" active={activeNav === 'Adventure Maze'} color="text-amber-500" onClick={() => setActiveNav('Adventure Maze')} />
@@ -3116,7 +3117,11 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
            )}
 
            {activeNav === 'My Homework' && (
-              <MyHomework studentName={studentName} teacher={teacher} homeworks={homeworks} submissions={mySubmissions} onStartMission={(id, pastSubmission) => setActiveMission({ id, pastSubmission })} />
+              <MyHomework studentName={studentName} teacher={teacher} homeworks={homeworks.filter(hw => hw.type !== 'test')} submissions={mySubmissions} onStartMission={(id, pastSubmission) => setActiveMission({ id, pastSubmission })} title="My Assignments" mode="homework" />
+           )}
+
+           {activeNav === 'Exam Arena' && (
+              <MyHomework studentName={studentName} teacher={teacher} homeworks={homeworks.filter(hw => hw.type === 'test')} submissions={mySubmissions} onStartMission={(id, pastSubmission) => setActiveMission({ id, pastSubmission })} title="Exam Arena" mode="test" />
            )}
 
            {activeNav === 'Mission Reports' && (

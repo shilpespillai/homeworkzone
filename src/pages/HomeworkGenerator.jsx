@@ -82,15 +82,18 @@ const SUBJECTS = [
 ];
 
 export default function HomeworkGenerator({ user, classrooms = [], activeClassroom, initialDraft, subjectPrompts, onHomeworkCreated, teacherBilling, allHomeworks = [], setDashboardTab, isAdmin }) {
+  const [assignmentType, setAssignmentType] = useState(initialDraft ? (initialDraft.type || 'homework') : null);
   const [formData, setFormData] = useState({
     subject: 'maths',
     title: '',
-    instructions: 'Read each question carefully and select the best answer! 🚀',
+    instructions: assignmentType === 'test' ? 'Read each question carefully. You are on a timer! ⏳' : 'Read each question carefully and select the best answer! 🚀',
     aiPrompt: '',
     classId: activeClassroom?.id || '',
     dueDate: '',
     time: '',
     points: '10',
+    timeLimit: '30',
+    marksPerQuestion: '5',
     assignType: 'all',
     assignedStudentIds: []
   });
@@ -423,6 +426,9 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         assignType: formData.assignType,
         assignedStudentIds: formData.assignType === 'students' ? formData.assignedStudentIds : [],
         status: 'published',
+        type: assignmentType,
+        timeLimit: formData.timeLimit || '30',
+        marksPerQuestion: formData.marksPerQuestion || '5',
         createdAt: serverTimestamp()
       };
 
@@ -437,12 +443,14 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       setFormData({
         subject: 'maths',
         title: '',
-        instructions: 'Read each question carefully and select the best answer! 🚀',
+        instructions: assignmentType === 'test' ? 'Read each question carefully. You are on a timer! ⏳' : 'Read each question carefully and select the best answer! 🚀',
         aiPrompt: '',
         classId: activeClassroom?.id || '',
         dueDate: '',
         time: '',
         points: '10',
+        timeLimit: '30',
+        marksPerQuestion: '5',
         assignType: 'all',
         assignedStudentIds: []
       });
@@ -472,12 +480,14 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       setFormData({
         subject: 'maths',
         title: '',
-        instructions: 'Read each question carefully and select the best answer! 🚀',
+        instructions: assignmentType === 'test' ? 'Read each question carefully. You are on a timer! ⏳' : 'Read each question carefully and select the best answer! 🚀',
         aiPrompt: '',
         classId: activeClassroom?.id || '',
         dueDate: '',
         time: '',
         points: '10',
+        timeLimit: '30',
+        marksPerQuestion: '5',
         assignType: 'all',
         assignedStudentIds: []
       });
@@ -536,6 +546,9 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         assignType: formData.assignType,
         assignedStudentIds: formData.assignType === 'students' ? formData.assignedStudentIds : [],
         status: 'draft',
+        type: assignmentType,
+        timeLimit: formData.timeLimit || '30',
+        marksPerQuestion: formData.marksPerQuestion || '5',
         createdAt: serverTimestamp()
       };
 
@@ -550,12 +563,14 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       setFormData({
         subject: 'maths',
         title: '',
-        instructions: 'Read each question carefully and select the best answer! 🚀',
+        instructions: assignmentType === 'test' ? 'Read each question carefully. You are on a timer! ⏳' : 'Read each question carefully and select the best answer! 🚀',
         aiPrompt: '',
         classId: activeClassroom?.id || '',
         dueDate: '',
         time: '',
         points: '10',
+        timeLimit: '30',
+        marksPerQuestion: '5',
         assignType: 'all',
         assignedStudentIds: []
       });
@@ -581,7 +596,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       <div className="flex items-center justify-center mb-8">
         <div className="bg-slate-100 p-1.5 rounded-full flex gap-1 border border-slate-200/60 shadow-sm">
           <button 
-            onClick={() => setActiveTab('create')}
+            onClick={() => { setActiveTab('create'); setAssignmentType(null); }}
             className={`px-8 py-3 rounded-full font-black text-sm transition-all flex items-center gap-2 ${activeTab === 'create' ? 'bg-white text-orange-600 shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
           >
             <PlusCircle className="w-4 h-4" /> Create New
@@ -592,10 +607,41 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
           >
             <History className="w-4 h-4" /> Past Homeworks
           </button>
+          <button 
+            onClick={() => setActiveTab('history-tests')}
+            className={`px-8 py-3 rounded-full font-black text-sm transition-all flex items-center gap-2 ${activeTab === 'history-tests' ? 'bg-white text-orange-600 shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
+          >
+            <BookOpen className="w-4 h-4" /> Past Tests
+          </button>
         </div>
       </div>
 
       {activeTab === 'create' ? (
+        !assignmentType ? (
+          <div className="flex flex-col items-center justify-center py-20 space-y-12">
+            <h2 className="text-4xl font-black text-[#14532d]">What would you like to create?</h2>
+            <div className="flex gap-8">
+              <button 
+                onClick={() => setAssignmentType('homework')} 
+                className="w-64 h-64 bg-white rounded-[40px] border border-slate-200 shadow-xl flex flex-col items-center justify-center gap-6 hover:-translate-y-2 transition-all hover:border-pink-300 group"
+              >
+                <div className="w-24 h-24 bg-pink-50 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <img src="/ic-homework.png" className="w-12 h-12 object-contain mix-blend-multiply" alt="Homework" />
+                </div>
+                <span className="text-2xl font-black text-slate-800">Homework</span>
+              </button>
+              <button 
+                onClick={() => setAssignmentType('test')} 
+                className="w-64 h-64 bg-white rounded-[40px] border border-slate-200 shadow-xl flex flex-col items-center justify-center gap-6 hover:-translate-y-2 transition-all hover:border-rose-300 group"
+              >
+                <div className="w-24 h-24 bg-rose-50 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <BookOpen className="w-12 h-12 text-rose-500" />
+                </div>
+                <span className="text-2xl font-black text-slate-800">Test Builder</span>
+              </button>
+            </div>
+          </div>
+        ) : (
         <>
           {/* Header */}
           <div className="flex justify-between items-start mb-12">
@@ -995,27 +1041,67 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       
       {/* Bottom Footer Bar */}
       <div className="mt-12 border-t border-slate-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-500">
-            <Star className="w-6 h-6 fill-current" />
+        {assignmentType === 'test' ? (
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-rose-100 rounded-full flex items-center justify-center text-rose-500">
+                <Clock className="w-5 h-5" />
+              </div>
+              <div>
+                <label className="font-bold text-[#14532d] text-sm flex items-center gap-2">
+                  Time Limit <span className="text-slate-400 font-normal text-xs">(minutes)</span>
+                </label>
+                <input 
+                  type="number"
+                  min="5"
+                  value={formData.timeLimit}
+                  onChange={(e) => setFormData({...formData, timeLimit: e.target.value})}
+                  className="bg-transparent font-black text-slate-700 outline-none w-20 border-b-2 border-slate-200 focus:border-rose-400"
+                />
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center text-purple-500">
+                <Star className="w-5 h-5 fill-current" />
+              </div>
+              <div>
+                <label className="font-bold text-[#14532d] text-sm flex items-center gap-2">
+                  Marks Per Question
+                </label>
+                <input 
+                  type="number"
+                  min="1"
+                  value={formData.marksPerQuestion}
+                  onChange={(e) => setFormData({...formData, marksPerQuestion: e.target.value})}
+                  className="bg-transparent font-black text-slate-700 outline-none w-20 border-b-2 border-slate-200 focus:border-purple-400"
+                />
+              </div>
+            </div>
           </div>
-          <div>
-            <label className="font-bold text-[#14532d] text-sm flex items-center gap-2">
-              Add Points <span className="text-slate-400 font-normal text-xs">(optional)</span>
-            </label>
-            <select 
-              value={formData.points}
-              onChange={(e) => setFormData({...formData, points: e.target.value})}
-              className="bg-transparent font-black text-slate-700 outline-none cursor-pointer"
-            >
-              <option value="5">5 Points</option>
-              <option value="10">10 Points</option>
-              <option value="20">20 Points</option>
-              <option value="50">50 Points</option>
-            </select>
+        ) : (
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-500">
+              <Star className="w-6 h-6 fill-current" />
+            </div>
+            <div>
+              <label className="font-bold text-[#14532d] text-sm flex items-center gap-2">
+                Add XP Points <span className="text-slate-400 font-normal text-xs">(optional)</span>
+              </label>
+              <select 
+                value={formData.points}
+                onChange={(e) => setFormData({...formData, points: e.target.value})}
+                className="bg-transparent font-black text-slate-700 outline-none cursor-pointer"
+              >
+                <option value="5">5 Points</option>
+                <option value="10">10 Points</option>
+                <option value="20">20 Points</option>
+                <option value="50">50 Points</option>
+              </select>
+            </div>
+            <span className="text-xs font-bold text-slate-400 ml-2">Reward your students!</span>
           </div>
-          <span className="text-xs font-bold text-slate-400 ml-2">Reward your students!</span>
-        </div>
+        )}
 
         <div className="flex items-center gap-4">
           {initialDraft?.id && (
@@ -1044,12 +1130,15 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         </div>
       </div>
       </>
+      )
       ) : (
         <div className="space-y-8 animate-in fade-in duration-300">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
             <div>
-              <h1 className="text-5xl font-black text-[#14532d] tracking-tight mb-2">Past Homeworks</h1>
-              <p className="text-lg text-slate-500 font-bold">Manage and review previously assigned homework.</p>
+              <h1 className="text-5xl font-black text-[#14532d] tracking-tight mb-2">
+                {activeTab === 'history-tests' ? 'Past Tests' : 'Past Homeworks'}
+              </h1>
+              <p className="text-lg text-slate-500 font-bold">Manage and review previously assigned {activeTab === 'history-tests' ? 'tests' : 'homework'}.</p>
             </div>
             <div className="flex items-center gap-3 bg-white px-4 py-3 rounded-2xl border border-slate-200 shadow-sm">
               <Filter className="w-5 h-5 text-green-400" />
@@ -1081,6 +1170,9 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
           ) : (
             <div className="flex flex-col gap-4">
               {pastHomeworks.filter(hw => {
+                if (activeTab === 'history-tests' && hw.type !== 'test') return false;
+                if (activeTab === 'history' && hw.type === 'test') return false;
+
                 if (!filterDate) return true;
                 const assignedDate = hw.createdAt?.toMillis ? new Date(hw.createdAt.toMillis()).toISOString().split('T')[0] : '';
                 const dueDate = hw.dueDate || '';

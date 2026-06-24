@@ -71,6 +71,7 @@ const toTitleCase = (str) => {
 import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where, onSnapshot, addDoc, collectionGroup, updateDoc } from 'firebase/firestore';
 import HomeworkGenerator from './HomeworkGenerator';
 import HomeworkScheduler from './HomeworkScheduler';
+import TestReportsDashboard from '../components/TestReportsDashboard';
 import { encryptText, decryptText } from '../utils/crypto';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
 
@@ -3771,7 +3772,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                </div>
             );
          }
-          case 'Homework':
+          case 'Homework/Test Builder':
             return (
                <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
                   <HomeworkGenerator 
@@ -3789,9 +3790,9 @@ const TeacherDashboard = ({ user, onLogout }) => {
                       setDashboardTab={setActiveTab}
                       isAdmin={isAdminUser}
                    />
-                   <GrassBorder />
-                </div>
+                 </div>
              );
+
           case 'Scheduler':
              return (
                 <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
@@ -5012,6 +5013,18 @@ const TeacherDashboard = ({ user, onLogout }) => {
                   <GrassBorder />
                </div>
             );
+         }
+         case 'Test Reports': {
+             return (
+               <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
+                 <TestReportsDashboard
+                   tests={allHomeworks.filter(hw => hw.type === 'test' && (!activeClassroom || hw.assignedClassId === activeClassroom.id))}
+                   submissions={allSubmissions}
+                   students={activeClassroom ? students : allStudents}
+                 />
+                 <GrassBorder />
+               </div>
+             );
          }
          case 'Messages': {
             const filteredMessages = teacherMessages.filter(msg => {
@@ -6647,10 +6660,11 @@ const TeacherDashboard = ({ user, onLogout }) => {
          <nav className="flex-1 px-6 space-y-2 overflow-y-auto custom-scrollbar pt-2">
             <SidebarItem id="Dashboard" label="Dashboard" icon={<LayoutDashboard />} iconColor="text-blue-500" active={activeTab === 'Dashboard'} onClick={setActiveTab} />
             <SidebarItem id="My Classes" label="My Classes" icon={<img src="/ic-classes.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Classes" />} active={activeTab === 'My Classes'} onClick={setActiveTab} />
-            <SidebarItem id="Homework" label="Homework" icon={<img src="/ic-homework.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Homework" />} active={activeTab === 'Homework'} onClick={setActiveTab} />
+            <SidebarItem id="Homework/Test Builder" label="Homework/Test Builder" icon={<img src="/ic-homework.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Homework" />} active={activeTab === 'Homework/Test Builder'} onClick={setActiveTab} />
             <SidebarItem id="Scheduler" label="Scheduler" icon={<Calendar className="w-5 h-5 text-pink-500" />} active={activeTab === 'Scheduler'} onClick={setActiveTab} />
             <SidebarItem id="Gradebook" label="Gradebook" icon={<Trophy className="w-5 h-5 text-emerald-500" />} active={activeTab === 'Gradebook'} onClick={setActiveTab} />
             <SidebarItem id="Reports" label="Reports" icon={<BarChart className="w-5 h-5 text-[#EA580C]" />} active={activeTab === 'Reports'} onClick={setActiveTab} />
+            <SidebarItem id="Test Reports" label="Test Reports" icon={<BarChart className="w-5 h-5 text-purple-500" />} active={activeTab === 'Test Reports'} onClick={setActiveTab} />
             <SidebarItem id="Messages" label="Messages" icon={<img src="/ic-messages.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Messages" />} active={activeTab === 'Messages'} onClick={setActiveTab} />
             <SidebarItem id="Rewards" label="Rewards" icon={<img src="/ic-rewards.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Rewards" />} active={activeTab === 'Rewards'} onClick={setActiveTab} />
             <SidebarItem id="My Prompts" label="My Prompts" icon={<MessageSquare className="w-5 h-5 text-orange-500" />} active={activeTab === 'My Prompts'} onClick={setActiveTab} />
