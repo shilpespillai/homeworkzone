@@ -722,7 +722,23 @@ export default function AdventureMazeView({
                 }}
                 onClick={() => handleOpenTreasure(me.lap)}
               >
-                <div className="text-4xl drop-shadow-[0_0_15px_rgba(255,215,0,0.8)] filter">🎁</div>
+                <div className="filter drop-shadow-[0_0_15px_rgba(255,215,0,0.8)]">
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Glow behind */}
+                    <circle cx="24" cy="24" r="20" fill="#FBBF24" fillOpacity="0.4" className="animate-pulse" />
+                    {/* Chest Lid */}
+                    <path d="M6 22C6 11 42 11 42 22H6Z" fill="#D97706" stroke="#451A03" strokeWidth="2.5" strokeLinejoin="round" />
+                    {/* Chest Base */}
+                    <path d="M6 22V36C6 38.2091 7.79086 40 10 40H38C40.2091 40 42 38.2091 42 36V22H6Z" fill="#B45309" stroke="#451A03" strokeWidth="2.5" strokeLinejoin="round" />
+                    {/* Metal Straps */}
+                    <path d="M16 13.5V40" stroke="#FBBF24" strokeWidth="2.5" strokeLinecap="round" />
+                    <path d="M32 13.5V40" stroke="#FBBF24" strokeWidth="2.5" strokeLinecap="round" />
+                    <path d="M6 22H42" stroke="#451A03" strokeWidth="2.5" strokeLinecap="round" />
+                    {/* Lock */}
+                    <rect x="20" y="18" width="8" height="10" rx="2" fill="#FBBF24" stroke="#451A03" strokeWidth="2.5" />
+                    <circle cx="24" cy="23" r="1.5" fill="#451A03" />
+                  </svg>
+                </div>
               </div>
             );
           }
