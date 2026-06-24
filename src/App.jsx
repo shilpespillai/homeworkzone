@@ -597,13 +597,13 @@ const HeroHomeworkCard = ({ hw, completedSubmission, hasDraft, onStart }) => {
   const dueDateStr = hw.dueDate ? new Date(hw.dueDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : 'NO DUE DATE';
   const dueLabel = isDueTomorrow() ? 'DUE TOMORROW' : `DUE ${dueDateStr.toUpperCase()}`;
   
-  let buttonLabel = "START LEARNING!";
+  let buttonLabel = hw.type === 'test' ? "START EXAM!" : "START LEARNING!";
   let buttonBg = "bg-[#ff6a00] shadow-[0_4px_0_0_#cc5500] hover:bg-[#ff8533]";
   if (completedSubmission) {
-    buttonLabel = "REVIEW MISSION";
+    buttonLabel = hw.type === 'test' ? "REVIEW EXAM" : "REVIEW MISSION";
     buttonBg = "bg-[#10B981] shadow-[0_4px_0_0_#059669] hover:bg-[#34D399]";
   } else if (hasDraft) {
-    buttonLabel = "RESUME MISSION 🚀";
+    buttonLabel = hw.type === 'test' ? "RESUME EXAM ⏳" : "RESUME MISSION 🚀";
     buttonBg = "bg-[#8B5CF6] shadow-[0_4px_0_0_#6D28D9] hover:bg-[#A78BFA]";
   }
 
@@ -613,11 +613,11 @@ const HeroHomeworkCard = ({ hw, completedSubmission, hasDraft, onStart }) => {
         UP NEXT
       </h2>
       <div 
-        className="rounded-[24px] w-full relative overflow-hidden flex flex-col md:flex-row items-stretch justify-between shadow-xl group bg-[#1e3a8a]"
+        className={`rounded-[24px] w-full relative overflow-hidden flex flex-col md:flex-row items-stretch justify-between shadow-xl group ${hw.type === 'test' ? 'bg-[#7f1d1d]' : 'bg-[#1e3a8a]'}`}
       >
         {/* The illustration on the right */}
         <div className="absolute right-0 top-0 bottom-0 w-[60%] md:w-[50%] h-full z-0 opacity-90 md:opacity-100">
-          <div className="w-full h-full absolute inset-0 bg-gradient-to-r from-[#1e3a8a] via-[#1e3a8a]/60 to-transparent z-10" />
+          <div className={`w-full h-full absolute inset-0 bg-gradient-to-r ${hw.type === 'test' ? 'from-[#7f1d1d] via-[#7f1d1d]/60' : 'from-[#1e3a8a] via-[#1e3a8a]/60'} to-transparent z-10`} />
           <img 
             src="/science_hero.png" 
             className="w-full h-full object-cover object-right" 
@@ -628,7 +628,7 @@ const HeroHomeworkCard = ({ hw, completedSubmission, hasDraft, onStart }) => {
         {/* The content on the left */}
         <div className="flex-1 w-full relative z-20 flex flex-col items-start p-8 md:p-12">
           <div className="inline-block bg-[#ffce00] text-[#1e3a8a] px-4 py-1.5 rounded-full font-black text-xs md:text-sm mb-4 uppercase tracking-widest shadow-sm">
-            {hw.subject === 'Science' ? 'FUN WITH SCIENCE!' : 'LEARNING QUEST!'}
+            {hw.type === 'test' ? 'EXAM IN PROGRESS' : (hw.subject === 'Science' ? 'FUN WITH SCIENCE!' : 'LEARNING QUEST!')}
           </div>
           
           <h3 className="text-white text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-2 tracking-tight drop-shadow-md">
@@ -726,19 +726,19 @@ const HomeworkCard = ({ hw, completedSubmission, hasDraft, delay, onStart, teach
         {completedSubmission ? (
            <div className="w-full">
               <button onClick={() => onStart(hw.id, completedSubmission)} className="w-full bg-emerald-100 hover:bg-emerald-200 text-emerald-700 font-black py-3 px-6 rounded-2xl shadow-[0_4px_0_0_#34d399] active:translate-y-1 active:shadow-none transition-all">
-                 Completed (Review)
+                 {hw.type === 'test' ? 'Exam Completed (Review)' : 'Completed (Review)'}
               </button>
            </div>
         ) : hasDraft ? (
            <div className="w-full">
               <button onClick={() => onStart(hw.id, null)} className="w-full bg-orange-500 hover:bg-orange-400 text-white font-black py-3 px-6 rounded-2xl shadow-[0_4px_0_0_#4338ca] active:translate-y-1 active:shadow-none transition-all">
-                 Resume Mission 🚀
+                 {hw.type === 'test' ? 'Resume Exam ⏳' : 'Resume Mission 🚀'}
               </button>
            </div>
         ) : (
            <div className="w-full">
               <button onClick={() => onStart(hw.id, null)} className="w-full bg-orange-500 hover:bg-orange-400 text-white font-black py-3 px-6 rounded-2xl shadow-[0_4px_0_0_#c2410c] active:translate-y-1 active:shadow-none transition-all">
-                 Start Homework
+                 {hw.type === 'test' ? 'Start Exam ⏳' : 'Start Homework'}
               </button>
            </div>
         )}
