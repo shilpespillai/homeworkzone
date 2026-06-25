@@ -410,11 +410,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             </div>
           </button>
           
-          <div className="flex items-center gap-2">
-             <button className="w-10 h-10 rounded-full bg-slate-500/20 text-slate-600 flex-center hover:bg-slate-500/30 transition-colors"><Upload className="w-5 h-5" /></button>
-             <button className="w-10 h-10 rounded-full bg-slate-500/20 text-slate-600 flex-center hover:bg-slate-500/30 transition-colors"><Copy className="w-5 h-5" /></button>
-             <button className="w-10 h-10 rounded-full bg-slate-500/20 text-slate-600 flex-center hover:bg-slate-500/30 transition-colors"><Download className="w-5 h-5" /></button>
-          </div>
+
         </div>
 
         <div className="bg-white/95 backdrop-blur-md rounded-[32px] p-6 shadow-[0_8px_0_0_rgba(255,255,255,0.6)]">
