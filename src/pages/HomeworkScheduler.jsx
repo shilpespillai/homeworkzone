@@ -653,7 +653,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           dueDateOffset: offset,
           assignType: formData.assignType,
           assignedStudentIds: formData.assignType === 'students' ? formData.assignedStudentIds : [],
-          lastRun: null, // Initialized to null to run on first scheduled slot
+          lastRun: serverTimestamp(), // Initialized to now to prevent retroactively running past occurrences
           createdAt: serverTimestamp(),
           isActive: true
         };
