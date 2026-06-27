@@ -360,7 +360,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
          - The "answer" field MUST exactly match one of the 4 values inside the "options" array.
          - All options must be age-appropriate for elementary/middle school students.
       
-      Return ONLY a JSON object with a single key "questions" containing an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), "subtopic" (string, a specific subtopic or concept under the main topic), and "imagePrompt" (string, a 3-5 word descriptive prompt optimized for generating a cute, flat, kid-friendly cartoon vector illustration of the question's subject matter. Do not use the word "illustration" in the prompt). Do not include any markdown formatting.`;
+      Return ONLY a JSON object with a single key "questions" containing an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), "subtopic" (string, a specific subtopic or concept under the main topic), and "imagePrompt" (string, a 3-5 word descriptive prompt optimized for generating a cute, flat, kid-friendly cartoon vector illustration of the question's subject matter. Do not use the word "illustration" in the prompt).
+      If the question involves geometry, math shapes, fractions, or data charts, you MUST also include an "svgCode" property. This property must contain a raw, valid HTML <svg> tag as a string (e.g. "<svg viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='blue'/></svg>"). Ensure the SVG is responsive, visually clean, and has no external dependencies. Do not include any markdown formatting.`;
 
       const textResponse = await generateContent({
         prompt,
@@ -801,6 +802,11 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                       {generatedQuestions.map((q, idx) => (
                         <div key={idx} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
                           <p className="font-bold text-slate-800 text-xs mb-3"><span className="text-green-600 mr-1 font-black">Q{idx + 1}.</span> {q.text}</p>
+                          {q.svgCode && (
+                            <div className="flex justify-center mb-4 bg-white rounded-lg p-2 border border-slate-100 shadow-sm max-w-[200px] mx-auto">
+                              <div dangerouslySetInnerHTML={{ __html: q.svgCode }} className="w-full h-auto" />
+                            </div>
+                          )}
                           <div className="grid grid-cols-2 gap-2">
                             {q.options.map((opt, i) => (
                               <div key={i} className={`px-3 py-2 rounded-lg text-[10px] font-bold border ${opt === q.answer ? 'bg-emerald-100 border-emerald-300 text-emerald-800' : 'bg-white border-slate-200 text-slate-600'}`}>

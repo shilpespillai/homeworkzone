@@ -482,13 +482,17 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             {/* Question Text & Image */}
             <div className={`flex ${currentQuestion.text?.length > 150 ? 'flex-col items-start' : 'flex-col md:flex-row items-center'} gap-6 md:gap-8 mb-10`}>
               <div className="w-40 h-40 md:w-48 md:h-48 rounded-[24px] overflow-hidden shrink-0 shadow-inner bg-slate-50 flex-center">
-                <img 
-                  src={`https://image.pollinations.ai/prompt/${encodeURIComponent('cute cartoon illustration ' + (currentQuestion.imagePrompt || currentQuestion.text).substring(0, 60))}?width=400&height=400&nologo=true`}
-                  alt="Question illustration"
-                  className="w-full h-full object-cover mix-blend-multiply"
-                  loading="lazy"
-                  onError={(e) => { e.target.src = 'https://api.dicebear.com/7.x/shapes/svg?seed=' + currentQuestion.id; }}
-                />
+                {currentQuestion.svgCode ? (
+                  <div className="w-full h-full flex items-center justify-center p-2" dangerouslySetInnerHTML={{ __html: currentQuestion.svgCode }} />
+                ) : (
+                  <img 
+                    src={`https://image.pollinations.ai/prompt/${encodeURIComponent('cute cartoon illustration ' + (currentQuestion.imagePrompt || currentQuestion.text).substring(0, 60))}?width=400&height=400&nologo=true`}
+                    alt="Question illustration"
+                    className="w-full h-full object-cover mix-blend-multiply"
+                    loading="lazy"
+                    onError={(e) => { e.target.src = 'https://api.dicebear.com/7.x/shapes/svg?seed=' + currentQuestion.id; }}
+                  />
+                )}
               </div>
               <div className="flex-1 w-full">
                 {currentQuestion.text?.length > 150 ? (
