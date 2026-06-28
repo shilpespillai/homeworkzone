@@ -2969,3 +2969,214 @@ export const ProbabilityVisualizer = () => {
   );
 };
 
+// ==========================================
+// 22. DECIMAL VISUALIZER
+// ==========================================
+export const DecimalVisualizer = () => {
+  const [filled, setFilled] = useState(34);
+  return (
+    <div className="bg-sky-50/50 border border-sky-100 rounded-3xl p-6 space-y-6 text-center">
+      <h4 className="text-xs font-black text-sky-700 uppercase tracking-widest text-left">🟩 Decimal Grid (Hundredths)</h4>
+      <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+        <div className="grid grid-cols-10 gap-0.5 p-2 bg-white rounded-xl shadow-sm border border-slate-100 cursor-pointer"
+             onMouseLeave={(e) => { if(e.buttons !== 1) {} }}>
+          {Array.from({length: 100}).map((_, i) => (
+            <div key={i} 
+                 onMouseEnter={(e) => { if (e.buttons === 1) setFilled(i + 1) }}
+                 onClick={() => setFilled(i + 1)}
+                 className={`w-4 h-4 sm:w-6 sm:h-6 rounded-sm transition-colors ${i < filled ? 'bg-sky-400' : 'bg-slate-100'}`} />
+          ))}
+        </div>
+        <div className="space-y-4">
+          <div className="text-center">
+            <span className="text-xs font-black text-slate-400 uppercase block mb-1">Decimal</span>
+            <span className="text-4xl font-black text-sky-600">0.{filled < 10 ? '0'+filled : filled === 100 ? '1.00' : filled}</span>
+          </div>
+          <div className="text-center">
+            <span className="text-xs font-black text-slate-400 uppercase block mb-1">Fraction</span>
+            <div className="flex flex-col items-center">
+              <span className="text-2xl font-black text-slate-700">{filled}</span>
+              <div className="w-12 h-0.5 bg-slate-300 my-1"/>
+              <span className="text-2xl font-black text-slate-700">100</span>
+            </div>
+          </div>
+          <div className="text-center">
+            <span className="text-xs font-black text-slate-400 uppercase block mb-1">Percentage</span>
+            <span className="text-2xl font-black text-emerald-500">{filled}%</span>
+          </div>
+          <input type="range" min="0" max="100" value={filled} onChange={e => setFilled(parseInt(e.target.value))} className="w-full accent-sky-500" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 23. RATIO VISUALIZER
+// ==========================================
+export const RatioVisualizer = () => {
+  const [apples, setApples] = useState(4);
+  const [bananas, setBananas] = useState(6);
+  
+  const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+  const divisor = gcd(apples, bananas) || 1;
+  const simplifiedApples = apples / divisor;
+  const simplifiedBananas = bananas / divisor;
+
+  return (
+    <div className="bg-yellow-50/50 border border-yellow-200 rounded-3xl p-6 space-y-6 text-center">
+      <h4 className="text-xs font-black text-yellow-700 uppercase tracking-widest text-left">⚖️ Fruit Ratios</h4>
+      <div className="flex flex-col md:flex-row items-center justify-around gap-6">
+        <div className="space-y-4">
+          <div className="flex flex-wrap gap-2 justify-center max-w-[200px] min-h-[100px] content-start bg-white p-4 rounded-2xl shadow-sm border border-red-100">
+            {Array.from({length: apples}).map((_, i) => <span key={i} className="text-3xl">🍎</span>)}
+          </div>
+          <div className="flex items-center justify-center gap-4">
+            <button onClick={() => setApples(a => Math.max(0, a - 1))} className="w-8 h-8 rounded-full bg-red-100 text-red-600 font-bold hover:bg-red-200">-</button>
+            <span className="text-xl font-black">{apples}</span>
+            <button onClick={() => setApples(a => Math.min(20, a + 1))} className="w-8 h-8 rounded-full bg-red-100 text-red-600 font-bold hover:bg-red-200">+</button>
+          </div>
+        </div>
+
+        <div className="text-center space-y-2">
+          <span className="text-xs font-black text-slate-400 uppercase block">Ratio</span>
+          <div className="text-5xl font-black text-slate-800">
+            {apples}<span className="text-slate-300 mx-2">:</span>{bananas}
+          </div>
+          {divisor > 1 && (
+            <div className="bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full inline-block mt-2">
+              <span className="text-xs font-black uppercase">Simplified: </span>
+              <span className="font-black text-lg">{simplifiedApples}:{simplifiedBananas}</span>
+            </div>
+          )}
+        </div>
+
+        <div className="space-y-4">
+          <div className="flex flex-wrap gap-2 justify-center max-w-[200px] min-h-[100px] content-start bg-white p-4 rounded-2xl shadow-sm border border-yellow-100">
+            {Array.from({length: bananas}).map((_, i) => <span key={i} className="text-3xl">🍌</span>)}
+          </div>
+          <div className="flex items-center justify-center gap-4">
+            <button onClick={() => setBananas(a => Math.max(0, a - 1))} className="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 font-bold hover:bg-yellow-200">-</button>
+            <span className="text-xl font-black">{bananas}</span>
+            <button onClick={() => setBananas(a => Math.min(20, a + 1))} className="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 font-bold hover:bg-yellow-200">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 24. TIMES TABLE GRID VISUALIZER
+// ==========================================
+export const TimesTableGridVisualizer = () => {
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [selectedCol, setSelectedCol] = useState(null);
+
+  const nums = Array.from({length: 12}, (_, i) => i + 1);
+
+  return (
+    <div className="bg-indigo-50/50 border border-indigo-100 rounded-3xl p-6 space-y-6 text-center">
+      <h4 className="text-xs font-black text-indigo-700 uppercase tracking-widest text-left">✖️ Times Tables Grid</h4>
+      <div className="flex flex-col xl:flex-row items-center justify-center gap-8 overflow-x-auto w-full">
+        <div className="grid gap-1 bg-white p-4 rounded-2xl shadow-sm border border-slate-100 min-w-max"
+             style={{ gridTemplateColumns: 'repeat(13, minmax(0, 1fr))' }}>
+          <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center font-black text-slate-300 text-[10px] sm:text-xs">✖️</div>
+          {nums.map(n => (
+            <div key={`h-${n}`} className={`w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center font-black text-xs sm:text-sm rounded-lg ${selectedCol === n ? 'bg-indigo-500 text-white shadow-sm' : 'text-slate-400 bg-slate-50'}`}>
+              {n}
+            </div>
+          ))}
+          {nums.map(r => (
+            <React.Fragment key={`row-${r}`}>
+              <div className={`w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center font-black text-xs sm:text-sm rounded-lg ${selectedRow === r ? 'bg-indigo-500 text-white shadow-sm' : 'text-slate-400 bg-slate-50'}`}>
+                {r}
+              </div>
+              {nums.map(c => {
+                const isSelected = selectedRow === r && selectedCol === c;
+                const isHighlight = selectedRow === r || selectedCol === c;
+                return (
+                  <div key={`${r}-${c}`} 
+                       onClick={() => { setSelectedRow(r); setSelectedCol(c); }}
+                       className={`w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center text-xs sm:text-sm font-bold rounded-lg cursor-pointer transition-colors
+                         ${isSelected ? 'bg-emerald-500 text-white shadow-md font-black scale-110 z-10 relative' : 
+                           isHighlight ? 'bg-indigo-50 text-indigo-600' : 'hover:bg-slate-50 text-slate-600'}`}>
+                    {r * c}
+                  </div>
+                )
+              })}
+            </React.Fragment>
+          ))}
+        </div>
+        
+        <div className="h-32 flex flex-col items-center justify-center p-8 bg-white rounded-3xl border border-indigo-100 shadow-inner w-full xl:w-64 shrink-0">
+          {selectedRow && selectedCol ? (
+            <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} key={`${selectedRow}-${selectedCol}`} className="text-center">
+              <div className="text-3xl font-black text-slate-800 tracking-tight flex items-center justify-center gap-2">
+                <span className="text-indigo-500">{selectedRow}</span> 
+                <span className="text-slate-300">×</span> 
+                <span className="text-indigo-500">{selectedCol}</span> 
+                <span className="text-slate-300">=</span> 
+                <span className="text-emerald-500 text-4xl">{selectedRow * selectedCol}</span>
+              </div>
+            </motion.div>
+          ) : (
+            <span className="text-slate-400 font-bold text-sm">Click a square to reveal!</span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 25. NUMBER PATTERN VISUALIZER
+// ==========================================
+export const NumberPatternVisualizer = () => {
+  const [skipCount, setSkipCount] = useState(2);
+  const nums = Array.from({length: 100}, (_, i) => i + 1);
+
+  return (
+    <div className="bg-pink-50/50 border border-pink-100 rounded-3xl p-6 space-y-6 text-center">
+      <h4 className="text-xs font-black text-pink-700 uppercase tracking-widest text-left">🔢 100-Chart Patterns</h4>
+      <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+        
+        <div className="grid grid-cols-10 gap-1 bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+          {nums.map(n => {
+            const isMatch = n % skipCount === 0;
+            return (
+              <div key={n} className={`w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center text-[10px] sm:text-xs font-bold rounded-md transition-colors duration-300
+                ${isMatch ? 'bg-pink-500 text-white shadow-sm font-black' : 'text-slate-400 bg-slate-50'}`}>
+                {n}
+              </div>
+            )
+          })}
+        </div>
+
+        <div className="space-y-6 bg-white p-6 rounded-3xl border border-pink-100 shadow-sm w-full md:w-64">
+          <div>
+            <span className="text-xs font-black text-slate-400 uppercase block mb-3">Skip Count By:</span>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {[2,3,4,5,10].map(s => (
+                <button key={s} 
+                        onClick={() => setSkipCount(s)}
+                        className={`w-10 h-10 rounded-xl font-black transition-all ${skipCount === s ? 'bg-pink-500 text-white shadow-md scale-110' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}>
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="p-4 bg-pink-50 rounded-2xl">
+             <span className="text-sm font-black text-pink-800">
+               Notice the pattern!
+             </span>
+             <p className="text-xs font-bold text-pink-600/70 mt-1">
+               When you count by {skipCount}s, the numbers line up in special columns or diagonals.
+             </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+};

@@ -40,7 +40,11 @@ import {
   Geometry2DVisualizer,
   PercentageVisualizer,
   CoordinatePlaneVisualizer,
-  ProbabilityVisualizer
+  ProbabilityVisualizer,
+  DecimalVisualizer,
+  RatioVisualizer,
+  TimesTableGridVisualizer,
+  NumberPatternVisualizer
 } from './MathsVisualizers';
 
 const getVisualizer = (topicTitle) => {
@@ -158,10 +162,13 @@ const getVisualizer = (topicTitle) => {
   // 12. Fraction Slicer (Pizza)
   if (
     title === 'numerator & denominator' ||
-    title === 'mixed numbers' ||
-    title === 'ratios'
+    title === 'mixed numbers'
   ) {
     return <FractionVisualizer />;
+  }
+
+  if (title === 'ratios') {
+    return <RatioVisualizer />;
   }
   
   // Fallbacks for general categories
@@ -268,13 +275,23 @@ const getVisualizer = (topicTitle) => {
   }
 
   if (
-    title.includes('counting') || 
-    title.includes('pattern') || 
     title.includes('before') || 
     title.includes('after') || 
     title.includes('between')
   ) {
     return <NumberLineVisualizer />;
+  }
+  
+  if (title.includes('counting') || title.includes('pattern')) {
+    return <NumberPatternVisualizer />;
+  }
+
+  if (title.includes('decimal')) {
+    return <DecimalVisualizer />;
+  }
+
+  if (title.includes('multiplication') || title.includes('times tables') || title.includes('multiply')) {
+    return <TimesTableGridVisualizer />;
   }
   
   return null;
