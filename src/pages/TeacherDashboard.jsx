@@ -717,7 +717,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [isEditingGoal, setIsEditingGoal] = useState(false);
   const [newGoalTitle, setNewGoalTitle] = useState('Dino Pizza Party! 🍕');
   const [newGoalTarget, setNewGoalTarget] = useState(1500);
-  const [newGoalTrack, setNewGoalTrack] = useState('forest');
+  const [newGoalTrack, setNewGoalTrack] = useState('auto');
   const [dashboardRosterTab, setDashboardRosterTab] = useState('Support');
 
   const fetchSubmissions = async () => {
@@ -2768,7 +2768,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                      onClick={() => {
                                         setNewGoalTitle(targetTitle);
                                         setNewGoalTarget(targetGoal);
-                                        setNewGoalTrack(activeClassroom?.activeTrack || 'forest');
+                                        setNewGoalTrack(activeClassroom?.activeTrack || 'auto');
                                         setIsEditingGoal(true);
                                      }}
                                      className="px-5 py-2.5 border-2 border-[#FFE0D6] hover:border-[#FFAB91] text-[#C64F33] rounded-2xl text-xs font-black transition-all bg-white"
@@ -3288,7 +3288,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                           onClick={() => {
                           setNewGoalTitle(targetTitle);
                           setNewGoalTarget(targetGoal);
-                          setNewGoalTrack(activeClassroom?.activeTrack || 'forest');
+                          setNewGoalTrack(activeClassroom?.activeTrack || 'auto');
                           setIsEditingGoal(true);
                           }}
                           className="px-3 py-1.5 border border-[#FFE0D6] hover:border-[#FFAB91] text-[#C64F33] rounded-xl text-[10px] font-black transition-all bg-white hover:bg-orange-50/20 shrink-0"
@@ -5769,7 +5769,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                   onClick={() => {
                                      setNewGoalTitle(targetTitle);
                                      setNewGoalTarget(targetGoal);
-                                     setNewGoalTrack(activeClassroom?.activeTrack || 'forest');
+                                     setNewGoalTrack(activeClassroom?.activeTrack || 'auto');
                                      setIsEditingGoal(true);
                                   }}
                                   className="px-4 py-2 border-2 border-green-200 hover:border-green-200 text-[#EA580C] rounded-2xl text-xs font-black transition-all bg-white"
@@ -6804,9 +6804,20 @@ const TeacherDashboard = ({ user, onLogout }) => {
                               onChange={(e) => setNewGoalTrack(e.target.value)} 
                               className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-[#14532d] focus:outline-none"
                            >
+                              <option value="auto">Auto-Rotate Weekly (Recommended) 🔄</option>
                               <option value="forest">Enchanted Forest 🌲</option>
                               <option value="space">Cosmic Space Maze 🚀</option>
                               <option value="sports">Sports Track 🏃</option>
+                              <option value="undersea">Undersea Voyage 🌊</option>
+                              <option value="candyland">Candyland Adventure 🍬</option>
+                              <option value="dinosaur">Dinosaur Safari 🦖</option>
+                              <option value="pirate">Pirate Treasure Hunt 🏴‍☠️</option>
+                              <option value="haunted">Haunted Castle 👻</option>
+                              <option value="winter">Winter Wonderland ⛄</option>
+                              <option value="jungle">Jungle Explorer 🌴</option>
+                              <option value="desert">Desert Mirage 🏜️</option>
+                              <option value="cyber">Cyber City 🤖</option>
+                              <option value="magic">Magic School 🪄</option>
                            </select>
                         </div>
                      </div>

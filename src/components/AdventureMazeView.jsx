@@ -42,6 +42,46 @@ const TRACK_COORDS = {
     { x: 460, y: 130 },  // 8
     { x: 280, y: 130 },  // 9
     { x: 100, y: 130 }   // 10
+  ],
+  undersea: [
+    { x: 50, y: 150 }, { x: 150, y: 300 }, { x: 250, y: 150 }, { x: 350, y: 300 }, { x: 450, y: 150 },
+    { x: 550, y: 300 }, { x: 650, y: 150 }, { x: 750, y: 300 }, { x: 850, y: 150 }, { x: 920, y: 250 }, { x: 960, y: 100 }
+  ],
+  candyland: [
+    { x: 80, y: 350 }, { x: 120, y: 250 }, { x: 220, y: 200 }, { x: 300, y: 280 }, { x: 400, y: 360 },
+    { x: 500, y: 280 }, { x: 550, y: 180 }, { x: 650, y: 100 }, { x: 750, y: 160 }, { x: 850, y: 250 }, { x: 940, y: 180 }
+  ],
+  dinosaur: [
+    { x: 60, y: 400 }, { x: 150, y: 350 }, { x: 250, y: 250 }, { x: 300, y: 150 }, { x: 400, y: 100 },
+    { x: 500, y: 200 }, { x: 600, y: 300 }, { x: 700, y: 350 }, { x: 800, y: 250 }, { x: 850, y: 150 }, { x: 950, y: 100 }
+  ],
+  pirate: [
+    { x: 100, y: 100 }, { x: 200, y: 200 }, { x: 300, y: 300 }, { x: 400, y: 250 }, { x: 500, y: 150 },
+    { x: 600, y: 100 }, { x: 700, y: 200 }, { x: 800, y: 300 }, { x: 900, y: 350 }, { x: 950, y: 250 }, { x: 900, y: 100 }
+  ],
+  haunted: [
+    { x: 50, y: 250 }, { x: 100, y: 150 }, { x: 200, y: 100 }, { x: 300, y: 200 }, { x: 400, y: 300 },
+    { x: 500, y: 350 }, { x: 600, y: 250 }, { x: 700, y: 150 }, { x: 800, y: 100 }, { x: 900, y: 200 }, { x: 950, y: 300 }
+  ],
+  winter: [
+    { x: 70, y: 300 }, { x: 150, y: 200 }, { x: 250, y: 150 }, { x: 350, y: 250 }, { x: 450, y: 350 },
+    { x: 550, y: 300 }, { x: 650, y: 200 }, { x: 750, y: 150 }, { x: 850, y: 250 }, { x: 900, y: 350 }, { x: 960, y: 280 }
+  ],
+  jungle: [
+    { x: 60, y: 120 }, { x: 160, y: 220 }, { x: 260, y: 320 }, { x: 360, y: 220 }, { x: 460, y: 120 },
+    { x: 560, y: 220 }, { x: 660, y: 320 }, { x: 760, y: 220 }, { x: 860, y: 120 }, { x: 920, y: 200 }, { x: 950, y: 300 }
+  ],
+  desert: [
+    { x: 80, y: 380 }, { x: 180, y: 280 }, { x: 280, y: 180 }, { x: 380, y: 100 }, { x: 480, y: 150 },
+    { x: 580, y: 250 }, { x: 680, y: 350 }, { x: 780, y: 280 }, { x: 880, y: 180 }, { x: 940, y: 120 }, { x: 980, y: 80 }
+  ],
+  cyber: [
+    { x: 50, y: 350 }, { x: 50, y: 200 }, { x: 200, y: 200 }, { x: 200, y: 100 }, { x: 400, y: 100 },
+    { x: 400, y: 300 }, { x: 600, y: 300 }, { x: 600, y: 150 }, { x: 800, y: 150 }, { x: 800, y: 350 }, { x: 950, y: 350 }
+  ],
+  magic: [
+    { x: 80, y: 150 }, { x: 180, y: 300 }, { x: 280, y: 150 }, { x: 380, y: 300 }, { x: 480, y: 150 },
+    { x: 580, y: 300 }, { x: 680, y: 150 }, { x: 780, y: 300 }, { x: 880, y: 150 }, { x: 940, y: 250 }, { x: 970, y: 120 }
   ]
 };
 
@@ -84,6 +124,136 @@ const MILESTONE_DETAILS = {
     { name: "Water Obstacle 🏊", desc: "Leap over the water pool and stay strong." },
     { name: "Final Stretch 🏁", desc: "The crowd is cheering! Almost at the line!" },
     { name: "Victory Podium 🏆", desc: "Take your place on the Gold stand! Champion! 🎖️" }
+  ],
+  undersea: [
+    { name: "Coral Reef 🪸", desc: "Colorful fish swim all around you." },
+    { name: "Sunken Ship ⚓", desc: "Explore the ruins of a pirate galleon." },
+    { name: "Deep Trench 🌊", desc: "It's getting dark and deep down here." },
+    { name: "Jellyfish Bloom 🪼", desc: "Watch out for the stinging tentacles!" },
+    { name: "Whale Song 🐋", desc: "Hear the gentle giants singing." },
+    { name: "Mermaid's Cove 🧜‍♀️", desc: "A hidden underwater grotto." },
+    { name: "Kelp Forest 🌿", desc: "Swim through the towering green stalks." },
+    { name: "Pearl Oyster 🦪", desc: "A giant clam with a shiny prize." },
+    { name: "Abyssal Plain 🦑", desc: "Glowing creatures light the way." },
+    { name: "Atlantis Gates 🏛️", desc: "The entrance to the lost city." },
+    { name: "Poseidon's Throne 🔱", desc: "You are the ruler of the seas!" }
+  ],
+  candyland: [
+    { name: "Peppermint Gate 🍬", desc: "The sweet journey begins." },
+    { name: "Chocolate River 🍫", desc: "Don't fall in the gooey chocolate!" },
+    { name: "Gumdrop Mountain ⛰️", desc: "A sticky climb to the top." },
+    { name: "Licorice Loop 🌀", desc: "Twist and turn through the black vines." },
+    { name: "Marshmallow Marsh 🍡", desc: "Bounce safely across the soft ground." },
+    { name: "Lollipop Woods 🍭", desc: "Tall trees made of pure sugar." },
+    { name: "Cotton Candy Clouds ☁️", desc: "Light and fluffy and pink." },
+    { name: "Gummy Bear Cave 🐻", desc: "Say hi to the sleeping jelly bears." },
+    { name: "Jellybean Path 🫘", desc: "Step on the right colors!" },
+    { name: "Sugar Plum Falls 💧", desc: "A sparkling waterfall of syrup." },
+    { name: "Ice Cream Castle 🍦", desc: "You've reached the sweetest palace!" }
+  ],
+  dinosaur: [
+    { name: "Base Camp 🏕️", desc: "Pack your gear for the safari." },
+    { name: "Fossil Dig 🦴", desc: "Uncover ancient bones in the dirt." },
+    { name: "Triceratops Trail 🦏", desc: "Watch out for the three-horned giants." },
+    { name: "Pterodactyl Peak 🦅", desc: "Flying reptiles swoop overhead." },
+    { name: "Swamp Crossing 🐊", desc: "Tread carefully through the mud." },
+    { name: "T-Rex Valley 🦖", desc: "Shh! Don't wake the king." },
+    { name: "Stegosaurus Plains 🦕", desc: "Peaceful plant-eaters roaming." },
+    { name: "Amber Forest 🌲", desc: "Golden sap preserves ancient bugs." },
+    { name: "Raptor Run 🏃", desc: "Sprint past the clever hunters." },
+    { name: "Volcano Edge 🌋", desc: "The ground is shaking and hot!" },
+    { name: "Time Portal ⏳", desc: "You survived the prehistoric era!" }
+  ],
+  pirate: [
+    { name: "Sandy Shores 🏖️", desc: "Leave the dinghy behind." },
+    { name: "Smuggler's Cove 🏴‍☠️", desc: "A hidden hideout for scallywags." },
+    { name: "Parrot's Perch 🦜", desc: "Squawk! Polly wants a cracker!" },
+    { name: "Kraken's Whirlpool 🐙", desc: "Steer clear of the giant tentacles." },
+    { name: "Cannonball Bay 💣", desc: "Watch out for incoming fire!" },
+    { name: "Mermaid Shoal 🧜‍♀️", desc: "Listen to the enchanting songs." },
+    { name: "Skull Rock 💀", desc: "A terrifying stone face in the cliff." },
+    { name: "Mutiny Beach ⚔️", desc: "A place of ancient pirate battles." },
+    { name: "X Marks the Spot ❌", desc: "Start digging here!" },
+    { name: "Captain's Cabin 🧭", desc: "Find the secret map." },
+    { name: "Treasure Hoard 💎", desc: "Gold doubloons galore! You are rich!" }
+  ],
+  haunted: [
+    { name: "Creepy Courtyard 🍂", desc: "Dry leaves crunch under your feet." },
+    { name: "Gargoyle Tower 🦇", desc: "Stone monsters watching you." },
+    { name: "Spiderweb Staircase 🕸️", desc: "Try not to get stuck." },
+    { name: "Hall of Mirrors 🪞", desc: "Which reflection is the real you?" },
+    { name: "Floating Candles 🕯️", desc: "Spooky lights guiding the way." },
+    { name: "Ghostly Gallery 🖼️", desc: "The paintings are staring at you." },
+    { name: "Witch's Kitchen 🧙‍♀️", desc: "Something green is bubbling in the pot." },
+    { name: "Poltergeist Parlor 👻", desc: "Furniture floating in the air!" },
+    { name: "Vampire's Crypt 🧛", desc: "Don't open the coffin." },
+    { name: "Howling Roof 🐺", desc: "The moon is full and bright." },
+    { name: "Monster Bash 🧟", desc: "You survived the haunted house!" }
+  ],
+  winter: [
+    { name: "Snowy Start 🌨️", desc: "Bundle up, it's freezing!" },
+    { name: "Frosty Pinecone 🌲", desc: "Trees covered in thick white snow." },
+    { name: "Penguin Ice Rink 🐧", desc: "Slide across the frozen lake." },
+    { name: "Snowman Village ⛄", desc: "Say hi to the frosty locals." },
+    { name: "Yeti's Cave 🐾", desc: "Big footprints lead inside." },
+    { name: "Crystal Cavern 💎", desc: "Sparkling icicles hang from the ceiling." },
+    { name: "Avalanche Pass 🏔️", desc: "Move quickly and quietly." },
+    { name: "Aurora Borealis 🌌", desc: "Beautiful green lights in the sky." },
+    { name: "Reindeer Tracks 🦌", desc: "Follow the hoof prints." },
+    { name: "Elf Workshop 🎁", desc: "Toys are being made here." },
+    { name: "Santa's Sleigh 🛷", desc: "You made it to the North Pole!" }
+  ],
+  jungle: [
+    { name: "Vine Swing 🌿", desc: "Tarzan your way across the gap." },
+    { name: "Monkey Canopy 🐒", desc: "Chattering friends in the treetops." },
+    { name: "Tiger's Den 🐅", desc: "Sneak past the sleeping cat." },
+    { name: "Hidden Ruins 🗿", desc: "Ancient stones covered in moss." },
+    { name: "Anaconda Swamp 🐍", desc: "Watch out for the slithering snake." },
+    { name: "Macaw Flock 🦜", desc: "A burst of colorful feathers." },
+    { name: "Roaring Waterfall 🌊", desc: "A beautiful hidden cascade." },
+    { name: "Dart Frog Pond 🐸", desc: "Don't touch the bright colorful frogs!" },
+    { name: "Bamboo Forest 🎋", desc: "Thick stalks block the path." },
+    { name: "Golden Temple 🛕", desc: "A legendary lost city." },
+    { name: "Jungle Throne 👑", desc: "You are the ruler of the wild!" }
+  ],
+  desert: [
+    { name: "Searing Sand Dunes 🐪", desc: "Hot sand as far as the eye can see." },
+    { name: "Oasis Spring 🌴", desc: "A refreshing drink of water." },
+    { name: "Scorpion's Nest 🦂", desc: "Watch where you step." },
+    { name: "Cactus Grove 🌵", desc: "Prickly plants everywhere." },
+    { name: "Mirage Lake 🏜️", desc: "Is it real or an illusion?" },
+    { name: "Vulture's Roost 🦅", desc: "Circling high above." },
+    { name: "Sandstorm Valley 🌪️", desc: "Cover your eyes from the wind!" },
+    { name: "Nomad Tent ⛺", desc: "A safe place to rest." },
+    { name: "Ancient Pyramid 🔺", desc: "A massive stone structure." },
+    { name: "Pharaoh's Tomb 🪦", desc: "Beware the mummy's curse." },
+    { name: "Jewel of the Sands 💎", desc: "You found the lost desert treasure!" }
+  ],
+  cyber: [
+    { name: "Neon Grid 🟩", desc: "Welcome to the digital world." },
+    { name: "Hacker's Alley 💻", desc: "Lines of code stream down." },
+    { name: "Robot Factory 🤖", desc: "Mechanical arms building machines." },
+    { name: "Pixel Plaza 🕹️", desc: "Everything looks like a retro game." },
+    { name: "Data Stream 🌊", desc: "Ride the wave of information." },
+    { name: "Firewall Breach 🧱", desc: "Break through the security wall." },
+    { name: "Glitch Zone 👾", desc: "Reality is flickering here." },
+    { name: "Laser Grid 🔴", desc: "Dodge the red security beams." },
+    { name: "Motherboard Maze 🔋", desc: "Navigate the circuits." },
+    { name: "Mainframe Core 🧠", desc: "The brain of the supercomputer." },
+    { name: "System Admin 👑", desc: "You have full root access!" }
+  ],
+  magic: [
+    { name: "Sorting Hat 🎩", desc: "Discover your true house." },
+    { name: "Potion Class 🧪", desc: "Mix the bubbling ingredients." },
+    { name: "Flying Broom Track 🧹", desc: "Zoom through the air rings." },
+    { name: "Forbidden Forest 🌲", desc: "Dark and full of magical creatures." },
+    { name: "Troll Bridge 🧌", desc: "Answer the riddle to cross." },
+    { name: "Dragon's Keep 🐉", desc: "A fire-breathing guardian." },
+    { name: "Wand Shop 🪄", desc: "The wand chooses the wizard." },
+    { name: "Spellbook Library 📚", desc: "Flying books flutter around." },
+    { name: "Crystal Ball Room 🔮", desc: "See into the future." },
+    { name: "Wizard's Tower 🏰", desc: "Climb the spiral staircase." },
+    { name: "Master Sorcerer 🌟", desc: "You've graduated from Magic School!" }
   ]
 };
 
@@ -257,7 +427,21 @@ export default function AdventureMazeView({
     return () => unsubscribe();
   }, [classroomId]);
 
-  const activeTrack = liveClassroom?.activeTrack || 'forest'; // 'forest', 'space', 'sports'
+  const getAutoTrack = () => {
+    const availableTracks = Object.keys(TRACK_COORDS);
+    const now = new Date();
+    // Monday-based week calculation
+    const d = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+    const dayNum = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    return availableTracks[weekNo % availableTracks.length];
+  };
+
+  const activeTrack = liveClassroom?.activeTrack === 'auto' || !liveClassroom?.activeTrack 
+    ? getAutoTrack() 
+    : liveClassroom?.activeTrack;
 
   const activeCoords = useMemo(() => {
     return TRACK_COORDS[activeTrack] || TRACK_COORDS.forest;
@@ -361,6 +545,7 @@ export default function AdventureMazeView({
   // Theme Visual Assets/Styles
   const themeStyles = {
     forest: {
+      displayName: "🌲 Enchanted Forest", displayColor: "bg-emerald-500 text-white shadow-emerald-200",
       gradient: "from-emerald-50 via-teal-50 to-green-100/50",
       pathColor: "#8B5A2B", // Wooden branch brown
       pathOutline: "#4E2F13",
@@ -372,6 +557,7 @@ export default function AdventureMazeView({
       finishNode: "🏰"
     },
     space: {
+      displayName: "🚀 Cosmic Space Maze", displayColor: "bg-[#EA580C] text-white shadow-orange-200",
       gradient: "from-slate-950 via-green-950 to-orange-950",
       pathColor: "#4F46E5", // Bright cosmic blue-purple glow
       pathOutline: "#818CF8",
@@ -383,6 +569,7 @@ export default function AdventureMazeView({
       finishNode: "🌌"
     },
     sports: {
+      displayName: "🏃 Athletics Track", displayColor: "bg-orange-500 text-white shadow-orange-200",
       gradient: "from-orange-50 via-amber-50 to-orange-100/50",
       pathColor: "#EA580C", // Athletics reddish-orange lane track
       pathOutline: "#9A3412",
@@ -392,11 +579,81 @@ export default function AdventureMazeView({
       finishColor: "text-yellow-500 fill-yellow-400",
       skyColor: "bg-[#431407]/10",
       finishNode: "🏆"
+    },
+    undersea: {
+      displayName: "🌊 Undersea Voyage", displayColor: "bg-cyan-500 text-white shadow-cyan-200",
+      gradient: "from-cyan-50 via-blue-50 to-indigo-100",
+      pathColor: "#0284c7", pathOutline: "#075985", centerDashes: "#7dd3fc",
+      nodeColor: "fill-cyan-400 stroke-cyan-600", nodeColorCompleted: "fill-indigo-500 stroke-indigo-700",
+      finishColor: "text-blue-500 fill-blue-300", skyColor: "bg-[#082f49]/10", finishNode: "🔱"
+    },
+    candyland: {
+      displayName: "🍬 Candyland Adventure", displayColor: "bg-pink-500 text-white shadow-pink-200",
+      gradient: "from-pink-50 via-rose-50 to-fuchsia-100",
+      pathColor: "#ec4899", pathOutline: "#be185d", centerDashes: "#fbcfe8",
+      nodeColor: "fill-pink-400 stroke-pink-600", nodeColorCompleted: "fill-fuchsia-500 stroke-fuchsia-700",
+      finishColor: "text-rose-500 fill-rose-300", skyColor: "bg-[#831843]/10", finishNode: "🏰"
+    },
+    dinosaur: {
+      displayName: "🦖 Dinosaur Safari", displayColor: "bg-lime-600 text-white shadow-lime-200",
+      gradient: "from-lime-50 via-green-50 to-emerald-100",
+      pathColor: "#65a30d", pathOutline: "#3f6212", centerDashes: "#d9f99d",
+      nodeColor: "fill-lime-400 stroke-lime-600", nodeColorCompleted: "fill-green-600 stroke-green-800",
+      finishColor: "text-emerald-500 fill-emerald-300", skyColor: "bg-[#14532d]/10", finishNode: "🌋"
+    },
+    pirate: {
+      displayName: "🏴‍☠️ Pirate Treasure Hunt", displayColor: "bg-amber-600 text-white shadow-amber-200",
+      gradient: "from-amber-50 via-yellow-50 to-orange-100",
+      pathColor: "#d97706", pathOutline: "#92400e", centerDashes: "#fde68a",
+      nodeColor: "fill-amber-400 stroke-amber-600", nodeColorCompleted: "fill-orange-600 stroke-orange-800",
+      finishColor: "text-yellow-500 fill-yellow-300", skyColor: "bg-[#78350f]/10", finishNode: "💎"
+    },
+    haunted: {
+      displayName: "👻 Haunted Castle", displayColor: "bg-purple-800 text-white shadow-purple-200",
+      gradient: "from-slate-900 via-purple-950 to-indigo-950",
+      pathColor: "#9333ea", pathOutline: "#581c87", centerDashes: "#d8b4fe",
+      nodeColor: "fill-purple-400 stroke-purple-600", nodeColorCompleted: "fill-indigo-500 stroke-indigo-700",
+      finishColor: "text-fuchsia-500 fill-fuchsia-300", skyColor: "bg-[#2e1065]/40", finishNode: "🧛"
+    },
+    winter: {
+      displayName: "⛄ Winter Wonderland", displayColor: "bg-sky-400 text-white shadow-sky-200",
+      gradient: "from-slate-50 via-sky-50 to-blue-50",
+      pathColor: "#38bdf8", pathOutline: "#0369a1", centerDashes: "#bae6fd",
+      nodeColor: "fill-sky-400 stroke-sky-600", nodeColorCompleted: "fill-blue-500 stroke-blue-700",
+      finishColor: "text-cyan-500 fill-cyan-300", skyColor: "bg-[#0c4a6e]/10", finishNode: "🛷"
+    },
+    jungle: {
+      displayName: "🌴 Jungle Explorer", displayColor: "bg-green-700 text-white shadow-green-200",
+      gradient: "from-green-50 via-emerald-50 to-teal-100",
+      pathColor: "#15803d", pathOutline: "#14532d", centerDashes: "#bbf7d0",
+      nodeColor: "fill-green-400 stroke-green-600", nodeColorCompleted: "fill-emerald-600 stroke-emerald-800",
+      finishColor: "text-teal-500 fill-teal-300", skyColor: "bg-[#064e3b]/10", finishNode: "👑"
+    },
+    desert: {
+      displayName: "🏜️ Desert Mirage", displayColor: "bg-yellow-600 text-white shadow-yellow-200",
+      gradient: "from-yellow-50 via-orange-50 to-amber-100",
+      pathColor: "#ca8a04", pathOutline: "#713f12", centerDashes: "#fef08a",
+      nodeColor: "fill-yellow-400 stroke-yellow-600", nodeColorCompleted: "fill-orange-500 stroke-orange-700",
+      finishColor: "text-amber-500 fill-amber-300", skyColor: "bg-[#451a03]/10", finishNode: "🐫"
+    },
+    cyber: {
+      displayName: "🤖 Cyber City", displayColor: "bg-slate-800 text-green-400 shadow-slate-200",
+      gradient: "from-slate-900 via-zinc-900 to-neutral-900",
+      pathColor: "#22c55e", pathOutline: "#14532d", centerDashes: "#86efac",
+      nodeColor: "fill-green-400 stroke-green-600", nodeColorCompleted: "fill-emerald-500 stroke-emerald-700",
+      finishColor: "text-green-500 fill-green-300", skyColor: "bg-[#052e16]/40", finishNode: "💻"
+    },
+    magic: {
+      displayName: "🪄 Magic School", displayColor: "bg-indigo-700 text-white shadow-indigo-200",
+      gradient: "from-indigo-50 via-violet-50 to-purple-100",
+      pathColor: "#4338ca", pathOutline: "#312e81", centerDashes: "#c7d2fe",
+      nodeColor: "fill-indigo-400 stroke-indigo-600", nodeColorCompleted: "fill-violet-500 stroke-violet-700",
+      finishColor: "text-purple-500 fill-purple-300", skyColor: "bg-[#1e1b4b]/10", finishNode: "🌟"
     }
   };
 
-  const style = themeStyles[activeTrack];
-  const milestoneData = MILESTONE_DETAILS[activeTrack];
+  const style = themeStyles[activeTrack] || themeStyles.forest;
+  const milestoneData = MILESTONE_DETAILS[activeTrack] || MILESTONE_DETAILS.forest;
 
   return (
     <div className={`w-full bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm space-y-6 animate-in fade-in duration-300`}>
@@ -422,14 +679,8 @@ export default function AdventureMazeView({
           <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">
             Active track:
           </span>
-          <span className={`px-4 py-2 rounded-2xl text-xs font-black capitalize shadow-sm ${
-            activeTrack === 'space' 
-              ? 'bg-[#EA580C] text-white shadow-orange-200' 
-              : activeTrack === 'sports' 
-              ? 'bg-orange-500 text-white shadow-orange-200' 
-              : 'bg-emerald-500 text-white shadow-emerald-200'
-          }`}>
-            {activeTrack === 'space' ? '🚀 Cosmic Space Maze' : activeTrack === 'sports' ? '🏃 Athletics Track' : '🌲 Enchanted Forest'}
+          <span className={`px-4 py-2 rounded-2xl text-xs font-black capitalize shadow-sm ${style.displayColor}`}>
+            {style.displayName}
           </span>
         </div>
       </div>
