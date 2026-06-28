@@ -1894,6 +1894,25 @@ const MyRewards = ({ studentName, classroom, teacher, homeworks, submissions, ge
    );
 };
 
+// Helper functions for date filtering
+const isDateInCurrentWeek = (date) => {
+  const now = new Date();
+  const startOfWeek = new Date(now);
+  const day = startOfWeek.getDay();
+  const diff = startOfWeek.getDate() - day + (day === 0 ? -6 : 1);
+  startOfWeek.setDate(diff);
+  startOfWeek.setHours(0, 0, 0, 0);
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 6);
+  endOfWeek.setHours(23, 59, 59, 999);
+  return date >= startOfWeek && date <= endOfWeek;
+};
+
+const isDateInCurrentMonth = (date) => {
+  const now = new Date();
+  return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+};
+
 // --- Student Dashboard (Equip Final Redesign) ---
 const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
   const navigate = useNavigate();
@@ -1906,6 +1925,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
   const [homeworks, setHomeworks] = useState([]);
   const [submissions, setSubmissions] = useState([]);
   const [classroomStudents, setClassroomStudents] = useState([]);
+  const [standingsTimeframe, setStandingsTimeframe] = useState('all-time');
   
   // Real-time presence tracking
   useEffect(() => {
@@ -2364,7 +2384,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
      };
   });
 
-  // 3. Dynamic Ranks & Achievements
+  // 3. Dynamic Ranks & Achievements (All Time)
   const studentScores = {};
   classroomStudents.forEach(s => {
      studentScores[s.name] = 0;
@@ -2392,8 +2412,30 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
   const leaderStudent = sortedStudents[0] || { name: activeRegisteredName, points: 0 };
   const currentStudentScore = studentScores[activeRegisteredName] || 0;
 
-  // Standings
-  const standings = sortedStudents.slice(0, 3).map((st, idx) => ({
+  // Standings specific logic (with time filters)
+  const standingsScores = {};
+  classroomStudents.forEach(s => { standingsScores[s.name] = 0; });
+  
+  submissions.forEach(sub => {
+     let subDate = new Date(0);
+     if (sub.submittedAt?.toDate) subDate = sub.submittedAt.toDate();
+     else if (sub.submittedAt) subDate = new Date(sub.submittedAt);
+     
+     if (standingsTimeframe === 'week' && !isDateInCurrentWeek(subDate)) return;
+     if (standingsTimeframe === 'month' && !isDateInCurrentMonth(subDate)) return;
+
+     const subName = normalizeName(sub.studentName);
+     const matchedStudent = classroomStudents.find(s => normalizeName(s.name) === subName || normalizeName(s.id) === subName);
+     if (matchedStudent) {
+        standingsScores[matchedStudent.name] = (standingsScores[matchedStudent.name] || 0) + (sub.correctCount || 0) * 10;
+     }
+  });
+
+  const sortedStandings = Object.keys(standingsScores)
+     .map(name => ({ name, points: standingsScores[name] }))
+     .sort((a,b) => b.points - a.points);
+
+  const standings = sortedStandings.slice(0, 3).map((st, idx) => ({
      rank: idx + 1,
      name: st.name,
      students: st.points,
@@ -2402,10 +2444,11 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
   }));
 
   if (standings.length < 3) {
+     const currentStandingsScore = standingsScores[activeRegisteredName] || 0;
      const mockPeers = [
         { rank: 1, name: "Vansh Pillai", students: 120, progress: "+20", color: "text-emerald-500" },
         { rank: 2, name: "Ved Pillai", students: 80, progress: "+10", color: "text-emerald-500" },
-        { rank: 3, name: studentName, students: currentStudentScore, progress: "+5", color: "text-[#EA580C]" }
+        { rank: 3, name: studentName, students: currentStandingsScore, progress: "+5", color: "text-[#EA580C]" }
      ];
      mockPeers.forEach(peer => {
         if (peer.name !== studentName && !standings.some(s => s.name === peer.name)) {
@@ -2792,7 +2835,18 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                         studentName={studentName}
                      />
                      <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm space-y-6">
-                        <h2 className="text-xl font-semibold text-[#2D3748]">Class Standings</h2>
+                        <div className="flex justify-between items-center">
+                           <h2 className="text-xl font-semibold text-[#2D3748]">Class Standings</h2>
+                           <select 
+                              value={standingsTimeframe}
+                              onChange={(e) => setStandingsTimeframe(e.target.value)}
+                              className="bg-slate-50 border border-slate-100 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-600 focus:outline-none cursor-pointer hover:bg-slate-100 transition-colors"
+                           >
+                              <option value="all-time">All Time</option>
+                              <option value="month">This Month</option>
+                              <option value="week">This Week</option>
+                           </select>
+                        </div>
                         <div className="space-y-4">
                            {standings.map((row, idx) => (
                               <StandingRow 
