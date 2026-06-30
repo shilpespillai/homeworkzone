@@ -1,0 +1,96 @@
+import React from 'react';
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  PieChart, Pie, Cell, LineChart, Line, Legend
+} from 'recharts';
+
+const COLORS = ['#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
+
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white p-3 border border-slate-200 rounded-xl shadow-lg">
+        <p className="font-bold text-slate-700">{label}</p>
+        <p className="text-indigo-600 font-black">
+          Value: {payload[0].value}
+        </p>
+      </div>
+    );
+  }
+  return null;
+};
+
+export default function DynamicChart({ data }) {
+  if (!data || !data.data || data.data.length === 0) return null;
+
+  const { type, title, data: chartData } = data;
+
+  const renderChart = () => {
+    switch (type) {
+      case 'pie':
+        return (
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={chartData}
+                cx="50%"
+                cy="50%"
+                labelLine={true}
+                label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                outerRadius={80}
+                fill="#8884d8"
+                dataKey="value"
+              >
+                {chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip content={<CustomTooltip />} />
+            </PieChart>
+          </ResponsiveContainer>
+        );
+      
+      case 'line':
+        return (
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
+              <XAxis dataKey="name" stroke="#64748b" tick={{fill: '#64748b', fontSize: 12, fontWeight: 600}} dy={10} />
+              <YAxis stroke="#64748b" tick={{fill: '#64748b', fontSize: 12, fontWeight: 600}} />
+              <Tooltip content={<CustomTooltip />} />
+              <Line type="monotone" dataKey="value" stroke="#4f46e5" strokeWidth={4} activeDot={{ r: 8, fill: '#4f46e5', stroke: '#fff', strokeWidth: 2 }} />
+            </LineChart>
+          </ResponsiveContainer>
+        );
+
+      case 'bar':
+      default:
+        return (
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
+              <XAxis dataKey="name" stroke="#64748b" tick={{fill: '#64748b', fontSize: 12, fontWeight: 600}} dy={10} />
+              <YAxis stroke="#64748b" tick={{fill: '#64748b', fontSize: 12, fontWeight: 600}} />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar dataKey="value" fill="#4f46e5" radius={[6, 6, 0, 0]}>
+                {chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        );
+    }
+  };
+
+  return (
+    <div className="w-full bg-slate-50 border border-slate-200 rounded-3xl p-6 mb-6">
+      {title && (
+        <h4 className="text-center text-lg font-black text-slate-700 mb-4">{title}</h4>
+      )}
+      <div className="w-full h-[300px]">
+        {renderChart()}
+      </div>
+    </div>
+  );
+}

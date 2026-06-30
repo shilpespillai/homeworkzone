@@ -123,7 +123,20 @@ CRITICAL ACCURACY & QUALITY RULES:
    - Ensure all facts, definitions, and concepts are scientifically accurate and standard.
 4. General:
    - The "answer" field MUST exactly match one of the 4 values inside the "options" array.
-   - All options must be age-appropriate for elementary/middle school students.`;
+   - All options must be age-appropriate for elementary/middle school students.
+
+CRITICAL VISUAL RULES:
+1. For Data Interpretation / Graph / Chart questions:
+   - Instead of an image, include a "chartData" array in the question object.
+   - Example: "chartData": [{"name": "A", "value": 10}, {"name": "B", "value": 20}]
+   - Do NOT output "svgCode" if you provide "chartData".
+2. For Geometry (Area, Perimeter, Volume, Shapes):
+   - Include a "geometryData" object in the question object.
+   - "geometryData" must have: "type" (one of "rectangle", "triangle", "circle", "cylinder", "cube") and "labels" (object mapping dimensions like "width", "height", "radius" to strings like "5cm").
+   - Example: "geometryData": {"type": "rectangle", "labels": {"width": "10m", "height": "5m"}}
+   - Do NOT output "svgCode" if you provide "geometryData".
+3. For Science (or topics needing cute artistic illustrations):
+   - Include a short "imagePrompt" string describing the scene.`;
 
     let prompt = "";
     if (customPrompt) {
@@ -137,7 +150,7 @@ CRITICAL ACCURACY & QUALITY RULES:
         questionCount: sched.questionCount || 5,
         points: sched.points || '10'
       });
-      prompt += `\n\n${qualityRules}\n\nReturn ONLY a JSON object with a single key "questions" containing an array of exactly ${sched.questionCount || 5} objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), and "subtopic" (string, a specific subtopic or concept under the main topic, e.g. "Adding Fractions", "Identifying Nouns", "Photosynthesis", etc.). Do not include any markdown formatting.`;
+      prompt += `\n\n${qualityRules}\n\nReturn ONLY a JSON object with a single key "questions" containing an array of exactly ${sched.questionCount || 5} objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), "subtopic" (string, a specific subtopic or concept under the main topic, e.g. "Adding Fractions", "Identifying Nouns", "Photosynthesis", etc.), and optionally "chartData", "geometryData", or "imagePrompt". Do not include any markdown formatting.`;
     } else {
       prompt = `You are an expert curriculum designer. 
       Create a ${sched.questionCount || 5}-question multiple-choice quiz for students on the following:
@@ -151,7 +164,7 @@ CRITICAL ACCURACY & QUALITY RULES:
 
       ${qualityRules}
 
-      Return ONLY a JSON object with a single key "questions" containing an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), and "subtopic" (string, a specific subtopic or concept under the main topic, e.g. "Adding Fractions", "Identifying Nouns", "Photosynthesis", etc.). Do not include any markdown formatting.`;
+      Return ONLY a JSON object with a single key "questions" containing an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), "subtopic" (string, a specific subtopic or concept under the main topic, e.g. "Adding Fractions", "Identifying Nouns", "Photosynthesis", etc.), and optionally "chartData", "geometryData", or "imagePrompt". Do not include any markdown formatting.`;
     }
 
     const pastQuestions = await fetchPastQuestions(sched.selectedClasses);

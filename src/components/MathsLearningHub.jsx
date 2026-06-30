@@ -24,7 +24,6 @@ import {
   ClockVisualizer,
   ComparingCrocodile,
   Shapes3DVisualizer,
-  FractionsPosterInfographic,
   AngleVisualizer,
   NumberLineVisualizer,
   OperationsVisualizer,
@@ -44,11 +43,15 @@ import {
   DecimalVisualizer,
   RatioVisualizer,
   TimesTableGridVisualizer,
-  NumberPatternVisualizer
+  NumberPatternVisualizer,
+  ShapeSlicerVisualizer,
+  EquivalentFractionBalancer,
+  ComparingFractionsCrocodile
 } from './MathsVisualizers';
 
-const getVisualizer = (topicTitle) => {
-  const title = normalizeName(topicTitle);
+const getVisualizer = (topic) => {
+  if (!topic) return null;
+  const title = normalizeName(topic.title);
   
   // 1. Clock Visualizer (Time)
   if (
@@ -171,19 +174,7 @@ const getVisualizer = (topicTitle) => {
     return <RatioVisualizer />;
   }
   
-  // Fallbacks for general categories
-  if (
-    title.includes('fraction') || 
-    title.includes('half') || 
-    title.includes('halves') || 
-    title.includes('third') || 
-    title.includes('thirds') || 
-    title.includes('fourth') || 
-    title.includes('fourths') || 
-    title.includes('quarter')
-  ) {
-    return <FractionsPosterInfographic />;
-  }
+  // Removed generic poster fallbacks so DynamicConceptVisualizer takes over
   
   if (title.includes('angle') || title === 'triangles') {
     return <AngleVisualizer />;
@@ -294,6 +285,49 @@ const getVisualizer = (topicTitle) => {
     return <TimesTableGridVisualizer />;
   }
   
+  // NEW FRACTION WIDGETS
+  if (title === 'halves' || title === 'thirds' || title === 'fourths') {
+    return <ShapeSlicerVisualizer />;
+  }
+  if (title.includes('equivalent fraction') || title.includes('simplifying fraction') || title.includes('improper fraction')) {
+    return <EquivalentFractionBalancer />;
+  }
+  if (title === 'comparing fractions') {
+    return <ComparingFractionsCrocodile />;
+  }
+  
+  // OTHER MISSING TOPICS MAPPING
+  if (title.includes('graph') || title.includes('mean') || title.includes('median') || title.includes('mode')) {
+    return <GraphsVisualizer />;
+  }
+  if (title.includes('expression') || title.includes('variable') || title.includes('function machine') || title.includes('algebra')) {
+    return <AlgebraVisualizer />;
+  }
+  if (title.includes('percentage') || title.includes('discount') || title.includes('profit')) {
+    return <PercentageVisualizer />;
+  }
+  if (title.includes('area') || title.includes('perimeter')) {
+    return <AreaPerimeterVisualizer />;
+  }
+  if (title.includes('volume')) {
+    return <VolumeVisualizer />;
+  }
+  if (title.includes('roman') || title.includes('tenth') || title.includes('hundredth') || title.includes('thousandth')) {
+    return <PlaceValueVisualizer />;
+  }
+  if (title.includes('fraction')) {
+    return <FractionVisualizer />;
+  }
+  if (title.includes('prime') || title.includes('composite') || title === 'lcm' || title === 'hcf/gcf') {
+    return <NumberTheoryVisualizer />;
+  }
+  if (title.includes('line') || title.includes('quadrilateral') || title.includes('circle')) {
+    return <Geometry2DVisualizer />;
+  }
+  if (title.includes('word problem')) {
+    return <OperationsVisualizer />;
+  }
+
   return null;
 };
 
@@ -808,7 +842,7 @@ export default function MathsLearningHub({ activeConcept = 'Numbers & Place Valu
                 {activeTab === 'learn' && (
                   <div className="space-y-6 animate-in fade-in duration-200">
                     {/* Interactive Visualizer Widget */}
-                    {getVisualizer(selectedTopic.title)}
+                    {getVisualizer(selectedTopic)}
 
                     <div className="bg-slate-50 border border-slate-100 rounded-3xl p-6 space-y-3">
                       <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">

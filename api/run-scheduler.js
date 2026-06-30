@@ -151,18 +151,21 @@ function shouldScheduleRun(sched, now) {
   const lastRunDate = sched.lastRun?.toDate ? sched.lastRun.toDate() : null;
   const lastRunTime = lastRunDate ? lastRunDate.getTime() : 0;
 
-  const [targetHour, targetMin] = (sched.releaseTime || '08:00').split(':').map(Number);
+  const tz = sched.timezone || 'UTC';
 
-  // Find the most recent slot that should have triggered
-  const latestScheduled = new Date(now);
+  // 1. Convert current UTC 'now' into a Date object representing the teacher's local time components
+  const tzString = now.toLocaleString('en-US', { timeZone: tz });
+  const tzNow = new Date(tzString);
+
+  // 2. Compute the target scheduled time using these local components
+  const [targetHour, targetMin] = (sched.releaseTime || '08:00').split(':').map(Number);
+  const latestScheduled = new Date(tzNow);
   latestScheduled.setHours(targetHour, targetMin, 0, 0);
 
-  // If we haven't reached today's release time yet, the last slot was yesterday
-  if (now < latestScheduled) {
+  if (tzNow < latestScheduled) {
     latestScheduled.setDate(latestScheduled.getDate() - 1);
   }
 
-  // For weekly, wind back to the correct weekday
   if (sched.recurrence === 'weekly') {
     const targetDay = parseInt(sched.recurrenceDay, 10);
     const currentDay = latestScheduled.getDay();
@@ -171,7 +174,16 @@ function shouldScheduleRun(sched, now) {
     latestScheduled.setDate(latestScheduled.getDate() - dayDiff);
   }
 
-  return lastRunTime < latestScheduled.getTime();
+  // 3. Compute the exact UTC timestamp for this local target time
+  // By formatting latestScheduled (treated as UTC) into the target timezone, we can extract the offset.
+  const guessTzStr = new Date(latestScheduled.getTime()).toLocaleString('en-US', { timeZone: tz });
+  const guessTzDate = new Date(guessTzStr);
+  const offset = guessTzDate.getTime() - latestScheduled.getTime();
+  
+  const targetUtcTime = latestScheduled.getTime() - offset;
+
+  // Run if we haven't run since the target, AND the current real time has actually passed the target
+  return lastRunTime < targetUtcTime && now.getTime() >= targetUtcTime;
 }
 
 // ─── Generate and save one schedule ───────────────────────────────────────
@@ -212,6 +224,21 @@ async function executeSchedule(sched, teacherData, teacherCode) {
     // Build prompt
     const qCount = sched.questionCount || 5;
     const curriculumName = sched.curriculumName || 'ACARA';
+    
+    const visualRules = `
+CRITICAL VISUAL RULES:
+1. For Data Interpretation / Graph / Chart questions:
+   - Instead of an image, include a "chartData" array in the question object.
+   - Example: "chartData": [{"name": "A", "value": 10}, {"name": "B", "value": 20}]
+   - Do NOT output "svgCode" if you provide "chartData".
+2. For Geometry (Area, Perimeter, Volume, Shapes):
+   - Include a "geometryData" object in the question object.
+   - "geometryData" must have: "type" (one of "rectangle", "triangle", "circle", "cylinder", "cube") and "labels" (object mapping dimensions like "width", "height", "radius" to strings like "5cm").
+   - Example: "geometryData": {"type": "rectangle", "labels": {"width": "10m", "height": "5m"}}
+   - Do NOT output "svgCode" if you provide "geometryData".
+3. For Science (or topics needing cute artistic illustrations):
+   - Include a short "imagePrompt" string describing the scene.`;
+
     let prompt = `You are an expert curriculum designer.
 Create a ${qCount}-question multiple-choice quiz for students on the following:
 Subject: ${sched.subject}
@@ -221,7 +248,10 @@ Difficulty: ${sched.difficulty}
 Curriculum Alignment: Strictly match the ${curriculumName} standards for ${sched.grade} at a ${sched.difficulty} difficulty.
 
 Ensure the questions test the students' knowledge on the specific topic at the selected grade and difficulty.
-Return ONLY a JSON object with a single key "questions" containing an array of exactly ${qCount} objects. Each object must have: "id" (number), "text" (string), "options" (array of exactly 4 strings), "answer" (string matching one option exactly), "subtopic" (string). Do not include any markdown formatting.`;
+
+${visualRules}
+
+Return ONLY a JSON object with a single key "questions" containing an array of exactly ${qCount} objects. Each object must have: "id" (number), "text" (string), "options" (array of exactly 4 strings), "answer" (string matching one option exactly), "subtopic" (string), and optionally "chartData", "geometryData", or "imagePrompt". Do not include any markdown formatting.`;
 
     // Apply custom teacher prompt if available
     const normSubject = sched.subject?.toLowerCase();
@@ -239,7 +269,7 @@ Return ONLY a JSON object with a single key "questions" containing an array of e
         custom = custom.replace(new RegExp(`\\[${k}\\]`, 'gi'), String(v || ''));
         custom = custom.replace(new RegExp(`\\{${k}\\}`, 'gi'), String(v || ''));
       });
-      prompt = custom + `\n\nReturn ONLY a JSON object with a single key "questions" containing an array of exactly ${qCount} objects. Each object must have: "id" (number), "text" (string), "options" (array of exactly 4 strings), "answer" (string matching one option exactly), "subtopic" (string). Do not include any markdown formatting.`;
+      prompt = custom + `\n\n${visualRules}\n\nReturn ONLY a JSON object with a single key "questions" containing an array of exactly ${qCount} objects. Each object must have: "id" (number), "text" (string), "options" (array of exactly 4 strings), "answer" (string matching one option exactly), "subtopic" (string), and optionally "chartData", "geometryData", or "imagePrompt". Do not include any markdown formatting.`;
     }
 
     // Call AI

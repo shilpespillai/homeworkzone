@@ -26,6 +26,8 @@ import { doc, getDoc, collection, addDoc, serverTimestamp } from 'firebase/fires
 import { playSuccess, playFail } from '../utils/audio';
 import { triggerConfetti } from '../utils/confetti';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
+import DynamicChart from '../components/DynamicChart';
+import DynamicGeometry from '../components/DynamicGeometry';
 
 export default function StudentQuiz({ homeworkId, studentName, teacher, initialSubmission, onComplete }) {
   const [activeModel, setActiveModel] = useState('gemini');
@@ -216,106 +218,115 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
   async function handleSubmit() {
     setIsSubmitting(true);
     let correctCount = 0;
-    homework.questions.forEach(q => {
-      if (answers[q.id] === q.answer) correctCount++;
-    });
     
-    const finalScore = Math.round((correctCount / homework.questions.length) * 100);
-    setScore(correctCount);
-
-    let aiFeedback = finalScore >= 80 
-      ? "Outstanding work! You've mastered this topic. Keep it up! 🌟" 
-      : finalScore >= 50 
-        ? "Good effort! A bit more practice and you'll be a pro. 📚" 
-        : "Don't give up! Review the core concepts and try again. 🦾";
-
-    const wrongQuestions = homework.questions.filter(q => answers[q.id] !== q.answer);
-    let explanations = {};
-
-    // ── FAST PATH: use pre-generated explanations stored on the homework ──
-    // These were generated once at homework creation time (teacher side).
-    // Zero API calls needed from the student side.
-    const preGenerated = homework.questionExplanations;
-
-    if (preGenerated && Object.keys(preGenerated).length > 0) {
-      try {
-        // Just generate a short personalized feedback sentence — small, cheap, student-specific
-        const feedbackPrompt = `A student scored ${finalScore}% on a ${homework.subject} quiz titled "${homework.title}". Write exactly 2 short encouraging sentences of feedback for the student. Be warm and age-appropriate. Return plain text only, no JSON, no markdown.`;
-        const feedbackText = await generateContent({
-          prompt: feedbackPrompt,
-          responseMimeType: 'text/plain',
-          provider: activeModel
-        });
-        if (feedbackText && feedbackText.trim()) {
-          aiFeedback = feedbackText.replace(/['"]/g, '').trim();
-        }
-      } catch (err) {
-        console.warn('[StudentQuiz] Personalized feedback generation failed (non-fatal):', err);
-      }
-      // Use pre-generated explanations — no per-student API call for explanations
-      wrongQuestions.forEach(q => {
-        const qIdStr = String(q.id).trim();
-        explanations[q.id] = preGenerated[q.id] || preGenerated[qIdStr]
-          || Object.entries(preGenerated).find(([k]) => k.toString() === qIdStr)?.[1]
-          || `The correct answer is "${q.answer}".`;
+    if (homework.type !== 'lesson') {
+      homework.questions.forEach(q => {
+        if (answers[q.id] === q.answer) correctCount++;
       });
     } else {
-      // ── FALLBACK PATH: old homeworks without pre-generated explanations ──
-      // This keeps full backward compatibility.
-      try {
-        const wrongAnswersFormatted = wrongQuestions.map((q) => {
-          return `ID: ${q.id}\nQuestion: "${q.text}"\nOptions: ${JSON.stringify(q.options)}\nCorrect Answer: "${q.answer}"\nStudent Selected: "${answers[q.id]}"`;
-        }).join("\n\n");
-
-        let mathInstruction = "";
-        if (homework.subject?.toLowerCase() === 'maths' || homework.subject?.toLowerCase() === 'math') {
-          mathInstruction = `CRITICAL: Since this is a Math homework, do NOT write the explanation as a single prose paragraph. Instead, format it as a clear, step-by-step mathematical calculation showing the formulas and substitutions. Break down each step on a new line (use \\n for line breaks) so it looks like a clean calculation.\nExample structure:\nStep 1: Identify the values: ...\nStep 2: Add/Subtract the values: ...\nStep 3: Find the final answer: ...`;
-        }
-
-        const combinedPrompt = `You are an encouraging and clear teacher. A student scored ${finalScore}% on their ${homework.subject} homework (quiz title: "${homework.title}").\n\nFirst, write a 2-sentence personalized, encouraging feedback message for the student. Do not use markdown in this feedback message.\nSecond, for each of the wrong questions below, write an extremely detailed and encouraging explanation. You MUST follow this exact structure for EVERY explanation:\n1. **Concept First**: Start by explicitly teaching the underlying concept or rule being tested. Explain the "why" and "how" before even mentioning the specific question. Do not skip this.\n2. **Step-by-Step Breakdown**: Walk through the problem step-by-step applying the concept.\n3. **Correct Answer Validation**: State exactly why the correct answer is right.\n4. **Incorrect Option Analysis**: Briefly explain why the student's answer was incorrect.\n\nCRITICAL ACCURACY & QUALITY RULES:\n1. Every mathematical calculation, formula, explanation, scientific fact, or grammatical definition must be 100% correct. Double-check all explanations for factual and computational accuracy.\n2. The explanation must directly justify why the correct option is the only correct answer.\n\n${mathInstruction}\n\nWrong questions:\n${wrongAnswersFormatted || "None! The student got a perfect score!"}\n\nReturn ONLY a valid JSON object matching this schema. Do not include markdown code block formatting (such as \`\`\`json).\nCRITICAL: The keys in the "explanations" object MUST be the exact, literal question IDs provided in the "Wrong questions" list (for example, if the question ID is "1", the key MUST be "1" exactly). Do not add any prefix, suffix, or extra words to the keys.\n\nSchema:\n{\n  "feedback": "Encouraging feedback message...",\n  "explanations": {\n    "INSERT_EXACT_QUESTION_ID_HERE": "Explanation for that specific question..."\n  }\n}`;
-
-        const resultText = await generateContent({
-          prompt: combinedPrompt,
-          responseMimeType: 'application/json',
-          provider: activeModel
-        });
-
-        if (resultText) {
-          const cleanJson = resultText.replace(/```json/g, '').replace(/```/g, '').trim();
-          const parsed = JSON.parse(cleanJson);
-          if (parsed.feedback) {
-            aiFeedback = parsed.feedback.replace(/['"]/g, '');
-          }
-          if (parsed.explanations) {
-            explanations = parsed.explanations;
-          }
-        }
-      } catch (err) {
-        console.error("AI grading/explanations execution failed:", err);
-      }
+      correctCount = homework.questions.length;
     }
     
-    wrongQuestions.forEach(q => {
-      const qIdStr = String(q.id).trim();
-      let exp = explanations[q.id] || explanations[qIdStr];
+    const finalScore = homework.type === 'lesson' ? 100 : Math.round((correctCount / homework.questions.length) * 100);
+    setScore(correctCount);
 
-      if (!exp) {
-        const matchedKey = Object.keys(explanations).find(k => {
-          const cleanK = k.toLowerCase().replace(/[^a-z0-9]/g, '');
-          const cleanId = qIdStr.toLowerCase().replace(/[^a-z0-9]/g, '');
-          return cleanK === cleanId || cleanK.includes(`question${cleanId}`) || cleanK.endsWith(cleanId);
+    let aiFeedback = homework.type === 'lesson' 
+      ? "Great job finishing the lesson! 🌟" 
+      : finalScore >= 80 
+        ? "Outstanding work! You've mastered this topic. Keep it up! 🌟" 
+        : finalScore >= 50 
+          ? "Good effort! A bit more practice and you'll be a pro. 📚" 
+          : "Don't give up! Review the core concepts and try again. 🦾";
+
+    const wrongQuestions = homework.type === 'lesson' ? [] : homework.questions.filter(q => answers[q.id] !== q.answer);
+    let explanations = {};
+
+    if (homework.type !== 'lesson') {
+      // ── FAST PATH: use pre-generated explanations stored on the homework ──
+      // These were generated once at homework creation time (teacher side).
+      // Zero API calls needed from the student side.
+      const preGenerated = homework.questionExplanations;
+
+      if (preGenerated && Object.keys(preGenerated).length > 0) {
+        try {
+          // Just generate a short personalized feedback sentence — small, cheap, student-specific
+          const feedbackPrompt = `A student scored ${finalScore}% on a ${homework.subject} quiz titled "${homework.title}". Write exactly 2 short encouraging sentences of feedback for the student. Be warm and age-appropriate. Return plain text only, no JSON, no markdown.`;
+          const feedbackText = await generateContent({
+            prompt: feedbackPrompt,
+            responseMimeType: 'text/plain',
+            provider: activeModel
+          });
+          if (feedbackText && feedbackText.trim()) {
+            aiFeedback = feedbackText.replace(/['"]/g, '').trim();
+          }
+        } catch (err) {
+          console.warn('[StudentQuiz] Personalized feedback generation failed (non-fatal):', err);
+        }
+        // Use pre-generated explanations — no per-student API call for explanations
+        wrongQuestions.forEach(q => {
+          const qIdStr = String(q.id).trim();
+          explanations[q.id] = preGenerated[q.id] || preGenerated[qIdStr]
+            || Object.entries(preGenerated).find(([k]) => k.toString() === qIdStr)?.[1]
+            || `The correct answer is "${q.answer}".`;
         });
-        if (matchedKey) {
-          exp = explanations[matchedKey];
+      } else {
+        // ── FALLBACK PATH: old homeworks without pre-generated explanations ──
+        // This keeps full backward compatibility.
+        try {
+          const wrongAnswersFormatted = wrongQuestions.map((q) => {
+            return `ID: ${q.id}\nQuestion: "${q.text}"\nOptions: ${JSON.stringify(q.options)}\nCorrect Answer: "${q.answer}"\nStudent Selected: "${answers[q.id]}"`;
+          }).join("\n\n");
+
+          let mathInstruction = "";
+          if (homework.subject?.toLowerCase() === 'maths' || homework.subject?.toLowerCase() === 'math') {
+            mathInstruction = `CRITICAL: Since this is a Math homework, do NOT write the explanation as a single prose paragraph. Instead, format it as a clear, step-by-step mathematical calculation showing the formulas and substitutions. Break down each step on a new line (use \\n for line breaks) so it looks like a clean calculation.\nExample structure:\nStep 1: Identify the values: ...\nStep 2: Add/Subtract the values: ...\nStep 3: Find the final answer: ...`;
+          }
+
+          const combinedPrompt = `You are an encouraging and clear teacher. A student scored ${finalScore}% on their ${homework.subject} homework (quiz title: "${homework.title}").\n\nFirst, write a 2-sentence personalized, encouraging feedback message for the student. Do not use markdown in this feedback message.\nSecond, for each of the wrong questions below, write an extremely detailed and encouraging explanation. You MUST follow this exact structure for EVERY explanation:\n1. **Concept First**: Start by explicitly teaching the underlying concept or rule being tested. Explain the "why" and "how" before even mentioning the specific question. Do not skip this.\n2. **Step-by-Step Breakdown**: Walk through the problem step-by-step applying the concept.\n3. **Correct Answer Validation**: State exactly why the correct answer is right.\n4. **Incorrect Option Analysis**: Briefly explain why the student's answer was incorrect.\n\nCRITICAL ACCURACY & QUALITY RULES:\n1. Every mathematical calculation, formula, explanation, scientific fact, or grammatical definition must be 100% correct. Double-check all explanations for factual and computational accuracy.\n2. The explanation must directly justify why the correct option is the only correct answer.\n\n${mathInstruction}\n\nWrong questions:\n${wrongAnswersFormatted || "None! The student got a perfect score!"}\n\nReturn ONLY a valid JSON object matching this schema. Do not include markdown code block formatting (such as \`\`\`json).\nCRITICAL: The keys in the "explanations" object MUST be the exact, literal question IDs provided in the "Wrong questions" list (for example, if the question ID is "1", the key MUST be "1" exactly). Do not add any prefix, suffix, or extra words to the keys.\n\nSchema:\n{\n  "feedback": "Encouraging feedback message...",\n  "explanations": {\n    "INSERT_EXACT_QUESTION_ID_HERE": "Explanation for that specific question..."\n  }\n}`;
+
+          const resultText = await generateContent({
+            prompt: combinedPrompt,
+            responseMimeType: 'application/json',
+            provider: activeModel
+          });
+
+          if (resultText) {
+            const cleanJson = resultText.replace(/```json/g, '').replace(/```/g, '').trim();
+            const parsed = JSON.parse(cleanJson);
+            if (parsed.feedback) {
+              aiFeedback = parsed.feedback.replace(/['"]/g, '');
+            }
+            if (parsed.explanations) {
+              explanations = parsed.explanations;
+            }
+          }
+        } catch (err) {
+          console.error("AI grading/explanations execution failed:", err);
         }
       }
+      
+      wrongQuestions.forEach(q => {
+        const qIdStr = String(q.id).trim();
+        let exp = explanations[q.id] || explanations[qIdStr];
 
-      if (exp) {
-        explanations[q.id] = exp;
-      } else {
-        explanations[q.id] = `The correct answer is "${q.answer}".`;
-      }
-    });
+        if (!exp) {
+          const matchedKey = Object.keys(explanations).find(k => {
+            const cleanK = k.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const cleanId = qIdStr.toLowerCase().replace(/[^a-z0-9]/g, '');
+            return cleanK === cleanId || cleanK.includes(`question${cleanId}`) || cleanK.endsWith(cleanId);
+          });
+          if (matchedKey) {
+            exp = explanations[matchedKey];
+          }
+        }
+
+        if (exp) {
+          explanations[q.id] = exp;
+        } else {
+          explanations[q.id] = `The correct answer is "${q.answer}".`;
+        }
+      });
+    }
 
     setWrongAnswersExplanations(explanations);
     setFeedback(aiFeedback);
@@ -365,6 +376,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
   if (isSubmitted && !isReviewing) {
     return (
       <QuizResults 
+        type={homework.type}
         score={score} 
         total={homework.questions.length} 
         percentage={(score / homework.questions.length) * 100} 
@@ -469,7 +481,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         </div>
       </header>
 
-      {/* Question Area */}
+      {/* Content Area */}
       <main className="max-w-4xl mx-auto w-full flex-1 relative z-10">
         <AnimatePresence mode="wait">
           <motion.div 
@@ -477,113 +489,160 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
-            className="bg-white rounded-[32px] p-6 md:p-10 shadow-[0_8px_0_0_rgba(255,255,255,0.6)]"
+            className="bg-white/95 backdrop-blur-md rounded-[40px] p-8 md:p-12 shadow-[0_16px_0_0_rgba(255,255,255,0.6)] flex flex-col min-h-[400px]"
           >
-            {/* Question Text & Image */}
-            <div className={`flex ${currentQuestion.text?.length > 150 ? 'flex-col items-start' : 'flex-col md:flex-row items-center'} gap-6 md:gap-8 mb-10`}>
-              <div className="w-40 h-40 md:w-48 md:h-48 rounded-[24px] overflow-hidden shrink-0 shadow-inner bg-slate-50 flex-center">
-                {currentQuestion.svgCode ? (
-                  <div className="w-full h-full flex items-center justify-center p-2" dangerouslySetInnerHTML={{ __html: currentQuestion.svgCode }} />
-                ) : (
+            {homework.type === 'lesson' ? (
+              <div className="flex flex-col items-center text-center space-y-8">
+                {currentQuestion.imagePrompt && (
                   <img 
-                    src={`https://image.pollinations.ai/prompt/${encodeURIComponent('cute cartoon illustration ' + (currentQuestion.imagePrompt || currentQuestion.text).substring(0, 60))}?width=400&height=400&nologo=true`}
-                    alt="Question illustration"
-                    className="w-full h-full object-cover mix-blend-multiply"
+                    src={`https://image.pollinations.ai/prompt/${encodeURIComponent(currentQuestion.imagePrompt)}?width=800&height=500&nologo=true`}
+                    alt={currentQuestion.title}
+                    className="w-full max-w-3xl h-64 md:h-[400px] object-cover rounded-[32px] shadow-lg border-4 border-purple-100"
                     loading="lazy"
-                    onError={(e) => { e.target.src = 'https://api.dicebear.com/7.x/shapes/svg?seed=' + currentQuestion.id; }}
                   />
                 )}
+                <h1 className="text-3xl md:text-5xl font-black text-purple-600 leading-snug uppercase tracking-tight">
+                  {currentQuestion.title}
+                </h1>
+                <p className="text-xl md:text-2xl font-bold text-slate-700 leading-relaxed max-w-3xl">
+                  {currentQuestion.content}
+                </p>
               </div>
-              <div className="flex-1 w-full">
-                {currentQuestion.text?.length > 150 ? (
-                  <div className="text-lg md:text-xl font-medium text-slate-700 leading-relaxed space-y-4">
-                    {currentQuestion.text.split('\n').map((paragraph, idx) => (
-                      <p key={idx}>{paragraph}</p>
-                    ))}
+            ) : (
+              <>
+                <div className="flex flex-col md:flex-row gap-8 items-center md:items-start mb-10">
+                  {/* Dynamic Visuals for Quiz */}
+                  {currentQuestion.chartData && (
+                    <div className="w-full md:w-1/2 shrink-0">
+                      <DynamicChart data={currentQuestion.chartData} />
+                    </div>
+                  )}
+                  {currentQuestion.geometryData && (
+                    <div className="w-full md:w-1/2 shrink-0">
+                      <DynamicGeometry data={currentQuestion.geometryData} />
+                    </div>
+                  )}
+                  {currentQuestion.svgCode && !currentQuestion.chartData && !currentQuestion.geometryData && (
+                    <div className="w-48 h-48 md:w-64 md:h-64 shrink-0 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
+                      <div dangerouslySetInnerHTML={{ __html: currentQuestion.svgCode }} className="w-full h-full" />
+                    </div>
+                  )}
+                  {!currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.svgCode && (
+                    <div className="w-32 h-32 md:w-40 md:h-40 shrink-0 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner overflow-hidden">
+                      {currentQuestion.imageUrl ? (
+                        <img 
+                          src={currentQuestion.imageUrl} 
+                          alt="Question visual" 
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <img 
+                          src={`https://api.dicebear.com/7.x/shapes/svg?seed=${currentQuestion.id}&backgroundColor=f8fafc`} 
+                          alt="Abstract shape" 
+                          className="w-full h-full object-cover opacity-80"
+                          loading="lazy"
+                          onError={(e) => { e.target.src = 'https://api.dicebear.com/7.x/shapes/svg?seed=' + currentQuestion.id; }}
+                        />
+                      )}
+                    </div>
+                  )}
+                  <div className="flex-1 w-full">
+                    {currentQuestion.text?.length > 150 ? (
+                      <div className="text-lg md:text-xl font-medium text-slate-700 leading-relaxed space-y-4">
+                        {currentQuestion.text.split('\n').map((paragraph, idx) => (
+                          <p key={idx}>{paragraph}</p>
+                        ))}
+                      </div>
+                    ) : (
+                      <h1 className="text-2xl md:text-[28px] font-black text-slate-800 leading-snug uppercase text-center md:text-left tracking-tight">
+                        {currentQuestion.text}
+                      </h1>
+                    )}
                   </div>
-                ) : (
-                  <h1 className="text-2xl md:text-[28px] font-black text-slate-800 leading-snug uppercase text-center md:text-left tracking-tight">
-                    {currentQuestion.text}
-                  </h1>
-                )}
-              </div>
-            </div>
+                </div>
 
             {/* Options */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-              {currentQuestion.options.map((option, i) => {
-                const isSelected = answers[currentQuestion.id] === option;
-                const isCorrectOption = currentQuestion.answer === option;
-                
-                const colorStyles = [
-                  "bg-[#5CD6C6] shadow-[0_6px_0_0_#3B9D91] text-[#0F766E]", // A Teal
-                  "bg-[#FFDE59] shadow-[0_6px_0_0_#C9A71D] text-[#854D0E]", // B Yellow
-                  "bg-[#CB99FF] shadow-[0_6px_0_0_#8C52FF] text-[#581C87]", // C Purple
-                  "bg-[#FF8A65] shadow-[0_6px_0_0_#D84315] text-[#7F1D1D]"  // D Coral
-                ];
-                
-                const baseColor = colorStyles[i % 4];
-                const activeState = isSelected && !isReviewing 
-                  ? "ring-4 ring-offset-4 ring-slate-800 scale-[1.02] brightness-110 z-10" 
-                  : "opacity-90 hover:opacity-100 scale-100";
-                
-                let reviewState = "";
-                let showIcon = null;
+            {homework.type !== 'lesson' && (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-8">
+                  {currentQuestion.options?.map((option, i) => {
+                    const isSelected = answers[currentQuestion.id] === option;
+                    const isCorrectOption = currentQuestion.answer === option;
+                    
+                    const colorStyles = [
+                      "bg-[#5CD6C6] shadow-[0_6px_0_0_#3B9D91] text-[#0F766E]", // A Teal
+                      "bg-[#FFDE59] shadow-[0_6px_0_0_#C9A71D] text-[#854D0E]", // B Yellow
+                      "bg-[#CB99FF] shadow-[0_6px_0_0_#8C52FF] text-[#581C87]", // C Purple
+                      "bg-[#FF8A65] shadow-[0_6px_0_0_#D84315] text-[#7F1D1D]"  // D Coral
+                    ];
+                    
+                    const baseColor = colorStyles[i % 4];
+                    const activeState = isSelected && !isReviewing 
+                      ? "ring-4 ring-offset-4 ring-slate-800 scale-[1.02] brightness-110 z-10" 
+                      : "opacity-90 hover:opacity-100 scale-100";
+                    
+                    let reviewState = "";
+                    let showIcon = null;
 
-                if (isReviewing) {
-                  if (isCorrectOption) {
-                    showIcon = <CheckCircle2 className="w-8 h-8 text-white fill-emerald-500" />;
-                  } else if (isSelected) {
-                    reviewState = "opacity-50 grayscale";
-                    showIcon = <XCircle className="w-8 h-8 text-white fill-rose-500" />;
-                  } else {
-                    reviewState = "opacity-50";
-                  }
-                } else if (isSelected) {
-                  showIcon = <CheckCircle2 className="w-8 h-8 text-slate-800 fill-white drop-shadow-md" />;
-                }
+                    if (isReviewing) {
+                      if (isCorrectOption) {
+                        showIcon = <CheckCircle2 className="w-8 h-8 text-white fill-emerald-500" />;
+                      } else if (isSelected) {
+                        reviewState = "opacity-50 grayscale";
+                        showIcon = <XCircle className="w-8 h-8 text-white fill-rose-500" />;
+                      } else {
+                        reviewState = "opacity-50";
+                      }
+                    } else if (isSelected) {
+                      showIcon = <CheckCircle2 className="w-8 h-8 text-slate-800 fill-white drop-shadow-md" />;
+                    }
 
-                return (
-                  <button
-                    key={option}
-                    onClick={() => { if (!isReviewing) handleSelect(option); }}
-                    className={`group relative p-5 md:p-6 text-left rounded-[24px] transition-all flex items-center justify-between ${isReviewing ? 'cursor-default' : 'active:translate-y-[6px] hover:brightness-105 active:shadow-none'} ${baseColor} ${activeState} ${reviewState}`}
+                    return (
+                      <button
+                        key={option}
+                        onClick={() => { if (!isReviewing) handleSelect(option); }}
+                        className={`group relative p-5 md:p-6 text-left rounded-[24px] transition-all flex items-center justify-between ${isReviewing ? 'cursor-default' : 'active:translate-y-[6px] hover:brightness-105 active:shadow-none'} ${baseColor} ${activeState} ${reviewState}`}
+                      >
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 flex-center rounded-xl bg-white/40 shadow-inner text-xl font-black">
+                            {String.fromCharCode(65 + i)}
+                          </div>
+                          <span className={`text-xl font-black`}>
+                            {option}
+                          </span>
+                        </div>
+                        {showIcon && (
+                          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+                            {showIcon}
+                          </motion.div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {isReviewing && (Object.keys(answers).length > 0 ? answers[currentQuestion.id] !== currentQuestion.answer : !!wrongAnswersExplanations[currentQuestion.id]) && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-green-50 border-2 border-green-200 p-6 rounded-[32px] shadow-sm flex gap-4 text-left mt-6 animate-in fade-in slide-in-from-bottom-2 duration-350"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 flex-center rounded-xl bg-white/40 shadow-inner text-xl font-black">
-                        {String.fromCharCode(65 + i)}
-                      </div>
-                      <span className={`text-xl font-black`}>
-                        {option}
-                      </span>
+                    <div className="w-12 h-12 bg-white rounded-2xl flex-center shadow-sm shrink-0 border border-green-200">
+                      <BrainCircuit className="w-6 h-6 text-green-600" />
                     </div>
-                    {showIcon && (
-                      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                        {showIcon}
-                      </motion.div>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-
-            {isReviewing && (Object.keys(answers).length > 0 ? answers[currentQuestion.id] !== currentQuestion.answer : !!wrongAnswersExplanations[currentQuestion.id]) && (
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-green-50 border-2 border-green-200 p-6 rounded-[32px] shadow-sm flex gap-4 text-left mt-6 animate-in fade-in slide-in-from-bottom-2 duration-350"
-              >
-                <div className="w-12 h-12 bg-white rounded-2xl flex-center shadow-sm shrink-0 border border-green-200">
-                  <BrainCircuit className="w-6 h-6 text-green-600" />
-                </div>
-                <div className="space-y-1">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-green-500">Smart Explanation</p>
-                  <p className="text-sm font-bold text-green-700 leading-relaxed whitespace-pre-line">
-                    {wrongAnswersExplanations[currentQuestion.id] || `The correct answer is "${currentQuestion.answer}".`}
-                  </p>
-                </div>
-              </motion.div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-green-500">Smart Explanation</p>
+                      <p className="text-sm font-bold text-green-700 leading-relaxed whitespace-pre-line">
+                        {wrongAnswersExplanations[currentQuestion.id] || `The correct answer is "${currentQuestion.answer}".`}
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+              </>
             )}
+            </>
+          )}
           </motion.div>
         </AnimatePresence>
       </main>
@@ -598,7 +657,24 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
           <ChevronLeft className="w-5 h-5 shrink-0" /> back
         </button>
 
-        {isReviewing ? (
+        {homework.type === 'lesson' ? (
+          currentIdx === displayQuestions.length - 1 ? (
+            <button 
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+              className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
+            >
+              {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Finish Lesson ✨'}
+            </button>
+          ) : (
+            <button 
+              onClick={() => setCurrentIdx(prev => Math.min(displayQuestions.length - 1, prev + 1))}
+              className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
+            >
+              NEXT PAGE <ChevronRight className="w-5 h-5 shrink-0" />
+            </button>
+          )
+        ) : isReviewing ? (
            currentIdx === displayQuestions.length - 1 ? (
              <button 
                onClick={() => setIsReviewing(false)} 
@@ -643,7 +719,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
   );
 }
 
-const QuizResults = ({ score, total, percentage, feedback, questions, answers, wrongAnswersExplanations, onHome, onReview, onRetake }) => {
+const QuizResults = ({ type, score, total, percentage, feedback, questions, answers, wrongAnswersExplanations, onHome, onReview, onRetake }) => {
   const isPassed = percentage >= 70;
   
   // Calculate stats by difficulty
@@ -681,6 +757,7 @@ const QuizResults = ({ score, total, percentage, feedback, questions, answers, w
   // Mascot images for kids
   const mascotPassed = "https://image.pollinations.ai/prompt/cute%20happy%20celebrating%20astronaut%20mascot%203d%20character%20award%20winner%20vibrant%20colors%20white%20background?width=400&height=400&nologo=true";
   const mascotFailed = "https://image.pollinations.ai/prompt/cute%20determined%20little%20robot%20mascot%203d%20character%20studying%20hard%20vibrant%20colors%20white%20background?width=400&height=400&nologo=true";
+  const mascotLesson = "https://image.pollinations.ai/prompt/cute%20happy%20smart%20owl%20reading%20a%20book%20mascot%203d%20character%20vibrant%20colors%20white%20background?width=400&height=400&nologo=true";
 
   // Score Color
   let scoreColor = "text-rose-500";
@@ -713,19 +790,19 @@ const QuizResults = ({ score, total, percentage, feedback, questions, answers, w
             <motion.div 
               animate={{ y: [0, -15, 0] }}
               transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-              className={`w-full h-full flex-center rounded-full shadow-[0_0_0_8px_rgba(255,255,255,0.8)] overflow-hidden border-4 ${isPassed ? 'border-emerald-400 bg-emerald-50' : 'border-blue-400 bg-blue-50'} relative`}
+              className={`w-full h-full flex-center rounded-full shadow-[0_0_0_8px_rgba(255,255,255,0.8)] overflow-hidden border-4 ${isPassed || type === 'lesson' ? 'border-emerald-400 bg-emerald-50' : 'border-blue-400 bg-blue-50'} relative`}
             >
-              <img src={isPassed ? mascotPassed : mascotFailed} className="w-full h-full object-cover mix-blend-multiply transform group-hover:scale-110 transition-transform duration-500" alt="Mascot" />
+              <img src={type === 'lesson' ? mascotLesson : isPassed ? mascotPassed : mascotFailed} className="w-full h-full object-cover mix-blend-multiply transform group-hover:scale-110 transition-transform duration-500" alt="Mascot" />
             </motion.div>
           </div>
 
           <div className="space-y-4 w-full">
-            <h1 className={`text-4xl md:text-5xl font-black tracking-tight uppercase ${isPassed ? 'text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 drop-shadow-sm' : 'text-slate-800'}`}>
-              {isPassed ? 'Epic Win! 🎉' : "Keep Going! 💪"}
+            <h1 className={`text-4xl md:text-5xl font-black tracking-tight uppercase ${isPassed || type === 'lesson' ? 'text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 drop-shadow-sm' : 'text-slate-800'}`}>
+              {type === 'lesson' ? 'Lesson Complete! 🎉' : isPassed ? 'Epic Win! 🎉' : "Keep Going! 💪"}
             </h1>
             
             <div className="bg-slate-50/80 backdrop-blur-md p-4 rounded-[24px] border-2 border-dashed border-slate-200 flex flex-col md:flex-row items-center md:items-start gap-4 text-center md:text-left w-full transform hover:scale-[1.02] transition-transform">
-              <div className={`w-12 h-12 rounded-xl flex-center shadow-inner shrink-0 ${isPassed ? 'bg-emerald-100 text-emerald-500' : 'bg-orange-100 text-orange-500'}`}>
+              <div className={`w-12 h-12 rounded-xl flex-center shadow-inner shrink-0 ${isPassed || type === 'lesson' ? 'bg-emerald-100 text-emerald-500' : 'bg-orange-100 text-orange-500'}`}>
                  <BrainCircuit className="w-6 h-6" />
               </div>
               <div className="flex-1">
@@ -739,46 +816,50 @@ const QuizResults = ({ score, total, percentage, feedback, questions, answers, w
         {/* Right Column: Stats & Actions */}
         <div className="flex-[1.2] flex flex-col justify-between w-full gap-8 border-t-4 md:border-t-0 md:border-l-4 border-slate-100/50 pt-8 md:pt-0 md:pl-12">
           
-          <div className="flex items-center justify-center gap-8 md:gap-16 py-8 px-4 bg-slate-50/50 rounded-[32px] border-4 border-white shadow-inner">
-            <div className="text-center">
-              <p className="text-6xl md:text-8xl font-black text-slate-800 tracking-tighter">{score}<span className="text-3xl text-slate-400">/{total}</span></p>
-              <p className="text-xs font-black uppercase tracking-widest text-slate-400 mt-2 bg-white inline-block px-4 py-1.5 rounded-full shadow-sm">Correct</p>
-            </div>
-            <div className="w-1 h-20 bg-slate-200 rounded-full"></div>
-            <div className="text-center">
-              <p className={`text-6xl md:text-8xl font-black tracking-tighter ${scoreColor}`}>{Math.round(percentage)}%</p>
-              <p className="text-xs font-black uppercase tracking-widest text-slate-400 mt-2 bg-white inline-block px-4 py-1.5 rounded-full shadow-sm">Score</p>
-            </div>
-          </div>
+          {type !== 'lesson' && (
+            <>
+              <div className="flex items-center justify-center gap-8 md:gap-16 py-8 px-4 bg-slate-50/50 rounded-[32px] border-4 border-white shadow-inner">
+                <div className="text-center">
+                  <p className="text-6xl md:text-8xl font-black text-slate-800 tracking-tighter">{score}<span className="text-3xl text-slate-400">/{total}</span></p>
+                  <p className="text-xs font-black uppercase tracking-widest text-slate-400 mt-2 bg-white inline-block px-4 py-1.5 rounded-full shadow-sm">Correct</p>
+                </div>
+                <div className="w-1 h-20 bg-slate-200 rounded-full"></div>
+                <div className="text-center">
+                  <p className={`text-6xl md:text-8xl font-black tracking-tighter ${scoreColor}`}>{Math.round(percentage)}%</p>
+                  <p className="text-xs font-black uppercase tracking-widest text-slate-400 mt-2 bg-white inline-block px-4 py-1.5 rounded-full shadow-sm">Score</p>
+                </div>
+              </div>
 
-          {/* Difficulty Breakdown */}
-          <div className="w-full space-y-4">
-            <h3 className="text-sm font-black uppercase tracking-widest text-slate-400 text-left px-2">Strength Breakdown</h3>
-            <div className="space-y-3">
-              {['easy', 'medium', 'challenging'].map(diff => {
-                const stat = stats[diff];
-                if (stat.total === 0) return null;
-                const pct = Math.round((stat.correct / stat.total) * 100) || 0;
-                
-                return (
-                  <div key={diff} className="flex items-center gap-4 bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-                    <div className={`w-12 h-12 rounded-xl flex-center shrink-0 font-black text-xs ${stat.bg} ${stat.color.replace('bg-', 'text-')}`}>
-                       {pct}%
-                    </div>
-                    <div className="flex-1 text-left">
-                       <div className="flex justify-between items-end mb-1.5">
-                         <span className="text-xs font-black uppercase text-slate-700 tracking-wider">{stat.label}</span>
-                         <span className="text-[10px] font-bold text-slate-400">{stat.correct}/{stat.total}</span>
-                       </div>
-                       <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                         <div className={`h-full rounded-full ${stat.color}`} style={{ width: `${pct}%` }} />
-                       </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+              {/* Difficulty Breakdown */}
+              <div className="w-full space-y-4">
+                <h3 className="text-sm font-black uppercase tracking-widest text-slate-400 text-left px-2">Strength Breakdown</h3>
+                <div className="space-y-3">
+                  {['easy', 'medium', 'challenging'].map(diff => {
+                    const stat = stats[diff];
+                    if (stat.total === 0) return null;
+                    const pct = Math.round((stat.correct / stat.total) * 100) || 0;
+                    
+                    return (
+                      <div key={diff} className="flex items-center gap-4 bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+                        <div className={`w-12 h-12 rounded-xl flex-center shrink-0 font-black text-xs ${stat.bg} ${stat.color.replace('bg-', 'text-')}`}>
+                           {pct}%
+                        </div>
+                        <div className="flex-1 text-left">
+                           <div className="flex justify-between items-end mb-1.5">
+                             <span className="text-xs font-black uppercase text-slate-700 tracking-wider">{stat.label}</span>
+                             <span className="text-[10px] font-bold text-slate-400">{stat.correct}/{stat.total}</span>
+                           </div>
+                           <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                             <div className={`h-full rounded-full ${stat.color}`} style={{ width: `${pct}%` }} />
+                           </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </>
+          )}
 
           <div className="flex flex-col gap-3 w-full mt-4">
             <div className="flex flex-col md:flex-row gap-3">

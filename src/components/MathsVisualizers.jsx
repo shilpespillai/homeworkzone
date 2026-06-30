@@ -3180,3 +3180,232 @@ export const NumberPatternVisualizer = () => {
     </div>
   );
 };
+// ==========================================
+// 26. SHAPE SLICER VISUALIZER (Halves, Thirds, Fourths)
+// ==========================================
+export const ShapeSlicerVisualizer = () => {
+  const [slices, setSlices] = useState(2);
+  const [eaten, setEaten] = useState(0);
+
+  const handleSlice = (num) => {
+    setSlices(num);
+    setEaten(0);
+  };
+
+  const toggleSlice = () => {
+    if (eaten < slices) {
+      setEaten(eaten + 1);
+    } else {
+      setEaten(0);
+    }
+  };
+
+  return (
+    <div className="bg-amber-50/50 border border-amber-200 rounded-3xl p-6 space-y-6 text-center">
+      <h4 className="text-xs font-black text-amber-700 uppercase tracking-widest text-left">🍕 Shape Slicer</h4>
+      <div className="flex flex-col md:flex-row items-center justify-around gap-6">
+        
+        <div className="space-y-4">
+          <span className="text-xs font-black text-slate-400 uppercase block">Cut the Pizza!</span>
+          <div className="flex flex-col gap-2">
+            <button onClick={() => handleSlice(2)} className={`px-4 py-2 rounded-xl font-black transition-all ${slices === 2 ? 'bg-amber-500 text-white shadow-md' : 'bg-white text-slate-500 hover:bg-slate-100'}`}>Cut into Halves (2)</button>
+            <button onClick={() => handleSlice(3)} className={`px-4 py-2 rounded-xl font-black transition-all ${slices === 3 ? 'bg-amber-500 text-white shadow-md' : 'bg-white text-slate-500 hover:bg-slate-100'}`}>Cut into Thirds (3)</button>
+            <button onClick={() => handleSlice(4)} className={`px-4 py-2 rounded-xl font-black transition-all ${slices === 4 ? 'bg-amber-500 text-white shadow-md' : 'bg-white text-slate-500 hover:bg-slate-100'}`}>Cut into Fourths (4)</button>
+          </div>
+        </div>
+
+        <div className="relative w-48 h-48 sm:w-64 sm:h-64 cursor-pointer" onClick={toggleSlice}>
+          <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-md">
+            <circle cx="50" cy="50" r="48" fill="#fef3c7" stroke="#f59e0b" strokeWidth="2" />
+            {Array.from({length: slices}).map((_, i) => {
+              const angle = 360 / slices;
+              const startAngle = i * angle;
+              const endAngle = (i + 1) * angle;
+              const startX = 50 + 48 * Math.cos((startAngle - 90) * Math.PI / 180);
+              const startY = 50 + 48 * Math.sin((startAngle - 90) * Math.PI / 180);
+              const endX = 50 + 48 * Math.cos((endAngle - 90) * Math.PI / 180);
+              const endY = 50 + 48 * Math.sin((endAngle - 90) * Math.PI / 180);
+              const largeArc = angle > 180 ? 1 : 0;
+              const isEaten = i < eaten;
+              return (
+                <path 
+                  key={i}
+                  d={`M 50 50 L ${startX} ${startY} A 48 48 0 ${largeArc} 1 ${endX} ${endY} Z`}
+                  fill={isEaten ? 'transparent' : '#fbbf24'}
+                  stroke="#d97706"
+                  strokeWidth="2"
+                  className="transition-all duration-300"
+                />
+              )
+            })}
+          </svg>
+          <div className="absolute -bottom-4 right-0 bg-white px-3 py-1 rounded-full border border-amber-200 shadow-sm text-xs font-black text-amber-600">
+            Click to Eat!
+          </div>
+        </div>
+
+        <div className="text-center space-y-2">
+          <span className="text-xs font-black text-slate-400 uppercase block">Remaining</span>
+          <div className="flex flex-col items-center">
+            <span className="text-4xl font-black text-slate-800">{slices - eaten}</span>
+            <div className="w-12 h-1 bg-slate-300 my-1"/>
+            <span className="text-4xl font-black text-slate-800">{slices}</span>
+          </div>
+          <p className="text-xs font-bold text-slate-500 mt-2 max-w-[120px]">
+            {slices - eaten} out of {slices} equal parts
+          </p>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 27. EQUIVALENT FRACTION BALANCER
+// ==========================================
+export const EquivalentFractionBalancer = () => {
+  const [filledLeft, setFilledLeft] = useState(1);
+  const leftTotal = 2;
+  const multiplier = 2; 
+  const rightTotal = leftTotal * multiplier;
+  const filledRight = filledLeft * multiplier;
+
+  return (
+    <div className="bg-emerald-50/50 border border-emerald-200 rounded-3xl p-6 space-y-6 text-center">
+      <h4 className="text-xs font-black text-emerald-700 uppercase tracking-widest text-left">⚖️ Equivalent Fractions</h4>
+      <p className="text-sm font-bold text-slate-600 mb-4">Paint the left grid to see the equivalent fraction on the right!</p>
+      
+      <div className="flex flex-col md:flex-row items-center justify-center gap-12">
+        
+        <div className="space-y-4 flex flex-col items-center">
+          <div className="grid grid-cols-1 gap-1 border-4 border-slate-700 bg-slate-700 w-24 h-48 rounded-lg cursor-pointer overflow-hidden shadow-md">
+            {Array.from({length: leftTotal}).map((_, i) => (
+              <div 
+                key={i} 
+                onClick={() => setFilledLeft(i + 1)}
+                className={`w-full h-full transition-colors ${i < filledLeft ? 'bg-emerald-400' : 'bg-white hover:bg-emerald-50'}`} 
+              />
+            ))}
+          </div>
+          <div className="flex flex-col items-center">
+            <span className="text-3xl font-black text-slate-800">{filledLeft}</span>
+            <div className="w-8 h-1 bg-slate-300 my-1"/>
+            <span className="text-3xl font-black text-slate-800">{leftTotal}</span>
+          </div>
+        </div>
+
+        <div className="text-4xl font-black text-slate-300">=</div>
+
+        <div className="space-y-4 flex flex-col items-center">
+          <div className="grid grid-cols-2 gap-1 border-4 border-slate-700 bg-slate-700 w-24 h-48 rounded-lg overflow-hidden shadow-md">
+            {Array.from({length: rightTotal}).map((_, i) => (
+              <div 
+                key={i} 
+                className={`w-full h-full transition-all duration-500 ${i < filledRight ? 'bg-emerald-400' : 'bg-white'}`} 
+              />
+            ))}
+          </div>
+          <div className="flex flex-col items-center">
+            <span className="text-3xl font-black text-slate-800">{filledRight}</span>
+            <div className="w-8 h-1 bg-slate-300 my-1"/>
+            <span className="text-3xl font-black text-slate-800">{rightTotal}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 28. COMPARING FRACTIONS CROCODILE
+// ==========================================
+export const ComparingFractionsCrocodile = () => {
+  const [leftNum, setLeftNum] = useState(3);
+  const [leftDen, setLeftDen] = useState(4);
+  const [rightNum, setRightNum] = useState(1);
+  const [rightDen, setRightDen] = useState(2);
+  const [result, setResult] = useState(null);
+
+  const leftValue = leftNum / leftDen;
+  const rightValue = rightNum / rightDen;
+
+  const handleCompare = (symbol) => {
+    let isCorrect = false;
+    if (symbol === '>' && leftValue > rightValue) isCorrect = true;
+    if (symbol === '<' && leftValue < rightValue) isCorrect = true;
+    if (symbol === '=' && leftValue === rightValue) isCorrect = true;
+    
+    setResult(isCorrect ? 'correct' : 'incorrect');
+    setTimeout(() => setResult(null), 2000);
+  };
+
+  return (
+    <div className="bg-violet-50/50 border border-violet-200 rounded-3xl p-6 space-y-6 text-center relative">
+      <h4 className="text-xs font-black text-violet-700 uppercase tracking-widest text-left">🐊 Hungry Crocodile</h4>
+      <p className="text-sm font-bold text-slate-600 mb-4">The crocodile always eats the biggest fraction! Which way will it face?</p>
+      
+      <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+        {/* Left Fraction */}
+        <div className="flex flex-col items-center space-y-4 z-10 relative">
+           <div className="w-32 h-48 bg-white border-2 border-slate-200 rounded-xl overflow-hidden relative shadow-inner">
+             <div className="absolute bottom-0 left-0 w-full bg-violet-400 transition-all duration-500" style={{ height: `${(leftNum/leftDen)*100}%` }} />
+             {/* grid lines */}
+             {Array.from({length: leftDen - 1}).map((_, i) => (
+               <div key={i} className="absolute w-full h-[2px] bg-white/50" style={{ top: `${((i+1)/leftDen)*100}%` }} />
+             ))}
+           </div>
+           <div className="flex flex-col items-center bg-white p-3 rounded-xl shadow-sm border border-slate-100">
+             <button onClick={() => setLeftNum(n => Math.min(leftDen, n + 1))} className="text-slate-400 hover:text-violet-500">▲</button>
+             <span className="text-2xl font-black">{leftNum}</span>
+             <button onClick={() => setLeftNum(n => Math.max(1, n - 1))} className="text-slate-400 hover:text-violet-500">▼</button>
+             <div className="w-8 h-1 bg-slate-300 my-1"/>
+             <span className="text-2xl font-black">{leftDen}</span>
+           </div>
+        </div>
+
+        {/* Buttons */}
+        <div className="flex flex-col gap-3 z-10 relative">
+          <button onClick={() => handleCompare('>')} className="w-16 h-16 bg-white rounded-full text-3xl shadow-md border-2 border-slate-100 hover:scale-110 hover:border-violet-400 transition-all font-black text-slate-700">&gt;</button>
+          <button onClick={() => handleCompare('=')} className="w-16 h-16 bg-white rounded-full text-3xl shadow-md border-2 border-slate-100 hover:scale-110 hover:border-violet-400 transition-all font-black text-slate-700">=</button>
+          <button onClick={() => handleCompare('<')} className="w-16 h-16 bg-white rounded-full text-3xl shadow-md border-2 border-slate-100 hover:scale-110 hover:border-violet-400 transition-all font-black text-slate-700">&lt;</button>
+        </div>
+
+        {/* Right Fraction */}
+        <div className="flex flex-col items-center space-y-4 z-10 relative">
+           <div className="w-32 h-48 bg-white border-2 border-slate-200 rounded-xl overflow-hidden relative shadow-inner">
+             <div className="absolute bottom-0 left-0 w-full bg-violet-400 transition-all duration-500" style={{ height: `${(rightNum/rightDen)*100}%` }} />
+             {/* grid lines */}
+             {Array.from({length: rightDen - 1}).map((_, i) => (
+               <div key={i} className="absolute w-full h-[2px] bg-white/50" style={{ top: `${((i+1)/rightDen)*100}%` }} />
+             ))}
+           </div>
+           <div className="flex flex-col items-center bg-white p-3 rounded-xl shadow-sm border border-slate-100">
+             <button onClick={() => setRightNum(n => Math.min(rightDen, n + 1))} className="text-slate-400 hover:text-violet-500">▲</button>
+             <span className="text-2xl font-black">{rightNum}</span>
+             <button onClick={() => setRightNum(n => Math.max(1, n - 1))} className="text-slate-400 hover:text-violet-500">▼</button>
+             <div className="w-8 h-1 bg-slate-300 my-1"/>
+             <span className="text-2xl font-black">{rightDen}</span>
+           </div>
+        </div>
+
+      </div>
+
+      {result === 'correct' && (
+        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+          <div className="bg-white/90 backdrop-blur-sm p-6 rounded-3xl shadow-2xl border-4 border-emerald-400 text-emerald-500 font-black text-3xl animate-bounce">
+            🐊 Chomp! Correct!
+          </div>
+        </div>
+      )}
+      {result === 'incorrect' && (
+        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+          <div className="bg-white/90 backdrop-blur-sm p-6 rounded-3xl shadow-2xl border-4 border-rose-400 text-rose-500 font-black text-3xl">
+            🐊 Hmm, try again!
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};

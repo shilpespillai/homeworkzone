@@ -653,6 +653,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           dueDateOffset: offset,
           assignType: formData.assignType,
           assignedStudentIds: formData.assignType === 'students' ? formData.assignedStudentIds : [],
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           lastRun: serverTimestamp(), // Initialized to now to prevent retroactively running past occurrences
           createdAt: serverTimestamp(),
           isActive: true
