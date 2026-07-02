@@ -5,30 +5,30 @@ import { Compass, Map, Trophy, Users, Award, Sparkles, X } from 'lucide-react';
 
 const TRACK_COORDS = {
   forest: [
-    { x: 60,  y: 360 }, // 0
-    { x: 140, y: 240 }, // 1
-    { x: 240, y: 180 }, // 2
-    { x: 320, y: 300 }, // 3
-    { x: 440, y: 340 }, // 4
-    { x: 520, y: 200 }, // 5
-    { x: 600, y: 130 }, // 6
-    { x: 700, y: 260 }, // 7
-    { x: 800, y: 320 }, // 8
-    { x: 890, y: 190 }, // 9
-    { x: 960, y: 90 }   // 10 (Finish!)
+    { x: 25, y: 360 }, // 0 (1. Start Point)
+    { x: 275, y: 50 }, // 1 (2. Whispering Grove)
+    { x: 190, y: 325 }, // 2 (3. Mushroom Glade)
+    { x: 220, y: 500 }, // 3 (4. Glimmering Pool)
+    { x: 360, y: 385 }, // 4 (5. Mossy Ruins)
+    { x: 490, y: 360 }, // 5 (6. Ancient Tree of Ages)
+    { x: 640, y: 330 }, // 6 (7. Spider's Silken Web)
+    { x: 745, y: 165 }, // 7 (8. Crystal Cavern Entrance)
+    { x: 675, y: 500 }, // 8 (9. Bioluminescent Flower Patch)
+    { x: 855, y: 370 }, // 9 (10. Sentinel Stone Circle)
+    { x: 910, y: 560 }  // 10 (FINISH)
   ],
   space: [
-    { x: 80,  y: 220 },  // 0
-    { x: 180, y: 120 },  // 1
-    { x: 300, y: 80 },   // 2
-    { x: 450, y: 150 },  // 3
-    { x: 520, y: 280 },  // 4
-    { x: 420, y: 365 },  // 5
-    { x: 280, y: 330 },  // 6
-    { x: 320, y: 220 },  // 7
-    { x: 620, y: 200 },  // 8
-    { x: 800, y: 140 },  // 9
-    { x: 940, y: 220 }   // 10
+    { x: 25, y: 370 }, // 0 (1. Star Point)
+    { x: 270, y: 75 }, // 1 (2. Asteroid Field)
+    { x: 180, y: 330 }, // 2 (3. Cosmic Nebula)
+    { x: 220, y: 500 }, // 3 (4. Glimmering Gas Cloud)
+    { x: 360, y: 385 }, // 4 (5. Xeno-Ruins)
+    { x: 490, y: 360 }, // 5 (6. Elder Pulsar)
+    { x: 640, y: 330 }, // 6 (7. Silken Singularity)
+    { x: 745, y: 165 }, // 7 (8. Crystal Comet Entrance)
+    { x: 675, y: 500 }, // 8 (9. Exotic Particle Field)
+    { x: 855, y: 370 }, // 9 (10. Sentience Stones)
+    { x: 910, y: 560 }  // 10 (FINISH)
   ],
   sports: [
     { x: 100, y: 330 },  // 0
@@ -44,16 +44,26 @@ const TRACK_COORDS = {
     { x: 100, y: 130 }   // 10
   ],
   undersea: [
-    { x: 50, y: 150 }, { x: 150, y: 300 }, { x: 250, y: 150 }, { x: 350, y: 300 }, { x: 450, y: 150 },
-    { x: 550, y: 300 }, { x: 650, y: 150 }, { x: 750, y: 300 }, { x: 850, y: 150 }, { x: 920, y: 250 }, { x: 960, y: 100 }
+    { x: 80, y: 240 }, { x: 150, y: 280 }, { x: 270, y: 120 }, { x: 330, y: 280 }, { x: 450, y: 100 },
+    { x: 500, y: 310 }, { x: 710, y: 90 }, { x: 710, y: 210 }, { x: 650, y: 340 }, { x: 910, y: 320 }, { x: 910, y: 320 }
   ],
   candyland: [
     { x: 80, y: 350 }, { x: 120, y: 250 }, { x: 220, y: 200 }, { x: 300, y: 280 }, { x: 400, y: 360 },
     { x: 500, y: 280 }, { x: 550, y: 180 }, { x: 650, y: 100 }, { x: 750, y: 160 }, { x: 850, y: 250 }, { x: 940, y: 180 }
   ],
   dinosaur: [
-    { x: 60, y: 400 }, { x: 150, y: 350 }, { x: 250, y: 250 }, { x: 300, y: 150 }, { x: 400, y: 100 },
-    { x: 500, y: 200 }, { x: 600, y: 300 }, { x: 700, y: 350 }, { x: 800, y: 250 }, { x: 850, y: 150 }, { x: 950, y: 100 }
+    { x: 110, y: 280 }, // 0 START
+    { x: 115, y: 190 }, // 1
+    { x: 235, y: 45 },  // 2
+    { x: 240, y: 320 }, // 3
+    { x: 445, y: 55 },  // 4
+    { x: 490, y: 325 }, // 5
+    { x: 655, y: 80 },  // 6
+    { x: 745, y: 225 }, // 7
+    { x: 800, y: 285 }, // 8
+    { x: 645, y: 415 }, // 9
+    { x: 845, y: 365 }, // 10
+    { x: 830, y: 450 }  // 11 FINISH
   ],
   pirate: [
     { x: 100, y: 100 }, { x: 200, y: 200 }, { x: 300, y: 300 }, { x: 400, y: 250 }, { x: 500, y: 150 },
@@ -87,30 +97,30 @@ const TRACK_COORDS = {
 
 const MILESTONE_DETAILS = {
   forest: [
-    { name: "Start Base Camp ⛺", desc: "Adventure begins here!" },
-    { name: "Whispering Woods 🌳", desc: "Hear the wind rustle through the ancient leaves." },
-    { name: "Mushroom Glade 🍄", desc: "A cozy clearing filled with colorful, glowing mushrooms." },
-    { name: "Babbling Brook 🌊", desc: "Hop across the slippery stones to stay dry!" },
-    { name: "Fairy Ring 🧚", desc: "Magical fairy dust shimmers all around you." },
-    { name: "Firefly Hollow 🪰", desc: "Warm glowing lights show you the path ahead." },
-    { name: "Shadowy Path 🌲", desc: "Be brave! The sun will shine again soon." },
-    { name: "Ancient Oak 🌳", desc: "A giant tree that has stood here for a thousand years." },
-    { name: "Waterfall Climb 🌊", desc: "Scale the wet rocks beside the thundering waters!" },
-    { name: "Dragon's Cave 🐉", desc: "Quietly sneak past the sleeping keeper of the gate." },
-    { name: "Treasure Castle 🏰", desc: "You made it! Unlock the legendary gold chest! 🎉" }
+    { name: "1. Start Point 🍄", desc: "Your journey begins!" },
+    { name: "2. Whispering Grove 🍃", desc: "The trees are whispering." },
+    { name: "3. Mushroom Glade 🍄", desc: "A cozy clearing filled with colorful, glowing mushrooms." },
+    { name: "4. Glimmering Pool 💧", desc: "Crystal clear magical water." },
+    { name: "5. Mossy Ruins 🏛️", desc: "Ancient stones covered in moss." },
+    { name: "6. Ancient Tree of Ages 🌳", desc: "The oldest tree in the forest." },
+    { name: "7. Spider's Silken Web 🕸️", desc: "Careful not to get stuck." },
+    { name: "8. Crystal Cavern Entrance 💎", desc: "Sparkling gems inside." },
+    { name: "9. Bioluminescent Flower Patch 🌸", desc: "Glowing flowers light the way." },
+    { name: "10. Sentinel Stone Circle 🗿", desc: "Ancient standing stones." },
+    { name: "Finish 🎉", desc: "You've completed the forest adventure!" }
   ],
   space: [
-    { name: "Launch Pad 🚀", desc: "Ignition sequence starts... 3, 2, 1, lift off!" },
-    { name: "Orbit Station 🛰️", desc: "Float above the Earth's atmosphere." },
-    { name: "Moon Crater ☄️", desc: "Bounce around in low gravity!" },
-    { name: "Asteroid Belt 🪨", desc: "Steer carefully through the giant floating rocks." },
-    { name: "Mars Outpost 🔴", desc: "Explore the dusty canyons of the red planet." },
-    { name: "Jupiter's Ring 🪐", desc: "Sail along the ice particles of the gas giant." },
-    { name: "Nebula Clouds 🌌", desc: "Fly through glowing pink and purple stellar gas." },
-    { name: "Wormhole Leap 🌀", desc: "Hold tight! Folding space and time!" },
-    { name: "Star Cluster ✨", desc: "Zipping through millions of bright solar systems." },
-    { name: "Supernova Edge 💥", desc: "Watch out for the energy flares of a dying star!" },
-    { name: "Galaxy Portal 🌌", desc: "Welcome to deep space! You are a cosmic master! 🌟" }
+    { name: "1. Star Point ⭐", desc: "Your cosmic journey begins!" },
+    { name: "2. Asteroid Field 🪨", desc: "Dodge the floating space rocks." },
+    { name: "3. Cosmic Nebula 🌌", desc: "A beautiful cloud of stardust." },
+    { name: "4. Glimmering Gas Cloud ☁️", desc: "Navigate through the glowing vapors." },
+    { name: "5. Xeno-Ruins 🏛️", desc: "Ancient alien architecture floating in space." },
+    { name: "6. Elder Pulsar 💫", desc: "A blindingly bright dying star." },
+    { name: "7. Silken Singularity 🕳️", desc: "A mesmerizing space anomaly." },
+    { name: "8. Crystal Comet Entrance ☄️", desc: "Catch a ride on the icy comet." },
+    { name: "9. Exotic Particle Field ✨", desc: "A dazzling display of quantum fireworks." },
+    { name: "10. Sentience Stones 🗿", desc: "The final orbital milestone." },
+    { name: "Finish 🎉", desc: "You've completed the cosmic race!" }
   ],
   sports: [
     { name: "Warmup Zone 🤸", desc: "Get stretched and ready for action!" },
@@ -126,17 +136,17 @@ const MILESTONE_DETAILS = {
     { name: "Victory Podium 🏆", desc: "Take your place on the Gold stand! Champion! 🎖️" }
   ],
   undersea: [
-    { name: "Coral Reef 🪸", desc: "Colorful fish swim all around you." },
-    { name: "Sunken Ship ⚓", desc: "Explore the ruins of a pirate galleon." },
-    { name: "Deep Trench 🌊", desc: "It's getting dark and deep down here." },
-    { name: "Jellyfish Bloom 🪼", desc: "Watch out for the stinging tentacles!" },
-    { name: "Whale Song 🐋", desc: "Hear the gentle giants singing." },
-    { name: "Mermaid's Cove 🧜‍♀️", desc: "A hidden underwater grotto." },
-    { name: "Kelp Forest 🌿", desc: "Swim through the towering green stalks." },
-    { name: "Pearl Oyster 🦪", desc: "A giant clam with a shiny prize." },
-    { name: "Abyssal Plain 🦑", desc: "Glowing creatures light the way." },
-    { name: "Atlantis Gates 🏛️", desc: "The entrance to the lost city." },
-    { name: "Poseidon's Throne 🔱", desc: "You are the ruler of the seas!" }
+    { name: "1. The Coral Reef 🪸", desc: "Get ready for the journey!", task: "Get familiar with the basics." },
+    { name: "2. The Sea Forest 🌿", desc: "Explore the sea plants.", task: "Identify different sea plants." },
+    { name: "3. The Sunken Ship ⚓", desc: "Discover hidden treasures!", task: "Solve puzzles and find clues." },
+    { name: "4. The Deep Blue Zone 🐟", desc: "Meet amazing sea creatures.", task: "Learn about sea animals." },
+    { name: "5. The Pearl Cave 🦪", desc: "Collect the pearls of knowledge!", task: "Answer questions and earn points." },
+    { name: "6. The Volcano Ridge 🌋", desc: "Navigate the hot underwater zone.", task: "Complete challenges to move ahead." },
+    { name: "7. The Ice Tunnels 🧊", desc: "Cross the chilly ice tunnels.", task: "Test your skills and score high." },
+    { name: "8. The Treasure Lagoon 💎", desc: "The final stretch to victory!", task: "Show what you've leaned." },
+    { name: "9. Abyssal Plain 🦑", desc: "Glowing creatures light the way.", task: "Keep exploring." },
+    { name: "10. Atlantis Gates 🏛️", desc: "The entrance to the lost city.", task: "Unlock the gates." },
+    { name: "11. Poseidon's Throne 🔱", desc: "You are the ruler of the seas!", task: "Claim your crown." }
   ],
   candyland: [
     { name: "Peppermint Gate 🍬", desc: "The sweet journey begins." },
@@ -152,17 +162,18 @@ const MILESTONE_DETAILS = {
     { name: "Ice Cream Castle 🍦", desc: "You've reached the sweetest palace!" }
   ],
   dinosaur: [
-    { name: "Base Camp 🏕️", desc: "Pack your gear for the safari." },
-    { name: "Fossil Dig 🦴", desc: "Uncover ancient bones in the dirt." },
-    { name: "Triceratops Trail 🦏", desc: "Watch out for the three-horned giants." },
-    { name: "Pterodactyl Peak 🦅", desc: "Flying reptiles swoop overhead." },
-    { name: "Swamp Crossing 🐊", desc: "Tread carefully through the mud." },
-    { name: "T-Rex Valley 🦖", desc: "Shh! Don't wake the king." },
-    { name: "Stegosaurus Plains 🦕", desc: "Peaceful plant-eaters roaming." },
-    { name: "Amber Forest 🌲", desc: "Golden sap preserves ancient bugs." },
-    { name: "Raptor Run 🏃", desc: "Sprint past the clever hunters." },
-    { name: "Volcano Edge 🌋", desc: "The ground is shaking and hot!" },
-    { name: "Time Portal ⏳", desc: "You survived the prehistoric era!" }
+    { name: "Start 🏕️", desc: "Adventure begins here!" },
+    { name: "1. Dino Discovery 🐾", desc: "Get ready for your dinosaur adventure!" },
+    { name: "2. The Fern Forest 🌿", desc: "Explore the lush Sea Forest." },
+    { name: "3. Fossil Find 🦴", desc: "Dig up fossils and discover the past." },
+    { name: "4. Dino Valley 🦕", desc: "Meet different dinosaurs." },
+    { name: "5. Crystal Caves 💎", desc: "Explore the sparkling crystal caves." },
+    { name: "6. Volcano Peak 🌋", desc: "Navigate the fiery Volcano Ridge." },
+    { name: "7. The Great Lake 💧", desc: "Cross the wide Ice Tunnels." },
+    { name: "8. Ancient Ruins 🏛️", desc: "Solve puzzles in the ancient ruins." },
+    { name: "9. Dino Champion 🏆", desc: "Complete challenges and become a Dino Champion!" },
+    { name: "10. Hidden Nest 🥚", desc: "Discover the lost eggs!" },
+    { name: "Finish 🎉", desc: "You survived the prehistoric era!" }
   ],
   pirate: [
     { name: "Sandy Shores 🏖️", desc: "Leave the dinghy behind." },
@@ -554,7 +565,8 @@ export default function AdventureMazeView({
       nodeColorCompleted: "fill-emerald-600 stroke-emerald-800",
       finishColor: "text-amber-500 fill-amber-500",
       skyColor: "bg-[#1E3A1A]/10",
-      finishNode: "🏰"
+      finishNode: "🏰",
+      isImageBaked: true
     },
     space: {
       displayName: "🚀 Cosmic Space Maze", displayColor: "bg-[#EA580C] text-white shadow-orange-200",
@@ -566,7 +578,8 @@ export default function AdventureMazeView({
       nodeColorCompleted: "fill-cyan-500 stroke-cyan-300",
       finishColor: "text-yellow-400 fill-yellow-300",
       skyColor: "bg-[#0B0F19]/80",
-      finishNode: "🌌"
+      finishNode: "🌌",
+      isImageBaked: true
     },
     sports: {
       displayName: "🏃 Athletics Track", displayColor: "bg-orange-500 text-white shadow-orange-200",
@@ -583,9 +596,10 @@ export default function AdventureMazeView({
     undersea: {
       displayName: "🌊 Undersea Voyage", displayColor: "bg-cyan-500 text-white shadow-cyan-200",
       gradient: "from-cyan-50 via-blue-50 to-indigo-100",
-      pathColor: "#0284c7", pathOutline: "#075985", centerDashes: "#7dd3fc",
+      pathColor: "#0284c7", pathOutline: "#075985", centerDashes: "#ffffff",
       nodeColor: "fill-cyan-400 stroke-cyan-600", nodeColorCompleted: "fill-indigo-500 stroke-indigo-700",
-      finishColor: "text-blue-500 fill-blue-300", skyColor: "bg-[#082f49]/10", finishNode: "🔱"
+      finishColor: "text-blue-500 fill-blue-300", skyColor: "bg-[#082f49]/10", finishNode: "🔱",
+      isImageBaked: true
     },
     candyland: {
       displayName: "🍬 Candyland Adventure", displayColor: "bg-pink-500 text-white shadow-pink-200",
@@ -599,7 +613,8 @@ export default function AdventureMazeView({
       gradient: "from-lime-50 via-green-50 to-emerald-100",
       pathColor: "#65a30d", pathOutline: "#3f6212", centerDashes: "#d9f99d",
       nodeColor: "fill-lime-400 stroke-lime-600", nodeColorCompleted: "fill-green-600 stroke-green-800",
-      finishColor: "text-emerald-500 fill-emerald-300", skyColor: "bg-[#14532d]/10", finishNode: "🌋"
+      finishColor: "text-emerald-500 fill-emerald-300", skyColor: "bg-[#14532d]/10", finishNode: "🌋",
+      isImageBaked: true
     },
     pirate: {
       displayName: "🏴‍☠️ Pirate Treasure Hunt", displayColor: "bg-amber-600 text-white shadow-amber-200",
@@ -686,8 +701,17 @@ export default function AdventureMazeView({
       </div>
 
       {/* SVG Canvas Map Area */}
-      <div className={`relative w-full rounded-[24px] overflow-hidden border border-slate-100 bg-gradient-to-br ${style.gradient} aspect-[1000/450]`}>
+      <div className={`relative w-full rounded-[24px] overflow-hidden border border-slate-100 bg-gradient-to-br ${style.gradient} ${style.isImageBaked ? 'aspect-[1000/650]' : 'aspect-[1000/450]'}`}>
         
+        {style.isImageBaked && (
+          <img 
+            src={`/assets/adventure_${activeTrack}.png?v=2`} 
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            style={{ imageRendering: 'high-quality' }}
+            alt="Adventure Map"
+          />
+        )}
+
         {/* Sky overlays/nebulae for Space layout */}
         {activeTrack === 'space' && (
           <div className="absolute inset-0 pointer-events-none opacity-40">
@@ -698,7 +722,7 @@ export default function AdventureMazeView({
           </div>
         )}
 
-        <svg viewBox="0 0 1000 450" className="w-full h-full select-none">
+        <svg viewBox={style.isImageBaked ? "0 0 1000 650" : "0 0 1000 450"} className="absolute inset-0 w-full h-full select-none">
           <defs>
             {/* Cosmic glow filter for Space theme */}
             <filter id="space-glow" x="-20%" y="-20%" width="140%" height="140%">
@@ -711,87 +735,99 @@ export default function AdventureMazeView({
           </defs>
 
           {/* Theme Background Illustration */}
-          <image 
-            href={`/assets/adventure_${activeTrack}.png`}
-            x="0"
-            y="0"
-            width="1000"
-            height="450"
-            preserveAspectRatio="none"
-          />
+          {!style.isImageBaked && (
+            <image 
+              href={`/assets/adventure_${activeTrack}.png`}
+              x="0"
+              y="0"
+              width="1000"
+              height="450"
+              preserveAspectRatio="none"
+            />
+          )}
 
           {/* 1. Track Draw (Background / Border layer) */}
-          <path 
-            d={pathD} 
-            fill="none" 
-            stroke={style.pathOutline} 
-            strokeWidth="24" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            opacity={activeTrack === 'space' ? 0.6 : 0.85}
-          />
-          <path 
-            d={pathD} 
-            fill="none" 
-            stroke={style.pathColor} 
-            strokeWidth="18" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            filter={activeTrack === 'space' ? 'url(#space-glow)' : undefined}
-          />
+          {!style.isImageBaked && (
+            <>
+              <path 
+                d={pathD} 
+                fill="none" 
+                stroke={style.pathOutline} 
+                strokeWidth="24" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                opacity={activeTrack === 'space' ? 0.6 : 0.85}
+              />
+              <path 
+                d={pathD} 
+                fill="none" 
+                stroke={style.pathColor} 
+                strokeWidth="18" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                filter={activeTrack === 'space' ? 'url(#space-glow)' : undefined}
+              />
+            </>
+          )}
           
           {/* Center dashes */}
-          <path 
-            d={pathD} 
-            fill="none" 
-            stroke={style.centerDashes} 
-            strokeWidth="2" 
-            strokeDasharray="10 12" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            opacity={activeTrack === 'sports' ? 1.0 : 0.8}
-          />
+          {!style.isImageBaked && (
+            <path 
+              d={pathD} 
+              fill="none" 
+              stroke={style.centerDashes} 
+              strokeWidth="2" 
+              strokeDasharray="10 12" 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              opacity={activeTrack === 'sports' ? 1.0 : 0.8}
+            />
+          )}
 
           {/* 2. Milestone Node Circles */}
           {activeCoords.map((node, idx) => {
             const hasStudentsHere = studentsByMilestone[idx]?.length > 0;
-            const isFinish = idx === 10;
+            const isFinish = idx === activeCoords.length - 1;
             
             return (
               <g key={idx} className="cursor-pointer group/node">
-                {/* Node Outer Ring */}
-                <circle 
-                  cx={node.x} 
-                  cy={node.y} 
-                  r={isFinish ? "24" : "15"} 
-                  className={`transition-all duration-300 ${
-                    hasStudentsHere ? 'fill-white stroke-yellow-400 stroke-[4px] shadow-sm' : 'fill-slate-100/90 stroke-slate-300/80 stroke-[3px]'
-                  }`} 
-                />
-                
-                {/* Node Inner Ring */}
-                <circle 
-                  cx={node.x} 
-                  cy={node.y} 
-                  r={isFinish ? "18" : "9"} 
-                  className={
-                    idx === 10 
-                      ? 'fill-yellow-400' 
-                      : hasStudentsHere 
-                      ? (activeTrack === 'space' ? 'fill-cyan-400' : activeTrack === 'sports' ? 'fill-rose-500' : 'fill-emerald-500') 
-                      : 'fill-slate-300'
-                  }
-                />
+                {!style.isImageBaked && (
+                  <>
+                    {/* Node Outer Ring */}
+                    <circle 
+                      cx={node.x} 
+                      cy={node.y} 
+                      r={isFinish ? "24" : "15"} 
+                      className={`transition-all duration-300 ${
+                        hasStudentsHere ? 'fill-white stroke-yellow-400 stroke-[4px] shadow-sm' : 'fill-slate-100/90 stroke-slate-300/80 stroke-[3px]'
+                      }`} 
+                    />
+                    
+                    {/* Node Inner Ring */}
+                    <circle 
+                      cx={node.x} 
+                      cy={node.y} 
+                      r={isFinish ? "18" : "9"} 
+                      className={
+                        isFinish 
+                          ? 'fill-yellow-400' 
+                          : hasStudentsHere 
+                          ? (activeTrack === 'space' ? 'fill-cyan-400' : activeTrack === 'sports' ? 'fill-rose-500' : 'fill-emerald-500') 
+                          : 'fill-slate-300'
+                      }
+                    />
 
-                {/* Milestone Node Number or Emoji */}
-                <text 
-                  x={node.x} 
-                  y={node.y + 4} 
-                  textAnchor="middle" 
-                  className="text-[9px] font-black fill-white select-none pointer-events-none"
-                >
-                  {isFinish ? style.finishNode : idx}
-                </text>
+                    {/* Milestone Node Number or Emoji */}
+                    <text 
+                      x={node.x} 
+                      y={node.y + 4} 
+                      textAnchor="middle" 
+                      className="text-[9px] font-black fill-white select-none pointer-events-none"
+                    >
+                      {isFinish ? style.finishNode : idx}
+                    </text>
+                  </>
+                )}
 
                 {/* Milestone Node Hover Tooltip triggers */}
                 <circle
@@ -850,6 +886,7 @@ export default function AdventureMazeView({
                       cy={pos.y} 
                       r="22" 
                       className="fill-transparent stroke-amber-400 stroke-2 animate-ping" 
+                      style={{ transformOrigin: `${pos.x}px ${pos.y}px` }}
                     />
                   )}
 
@@ -914,13 +951,54 @@ export default function AdventureMazeView({
           })}
         </svg>
 
+        {/* Permanent Milestone Cards Overlay */}
+        {!style.isImageBaked && (
+          <div className="absolute inset-0 pointer-events-none">
+          {activeCoords.map((node, idx) => {
+            const data = milestoneData[idx];
+            if (!data || !data.task) return null;
+            
+            // Extract emoji and name
+            const nameParts = data.name.split(' ');
+            const emoji = nameParts[nameParts.length - 1].match(/\p{Emoji}/u) ? nameParts.pop() : '';
+            const title = nameParts.join(' ');
+            
+            const isAbove = node.y < 225; 
+            
+            return (
+              <div 
+                key={idx}
+                className="absolute w-[150px] bg-[#E3F2FD]/95 backdrop-blur-sm rounded-[16px] p-2.5 shadow-md border-[2.5px] border-white flex flex-col pointer-events-auto"
+                style={{ 
+                  left: `${(node.x / 1000) * 100}%`,
+                  top: `${(node.y / 450) * 100}%`,
+                  transform: `translate(-50%, ${isAbove ? 'calc(-100% - 42px)' : '42px'})`
+                }}
+              >
+                <h4 className="text-[11px] font-black text-[#1565C0] text-center mb-1.5 leading-tight">{title}</h4>
+                <div className="flex items-center gap-1.5 mb-1.5">
+                  <span className="text-2xl flex-shrink-0">{emoji}</span>
+                  <p className="text-[8px] font-bold text-slate-800 leading-tight flex-1 text-left">{data.desc}</p>
+                </div>
+                <div className="bg-[#BBDEFB]/50 rounded-[10px] p-1.5 flex items-start gap-1 mt-auto">
+                  <span className="text-[10px] mt-[1px]">⭐</span>
+                  <p className="text-[8px] font-bold text-[#0D47A1] leading-tight flex-1 text-left">{data.task}</p>
+                </div>
+                {/* Pointer caret */}
+                <div className={`absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-[#E3F2FD]/95 border-white rotate-45 ${isAbove ? '-bottom-2 border-b-[2.5px] border-r-[2.5px]' : '-top-2 border-t-[2.5px] border-l-[2.5px]'}`}></div>
+              </div>
+            );
+          })}
+          </div>
+        )}
+
         {/* Real-time floating HTML Tooltip overlay relative to the SVG coordinates */}
         {hoveredStudent && (
           <div 
             className="absolute bg-slate-900/95 backdrop-blur-sm text-white px-3 py-2 rounded-2xl shadow-xl z-30 pointer-events-none text-left space-y-1 transition-all duration-150 animate-in fade-in zoom-in-95"
             style={{ 
               left: `${(hoveredStudent.x / 1000) * 100}%`, 
-              top: `${(hoveredStudent.y / 450) * 100}%`,
+              top: `${(hoveredStudent.y / (style.isImageBaked ? 650 : 450)) * 100}%`,
               transform: 'translate(-50%, -100%)',
               minWidth: '160px'
             }}
