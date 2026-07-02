@@ -92,6 +92,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
   const [isSubmitted, setIsSubmitted] = useState(!!initialSubmission);
   const [isReviewing, setIsReviewing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSummary, setShowSummary] = useState(false);
   const [score, setScore] = useState(initialSubmission ? initialSubmission.correctCount : null);
   const [feedback, setFeedback] = useState(initialSubmission ? initialSubmission.feedback : '');
   const [wrongAnswersExplanations, setWrongAnswersExplanations] = useState(initialSubmission?.wrongAnswersExplanations || {});
@@ -537,14 +538,73 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
       {/* Content Area */}
       <main className="max-w-4xl mx-auto w-full flex-1 relative z-10">
         <AnimatePresence mode="wait">
-          <motion.div 
-            key={currentIdx}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.05 }}
-            className="bg-white/95 backdrop-blur-md rounded-[40px] p-8 md:p-12 shadow-[0_16px_0_0_rgba(255,255,255,0.6)] flex flex-col min-h-[400px]"
-          >
-            {homework.type === 'lesson' ? (
+          {showSummary ? (
+            <motion.div 
+              key="summary"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.05 }}
+              className="bg-white/95 backdrop-blur-md rounded-[40px] p-8 md:p-12 shadow-[0_16px_0_0_rgba(255,255,255,0.6)] flex flex-col min-h-[400px]"
+            >
+              <div className="flex items-center gap-3 mb-8">
+                <Flag className="w-8 h-8 text-amber-500 fill-amber-500" />
+                <h2 className="text-3xl font-black text-slate-800">Review Your Answers</h2>
+              </div>
+              <p className="text-slate-600 font-bold mb-8 text-lg">
+                Before submitting, make sure you've answered all questions. You can click on any question to jump back to it.
+              </p>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                {displayQuestions.map((q, i) => {
+                   const hasAnswer = answers[q.id] !== undefined;
+                   const isMarked = markedForReview[q.id];
+                   return (
+                     <button
+                       key={q.id}
+                       onClick={() => { setShowSummary(false); setCurrentIdx(i); }}
+                       className={`p-4 rounded-2xl border-2 flex flex-col items-center gap-2 transition-all hover:scale-105 active:scale-95 ${
+                         isMarked ? 'bg-amber-50 border-amber-300' :
+                         hasAnswer ? 'bg-blue-50 border-blue-300' : 'bg-slate-50 border-slate-200'
+                       }`}
+                     >
+                       <span className="text-lg font-black text-slate-700">Q{i + 1}</span>
+                       {isMarked ? (
+                         <span className="text-xs font-bold px-2 py-1 bg-amber-200 text-amber-800 rounded-full flex items-center gap-1"><Flag className="w-3 h-3 fill-amber-800"/> Marked</span>
+                       ) : hasAnswer ? (
+                         <span className="text-xs font-bold px-2 py-1 bg-blue-200 text-blue-800 rounded-full flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> Answered</span>
+                       ) : (
+                         <span className="text-xs font-bold px-2 py-1 bg-slate-200 text-slate-600 rounded-full">Empty</span>
+                       )}
+                     </button>
+                   );
+                })}
+              </div>
+
+              <div className="flex items-center gap-4 mt-auto border-t border-slate-100 pt-8">
+                <button 
+                  onClick={() => setShowSummary(false)}
+                  className="flex-1 rounded-full py-4 px-6 bg-slate-100 text-slate-500 font-black hover:bg-slate-200 transition-colors"
+                >
+                  Keep Working
+                </button>
+                <button 
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className="flex-1 rounded-full py-4 px-6 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] font-black active:translate-y-[6px] active:shadow-none transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Confirm Submit ✨'}
+                </button>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div 
+              key={currentIdx}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.05 }}
+              className="bg-white/95 backdrop-blur-md rounded-[40px] p-8 md:p-12 shadow-[0_16px_0_0_rgba(255,255,255,0.6)] flex flex-col min-h-[400px]"
+            >
+              {homework.type === 'lesson' ? (
               <div className="flex flex-col items-center text-center space-y-8">
                 {currentQuestion.imagePrompt && (
                   <img 
@@ -695,8 +755,9 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
               </>
             )}
             </>
+            )}
+            </motion.div>
           )}
-          </motion.div>
         </AnimatePresence>
       </main>
 
@@ -772,8 +833,14 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         ) : (
           currentIdx === displayQuestions.length - 1 ? (
             <button 
-              onClick={handleSubmit}
-              disabled={isSubmitting || !answers[currentQuestion.id]}
+              onClick={() => {
+                if (homework.type === 'test') {
+                  setShowSummary(true);
+                } else {
+                  handleSubmit();
+                }
+              }}
+              disabled={isSubmitting || (!answers[currentQuestion.id] && homework.type !== 'test')}
               className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C] disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-[0_6px_0_0_#C2410C] disabled:active:translate-y-0"
             >
               {isSubmitting ? (

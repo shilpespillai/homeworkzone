@@ -847,35 +847,35 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
   };
 
   return (
-    <div className="max-w-6xl mx-auto font-nunito pb-16 space-y-12">
+    <div className="w-full px-4 lg:px-8 max-w-[1600px] mx-auto font-nunito pb-16 space-y-12">
       {/* Header */}
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-5xl font-black text-[#14532d] tracking-tight mb-2">Curriculum Scheduler</h1>
-          <p className="text-lg text-slate-500 font-bold">Schedule AI-generated homework mapped to local country standards across classes.</p>
+          <h1 className="text-5xl font-black text-emerald-700 tracking-tight mb-2">Curriculum Scheduler</h1>
+          <p className="text-xl text-slate-500 font-bold">Schedule AI-generated homework mapped to local country standards across classes.</p>
         </div>
         <div className="flex items-center gap-4 bg-green-50/50 border border-green-200 rounded-3xl p-4 shadow-sm">
-          <span className="text-2xl">🗓️</span>
+          <span className="text-3xl">🗓️</span>
           <div>
-            <h4 className="text-xs font-black text-green-950">AI Scheduler</h4>
-            <p className="text-[10px] font-bold text-green-600">Autogenerates & schedules quizzes</p>
+            <h4 className="text-sm font-black text-emerald-950">AI Scheduler</h4>
+            <p className="text-xs font-bold text-green-600">Autogenerates & schedules quizzes</p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Form: Config */}
-        <div className="lg:col-span-3 bg-white border border-slate-100 rounded-[36px] p-8 lg:p-10 shadow-xl shadow-slate-100/50 space-y-8">
+        <div className="lg:col-span-8 bg-white border-4 border-emerald-100 rounded-[36px] p-6 lg:p-8 shadow-xl shadow-emerald-100/50 space-y-8">
           <div className="flex items-center gap-3 border-b border-slate-50 pb-5">
             <Sparkles className="text-green-500 w-6 h-6 animate-pulse" />
-            <h2 className="text-xl font-black text-[#14532d]">Configure Curriculum Schedule</h2>
+            <h2 className="text-xl font-black text-emerald-700">Configure Curriculum Schedule</h2>
           </div>
 
           <form onSubmit={handleGenerateAndSchedule} className="space-y-6">
             
             {/* Subject Select */}
             <div className="space-y-2">
-              <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">1. Select Subject</label>
+              <label className="text-sm font-black text-pink-500 uppercase tracking-wider block">1. Select Subject</label>
               <div className="grid grid-cols-3 gap-4">
                 {dynamicSubjects.map(sub => (
                   <button
@@ -889,7 +889,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                     }`}
                   >
                     <span className="text-3xl group-hover:scale-110 transition-transform">{sub.emoji}</span>
-                    <span className={`text-xs font-black ${sub.color}`}>{sub.name}</span>
+                    <span className={`text-sm font-black ${sub.color}`}>{sub.name}</span>
                   </button>
                 ))}
               </div>
@@ -897,13 +897,13 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
             {/* Core Topic / Topic Instruction */}
             <div className="space-y-1.5">
-              <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">2. Homework Topic / Core Concept</label>
+              <label className="text-sm font-black text-blue-500 uppercase tracking-wider block">2. Homework Topic / Core Concept</label>
               <input 
                 type="text"
                 placeholder="e.g. Multiplying fractions, Water cycle, Past continuous tense..."
                 value={formData.topic}
                 onChange={(e) => setFormData(prev => ({ ...prev, topic: e.target.value }))}
-                className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-5 text-sm font-bold text-[#14532d] focus:outline-none focus:border-[#EA580C] focus:bg-white transition-all"
+                className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-5 text-base md:text-lg font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C] focus:bg-white transition-all"
                 required
               />
             </div>
@@ -911,11 +911,11 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
             {/* Curriculum Alignment */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">3. Curriculum Standard</label>
+                <label className="text-sm font-black text-purple-500 uppercase tracking-wider block">3. Curriculum Standard</label>
                 <select
                   value={formData.curriculum}
                   onChange={(e) => setFormData(prev => ({ ...prev, curriculum: e.target.value }))}
-                  className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-4 text-sm font-bold text-[#14532d] focus:outline-none focus:border-[#EA580C] transition-all cursor-pointer"
+                  className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-4 text-base md:text-lg font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C] transition-all cursor-pointer"
                 >
                   {CURRICULUMS.map(c => (
                     <option key={c.id} value={c.id}>{c.flag} {c.name}</option>
@@ -924,8 +924,8 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">4. Target Grade</label>
-                <div className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-4 flex items-center text-sm font-bold text-[#14532d]">
+                <label className="text-sm font-black text-amber-500 uppercase tracking-wider block">4. Target Grade</label>
+                <div className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-4 flex items-center text-sm font-bold text-emerald-700">
                   <span>{formData.grade} (Derived from classroom name)</span>
                 </div>
               </div>
@@ -934,14 +934,14 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
             {/* Difficulty & Question Count */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="space-y-1.5">
-                <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">5. Complexity</label>
+                <label className="text-sm font-black text-teal-500 uppercase tracking-wider block">5. Complexity</label>
                 <div className="grid grid-cols-3 gap-2 bg-slate-50 p-1.5 border border-slate-100 rounded-2xl">
                   {DIFFICULTIES.map(diff => (
                     <button
                       key={diff}
                       type="button"
                       onClick={() => setFormData(prev => ({ ...prev, difficulty: diff }))}
-                      className={`py-2 rounded-xl text-xs font-black transition-all ${
+                      className={`py-2 rounded-xl text-sm font-black transition-all ${
                         formData.difficulty === diff 
                           ? 'bg-[#EA580C] text-white shadow-sm' 
                           : 'text-slate-500 hover:text-slate-700'
@@ -955,8 +955,8 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
               <div className="space-y-1.5">
                 <div className="flex justify-between items-center">
-                  <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">6. Quiz Length</label>
-                  <span className="text-xs font-black text-orange-600 bg-orange-50 px-2 py-0.5 rounded-lg">{formData.questionCount} Qs</span>
+                  <label className="text-sm font-black text-rose-500 uppercase tracking-wider block">6. Quiz Length</label>
+                  <span className="text-sm font-black text-orange-600 bg-orange-50 px-2 py-0.5 rounded-lg">{formData.questionCount} Qs</span>
                 </div>
                 <input
                   type="range"
@@ -971,27 +971,27 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
             {/* Class Target Selection */}
             <div className="space-y-2">
-              <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">7. Assigned Classroom</label>
-              <div className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-4 flex items-center gap-3 text-sm font-bold text-[#14532d]">
+              <label className="text-sm font-black text-fuchsia-500 uppercase tracking-wider block">7. Assigned Classroom</label>
+              <div className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-4 flex items-center gap-3 text-sm font-bold text-emerald-700">
                 <span>🏫 {activeClassroom?.name || 'No class selected (Please select at the top)'}</span>
               </div>
             </div>
 
             {activeClassroom && (
               <div className="space-y-2">
-                <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">Assign Target</label>
+                <label className="text-sm font-black text-violet-500 uppercase tracking-wider block">Assign Target</label>
                 <div className="grid grid-cols-2 gap-2 bg-slate-50 p-1 border border-slate-200 rounded-2xl">
                   <button
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, assignType: 'all', assignedStudentIds: [] }))}
-                    className={`py-2 px-4 rounded-xl text-xs font-bold transition-all ${formData.assignType === 'all' ? 'bg-[#EA580C] text-white shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                    className={`py-2 px-4 rounded-xl text-sm font-bold transition-all ${formData.assignType === 'all' ? 'bg-[#EA580C] text-white shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                   >
                     Whole Class
                   </button>
                   <button
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, assignType: 'students' }))}
-                    className={`py-2 px-4 rounded-xl text-xs font-bold transition-all ${formData.assignType === 'students' ? 'bg-[#EA580C] text-white shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                    className={`py-2 px-4 rounded-xl text-sm font-bold transition-all ${formData.assignType === 'students' ? 'bg-[#EA580C] text-white shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                   >
                     Specific Students
                   </button>
@@ -1001,7 +1001,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
             {formData.assignType === 'students' && (
               <div className="space-y-2 animate-in slide-in-from-top-2 duration-200">
-                <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">Select Students <span className="text-rose-500">*</span></label>
+                <label className="text-sm font-black text-cyan-500 uppercase tracking-wider block">Select Students <span className="text-rose-500">*</span></label>
                 
                 {/* Search Bar */}
                 <div className="relative mb-3">
@@ -1017,7 +1017,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
                 {/* Bulk Actions */}
                 <div className="flex justify-between items-center px-1 mb-2">
-                  <span className="text-xs font-bold text-slate-500">
+                  <span className="text-sm font-bold text-slate-500">
                     {formData.assignedStudentIds.length} of {students.length} selected
                   </span>
                   <div className="flex gap-2">
@@ -1027,7 +1027,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                         const allIds = students.map(s => s.id);
                         setFormData(prev => ({ ...prev, assignedStudentIds: allIds }));
                       }}
-                      className="text-xs font-bold text-[#EA580C] hover:underline"
+                      className="text-sm font-bold text-[#EA580C] hover:underline"
                     >
                       Select All
                     </button>
@@ -1037,7 +1037,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                       onClick={() => {
                         setFormData(prev => ({ ...prev, assignedStudentIds: [] }));
                       }}
-                      className="text-xs font-bold text-slate-500 hover:underline"
+                      className="text-sm font-bold text-slate-500 hover:underline"
                     >
                       Clear All
                     </button>
@@ -1087,13 +1087,13 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-50 pt-5">
               {formData.recurrence !== 'none' ? (
                 <div className="space-y-1.5">
-                  <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">Days to Complete</label>
+                  <label className="text-sm font-black text-orange-500 uppercase tracking-wider block">Days to Complete</label>
                   <div className="relative">
                     <Calendar className="absolute left-4 top-4 w-4 h-4 text-orange-400 z-10" />
                     <select
                       value={formData.dueDateOffset}
                       onChange={(e) => setFormData(prev => ({ ...prev, dueDateOffset: parseInt(e.target.value, 10) }))}
-                      className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-10 text-xs font-bold text-[#14532d] focus:outline-none focus:border-[#EA580C] transition-all cursor-pointer appearance-none"
+                      className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-10 text-xs font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C] transition-all cursor-pointer appearance-none"
                     >
                       <option value="1">1 Day</option>
                       <option value="2">2 Days</option>
@@ -1112,14 +1112,14 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                 </div>
               ) : (
                 <div className="space-y-1.5">
-                  <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">Due Date</label>
+                  <label className="text-sm font-black text-orange-500 uppercase tracking-wider block">Due Date</label>
                   <div className="relative">
                     <Calendar className="absolute left-4 top-4 w-4 h-4 text-orange-400" />
                     <input
                       type="date"
                       value={formData.dueDate}
                       onChange={(e) => setFormData(prev => ({ ...prev, dueDate: e.target.value }))}
-                      className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 text-xs font-bold text-[#14532d] focus:outline-none focus:border-[#EA580C] transition-all"
+                      className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 text-xs font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C] transition-all"
                       required={formData.recurrence === 'none'}
                     />
                   </div>
@@ -1127,14 +1127,14 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
               )}
 
               <div className="space-y-1.5">
-                <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">Due Time</label>
+                <label className="text-sm font-black text-lime-600 uppercase tracking-wider block">Due Time</label>
                 <div className="relative">
                   <Clock className="absolute left-4 top-4 w-4 h-4 text-orange-400" />
                   <input
                     type="time"
                     value={formData.dueTime}
                     onChange={(e) => setFormData(prev => ({ ...prev, dueTime: e.target.value }))}
-                    className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 text-xs font-bold text-[#14532d] focus:outline-none focus:border-[#EA580C] transition-all"
+                    className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 text-xs font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C] transition-all"
                   />
                 </div>
               </div>
@@ -1143,29 +1143,29 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
             {/* Unified Schedule & Release Settings Section */}
             <div className="space-y-6 border-t border-slate-50 pt-5">
               <div className="flex items-center gap-2">
-                <Clock className="w-5 h-5 text-green-500" />
-                <h3 className="text-base font-black text-[#14532d]">8. Schedule & Release Settings</h3>
+                <Clock className="w-6 h-6 text-emerald-500" />
+                <h3 className="text-xl font-black text-emerald-600">8. Schedule & Release Settings</h3>
               </div>
 
               {/* Step A: Frequency / Recurrence Selection */}
               <div className="space-y-2">
-                <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">Select Recurrence Frequency</label>
+                <label className="text-sm font-black text-emerald-500 uppercase tracking-wider block">Select Recurrence Frequency</label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <button
                     type="button"
                     onClick={() => handleRecurrenceChange('none')}
                     className={`p-4 rounded-2xl border-2 text-left flex items-start gap-3 transition-all ${
                       formData.recurrence === 'none'
-                        ? 'border-[#EA580C] bg-[#EA580C]/5 text-slate-900'
-                        : 'border-slate-100 bg-white hover:border-slate-200'
+                        ? 'border-[#EA580C] bg-[#EA580C]/5 text-emerald-900'
+                        : 'border-2 border-slate-200 bg-white hover:border-slate-300'
                     }`}
                   >
                     <div className={`w-5 h-5 rounded-full border flex-center shrink-0 mt-0.5 ${formData.recurrence === 'none' ? 'bg-[#EA580C] border-[#EA580C] text-white' : 'border-slate-300'}`}>
                       {formData.recurrence === 'none' && <Check size={12} strokeWidth={4} />}
                     </div>
                     <div>
-                      <h4 className="text-xs font-black text-[#14532d]">One-Time</h4>
-                      <p className="text-[10px] text-slate-500 font-bold mt-1 leading-normal">Create this assignment only once.</p>
+                      <h4 className="text-sm font-black text-emerald-700">One-Time</h4>
+                      <p className="text-xs text-slate-500 font-bold mt-1 leading-normal">Create this assignment only once.</p>
                     </div>
                   </button>
 
@@ -1174,16 +1174,16 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                     onClick={() => handleRecurrenceChange('daily')}
                     className={`p-4 rounded-2xl border-2 text-left flex items-start gap-3 transition-all ${
                       formData.recurrence === 'daily'
-                        ? 'border-[#EA580C] bg-[#EA580C]/5 text-slate-900'
-                        : 'border-slate-100 bg-white hover:border-slate-200'
+                        ? 'border-[#EA580C] bg-[#EA580C]/5 text-emerald-900'
+                        : 'border-2 border-slate-200 bg-white hover:border-slate-300'
                     }`}
                   >
                     <div className={`w-5 h-5 rounded-full border flex-center shrink-0 mt-0.5 ${formData.recurrence === 'daily' ? 'bg-[#EA580C] border-[#EA580C] text-white' : 'border-slate-300'}`}>
                       {formData.recurrence === 'daily' && <Check size={12} strokeWidth={4} />}
                     </div>
                     <div>
-                      <h4 className="text-xs font-black text-[#14532d]">Daily Auto</h4>
-                      <p className="text-[10px] text-slate-500 font-bold mt-1 leading-normal">Automatically generate this homework once every day.</p>
+                      <h4 className="text-sm font-black text-emerald-700">Daily Auto</h4>
+                      <p className="text-xs text-slate-500 font-bold mt-1 leading-normal">Automatically generate this homework once every day.</p>
                     </div>
                   </button>
 
@@ -1192,16 +1192,16 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                     onClick={() => handleRecurrenceChange('weekly')}
                     className={`p-4 rounded-2xl border-2 text-left flex items-start gap-3 transition-all ${
                       formData.recurrence === 'weekly'
-                        ? 'border-[#EA580C] bg-[#EA580C]/5 text-slate-900'
-                        : 'border-slate-100 bg-white hover:border-slate-200'
+                        ? 'border-[#EA580C] bg-[#EA580C]/5 text-emerald-900'
+                        : 'border-2 border-slate-200 bg-white hover:border-slate-300'
                     }`}
                   >
                     <div className={`w-5 h-5 rounded-full border flex-center shrink-0 mt-0.5 ${formData.recurrence === 'weekly' ? 'bg-[#EA580C] border-[#EA580C] text-white' : 'border-slate-300'}`}>
                       {formData.recurrence === 'weekly' && <Check size={12} strokeWidth={4} />}
                     </div>
                     <div>
-                      <h4 className="text-xs font-black text-[#14532d]">Weekly Auto</h4>
-                      <p className="text-[10px] text-slate-500 font-bold mt-1 leading-normal">Automatically generate this homework once every week.</p>
+                      <h4 className="text-sm font-black text-emerald-700">Weekly Auto</h4>
+                      <p className="text-xs text-slate-500 font-bold mt-1 leading-normal">Automatically generate this homework once every week.</p>
                     </div>
                   </button>
                 </div>
@@ -1209,34 +1209,34 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
               {/* Step B: Execution Date/Time Details */}
               <div className="space-y-2">
-                <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">Configure Release Time</label>
+                <label className="text-sm font-black text-sky-500 uppercase tracking-wider block">Configure Release Time</label>
                 
                 {formData.recurrence === 'none' ? (
                   /* One-Time Date & Time Selection */
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fadeIn">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Scheduled Release Date</label>
+                      <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">Scheduled Release Date</label>
                       <div className="relative">
                         <Calendar className="absolute left-4 top-4 w-4 h-4 text-green-400" />
                         <input
                           type="date"
                           value={formData.releaseDate}
                           onChange={(e) => setFormData(prev => ({ ...prev, releaseDate: e.target.value }))}
-                          className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 text-xs font-bold text-[#14532d] focus:outline-none focus:border-[#EA580C] transition-all"
+                          className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 text-sm font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C] transition-all"
                           required={formData.recurrence === 'none'}
                         />
                       </div>
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Scheduled Release Time</label>
+                      <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">Scheduled Release Time</label>
                       <div className="relative">
                         <Clock className="absolute left-4 top-4 w-4 h-4 text-green-400" />
                         <input
                           type="time"
                           value={formData.releaseTime}
                           onChange={(e) => setFormData(prev => ({ ...prev, releaseTime: e.target.value }))}
-                          className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 text-xs font-bold text-[#14532d] focus:outline-none focus:border-[#EA580C] transition-all"
+                          className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 text-sm font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C] transition-all"
                           required
                         />
                       </div>
@@ -1246,14 +1246,14 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                   /* Recurring Execution Settings */
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fadeIn">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Preferred Release Time</label>
+                      <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">Preferred Release Time</label>
                       <div className="relative">
                         <Clock className="absolute left-4 top-4 w-4 h-4 text-green-400" />
                         <input
                           type="time"
                           value={formData.releaseTime}
                           onChange={(e) => setFormData(prev => ({ ...prev, releaseTime: e.target.value }))}
-                          className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 text-xs font-bold text-[#14532d] focus:outline-none focus:border-[#EA580C] transition-all"
+                          className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 text-sm font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C] transition-all"
                           required
                         />
                       </div>
@@ -1264,12 +1264,12 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
                     {formData.recurrence === 'weekly' && (
                       <div className="space-y-1.5">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Target Day of Week</label>
+                        <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">Target Day of Week</label>
                         <div className="relative">
                           <select
                             value={formData.recurrenceDay}
                             onChange={(e) => setFormData(prev => ({ ...prev, recurrenceDay: e.target.value }))}
-                            className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-10 text-xs font-bold text-[#14532d] focus:outline-none focus:border-[#EA580C] transition-all cursor-pointer appearance-none"
+                            className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-10 text-sm font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C] transition-all cursor-pointer appearance-none"
                           >
                             <option value="1">Monday 📅</option>
                             <option value="2">Tuesday 📅</option>
@@ -1291,23 +1291,23 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
               {/* Step C: Action/Policy on execution */}
               <div className="space-y-2">
-                <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">Release Action (At Scheduled Time)</label>
+                <label className="text-sm font-black text-violet-500 uppercase tracking-wider block">Release Action (At Scheduled Time)</label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <button
                     type="button"
                     onClick={() => handlePublishTypeChange('draft')}
                     className={`p-4 rounded-2xl border-2 text-left flex items-start gap-3 transition-all ${
                       formData.publishType === 'draft'
-                        ? 'border-[#EA580C] bg-[#EA580C]/5 text-slate-900'
-                        : 'border-slate-100 bg-white hover:border-slate-200'
+                        ? 'border-[#EA580C] bg-[#EA580C]/5 text-emerald-900'
+                        : 'border-2 border-slate-200 bg-white hover:border-slate-300'
                     }`}
                   >
                     <div className={`w-5 h-5 rounded-full border flex-center shrink-0 mt-0.5 ${formData.publishType === 'draft' ? 'bg-[#EA580C] border-[#EA580C] text-white' : 'border-slate-300'}`}>
                       {formData.publishType === 'draft' && <Check size={12} strokeWidth={4} />}
                     </div>
                     <div>
-                      <h4 className="text-xs font-black text-[#14532d]">Save in Draft</h4>
-                      <p className="text-[10px] text-slate-500 font-bold mt-1 leading-normal">Requires your manual verification before students can view it.</p>
+                      <h4 className="text-sm font-black text-emerald-700">Save in Draft</h4>
+                      <p className="text-xs text-slate-500 font-bold mt-1 leading-normal">Requires your manual verification before students can view it.</p>
                     </div>
                   </button>
 
@@ -1316,16 +1316,16 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                     onClick={() => handlePublishTypeChange('publish')}
                     className={`p-4 rounded-2xl border-2 text-left flex items-start gap-3 transition-all ${
                       formData.publishType === 'publish_now' || formData.publishType === 'publish_scheduled'
-                        ? 'border-[#EA580C] bg-[#EA580C]/5 text-slate-900'
-                        : 'border-slate-100 bg-white hover:border-slate-200'
+                        ? 'border-[#EA580C] bg-[#EA580C]/5 text-emerald-900'
+                        : 'border-2 border-slate-200 bg-white hover:border-slate-300'
                     }`}
                   >
                     <div className={`w-5 h-5 rounded-full border flex-center shrink-0 mt-0.5 ${formData.publishType === 'publish_now' || formData.publishType === 'publish_scheduled' ? 'bg-[#EA580C] border-[#EA580C] text-white' : 'border-slate-300'}`}>
                       {(formData.publishType === 'publish_now' || formData.publishType === 'publish_scheduled') && <Check size={12} strokeWidth={4} />}
                     </div>
                     <div>
-                      <h4 className="text-xs font-black text-[#14532d]">Directly Publish</h4>
-                      <p className="text-[10px] text-slate-500 font-bold mt-1 leading-normal">Instantly releases the homework quiz to the student portals.</p>
+                      <h4 className="text-sm font-black text-emerald-700">Directly Publish</h4>
+                      <p className="text-xs text-slate-500 font-bold mt-1 leading-normal">Instantly releases the homework quiz to the student portals.</p>
                     </div>
                   </button>
                 </div>
@@ -1363,11 +1363,11 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         </div>
 
         {/* Right Queue List: Drafts/Scheduled & Automations */}
-        <div className="lg:col-span-2 space-y-8">
+        <div className="lg:col-span-4 space-y-8">
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-black text-[#14532d]">Scheduled & Drafts</h3>
-              <span className="text-xs font-black text-orange-600 bg-orange-50 px-2.5 py-1 rounded-full">
+              <h3 className="text-xl font-black text-emerald-700">Scheduled & Drafts</h3>
+              <span className="text-sm font-black text-orange-600 bg-orange-50 px-2.5 py-1 rounded-full">
                 {scheduledItems.filter(i => i.status === 'draft' || i.status === 'scheduled').length} Items
               </span>
             </div>
@@ -1400,17 +1400,17 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                       className={`bg-white border rounded-3xl transition-all ${
                         isExpanded 
                           ? 'border-orange-200 shadow-lg ring-4 ring-orange-50/30' 
-                          : 'border-slate-100/80 shadow-sm hover:border-slate-200/80'
+                          : 'border-2 border-slate-200 shadow-sm hover:border-slate-300'
                       }`}
                     >
                       <div className="p-5 flex flex-col gap-3">
                         {/* Top Row: Meta flags & Status */}
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <span className="text-lg">{flag}</span>
-                            <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider">{item.metadata?.curriculumName || 'ACARA'}</span>
+                            <span className="text-xl">{flag}</span>
+                            <span className="text-xs font-black text-slate-400 uppercase tracking-wider">{item.metadata?.curriculumName || 'ACARA'}</span>
                           </div>
-                          <span className={`text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider ${
+                          <span className={`text-xs font-black px-2.5 py-1 rounded-full uppercase tracking-wider ${
                             isDraft 
                               ? 'bg-amber-50 text-amber-600 border border-amber-100' 
                               : isScheduled
@@ -1423,31 +1423,31 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
                         {/* Info body */}
                         <div>
-                          <h4 className="text-sm font-black text-slate-800 line-clamp-1">{item.title}</h4>
-                          <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-wider">Class: {classLabel}</p>
+                          <h4 className="text-base font-black text-emerald-800 line-clamp-1">{item.title}</h4>
+                          <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-wider">Class: {classLabel}</p>
                           {item.assignType === 'students' && item.assignedStudentIds && item.assignedStudentIds.length > 0 && (
-                            <p className="text-[10.5px] font-bold text-blue-600 mt-0.5 flex items-center gap-1" title={item.assignedStudentIds.map(id => id.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')).join(', ')}>
-                              <User className="w-3.5 h-3.5" /> Students: {item.assignedStudentIds.length}
+                            <p className="text-xs font-bold text-blue-600 mt-0.5 flex items-center gap-1" title={item.assignedStudentIds.map(id => id.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')).join(', ')}>
+                              <User className="w-4 h-4" /> Students: {item.assignedStudentIds.length}
                             </p>
                           )}
                           {item.assignType === 'student' && item.assignedStudentId && (
-                            <p className="text-[10.5px] font-bold text-blue-600 mt-0.5 flex items-center gap-1">
-                              <User className="w-3.5 h-3.5" /> Student: {item.assignedStudentId.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')}
+                            <p className="text-xs font-bold text-blue-600 mt-0.5 flex items-center gap-1">
+                              <User className="w-4 h-4" /> Student: {item.assignedStudentId.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')}
                             </p>
                           )}
                           {isScheduled && item.scheduledRelease && (
-                            <p className="text-[9.5px] font-bold text-green-600 mt-0.5">
+                            <p className="text-xs font-bold text-green-600 mt-0.5">
                               ⏰ Releases: {item.scheduledRelease.date} at {item.scheduledRelease.time}
                             </p>
                           )}
                         </div>
 
                         {/* Stats pill & details */}
-                        <div className="flex items-center justify-between text-[10px] font-bold text-slate-400 pt-2 border-t border-slate-50">
+                        <div className="flex items-center justify-between text-sm font-bold text-slate-400 pt-3 border-t border-slate-50">
                           <span>Due: {item.dueDate}</span>
                           <div className="flex gap-2">
-                            <span className="bg-slate-50 text-slate-500 px-2 py-0.5 rounded-md text-[9px] font-black">{item.metadata?.difficulty || 'Medium'}</span>
-                            <span className="bg-slate-50 text-slate-500 px-2 py-0.5 rounded-md text-[9px] font-black">{item.questions?.length || 0} Qs</span>
+                            <span className="bg-slate-50 text-slate-500 px-3 py-1 rounded-lg text-xs font-black">{item.metadata?.difficulty || 'Medium'}</span>
+                            <span className="bg-slate-50 text-slate-500 px-3 py-1 rounded-lg text-xs font-black">{item.questions?.length || 0} Qs</span>
                           </div>
                         </div>
 
@@ -1455,12 +1455,12 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                         <div className="flex items-center justify-between gap-3 pt-3 border-t border-slate-50/60 mt-1">
                           <button
                             onClick={() => setExpandedId(isExpanded ? null : item.id)}
-                            className="text-[10px] font-black text-[#EA580C] hover:underline flex items-center gap-1.5"
+                            className="text-sm font-black text-[#EA580C] hover:underline flex items-center gap-1.5"
                           >
                             {isExpanded ? (
-                              <>Hide Questions <ChevronUp size={12} /></>
+                              <>Hide Questions <ChevronUp size={16} /></>
                             ) : (
-                              <>Preview Quiz <ChevronDown size={12} /></>
+                              <>Preview Quiz <ChevronDown size={16} /></>
                             )}
                           </button>
 
@@ -1468,16 +1468,16 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                             {(isDraft || isScheduled) && (
                               <button
                                 onClick={() => handlePublishDraft(item.id)}
-                                className="bg-emerald-500 hover:bg-emerald-600 text-white text-[10px] font-black px-3 py-1.5 rounded-xl shadow-sm transition-all"
+                                className="bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-black px-4 py-2 rounded-xl shadow-sm transition-all"
                               >
                                 {isDraft ? 'Verify & Publish' : 'Release Now'}
                               </button>
                             )}
                             <button
                               onClick={() => handleDeleteItem(item.id)}
-                              className="p-2 text-rose-500 hover:bg-rose-50 rounded-xl transition-all"
+                              className="p-2.5 text-rose-500 hover:bg-rose-50 rounded-xl transition-all"
                             >
-                              <Trash2 size={13} />
+                              <Trash2 size={18} />
                             </button>
                           </div>
                         </div>
@@ -1487,8 +1487,8 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                       {isExpanded && item.questions && (
                         <div className="border-t border-slate-50 bg-slate-50/30 p-5 rounded-b-3xl space-y-3 max-h-60 overflow-y-auto custom-scrollbar">
                           {item.questions.map((q, idx) => (
-                            <div key={idx} className="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm text-left">
-                              <p className="text-xs font-black text-slate-800 mb-2">Q{idx + 1}. {q.text}</p>
+                            <div key={idx} className="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-sm text-left">
+                              <p className="text-xs font-black text-emerald-800 mb-2">Q{idx + 1}. {q.text}</p>
                               <div className="grid grid-cols-2 gap-2">
                                 {q.options.map((opt, i) => (
                                   <div key={i} className={`p-2 rounded-lg text-[9px] font-bold border ${opt === q.answer ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'bg-slate-50/50 border-slate-100 text-slate-500'}`}>
@@ -1510,7 +1510,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           {/* Active Automations section */}
           <div className="space-y-6 pt-6 border-t border-slate-100">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-black text-[#14532d]">Active Automations (Recurring)</h3>
+              <h3 className="text-lg font-black text-emerald-700">Active Automations (Recurring)</h3>
               <span className="text-xs font-black text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">
                 {recurringItems.length} Active
               </span>
@@ -1540,11 +1540,11 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                   const formattedTime = formatTime12h(sched.releaseTime);
                   
                   return (
-                    <div key={sched.id} className="bg-white border border-slate-100 rounded-3xl p-5 flex items-center justify-between shadow-sm hover:border-slate-200/80 transition-all">
+                    <div key={sched.id} className="bg-white border-2 border-slate-200 rounded-3xl p-5 flex items-center justify-between shadow-sm hover:border-slate-300 transition-all">
                       <div className="space-y-1.5">
                         <div className="flex items-center gap-2">
                            <span className="text-sm">{subObj?.emoji || '📚'}</span>
-                           <h4 className="text-xs font-black text-slate-800 line-clamp-1">{sched.topic}</h4>
+                           <h4 className="text-xs font-black text-emerald-800 line-clamp-1">{sched.topic}</h4>
                         </div>
                         {sched.assignType === 'students' && sched.assignedStudentIds && sched.assignedStudentIds.length > 0 && (
                           <div className="text-[10.5px] font-bold text-blue-600 flex items-center gap-1" title={sched.assignedStudentIds.map(id => id.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')).join(', ')}>
@@ -1602,7 +1602,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
             <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Calendar className="w-10 h-10 text-orange-600 animate-bounce" />
             </div>
-            <h3 className="text-2xl font-black text-slate-800 mb-2">Upgrade Required! 🚀</h3>
+            <h3 className="text-2xl font-black text-emerald-800 mb-2">Upgrade Required! 🚀</h3>
             <p className="text-slate-600 font-bold mb-1">
               You have reached your current plan's homework creation limit.
             </p>
