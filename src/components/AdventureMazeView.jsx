@@ -4,6 +4,19 @@ import { doc, collection, query, where, onSnapshot } from 'firebase/firestore';
 import { Compass, Map, Trophy, Users, Award, Sparkles, X } from 'lucide-react';
 
 const TRACK_COORDS = {
+  sonic: [
+    { x: 200, y: 270 }, // 0: START
+    { x: 130, y: 360 }, // 1: Chemical Plant area
+    { x: 180, y: 480 }, // 2: Circle 3 (Green Hill)
+    { x: 380, y: 470 }, // 3: Circle 4 (Spring Yard)
+    { x: 430, y: 330 }, // 4: Circle 5
+    { x: 470, y: 230 }, // 5: Circle 6 (Cloud Fortress)
+    { x: 560, y: 330 }, // 6: Circle 7 (Libyreon City)
+    { x: 700, y: 260 }, // 7: Circle 8 (Death Egg Zone)
+    { x: 680, y: 440 }, // 8: Circle 9 (Death Egg Core)
+    { x: 820, y: 260 }, // 9: Circle 10 (Ice Cap Zone)
+    { x: 900, y: 380 }  // 10: FINISH
+  ],
   island: [
     { x: 600, y: 70 },   // 0 (START)
     { x: 590, y: 160 },  // 1 (Circle 1)
@@ -109,6 +122,19 @@ const TRACK_COORDS = {
 };
 
 const MILESTONE_DETAILS = {
+  sonic: [
+    { name: "1. Start Line 🏁", desc: "Ready, set, go!" },
+    { name: "2. Chemical Plant 🧪", desc: "Speed through the toxic tubes!" },
+    { name: "3. Green Hill 🌴", desc: "Collect rings on the grassy loops." },
+    { name: "4. Spring Yard 🎰", desc: "Bounce around the casino bumpers." },
+    { name: "5. Marble Zone 🌋", desc: "Watch out for the hot lava!" },
+    { name: "6. Cloud Fortress ☁️", desc: "Soar high above the clouds." },
+    { name: "7. Libyreon City 🏙️", desc: "Drift through the glowing streets." },
+    { name: "8. Death Egg Zone 🥚", desc: "Infiltrate Dr. Eggman's base." },
+    { name: "9. Death Egg Core 🤖", desc: "Defeat the giant robot guard!" },
+    { name: "10. Ice Cap Zone ❄️", desc: "Snowboard down the frozen peaks." },
+    { name: "Finish 🎉", desc: "You've won the Grand Prix!" }
+  ],
   island: [
     { name: "1. Start Gate 🏁", desc: "Start your engines!" },
     { name: "2. Tall Rocks 🪨", desc: "Watch out for the falling boulders." },
@@ -581,6 +607,21 @@ export default function AdventureMazeView({
 
   // Theme Visual Assets/Styles
   const themeStyles = {
+    sonic: {
+      displayName: "🦔 Sonic Grand Prix", displayColor: "bg-blue-600 text-white shadow-blue-300",
+      gradient: "from-blue-200 via-sky-100 to-emerald-100",
+      pathColor: "#1D4ED8", // blue track
+      pathOutline: "#1E3A8A",
+      centerDashes: "#FDE047", // yellow dashes
+      nodeColor: "fill-blue-500 stroke-blue-700",
+      nodeColorCompleted: "fill-amber-400 stroke-amber-600",
+      finishColor: "text-red-600 fill-red-500",
+      skyColor: "bg-[#60A5FA]/20",
+      finishNode: "🏁",
+      isImageBaked: true,
+      aspectRatio: "aspect-[1024/558]",
+      viewBox: "0 0 1024 558"
+    },
     island: {
       displayName: "🏝️ Adventure Island", displayColor: "bg-teal-500 text-white shadow-teal-200",
       gradient: "from-sky-300 via-teal-100 to-amber-100",
