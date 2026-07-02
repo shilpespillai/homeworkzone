@@ -6807,6 +6807,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                               <option value="auto">Auto-Rotate Weekly (Recommended) 🔄</option>
                               <option value="forest">Enchanted Forest 🌲</option>
                               <option value="space">Cosmic Space Maze 🚀</option>
+                              <option value="island">Adventure Island 🏝️</option>
                               <option value="sports">Sports Track 🏃</option>
                               <option value="undersea">Undersea Voyage 🌊</option>
                               <option value="candyland">Candyland Adventure 🍬</option>

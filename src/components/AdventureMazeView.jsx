@@ -4,6 +4,19 @@ import { doc, collection, query, where, onSnapshot } from 'firebase/firestore';
 import { Compass, Map, Trophy, Users, Award, Sparkles, X } from 'lucide-react';
 
 const TRACK_COORDS = {
+  island: [
+    { x: 600, y: 70 },   // 0 (START)
+    { x: 590, y: 160 },  // 1 (Circle 1)
+    { x: 810, y: 210 },  // 2 (Circle 2)
+    { x: 680, y: 260 },  // 3 (Circle 3)
+    { x: 500, y: 290 },  // 4 (Circle 5 - Pine Woods)
+    { x: 330, y: 270 },  // 5 (Circle 4 - Old Ruins)
+    { x: 380, y: 390 },  // 6 (U-Turn near Coast)
+    { x: 560, y: 360 },  // 7 (Circle 7 - Volcano Base)
+    { x: 640, y: 360 },  // 8 (Circle 8 - Compass Point)
+    { x: 740, y: 390 },  // 9 (Circle 10 - Palm Beach)
+    { x: 870, y: 480 }   // 10 (FINISH)
+  ],
   forest: [
     { x: 25, y: 360 }, // 0 (1. Start Point)
     { x: 275, y: 50 }, // 1 (2. Whispering Grove)
@@ -96,6 +109,19 @@ const TRACK_COORDS = {
 };
 
 const MILESTONE_DETAILS = {
+  island: [
+    { name: "1. Start Gate 🏁", desc: "Start your engines!" },
+    { name: "2. Tall Rocks 🪨", desc: "Watch out for the falling boulders." },
+    { name: "3. Mountain Tunnel ⛰️", desc: "Drive through the dark cavern." },
+    { name: "4. Waterfall Bridge 🌊", desc: "Cross the rushing blue waters." },
+    { name: "5. Pine Woods 🌲", desc: "Navigate the dense green forest." },
+    { name: "6. Old Ruins 🏛️", desc: "Discover the ancient island history." },
+    { name: "7. Coastal Curve 🏝️", desc: "Drift along the sandy beach." },
+    { name: "8. Volcano Base 🌋", desc: "Feel the heat from the molten lava!" },
+    { name: "9. Compass Point 🧭", desc: "Stay on track and keep your bearings." },
+    { name: "10. Palm Beach 🌴", desc: "The final straightaway!" },
+    { name: "Finish 🎉", desc: "You've crossed the island finish line!" }
+  ],
   forest: [
     { name: "1. Start Point 🍄", desc: "Your journey begins!" },
     { name: "2. Whispering Grove 🍃", desc: "The trees are whispering." },
@@ -555,6 +581,21 @@ export default function AdventureMazeView({
 
   // Theme Visual Assets/Styles
   const themeStyles = {
+    island: {
+      displayName: "🏝️ Adventure Island", displayColor: "bg-teal-500 text-white shadow-teal-200",
+      gradient: "from-sky-300 via-teal-100 to-amber-100",
+      pathColor: "#475569", // asphalt color
+      pathOutline: "#334155",
+      centerDashes: "#FCD34D", 
+      nodeColor: "fill-teal-400 stroke-teal-600",
+      nodeColorCompleted: "fill-amber-400 stroke-amber-600",
+      finishColor: "text-red-500 fill-red-400",
+      skyColor: "bg-[#38BDF8]/20",
+      finishNode: "🏆",
+      isImageBaked: true,
+      aspectRatio: "aspect-[1024/571]",
+      viewBox: "0 0 1024 571"
+    },
     forest: {
       displayName: "🌲 Enchanted Forest", displayColor: "bg-emerald-500 text-white shadow-emerald-200",
       gradient: "from-emerald-50 via-teal-50 to-green-100/50",
@@ -701,7 +742,7 @@ export default function AdventureMazeView({
       </div>
 
       {/* SVG Canvas Map Area */}
-      <div className={`relative w-full rounded-[24px] overflow-hidden border border-slate-100 bg-gradient-to-br ${style.gradient} ${style.isImageBaked ? 'aspect-[1000/650]' : 'aspect-[1000/450]'}`}>
+      <div className={`relative w-full rounded-[24px] overflow-hidden border border-slate-100 bg-gradient-to-br ${style.gradient} ${style.aspectRatio || (style.isImageBaked ? 'aspect-[1000/650]' : 'aspect-[1000/450]')}`}>
         
         {style.isImageBaked && (
           <img 
@@ -722,7 +763,7 @@ export default function AdventureMazeView({
           </div>
         )}
 
-        <svg viewBox={style.isImageBaked ? "0 0 1000 650" : "0 0 1000 450"} className="absolute inset-0 w-full h-full select-none">
+        <svg viewBox={style.viewBox || (style.isImageBaked ? "0 0 1000 650" : "0 0 1000 450")} className="absolute inset-0 w-full h-full select-none">
           <defs>
             {/* Cosmic glow filter for Space theme */}
             <filter id="space-glow" x="-20%" y="-20%" width="140%" height="140%">
