@@ -18,7 +18,8 @@ import {
   Sparkles,
   Upload,
   Copy,
-  Download
+  Download,
+  Flag
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
@@ -57,6 +58,19 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
       }
     } catch (e) {
       console.error("Error loading draft answers:", e);
+    }
+    return {};
+  });
+  const [markedForReview, setMarkedForReview] = useState(() => {
+    if (initialSubmission) return {};
+    try {
+      const draft = localStorage.getItem(`hz_draft_${studentName}_${homeworkId}`);
+      if (draft) {
+        const parsed = JSON.parse(draft);
+        return parsed.markedForReview || {};
+      }
+    } catch (e) {
+      console.error("Error loading draft markedForReview:", e);
     }
     return {};
   });
@@ -147,14 +161,15 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
   // Auto-save draft progress to localStorage
   useEffect(() => {
     if (isSubmitted || loading || !homework) return;
-    if (Object.keys(answers).length > 0 || currentIdx > 0 || secondsSpent > 0) {
+    if (Object.keys(answers).length > 0 || currentIdx > 0 || secondsSpent > 0 || Object.keys(markedForReview).length > 0) {
       localStorage.setItem(`hz_draft_${studentName}_${homeworkId}`, JSON.stringify({
         answers,
         currentIdx,
-        secondsSpent
+        secondsSpent,
+        markedForReview
       }));
     }
-  }, [answers, currentIdx, secondsSpent, isSubmitted, studentName, homeworkId, loading, homework]);
+  }, [answers, currentIdx, secondsSpent, markedForReview, isSubmitted, studentName, homeworkId, loading, homework]);
 
   // Handle auto-submit for tests
   useEffect(() => {
@@ -453,30 +468,68 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             </div>
           </div>
 
-          <div className="flex items-center gap-4 px-2">
-            <span className="text-[10px] font-black uppercase text-slate-500 tracking-widest shrink-0 whitespace-nowrap">
-              {isReviewing === 'correct' ? 'CORRECT' : (isReviewing === 'incorrect' ? 'MISTAKE' : 'QUESTION')} {currentIdx + 1} OF {displayQuestions.length}
-            </span>
-            {homework?.type === 'test' && (
-              <span className="text-[10px] font-black uppercase text-rose-500 tracking-widest shrink-0 whitespace-nowrap bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200">
-                {homework.marksPerQuestion || 1} MARKS
+          <div className="flex flex-col gap-4 px-2">
+            <div className="flex items-center gap-4">
+              <span className="text-[10px] font-black uppercase text-slate-500 tracking-widest shrink-0 whitespace-nowrap">
+                {isReviewing === 'correct' ? 'CORRECT' : (isReviewing === 'incorrect' ? 'MISTAKE' : 'QUESTION')} {currentIdx + 1} OF {displayQuestions.length}
               </span>
-            )}
-            <div className="flex-1 relative flex items-center h-8">
-              <div className="w-full h-4 bg-[#E0F2FE] rounded-full overflow-hidden shadow-inner">
-                 <motion.div 
-                   initial={{ width: 0 }}
-                   animate={{ width: `${progress}%` }}
-                   className="h-full bg-gradient-to-r from-[#38BDF8] to-[#F97316]"
-                 />
+              {homework?.type === 'test' && (
+                <span className="text-[10px] font-black uppercase text-rose-500 tracking-widest shrink-0 whitespace-nowrap bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200">
+                  {homework.marksPerQuestion || 1} MARKS
+                </span>
+              )}
+              <div className="flex-1 relative flex items-center h-8">
+                <div className="w-full h-4 bg-[#E0F2FE] rounded-full overflow-hidden shadow-inner">
+                   <motion.div 
+                     initial={{ width: 0 }}
+                     animate={{ width: `${progress}%` }}
+                     className="h-full bg-gradient-to-r from-[#38BDF8] to-[#F97316]"
+                   />
+                </div>
+                <motion.div 
+                  animate={{ left: `${progress}%` }}
+                  className="absolute -ml-5 z-10 drop-shadow-md text-3xl"
+                >
+                  🚀
+                </motion.div>
               </div>
-              <motion.div 
-                animate={{ left: `${progress}%` }}
-                className="absolute -ml-5 z-10 drop-shadow-md text-3xl"
-              >
-                🚀
-              </motion.div>
             </div>
+
+            {/* Question Navigation Dots */}
+            {homework.type !== 'lesson' && (
+              <div className="flex flex-wrap gap-2 mt-2 justify-center">
+                {displayQuestions.map((q, i) => {
+                   let dotStatus = 'bg-slate-200 border-slate-300';
+                   const hasAnswer = answers[q.id] !== undefined;
+                   const isMarked = markedForReview[q.id];
+                   
+                   if (isReviewing) {
+                       const isCorrect = q.answer === answers[q.id];
+                       if (isCorrect) dotStatus = 'bg-emerald-400 border-emerald-500';
+                       else if (hasAnswer) dotStatus = 'bg-rose-400 border-rose-500';
+                       else dotStatus = 'bg-slate-300 border-slate-400';
+                   } else {
+                       if (i === currentIdx) dotStatus = 'bg-[#F97316] border-[#C2410C] scale-110';
+                       else if (isMarked) dotStatus = 'bg-amber-400 border-amber-500';
+                       else if (hasAnswer) dotStatus = 'bg-blue-400 border-blue-500';
+                   }
+
+                   return (
+                     <button
+                       key={q.id}
+                       onClick={() => setCurrentIdx(i)}
+                       className={`w-7 h-7 rounded-full border-2 transition-all flex items-center justify-center ${dotStatus} ${i === currentIdx ? 'ring-2 ring-orange-300 ring-offset-1' : 'hover:scale-110'} shrink-0`}
+                       title={`Question ${i + 1}`}
+                     >
+                        {isMarked && !isReviewing && <Flag className="w-3.5 h-3.5 text-white fill-white" />}
+                        {(!isMarked || isReviewing) && (
+                          <span className="text-[10px] font-black text-white">{i + 1}</span>
+                        )}
+                     </button>
+                   )
+                })}
+              </div>
+            )}
           </div>
         </div>
       </header>
@@ -649,13 +702,39 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
 
       {/* Footer Actions */}
       <footer className="max-w-4xl mx-auto w-full py-12 flex items-center justify-between shrink-0 relative z-10">
-        <button 
-          onClick={() => setCurrentIdx(prev => Math.max(0, prev - 1))}
-          disabled={currentIdx === 0}
-          className="inline-flex items-center justify-center gap-2 rounded-full py-3.5 px-8 bg-white text-slate-500 shadow-[0_6px_0_0_#f1f2f6] disabled:opacity-30 text-base font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-slate-50"
-        >
-          <ChevronLeft className="w-5 h-5 shrink-0" /> back
-        </button>
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={() => setCurrentIdx(prev => Math.max(0, prev - 1))}
+            disabled={currentIdx === 0}
+            className="inline-flex items-center justify-center gap-2 rounded-full py-3.5 px-8 bg-white text-slate-500 shadow-[0_6px_0_0_#f1f2f6] disabled:opacity-30 text-base font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-slate-50 shrink-0"
+          >
+            <ChevronLeft className="w-5 h-5 shrink-0" /> back
+          </button>
+          
+          {homework.type !== 'lesson' && !isReviewing && (
+            <button
+              onClick={() => {
+                setMarkedForReview(prev => {
+                  const newState = { ...prev };
+                  if (newState[currentQuestion.id]) {
+                    delete newState[currentQuestion.id];
+                  } else {
+                    newState[currentQuestion.id] = true;
+                  }
+                  return newState;
+                });
+              }}
+              className={`hidden md:inline-flex items-center justify-center gap-2 rounded-full py-3.5 px-6 font-black transition-all select-none cursor-pointer border-2 shrink-0 ${
+                markedForReview[currentQuestion.id] 
+                  ? 'bg-amber-100 text-amber-700 border-amber-300 shadow-[0_6px_0_0_#FCD34D] active:shadow-none active:translate-y-[6px]' 
+                  : 'bg-white text-slate-400 border-slate-200 shadow-[0_6px_0_0_#f1f2f6] hover:bg-slate-50 active:shadow-none active:translate-y-[6px]'
+              }`}
+            >
+              <Flag className={`w-5 h-5 shrink-0 ${markedForReview[currentQuestion.id] ? 'fill-amber-500 text-amber-500' : ''}`} /> 
+              {markedForReview[currentQuestion.id] ? 'MARKED' : 'MARK'}
+            </button>
+          )}
+        </div>
 
         {homework.type === 'lesson' ? (
           currentIdx === displayQuestions.length - 1 ? (
