@@ -5419,9 +5419,9 @@ const TeacherDashboard = ({ user, onLogout }) => {
                   color: b.color || 'bg-yellow-50 text-yellow-600 border-yellow-100',
                   isCustom: true
                }));
-               const mathsAvg = getAvg('Maths');
-               const scienceAvg = getAvg('Science');
-               const englishAvg = getAvg('English');
+               const mathsAvg = getAvg('maths');
+               const scienceAvg = getAvg('science');
+               const englishAvg = getAvg('english');
 
                if (mathsAvg >= 80) {
                   badges.push({ name: 'Maths Whiz', desc: 'Scored 80%+ in Maths', icon: '⚡', color: 'bg-blue-50 text-blue-600 border-blue-100' });
