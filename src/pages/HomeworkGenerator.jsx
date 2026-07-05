@@ -363,8 +363,6 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
            - The "answer" field MUST exactly match one of the 4 values inside the "options" array.
            - All options must be age-appropriate for elementary/middle school students.
         
-        CRITICAL SYSTEM RULE: IF the question involves reading an analog clock, embed the time anywhere in the question text using the exact format [CLOCK:HH:MM] (e.g. [CLOCK:03:15] or [CLOCK:12:30]). The system will automatically render a visual clock for the student.
-        
         Return ONLY a JSON object with a single key "questions" containing an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), "subtopic" (string, a specific subtopic or concept under the main topic).
         
         IF the question requires a chart, graph, or data interpretation, include a "chartData" object property:
