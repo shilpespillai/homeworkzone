@@ -85,6 +85,7 @@ import { signInWithPopup, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, orderBy, arrayUnion, onSnapshot } from 'firebase/firestore';
 import MessagingModule from './components/MessagingModule';
 import VirtualPetCompanionWidget from './components/VirtualPetCompanionWidget';
+import PiggyBankWidget from './components/PiggyBankWidget';
 import AdventureMazeView from './components/AdventureMazeView';
 import LibraryZoneView from './components/LibraryZoneView';
 import ArtsAndFunView from './components/ArtsAndFunView';
@@ -2830,6 +2831,13 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                         currentStudentProfile={currentStudentProfile}
                         pointsBalance={pointsBalance}
                         onProfileUpdate={() => fetchData()}
+                        teacher={teacher}
+                        classroom={classroom}
+                        studentName={studentName}
+                     />
+                     <PiggyBankWidget
+                        mySubmissions={mySubmissions}
+                        currentStudentProfile={currentStudentProfile}
                         teacher={teacher}
                         classroom={classroom}
                         studentName={studentName}
