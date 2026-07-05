@@ -457,6 +457,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           points: sched.points || '10'
         });
         
+        prompt += `\n\nCRITICAL SYSTEM RULE: IF the question involves reading an analog clock, embed the time anywhere in the question text using the exact format [CLOCK:HH:MM] (e.g. [CLOCK:03:15] or [CLOCK:12:30]). The system will automatically render a visual clock for the student.`;
         prompt += `\n\nReturn ONLY a JSON object with a single key "questions" containing an array of exactly ${sched.questionCount || 5} objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), and "subtopic" (string, a specific subtopic or concept under the main topic, e.g. "Adding Fractions", "Identifying Nouns", "Photosynthesis", etc.). Do not include any markdown formatting.`;
       } else {
         prompt = `You are an expert curriculum designer. 
@@ -700,6 +701,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           points: formData.points
         });
         
+        prompt += `\n\nCRITICAL SYSTEM RULE: IF the question involves reading an analog clock, embed the time anywhere in the question text using the exact format [CLOCK:HH:MM] (e.g. [CLOCK:03:15] or [CLOCK:12:30]). The system will automatically render a visual clock for the student.`;
         prompt += `\n\nReturn ONLY a JSON object with a single key "questions" containing an array of exactly ${formData.questionCount} objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), and "subtopic" (string, a specific subtopic or concept under the main topic, e.g. "Adding Fractions", "Identifying Nouns", "Photosynthesis", etc.). Do not include any markdown formatting.`;
       } else {
         prompt = `You are an expert curriculum designer. 
