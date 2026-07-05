@@ -3510,6 +3510,22 @@ const LandingPage = ({ onTeacherLogin, onStudentLogin }) => {
   };
 
   const openLogin = (role) => {
+    if (role === 'student') {
+      const savedStudent = localStorage.getItem('hwz_active_student');
+      if (savedStudent) {
+        try {
+          const studentData = JSON.parse(savedStudent);
+          if (studentData && studentData.name) {
+            onStudentLogin(studentData);
+            navigate('/dashboard/student');
+            return;
+          }
+        } catch (e) {
+          // Ignore parse errors
+        }
+      }
+    }
+
     setErrorMsg('');
     setCode('');
     setStudentName('');
