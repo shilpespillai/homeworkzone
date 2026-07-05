@@ -1527,7 +1527,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
       const classStudents = allStudents.filter(s => s.classId === activeClassroom.id);
       const computedStudents = classStudents.map(student => {
          const studentSubs = allSubmissions.filter(sub => 
-            normalizeName(sub.studentName) === normalizeName(student.name)
+            normalizeName(sub.studentName) === normalizeName(student.name) && (!sub.classId || sub.classId === activeClassroom.id)
          );
          const completedCount = studentSubs.length;
          const totalScore = studentSubs.reduce((acc, sub) => acc + (sub.score || 0), 0);
@@ -2352,7 +2352,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
 
              const computedStudents = classStudents.map(student => {
                 const studentSubs = allSubmissions.filter(sub => 
-                   normalizeName(sub.studentName) === normalizeName(student.name)
+                   normalizeName(sub.studentName) === normalizeName(student.name) && (!sub.classId || sub.classId === activeClassroom.id)
                 );
                 const completedCount = studentSubs.length;
                 const totalScore = studentSubs.reduce((acc, sub) => acc + (sub.score || 0), 0);
@@ -5383,7 +5383,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
             // Map each student to computed points, badges and averages based on their actual submissions
             const computedStudents = filteredStudentsList.map(student => {
                const studentSubs = allSubmissions.filter(sub => 
-                  normalizeName(sub.studentName) === normalizeName(student.name)
+                  normalizeName(sub.studentName) === normalizeName(student.name) && (!sub.classId || sub.classId === activeClassroom.id)
                );
 
                const getSubScore = (sub) => {
@@ -5733,7 +5733,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
              const classStudents = allStudents.filter(s => s.classId === activeClassroom.id);
              const computedStudents = classStudents.map(student => {
                 const studentSubs = allSubmissions.filter(sub => 
-                   normalizeName(sub.studentName) === normalizeName(student.name)
+                   normalizeName(sub.studentName) === normalizeName(student.name) && (!sub.classId || sub.classId === activeClassroom.id)
                 );
                 const completedCount = studentSubs.length;
                 const totalScore = studentSubs.reduce((acc, sub) => acc + (sub.score || 0), 0);
@@ -7414,7 +7414,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
         {selectedProfileStudent && (() => {
            // 1. Gather all student submissions
            const studentName = selectedProfileStudent.name;
-           const studentSubs = allSubmissions.filter(sub => normalizeName(sub.studentName) === normalizeName(studentName))
+           const studentSubs = allSubmissions.filter(sub => normalizeName(sub.studentName) === normalizeName(studentName) && (!sub.classId || sub.classId === activeClassroom?.id))
                                                .sort((a, b) => {
                                                   const dateA = a.submittedAt?.toDate ? a.submittedAt.toDate() : new Date(a.submittedAt || 0);
                                                   const dateB = b.submittedAt?.toDate ? b.submittedAt.toDate() : new Date(b.submittedAt || 0);

@@ -2098,7 +2098,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
             snap4.docs.forEach(doc => combinedMap[doc.id] = { id: doc.id, ...doc.data() });
             snap5.docs.forEach(doc => combinedMap[doc.id] = { id: doc.id, ...doc.data() });
             
-            const subList = Object.values(combinedMap);
+            const subList = Object.values(combinedMap).filter(sub => !sub.classId || sub.classId === actualClassroom.id);
             setSubmissions(subList);
          } else {
             setSubmissions([]);
