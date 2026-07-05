@@ -624,49 +624,64 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
               </div>
             ) : (
               <>
-                <div className="flex flex-col md:flex-row gap-8 items-center md:items-start mb-10">
-                  {/* Dynamic Visuals for Quiz */}
-                  {currentQuestion.chartData && (
-                    <div className="w-full md:w-1/2 shrink-0">
-                      <DynamicChart data={currentQuestion.chartData} />
-                    </div>
-                  )}
-                  {currentQuestion.geometryData && (
-                    <div className="w-full md:w-1/2 shrink-0">
-                      <DynamicGeometry data={currentQuestion.geometryData} />
-                    </div>
-                  )}
-                  {currentQuestion.svgCode && !currentQuestion.chartData && !currentQuestion.geometryData && (
-                    <div className="w-48 h-48 md:w-64 md:h-64 shrink-0 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
-                      <div dangerouslySetInnerHTML={{ __html: currentQuestion.svgCode }} className="w-full h-full" />
-                    </div>
-                  )}
-                  {!currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.svgCode && (
-                    <div className="w-32 h-32 md:w-40 md:h-40 shrink-0 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner overflow-hidden">
-                      {currentQuestion.imageUrl ? (
-                        <img 
-                          src={currentQuestion.imageUrl} 
-                          alt="Question visual" 
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                        />
-                      ) : (
-                        <img 
-                          src={`https://api.dicebear.com/7.x/shapes/svg?seed=${currentQuestion.id}&backgroundColor=f8fafc`} 
-                          alt="Abstract shape" 
-                          className="w-full h-full object-cover opacity-80"
-                          loading="lazy"
-                          onError={(e) => { e.target.src = 'https://api.dicebear.com/7.x/shapes/svg?seed=' + currentQuestion.id; }}
-                        />
+                {(() => {
+                  let { text: cleanText, clockTime } = parseQuestionText(currentQuestion.text);
+                  const isClockRelated = cleanText.toLowerCase().includes('clock') || cleanText.toLowerCase().includes('time');
+                  
+                  // If it's a clock question but the AI didn't specify a time, show a default 10:10 clock
+                  if (!clockTime && isClockRelated && !currentQuestion.imageUrl && !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.svgCode) {
+                    clockTime = '10:10';
+                  }
+
+                  const showAbstractImage = !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.svgCode && !clockTime;
+
+                  return (
+                    <div className="flex flex-col md:flex-row gap-8 items-center md:items-start mb-10">
+                      {/* Dynamic Visuals for Quiz */}
+                      {currentQuestion.chartData && (
+                        <div className="w-full md:w-1/2 shrink-0">
+                          <DynamicChart data={currentQuestion.chartData} />
+                        </div>
                       )}
-                    </div>
-                  )}
-                  <div className="flex-1 w-full">
-                    {(() => {
-                      const { text: cleanText, clockTime } = parseQuestionText(currentQuestion.text);
-                      return (
+                      {currentQuestion.geometryData && (
+                        <div className="w-full md:w-1/2 shrink-0">
+                          <DynamicGeometry data={currentQuestion.geometryData} />
+                        </div>
+                      )}
+                      {currentQuestion.svgCode && !currentQuestion.chartData && !currentQuestion.geometryData && (
+                        <div className="w-48 h-48 md:w-64 md:h-64 shrink-0 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
+                          <div dangerouslySetInnerHTML={{ __html: currentQuestion.svgCode }} className="w-full h-full" />
+                        </div>
+                      )}
+                      {showAbstractImage && (
+                        <div className="w-32 h-32 md:w-40 md:h-40 shrink-0 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner overflow-hidden">
+                          {currentQuestion.imageUrl ? (
+                            <img 
+                              src={currentQuestion.imageUrl} 
+                              alt="Question visual" 
+                              className="w-full h-full object-cover"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <img 
+                              src={`https://api.dicebear.com/7.x/shapes/svg?seed=${currentQuestion.id}&backgroundColor=f8fafc`} 
+                              alt="Abstract shape" 
+                              className="w-full h-full object-cover opacity-80"
+                              loading="lazy"
+                              onError={(e) => { e.target.src = 'https://api.dicebear.com/7.x/shapes/svg?seed=' + currentQuestion.id; }}
+                            />
+                          )}
+                        </div>
+                      )}
+                      <div className="flex-1 w-full">
                         <div className="flex flex-col gap-6">
-                           {clockTime && <ClockFace timeStr={clockTime} />}
+                           {clockTime && (
+                             <div className="w-48 h-48 md:w-64 md:h-64 mx-auto shrink-0 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner">
+                               <div className="transform scale-125">
+                                 <ClockFace timeStr={clockTime} />
+                               </div>
+                             </div>
+                           )}
                            {cleanText?.length > 150 ? (
                              <div className="text-lg md:text-xl font-medium text-slate-700 leading-relaxed space-y-4">
                                {cleanText.split('\n').map((paragraph, idx) => (
@@ -679,10 +694,10 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                              </h1>
                            )}
                         </div>
-                      );
-                    })()}
-                  </div>
-                </div>
+                      </div>
+                    </div>
+                  );
+                })()}
 
             {/* Options */}
             {homework.type !== 'lesson' && (
