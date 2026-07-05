@@ -15,7 +15,7 @@ const PiggyBankWidget = ({ mySubmissions, currentStudentProfile, teacher, classr
       const correct = sub.correctCount || 0;
       const total = sub.totalQuestions || 0;
       const wrong = total > 0 ? (total - correct) : 0;
-      let earned = 0.25 + (correct * 0.05) - (wrong * 0.02);
+      let earned = 0.10 + (correct * 0.05) - (wrong * 0.02);
       if (earned < 0) earned = 0;
       return acc + earned;
     }, 0);
