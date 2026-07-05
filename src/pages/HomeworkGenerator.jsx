@@ -35,6 +35,7 @@ import { fetchWithRetry, generateContent } from '../utils/aiClient';
 import { generateExplanations } from '../utils/generateExplanations';
 import DynamicChart from '../components/DynamicChart';
 import DynamicGeometry from '../components/DynamicGeometry';
+import { ClockFace, parseQuestionText } from '../components/ClockFace';
 
 const SUBJECTS = [
   { 
@@ -816,7 +817,21 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                     <div className="space-y-4 max-h-96 overflow-y-auto custom-scrollbar pr-2">
                       {generatedQuestions.map((q, idx) => (
                           <div key={idx} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                            <p className="font-bold text-slate-800 text-xs mb-3"><span className="text-green-600 mr-1 font-black">Q{idx + 1}.</span> {q.text}</p>
+                            {(() => {
+                              const { text: cleanText, clockTime } = parseQuestionText(q.text);
+                              return (
+                                <>
+                                  <p className="font-bold text-slate-800 text-xs mb-3">
+                                    <span className="text-green-600 mr-1 font-black">Q{idx + 1}.</span> {cleanText}
+                                  </p>
+                                  {clockTime && (
+                                    <div className="mb-4 transform scale-75 origin-top-left">
+                                      <ClockFace timeStr={clockTime} />
+                                    </div>
+                                  )}
+                                </>
+                              );
+                            })()}
                             {q.chartData && (
                               <div className="mb-4">
                                 <DynamicChart data={q.chartData} />
