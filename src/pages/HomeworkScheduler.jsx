@@ -475,6 +475,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
            - Ensure that the "answer" option is grammatically 100% correct, and the other 3 options are clearly incorrect or represent different parts of speech. No ambiguity.
         2. For Mathematics:
            - Ensure all equations, word problems, and numeric values are mathematically correct. Double-check your own calculations so there is zero arithmetic error.
+           - IF the question involves reading an analog clock, embed the time anywhere in the question text using the exact format [CLOCK:HH:MM] (e.g. [CLOCK:03:15] or [CLOCK:12:30]). The system will automatically render a visual clock for the student.
         3. For Science:
            - Ensure all facts, definitions, and concepts are scientifically accurate and standard.
         4. General:
@@ -717,6 +718,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
            - Ensure that the "answer" option is grammatically 100% correct, and the other 3 options are clearly incorrect or represent different parts of speech. No ambiguity.
         2. For Mathematics:
            - Ensure all equations, word problems, and numeric values are mathematically correct. Double-check your own calculations so there is zero arithmetic error.
+           - IF the question involves reading an analog clock, embed the time anywhere in the question text using the exact format [CLOCK:HH:MM] (e.g. [CLOCK:03:15] or [CLOCK:12:30]). The system will automatically render a visual clock for the student.
         3. For Science:
            - Ensure all facts, definitions, and concepts are scientifically accurate and standard.
         4. General:
