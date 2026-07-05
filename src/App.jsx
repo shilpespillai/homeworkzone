@@ -3481,7 +3481,7 @@ const LegendItem = ({ label, value, color }) => (
 );
 
 // --- Landing Page ---
-const LandingPage = ({ onTeacherLogin, onStudentLogin }) => {
+const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
   const navigate = useNavigate();
 
   const [showLoginModal, setShowLoginModal] = useState(null);
@@ -3510,6 +3510,11 @@ const LandingPage = ({ onTeacherLogin, onStudentLogin }) => {
   };
 
   const openLogin = (role) => {
+    if (role === 'teacher' && currentUser) {
+      navigate('/dashboard/teacher');
+      return;
+    }
+
     if (role === 'student') {
       const savedStudent = localStorage.getItem('hwz_active_student');
       if (savedStudent) {
@@ -5043,7 +5048,7 @@ export default function App() {
     <>
       <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
-          <Route path="/" element={<LandingPage onTeacherLogin={setCurrentUser} onStudentLogin={handleStudentLogin} />} />
+          <Route path="/" element={<LandingPage currentUser={currentUser} onTeacherLogin={setCurrentUser} onStudentLogin={handleStudentLogin} />} />
           <Route path="/login/teacher" element={<div className="teacher-theme"><LoginPage role="teacher" onLogin={setCurrentUser} /></div>} />
           <Route path="/login/student" element={<div className="student-theme"><LoginPage role="student" onLogin={handleStudentLogin} /></div>} />
           <Route path="/dashboard/teacher" element={currentUser ? <div className="teacher-theme"><TeacherDashboard user={currentUser} onLogout={handleTeacherLogout} /></div> : <Navigate to="/login/teacher" />} />
