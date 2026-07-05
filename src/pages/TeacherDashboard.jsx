@@ -5386,8 +5386,14 @@ const TeacherDashboard = ({ user, onLogout }) => {
                   normalizeName(sub.studentName) === normalizeName(student.name)
                );
 
+               const getSubScore = (sub) => {
+                  if (sub.score !== undefined) return sub.score;
+                  if (sub.totalQuestions > 0) return Math.round(((sub.correctCount || 0) / sub.totalQuestions) * 100);
+                  return 0;
+               };
+
                const completedCount = studentSubs.length;
-               const totalScore = studentSubs.reduce((acc, sub) => acc + (sub.score || 0), 0);
+               const totalScore = studentSubs.reduce((acc, sub) => acc + getSubScore(sub), 0);
                const basePoints = 100;
                const calculatedPoints = basePoints + (completedCount * 50) + totalScore;
 
@@ -5397,7 +5403,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                   const hw = allHomeworks.find(h => h.id === sub.homeworkId);
                   const subject = hw ? hw.subject : 'General';
                   if (!subjectScores[subject]) subjectScores[subject] = [];
-                  subjectScores[subject].push(sub.score || 0);
+                  subjectScores[subject].push(getSubScore(sub));
                });
 
                const getAvg = (subject) => {
