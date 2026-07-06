@@ -5019,8 +5019,8 @@ export default function App() {
   // Handle toast auto-dismissal
   useEffect(() => {
     const activeTimers = toasts.map(toast => {
-      // Auto-dismiss successes and infos after 4 seconds
-      if (toast.type === 'success' || toast.type === 'info') {
+      // Auto-dismiss successes after 4 seconds. Info/Message alerts remain until closed.
+      if (toast.type === 'success') {
         return setTimeout(() => {
           setToasts(prev => prev.filter(t => t.id !== toast.id));
         }, 4000);
