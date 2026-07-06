@@ -965,7 +965,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                 <input
                   type="range"
                   min="3"
-                  max="20"
+                  max="100"
                   value={formData.questionCount}
                   onChange={(e) => setFormData(prev => ({ ...prev, questionCount: parseInt(e.target.value, 10) }))}
                   className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#EA580C]"
