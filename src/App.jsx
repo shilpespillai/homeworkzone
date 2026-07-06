@@ -1934,25 +1934,37 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
   // Real-time listener for new messages
   useEffect(() => {
     if (!teacher?.uid || !classroom?.id || !studentName) return;
-    
+    // We query by teacherId to ensure we only get messages for this teacher's students.
+    // Then we filter by recipient in memory to catch both direct messages (classId could be null) 
+    // and class announcements.
     const q = query(
       collection(db, 'messages'),
-      where('recipientId', '==', studentName),
-      where('classId', '==', classroom.id)
+      where('teacherId', '==', teacher.uid)
     );
     
     const unsubscribe = onSnapshot(q, (snapshot) => {
       let totalUnread = 0;
       
+      const isRelevantMessage = (msg) => {
+        // Direct messages
+        if (msg.recipientId?.toLowerCase() === studentName?.toLowerCase()) return true;
+        // Class announcements
+        if (msg.recipientType === 'class' && msg.recipientId === classroom.id) return true;
+        // Global announcements
+        if (msg.recipientType === 'all') return true;
+        return false;
+      };
+
       snapshot.docChanges().forEach((change) => {
         const msg = change.doc.data();
-        if (change.type === 'added' && !msg.isRead && !isInitialLoadRef.current) {
+        if (change.type === 'added' && !msg.isRead && !isInitialLoadRef.current && isRelevantMessage(msg)) {
            window.alert(`New message from ${msg.senderName}! 💬`);
         }
       });
       
       snapshot.forEach(doc => {
-        if (!doc.data().isRead) totalUnread++;
+        const msg = doc.data();
+        if (!msg.isRead && isRelevantMessage(msg)) totalUnread++;
       });
       
       setUnreadMessageCount(totalUnread);
