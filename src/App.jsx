@@ -1964,7 +1964,11 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
       
       snapshot.forEach(doc => {
         const msg = doc.data();
-        if (!msg.isRead && isRelevantMessage(msg)) totalUnread++;
+        // Only count direct messages towards the unread badge 
+        // since announcements cannot be marked as read by individual students in this data model.
+        if (!msg.isRead && msg.recipientId?.toLowerCase() === studentName?.toLowerCase()) {
+           totalUnread++;
+        }
       });
       
       setUnreadMessageCount(totalUnread);
@@ -5122,50 +5126,54 @@ export default function App() {
       </Router>
 
       {/* Global Premium Toast Container */}
-      <div className="fixed top-6 right-6 z-[99999] flex flex-col gap-3 pointer-events-none max-w-sm w-full px-4 sm:px-0">
+      <div className="fixed bottom-6 right-6 z-[99999] flex flex-col-reverse gap-4 pointer-events-none max-w-sm w-full px-4 sm:px-0">
         <AnimatePresence>
           {toasts.map((toast) => {
-            let icon = <Sparkles className="w-5 h-5 text-green-400 animate-pulse" />;
-            let borderClass = 'border-green-1000/30';
-            let bgGlow = 'rgba(138, 112, 255, 0.1)';
+            let icon = <Bell className="w-8 h-8 text-blue-500 fill-blue-100 animate-bounce" />;
+            let borderClass = 'border-blue-400 bg-white';
+            let bgGlow = 'rgba(59, 130, 246, 0.2)';
+            let textColor = 'text-blue-600';
 
             if (toast.type === 'success') {
-              icon = <CheckCircle2 className="w-5 h-5 text-emerald-400 animate-bounce" />;
-              borderClass = 'border-emerald-500/20';
-              bgGlow = 'rgba(16, 185, 129, 0.15)';
+              icon = <Star className="w-8 h-8 text-emerald-500 fill-emerald-100 animate-spin-slow" />;
+              borderClass = 'border-emerald-400 bg-white';
+              bgGlow = 'rgba(16, 185, 129, 0.2)';
+              textColor = 'text-emerald-600';
             } else if (toast.type === 'error') {
-              icon = <AlertCircle className="w-5 h-5 text-rose-400 animate-shake" />;
-              borderClass = 'border-rose-500/20';
-              bgGlow = 'rgba(244, 63, 94, 0.15)';
+              icon = <AlertCircle className="w-8 h-8 text-rose-500 fill-rose-100 animate-shake" />;
+              borderClass = 'border-rose-400 bg-white';
+              bgGlow = 'rgba(244, 63, 94, 0.2)';
+              textColor = 'text-rose-600';
             } else if (toast.type === 'warning') {
-              icon = <AlertCircle className="w-5 h-5 text-amber-400 animate-pulse" />;
-              borderClass = 'border-amber-500/20';
-              bgGlow = 'rgba(245, 158, 11, 0.15)';
+              icon = <AlertCircle className="w-8 h-8 text-amber-500 fill-amber-100 animate-pulse" />;
+              borderClass = 'border-amber-400 bg-white';
+              bgGlow = 'rgba(245, 158, 11, 0.2)';
+              textColor = 'text-amber-600';
             }
 
             return (
               <motion.div
                 key={toast.id}
                 layout
-                initial={{ opacity: 0, y: -20, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.2 } }}
-                className={`pointer-events-auto bg-[#0F172A]/95 backdrop-blur-md border ${borderClass} shadow-2xl rounded-2xl p-4 flex items-start gap-3 relative overflow-hidden`}
-                style={{ boxShadow: `0 10px 30px -10px ${bgGlow}` }}
+                initial={{ opacity: 0, y: 50, scale: 0.5, rotate: -5 }}
+                animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 0.5, y: 20, transition: { duration: 0.2 } }}
+                className={`pointer-events-auto border-4 ${borderClass} shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-[32px] p-5 flex items-center gap-4 relative overflow-hidden`}
+                style={{ boxShadow: `0 15px 30px -10px ${bgGlow}, 0 0 0 4px white inset` }}
               >
-                <div className="shrink-0 mt-0.5">
+                <div className="shrink-0">
                   {icon}
                 </div>
-                <div className="flex-1 pr-6">
-                  <p className="text-xs font-bold text-slate-100 leading-relaxed">
+                <div className="flex-1 pr-4">
+                  <p className={`text-base font-black ${textColor} leading-tight`}>
                     {toast.message}
                   </p>
                 </div>
                 <button
                   onClick={() => setToasts(prev => prev.filter(t => t.id !== toast.id))}
-                  className="absolute top-3 right-3 w-5 h-5 flex items-center justify-center text-slate-400 hover:text-white rounded-full bg-slate-800/50 hover:bg-slate-800 transition-all"
+                  className="absolute top-4 right-4 w-6 h-6 flex items-center justify-center text-slate-300 hover:text-rose-500 rounded-full hover:bg-rose-50 transition-all"
                 >
-                  <X size={10} strokeWidth={3} />
+                  <X size={14} strokeWidth={4} />
                 </button>
               </motion.div>
             );
