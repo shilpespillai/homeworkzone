@@ -883,7 +883,15 @@ const TeacherDashboard = ({ user, onLogout }) => {
         if (change.type === 'added' && !isInitialMessagesLoadRef.current) {
           const msg = change.doc.data();
           if (!msg.isRead && msg.recipientId === user.uid) {
-            window.alert(`New message from ${msg.senderName}! 💬`);
+            if (window.showToast) {
+              window.showToast({
+                message: `New message from ${msg.senderName}! 💬`,
+                type: 'info',
+                onClick: () => setActiveTab('Messages')
+              });
+            } else {
+              window.alert(`New message from ${msg.senderName}! 💬`);
+            }
           }
         }
       });

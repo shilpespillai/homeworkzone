@@ -1958,7 +1958,15 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
       snapshot.docChanges().forEach((change) => {
         const msg = change.doc.data();
         if (change.type === 'added' && !msg.isRead && !isInitialLoadRef.current && isRelevantMessage(msg)) {
-           window.alert(`New message from ${msg.senderName}! 💬`);
+           if (window.showToast) {
+             window.showToast({
+               message: `New message from ${msg.senderName}! 💬`,
+               type: 'info',
+               onClick: () => setActiveNav('My Messages')
+             });
+           } else {
+             window.alert(`New message from ${msg.senderName}! 💬`);
+           }
         }
       });
       
@@ -5005,6 +5013,11 @@ export default function App() {
       setToasts(prev => [...prev, { id, message: strMsg, type }]);
     };
 
+    window.showToast = ({ message, type = 'info', onClick }) => {
+      const id = Date.now() + Math.random().toString(36).substr(2, 9);
+      setToasts(prev => [...prev, { id, message, type, onClick }]);
+    };
+
     window.confirmCustom = (message) => {
       return new Promise((resolve) => {
         setConfirmModal({
@@ -5158,7 +5171,13 @@ export default function App() {
                 initial={{ opacity: 0, y: 50, scale: 0.5, rotate: -5 }}
                 animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
                 exit={{ opacity: 0, scale: 0.5, y: 20, transition: { duration: 0.2 } }}
-                className={`pointer-events-auto border-4 ${borderClass} shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-[32px] p-5 flex items-center gap-4 relative overflow-hidden`}
+                onClick={() => {
+                  if (toast.onClick) {
+                    toast.onClick();
+                    setToasts(prev => prev.filter(t => t.id !== toast.id));
+                  }
+                }}
+                className={`pointer-events-auto border-4 ${borderClass} shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-[32px] p-5 flex items-center gap-4 relative overflow-hidden ${toast.onClick ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
                 style={{ boxShadow: `0 15px 30px -10px ${bgGlow}, 0 0 0 4px white inset` }}
               >
                 <div className="shrink-0">
