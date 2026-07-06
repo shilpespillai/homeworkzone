@@ -151,6 +151,16 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
   const dynamicSubjects = useMemo(() => {
     const list = [...SUBJECTS];
     
+    const getSubjectEmoji = (name) => {
+      const lower = name.toLowerCase();
+      if (lower.includes('math') || lower.includes('numeracy')) return '🔢';
+      if (lower.includes('science')) return '🧪';
+      if (lower.includes('read') || lower.includes('writ') || lower.includes('language') || lower.includes('english')) return '📝';
+      if (lower.includes('history') || lower.includes('geography') || lower.includes('social')) return '🌍';
+      if (lower.includes('art') || lower.includes('music')) return '🎨';
+      return '📚';
+    };
+
     // Add from subjectPrompts
     if (subjectPrompts) {
       Object.keys(subjectPrompts).forEach(key => {
@@ -159,7 +169,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           list.push({
             id: lowerKey,
             name: key.charAt(0).toUpperCase() + key.slice(1),
-            emoji: '✨',
+            emoji: getSubjectEmoji(key),
             color: 'text-purple-500',
             bgColor: 'bg-purple-50',
             borderColor: 'border-purple-200'
@@ -176,7 +186,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           list.push({
             id: lowerKey,
             name: subjectName,
-            emoji: '✨',
+            emoji: getSubjectEmoji(subjectName),
             color: 'text-pink-500',
             bgColor: 'bg-pink-50',
             borderColor: 'border-pink-200'
