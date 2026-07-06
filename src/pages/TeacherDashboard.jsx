@@ -860,6 +860,8 @@ const TeacherDashboard = ({ user, onLogout }) => {
     }
   }, [user, activeClassroom, activeTab]);
 
+  const isInitialMessagesLoadRef = React.useRef(true);
+
   useEffect(() => {
     if (!user?.uid) return;
     const messagesRef = collection(db, 'messages');
@@ -876,12 +878,40 @@ const TeacherDashboard = ({ user, onLogout }) => {
          const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
          return dateB - dateA;
       });
+      
+      snapshot.docChanges().forEach(change => {
+        if (change.type === 'added' && !isInitialMessagesLoadRef.current) {
+          const msg = change.doc.data();
+          if (!msg.isRead && msg.recipientId === user.uid) {
+            window.alert(`New message from ${msg.senderName}! 💬`);
+          }
+        }
+      });
+      
       setTeacherMessages(allMsgs);
+      
+      if (isInitialMessagesLoadRef.current) {
+         isInitialMessagesLoadRef.current = false;
+      }
     }, (err) => {
       console.error("Error loading teacher messages:", err);
     });
     return () => unsubscribe();
   }, [user]);
+
+  // Mark viewed messages as read
+  useEffect(() => {
+    if (activeTab === 'Messages') {
+      // In TeacherDashboard, currentChat falls back to the first message if activeChat isn't set
+      const currentChat = (activeChat && teacherMessages.find(m => m.id === activeChat.id))
+         ? activeChat 
+         : (teacherMessages.filter(msg => msg.senderRole === 'student')[0] || null);
+
+      if (currentChat && !currentChat.isRead && currentChat.recipientId === user?.uid) {
+        updateDoc(doc(db, 'messages', currentChat.id), { isRead: true }).catch(console.error);
+      }
+    }
+  }, [activeTab, activeChat, teacherMessages, user]);
 
   const fetchClassrooms = async () => {
     if (!user?.uid) return;
@@ -6671,7 +6701,12 @@ const TeacherDashboard = ({ user, onLogout }) => {
             <SidebarItem id="Gradebook" label="Gradebook" icon={<Trophy className="w-5 h-5 text-emerald-500" />} active={activeTab === 'Gradebook'} onClick={setActiveTab} />
             <SidebarItem id="Reports" label="Reports" icon={<BarChart className="w-5 h-5 text-[#EA580C]" />} active={activeTab === 'Reports'} onClick={setActiveTab} />
             <SidebarItem id="Test Reports" label="Test Reports" icon={<BarChart className="w-5 h-5 text-purple-500" />} active={activeTab === 'Test Reports'} onClick={setActiveTab} />
-            <SidebarItem id="Messages" label="Messages" icon={<img src="/ic-messages.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Messages" />} active={activeTab === 'Messages'} onClick={setActiveTab} />
+            {(() => {
+               const unreadMessageCount = teacherMessages.filter(msg => msg.recipientId === user?.uid && !msg.isRead).length;
+               return (
+                  <SidebarItem id="Messages" label="Messages" icon={<img src="/ic-messages.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Messages" />} active={activeTab === 'Messages'} onClick={setActiveTab} badge={unreadMessageCount} />
+               );
+            })()}
             <SidebarItem id="Rewards" label="Rewards" icon={<img src="/ic-rewards.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Rewards" />} active={activeTab === 'Rewards'} onClick={setActiveTab} />
             <SidebarItem id="My Prompts" label="My Prompts" icon={<MessageSquare className="w-5 h-5 text-orange-500" />} active={activeTab === 'My Prompts'} onClick={setActiveTab} />
             <SidebarItem id="Tuition Fees" label="Tuition Fees" icon={<CreditCard className="w-5 h-5 text-green-500" />} active={activeTab === 'Tuition Fees'} onClick={setActiveTab} />
@@ -8134,15 +8169,22 @@ const TeacherDashboard = ({ user, onLogout }) => {
     );
 };
 
-const SidebarItem = ({ id, label, icon, iconColor, active, onClick }) => (
+const SidebarItem = ({ id, label, icon, iconColor, active, onClick, badge }) => (
   <button 
     onClick={() => onClick(id)}
-    className={`w-full flex items-center gap-4 px-6 py-4 rounded-[24px] transition-all group ${active ? 'bg-[#FFEDD5] text-[#EA580C] shadow-xl shadow-green-50' : 'text-[#166534] hover:bg-blue-50/50 hover:text-[#14532d]'}`}
+    className={`w-full flex items-center justify-between gap-4 px-6 py-4 rounded-[24px] transition-all group ${active ? 'bg-[#FFEDD5] text-[#EA580C] shadow-xl shadow-green-50' : 'text-[#166534] hover:bg-blue-50/50 hover:text-[#14532d]'}`}
   >
-     <div className={`${active ? 'text-[#EA580C]' : iconColor} group-hover:scale-125 transition-transform w-6 h-6 flex-center`}>
-        {React.isValidElement(icon) && icon.type === 'img' ? icon : React.cloneElement(icon, { size: 20, strokeWidth: 3, fill: "currentColor" })}
+     <div className="flex items-center gap-4">
+       <div className={`${active ? 'text-[#EA580C]' : iconColor} group-hover:scale-125 transition-transform w-6 h-6 flex-center`}>
+          {React.isValidElement(icon) && icon.type === 'img' ? icon : React.cloneElement(icon, { size: 20, strokeWidth: 3, fill: "currentColor" })}
+       </div>
+       <span className={`text-sm font-black tracking-tight ${active ? 'text-[#EA580C]' : 'text-[#166534]'}`}>{label}</span>
      </div>
-     <span className={`text-sm font-black tracking-tight ${active ? 'text-[#EA580C]' : 'text-[#166534]'}`}>{label}</span>
+     {badge > 0 && (
+       <span className="bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full min-w-[20px] text-center">
+         {badge}
+       </span>
+     )}
   </button>
 );
 
