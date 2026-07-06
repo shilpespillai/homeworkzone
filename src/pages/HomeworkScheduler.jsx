@@ -552,6 +552,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
       const parsed = JSON.parse(textResponse);
       const questions = parsed.questions || parsed;
+      const passage = parsed.passage || null;
 
       if (!Array.isArray(questions) || questions.length === 0) {
         // Revert lastRun in Firestore since generation failed to produce questions
@@ -582,6 +583,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           dueDate: formattedDueDate,
           time: sched.dueTime || '17:00',
           points: sched.points || '10',
+          passage: passage,
           questions: questions,
           questionExplanations,
           teacherId: user?.uid,
@@ -753,7 +755,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           points: formData.points
         });
         
-        prompt += `\n\nReturn ONLY a JSON object with a single key "questions" containing an array of exactly ${formData.questionCount} objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), and "subtopic" (string, a specific subtopic or concept under the main topic, e.g. "Adding Fractions", "Identifying Nouns", "Photosynthesis", etc.). Do not include any markdown formatting.`;
+        prompt += `\n\nReturn ONLY a JSON object containing:\n1. "questions": an array of exactly ${formData.questionCount} objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), and "subtopic" (string, a specific subtopic or concept under the main topic).\n2. "passage": an optional string. If the quiz requires a reading comprehension passage, story, or shared text that applies to the questions, provide it here. Otherwise, omit this key.\nDo not include any markdown formatting.`;
       } else {
         prompt = `You are an expert curriculum designer. 
         Create a ${formData.questionCount}-question multiple-choice quiz for students on the following:
@@ -778,7 +780,10 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
            - The "answer" field MUST exactly match one of the 4 values inside the "options" array.
            - All options must be age-appropriate for elementary/middle school students.
 
-        Return ONLY a JSON object with a single key "questions" containing an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), and "subtopic" (string, a specific subtopic or concept under the main topic, e.g. "Adding Fractions", "Identifying Nouns", "Photosynthesis", etc.). Do not include any markdown formatting.`;
+        Return ONLY a JSON object containing:
+        1. "questions": an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), and "subtopic" (string, a specific subtopic or concept under the main topic).
+        2. "passage": an optional string. If the quiz requires a reading comprehension passage, story, or shared text that applies to the questions, provide it here. Otherwise, omit this key.
+        Do not include any markdown formatting.`;
       }
 
       // Fetch past questions to avoid repetition
@@ -796,6 +801,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
       const parsed = JSON.parse(textResponse);
       const questions = parsed.questions || parsed;
+      const passage = parsed.passage || null;
 
       if (!Array.isArray(questions) || questions.length === 0) {
         throw new Error("Invalid questions array returned from AI.");
@@ -818,6 +824,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           dueDate: formData.dueDate,
           time: formData.dueTime || '17:00',
           points: formData.points,
+          passage: passage,
           questions: questions,
           questionExplanations,
           teacherId: user?.uid,

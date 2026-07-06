@@ -433,7 +433,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
       </div>
 
       {/* Header & Progress */}
-      <header className="max-w-5xl mx-auto w-full mb-8 relative z-10">
+      <header className={`max-w-${homework.passage ? '7xl' : '5xl'} mx-auto w-full mb-8 relative z-10`}>
         <div className="flex justify-between items-center mb-4 px-4">
           <button onClick={isReviewing ? () => setIsReviewing(false) : onComplete} className="flex items-center gap-3 text-slate-700 hover:text-slate-900 font-black text-xs uppercase tracking-widest transition-colors">
             <ChevronLeft className="w-5 h-5" /> 
@@ -541,10 +541,25 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
       </header>
 
       {/* Content Area */}
-      <main className="max-w-4xl mx-auto w-full flex-1 relative z-10">
-        <AnimatePresence mode="wait">
-          {showSummary ? (
-            <motion.div 
+      <main className={`max-w-${homework.passage ? '7xl' : '4xl'} mx-auto w-full flex-1 relative z-10 flex flex-col lg:flex-row gap-6`}>
+        {homework.passage && (
+          <div className="lg:w-1/2 bg-white/95 backdrop-blur-md rounded-[40px] p-8 shadow-[0_16px_0_0_rgba(255,255,255,0.6)] flex flex-col max-h-[80vh] overflow-y-auto custom-scrollbar sticky top-24">
+            <div className="flex items-center gap-2 mb-6">
+              <BookOpen className="w-6 h-6 text-indigo-500" />
+              <h2 className="text-xl font-black text-slate-800">Reading Passage</h2>
+            </div>
+            <div className="text-lg font-medium text-slate-700 leading-relaxed space-y-4">
+              {homework.passage.split('\n').map((paragraph, idx) => (
+                <p key={idx}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        <div className={homework.passage ? "lg:w-1/2 flex flex-col" : "w-full flex flex-col"}>
+          <AnimatePresence mode="wait">
+            {showSummary ? (
+              <motion.div 
               key="summary"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -787,10 +802,11 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
       </main>
 
       {/* Footer Actions */}
-      <footer className="max-w-4xl mx-auto w-full py-12 flex items-center justify-between shrink-0 relative z-10">
+      <footer className={`max-w-${homework.passage ? '7xl' : '4xl'} mx-auto w-full py-12 flex items-center justify-between shrink-0 relative z-10`}>
         <div className="flex items-center gap-4">
           <button 
             onClick={() => setCurrentIdx(prev => Math.max(0, prev - 1))}

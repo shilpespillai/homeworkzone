@@ -231,6 +231,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [isDiscardingDraft, setIsDiscardingDraft] = useState(false);
   const [generatedQuestions, setGeneratedQuestions] = useState(null);
+  const [generatedPassage, setGeneratedPassage] = useState(null);
   const [isAiAccepted, setIsAiAccepted] = useState(false);
 
   const [activeTab, setActiveTab] = useState('create');
@@ -364,7 +365,9 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
            - The "answer" field MUST exactly match one of the 4 values inside the "options" array.
            - All options must be age-appropriate for elementary/middle school students.
         
-        Return ONLY a JSON object with a single key "questions" containing an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), "subtopic" (string, a specific subtopic or concept under the main topic).
+        Return ONLY a JSON object containing:
+        1. "questions": an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), "subtopic" (string, a specific subtopic or concept under the main topic).
+        2. "passage": an optional string. If the quiz requires a reading comprehension passage, story, or shared text that applies to the questions, provide it here. Otherwise, omit this key.
         
         IF the question requires a chart, graph, or data interpretation, include a "chartData" object property:
         "chartData": {
@@ -387,8 +390,10 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
 
       const parsed = JSON.parse(textResponse);
       const questions = parsed.questions || parsed;
+      const passage = parsed.passage || null;
 
       setGeneratedQuestions(questions);
+      setGeneratedPassage(passage);
     } catch (err) {
       console.error("AI Gen Error:", err);
       alert("Failed to generate questions. ❌");
@@ -436,6 +441,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         dueDate: formData.dueDate,
         time: formData.time,
         points: formData.points,
+        passage: generatedPassage,
         questions: questionsToSave,
         questionExplanations,
         teacherId: user?.uid,
@@ -556,6 +562,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         dueDate: formData.dueDate || '',
         time: formData.time || '',
         points: formData.points,
+        passage: generatedPassage,
         questions: questionsToSave,
         questionExplanations,
         teacherId: user?.uid,
