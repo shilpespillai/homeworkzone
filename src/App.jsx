@@ -5142,26 +5142,27 @@ export default function App() {
       <div className="fixed bottom-6 right-6 z-[99999] flex flex-col-reverse gap-4 pointer-events-none max-w-sm w-full px-4 sm:px-0">
         <AnimatePresence>
           {toasts.map((toast) => {
-            let icon = <Bell className="w-8 h-8 text-blue-500 fill-blue-100 animate-bounce" />;
-            let borderClass = 'border-blue-400 bg-white';
-            let bgGlow = 'rgba(59, 130, 246, 0.2)';
-            let textColor = 'text-blue-600';
+            // Default (Info/Message)
+            let icon = <img src={`https://api.dicebear.com/7.x/bottts/svg?seed=${toast.id}&backgroundColor=fed7aa`} className="w-12 h-12 rounded-full border-2 border-orange-400 shadow-sm" alt="Robot" />;
+            let borderClass = 'border-orange-400 bg-[#F0FDF4]'; // green-50
+            let bgGlow = 'rgba(234, 88, 12, 0.2)';
+            let textColor = 'text-green-800';
 
             if (toast.type === 'success') {
-              icon = <Star className="w-8 h-8 text-emerald-500 fill-emerald-100 animate-spin-slow" />;
-              borderClass = 'border-emerald-400 bg-white';
+              icon = <img src={`https://api.dicebear.com/7.x/fun-emoji/svg?seed=${toast.id}&backgroundColor=bbf7d0`} className="w-12 h-12 rounded-full border-2 border-emerald-400 shadow-sm" alt="Star" />;
+              borderClass = 'border-emerald-400 bg-emerald-50';
               bgGlow = 'rgba(16, 185, 129, 0.2)';
-              textColor = 'text-emerald-600';
+              textColor = 'text-emerald-800';
             } else if (toast.type === 'error') {
-              icon = <AlertCircle className="w-8 h-8 text-rose-500 fill-rose-100 animate-shake" />;
-              borderClass = 'border-rose-400 bg-white';
+              icon = <AlertCircle className="w-10 h-10 text-rose-500 fill-rose-100 animate-shake" />;
+              borderClass = 'border-rose-400 bg-rose-50';
               bgGlow = 'rgba(244, 63, 94, 0.2)';
-              textColor = 'text-rose-600';
+              textColor = 'text-rose-800';
             } else if (toast.type === 'warning') {
-              icon = <AlertCircle className="w-8 h-8 text-amber-500 fill-amber-100 animate-pulse" />;
-              borderClass = 'border-amber-400 bg-white';
+              icon = <AlertCircle className="w-10 h-10 text-orange-500 fill-orange-100 animate-pulse" />;
+              borderClass = 'border-orange-500 bg-orange-50';
               bgGlow = 'rgba(245, 158, 11, 0.2)';
-              textColor = 'text-amber-600';
+              textColor = 'text-orange-900';
             }
 
             return (
@@ -5171,7 +5172,7 @@ export default function App() {
                 initial={{ opacity: 0, y: 50, scale: 0.5, rotate: -5 }}
                 animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
                 exit={{ opacity: 0, scale: 0.5, y: 20, transition: { duration: 0.2 } }}
-                onClick={() => {
+                onClick={(e) => {
                   if (toast.onClick) {
                     toast.onClick();
                     setToasts(prev => prev.filter(t => t.id !== toast.id));
@@ -5183,16 +5184,24 @@ export default function App() {
                 <div className="shrink-0">
                   {icon}
                 </div>
-                <div className="flex-1 pr-4">
-                  <p className={`text-base font-black ${textColor} leading-tight`}>
+                <div className="flex-1 pr-6 flex flex-col gap-1">
+                  <p className={`text-lg font-black ${textColor} leading-tight drop-shadow-sm`}>
                     {toast.message}
                   </p>
+                  {toast.onClick && (
+                     <span className="text-xs font-black text-orange-500 uppercase tracking-wider animate-pulse">
+                        👉 Click to View!
+                     </span>
+                  )}
                 </div>
                 <button
-                  onClick={() => setToasts(prev => prev.filter(t => t.id !== toast.id))}
-                  className="absolute top-4 right-4 w-6 h-6 flex items-center justify-center text-slate-300 hover:text-rose-500 rounded-full hover:bg-rose-50 transition-all"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setToasts(prev => prev.filter(t => t.id !== toast.id));
+                  }}
+                  className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-orange-400 hover:text-white rounded-full bg-orange-100 hover:bg-orange-500 transition-all shadow-sm"
                 >
-                  <X size={14} strokeWidth={4} />
+                  <X size={18} strokeWidth={4} />
                 </button>
               </motion.div>
             );
