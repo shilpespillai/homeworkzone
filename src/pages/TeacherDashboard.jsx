@@ -5059,7 +5059,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
          case 'Messages': {
             const filteredMessages = teacherMessages.filter(msg => {
                if (messagesTab === 'Inbox') {
-                  return msg.senderRole === 'student';
+                  return msg.senderRole === 'student' && msg.recipientType === 'teacher';
                } else if (messagesTab === 'Sent') {
                   return msg.senderRole === 'teacher' && msg.recipientType === 'student';
                } else if (messagesTab === 'Announcements') {
