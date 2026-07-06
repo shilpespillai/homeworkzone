@@ -268,14 +268,21 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
       const preGenerated = homework.questionExplanations;
 
       if (preGenerated && Object.keys(preGenerated).length > 0) {
+          const excellentEmojis = ["🌟", "🎉", "🏆", "🔥", "✨"];
+          const goodEmojis = ["🚀", "👍", "💡", "👏", "⭐"];
+          const okayEmojis = ["📚", "🤔", "💪", "🌱", "✏️"];
+          const tryAgainEmojis = ["💪", "🎯", "🧠", "🔄", "🤝"];
+
+          const pickEmoji = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
           if (finalScore === 100) {
-            aiFeedback = "Outstanding work! A perfect score! 🌟";
+            aiFeedback = `Outstanding work! A perfect score! ${pickEmoji(excellentEmojis)}`;
           } else if (finalScore >= 80) {
-            aiFeedback = "Great job! You've really got the hang of this! 🚀";
+            aiFeedback = `Great job! You've really got the hang of this! ${pickEmoji(goodEmojis)}`;
           } else if (finalScore >= 50) {
-            aiFeedback = "Good effort! Review the explanations to see where you can improve. 📚";
+            aiFeedback = `Good effort! Review the explanations to see where you can improve. ${pickEmoji(okayEmojis)}`;
           } else {
-            aiFeedback = "Keep trying! Reviewing the answers will help you master this topic. 💪";
+            aiFeedback = `Keep trying! Reviewing the answers will help you master this topic. ${pickEmoji(tryAgainEmojis)}`;
           }
         // Use pre-generated explanations — no per-student API call for explanations
         wrongQuestions.forEach(q => {
