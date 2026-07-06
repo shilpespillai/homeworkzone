@@ -34,6 +34,7 @@ import { ClockFace, parseQuestionText } from '../components/ClockFace';
 export default function StudentQuiz({ homeworkId, studentName, teacher, initialSubmission, onComplete }) {
   const [activeModel, setActiveModel] = useState('gemini');
   const [homework, setHomework] = useState(null);
+  const isSubmittingRef = useRef(false);
   
   const [currentIdx, setCurrentIdx] = useState(() => {
     if (initialSubmission) return 0;
@@ -231,7 +232,6 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
     if (isSubmitted) return;
     setAnswers({ ...answers, [currentQuestion.id]: option });
   };
-  const isSubmittingRef = useRef(false);
 
   async function handleSubmit() {
     if (isSubmittingRef.current || isSubmitted) return;
