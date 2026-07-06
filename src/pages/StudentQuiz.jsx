@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   CheckCircle2, 
   ChevronRight, 
@@ -231,8 +231,11 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
     if (isSubmitted) return;
     setAnswers({ ...answers, [currentQuestion.id]: option });
   };
+  const isSubmittingRef = useRef(false);
 
   async function handleSubmit() {
+    if (isSubmittingRef.current || isSubmitted) return;
+    isSubmittingRef.current = true;
     setIsSubmitting(true);
     let correctCount = 0;
     
@@ -387,6 +390,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
       console.error("Submit Error:", err);
       alert("Failed to save your result. Please contact your teacher! 🆘");
     }
+    isSubmittingRef.current = false;
     setIsSubmitting(false);
   };
 
