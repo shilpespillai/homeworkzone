@@ -1918,6 +1918,10 @@ const isDateInCurrentMonth = (date) => {
 const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
   const navigate = useNavigate();
   const [activeNav, setActiveNav] = useState('Dashboard');
+  const activeNavRef = useRef(activeNav);
+  useEffect(() => {
+    activeNavRef.current = activeNav;
+  }, [activeNav]);
   const [activeMission, setActiveMission] = useState(null);
   const [learningExpanded, setLearningExpanded] = useState(false);
   const [activeMathGrade, setActiveMathGrade] = useState(1);
@@ -1946,9 +1950,12 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
       let totalUnread = 0;
       
       const isRelevantMessage = (msg) => {
+        // Do not notify the student about messages they sent themselves
+        if (msg.senderId?.toLowerCase() === studentName?.toLowerCase()) return false;
+        
         // Direct messages
         if (msg.recipientId?.toLowerCase() === studentName?.toLowerCase()) return true;
-        // Class announcements
+        // Class announcements (and Class Lounge messages)
         if (msg.recipientType === 'class' && msg.recipientId === classroom.id) return true;
         // Global announcements
         if (msg.recipientType === 'all') return true;
@@ -1958,6 +1965,9 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
       snapshot.docChanges().forEach((change) => {
         const msg = change.doc.data();
         if (change.type === 'added' && !msg.isRead && !isInitialLoadRef.current && isRelevantMessage(msg)) {
+           // Do not show popup if the user is currently on the Messages page
+           if (activeNavRef.current === 'My Messages') return;
+           
            if (window.showToast) {
              window.showToast({
                message: `New message from ${msg.senderName}! 💬`,
