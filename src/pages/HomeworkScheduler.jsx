@@ -88,8 +88,9 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
     dueDate: '',
     dueTime: '17:00',
     publishType: 'draft', // 'draft', 'publish_now', or 'publish_scheduled'
-    recurrence: 'none', // 'none', 'daily', 'weekly'
+    recurrence: 'none', // 'none', 'daily', 'weekly', 'monthly'
     recurrenceDay: '1', // '1' = Monday, '2' = Tuesday, etc.
+    recurrenceDate: '1', // '1' to '28' for monthly
     dueDateOffset: 7,
     assignType: 'all',
     assignedStudentIds: []
@@ -367,7 +368,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         const [targetHour, targetMin] = (sched.releaseTime || '08:00').split(':').map(Number);
 
         // Find the most recent slot that should have triggered
-        const latestScheduled = new Date(now);
+        let latestScheduled = new Date(now);
         latestScheduled.setHours(targetHour, targetMin, 0, 0);
 
         // If we haven't reached today's release time, the last slot was yesterday
@@ -382,6 +383,16 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           let dayDiff = currentDay - targetDay;
           if (dayDiff < 0) dayDiff += 7;
           latestScheduled.setDate(latestScheduled.getDate() - dayDiff);
+        } else if (sched.recurrence === 'monthly') {
+          const targetDate = parseInt(sched.recurrenceDate || '1', 10);
+          const currentMonth = latestScheduled.getMonth();
+          const currentYear = latestScheduled.getFullYear();
+          let targetMonthDate = new Date(currentYear, currentMonth, targetDate, targetHour, targetMin, 0, 0);
+
+          if (now < targetMonthDate) {
+             targetMonthDate.setMonth(targetMonthDate.getMonth() - 1);
+          }
+          latestScheduled = targetMonthDate;
         }
 
         // Should run if lastRun is older than the most recent scheduled slot
@@ -650,6 +661,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           selectedClasses: formData.selectedClasses,
           recurrence: formData.recurrence,
           recurrenceDay: formData.recurrenceDay || '1',
+          recurrenceDate: formData.recurrenceDate || '1',
           publishType: formData.publishType,
           releaseTime: formData.releaseTime || '08:00',
           dueTime: formData.dueTime || '17:00',
@@ -1208,6 +1220,24 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                       <p className="text-xs text-slate-500 font-bold mt-1 leading-normal">Automatically generate this homework once every week.</p>
                     </div>
                   </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleRecurrenceChange('monthly')}
+                    className={`p-4 rounded-2xl border-2 text-left flex items-start gap-3 transition-all ${
+                      formData.recurrence === 'monthly'
+                        ? 'border-[#EA580C] bg-[#EA580C]/5 text-emerald-900'
+                        : 'border-2 border-slate-200 bg-white hover:border-slate-300'
+                    }`}
+                  >
+                    <div className={`w-5 h-5 rounded-full border flex-center shrink-0 mt-0.5 ${formData.recurrence === 'monthly' ? 'bg-[#EA580C] border-[#EA580C] text-white' : 'border-slate-300'}`}>
+                      {formData.recurrence === 'monthly' && <Check size={12} strokeWidth={4} />}
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-black text-emerald-700">Monthly Auto</h4>
+                      <p className="text-xs text-slate-500 font-bold mt-1 leading-normal">Automatically generate this homework once every month.</p>
+                    </div>
+                  </button>
                 </div>
               </div>
 
@@ -1282,6 +1312,26 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                             <option value="5">Friday 📅</option>
                             <option value="6">Saturday 📅</option>
                             <option value="0">Sunday 📅</option>
+                          </select>
+                          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                            <ChevronDown className="w-4 h-4" />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {formData.recurrence === 'monthly' && (
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-black text-slate-400 uppercase tracking-wider block">Target Day of Month</label>
+                        <div className="relative">
+                          <select
+                            value={formData.recurrenceDate}
+                            onChange={(e) => setFormData(prev => ({ ...prev, recurrenceDate: e.target.value }))}
+                            className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-10 text-sm font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C] transition-all cursor-pointer appearance-none"
+                          >
+                            {Array.from({ length: 28 }, (_, i) => i + 1).map(day => (
+                              <option key={day} value={day}>Day {day} 📅</option>
+                            ))}
                           </select>
                           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
                             <ChevronDown className="w-4 h-4" />
@@ -1571,7 +1621,9 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                           <span className="text-[10px] text-slate-500 font-bold">
                             {sched.recurrence === 'daily' 
                               ? 'Daily' 
-                              : `Weekly on ${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][parseInt(sched.recurrenceDay, 10)]}`}
+                              : sched.recurrence === 'monthly'
+                                ? `Monthly on Day ${sched.recurrenceDate || '1'}`
+                                : `Weekly on ${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][parseInt(sched.recurrenceDay, 10)]}`}
                           </span>
                           <span className="text-slate-300 text-[10px] font-bold">•</span>
                           <span className="text-[10px] text-slate-500 font-bold">{sched.grade} ({sched.difficulty})</span>
