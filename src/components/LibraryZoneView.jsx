@@ -891,25 +891,7 @@ Schema:
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {/* AI Creator Card */}
-                  <div 
-                    onClick={() => setShowAiWriter(true)}
-                    className="bg-gradient-to-br from-green-600 via-orange-500 to-pink-500 rounded-[32px] overflow-hidden hover:shadow-xl hover:scale-102 transition-all cursor-pointer flex flex-col p-6 justify-between text-white relative group min-h-[260px]"
-                  >
-                    <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-2.5 rounded-2xl border border-white/20">
-                      <Sparkles className="w-6 h-6 text-amber-200" />
-                    </div>
-                    <div className="space-y-3 mt-4">
-                      <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center text-2xl border border-white/10">✍️</div>
-                      <h4 className="text-xl font-black leading-tight">AI Writer Room</h4>
-                      <p className="text-[11px] font-medium text-orange-100 leading-normal">
-                        Create a custom children's story on any topic you want with dynamic cartoon pictures!
-                      </p>
-                    </div>
-                    <button className="w-full bg-white text-orange-600 text-xs font-black py-3 rounded-2xl flex items-center justify-center gap-2 transition-colors border border-white/20 shadow-md mt-6 group-hover:bg-orange-50">
-                      Write New Story <Wand2 className="w-4 h-4 text-orange-500" />
-                    </button>
-                  </div>
+
 
                   {allStories.map(story => (
                     <div 
@@ -1443,10 +1425,10 @@ Schema:
                   <div className="bg-gradient-to-r from-amber-50 via-orange-50/30 to-amber-50 border border-amber-100 rounded-[32px] p-6 text-center space-y-4 shadow-sm">
                     <div className="flex items-center justify-center gap-2">
                       <span className="text-2xl">🧙‍♂️</span>
-                      <h4 className="text-sm font-black text-slate-800">AI Math Wizard</h4>
+                      <h4 className="text-sm font-black text-slate-800">Math Wizard</h4>
                     </div>
                     <p className="text-[11px] font-semibold text-slate-500 leading-normal">
-                      Want more challenge? Ask the AI wizard to create 5 new custom math puzzles of your favorite topic!
+                      Want more challenge? Ask the wizard to create 5 new custom math puzzles of your favorite topic!
                     </p>
                     <div className="flex flex-col gap-2">
                       <select

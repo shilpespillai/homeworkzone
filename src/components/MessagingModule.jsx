@@ -87,11 +87,15 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
                  msg.recipientId?.toLowerCase() === studentName?.toLowerCase();
         } else if (activeTab === 'Sent') {
           return msg.senderRole === 'student' && 
-                 msg.senderId?.toLowerCase() === studentName?.toLowerCase();
+                 msg.senderId?.toLowerCase() === studentName?.toLowerCase() &&
+                 msg.recipientType === 'teacher';
         } else if (activeTab === 'Announcements') {
           return msg.senderRole === 'teacher' && 
                  (msg.recipientType === 'all' || 
                   (msg.recipientType === 'class' && msg.recipientId === classroom?.id));
+        } else if (activeTab === 'Class Lounge') {
+          return msg.recipientType === 'class' && 
+                 msg.classId === classroom?.id;
         } else if (activeTab === 'Classmates') {
           return msg.senderRole === 'student' && 
                  msg.recipientType === 'student' && 
@@ -104,7 +108,7 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
       setMessages(filtered);
       
       // Auto-select the first message if none is active or if active message is not in current list
-      if (activeTab !== 'Classmates') {
+      if (activeTab !== 'Classmates' && activeTab !== 'Class Lounge') {
         if (filtered.length > 0) {
           if (!activeMessage || !filtered.find(m => m.id === activeMessage.id)) {
             setActiveMessage(filtered[0]);
@@ -184,7 +188,21 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
     if (!replyText.trim()) return;
 
     try {
-      if (activeTab === 'Classmates' && activeClassmate) {
+      if (activeTab === 'Class Lounge') {
+        await addDoc(collection(db, 'messages'), {
+          teacherId: teacher.uid,
+          senderId: studentName,
+          senderName: studentName,
+          senderRole: 'student',
+          recipientType: 'class',
+          recipientId: classroom?.id || 'all',
+          recipientName: classroom?.name || 'Class',
+          subject: `Class Lounge`,
+          content: replyText.trim(),
+          createdAt: new Date().toISOString(),
+          classId: classroom?.id || null
+        });
+      } else if (activeTab === 'Classmates' && activeClassmate) {
         await addDoc(collection(db, 'messages'), {
           teacherId: teacher.uid,
           senderId: studentName,
@@ -243,7 +261,7 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
         {/* 2. Tabs Section */}
         <div className="px-8 flex items-center justify-between border-b border-orange-100/60">
           <div className="flex gap-10">
-            {['Inbox', 'Sent', 'Announcements', 'Classmates'].map((tab) => (
+            {['Inbox', 'Sent', 'Announcements', 'Class Lounge', 'Classmates'].map((tab) => (
               <button 
                 key={tab}
                 onClick={() => {
@@ -265,7 +283,8 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
         <div className="flex flex-1 min-h-0 bg-slate-50/30">
           
           {/* Left Pane (Message List or Classmates List) - 1/3 width */}
-          <div className="w-1/3 border-r border-orange-100/60 overflow-y-auto custom-scrollbar bg-white">
+          {activeTab !== 'Class Lounge' && (
+            <div className="w-1/3 border-r border-orange-100/60 overflow-y-auto custom-scrollbar bg-white">
             {activeTab === 'Classmates' ? (
               classroomStudents.filter(s => s.name?.toLowerCase() !== studentName?.toLowerCase()).map((cm) => (
                 <div 
@@ -348,10 +367,69 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
               )
             )}
           </div>
+          )}
 
-          {/* Right Pane (Message Thread View) - 2/3 width */}
-          <div className="w-2/3 p-10 flex flex-col justify-between min-h-0 bg-blue-50/10">
-            {activeTab === 'Classmates' ? (
+          {/* Right Pane (Message Thread View) */}
+          <div className={`${activeTab === 'Class Lounge' ? 'w-full' : 'w-2/3'} p-10 flex flex-col justify-between min-h-0 bg-blue-50/10`}>
+            {activeTab === 'Class Lounge' ? (
+              <div className="flex flex-col h-full justify-between">
+                <div className="mb-6 border-b border-orange-100/50 pb-4 flex justify-between items-start">
+                  <div>
+                    <h2 className="text-2xl font-black text-[#14532d]">Class Lounge 🎪</h2>
+                    <p className="text-[10px] font-black text-slate-400 mt-1 tracking-wide uppercase">
+                      Group chat for {classroom?.name || 'Everyone'}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="overflow-y-auto custom-scrollbar pr-2 flex-1 flex flex-col-reverse gap-4">
+                  {[...messages]
+                    .map((m) => (
+                      <div key={m.id} className={`flex gap-4 max-w-[85%] ${m.senderId?.toLowerCase() === studentName?.toLowerCase() ? 'self-end flex-row-reverse' : 'self-start'}`}>
+                        {m.senderId?.toLowerCase() !== studentName?.toLowerCase() && (
+                          <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border-2 border-white shadow-sm bg-blue-50 flex items-center justify-center">
+                            <img src={getStudentAvatar ? getStudentAvatar(m.senderName) : `https://api.dicebear.com/7.x/adventurer/svg?seed=${m.senderName || 'Felix'}`} alt="Avatar" className="w-full h-full object-cover" />
+                          </div>
+                        )}
+                        <div className={`p-4 rounded-[24px] ${
+                          m.senderId?.toLowerCase() === studentName?.toLowerCase() 
+                            ? 'bg-gradient-to-br from-green-500 to-green-600 text-white shadow-md shadow-green-500/20 rounded-tr-none' 
+                            : 'bg-white border border-slate-100 shadow-sm text-slate-700 rounded-tl-none'
+                        }`}>
+                          {m.senderId?.toLowerCase() !== studentName?.toLowerCase() && (
+                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{m.senderName}</p>
+                          )}
+                          <p className="text-sm font-semibold">{m.content}</p>
+                        </div>
+                      </div>
+                  ))}
+                  {messages.length === 0 && (
+                     <div className="text-center text-slate-400 font-bold italic py-10 w-full">Welcome to the Class Lounge! Say hi to everyone! 👋</div>
+                  )}
+                </div>
+
+                <div className="mt-6 flex flex-col gap-2">
+                  <div className="flex gap-4">
+                    <input 
+                      type="text" 
+                      value={replyText}
+                      onChange={(e) => setReplyText(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleSendReply()}
+                      placeholder={`Message the class...`} 
+                      className="flex-1 bg-white border border-orange-100 rounded-[20px] px-6 py-4 text-sm font-semibold text-[#166534] placeholder:text-orange-900/30 focus:outline-none focus:ring-4 focus:ring-orange-500/10 transition-all"
+                    />
+                    <button 
+                      onClick={handleSendReply}
+                      disabled={!replyText.trim()}
+                      className="bg-[#EA580C] hover:bg-orange-600 disabled:bg-slate-200 text-white rounded-[20px] px-8 font-black text-sm flex items-center justify-center transition-colors shadow-md shadow-orange-500/20 disabled:shadow-none"
+                    >
+                      <Send size={18} />
+                    </button>
+                  </div>
+                  <EmojiPicker onSelectEmoji={(emoji) => setReplyText(prev => prev + emoji)} />
+                </div>
+              </div>
+            ) : activeTab === 'Classmates' ? (
               activeClassmate ? (
                 <div className="flex flex-col h-full justify-between">
                   <div className="mb-6 border-b border-orange-100/50 pb-4 flex justify-between items-start">

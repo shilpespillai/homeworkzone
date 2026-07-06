@@ -325,8 +325,8 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
       const snap = await getDocs(q);
       const list = snap.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
       list.sort((a, b) => {
-        const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
-        const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
+        const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt ? Date.now() : 0);
+        const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt ? Date.now() : 0);
         return timeB - timeA;
       });
       setRecurringItems(list);

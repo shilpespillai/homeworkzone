@@ -1171,7 +1171,7 @@ const MissionReportModal = ({ submission, homework, onClose }) => {
                            {explanationText && (
                               <div className="mt-4 bg-purple-50 border border-purple-200 rounded-xl p-6">
                                  <span className="text-[10px] font-black uppercase text-purple-500 tracking-wider block mb-3 flex items-center gap-2">
-                                    <span>🤖</span> Teacher Feedback
+                                    <span>📝</span> Teacher Feedback
                                  </span>
                                  <div className="text-purple-800 font-medium text-sm">
                                     {formatExplanation(explanationText)}
@@ -1451,7 +1451,7 @@ const MissionReports = ({ studentName, teacher, submissions: initialSubmissions,
                               </div>
                               {sub.feedback && (
                                 <div className="mt-3 bg-purple-50/50 border border-purple-200 p-4 rounded-2xl relative shadow-sm max-w-lg text-left">
-                                  <span className="text-[9px] font-black uppercase text-purple-500 tracking-wider block mb-1">🤖 AI Teacher Feedback</span>
+                                  <span className="text-[9px] font-black uppercase text-purple-500 tracking-wider block mb-1">📝 Teacher Feedback</span>
                                   <p className="text-xs font-bold text-[#5C4D9F] leading-relaxed italic">"{sub.feedback}"</p>
                                 </div>
                               )}
@@ -2399,7 +2399,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
      const correspondingHw = homeworks.find(hw => hw.id === sub.homeworkId);
      todoItems.push({
         title: correspondingHw ? `Review: ${correspondingHw.title}` : "Review Feedback",
-        subtitle: `AI Teacher gave encouragement!`,
+        subtitle: `Teacher gave encouragement!`,
         btnText: "View Feedback 💬",
         icon: <MessageSquare className="w-5 h-5 text-amber-500" />,
         color: "bg-amber-50",
@@ -2540,7 +2540,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
   // Dynamic Feed reminder
   const feedPosts = [
      {
-        author: teacher?.name || "AI Coach",
+        author: teacher?.name || "Automated Coach",
         time: "Today",
         content: pendingHws.length > 0 
            ? `Hey ${studentName.split(' ')[0]}! You have ${pendingHws.length} fun learning missions waiting for you. Let's start one today! 🚀` 

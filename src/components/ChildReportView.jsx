@@ -98,7 +98,7 @@ export default function ChildReportView({ studentName, currentStudentProfile, su
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-4xl font-black text-green-800 tracking-tight mb-2">Child Progress Report</h1>
-          <p className="text-sm font-bold text-[#166534] italic">Inspect learning gaps, growth trajectories, and AI-powered progress summaries. 📈</p>
+          <p className="text-sm font-bold text-[#166534] italic">Inspect learning gaps, growth trajectories, and progress summaries. 📈</p>
         </div>
         
         <div className="bg-orange-50 border border-orange-200 rounded-2xl px-5 py-3 flex items-center gap-3 shadow-sm shrink-0">

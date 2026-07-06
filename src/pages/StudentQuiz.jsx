@@ -293,38 +293,27 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         });
       } else {
         // ── FALLBACK PATH: old homeworks without pre-generated explanations ──
-        // This keeps full backward compatibility.
-        try {
-          const wrongAnswersFormatted = wrongQuestions.map((q) => {
-            return `ID: ${q.id}\nQuestion: "${q.text}"\nOptions: ${JSON.stringify(q.options)}\nCorrect Answer: "${q.answer}"\nStudent Selected: "${answers[q.id]}"`;
-          }).join("\n\n");
+        // This keeps full backward compatibility without using any AI tokens!
+        const excellentEmojis = ["🌟", "🎉", "🏆", "🔥", "✨"];
+        const goodEmojis = ["🚀", "👍", "💡", "👏", "⭐"];
+        const okayEmojis = ["📚", "🤔", "💪", "🌱", "✏️"];
+        const tryAgainEmojis = ["💪", "🎯", "🧠", "🔄", "🤝"];
 
-          let mathInstruction = "";
-          if (homework.subject?.toLowerCase() === 'maths' || homework.subject?.toLowerCase() === 'math') {
-            mathInstruction = `CRITICAL: Since this is a Math homework, do NOT write the explanation as a single prose paragraph. Instead, format it as a clear, step-by-step mathematical calculation showing the formulas and substitutions. Break down each step on a new line (use \\n for line breaks) so it looks like a clean calculation.\nExample structure:\nStep 1: Identify the values: ...\nStep 2: Add/Subtract the values: ...\nStep 3: Find the final answer: ...`;
-          }
+        const pickEmoji = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-          const combinedPrompt = `You are an encouraging and clear teacher. A student scored ${finalScore}% on their ${homework.subject} homework (quiz title: "${homework.title}").\n\nFirst, write a 2-sentence personalized, encouraging feedback message for the student. Do not use markdown in this feedback message.\nSecond, for each of the wrong questions below, write an extremely detailed and encouraging explanation. You MUST follow this exact structure for EVERY explanation:\n1. **Concept First**: Start by explicitly teaching the underlying concept or rule being tested. Explain the "why" and "how" before even mentioning the specific question. Do not skip this.\n2. **Step-by-Step Breakdown**: Walk through the problem step-by-step applying the concept.\n3. **Correct Answer Validation**: State exactly why the correct answer is right.\n4. **Incorrect Option Analysis**: Briefly explain why the student's answer was incorrect.\n\nCRITICAL ACCURACY & QUALITY RULES:\n1. Every mathematical calculation, formula, explanation, scientific fact, or grammatical definition must be 100% correct. Double-check all explanations for factual and computational accuracy.\n2. The explanation must directly justify why the correct option is the only correct answer.\n\n${mathInstruction}\n\nWrong questions:\n${wrongAnswersFormatted || "None! The student got a perfect score!"}\n\nReturn ONLY a valid JSON object matching this schema. Do not include markdown code block formatting (such as \`\`\`json).\nCRITICAL: The keys in the "explanations" object MUST be the exact, literal question IDs provided in the "Wrong questions" list (for example, if the question ID is "1", the key MUST be "1" exactly). Do not add any prefix, suffix, or extra words to the keys.\n\nSchema:\n{\n  "feedback": "Encouraging feedback message...",\n  "explanations": {\n    "INSERT_EXACT_QUESTION_ID_HERE": "Explanation for that specific question..."\n  }\n}`;
-
-          const resultText = await generateContent({
-            prompt: combinedPrompt,
-            responseMimeType: 'application/json',
-            provider: activeModel
-          });
-
-          if (resultText) {
-            const cleanJson = resultText.replace(/```json/g, '').replace(/```/g, '').trim();
-            const parsed = JSON.parse(cleanJson);
-            if (parsed.feedback) {
-              aiFeedback = parsed.feedback.replace(/['"]/g, '');
-            }
-            if (parsed.explanations) {
-              explanations = parsed.explanations;
-            }
-          }
-        } catch (err) {
-          console.error("AI grading/explanations execution failed:", err);
+        if (finalScore === 100) {
+          aiFeedback = `Outstanding work! A perfect score! ${pickEmoji(excellentEmojis)}`;
+        } else if (finalScore >= 80) {
+          aiFeedback = `Great job! You've really got the hang of this! ${pickEmoji(goodEmojis)}`;
+        } else if (finalScore >= 50) {
+          aiFeedback = `Good effort! Review the explanations to see where you can improve. ${pickEmoji(okayEmojis)}`;
+        } else {
+          aiFeedback = `Keep trying! Reviewing the answers will help you master this topic. ${pickEmoji(tryAgainEmojis)}`;
         }
+
+        wrongQuestions.forEach(q => {
+          explanations[q.id] = `The correct answer is "${q.answer}".`;
+        });
       }
       
       wrongQuestions.forEach(q => {
@@ -998,7 +987,7 @@ const QuizResults = ({ type, score, total, percentage, feedback, questions, answ
                  <BrainCircuit className="w-6 h-6" />
               </div>
               <div className="flex-1">
-                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">AI Teacher says...</p>
+                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Teacher says...</p>
                  <h3 className="text-sm font-bold text-slate-700 leading-snug italic">"{feedback}"</h3>
               </div>
             </div>

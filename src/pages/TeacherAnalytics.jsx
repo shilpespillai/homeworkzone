@@ -164,7 +164,7 @@ export default function TeacherAnalytics() {
                 <BrainCircuit className="w-6 h-6" />
               </div>
               <p className="text-xs text-slate-500 font-bold leading-relaxed lowercase">
-                <span className="text-primary font-black">AI Insight:</span> Classroom focus should shift to Maths fractions this week to boost mastery levels.
+                <span className="text-primary font-black">System Insight:</span> Classroom focus should shift to Maths fractions this week to boost mastery levels.
               </p>
             </div>
           </div>
