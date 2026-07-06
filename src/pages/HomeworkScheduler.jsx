@@ -17,7 +17,10 @@ import {
   Users,
   Search,
   Pause,
-  Play
+  Play,
+  Edit2,
+  Save,
+  X
 } from 'lucide-react';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, getDocs, query, where, deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
@@ -128,6 +131,10 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
   const [students, setStudents] = useState([]);
   const [isLoadingStudents, setIsLoadingStudents] = useState(false);
   const [studentSearchQuery, setStudentSearchQuery] = useState('');
+  
+  // States for editing an active automation
+  const [editingAutomationId, setEditingAutomationId] = useState(null);
+  const [editForm, setEditForm] = useState({});
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -216,6 +223,23 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         publishType: nextPublishType
       };
     });
+  };
+
+  const handleSaveAutomationEdit = async (id) => {
+    try {
+      const updates = {};
+      if (editForm.releaseTime) updates.releaseTime = editForm.releaseTime;
+      if (editForm.recurrenceDay) updates.recurrenceDay = editForm.recurrenceDay;
+      if (editForm.recurrenceDate) updates.recurrenceDate = editForm.recurrenceDate;
+      
+      await updateDoc(doc(db, 'recurring_schedules', id), updates);
+      setEditingAutomationId(null);
+      setEditForm({});
+      fetchRecurringSchedules();
+    } catch (err) {
+      console.error("Error saving automation edit:", err);
+      alert("Oops! Could not save changes.");
+    }
   };
 
   const handlePublishTypeChange = (action) => {
@@ -1609,77 +1633,166 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                   const formattedTime = formatTime12h(sched.releaseTime);
                   
                   return (
-                    <div key={sched.id} className={`bg-white border-2 rounded-3xl p-5 flex items-center justify-between shadow-sm transition-all ${sched.isActive === false ? 'border-slate-200 opacity-60 grayscale-[0.5]' : 'border-emerald-100 hover:border-emerald-300'}`}>
-                      <div className="space-y-1.5">
-                        <div className="flex items-center gap-2">
-                           <span className="text-sm">{subObj?.emoji || '📚'}</span>
-                           <h4 className="text-xs font-black text-emerald-800 line-clamp-1">
-                             {sched.topic} {sched.isActive === false && <span className="text-amber-500 ml-1">(Paused)</span>}
-                           </h4>
-                        </div>
-                        {sched.assignType === 'students' && sched.assignedStudentIds && sched.assignedStudentIds.length > 0 && (
-                          <div className="text-[10.5px] font-bold text-blue-600 flex items-center gap-1" title={sched.assignedStudentIds.map(id => id.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')).join(', ')}>
-                            <User className="w-3.5 h-3.5" /> Students: {sched.assignedStudentIds.length}
+                    <div key={sched.id} className={`bg-white border-2 rounded-3xl p-5 shadow-sm transition-all ${sched.isActive === false ? 'border-slate-200 opacity-60 grayscale-[0.5]' : 'border-emerald-100 hover:border-emerald-300'}`}>
+                      {editingAutomationId === sched.id ? (
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-2 mb-2">
+                             <span className="text-sm">{subObj?.emoji || '📚'}</span>
+                             <h4 className="text-xs font-black text-emerald-800 line-clamp-1">Edit {sched.topic} Schedule</h4>
                           </div>
-                        )}
-                        {sched.assignType === 'student' && sched.assignedStudentId && (
-                          <div className="text-[10.5px] font-bold text-blue-600 flex items-center gap-1">
-                            <User className="w-3.5 h-3.5" /> Student: {sched.assignedStudentId.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')}
+                          
+                          <div className="grid grid-cols-2 gap-3">
+                            <div className="space-y-1">
+                              <label className="text-[10px] font-black text-slate-500 uppercase">Time</label>
+                              <input
+                                type="time"
+                                value={editForm.releaseTime || ''}
+                                onChange={e => setEditForm(prev => ({ ...prev, releaseTime: e.target.value }))}
+                                className="w-full h-8 bg-slate-50 border border-slate-200 rounded-lg px-2 text-xs font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C]"
+                              />
+                            </div>
+                            
+                            {sched.recurrence === 'weekly' && (
+                              <div className="space-y-1">
+                                <label className="text-[10px] font-black text-slate-500 uppercase">Day of Week</label>
+                                <select
+                                  value={editForm.recurrenceDay || ''}
+                                  onChange={e => setEditForm(prev => ({ ...prev, recurrenceDay: e.target.value }))}
+                                  className="w-full h-8 bg-slate-50 border border-slate-200 rounded-lg px-2 text-xs font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C]"
+                                >
+                                  <option value="1">Monday</option>
+                                  <option value="2">Tuesday</option>
+                                  <option value="3">Wednesday</option>
+                                  <option value="4">Thursday</option>
+                                  <option value="5">Friday</option>
+                                  <option value="6">Saturday</option>
+                                  <option value="0">Sunday</option>
+                                </select>
+                              </div>
+                            )}
+
+                            {sched.recurrence === 'monthly' && (
+                              <div className="space-y-1">
+                                <label className="text-[10px] font-black text-slate-500 uppercase">Day of Month</label>
+                                <select
+                                  value={editForm.recurrenceDate || ''}
+                                  onChange={e => setEditForm(prev => ({ ...prev, recurrenceDate: e.target.value }))}
+                                  className="w-full h-8 bg-slate-50 border border-slate-200 rounded-lg px-2 text-xs font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C]"
+                                >
+                                  {Array.from({ length: 28 }, (_, i) => i + 1).map(day => (
+                                    <option key={day} value={day}>Day {day}</option>
+                                  ))}
+                                </select>
+                              </div>
+                            )}
                           </div>
-                        )}
-                        
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-orange-50/50 text-[#EA580C] text-[9px] font-bold border border-[#EA580C]/10">
-                            <Clock size={10} className="shrink-0" />
-                            {formattedTime}
-                          </span>
-                          <span className="text-[10px] text-slate-500 font-bold">
-                            {sched.recurrence === 'daily' 
-                              ? 'Daily' 
-                              : sched.recurrence === 'monthly'
-                                ? `Monthly on Day ${sched.recurrenceDate || '1'}`
-                                : `Weekly on ${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][parseInt(sched.recurrenceDay, 10)]}`}
-                          </span>
-                          <span className="text-slate-300 text-[10px] font-bold">•</span>
-                          <span className="text-[10px] text-slate-500 font-bold">{sched.grade} ({sched.difficulty})</span>
+                          
+                          <div className="flex justify-end gap-2 mt-2">
+                            <button
+                              onClick={() => {
+                                setEditingAutomationId(null);
+                                setEditForm({});
+                              }}
+                              className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              onClick={() => handleSaveAutomationEdit(sched.id)}
+                              className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#EA580C] text-white flex items-center gap-1 hover:bg-[#c2410c]"
+                            >
+                              <Save size={12} /> Save
+                            </button>
+                          </div>
                         </div>
+                      ) : (
+                        <div className="flex items-center justify-between">
+                          <div className="space-y-1.5">
+                            <div className="flex items-center gap-2">
+                               <span className="text-sm">{subObj?.emoji || '📚'}</span>
+                               <h4 className="text-xs font-black text-emerald-800 line-clamp-1">
+                                 {sched.topic} {sched.isActive === false && <span className="text-amber-500 ml-1">(Paused)</span>}
+                               </h4>
+                            </div>
+                            {sched.assignType === 'students' && sched.assignedStudentIds && sched.assignedStudentIds.length > 0 && (
+                              <div className="text-[10.5px] font-bold text-blue-600 flex items-center gap-1" title={sched.assignedStudentIds.map(id => id.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')).join(', ')}>
+                                <User className="w-3.5 h-3.5" /> Students: {sched.assignedStudentIds.length}
+                              </div>
+                            )}
+                            {sched.assignType === 'student' && sched.assignedStudentId && (
+                              <div className="text-[10.5px] font-bold text-blue-600 flex items-center gap-1">
+                                <User className="w-3.5 h-3.5" /> Student: {sched.assignedStudentId.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')}
+                              </div>
+                            )}
+                            
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-orange-50/50 text-[#EA580C] text-[9px] font-bold border border-[#EA580C]/10">
+                                <Clock size={10} className="shrink-0" />
+                                {formattedTime}
+                              </span>
+                              <span className="text-[10px] text-slate-500 font-bold">
+                                {sched.recurrence === 'daily' 
+                                  ? 'Daily' 
+                                  : sched.recurrence === 'monthly'
+                                    ? `Monthly on Day ${sched.recurrenceDate || '1'}`
+                                    : `Weekly on ${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][parseInt(sched.recurrenceDay, 10)]}`}
+                              </span>
+                              <span className="text-slate-300 text-[10px] font-bold">•</span>
+                              <span className="text-[10px] text-slate-500 font-bold">{sched.grade} ({sched.difficulty})</span>
+                            </div>
 
-                        <p className="text-[9px] text-[#EA580C] font-black uppercase pt-0.5">
-                          Curriculum: {sched.curriculumName || 'ACARA'}
-                        </p>
-                      </div>
+                            <p className="text-[9px] text-[#EA580C] font-black uppercase pt-0.5">
+                              Curriculum: {sched.curriculumName || 'ACARA'}
+                            </p>
+                          </div>
 
-                      <div className="flex flex-col gap-2">
-                        <button
-                          onClick={async () => {
-                            try {
-                              const newStatus = !(sched.isActive ?? true);
-                              await updateDoc(doc(db, 'recurring_schedules', sched.id), { isActive: newStatus });
-                              fetchRecurringSchedules();
-                            } catch (err) {
-                              console.error("Error toggling automation:", err);
-                              alert("Oops! Could not update automation status.");
-                            }
-                          }}
-                          className={`p-2 rounded-xl transition-all ${sched.isActive !== false ? 'text-amber-500 hover:bg-amber-50' : 'text-emerald-500 hover:bg-emerald-50'}`}
-                          title={sched.isActive !== false ? "Pause Automation" : "Resume Automation"}
-                        >
-                          {sched.isActive !== false ? <Pause size={13} /> : <Play size={13} />}
-                        </button>
-                        <button
-                          onClick={async () => {
-                            if (await window.confirmCustom("Delete this recurring homework automation? 🗑️")) {
-                              await deleteDoc(doc(db, 'recurring_schedules', sched.id));
-                              alert("Deleted automation schedule!");
-                              fetchRecurringSchedules();
-                            }
-                          }}
-                          className="p-2 text-rose-500 hover:bg-rose-50 rounded-xl transition-all"
-                          title="Delete Automation"
-                        >
-                          <Trash2 size={13} />
-                        </button>
-                      </div>
+                          <div className="flex flex-col gap-2">
+                            <button
+                              onClick={() => {
+                                setEditingAutomationId(sched.id);
+                                setEditForm({
+                                  releaseTime: sched.releaseTime || '08:00',
+                                  recurrenceDay: sched.recurrenceDay || '1',
+                                  recurrenceDate: sched.recurrenceDate || '1'
+                                });
+                              }}
+                              className="p-2 text-blue-500 hover:bg-blue-50 rounded-xl transition-all"
+                              title="Edit Automation Schedule"
+                            >
+                              <Edit2 size={13} />
+                            </button>
+                            <button
+                              onClick={async () => {
+                                try {
+                                  const newStatus = !(sched.isActive ?? true);
+                                  await updateDoc(doc(db, 'recurring_schedules', sched.id), { isActive: newStatus });
+                                  fetchRecurringSchedules();
+                                } catch (err) {
+                                  console.error("Error toggling automation:", err);
+                                  alert("Oops! Could not update automation status.");
+                                }
+                              }}
+                              className={`p-2 rounded-xl transition-all ${sched.isActive !== false ? 'text-amber-500 hover:bg-amber-50' : 'text-emerald-500 hover:bg-emerald-50'}`}
+                              title={sched.isActive !== false ? "Pause Automation" : "Resume Automation"}
+                            >
+                              {sched.isActive !== false ? <Pause size={13} /> : <Play size={13} />}
+                            </button>
+                            <button
+                              onClick={async () => {
+                                if (await window.confirmCustom("Delete this recurring homework automation? 🗑️")) {
+                                  await deleteDoc(doc(db, 'recurring_schedules', sched.id));
+                                  alert("Deleted automation schedule!");
+                                  fetchRecurringSchedules();
+                                }
+                              }}
+                              className="p-2 text-rose-500 hover:bg-rose-50 rounded-xl transition-all"
+                              title="Delete Automation"
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   );
                 })
