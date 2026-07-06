@@ -1928,6 +1928,43 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
   const [classroomStudents, setClassroomStudents] = useState([]);
   const [standingsTimeframe, setStandingsTimeframe] = useState('all-time');
   
+  const [unreadMessageCount, setUnreadMessageCount] = useState(0);
+  const isInitialLoadRef = React.useRef(true);
+  
+  // Real-time listener for new messages
+  useEffect(() => {
+    if (!teacher?.uid || !classroom?.id || !studentName) return;
+    
+    const q = query(
+      collection(db, 'messages'),
+      where('recipientId', '==', studentName),
+      where('classId', '==', classroom.id)
+    );
+    
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      let totalUnread = 0;
+      
+      snapshot.docChanges().forEach((change) => {
+        const msg = change.doc.data();
+        if (change.type === 'added' && !msg.isRead && !isInitialLoadRef.current) {
+           window.alert(`New message from ${msg.senderName}! 💬`);
+        }
+      });
+      
+      snapshot.forEach(doc => {
+        if (!doc.data().isRead) totalUnread++;
+      });
+      
+      setUnreadMessageCount(totalUnread);
+      
+      if (isInitialLoadRef.current) {
+        isInitialLoadRef.current = false;
+      }
+    });
+
+    return () => unsubscribe();
+  }, [teacher, classroom, studentName]);
+  
   // Real-time presence tracking
   useEffect(() => {
     if (!teacher?.uid || !classroom?.id || !studentName) return;
@@ -2545,7 +2582,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
            <SidebarNavItem icon={<Trophy className="w-5 h-5" />} label="Mission Reports" active={activeNav === 'Mission Reports'} color="text-emerald-500" onClick={() => setActiveNav('Mission Reports')} />
            <SidebarNavItem icon={<User className="w-5 h-5" />} label="My Profile" active={activeNav === 'My Profile'} color="text-green-500" onClick={() => setActiveNav('My Profile')} />
             <SidebarNavItem icon={<Compass className="w-5 h-5" />} label="Adventure Maze" active={activeNav === 'Adventure Maze'} color="text-amber-500" onClick={() => setActiveNav('Adventure Maze')} />
-           <SidebarNavItem icon={<img src="/ic-messages.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Messages" />} label="My Messages" active={activeNav === 'My Messages'} color="text-cyan-500" onClick={() => setActiveNav('My Messages')} />
+           <SidebarNavItem icon={<img src="/ic-messages.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Messages" />} label="My Messages" active={activeNav === 'My Messages'} color="text-cyan-500" onClick={() => setActiveNav('My Messages')} badge={unreadMessageCount} />
            <SidebarNavItem icon={<img src="/ic-rewards.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Rewards" />} label="My Rewards" active={activeNav === 'My Rewards'} color="text-orange-500" onClick={() => setActiveNav('My Rewards')} />
            <SidebarNavItem icon={<CreditCard className="w-5 h-5" />} label="Tuition & Fees" active={activeNav === 'Tuition & Fees'} color="text-green-500" onClick={() => setActiveNav('Tuition & Fees')} />
            <SidebarNavItem icon={<FileText className="w-5 h-5" />} label="Child Report" active={activeNav === 'Child Report'} color="text-rose-500" onClick={() => setActiveNav('Child Report')} />
@@ -3285,20 +3322,27 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
   );
 };
 
-const SidebarNavItem = ({ icon, label, active, color, onClick }) => (
+const SidebarNavItem = ({ icon, label, active, color, onClick, badge }) => (
   <div className="px-4">
     <button 
       onClick={onClick}
-      className={`w-full flex items-center gap-4 px-6 py-3.5 cursor-pointer transition-all group rounded-2xl ${
+      className={`w-full flex items-center justify-between gap-4 px-6 py-3.5 cursor-pointer transition-all group rounded-2xl ${
         active 
           ? 'bg-[#EA580C] text-white shadow-lg shadow-orange-200 font-semibold' 
           : 'text-[#166534] hover:bg-slate-50 hover:text-[#14532d]'
       }`}
     >
-      <div className={`w-5 h-5 flex-center transition-transform group-hover:scale-110 ${active ? 'text-white' : color}`}>
-         {React.isValidElement(icon) && icon.type === 'img' ? icon : React.cloneElement(icon, { size: 20, strokeWidth: 3 })}
+      <div className="flex items-center gap-4">
+        <div className={`w-5 h-5 flex-center transition-transform group-hover:scale-110 ${active ? 'text-white' : color}`}>
+           {React.isValidElement(icon) && icon.type === 'img' ? icon : React.cloneElement(icon, { size: 20, strokeWidth: 3 })}
+        </div>
+        <span className="text-sm tracking-tight">{label}</span>
       </div>
-      <span className="text-sm tracking-tight">{label}</span>
+      {badge > 0 && (
+        <span className="bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full min-w-[20px] text-center">
+          {badge}
+        </span>
+      )}
     </button>
   </div>
 );

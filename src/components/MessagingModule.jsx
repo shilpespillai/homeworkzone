@@ -21,7 +21,9 @@ import {
   where, 
   orderBy, 
   onSnapshot,
-  serverTimestamp
+  serverTimestamp,
+  doc,
+  updateDoc
 } from 'firebase/firestore';
 
 const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = [], getStudentAvatar }) => {
@@ -117,6 +119,19 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
        unsubPresence();
     };
   }, [teacher, studentName, classroom, activeTab]);
+
+  // Mark viewed messages as read
+  useEffect(() => {
+    if (activeTab === 'Classmates' && activeClassmate) {
+      messages.forEach(msg => {
+        if (!msg.isRead && msg.recipientId?.toLowerCase() === studentName?.toLowerCase() && msg.senderId?.toLowerCase() === activeClassmate.name?.toLowerCase()) {
+          updateDoc(doc(db, 'messages', msg.id), { isRead: true }).catch(console.error);
+        }
+      });
+    } else if (activeMessage && !activeMessage.isRead && activeMessage.recipientId?.toLowerCase() === studentName?.toLowerCase()) {
+      updateDoc(doc(db, 'messages', activeMessage.id), { isRead: true }).catch(console.error);
+    }
+  }, [activeTab, activeClassmate, activeMessage, messages, studentName]);
 
   // Handle sending a new message to the teacher
   const handleSendMessage = async (e) => {
