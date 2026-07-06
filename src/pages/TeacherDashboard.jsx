@@ -45,6 +45,7 @@ import {
   PauseCircle,
   PlayCircle
 } from 'lucide-react';
+import EmojiPicker from '../components/EmojiPicker';
 
 import { 
   LineChart, 
@@ -5279,14 +5280,18 @@ const TeacherDashboard = ({ user, onLogout }) => {
 
                               {messagesTab === 'Inbox' && (
                                  <div className="p-6 border-t border-orange-100 flex items-center gap-4 bg-white">
-                                    <div className="flex-1 relative">
+                                    <div className="flex-1 relative flex items-center">
                                        <input 
                                           type="text" 
                                           value={replyText}
                                           onChange={(e) => setReplyText(e.target.value)}
+                                          onKeyDown={(e) => e.key === 'Enter' && handleSendReply()}
                                           placeholder="Type your reply..." 
-                                          className="w-full bg-blue-50/50 border-none rounded-2xl py-4 px-6 text-sm font-bold text-blue-900 placeholder-blue-300" 
+                                          className="w-full bg-blue-50/50 border-none rounded-2xl py-4 pl-6 pr-14 text-sm font-bold text-blue-900 placeholder-blue-300" 
                                        />
+                                       <div className="absolute right-2">
+                                          <EmojiPicker onSelectEmoji={(emoji) => setReplyText(prev => prev + emoji)} />
+                                       </div>
                                     </div>
                                     <button 
                                        onClick={handleSendReply}

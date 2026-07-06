@@ -14,6 +14,7 @@ import {
   Video,
   Trash2
 } from 'lucide-react';
+import EmojiPicker from './EmojiPicker';
 import { db } from '../firebase';
 import { 
   collection, 
@@ -388,14 +389,19 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
                   </div>
 
                   <div className="pt-6 mt-4 border-t border-orange-100/50 flex items-center gap-4 bg-transparent">
-                    <input 
-                      type="text" 
-                      value={replyText}
-                      onChange={(e) => setReplyText(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && handleSendReply()}
-                      placeholder={`Message ${activeClassmate.name}...`} 
-                      className="w-full bg-white border border-blue-100 rounded-[20px] py-4 px-6 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-orange-50 transition-all placeholder-blue-200 text-slate-700 shadow-sm"
-                    />
+                    <div className="flex-1 relative flex items-center">
+                      <input 
+                        type="text" 
+                        value={replyText}
+                        onChange={(e) => setReplyText(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSendReply()}
+                        placeholder={`Message ${activeClassmate.name}...`} 
+                        className="w-full bg-white border border-blue-100 rounded-[20px] py-4 pl-6 pr-14 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-orange-50 transition-all placeholder-blue-200 text-slate-700 shadow-sm"
+                      />
+                      <div className="absolute right-2">
+                        <EmojiPicker onSelectEmoji={(emoji) => setReplyText(prev => prev + emoji)} />
+                      </div>
+                    </div>
                     <button 
                       onClick={handleSendReply}
                       className="bg-[#14532d] hover:bg-[#166534] text-white p-4 rounded-full font-black text-sm shadow-lg shadow-green-100 transition-all active:scale-95 flex-shrink-0"
@@ -442,15 +448,18 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
                 {/* Footer Section (Message Input for Direct Message Replies) */}
                 {activeTab === 'Inbox' && (
                   <div className="pt-6 mt-4 border-t border-orange-100/50 flex items-center gap-4 bg-transparent">
-                    <div className="flex-1 relative">
+                    <div className="flex-1 relative flex items-center">
                       <input 
                         type="text" 
                         value={replyText}
                         onChange={(e) => setReplyText(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleSendReply()}
                         placeholder="Reply to teacher..." 
-                        className="w-full bg-white border border-blue-100 rounded-[20px] py-4 px-6 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-orange-50 focus:bg-white transition-all placeholder-blue-200 text-slate-700 shadow-sm"
+                        className="w-full bg-white border border-blue-100 rounded-[20px] py-4 pl-6 pr-14 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-orange-50 focus:bg-white transition-all placeholder-blue-200 text-slate-700 shadow-sm"
                       />
+                      <div className="absolute right-2">
+                        <EmojiPicker onSelectEmoji={(emoji) => setReplyText(prev => prev + emoji)} />
+                      </div>
                     </div>
                     <button 
                       onClick={handleSendReply}
@@ -507,14 +516,19 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
 
               <div>
                 <label className="text-[10px] font-black text-[#166534] uppercase tracking-widest block mb-2">Message</label>
-                <textarea 
-                  value={newMessageBody}
-                  onChange={(e) => setNewMessageBody(e.target.value)}
-                  placeholder="Write your question here..."
-                  rows={4}
-                  className="w-full bg-white border border-blue-100 rounded-2xl py-3.5 px-5 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-orange-50 transition-all text-slate-700 resize-none"
-                  required
-                />
+                <div className="relative">
+                  <textarea 
+                    value={newMessageBody}
+                    onChange={(e) => setNewMessageBody(e.target.value)}
+                    placeholder="Write your question here..."
+                    rows={4}
+                    className="w-full bg-white border border-blue-100 rounded-2xl py-3.5 pl-5 pr-14 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-orange-50 transition-all text-slate-700 resize-none"
+                    required
+                  />
+                  <div className="absolute top-2 right-2">
+                    <EmojiPicker onSelectEmoji={(emoji) => setNewMessageBody(prev => prev + emoji)} />
+                  </div>
+                </div>
               </div>
 
               <div className="pt-2 flex gap-4">
