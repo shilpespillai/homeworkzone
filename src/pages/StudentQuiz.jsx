@@ -268,20 +268,15 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
       const preGenerated = homework.questionExplanations;
 
       if (preGenerated && Object.keys(preGenerated).length > 0) {
-        try {
-          // Just generate a short personalized feedback sentence — small, cheap, student-specific
-          const feedbackPrompt = `A student scored ${finalScore}% on a ${homework.subject} quiz titled "${homework.title}". Write exactly 2 short encouraging sentences of feedback for the student. Be warm and age-appropriate. Return plain text only, no JSON, no markdown.`;
-          const feedbackText = await generateContent({
-            prompt: feedbackPrompt,
-            responseMimeType: 'text/plain',
-            provider: activeModel
-          });
-          if (feedbackText && feedbackText.trim()) {
-            aiFeedback = feedbackText.replace(/['"]/g, '').trim();
+          if (finalScore === 100) {
+            aiFeedback = "Outstanding work! A perfect score! 🌟";
+          } else if (finalScore >= 80) {
+            aiFeedback = "Great job! You've really got the hang of this! 🚀";
+          } else if (finalScore >= 50) {
+            aiFeedback = "Good effort! Review the explanations to see where you can improve. 📚";
+          } else {
+            aiFeedback = "Keep trying! Reviewing the answers will help you master this topic. 💪";
           }
-        } catch (err) {
-          console.warn('[StudentQuiz] Personalized feedback generation failed (non-fatal):', err);
-        }
         // Use pre-generated explanations — no per-student API call for explanations
         wrongQuestions.forEach(q => {
           const qIdStr = String(q.id).trim();
