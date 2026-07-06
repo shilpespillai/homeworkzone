@@ -11,7 +11,8 @@ import {
   Smile,
   MessageSquare,
   Volume2,
-  Video
+  Video,
+  Trash2
 } from 'lucide-react';
 import { db } from '../firebase';
 import { 
@@ -23,7 +24,8 @@ import {
   onSnapshot,
   serverTimestamp,
   doc,
-  updateDoc
+  updateDoc,
+  deleteDoc
 } from 'firebase/firestore';
 
 const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = [], getStudentAvatar }) => {
@@ -132,6 +134,19 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
       updateDoc(doc(db, 'messages', activeMessage.id), { isRead: true }).catch(console.error);
     }
   }, [activeTab, activeClassmate, activeMessage, messages, studentName]);
+
+  const handleDeleteMessage = async (e, msgId) => {
+    e.stopPropagation();
+    if (await window.confirmCustom("Are you sure you want to delete this message forever? 🗑️")) {
+      try {
+        await deleteDoc(doc(db, 'messages', msgId));
+        if (activeMessage?.id === msgId) setActiveMessage(null);
+      } catch (err) {
+        console.error("Error deleting message:", err);
+        window.alert("Oops! Could not delete message. ❌");
+      }
+    }
+  };
 
   // Handle sending a new message to the teacher
   const handleSendMessage = async (e) => {
@@ -284,7 +299,7 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
                   <div 
                     key={item.id} 
                     onClick={() => setActiveMessage(item)}
-                    className={`flex items-start gap-4 p-5 cursor-pointer transition-all border-b border-slate-50 ${activeMessage?.id === item.id ? 'bg-green-50/30' : 'hover:bg-slate-50/50'}`}
+                    className={`group flex items-start gap-4 p-5 cursor-pointer transition-all border-b border-slate-50 ${activeMessage?.id === item.id ? 'bg-green-50/30' : 'hover:bg-slate-50/50'}`}
                   >
                     <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border-2 border-white shadow-sm bg-green-50 flex items-center justify-center">
                       {activeTab === 'Announcements' ? (
@@ -302,9 +317,20 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
                         <h3 className={`font-black text-sm truncate ${activeMessage?.id === item.id ? 'text-[#14532d]' : 'text-slate-700'}`}>
                           {activeTab === 'Announcements' ? 'Class Announcement' : item.senderName}
                         </h3>
-                        <span className="text-[10px] text-[#166534] font-bold whitespace-nowrap ml-2">
-                          {item.createdAt ? new Date(item.createdAt).toLocaleDateString(undefined, {month: 'short', day: 'numeric'}) : ''}
-                        </span>
+                        <div className="flex items-center gap-2 ml-2">
+                           {activeTab !== 'Announcements' && (
+                             <button 
+                               onClick={(e) => handleDeleteMessage(e, item.id)}
+                               className="opacity-0 group-hover:opacity-100 p-1.5 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
+                               title="Delete Message"
+                             >
+                               <Trash2 className="w-4 h-4" />
+                             </button>
+                           )}
+                           <span className="text-[10px] text-[#166534] font-bold whitespace-nowrap">
+                             {item.createdAt ? new Date(item.createdAt).toLocaleDateString(undefined, {month: 'short', day: 'numeric'}) : ''}
+                           </span>
+                        </div>
                       </div>
                       <div className="flex items-center justify-between gap-2">
                         <p className="text-xs text-[#166534] truncate font-bold">

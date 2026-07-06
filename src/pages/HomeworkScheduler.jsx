@@ -15,7 +15,9 @@ import {
   AlertCircle,
   User,
   Users,
-  Search
+  Search,
+  Pause,
+  Play
 } from 'lucide-react';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, getDocs, query, where, deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
@@ -1542,11 +1544,13 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                   const formattedTime = formatTime12h(sched.releaseTime);
                   
                   return (
-                    <div key={sched.id} className="bg-white border-2 border-slate-200 rounded-3xl p-5 flex items-center justify-between shadow-sm hover:border-slate-300 transition-all">
+                    <div key={sched.id} className={`bg-white border-2 rounded-3xl p-5 flex items-center justify-between shadow-sm transition-all ${sched.isActive === false ? 'border-slate-200 opacity-60 grayscale-[0.5]' : 'border-emerald-100 hover:border-emerald-300'}`}>
                       <div className="space-y-1.5">
                         <div className="flex items-center gap-2">
                            <span className="text-sm">{subObj?.emoji || '📚'}</span>
-                           <h4 className="text-xs font-black text-emerald-800 line-clamp-1">{sched.topic}</h4>
+                           <h4 className="text-xs font-black text-emerald-800 line-clamp-1">
+                             {sched.topic} {sched.isActive === false && <span className="text-amber-500 ml-1">(Paused)</span>}
+                           </h4>
                         </div>
                         {sched.assignType === 'students' && sched.assignedStudentIds && sched.assignedStudentIds.length > 0 && (
                           <div className="text-[10.5px] font-bold text-blue-600 flex items-center gap-1" title={sched.assignedStudentIds.map(id => id.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')).join(', ')}>
@@ -1578,18 +1582,37 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                         </p>
                       </div>
 
-                      <button
-                        onClick={async () => {
-                          if (await window.confirmCustom("Delete this recurring homework automation? 🗑️")) {
-                            await deleteDoc(doc(db, 'recurring_schedules', sched.id));
-                            alert("Deleted automation schedule!");
-                            fetchRecurringSchedules();
-                          }
-                        }}
-                        className="p-2 text-rose-500 hover:bg-rose-50 rounded-xl transition-all"
-                      >
-                        <Trash2 size={13} />
-                      </button>
+                      <div className="flex flex-col gap-2">
+                        <button
+                          onClick={async () => {
+                            try {
+                              const newStatus = !(sched.isActive ?? true);
+                              await updateDoc(doc(db, 'recurring_schedules', sched.id), { isActive: newStatus });
+                              fetchRecurringSchedules();
+                            } catch (err) {
+                              console.error("Error toggling automation:", err);
+                              alert("Oops! Could not update automation status.");
+                            }
+                          }}
+                          className={`p-2 rounded-xl transition-all ${sched.isActive !== false ? 'text-amber-500 hover:bg-amber-50' : 'text-emerald-500 hover:bg-emerald-50'}`}
+                          title={sched.isActive !== false ? "Pause Automation" : "Resume Automation"}
+                        >
+                          {sched.isActive !== false ? <Pause size={13} /> : <Play size={13} />}
+                        </button>
+                        <button
+                          onClick={async () => {
+                            if (await window.confirmCustom("Delete this recurring homework automation? 🗑️")) {
+                              await deleteDoc(doc(db, 'recurring_schedules', sched.id));
+                              alert("Deleted automation schedule!");
+                              fetchRecurringSchedules();
+                            }
+                          }}
+                          className="p-2 text-rose-500 hover:bg-rose-50 rounded-xl transition-all"
+                          title="Delete Automation"
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
                     </div>
                   );
                 })

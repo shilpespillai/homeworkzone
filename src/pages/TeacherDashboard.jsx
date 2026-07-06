@@ -5080,6 +5080,19 @@ const TeacherDashboard = ({ user, onLogout }) => {
                ? activeChat 
                : (filteredMessages[0] || null);
 
+            const handleDeleteMessage = async (e, msgId) => {
+               e.stopPropagation(); // prevent chat selection
+               if (await window.confirmCustom("Are you sure you want to delete this message forever? 🗑️")) {
+                  try {
+                     await deleteDoc(doc(db, 'messages', msgId));
+                     if (activeChat?.id === msgId) setActiveChat(null);
+                  } catch (err) {
+                     console.error("Error deleting message:", err);
+                     alert("Oops! Could not delete message. ❌");
+                  }
+               }
+            };
+
             const handleSendReply = async () => {
                if (!replyText.trim() || !currentChat) return;
                try {
@@ -5208,17 +5221,26 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                  <button 
                                     key={msg.id}
                                     onClick={() => setActiveChat(msg)}
-                                    className={`w-full text-left p-6 flex items-center gap-4 transition-all ${currentChat?.id === msg.id ? 'bg-blue-50/50' : 'hover:bg-blue-50/30'}`}
+                                    className={`w-full text-left p-6 flex items-center gap-4 transition-all group ${currentChat?.id === msg.id ? 'bg-blue-50/50' : 'hover:bg-blue-50/30'}`}
                                  >
-                                    <img src={getStudentAvatar(messagesTab === 'Inbox' ? msg.senderName : msg.recipientName)} className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-white p-0.5" alt="avatar" />
+                                    <img src={getStudentAvatar(messagesTab === 'Inbox' ? msg.senderName : msg.recipientName)} className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-white p-0.5 shrink-0" alt="avatar" />
                                     <div className="flex-1 min-w-0">
                                        <div className="flex items-center justify-between">
                                           <p className="text-sm font-black text-[#14532d] truncate">
                                              {messagesTab === 'Inbox' ? msg.senderName : `To: ${msg.recipientName}`}
                                           </p>
-                                          <span className="text-[9px] font-bold text-[#166534]">
-                                             {msg.createdAt ? new Date(msg.createdAt).toLocaleDateString(undefined, {month: 'short', day: 'numeric'}) : ''}
-                                          </span>
+                                          <div className="flex items-center gap-2">
+                                             <button 
+                                                onClick={(e) => handleDeleteMessage(e, msg.id)}
+                                                className="opacity-0 group-hover:opacity-100 p-1.5 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
+                                                title="Delete Message"
+                                             >
+                                                <Trash2 className="w-4 h-4" />
+                                             </button>
+                                             <span className="text-[9px] font-bold text-[#166534]">
+                                                {msg.createdAt ? new Date(msg.createdAt).toLocaleDateString(undefined, {month: 'short', day: 'numeric'}) : ''}
+                                             </span>
+                                          </div>
                                        </div>
                                        <p className="text-xs font-bold text-[#166534] truncate">{msg.content}</p>
                                     </div>
