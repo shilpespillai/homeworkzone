@@ -901,10 +901,10 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
             {/* Core Topic / Topic Instruction */}
             <div className="space-y-1.5">
-              <label className="text-sm font-black text-blue-500 uppercase tracking-wider block">2. Homework Topic / Core Concept</label>
+              <label className="text-sm font-black text-blue-500 uppercase tracking-wider block">2. Homework Title / Topic</label>
               <input 
                 type="text"
-                placeholder="e.g. Multiplying fractions, Water cycle, Past continuous tense..."
+                placeholder="e.g. Week 1 Practice, Water cycle, Past continuous tense..."
                 value={formData.topic}
                 onChange={(e) => setFormData(prev => ({ ...prev, topic: e.target.value }))}
                 className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-5 text-base md:text-lg font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C] focus:bg-white transition-all"
