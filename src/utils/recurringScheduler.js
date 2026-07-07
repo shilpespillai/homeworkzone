@@ -204,7 +204,7 @@ CRITICAL VISUAL RULES:
       const payload = {
         title,
         subject: sched.subject,
-        instructions: `Complete this automated ${sched.subject} homework on ${sched.topic}. Built for ${sched.grade} (${sched.difficulty}) matching the ${sched.curriculumName || 'ACARA'} standard. 🤖`,
+        instructions: `Complete this automated ${sched.subject} ${sched.type === 'test' ? 'test' : 'homework'} on ${sched.topic}. Built for ${sched.grade} (${sched.difficulty}) matching the ${sched.curriculumName || 'ACARA'} standard. 🤖`,
         assignedClassId: classId,
         dueDate: formattedDueDate,
         time: sched.dueTime || '17:00',
@@ -214,6 +214,7 @@ CRITICAL VISUAL RULES:
         teacherId: teacherUid,
         teacherName: sched.teacherName || resolvedTeacherName,
         status: statusVal,
+        type: sched.type || 'homework',
         assignType: sched.assignType || 'all',
         assignedStudentId: sched.assignType === 'student' ? (sched.assignedStudentId || '') : '',
         assignedStudentIds: sched.assignType === 'students' ? (sched.assignedStudentIds || []) : [],

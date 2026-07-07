@@ -96,7 +96,8 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
     recurrenceDate: '1', // '1' to '28' for monthly
     dueDateOffset: 7,
     assignType: 'all',
-    assignedStudentIds: []
+    assignedStudentIds: [],
+    assignmentType: 'homework' // 'homework' or 'test'
   });
 
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
@@ -229,6 +230,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
     try {
       const updates = {};
       if (editForm.releaseTime) updates.releaseTime = editForm.releaseTime;
+      if (editForm.assignmentType) updates.type = editForm.assignmentType;
       if (editForm.recurrenceDay) updates.recurrenceDay = editForm.recurrenceDay;
       if (editForm.recurrenceDate) updates.recurrenceDate = editForm.recurrenceDate;
       
@@ -578,7 +580,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         const payload = {
           title,
           subject: sched.subject,
-          instructions: `Complete this automated ${sched.subject} homework on ${sched.topic}. Built for ${sched.grade} (${sched.difficulty}) matching the ${sched.curriculumName || 'ACARA'} standard. 🤖`,
+          instructions: `Complete this automated ${sched.subject} ${sched.type === 'test' ? 'test' : 'homework'} on ${sched.topic}. Built for ${sched.grade} (${sched.difficulty}) matching the ${sched.curriculumName || 'ACARA'} standard. 🤖`,
           assignedClassId: classId,
           dueDate: formattedDueDate,
           time: sched.dueTime || '17:00',
@@ -589,6 +591,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           teacherId: user?.uid,
           teacherName: user?.displayName || sched.teacherName || 'Classroom Teacher',
           status: statusVal,
+          type: sched.type || 'homework',
           assignType: sched.assignType || 'all',
           assignedStudentIds: sched.assignType === 'students' ? (sched.assignedStudentIds || []) : [],
           scheduledRelease: statusVal === 'scheduled' ? {
@@ -709,6 +712,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           dueDateOffset: offset,
           assignType: formData.assignType,
           assignedStudentIds: formData.assignType === 'students' ? formData.assignedStudentIds : [],
+          type: formData.assignmentType || 'homework',
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           lastRun: serverTimestamp(), // Initialized to now to prevent retroactively running past occurrences
           createdAt: serverTimestamp(),
@@ -830,6 +834,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           teacherId: user?.uid,
           teacherName: user?.displayName || 'Classroom Teacher',
           status: statusVal,
+          type: formData.assignmentType || 'homework',
           assignType: formData.assignType,
           assignedStudentIds: formData.assignType === 'students' ? formData.assignedStudentIds : [],
           scheduledRelease: formData.publishType === 'publish_scheduled' ? {
@@ -1031,9 +1036,30 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
               </div>
             </div>
 
+            {/* Task Type */}
+            <div className="space-y-2 border-t border-slate-50 pt-5">
+              <label className="text-sm font-black text-rose-500 uppercase tracking-wider block">7. Task Type</label>
+              <div className="grid grid-cols-2 gap-2 bg-slate-50 p-1 border border-slate-200 rounded-2xl">
+                <button
+                  type="button"
+                  onClick={() => setFormData(prev => ({ ...prev, assignmentType: 'homework' }))}
+                  className={`py-2 px-4 rounded-xl text-sm font-bold transition-all ${formData.assignmentType === 'homework' ? 'bg-[#EA580C] text-white shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                >
+                  📝 Homework
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFormData(prev => ({ ...prev, assignmentType: 'test' }))}
+                  className={`py-2 px-4 rounded-xl text-sm font-bold transition-all ${formData.assignmentType === 'test' ? 'bg-[#EA580C] text-white shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                >
+                  🎯 Test / Quiz
+                </button>
+              </div>
+            </div>
+
             {/* Class Target Selection */}
-            <div className="space-y-2">
-              <label className="text-sm font-black text-fuchsia-500 uppercase tracking-wider block">7. Assigned Classroom</label>
+            <div className="space-y-2 border-t border-slate-50 pt-5">
+              <label className="text-sm font-black text-fuchsia-500 uppercase tracking-wider block">8. Assigned Classroom</label>
               <div className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-4 flex items-center gap-3 text-sm font-bold text-emerald-700">
                 <span>🏫 {activeClassroom?.name || 'No class selected (Please select at the top)'}</span>
               </div>
@@ -1659,6 +1685,18 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                               />
                             </div>
                             
+                            <div className="space-y-1">
+                              <label className="text-[10px] font-black text-slate-500 uppercase">Type</label>
+                              <select
+                                value={editForm.assignmentType || 'homework'}
+                                onChange={e => setEditForm(prev => ({ ...prev, assignmentType: e.target.value }))}
+                                className="w-full h-8 bg-slate-50 border border-slate-200 rounded-lg px-2 text-xs font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C]"
+                              >
+                                <option value="homework">📝 Homework</option>
+                                <option value="test">🎯 Test / Quiz</option>
+                              </select>
+                            </div>
+                            
                             {sched.recurrence === 'weekly' && (
                               <div className="space-y-1">
                                 <label className="text-[10px] font-black text-slate-500 uppercase">Day of Week</label>
@@ -1717,8 +1755,11 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                           <div className="space-y-1.5">
                             <div className="flex items-center gap-2">
                                <span className="text-sm">{subObj?.emoji || '📚'}</span>
-                               <h4 className="text-xs font-black text-emerald-800 line-clamp-1">
+                               <h4 className="text-xs font-black text-emerald-800 line-clamp-1 flex items-center gap-2">
                                  {sched.topic} {sched.isActive === false && <span className="text-amber-500 ml-1">(Paused)</span>}
+                                 <span className={`px-1.5 py-0.5 rounded text-[9px] uppercase tracking-wider ${sched.type === 'test' ? 'bg-rose-100 text-rose-700' : 'bg-blue-100 text-blue-700'}`}>
+                                   {sched.type === 'test' ? 'Test' : 'Homework'}
+                                 </span>
                                </h4>
                             </div>
                             {sched.assignType === 'students' && sched.assignedStudentIds && sched.assignedStudentIds.length > 0 && (
@@ -1759,6 +1800,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                                 setEditingAutomationId(sched.id);
                                 setEditForm({
                                   releaseTime: sched.releaseTime || '08:00',
+                                  assignmentType: sched.type || 'homework',
                                   recurrenceDay: sched.recurrenceDay || '1',
                                   recurrenceDate: sched.recurrenceDate || '1'
                                 });
