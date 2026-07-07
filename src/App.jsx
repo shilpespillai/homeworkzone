@@ -82,7 +82,7 @@ import TeacherDashboard from './pages/TeacherDashboard';
 import StudentQuiz from './pages/StudentQuiz';
 import { auth, db, googleProvider } from './firebase';
 import { signInWithPopup, onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, orderBy, arrayUnion, onSnapshot } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, orderBy, arrayUnion, onSnapshot, limit } from 'firebase/firestore';
 import MessagingModule from './components/MessagingModule';
 import VirtualPetCompanionWidget from './components/VirtualPetCompanionWidget';
 import PiggyBankWidget from './components/PiggyBankWidget';
@@ -1943,7 +1943,9 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
     // and class announcements.
     const q = query(
       collection(db, 'messages'),
-      where('teacherId', '==', teacher.uid)
+      where('teacherId', '==', teacher.uid),
+      orderBy('createdAt', 'desc'),
+      limit(100)
     );
     
     const unsubscribe = onSnapshot(q, (snapshot) => {

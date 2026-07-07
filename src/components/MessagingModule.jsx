@@ -26,7 +26,8 @@ import {
   serverTimestamp,
   doc,
   updateDoc,
-  deleteDoc
+  deleteDoc,
+  limit
 } from 'firebase/firestore';
 
 const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = [], getStudentAvatar }) => {
@@ -66,7 +67,9 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
     // Fetch all messages involving this teacher (since student is linked to teacher)
     const q = query(
       messagesRef, 
-      where('teacherId', '==', teacher.uid)
+      where('teacherId', '==', teacher.uid),
+      orderBy('createdAt', 'desc'),
+      limit(100)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {

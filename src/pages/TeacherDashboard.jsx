@@ -69,7 +69,7 @@ const toTitleCase = (str) => {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 };
-import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where, onSnapshot, addDoc, collectionGroup, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where, onSnapshot, addDoc, collectionGroup, updateDoc, limit } from 'firebase/firestore';
 import HomeworkGenerator from './HomeworkGenerator';
 import HomeworkScheduler from './HomeworkScheduler';
 import TestReportsDashboard from '../components/TestReportsDashboard';
@@ -868,7 +868,9 @@ const TeacherDashboard = ({ user, onLogout }) => {
     const messagesRef = collection(db, 'messages');
     const q = query(
       messagesRef, 
-      where('teacherId', '==', user.uid)
+      where('teacherId', '==', user.uid),
+      orderBy('createdAt', 'desc'),
+      limit(100)
     );
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const allMsgs = snapshot.docs.map(doc => ({
