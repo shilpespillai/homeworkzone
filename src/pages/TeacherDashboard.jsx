@@ -450,6 +450,10 @@ const TeacherDashboard = ({ user, onLogout }) => {
   });
   const [activeAi, setActiveAi] = useState(localStorage.getItem('hwz_active_ai') || 'gemini');
   const [showAiSettings, setShowAiSettings] = useState(false);
+  
+  // Data Management Settings
+  const [dataRetentionPeriod, setDataRetentionPeriod] = useState(90); // 90 days default
+  const [lastPurgedAt, setLastPurgedAt] = useState(null);
   const [newStudentName, setNewStudentName] = useState('');
   const [showAddClassModal, setShowAddClassModal] = useState(false);
   const [selectedSubjects, setSelectedSubjects] = useState([]);
@@ -809,6 +813,16 @@ const TeacherDashboard = ({ user, onLogout }) => {
           if (data.subjectPrompts) {
             setSubjectPrompts(data.subjectPrompts);
           }
+          let loadedRetention = 90;
+          let loadedPurgedAt = null;
+          if (data.dataRetentionPeriod !== undefined) {
+            loadedRetention = data.dataRetentionPeriod;
+            setDataRetentionPeriod(data.dataRetentionPeriod);
+          }
+          if (data.lastPurgedAt) {
+            loadedPurgedAt = data.lastPurgedAt;
+            setLastPurgedAt(data.lastPurgedAt);
+          }
           const code = user.teacherCode || data.teacherCode || user.uid.slice(0, 6).toUpperCase();
           
           if (data.encryptedAiKeys) {
@@ -841,6 +855,17 @@ const TeacherDashboard = ({ user, onLogout }) => {
             }, { merge: true });
             console.log("Legacy local storage keys migrated to encrypted cloud successfully.");
           }
+
+          // Auto-Purge Check
+          if (loadedRetention !== -1) {
+             const now = Date.now();
+             const lastPurgeMs = loadedPurgedAt ? new Date(loadedPurgedAt).getTime() : 0;
+             const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+             if (now - lastPurgeMs > sevenDaysMs) {
+                console.log("Triggering auto-purge in background...");
+                runPurge(loadedRetention).catch(console.error);
+             }
+          }
         }
       } catch (err) {
         console.error("Load cloud AI settings error:", err);
@@ -848,6 +873,57 @@ const TeacherDashboard = ({ user, onLogout }) => {
     };
     loadCloudAiSettings();
   }, [user]);
+
+  const runPurge = async (retentionDays) => {
+    if (!user?.uid || retentionDays === -1) return;
+    const cutoffDate = new Date(Date.now() - retentionDays * 24 * 60 * 60 * 1000).toISOString();
+    
+    const collectionsToPurge = [
+       { name: 'homeworks', dateField: 'createdAt' },
+       { name: 'submissions', dateField: 'submittedAt' },
+       { name: 'messages', dateField: 'createdAt' }
+    ];
+
+    let totalDeleted = 0;
+
+    for (const coll of collectionsToPurge) {
+       try {
+          const q = query(
+             collection(db, coll.name),
+             where('teacherId', '==', user.uid),
+             where(coll.dateField, '<', cutoffDate),
+             limit(100)
+          );
+          
+          let hasMore = true;
+          while (hasMore) {
+             const snap = await getDocs(q);
+             if (snap.empty) {
+                hasMore = false;
+                break;
+             }
+             
+             const deletePromises = snap.docs.map(docSnap => deleteDoc(doc(db, coll.name, docSnap.id)));
+             await Promise.all(deletePromises);
+             totalDeleted += snap.docs.length;
+             
+             if (snap.docs.length < 100) {
+                hasMore = false;
+             }
+          }
+       } catch (err) {
+          console.error(`Error purging ${coll.name}:`, err);
+       }
+    }
+
+    const nowIso = new Date().toISOString();
+    setLastPurgedAt(nowIso);
+    await setDoc(doc(db, 'teachers', user.uid), {
+       lastPurgedAt: nowIso
+    }, { merge: true });
+    
+    return totalDeleted;
+  };
 
   useEffect(() => {
     if (user?.uid) {
@@ -1716,6 +1792,124 @@ const TeacherDashboard = ({ user, onLogout }) => {
     } finally {
       setIsRedirectingStripe(false);
     }
+  };
+
+  const handleSaveDataSettings = async () => {
+    try {
+      await setDoc(doc(db, 'teachers', user.uid), {
+        dataRetentionPeriod: dataRetentionPeriod
+      }, { merge: true });
+      alert("Data Retention Settings Saved! 💾");
+    } catch (err) {
+      console.error("Save Data Settings Error:", err);
+      alert("Oops! Could not save data settings.");
+    }
+  };
+
+  const handleManualPurge = async () => {
+    if (dataRetentionPeriod === -1) {
+      alert("Your retention policy is set to 'Forever'. Please select a timeframe before purging.");
+      return;
+    }
+    const daysStr = dataRetentionPeriod + " Days";
+    if (await window.confirmCustom(`Are you sure you want to PERMANENTLY DELETE all Homeworks, Tests, Gradebooks, and Messages older than ${daysStr}? 🗑️\n\nThis cannot be undone.`)) {
+      try {
+        const deletedCount = await runPurge(dataRetentionPeriod);
+        alert(`Purge Complete! 🧹 Deleted ${deletedCount || 0} old records.`);
+      } catch (err) {
+        console.error("Purge Error:", err);
+        alert("Oops! Something went wrong while purging.");
+      }
+    }
+  };
+
+  const renderSettingsTab = () => {
+    return (
+      <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 animate-fadeIn relative">
+        {/* Header */}
+        <div className="bg-white rounded-[40px] border border-slate-100 shadow-sm p-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full blur-3xl -mr-20 -mt-20 opacity-50" />
+          <div className="relative z-10">
+            <h1 className="text-4xl font-black text-[#14532d] tracking-tight flex items-center gap-4">
+              <Settings className="w-10 h-10 text-slate-500" />
+              Teacher Settings
+            </h1>
+            <p className="text-slate-500 mt-2 font-medium max-w-2xl">
+              Manage your global preferences, data retention policies, and account settings.
+            </p>
+          </div>
+        </div>
+
+        {/* Data Retention & Purge Section */}
+        <div className="bg-white rounded-[40px] border border-orange-100 shadow-sm p-10 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-orange-50 rounded-full blur-3xl -mr-20 -mt-20 opacity-40 transition-opacity group-hover:opacity-70" />
+          
+          <div className="relative z-10">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center">
+                <Trash2 className="w-7 h-7" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-black text-slate-800 tracking-tight">Data Retention & Purging</h2>
+                <p className="text-sm font-bold text-slate-500 mt-1">Keep your database lightweight and performant.</p>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="p-6 bg-orange-50/50 rounded-3xl border border-orange-100 space-y-4">
+                <h3 className="text-sm font-black text-orange-900 uppercase tracking-wider">Automated Cleanup Policy</h3>
+                <p className="text-sm text-slate-600 font-medium">
+                  Set how long you want to keep historical <b>Homeworks, Tests, Submissions, and Chat Messages</b>. The app will automatically run a background cleanup every 7 days based on this policy.
+                </p>
+                
+                <div className="flex items-center gap-4">
+                  <select
+                    value={dataRetentionPeriod}
+                    onChange={(e) => setDataRetentionPeriod(parseInt(e.target.value))}
+                    className="bg-white border-2 border-orange-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:outline-none focus:border-orange-400 w-64 shadow-sm"
+                  >
+                    <option value={30}>30 Days</option>
+                    <option value={90}>3 Months (90 Days)</option>
+                    <option value={180}>6 Months (180 Days)</option>
+                    <option value={365}>1 Year (365 Days)</option>
+                    <option value={-1}>Forever (No Auto-Purge)</option>
+                  </select>
+                  
+                  <button
+                    onClick={handleSaveDataSettings}
+                    className="px-6 py-3 bg-[#EA580C] hover:bg-[#C2410C] text-white rounded-xl text-sm font-black transition-all shadow-md active:scale-95"
+                  >
+                    Save Policy
+                  </button>
+                </div>
+                
+                {lastPurgedAt && (
+                  <p className="text-xs font-bold text-orange-600 mt-2">
+                    Last automatic purge ran on: {new Date(lastPurgedAt).toLocaleString()}
+                  </p>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between p-6 bg-rose-50/50 rounded-3xl border border-rose-100">
+                <div>
+                  <h3 className="text-sm font-black text-rose-700 uppercase tracking-wider mb-1">Manual Purge</h3>
+                  <p className="text-sm text-slate-600 font-medium">Instantly delete data older than your selected retention policy.</p>
+                </div>
+                <button
+                  onClick={handleManualPurge}
+                  className="px-6 py-3 bg-white border-2 border-rose-200 hover:border-rose-400 text-rose-600 rounded-xl text-sm font-black transition-all shadow-sm flex items-center gap-2 group-hover:shadow-md"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  Purge Data Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <GrassBorder />
+      </div>
+    );
   };
 
   const renderBillingTab = () => {
@@ -6661,6 +6855,8 @@ const TeacherDashboard = ({ user, onLogout }) => {
                </div>
             );
          }
+         case 'Settings':
+            return renderSettingsTab();
          case 'Billing & Licenses':
             return renderBillingTab();
          case 'Admin Reports':
@@ -6749,6 +6945,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
             <SidebarItem id="Tuition Fees" label="Tuition Fees" icon={<CreditCard className="w-5 h-5 text-green-500" />} active={activeTab === 'Tuition Fees'} onClick={setActiveTab} />
             <SidebarItem id="Revenue" label="Revenue" icon={<TrendingUp className="w-5 h-5 text-emerald-500" />} active={activeTab === 'Revenue'} onClick={setActiveTab} />
             <SidebarItem id="Billing & Licenses" label="Billing & Licenses" icon={<CreditCard className="w-5 h-5 text-blue-500" />} active={activeTab === 'Billing & Licenses'} onClick={setActiveTab} />
+            <SidebarItem id="Settings" label="Settings" icon={<Settings className="w-5 h-5 text-slate-500" />} active={activeTab === 'Settings'} onClick={setActiveTab} />
             {isAdminUser && (
               <SidebarItem id="Admin Reports" label="Admin Reports" icon={<Award className="w-5 h-5 text-purple-650 animate-pulse" />} active={activeTab === 'Admin Reports'} onClick={setActiveTab} />
             )}
