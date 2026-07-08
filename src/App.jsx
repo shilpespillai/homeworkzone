@@ -114,6 +114,59 @@ const ACTIVITY_DATA = [
   { day: 'Sun', value: 50 },
 ];
 
+// --- NAPLAN Umbrella Mapping ---
+export const getNaplanUmbrella = (subject, title) => {
+   const lowerTitle = (title || '').toLowerCase();
+   const lowerSub = (subject || '').toLowerCase();
+
+   if (lowerSub.includes('math')) {
+      if (/fraction|decimal|percent|ratio|rate|number|algebra|equation|pattern|multiply|divide|add|subtract|integer|factor|multiple/i.test(lowerTitle)) {
+         return 'Number & Algebra';
+      }
+      if (/geometry|shape|symmetry|area|perimeter|volume|time|angle|map|spatial|location|3d/i.test(lowerTitle)) {
+         return 'Measurement & Geometry';
+      }
+      if (/data|graph|chance|probability|statistic|average|mean|median|mode/i.test(lowerTitle)) {
+         return 'Statistics & Probability';
+      }
+      return 'General Numeracy';
+   }
+
+   if (lowerSub.includes('english') || lowerSub.includes('literacy')) {
+      if (/comprehension|read|infer|idea/i.test(lowerTitle)) {
+         return 'Reading Comprehension';
+      }
+      if (/grammar|punctuate|sentence|tense|comma|apostrophe/i.test(lowerTitle)) {
+         return 'Grammar & Punctuation';
+      }
+      if (/spell|phonic|word/i.test(lowerTitle)) {
+         return 'Spelling';
+      }
+      if (/write|narrative|persuade|inform|compose/i.test(lowerTitle)) {
+         return 'Writing & Composition';
+      }
+      return 'General Literacy';
+   }
+
+   if (lowerSub.includes('science')) {
+      if (/bio|ecosystem|body|plant|animal|life/i.test(lowerTitle)) {
+         return 'Biological Sciences';
+      }
+      if (/chem|matter|mixture|reaction/i.test(lowerTitle)) {
+         return 'Chemical Sciences';
+      }
+      if (/earth|space|solar|geolog|weather/i.test(lowerTitle)) {
+         return 'Earth & Space Sciences';
+      }
+      if (/physic|force|motion|energy|light|sound/i.test(lowerTitle)) {
+         return 'Physical Sciences';
+      }
+      return 'General Science';
+   }
+
+   return title || 'Other Topics';
+};
+
 // --- Custom Blob Chart Component ---
 const BlobChart = ({ value }) => (
   <div className="relative w-48 h-48 flex-center">
@@ -1104,7 +1157,7 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
 
                {/* Topic Tabs */}
                {(() => {
-                  const orderedTopics = [...new Set(displayedHomeworks.map(hw => hw.title || 'Other Topics'))];
+                  const orderedTopics = [...new Set(displayedHomeworks.map(hw => getNaplanUmbrella(hw.subject, hw.title)))];
                   if (orderedTopics.length === 0) return null;
                   return (
                      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pt-2">
@@ -1134,13 +1187,13 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
                   <div className="flex flex-col gap-8">
                      {(() => {
                         const groupsMap = displayedHomeworks.reduce((acc, hw) => {
-                           const t = hw.title || 'Other Topics';
+                           const t = getNaplanUmbrella(hw.subject, hw.title);
                            if (!acc[t]) acc[t] = [];
                            acc[t].push(hw);
                            return acc;
                         }, {});
                         
-                        const orderedTopics = [...new Set(displayedHomeworks.map(hw => hw.title || 'Other Topics'))];
+                        const orderedTopics = [...new Set(displayedHomeworks.map(hw => getNaplanUmbrella(hw.subject, hw.title)))];
                         const topicsToRender = activeTopicTab === 'All' ? orderedTopics : [activeTopicTab];
 
                         return topicsToRender.map(topic => {
