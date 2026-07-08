@@ -880,7 +880,7 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
                 hwList.sort((a, b) => {
                    const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
                    const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-                   return dateB - dateA;
+                   return dateA - dateB;
                 });
                 
                 setHomeworks(hwList);
@@ -1066,36 +1066,62 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
             {/* Homework List */}
             <div className="space-y-4 relative z-10">
                {displayedHomeworks.length > 0 ? (
-                  <div className="flex flex-col gap-4">
-                     {displayedHomeworks.map((hw, idx) => {
-                        const isHero = todoHws.length > 0 && hw.id === todoHws[0].id;
-                        const submission = submissions.find(s => s.homeworkId === hw.id);
-                        const hasDraft = localStorage.getItem(`hz_draft_${studentName}_${hw.id}`) !== null;
+                  <div className="flex flex-col gap-8">
+                     {(() => {
+                        const groupsMap = displayedHomeworks.reduce((acc, hw) => {
+                           const t = hw.title || 'Other Topics';
+                           if (!acc[t]) acc[t] = [];
+                           acc[t].push(hw);
+                           return acc;
+                        }, {});
                         
-                        if (isHero) {
-                           return (
-                              <HeroHomeworkCard
-                                 key={hw.id}
-                                 hw={hw}
-                                 completedSubmission={submission}
-                                 hasDraft={hasDraft}
-                                 onStart={onStartMission}
-                              />
-                           );
-                        }
+                        const orderedTopics = [...new Set(displayedHomeworks.map(hw => hw.title || 'Other Topics'))];
 
-                        return (
-                           <HomeworkCard 
-                              key={hw.id} 
-                              hw={hw} 
-                              completedSubmission={submission}
-                              hasDraft={hasDraft}
-                              delay={idx * 0.05}
-                              onStart={onStartMission}
-                              teacher={teacher}
-                           />
-                        );
-                     })}
+                        return orderedTopics.map(topic => {
+                           const hws = groupsMap[topic];
+                           return (
+                              <div key={topic} className="flex flex-col gap-4 bg-white/40 backdrop-blur-md rounded-3xl p-6 border-2 border-slate-100/60 shadow-sm">
+                                 <h3 className="text-2xl font-black text-slate-800 flex items-center gap-3 mb-2">
+                                   <div className="w-10 h-10 rounded-2xl bg-[#EA580C] flex items-center justify-center text-white shadow-[0_4px_0_0_#C2410C] transform -rotate-3">
+                                     <GraduationCap className="w-5 h-5" />
+                                   </div>
+                                   {topic}
+                                 </h3>
+                                 <div className="flex flex-col gap-4">
+                                   {hws.map((hw, idx) => {
+                                      const isHero = todoHws.length > 0 && hw.id === todoHws[0].id;
+                                      const submission = submissions.find(s => s.homeworkId === hw.id);
+                                      const hasDraft = localStorage.getItem(`hz_draft_${studentName}_${hw.id}`) !== null;
+                                      
+                                      if (isHero) {
+                                         return (
+                                            <HeroHomeworkCard
+                                               key={hw.id}
+                                               hw={hw}
+                                               completedSubmission={submission}
+                                               hasDraft={hasDraft}
+                                               onStart={onStartMission}
+                                            />
+                                         );
+                                      }
+
+                                      return (
+                                         <HomeworkCard 
+                                            key={hw.id} 
+                                            hw={hw} 
+                                            completedSubmission={submission}
+                                            hasDraft={hasDraft}
+                                            delay={idx * 0.05}
+                                            onStart={onStartMission}
+                                            teacher={teacher}
+                                         />
+                                      );
+                                   })}
+                                 </div>
+                              </div>
+                           );
+                        });
+                     })()}
                   </div>
                ) : (
                   <div className="text-center py-20 bg-white rounded-[32px] border-2 border-dashed border-slate-200">
