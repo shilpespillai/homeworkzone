@@ -5,56 +5,56 @@ import { Compass, Map, Trophy, Users, Award, Sparkles, X } from 'lucide-react';
 
 const TRACK_COORDS = {
   sonic: [
-    { x: 200, y: 270 }, // 0: START
-    { x: 130, y: 360 }, // 1: Chemical Plant area
-    { x: 180, y: 480 }, // 2: Circle 3 (Green Hill)
-    { x: 380, y: 470 }, // 3: Circle 4 (Spring Yard)
-    { x: 430, y: 330 }, // 4: Circle 5
-    { x: 470, y: 230 }, // 5: Circle 6 (Cloud Fortress)
-    { x: 560, y: 330 }, // 6: Circle 7 (Libyreon City)
-    { x: 700, y: 260 }, // 7: Circle 8 (Death Egg Zone)
-    { x: 680, y: 440 }, // 8: Circle 9 (Death Egg Core)
-    { x: 820, y: 260 }, // 9: Circle 10 (Ice Cap Zone)
-    { x: 900, y: 380 }  // 10: FINISH
+    { x: 184, y: 140 }, // 0: START (1)
+    { x: 153, y: 418 }, // 1: Green Hill (3)
+    { x: 358, y: 418 }, // 2: Marble (Purple 4)
+    { x: 460, y: 474 }, // 3: Spring Yard (Red 4)
+    { x: 460, y: 306 }, // 4: 5
+    { x: 460, y: 195 }, // 5: Cloud Fortress (6)
+    { x: 563, y: 306 }, // 6: Libyreon City (7)
+    { x: 665, y: 212 }, // 7: Death Egg (8)
+    { x: 665, y: 390 }, // 8: Death Egg Core (9)
+    { x: 819, y: 223 }, // 9: Final Temple (10)
+    { x: 900, y: 334 }  // 10: FINISH
   ],
   island: [
-    { x: 600, y: 70 },   // 0 (START)
-    { x: 590, y: 160 },  // 1 (Circle 1)
-    { x: 810, y: 210 },  // 2 (Circle 2)
-    { x: 680, y: 260 },  // 3 (Circle 3)
-    { x: 500, y: 290 },  // 4 (Circle 5 - Pine Woods)
-    { x: 330, y: 270 },  // 5 (Circle 4 - Old Ruins)
-    { x: 380, y: 390 },  // 6 (U-Turn near Coast)
-    { x: 560, y: 360 },  // 7 (Circle 7 - Volcano Base)
-    { x: 640, y: 360 },  // 8 (Circle 8 - Compass Point)
-    { x: 740, y: 390 },  // 9 (Circle 10 - Palm Beach)
-    { x: 870, y: 480 }   // 10 (FINISH)
+    { x: 593, y: 68 },   // 0 (START)
+    { x: 593, y: 142 },  // 1 (Circle 1)
+    { x: 798, y: 200 },  // 2 (Circle 2)
+    { x: 675, y: 234 },  // 3 (Circle 3)
+    { x: 327, y: 251 },  // 4 (Circle 4)
+    { x: 491, y: 274 },  // 5 (Circle 5)
+    { x: 389, y: 388 },  // 6 (U-Turn near Coast)
+    { x: 563, y: 348 },  // 7 (Circle 7)
+    { x: 645, y: 342 },  // 8 (Circle 8)
+    { x: 747, y: 371 },  // 9 (Circle 10)
+    { x: 870, y: 440 }   // 10 (FINISH)
   ],
   forest: [
-    { x: 25, y: 360 }, // 0 (1. Start Point)
-    { x: 275, y: 50 }, // 1 (2. Whispering Grove)
+    { x: 25, y: 365 },  // 0 (1. Start Point)
+    { x: 275, y: 75 },  // 1 (2. Whispering Grove)
     { x: 190, y: 325 }, // 2 (3. Mushroom Glade)
     { x: 220, y: 500 }, // 3 (4. Glimmering Pool)
-    { x: 360, y: 385 }, // 4 (5. Mossy Ruins)
-    { x: 490, y: 360 }, // 5 (6. Ancient Tree of Ages)
+    { x: 370, y: 385 }, // 4 (5. Mossy Ruins)
+    { x: 490, y: 350 }, // 5 (6. Ancient Tree of Ages)
     { x: 640, y: 330 }, // 6 (7. Spider's Silken Web)
-    { x: 745, y: 165 }, // 7 (8. Crystal Cavern Entrance)
-    { x: 675, y: 500 }, // 8 (9. Bioluminescent Flower Patch)
-    { x: 855, y: 370 }, // 9 (10. Sentinel Stone Circle)
-    { x: 910, y: 560 }  // 10 (FINISH)
+    { x: 740, y: 155 }, // 7 (8. Crystal Cavern)
+    { x: 680, y: 500 }, // 8 (9. Flower Patch)
+    { x: 870, y: 370 }, // 9 (10. Stone Circle)
+    { x: 900, y: 560 }  // 10 (FINISH)
   ],
   space: [
-    { x: 25, y: 370 }, // 0 (1. Star Point)
-    { x: 270, y: 75 }, // 1 (2. Asteroid Field)
-    { x: 180, y: 330 }, // 2 (3. Cosmic Nebula)
+    { x: 25, y: 365 },  // 0 (1. Star Point)
+    { x: 275, y: 75 },  // 1 (2. Asteroid Field)
+    { x: 190, y: 325 }, // 2 (3. Cosmic Nebula)
     { x: 220, y: 500 }, // 3 (4. Glimmering Gas Cloud)
-    { x: 360, y: 385 }, // 4 (5. Xeno-Ruins)
-    { x: 490, y: 360 }, // 5 (6. Elder Pulsar)
+    { x: 370, y: 385 }, // 4 (5. Xeno-Ruins)
+    { x: 490, y: 350 }, // 5 (6. Elder Pulsar)
     { x: 640, y: 330 }, // 6 (7. Silken Singularity)
-    { x: 745, y: 165 }, // 7 (8. Crystal Comet Entrance)
-    { x: 675, y: 500 }, // 8 (9. Exotic Particle Field)
-    { x: 855, y: 370 }, // 9 (10. Sentience Stones)
-    { x: 910, y: 560 }  // 10 (FINISH)
+    { x: 740, y: 155 }, // 7 (8. Crystal Comet)
+    { x: 680, y: 500 }, // 8 (9. Exotic Particle)
+    { x: 870, y: 370 }, // 9 (10. Sentience Stones)
+    { x: 900, y: 560 }  // 10 (FINISH)
   ],
   sports: [
     { x: 100, y: 330 },  // 0
@@ -70,8 +70,16 @@ const TRACK_COORDS = {
     { x: 100, y: 130 }   // 10
   ],
   undersea: [
-    { x: 80, y: 240 }, { x: 150, y: 280 }, { x: 270, y: 120 }, { x: 330, y: 280 }, { x: 450, y: 100 },
-    { x: 500, y: 310 }, { x: 710, y: 90 }, { x: 710, y: 210 }, { x: 650, y: 340 }, { x: 910, y: 320 }, { x: 910, y: 320 }
+    { x: 90, y: 460 },  // 0 START
+    { x: 110, y: 550 }, // 1 Coral Reef
+    { x: 240, y: 220 }, // 2 Sea Forest
+    { x: 310, y: 540 }, // 3 Sunken Ship
+    { x: 445, y: 170 }, // 4 Deep Blue Zone
+    { x: 490, y: 580 }, // 5 Pearl Cave
+    { x: 705, y: 155 }, // 6 Volcano Ridge
+    { x: 720, y: 420 }, // 7 Ice Tunnels
+    { x: 650, y: 645 }, // 8 Treasure Lagoon
+    { x: 910, y: 615 }  // 9 FINISH
   ],
   candyland: [
     { x: 80, y: 350 }, { x: 120, y: 250 }, { x: 220, y: 200 }, { x: 300, y: 280 }, { x: 400, y: 360 },
