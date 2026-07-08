@@ -37,6 +37,7 @@ import DynamicChart from '../components/DynamicChart';
 import DynamicGeometry from '../components/DynamicGeometry';
 import DynamicGridMap from '../components/DynamicGridMap';
 import DynamicNumberLine from '../components/DynamicNumberLine';
+import DynamicPathMap from '../components/DynamicPathMap';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
 
 const SUBJECTS = [
@@ -394,16 +395,32 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
           "labels": { "width": "string", "height": "string", "radius": "string", "base": "string" }
         }
         
-        IF the question involves spatial reasoning, coordinate mapping, or scale drawings, include a "gridMapData" object property:
+        IF the question involves spatial reasoning, coordinate mapping, or street maps, include a "gridMapData" object property:
         "gridMapData": {
           "columns": 5,
-          "rows": 5,
+          "rows": 4,
+          "showCompass": true,
+          "scale": "1 square = 100m",
+          "streetStyle": true,
           "items": [
-            { "col": "B", "row": 2, "label": "School", "icon": "GraduationCap" },
-            { "col": "D", "row": 4, "label": "Park", "icon": "TreePine" }
+            { "coordinate": "A4", "label": "School", "icon": "GraduationCap" },
+            { "coordinate": "D3", "label": "Park", "icon": "TreePine" }
           ]
         }
         (Use lucide-react icon names for the icon field: School, TreePine, Hospital, Library, MapPin, Building, Flag, House, etc.)
+
+        IF the question involves tracing a route, a running course, turns, or angles, include a "pathData" object property:
+        "pathData": {
+          "points": [
+            { "x": 10, "y": 80, "label": "start" },
+            { "x": 15, "y": 30, "label": "station 1", "icon": "Flag" },
+            { "x": 60, "y": 40, "label": "station 2", "icon": "Flag" },
+            { "x": 90, "y": 10, "label": "station 3", "icon": "Flag" }
+          ],
+          "showArrows": true,
+          "closed": false
+        }
+        Note: The X and Y coordinates should be on a 0 to 100 percentage scale.
 
         IF the question involves placing numbers, decimals, or fractions on a line, include a "numberLineData" object property:
         "numberLineData": {
@@ -418,7 +435,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         }
         ABSOLUTELY NO ASCII ART IN THE TEXT! DO NOT type "0 ---|---|--- 1" in the question text. You MUST use the "numberLineData" JSON object instead.
 
-        CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", "numberLineData", or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!`;
+        CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!`;
 
       const textResponse = await generateContent({
         prompt,
@@ -909,7 +926,12 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                                 <DynamicNumberLine data={q.numberLineData} />
                               </div>
                             )}
-                            {q.svgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && (
+                            {q.pathData && (
+                              <div className="mb-4 max-w-[300px] mx-auto">
+                                <DynamicPathMap data={q.pathData} />
+                              </div>
+                            )}
+                            {q.svgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && (
                               <div className="flex justify-center mb-4 bg-white rounded-lg p-2 border border-slate-100 shadow-sm max-w-[200px] mx-auto">
                                 <div dangerouslySetInnerHTML={{ __html: q.svgCode }} className="w-full h-auto" />
                               </div>
