@@ -39,6 +39,7 @@ import DynamicGridMap from '../components/DynamicGridMap';
 import DynamicNumberLine from '../components/DynamicNumberLine';
 import DynamicPathMap from '../components/DynamicPathMap';
 import DynamicInstrument from '../components/DynamicInstrument';
+import DynamicBlockStructure from '../components/DynamicBlockStructure';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
 
 const SUBJECTS = [
@@ -446,7 +447,15 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
           "step": 10
         }
 
-        CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData" or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!`;
+        IF the question involves counting stacked cubes, painted blocks, or isometric 3D spatial reasoning, include a "blockData" object property:
+        "blockData": {
+          "grid": [
+            [5, 6, 5]
+          ]
+        }
+        (The grid is a 2D array of integers representing the height of the blocks at each x,y coordinate).
+
+        CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData" or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!`;
 
       const textResponse = await generateContent({
         prompt,
@@ -947,7 +956,12 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                                 <DynamicInstrument data={q.instrumentData} />
                               </div>
                             )}
-                            {q.svgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && (
+                            {q.blockData && (
+                              <div className="mb-4">
+                                <DynamicBlockStructure data={q.blockData} />
+                              </div>
+                            )}
+                            {q.svgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && (
                               <div className="flex justify-center mb-4 bg-white rounded-lg p-2 border border-slate-100 shadow-sm max-w-[200px] mx-auto">
                                 <div dangerouslySetInnerHTML={{ __html: q.svgCode }} className="w-full h-auto" />
                               </div>
