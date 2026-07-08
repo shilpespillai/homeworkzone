@@ -70,18 +70,18 @@ const TRACK_COORDS = {
     { x: 100, y: 130 }   // 10
   ],
   undersea: [
-    { x: 140, y: 460 }, // 0 START
-    { x: 225, y: 540 }, // 1 Coral Reef
-    { x: 455, y: 135 }, // 2 Sea Forest
-    { x: 500, y: 555 }, // 3 Sunken Ship
-    { x: 700, y: 65 },  // 4 Deep Blue Zone
-    { x: 730, y: 595 }, // 5 Pearl Cave
-    { x: 820, y: 200 }, // 6 Volcano Ridge
-    { x: 870, y: 400 }, // 7 Ice Tunnels
-    { x: 980, y: 630 }, // 8 Treasure Lagoon
-    { x: 890, y: 500 }, // 9 Abyssal Plain
-    { x: 920, y: 300 }, // 10 Atlantis Gates
-    { x: 960, y: 100 }  // 11 Poseidon's Throne
+    { x: 45, y: 465 },   // 0 START
+    { x: 108, y: 545 },  // 1 Coral Reef
+    { x: 272, y: 215 },  // 2 Sea Forest
+    { x: 305, y: 555 },  // 3 Sunken Ship
+    { x: 450, y: 175 },  // 4 Deep Blue Zone
+    { x: 470, y: 580 },  // 5 Pearl Cave
+    { x: 705, y: 145 },  // 6 Volcano Ridge
+    { x: 745, y: 435 },  // 7 Ice Tunnels
+    { x: 635, y: 645 },  // 8 Treasure Lagoon
+    { x: 800, y: 500 },  // 9 Abyssal Plain (Hidden)
+    { x: 850, y: 550 },  // 10 Atlantis Gates (Hidden)
+    { x: 910, y: 615 }   // 11 FINISH / Poseidon's Throne
   ],
   candyland: [
     { x: 120, y: 520 }, // 0 START
