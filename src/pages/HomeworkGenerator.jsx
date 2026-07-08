@@ -518,10 +518,12 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
       const questionsToSave = generatedQuestions || [];
 
+      const isSpatialReasoning = (formData.title || '').toLowerCase().includes('spatial') || (formData.aiPrompt || '').toLowerCase().includes('spatial');
+
       // Pre-generate explanations for all questions (one API call at creation time)
       // so students never trigger live AI calls when submitting.
       let questionExplanations = {};
-      if (questionsToSave.length > 0) {
+      if (questionsToSave.length > 0 && !isSpatialReasoning) {
         questionExplanations = await generateExplanations(questionsToSave, formData.subject, activeModel);
       }
 
@@ -639,10 +641,12 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
       const questionsToSave = generatedQuestions || [];
 
+      const isSpatialReasoning = (formData.title || '').toLowerCase().includes('spatial') || (formData.aiPrompt || '').toLowerCase().includes('spatial');
+
       // Pre-generate explanations at draft-save time as well,
       // so they are ready when the draft is later published.
       let questionExplanations = {};
-      if (questionsToSave.length > 0) {
+      if (questionsToSave.length > 0 && !isSpatialReasoning) {
         questionExplanations = await generateExplanations(questionsToSave, formData.subject, activeModel);
       }
 
