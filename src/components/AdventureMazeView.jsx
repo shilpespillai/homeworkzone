@@ -559,15 +559,17 @@ export default function AdventureMazeView({
       const pts = Math.max(0, scores[name] || 0);
       
       const totalSteps = Math.floor(pts / 50);
+      const trackLength = activeCoords.length - 1; // e.g., 10 for most, 11 for dinosaur/winter
+      
       let lap = 1;
       let milestone = 0;
       if (totalSteps > 0) {
-        if (totalSteps % 10 === 0) {
-          milestone = 10;
-          lap = Math.floor(totalSteps / 10);
+        if (totalSteps % trackLength === 0) {
+          milestone = trackLength;
+          lap = Math.floor(totalSteps / trackLength);
         } else {
-          milestone = totalSteps % 10;
-          lap = Math.floor(totalSteps / 10) + 1;
+          milestone = totalSteps % trackLength;
+          lap = Math.floor(totalSteps / trackLength) + 1;
         }
       }
 
@@ -589,7 +591,7 @@ export default function AdventureMazeView({
   // Group students by milestone to cluster them without overlapping
   const studentsByMilestone = useMemo(() => {
     const map = {};
-    for (let i = 0; i <= 10; i++) {
+    for (let i = 0; i < activeCoords.length; i++) {
       map[i] = [];
     }
     studentsWithMilestones.forEach(s => {
