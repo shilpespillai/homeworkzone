@@ -403,7 +403,19 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         }
         (Use lucide-react icon names for the icon field: School, TreePine, Hospital, Library, MapPin, Building, Flag, House, etc.)
 
-        CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!`;
+        IF the question involves placing numbers, decimals, or fractions on a line, include a "numberLineData" object property:
+        "numberLineData": {
+          "min": 0,
+          "max": 1,
+          "points": [
+            { "value": 0.2, "label": "A" },
+            { "value": 0.5, "label": "B" },
+            { "value": 0.75, "label": "C" }
+          ],
+          "showLabels": true
+        }
+
+        CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", "numberLineData", or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!`;
 
       const textResponse = await generateContent({
         prompt,

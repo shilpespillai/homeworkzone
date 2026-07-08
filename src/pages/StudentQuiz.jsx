@@ -30,6 +30,7 @@ import { fetchWithRetry, generateContent } from '../utils/aiClient';
 import DynamicChart from '../components/DynamicChart';
 import DynamicGeometry from '../components/DynamicGeometry';
 import DynamicGridMap from '../components/DynamicGridMap';
+import DynamicNumberLine from '../components/DynamicNumberLine';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
 
 export default function StudentQuiz({ homeworkId, studentName, teacher, initialSubmission, onComplete }) {
@@ -584,12 +585,13 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                            {q.chartData && <div className="w-full md:w-1/2"><DynamicChart data={q.chartData} /></div>}
                            {q.geometryData && <div className="w-full md:w-1/2"><DynamicGeometry data={q.geometryData} /></div>}
                            {q.gridMapData && <div className="w-full md:w-1/2"><DynamicGridMap data={q.gridMapData} /></div>}
-                           {q.svgCode && !q.chartData && !q.geometryData && !q.gridMapData && (
+                           {q.numberLineData && <div className="w-full md:w-2/3"><DynamicNumberLine data={q.numberLineData} /></div>}
+                           {q.svgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && (
                              <div className="w-48 h-48 md:w-64 md:h-64 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
                                <div dangerouslySetInnerHTML={{ __html: q.svgCode }} className="w-full h-full" />
                              </div>
                            )}
-                           {q.imageUrl && !q.chartData && !q.geometryData && !q.gridMapData && !q.svgCode && (
+                           {q.imageUrl && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.svgCode && (
                              <div className="w-32 h-32 md:w-40 md:h-40 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner overflow-hidden">
                                <img src={q.imageUrl} alt="Visual" className="w-full h-full object-cover" loading="lazy" />
                              </div>
@@ -811,7 +813,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                     clockTime = '10:10';
                   }
 
-                  const showAbstractImage = !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.svgCode && !currentQuestion.gridMapData && !clockTime;
+                  const showAbstractImage = !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.svgCode && !currentQuestion.gridMapData && !currentQuestion.numberLineData && !clockTime;
 
                   return (
                     <div className="flex flex-col md:flex-row gap-8 items-center md:items-start mb-10">
@@ -831,7 +833,12 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                           <DynamicGridMap data={currentQuestion.gridMapData} />
                         </div>
                       )}
-                      {currentQuestion.svgCode && !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.gridMapData && (
+                      {currentQuestion.numberLineData && (
+                        <div className="w-full md:w-2/3 shrink-0">
+                          <DynamicNumberLine data={currentQuestion.numberLineData} />
+                        </div>
+                      )}
+                      {currentQuestion.svgCode && !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.gridMapData && !currentQuestion.numberLineData && (
                         <div className="w-48 h-48 md:w-64 md:h-64 shrink-0 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
                           <div dangerouslySetInnerHTML={{ __html: currentQuestion.svgCode }} className="w-full h-full" />
                         </div>
