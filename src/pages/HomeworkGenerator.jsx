@@ -414,6 +414,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
           ],
           "showLabels": true
         }
+        ABSOLUTELY NO ASCII ART IN THE TEXT! DO NOT type "0 ---|---|--- 1" in the question text. You MUST use the "numberLineData" JSON object instead.
 
         CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", "numberLineData", or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!`;
 
