@@ -29,6 +29,7 @@ import { triggerConfetti } from '../utils/confetti';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
 import DynamicChart from '../components/DynamicChart';
 import DynamicGeometry from '../components/DynamicGeometry';
+import DynamicGridMap from '../components/DynamicGridMap';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
 
 export default function StudentQuiz({ homeworkId, studentName, teacher, initialSubmission, onComplete }) {
@@ -643,7 +644,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                     clockTime = '10:10';
                   }
 
-                  const showAbstractImage = !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.svgCode && !clockTime;
+                  const showAbstractImage = !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.svgCode && !currentQuestion.gridMapData && !clockTime;
 
                   return (
                     <div className="flex flex-col md:flex-row gap-8 items-center md:items-start mb-10">
@@ -658,7 +659,12 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                           <DynamicGeometry data={currentQuestion.geometryData} />
                         </div>
                       )}
-                      {currentQuestion.svgCode && !currentQuestion.chartData && !currentQuestion.geometryData && (
+                      {currentQuestion.gridMapData && (
+                        <div className="w-full md:w-1/2 shrink-0">
+                          <DynamicGridMap data={currentQuestion.gridMapData} />
+                        </div>
+                      )}
+                      {currentQuestion.svgCode && !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.gridMapData && (
                         <div className="w-48 h-48 md:w-64 md:h-64 shrink-0 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
                           <div dangerouslySetInnerHTML={{ __html: currentQuestion.svgCode }} className="w-full h-full" />
                         </div>

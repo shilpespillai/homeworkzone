@@ -380,7 +380,20 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         "geometryData": {
           "type": "rectangle" | "triangle" | "circle" | "cylinder" | "cube",
           "labels": { "width": "string", "height": "string", "radius": "string", "base": "string" }
-        }`;
+        }
+        
+        IF the question involves spatial reasoning, coordinate mapping, or scale drawings, include a "gridMapData" object property:
+        "gridMapData": {
+          "columns": 5,
+          "rows": 5,
+          "items": [
+            { "col": "B", "row": 2, "label": "School", "icon": "GraduationCap" },
+            { "col": "D", "row": 4, "label": "Park", "icon": "TreePine" }
+          ]
+        }
+        (Use lucide-react icon names for the icon field: School, TreePine, Hospital, Library, MapPin, Building, Flag, House, etc.)
+
+        CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!`;
 
       const textResponse = await generateContent({
         prompt,
