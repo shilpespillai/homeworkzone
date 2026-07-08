@@ -569,7 +569,8 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             
             <div className="flex flex-col gap-6">
               {displayQuestions.map((q, index) => {
-                 let { text: cleanText, clockTime } = parseQuestionText(q.text);
+                 let { text: cleanText, clockTime, inlineSvg } = parseQuestionText(q.text);
+                 const effectiveSvgCode = inlineSvg || q.svgCode;
                  const hasAnswer = answers[q.id] !== undefined;
                  const isCorrect = isReviewing ? q.answer === answers[q.id] : null;
                  const isWrong = isReviewing ? q.answer !== answers[q.id] : null;
@@ -592,12 +593,12 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                            {q.pathData && <div className="w-full md:w-1/2"><DynamicPathMap data={q.pathData} /></div>}
                            {q.instrumentData && <div className="w-full md:w-1/2"><DynamicInstrument data={q.instrumentData} /></div>}
                            {q.blockData && <div className="w-full md:w-1/2"><DynamicBlockStructure data={q.blockData} /></div>}
-                           {q.svgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && (
+                           {effectiveSvgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && (
                              <div className="w-48 h-48 md:w-64 md:h-64 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
-                               <div dangerouslySetInnerHTML={{ __html: q.svgCode }} className="w-full h-full" />
+                               <div dangerouslySetInnerHTML={{ __html: effectiveSvgCode }} className="w-full h-full" />
                              </div>
                            )}
-                           {q.imageUrl && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.svgCode && (
+                           {q.imageUrl && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !effectiveSvgCode && (
                              <div className="w-32 h-32 md:w-40 md:h-40 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner overflow-hidden">
                                <img src={q.imageUrl} alt="Visual" className="w-full h-full object-cover" loading="lazy" />
                              </div>
@@ -817,15 +818,16 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             ) : (
               <>
                 {(() => {
-                  let { text: cleanText, clockTime } = parseQuestionText(currentQuestion.text);
+                  let { text: cleanText, clockTime, inlineSvg } = parseQuestionText(currentQuestion.text);
+                  const effectiveSvgCode = inlineSvg || currentQuestion.svgCode;
                   const isClockRelated = cleanText.toLowerCase().includes('clock') || cleanText.toLowerCase().includes('time');
                   
                   // If it's a clock question but the AI didn't specify a time, show a default 10:10 clock
-                  if (!clockTime && isClockRelated && !currentQuestion.imageUrl && !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.svgCode) {
+                  if (!clockTime && isClockRelated && !currentQuestion.imageUrl && !currentQuestion.chartData && !currentQuestion.geometryData && !effectiveSvgCode) {
                     clockTime = '10:10';
                   }
 
-                  const showAbstractImage = !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.svgCode && !currentQuestion.gridMapData && !currentQuestion.numberLineData && !currentQuestion.pathData && !currentQuestion.instrumentData && !currentQuestion.blockData && !clockTime;
+                  const showAbstractImage = !currentQuestion.chartData && !currentQuestion.geometryData && !effectiveSvgCode && !currentQuestion.gridMapData && !currentQuestion.numberLineData && !currentQuestion.pathData && !currentQuestion.instrumentData && !currentQuestion.blockData && !clockTime;
 
                   return (
                     <div className="flex flex-col md:flex-row gap-8 items-center md:items-start mb-10">
@@ -865,9 +867,9 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                           <DynamicBlockStructure data={currentQuestion.blockData} />
                         </div>
                       )}
-                      {currentQuestion.svgCode && !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.gridMapData && !currentQuestion.numberLineData && !currentQuestion.pathData && !currentQuestion.instrumentData && !currentQuestion.blockData && (
+                      {effectiveSvgCode && !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.gridMapData && !currentQuestion.numberLineData && !currentQuestion.pathData && !currentQuestion.instrumentData && !currentQuestion.blockData && (
                         <div className="w-48 h-48 md:w-64 md:h-64 shrink-0 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
-                          <div dangerouslySetInnerHTML={{ __html: currentQuestion.svgCode }} className="w-full h-full" />
+                          <div dangerouslySetInnerHTML={{ __html: effectiveSvgCode }} className="w-full h-full" />
                         </div>
                       )}
                       {showAbstractImage && (

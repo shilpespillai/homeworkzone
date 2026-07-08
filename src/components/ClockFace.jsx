@@ -72,13 +72,22 @@ export const ClockFace = ({ timeStr }) => {
 };
 
 export const parseQuestionText = (text) => {
-  if (!text) return { text: '', clockTime: null };
-  const match = text.match(/\[CLOCK:(\d{1,2}:\d{2})\]/i);
-  if (match) {
-    return { 
-      text: text.replace(match[0], '').trim(), 
-      clockTime: match[1] 
-    };
+  if (!text) return { text: '', clockTime: null, inlineSvg: null };
+  let newText = text;
+  let clockTime = null;
+  let inlineSvg = null;
+
+  const clockMatch = newText.match(/\[CLOCK:(\d{1,2}:\d{2})\]/i);
+  if (clockMatch) {
+    clockTime = clockMatch[1];
+    newText = newText.replace(clockMatch[0], '').trim();
   }
-  return { text, clockTime: null };
+
+  const svgMatch = newText.match(/<svg[\s\S]*?<\/svg>/i);
+  if (svgMatch) {
+    inlineSvg = svgMatch[0];
+    newText = newText.replace(svgMatch[0], '').trim();
+  }
+
+  return { text: newText, clockTime, inlineSvg };
 };

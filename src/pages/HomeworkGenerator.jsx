@@ -921,7 +921,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                       {generatedQuestions.map((q, idx) => (
                           <div key={idx} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
                             {(() => {
-                              const { text: cleanText, clockTime } = parseQuestionText(q.text);
+                              const { text: cleanText, clockTime, inlineSvg } = parseQuestionText(q.text);
                               return (
                                 <>
                                   <p className="font-bold text-slate-800 text-xs mb-3">
@@ -930,6 +930,11 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                                   {clockTime && (
                                     <div className="mb-4 transform scale-75 origin-top-left">
                                       <ClockFace timeStr={clockTime} />
+                                    </div>
+                                  )}
+                                  {inlineSvg && (
+                                    <div className="flex justify-center mb-4 bg-white rounded-lg p-2 border border-slate-100 shadow-sm mx-auto">
+                                      <div dangerouslySetInnerHTML={{ __html: inlineSvg }} className="w-full h-auto flex justify-center" />
                                     </div>
                                   )}
                                 </>
@@ -1409,7 +1414,24 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                           >
                             {hw.questions.map((q, idx) => (
                               <div key={idx} className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
-                                <p className="font-bold text-slate-800 text-sm mb-4"><span className="text-green-600 mr-2">Q{idx + 1}.</span> {q.text}</p>
+                                {(() => {
+                                  const { text: cleanText, clockTime, inlineSvg } = parseQuestionText(q.text);
+                                  return (
+                                    <>
+                                      <p className="font-bold text-slate-800 text-sm mb-4"><span className="text-green-600 mr-2">Q{idx + 1}.</span> {cleanText}</p>
+                                      {clockTime && (
+                                        <div className="mb-4 transform scale-75 origin-top-left">
+                                          <ClockFace timeStr={clockTime} />
+                                        </div>
+                                      )}
+                                      {inlineSvg && (
+                                        <div className="flex justify-center mb-4 bg-white rounded-lg p-2 border border-slate-100 shadow-sm mx-auto">
+                                          <div dangerouslySetInnerHTML={{ __html: inlineSvg }} className="w-full h-auto flex justify-center" />
+                                        </div>
+                                      )}
+                                    </>
+                                  );
+                                })()}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                   {q.options.map((opt, i) => (
                                     <div key={i} className={`px-4 py-3 rounded-xl text-xs font-bold border flex items-center gap-3 ${opt === q.answer ? 'bg-emerald-100 border-emerald-300 text-emerald-800' : 'bg-white border-slate-200 text-slate-600'}`}>
