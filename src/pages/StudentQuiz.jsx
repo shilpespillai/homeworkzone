@@ -229,9 +229,9 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
   const currentQuestion = displayQuestions[currentIdx] || displayQuestions[0];
   const progress = ((currentIdx + 1) / displayQuestions.length) * 100;
 
-  const handleSelect = (option) => {
+  const handleSelect = (qId, option) => {
     if (isSubmitted) return;
-    setAnswers({ ...answers, [currentQuestion.id]: option });
+    setAnswers({ ...answers, [qId]: option });
   };
 
   async function handleSubmit() {
@@ -242,7 +242,13 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
     
     if (homework.type !== 'lesson') {
       homework.questions.forEach(q => {
-        if (answers[q.id] === q.answer) correctCount++;
+        if (q.questionType === 'text') {
+          const studentAns = (answers[q.id] || '').trim().toLowerCase();
+          const correctAns = (q.answer || '').trim().toLowerCase();
+          if (studentAns === correctAns) correctCount++;
+        } else {
+          if (answers[q.id] === q.answer) correctCount++;
+        }
       });
     } else {
       correctCount = homework.questions.length;
@@ -259,7 +265,14 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
           ? "Good effort! A bit more practice and you'll be a pro. 📚" 
           : "Don't give up! Review the core concepts and try again. 🦾";
 
-    const wrongQuestions = homework.type === 'lesson' ? [] : homework.questions.filter(q => answers[q.id] !== q.answer);
+    const wrongQuestions = homework.type === 'lesson' ? [] : homework.questions.filter(q => {
+      if (q.questionType === 'text') {
+        const studentAns = (answers[q.id] || '').trim().toLowerCase();
+        const correctAns = (q.answer || '').trim().toLowerCase();
+        return studentAns !== correctAns;
+      }
+      return answers[q.id] !== q.answer;
+    });
     let explanations = {};
 
     if (homework.type !== 'lesson') {
@@ -534,19 +547,173 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
 
       {/* Content Area */}
       <main className={`max-w-${homework.passage ? '7xl' : '4xl'} mx-auto w-full flex-1 relative z-10 flex flex-col lg:flex-row gap-6`}>
-        {homework.passage && (
-          <div className="lg:w-1/2 bg-white/95 backdrop-blur-md rounded-[40px] p-8 shadow-[0_16px_0_0_rgba(255,255,255,0.6)] flex flex-col max-h-[80vh] overflow-y-auto custom-scrollbar sticky top-24">
-            <div className="flex items-center gap-2 mb-6">
-              <BookOpen className="w-6 h-6 text-indigo-500" />
-              <h2 className="text-xl font-black text-slate-800">Reading Passage</h2>
+        {homework.type === 'test' && !showSummary ? (
+          <div className="w-full flex flex-col gap-8 pb-24">
+            {homework.passage && (
+              <div className="bg-white/95 backdrop-blur-md rounded-[32px] p-8 shadow-[0_8px_0_0_rgba(255,255,255,0.6)] flex flex-col mb-4">
+                <div className="flex items-center gap-2 mb-6">
+                  <BookOpen className="w-6 h-6 text-indigo-500" />
+                  <h2 className="text-xl font-black text-slate-800">Reading Passage</h2>
+                </div>
+                <div className="text-lg font-medium text-slate-700 leading-relaxed space-y-4">
+                  {homework.passage.split('\n').map((paragraph, idx) => (
+                    <p key={idx}>{paragraph}</p>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            <div className="flex flex-col gap-6">
+              {displayQuestions.map((q, index) => {
+                 let { text: cleanText, clockTime } = parseQuestionText(q.text);
+                 const hasAnswer = answers[q.id] !== undefined;
+                 const isCorrect = isReviewing ? q.answer === answers[q.id] : null;
+                 const isWrong = isReviewing ? q.answer !== answers[q.id] : null;
+                 
+                 return (
+                   <div key={q.id} className={`bg-white/95 backdrop-blur-md rounded-[32px] p-8 shadow-[0_8px_0_0_rgba(255,255,255,0.6)] flex flex-col transition-all ${isReviewing && isWrong ? 'border-4 border-rose-100' : ''}`}>
+                     <div className="flex gap-6">
+                       <div className="w-12 h-12 bg-[#F8FAFC] text-slate-500 border-2 border-slate-200 font-black text-xl rounded-2xl flex items-center justify-center shrink-0 shadow-inner">
+                         {index + 1}
+                       </div>
+                       <div className="flex-1 flex flex-col">
+                         <div className="text-xl font-bold text-slate-800 mb-8 whitespace-pre-wrap leading-relaxed">{cleanText}</div>
+                         
+                         {/* Visuals */}
+                         <div className="flex flex-col md:flex-row gap-8 items-start mb-8">
+                           {q.chartData && <div className="w-full md:w-1/2"><DynamicChart data={q.chartData} /></div>}
+                           {q.geometryData && <div className="w-full md:w-1/2"><DynamicGeometry data={q.geometryData} /></div>}
+                           {q.gridMapData && <div className="w-full md:w-1/2"><DynamicGridMap data={q.gridMapData} /></div>}
+                           {q.svgCode && !q.chartData && !q.geometryData && !q.gridMapData && (
+                             <div className="w-48 h-48 md:w-64 md:h-64 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
+                               <div dangerouslySetInnerHTML={{ __html: q.svgCode }} className="w-full h-full" />
+                             </div>
+                           )}
+                           {q.imageUrl && !q.chartData && !q.geometryData && !q.gridMapData && !q.svgCode && (
+                             <div className="w-32 h-32 md:w-40 md:h-40 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner overflow-hidden">
+                               <img src={q.imageUrl} alt="Visual" className="w-full h-full object-cover" loading="lazy" />
+                             </div>
+                           )}
+                         </div>
+
+                         {/* Options */}
+                         {q.questionType === 'text' || !q.options || q.options.length === 0 ? (
+                           <div className="flex flex-col gap-2">
+                             <input 
+                               type="text" 
+                               value={answers[q.id] || ''}
+                               onChange={(e) => { if (!isReviewing) handleSelect(q.id, e.target.value) }}
+                               disabled={isReviewing}
+                               className={`w-full max-w-md p-5 text-xl font-bold border-4 rounded-[20px] focus:outline-none transition-all ${isReviewing ? 'bg-slate-50 cursor-not-allowed' : 'bg-white focus:border-[#38BDF8] focus:shadow-[0_0_0_4px_rgba(56,189,248,0.2)] hover:border-slate-300'} ${isReviewing && isWrong ? 'border-rose-300 text-rose-500' : isReviewing && isCorrect ? 'border-emerald-300 text-emerald-600' : 'border-slate-200 text-slate-700'}`}
+                               placeholder="Type your answer here..."
+                             />
+                             {isReviewing && isWrong && (
+                               <p className="text-rose-500 font-bold mt-2">Correct answer: {q.answer}</p>
+                             )}
+                           </div>
+                         ) : (
+                           <div className="flex flex-col gap-3 max-w-2xl">
+                             {q.options.map((opt, i) => {
+                               const isSelected = answers[q.id] === opt;
+                               const isCorrectOption = q.answer === opt;
+                               
+                               let bgClass = "bg-slate-50 hover:bg-slate-100 border-slate-200";
+                               let circleClass = "border-slate-300 bg-white";
+                               let textClass = "text-slate-700";
+
+                               if (isReviewing) {
+                                 if (isCorrectOption) {
+                                   bgClass = "bg-emerald-50 border-emerald-500 shadow-[0_4px_0_0_#10B981]";
+                                   circleClass = "border-emerald-500 bg-emerald-500 text-white";
+                                   textClass = "text-emerald-800 font-bold";
+                                 } else if (isSelected) {
+                                   bgClass = "bg-rose-50 border-rose-300 opacity-70";
+                                   circleClass = "border-rose-400 bg-rose-100";
+                                   textClass = "text-rose-700 line-through";
+                                 } else {
+                                   bgClass = "bg-slate-50 opacity-50 border-slate-200";
+                                 }
+                               } else if (isSelected) {
+                                 bgClass = "bg-[#EFF6FF] border-[#3B82F6] shadow-[0_4px_0_0_#2563EB]";
+                                 circleClass = "border-[#3B82F6] bg-[#3B82F6]";
+                                 textClass = "text-[#1E3A8A] font-bold";
+                               }
+
+                               return (
+                                 <label key={opt} className={`flex items-center gap-4 p-4 rounded-2xl border-2 transition-all cursor-pointer ${isReviewing ? 'cursor-default' : 'active:translate-y-1 active:shadow-none'} ${bgClass}`}>
+                                   <input 
+                                     type="radio" 
+                                     name={`q-${q.id}`} 
+                                     value={opt}
+                                     checked={isSelected}
+                                     onChange={() => { if (!isReviewing) handleSelect(q.id, opt) }}
+                                     disabled={isReviewing}
+                                     className="sr-only"
+                                   />
+                                   <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${circleClass}`}>
+                                      {isSelected && !isReviewing && <div className="w-3 h-3 bg-white rounded-full" />}
+                                      {isReviewing && isCorrectOption && <CheckCircle2 className="w-5 h-5 text-white" />}
+                                      {isReviewing && isSelected && !isCorrectOption && <XCircle className="w-5 h-5 text-rose-500" />}
+                                   </div>
+                                   <span className={`text-lg leading-snug ${textClass}`}>{opt}</span>
+                                 </label>
+                               );
+                             })}
+                           </div>
+                         )}
+
+                         {/* Explanation Box */}
+                         {isReviewing && isWrong && wrongAnswersExplanations[q.id] && (
+                           <div className="mt-6 bg-amber-50 border-2 border-amber-200 p-6 rounded-2xl">
+                             <div className="flex gap-3 items-center mb-2">
+                               <BrainCircuit className="w-6 h-6 text-amber-600" />
+                               <span className="font-black text-amber-700 uppercase tracking-widest text-[10px]">Explanation</span>
+                             </div>
+                             <p className="text-amber-800 font-medium">{wrongAnswersExplanations[q.id]}</p>
+                           </div>
+                         )}
+
+                       </div>
+                     </div>
+                   </div>
+                 );
+              })}
             </div>
-            <div className="text-lg font-medium text-slate-700 leading-relaxed space-y-4">
-              {homework.passage.split('\n').map((paragraph, idx) => (
-                <p key={idx}>{paragraph}</p>
-              ))}
+
+            {/* Test Mode Footer */}
+            <div className="flex justify-center mt-8">
+              {isReviewing ? (
+                 <button 
+                   onClick={() => setIsReviewing(false)}
+                   className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-12 bg-white text-slate-700 border-4 border-slate-200 text-xl font-black hover:bg-slate-50 transition-all"
+                 >
+                   Back to Results
+                 </button>
+              ) : (
+                 <button 
+                   onClick={() => setShowSummary(true)}
+                   className="inline-flex items-center justify-center gap-2 rounded-full py-5 px-16 bg-[#F97316] text-white shadow-[0_8px_0_0_#C2410C] text-2xl font-black active:translate-y-[8px] active:shadow-none transition-all hover:bg-[#EA580C]"
+                 >
+                   Finish Exam ✨
+                 </button>
+              )}
             </div>
           </div>
-        )}
+        ) : (
+          <>
+            {homework.passage && (
+              <div className="lg:w-1/2 bg-white/95 backdrop-blur-md rounded-[40px] p-8 shadow-[0_16px_0_0_rgba(255,255,255,0.6)] flex flex-col max-h-[80vh] overflow-y-auto custom-scrollbar sticky top-24">
+                <div className="flex items-center gap-2 mb-6">
+                  <BookOpen className="w-6 h-6 text-indigo-500" />
+                  <h2 className="text-xl font-black text-slate-800">Reading Passage</h2>
+                </div>
+                <div className="text-lg font-medium text-slate-700 leading-relaxed space-y-4">
+                  {homework.passage.split('\n').map((paragraph, idx) => (
+                    <p key={idx}>{paragraph}</p>
+                  ))}
+                </div>
+              </div>
+            )}
         
         <div className={homework.passage ? "lg:w-1/2 flex flex-col" : "w-full flex flex-col"}>
           <AnimatePresence mode="wait">
@@ -754,7 +921,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                     return (
                       <button
                         key={option}
-                        onClick={() => { if (!isReviewing) handleSelect(option); }}
+                        onClick={() => { if (!isReviewing) handleSelect(currentQuestion.id, option); }}
                         className={`group relative p-5 md:p-6 text-left rounded-[24px] transition-all flex items-center justify-between ${isReviewing ? 'cursor-default' : 'active:translate-y-[6px] hover:brightness-105 active:shadow-none'} ${baseColor} ${activeState} ${reviewState}`}
                       >
                         <div className="flex items-center gap-4">
@@ -800,108 +967,112 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
           )}
         </AnimatePresence>
         </div>
+        </>
+        )}
       </main>
 
-      {/* Footer Actions */}
-      <footer className={`max-w-${homework.passage ? '7xl' : '4xl'} mx-auto w-full py-12 flex items-center justify-between shrink-0 relative z-10`}>
-        <div className="flex items-center gap-4">
-          <button 
-            onClick={() => setCurrentIdx(prev => Math.max(0, prev - 1))}
-            disabled={currentIdx === 0}
-            className="inline-flex items-center justify-center gap-2 rounded-full py-3.5 px-8 bg-white text-slate-500 shadow-[0_6px_0_0_#f1f2f6] disabled:opacity-30 text-base font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-slate-50 shrink-0"
-          >
-            <ChevronLeft className="w-5 h-5 shrink-0" /> back
-          </button>
-          
-          {homework.type !== 'lesson' && !isReviewing && (
-            <button
-              onClick={() => {
-                setMarkedForReview(prev => {
-                  const newState = { ...prev };
-                  if (newState[currentQuestion.id]) {
-                    delete newState[currentQuestion.id];
-                  } else {
-                    newState[currentQuestion.id] = true;
-                  }
-                  return newState;
-                });
-              }}
-              className={`hidden md:inline-flex items-center justify-center gap-2 rounded-full py-3.5 px-6 font-black transition-all select-none cursor-pointer border-2 shrink-0 ${
-                markedForReview[currentQuestion.id] 
-                  ? 'bg-amber-100 text-amber-700 border-amber-300 shadow-[0_6px_0_0_#FCD34D] active:shadow-none active:translate-y-[6px]' 
-                  : 'bg-white text-slate-400 border-slate-200 shadow-[0_6px_0_0_#f1f2f6] hover:bg-slate-50 active:shadow-none active:translate-y-[6px]'
-              }`}
+      {/* Footer Actions - Only show in non-test mode */}
+      {homework.type !== 'test' && (
+        <footer className={`max-w-${homework.passage ? '7xl' : '4xl'} mx-auto w-full py-12 flex items-center justify-between shrink-0 relative z-10`}>
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => setCurrentIdx(prev => Math.max(0, prev - 1))}
+              disabled={currentIdx === 0}
+              className="inline-flex items-center justify-center gap-2 rounded-full py-3.5 px-8 bg-white text-slate-500 shadow-[0_6px_0_0_#f1f2f6] disabled:opacity-30 text-base font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-slate-50 shrink-0"
             >
-              <Flag className={`w-5 h-5 shrink-0 ${markedForReview[currentQuestion.id] ? 'fill-amber-500 text-amber-500' : ''}`} /> 
-              {markedForReview[currentQuestion.id] ? 'MARKED' : 'MARK'}
+              <ChevronLeft className="w-5 h-5 shrink-0" /> back
             </button>
-          )}
-        </div>
+            
+            {homework.type !== 'lesson' && !isReviewing && (
+              <button
+                onClick={() => {
+                  setMarkedForReview(prev => {
+                    const newState = { ...prev };
+                    if (newState[currentQuestion.id]) {
+                      delete newState[currentQuestion.id];
+                    } else {
+                      newState[currentQuestion.id] = true;
+                    }
+                    return newState;
+                  });
+                }}
+                className={`hidden md:inline-flex items-center justify-center gap-2 rounded-full py-3.5 px-6 font-black transition-all select-none cursor-pointer border-2 shrink-0 ${
+                  markedForReview[currentQuestion.id] 
+                    ? 'bg-amber-100 text-amber-700 border-amber-300 shadow-[0_6px_0_0_#FCD34D] active:shadow-none active:translate-y-[6px]' 
+                    : 'bg-white text-slate-400 border-slate-200 shadow-[0_6px_0_0_#f1f2f6] hover:bg-slate-50 active:shadow-none active:translate-y-[6px]'
+                }`}
+              >
+                <Flag className={`w-5 h-5 shrink-0 ${markedForReview[currentQuestion.id] ? 'fill-amber-500 text-amber-500' : ''}`} /> 
+                {markedForReview[currentQuestion.id] ? 'MARKED' : 'MARK'}
+              </button>
+            )}
+          </div>
 
-        {homework.type === 'lesson' ? (
-          currentIdx === displayQuestions.length - 1 ? (
-            <button 
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
-            >
-              {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Finish Lesson ✨'}
-            </button>
+          {homework.type === 'lesson' ? (
+            currentIdx === displayQuestions.length - 1 ? (
+              <button 
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
+              >
+                {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Finish Lesson ✨'}
+              </button>
+            ) : (
+              <button 
+                onClick={() => setCurrentIdx(prev => Math.min(displayQuestions.length - 1, prev + 1))}
+                className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
+              >
+                NEXT PAGE <ChevronRight className="w-5 h-5 shrink-0" />
+              </button>
+            )
+          ) : isReviewing ? (
+             currentIdx === displayQuestions.length - 1 ? (
+               <button 
+                 onClick={() => setIsReviewing(false)} 
+                 className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
+               >
+                 finish review <CheckCircle2 className="w-5 h-5 shrink-0" />
+               </button>
+             ) : (
+               <button 
+                 onClick={() => setCurrentIdx(prev => Math.min(displayQuestions.length - 1, prev + 1))} 
+                 className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
+               >
+                 next <ChevronRight className="w-5 h-5 shrink-0" />
+               </button>
+             )
           ) : (
-            <button 
-              onClick={() => setCurrentIdx(prev => Math.min(displayQuestions.length - 1, prev + 1))}
-              className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
-            >
-              NEXT PAGE <ChevronRight className="w-5 h-5 shrink-0" />
-            </button>
-          )
-        ) : isReviewing ? (
-           currentIdx === displayQuestions.length - 1 ? (
-             <button 
-               onClick={() => setIsReviewing(false)} 
-               className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
-             >
-               finish review <CheckCircle2 className="w-5 h-5 shrink-0" />
-             </button>
-           ) : (
-             <button 
-               onClick={() => setCurrentIdx(prev => Math.min(displayQuestions.length - 1, prev + 1))} 
-               className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
-             >
-               next <ChevronRight className="w-5 h-5 shrink-0" />
-             </button>
-           )
-        ) : (
-          currentIdx === displayQuestions.length - 1 ? (
-            <button 
-              onClick={() => {
-                if (homework.type === 'test') {
-                  setShowSummary(true);
-                } else {
-                  handleSubmit();
-                }
-              }}
-              disabled={isSubmitting || (!answers[currentQuestion.id] && homework.type !== 'test')}
-              className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C] disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-[0_6px_0_0_#C2410C] disabled:active:translate-y-0"
-            >
-              {isSubmitting ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : (
-                <>
-                  submit mission! <Star className="w-5 h-5 text-yellow-300 fill-yellow-300 shrink-0" />
-                </>
-              )}
-            </button>
-          ) : (
-            <button 
-              onClick={() => setCurrentIdx(prev => Math.min(displayQuestions.length - 1, prev + 1))}
-              className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
-            >
-              NEXT QUEST! <ChevronRight className="w-5 h-5 shrink-0" />
-            </button>
-          )
-        )}
-      </footer>
+            currentIdx === displayQuestions.length - 1 ? (
+              <button 
+                onClick={() => {
+                  if (homework.type === 'test') {
+                    setShowSummary(true);
+                  } else {
+                    handleSubmit();
+                  }
+                }}
+                disabled={isSubmitting || (!answers[currentQuestion.id] && homework.type !== 'test')}
+                className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C] disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-[0_6px_0_0_#C2410C] disabled:active:translate-y-0"
+              >
+                {isSubmitting ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <>
+                    submit mission! <Star className="w-5 h-5 text-yellow-300 fill-yellow-300 shrink-0" />
+                  </>
+                )}
+              </button>
+            ) : (
+              <button 
+                onClick={() => setCurrentIdx(prev => Math.min(displayQuestions.length - 1, prev + 1))}
+                className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
+              >
+                NEXT QUEST! <ChevronRight className="w-5 h-5 shrink-0" />
+              </button>
+            )
+          )}
+        </footer>
+      )}
     </div>
   );
 }

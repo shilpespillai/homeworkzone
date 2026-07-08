@@ -366,8 +366,18 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
            - All options must be age-appropriate for elementary/middle school students.
         
         Return ONLY a JSON object containing:
-        1. "questions": an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), "subtopic" (string, a specific subtopic or concept under the main topic).
+        1. "questions": an array of objects. Each object must have: 
+           - "id" (number)
+           - "text" (string, the question)
+           - "questionType" (string, either "multiple_choice" or "text")
+           - "options" (array of exactly 4 strings. REQUIRED for "multiple_choice", OMIT for "text")
+           - "answer" (string. For "multiple_choice", must match one option exactly. For "text", provide the exact correct string/spelling)
+           - "subtopic" (string, a specific subtopic or concept under the main topic)
         2. "passage": an optional string. If the quiz requires a reading comprehension passage, story, or shared text that applies to the questions, provide it here. Otherwise, omit this key.
+        
+        CRITICAL FOR LANGUAGE CONVENTIONS: If generating a Language Conventions spelling test, use questionType="text" for spelling correction questions, where the student must type the correct spelling of a misspelled word. For grammar/punctuation questions, use questionType="multiple_choice".
+        
+        ${assignmentType === 'test' ? 'CRITICAL FOR TESTS: This is a formal NAPLAN-style test paper. Generate a mix of multiple_choice and text input questions. Specifically, ensure that at least 30% of questions require text input (questionType="text" with NO options array), mimicking the actual exam format.' : 'CRITICAL FOR HOMEWORK: Generate ONLY multiple_choice questions (questionType="multiple_choice" with exactly 4 options) unless specifically instructed otherwise.'}
         
         IF the question requires a chart, graph, or data interpretation, include a "chartData" object property:
         "chartData": {
