@@ -85,6 +85,28 @@ export default function DynamicChart({ data }) {
           </ResponsiveContainer>
         );
 
+      case 'table':
+        return (
+          <div className="w-full h-full overflow-auto custom-scrollbar p-2 flex justify-center">
+            <table className="w-full max-w-sm border-collapse rounded-xl overflow-hidden shadow-sm border border-slate-200">
+              <thead className="bg-slate-100 border-b-2 border-slate-200">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-black text-slate-600 uppercase tracking-wider">Item</th>
+                  <th className="px-4 py-3 text-left text-xs font-black text-slate-600 uppercase tracking-wider">Value</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 bg-white">
+                {chartData.map((row, i) => (
+                  <tr key={i} className="hover:bg-slate-50 transition-colors">
+                    <td className="px-4 py-3 whitespace-nowrap text-sm font-bold text-slate-700 border-r border-slate-100">{row.name}</td>
+                    <td className="px-4 py-3 whitespace-nowrap text-sm text-indigo-600 font-black">{row.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+
       case 'bar':
       default:
         return (

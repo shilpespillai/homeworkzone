@@ -384,9 +384,9 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         
         ${assignmentType === 'test' ? 'CRITICAL FOR TESTS: This is a formal NAPLAN-style test paper. Generate a mix of multiple_choice and text input questions. Specifically, ensure that at least 30% of questions require text input (questionType="text" with NO options array), mimicking the actual exam format.' : 'CRITICAL FOR HOMEWORK: Generate ONLY multiple_choice questions (questionType="multiple_choice" with exactly 4 options) unless specifically instructed otherwise.'}
         
-        IF the question requires a chart, graph, or data interpretation, include a "chartData" object property:
+        IF the question requires a chart, graph, table, or data interpretation, include a "chartData" object property:
         "chartData": {
-          "type": "bar" | "pie" | "line",
+          "type": "bar" | "pie" | "line" | "table",
           "title": "String title",
           "data": [{"name": "Category A", "value": 10}, {"name": "Category B", "value": 20}]
         }
