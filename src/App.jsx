@@ -867,6 +867,7 @@ const SubjectDashboardCard = ({ subject, assignments, submissions, studentName, 
 
 const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHomeworks, submissions: initialSubmissions, title = "My Assignments", mode = "homework" }) => {
    const [activeTab, setActiveTab] = useState('To Do');
+   const [activeTopicTab, setActiveTopicTab] = useState('All');
    const [subjectFilter, setSubjectFilter] = useState('All Subjects');
    const [monthFilter, setMonthFilter] = useState('All Months');
    const [homeworks, setHomeworks] = useState(initialHomeworks || []);
@@ -1025,7 +1026,7 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
                   <h1 className="text-4xl font-black text-[#14532d] tracking-tighter uppercase">{title}</h1>
                   {subjectFilter !== 'All Subjects' && (
                      <button 
-                        onClick={() => setSubjectFilter('All Subjects')}
+                        onClick={() => { setSubjectFilter('All Subjects'); setActiveTopicTab('All'); }}
                         className="text-orange-500 font-black text-sm flex items-center gap-1 hover:text-orange-600 transition-colors mt-1 w-fit"
                      >
                         ← Back to Assignments Grid
@@ -1066,36 +1067,66 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
             // List Mode for a Specific Subject
             <div className="space-y-6">
                {/* Navigation Tabs & Filter */}
-               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-2 border-slate-100 pb-4 relative z-10 mt-6">
-                  <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 md:pb-0">
-                     {tabs.map(tab => (
-                       <button 
-                         key={tab.id}
-                         onClick={() => setActiveTab(tab.id)}
-                         className={`px-6 py-2.5 rounded-full text-sm font-black whitespace-nowrap transition-all ${activeTab === tab.id ? 'bg-orange-500 text-white shadow-md' : 'text-slate-500 hover:bg-slate-100'}`}
-                       >
-                         {tab.label}
-                       </button>
-                     ))}
+               <div className="flex flex-col gap-4 border-b-2 border-slate-100 pb-4 relative z-10 mt-6">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                     <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 md:pb-0">
+                        {tabs.map(tab => (
+                          <button 
+                            key={tab.id}
+                            onClick={() => {
+                               setActiveTab(tab.id);
+                               setActiveTopicTab('All'); // Reset topic tab on main tab switch
+                            }}
+                            className={`px-6 py-2.5 rounded-full text-sm font-black whitespace-nowrap transition-all ${activeTab === tab.id ? 'bg-orange-500 text-white shadow-md' : 'text-slate-500 hover:bg-slate-100'}`}
+                          >
+                            {tab.label}
+                          </button>
+                        ))}
+                     </div>
+                     
+                     <div className="flex flex-wrap items-center gap-3 shrink-0">
+                        <div className="relative shrink-0">
+                           <select 
+                        value={monthFilter}
+                        onChange={(e) => setMonthFilter(e.target.value)}
+                        className="appearance-none bg-white border-2 border-slate-100 rounded-full pl-10 pr-10 py-2.5 text-sm font-black text-slate-600 outline-none focus:border-[#EA580C] cursor-pointer"
+                     >
+                        <option value="All Months">All Months</option>
+                        {uniqueMonths.map(m => (
+                           <option key={m.key} value={m.key}>{m.label}</option>
+                        ))}
+                     </select>
+                     <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                     <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                   </div>
-                  
-                  <div className="flex flex-wrap items-center gap-3 shrink-0">
-                     <div className="relative shrink-0">
-                        <select 
-                     value={monthFilter}
-                     onChange={(e) => setMonthFilter(e.target.value)}
-                     className="appearance-none bg-white border-2 border-slate-100 rounded-full pl-10 pr-10 py-2.5 text-sm font-black text-slate-600 outline-none focus:border-[#EA580C] cursor-pointer"
-                  >
-                     <option value="All Months">All Months</option>
-                     {uniqueMonths.map(m => (
-                        <option key={m.key} value={m.key}>{m.label}</option>
-                     ))}
-                  </select>
-                  <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                </div>
+               </div>
+
+               {/* Topic Tabs */}
+               {(() => {
+                  const orderedTopics = [...new Set(displayedHomeworks.map(hw => hw.title || 'Other Topics'))];
+                  if (orderedTopics.length === 0) return null;
+                  return (
+                     <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pt-2">
+                        <button
+                           onClick={() => setActiveTopicTab('All')}
+                           className={`px-4 py-1.5 rounded-full text-[13px] font-bold whitespace-nowrap transition-colors ${activeTopicTab === 'All' ? 'bg-[#14532d] text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                        >
+                           All Topics
+                        </button>
+                        {orderedTopics.map(topic => (
+                           <button
+                              key={topic}
+                              onClick={() => setActiveTopicTab(topic)}
+                              className={`px-4 py-1.5 rounded-full text-[13px] font-bold whitespace-nowrap transition-colors ${activeTopicTab === topic ? 'bg-[#14532d] text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                           >
+                              {topic}
+                           </button>
+                        ))}
+                     </div>
+                  );
+               })()}
             </div>
-         </div>
 
             {/* Homework List */}
             <div className="space-y-4 relative z-10">
@@ -1110,9 +1141,11 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
                         }, {});
                         
                         const orderedTopics = [...new Set(displayedHomeworks.map(hw => hw.title || 'Other Topics'))];
+                        const topicsToRender = activeTopicTab === 'All' ? orderedTopics : [activeTopicTab];
 
-                        return orderedTopics.map(topic => {
+                        return topicsToRender.map(topic => {
                            const hws = groupsMap[topic];
+                           if (!hws) return null;
                            return (
                               <div key={topic} className="flex flex-col gap-4 bg-white/40 backdrop-blur-md rounded-3xl p-6 border-2 border-slate-100/60 shadow-sm">
                                  <h3 className="text-2xl font-black text-slate-800 flex items-center gap-3 mb-2">
