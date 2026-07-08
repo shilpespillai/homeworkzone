@@ -100,8 +100,18 @@ const TRACK_COORDS = {
     { x: 500, y: 350 }, { x: 600, y: 250 }, { x: 700, y: 150 }, { x: 800, y: 100 }, { x: 900, y: 200 }, { x: 950, y: 300 }
   ],
   winter: [
-    { x: 70, y: 300 }, { x: 150, y: 200 }, { x: 250, y: 150 }, { x: 350, y: 250 }, { x: 450, y: 350 },
-    { x: 550, y: 300 }, { x: 650, y: 200 }, { x: 750, y: 150 }, { x: 850, y: 250 }, { x: 900, y: 350 }, { x: 960, y: 280 }
+    { x: 90, y: 120 }, // 0 START
+    { x: 130, y: 230 }, // 1
+    { x: 310, y: 240 }, // 2
+    { x: 480, y: 140 }, // 3
+    { x: 660, y: 140 }, // 4
+    { x: 870, y: 230 }, // 5
+    { x: 800, y: 410 }, // 6
+    { x: 500, y: 450 }, // 7
+    { x: 210, y: 440 }, // 8
+    { x: 220, y: 580 }, // 9
+    { x: 580, y: 600 }, // 10
+    { x: 830, y: 560 }  // 11 FINISH
   ],
   jungle: [
     { x: 60, y: 120 }, { x: 160, y: 220 }, { x: 260, y: 320 }, { x: 360, y: 220 }, { x: 460, y: 120 },
@@ -254,17 +264,18 @@ const MILESTONE_DETAILS = {
     { name: "Monster Bash 🧟", desc: "You survived the haunted house!" }
   ],
   winter: [
-    { name: "Snowy Start 🌨️", desc: "Bundle up, it's freezing!" },
-    { name: "Frosty Pinecone 🌲", desc: "Trees covered in thick white snow." },
-    { name: "Penguin Ice Rink 🐧", desc: "Slide across the frozen lake." },
-    { name: "Snowman Village ⛄", desc: "Say hi to the frosty locals." },
-    { name: "Yeti's Cave 🐾", desc: "Big footprints lead inside." },
-    { name: "Crystal Cavern 💎", desc: "Sparkling icicles hang from the ceiling." },
-    { name: "Avalanche Pass 🏔️", desc: "Move quickly and quietly." },
-    { name: "Aurora Borealis 🌌", desc: "Beautiful green lights in the sky." },
-    { name: "Reindeer Tracks 🦌", desc: "Follow the hoof prints." },
-    { name: "Elf Workshop 🎁", desc: "Toys are being made here." },
-    { name: "Santa's Sleigh 🛷", desc: "You made it to the North Pole!" }
+    { name: "Start 🛷", desc: "Bundle up, it's cold outside!" },
+    { name: "1. Frosty Village 🏘️", desc: "A cozy snowy settlement." },
+    { name: "2. Twinkle Town Square ✨", desc: "Festive lights everywhere." },
+    { name: "3. Icy Bridge Crossing 🌉", desc: "Don't slip on the ice!" },
+    { name: "4. Whispering Pines 🌲", desc: "The snowy trees hide secrets." },
+    { name: "5. Candy Cane Lane 🍭", desc: "Sweet treats along the path." },
+    { name: "6. Frozen Waterfall 🧊", desc: "A magnificent frozen cascade." },
+    { name: "7. Snowman Valley ⛄", desc: "Say hello to the frosty friends." },
+    { name: "8. Ice Crystal Caverns 💎", desc: "Glittering ice formations." },
+    { name: "9. Santa's Workshop 🎁", desc: "Where the magic happens!" },
+    { name: "10. Holiday Castle 🏰", desc: "A majestic winter palace." },
+    { name: "Grand Finish 🏆", desc: "You completed the winter wonderland!" }
   ],
   jungle: [
     { name: "Vine Swing 🌿", desc: "Tarzan your way across the gap." },
@@ -717,7 +728,8 @@ export default function AdventureMazeView({
       gradient: "from-slate-50 via-sky-50 to-blue-50",
       pathColor: "#38bdf8", pathOutline: "#0369a1", centerDashes: "#bae6fd",
       nodeColor: "fill-sky-400 stroke-sky-600", nodeColorCompleted: "fill-blue-500 stroke-blue-700",
-      finishColor: "text-cyan-500 fill-cyan-300", skyColor: "bg-[#0c4a6e]/10", finishNode: "🛷"
+      finishColor: "text-cyan-500 fill-cyan-300", skyColor: "bg-[#0c4a6e]/10", finishNode: "🛷",
+      isImageBaked: true
     },
     jungle: {
       displayName: "🌴 Jungle Explorer", displayColor: "bg-green-700 text-white shadow-green-200",
@@ -787,7 +799,7 @@ export default function AdventureMazeView({
         
         {style.isImageBaked && (
           <img 
-            src={`/assets/adventure_${activeTrack}.png?v=2`} 
+            src={`/assets/adventure_${activeTrack}.${activeTrack === 'winter' ? 'jpg' : 'png'}?v=3`} 
             className="absolute inset-0 w-full h-full object-cover pointer-events-none"
             style={{ imageRendering: 'high-quality' }}
             alt="Adventure Map"
