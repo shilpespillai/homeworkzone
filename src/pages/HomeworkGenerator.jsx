@@ -38,6 +38,7 @@ import DynamicGeometry from '../components/DynamicGeometry';
 import DynamicGridMap from '../components/DynamicGridMap';
 import DynamicNumberLine from '../components/DynamicNumberLine';
 import DynamicPathMap from '../components/DynamicPathMap';
+import DynamicInstrument from '../components/DynamicInstrument';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
 
 const SUBJECTS = [
@@ -435,7 +436,17 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         }
         ABSOLUTELY NO ASCII ART IN THE TEXT! DO NOT type "0 ---|---|--- 1" in the question text. You MUST use the "numberLineData" JSON object instead.
 
-        CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!`;
+        IF the question asks students to read a measurement from an instrument (like a beaker, thermometer, or ruler), include an "instrumentData" object property:
+        "instrumentData": {
+          "type": "ruler" | "beaker" | "thermometer",
+          "min": 0,
+          "max": 100,
+          "value": 45,
+          "unit": "mL",
+          "step": 10
+        }
+
+        CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData" or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!`;
 
       const textResponse = await generateContent({
         prompt,
@@ -931,7 +942,12 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                                 <DynamicPathMap data={q.pathData} />
                               </div>
                             )}
-                            {q.svgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && (
+                            {q.instrumentData && (
+                              <div className="mb-4">
+                                <DynamicInstrument data={q.instrumentData} />
+                              </div>
+                            )}
+                            {q.svgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && (
                               <div className="flex justify-center mb-4 bg-white rounded-lg p-2 border border-slate-100 shadow-sm max-w-[200px] mx-auto">
                                 <div dangerouslySetInnerHTML={{ __html: q.svgCode }} className="w-full h-auto" />
                               </div>
