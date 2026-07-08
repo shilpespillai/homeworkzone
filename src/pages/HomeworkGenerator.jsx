@@ -392,6 +392,18 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       const questions = parsed.questions || parsed;
       const passage = parsed.passage || null;
 
+      // Shuffle options for each question to randomize correct answer position
+      if (Array.isArray(questions)) {
+        questions.forEach(q => {
+          if (Array.isArray(q.options) && q.options.length > 0) {
+            for (let i = q.options.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [q.options[i], q.options[j]] = [q.options[j], q.options[i]];
+            }
+          }
+        });
+      }
+
       setGeneratedQuestions(questions);
       setGeneratedPassage(passage);
     } catch (err) {
