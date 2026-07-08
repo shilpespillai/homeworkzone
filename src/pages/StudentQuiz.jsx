@@ -663,7 +663,13 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                                       {isReviewing && isCorrectOption && <CheckCircle2 className="w-5 h-5 text-white" />}
                                       {isReviewing && isSelected && !isCorrectOption && <XCircle className="w-5 h-5 text-rose-500" />}
                                    </div>
-                                   <span className={`text-lg leading-snug ${textClass}`}>{opt}</span>
+                                   <span className={`text-lg leading-snug ${textClass}`}>
+                                     {typeof opt === 'string' && opt.trim().startsWith('<svg') ? (
+                                       <div dangerouslySetInnerHTML={{ __html: opt }} className="w-full flex justify-center overflow-hidden" />
+                                     ) : (
+                                       opt
+                                     )}
+                                   </span>
                                  </label>
                                );
                              })}
@@ -957,7 +963,11 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                             {String.fromCharCode(65 + i)}
                           </div>
                           <span className={`text-xl font-black`}>
-                            {option}
+                            {typeof option === 'string' && option.trim().startsWith('<svg') ? (
+                              <div dangerouslySetInnerHTML={{ __html: option }} className="w-full flex justify-center overflow-hidden" />
+                            ) : (
+                              option
+                            )}
                           </span>
                         </div>
                         {showIcon && (

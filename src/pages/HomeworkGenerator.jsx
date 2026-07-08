@@ -455,6 +455,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         }
         (The grid is a 2D array of integers representing the height of the blocks at each x,y coordinate).
 
+        CRITICAL FOR SPATIAL REASONING: If the question involves 3D objects, stacking blocks, nets, cross-sections, or spatial reasoning, YOU ABSOLUTELY MUST include a visual (either "blockData", "geometryData", or "svgCode"). Do NOT generate text-only 3D visualization questions! If asking about nets, use "svgCode" in the options or the main question.
+
         CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData" or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!`;
 
       const textResponse = await generateContent({
@@ -969,7 +971,11 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                             <div className="grid grid-cols-2 gap-2">
                               {q.options.map((opt, i) => (
                                 <div key={i} className={`px-3 py-2 rounded-lg text-[10px] font-bold border ${opt === q.answer ? 'bg-emerald-100 border-emerald-300 text-emerald-800' : 'bg-white border-slate-200 text-slate-600'}`}>
-                                  {opt}
+                                  {typeof opt === 'string' && opt.trim().startsWith('<svg') ? (
+                                    <div dangerouslySetInnerHTML={{ __html: opt }} className="w-full flex justify-center overflow-hidden" />
+                                  ) : (
+                                    opt
+                                  )}
                                 </div>
                               ))}
                             </div>
