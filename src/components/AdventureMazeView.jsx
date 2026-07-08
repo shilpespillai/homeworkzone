@@ -110,8 +110,18 @@ const TRACK_COORDS = {
     { x: 900, y: 480 }  // 11 FINISH
   ],
   pirate: [
-    { x: 100, y: 100 }, { x: 200, y: 200 }, { x: 300, y: 300 }, { x: 400, y: 250 }, { x: 500, y: 150 },
-    { x: 600, y: 100 }, { x: 700, y: 200 }, { x: 800, y: 300 }, { x: 900, y: 350 }, { x: 950, y: 250 }, { x: 900, y: 100 }
+    { x: 80, y: 50 },   // 0 START
+    { x: 90, y: 170 },  // 1 Shipwreck
+    { x: 300, y: 130 }, // 2 Parrot Point
+    { x: 550, y: 130 }, // 3 Skeleton Beach
+    { x: 790, y: 130 }, // 4 Lost Temple
+    { x: 800, y: 380 }, // 5 Cannon Cove
+    { x: 550, y: 350 }, // 6 Blackwater Bay
+    { x: 290, y: 440 }, // 7 Hidden Lagoon
+    { x: 90, y: 560 },  // 8 Smuggler's Cave
+    { x: 350, y: 600 }, // 9 Treasure Falls
+    { x: 620, y: 580 }, // 10 Pirate's Prize
+    { x: 850, y: 590 }  // 11 FINISH
   ],
   haunted: [
     { x: 50, y: 250 }, { x: 100, y: 150 }, { x: 200, y: 100 }, { x: 300, y: 200 }, { x: 400, y: 300 },
@@ -735,7 +745,8 @@ export default function AdventureMazeView({
       gradient: "from-amber-50 via-yellow-50 to-orange-100",
       pathColor: "#d97706", pathOutline: "#92400e", centerDashes: "#fde68a",
       nodeColor: "fill-amber-400 stroke-amber-600", nodeColorCompleted: "fill-orange-600 stroke-orange-800",
-      finishColor: "text-yellow-500 fill-yellow-300", skyColor: "bg-[#78350f]/10", finishNode: "💎"
+      finishColor: "text-yellow-500 fill-yellow-300", skyColor: "bg-[#78350f]/10", finishNode: "💎",
+      isImageBaked: true
     },
     haunted: {
       displayName: "👻 Haunted Castle", displayColor: "bg-purple-800 text-white shadow-purple-200",
