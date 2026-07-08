@@ -35,6 +35,8 @@ import { fetchWithRetry, generateContent } from '../utils/aiClient';
 import { generateExplanations } from '../utils/generateExplanations';
 import DynamicChart from '../components/DynamicChart';
 import DynamicGeometry from '../components/DynamicGeometry';
+import DynamicGridMap from '../components/DynamicGridMap';
+import DynamicNumberLine from '../components/DynamicNumberLine';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
 
 const SUBJECTS = [
@@ -897,7 +899,17 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                                 <DynamicGeometry data={q.geometryData} />
                               </div>
                             )}
-                            {q.svgCode && !q.chartData && !q.geometryData && (
+                            {q.gridMapData && (
+                              <div className="mb-4">
+                                <DynamicGridMap data={q.gridMapData} />
+                              </div>
+                            )}
+                            {q.numberLineData && (
+                              <div className="mb-4">
+                                <DynamicNumberLine data={q.numberLineData} />
+                              </div>
+                            )}
+                            {q.svgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && (
                               <div className="flex justify-center mb-4 bg-white rounded-lg p-2 border border-slate-100 shadow-sm max-w-[200px] mx-auto">
                                 <div dangerouslySetInnerHTML={{ __html: q.svgCode }} className="w-full h-auto" />
                               </div>
