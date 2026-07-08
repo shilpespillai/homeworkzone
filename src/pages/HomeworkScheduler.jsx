@@ -137,6 +137,8 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
   const [editingAutomationId, setEditingAutomationId] = useState(null);
   const [editForm, setEditForm] = useState({});
 
+  const [activeAutomationTab, setActiveAutomationTab] = useState('All');
+
   useEffect(() => {
     const fetchStudents = async () => {
       if (!user?.uid || !activeClassroom?.id) {
@@ -1642,15 +1644,43 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
               </span>
             </div>
 
-<div className="space-y-4 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
-              {recurringItems.length === 0 ? (
-                <div className="border-2 border-dashed border-slate-100 rounded-[32px] p-8 text-center text-slate-400 space-y-2 bg-slate-50/10">
-                  <Calendar className="w-6 h-6 mx-auto text-slate-300" />
-                  <p className="font-bold text-[11px]">No recurring automations.</p>
-                  <p className="text-[9px] font-medium text-slate-400">Select Daily or Weekly recurrence under Automation setting to run auto-generations.</p>
-                </div>
-              ) : (
-                recurringItems.map(sched => {
+            {(() => {
+              const activeAutomationSubjects = ['All', ...new Set(recurringItems.map(item => item.subject))].map(sub => {
+                if (sub === 'All') return { id: 'All', name: 'All Subjects', emoji: '📋' };
+                const found = dynamicSubjects.find(s => s.id === sub);
+                return found || { id: sub, name: sub, emoji: '📚' };
+              });
+              
+              const filteredRecurringItems = activeAutomationTab === 'All' 
+                ? recurringItems 
+                : recurringItems.filter(item => item.subject === activeAutomationTab);
+
+              return (
+                <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
+                  {recurringItems.length > 0 && activeAutomationSubjects.length > 2 && (
+                    <div className="flex gap-2 overflow-x-auto pb-2 custom-scrollbar shrink-0">
+                      {activeAutomationSubjects.map(sub => (
+                        <button
+                          key={sub.id}
+                          onClick={() => setActiveAutomationTab(sub.id)}
+                          className={`px-3 py-1.5 rounded-full text-[11px] font-bold whitespace-nowrap transition-colors ${activeAutomationTab === sub.id ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                        >
+                          {sub.emoji} {sub.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {recurringItems.length === 0 ? (
+                    <div className="border-2 border-dashed border-slate-100 rounded-[32px] p-8 text-center text-slate-400 space-y-2 bg-slate-50/10">
+                      <Calendar className="w-6 h-6 mx-auto text-slate-300" />
+                      <p className="font-bold text-[11px]">No recurring automations.</p>
+                      <p className="text-[9px] font-medium text-slate-400">Select Daily or Weekly recurrence under Automation setting to run auto-generations.</p>
+                    </div>
+                  ) : filteredRecurringItems.length === 0 ? (
+                    <div className="text-center py-6 text-slate-400 font-bold text-sm">No automations found for this subject.</div>
+                  ) : (
+                    filteredRecurringItems.map(sched => {
                   const subObj = dynamicSubjects.find(s => s.id === sched.subject);
                   
                   const formatTime12h = (timeStr) => {
@@ -1847,6 +1877,8 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                 })
               )}
             </div>
+            );
+            })()}
           </div>
         </div>
       </div>
