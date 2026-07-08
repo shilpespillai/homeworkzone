@@ -1315,6 +1315,15 @@ const TeacherDashboard = ({ user, onLogout }) => {
 
         // Flatten all student lists and update allStudents state
         const aggregated = Object.values(classStudentsMap).flat();
+        
+        // Ensure aggregated is sorted deterministically for stable quota assignment
+        aggregated.sort((a, b) => {
+           const timeA = a.addedAt ? new Date(a.addedAt).getTime() : 0;
+           const timeB = b.addedAt ? new Date(b.addedAt).getTime() : 0;
+           if (timeA !== timeB) return timeA - timeB;
+           return (a.name || '').localeCompare(b.name || '');
+        });
+
         setAllStudents(aggregated);
       }, (err) => {
         console.error(`Error listening to students in class ${cls.id}:`, err);
@@ -1327,6 +1336,42 @@ const TeacherDashboard = ({ user, onLogout }) => {
       unsubscribes.forEach(unsub => unsub());
     };
   }, [user?.uid, classrooms]);
+
+  const syncStudentQuotaLocks = async (studentsList) => {
+    if (!user?.uid || !teacherBilling) return;
+    
+    const activePlanId = (teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free';
+    const limit = getPlanSeatLimit(activePlanId);
+    
+    // studentsList is already sorted from the snapshot
+    const updates = [];
+    studentsList.forEach((student, index) => {
+      const shouldBeLocked = index >= limit;
+      if (!!student.isQuotaLocked !== shouldBeLocked) {
+        updates.push({
+          ref: doc(db, 'teachers', user.uid, 'classrooms', student.classId, 'students', student.id),
+          shouldBeLocked
+        });
+      }
+    });
+
+    if (updates.length > 0) {
+      console.log(`Syncing quota locks for ${updates.length} students...`);
+      try {
+         for (const update of updates) {
+           await setDoc(update.ref, { isQuotaLocked: update.shouldBeLocked }, { merge: true });
+         }
+      } catch(err) {
+         console.error("Failed to sync quota locks:", err);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (allStudents.length > 0 && teacherBilling) {
+       syncStudentQuotaLocks(allStudents);
+    }
+  }, [allStudents.length, teacherBilling]);
 
   useEffect(() => {
     if (activeClassroom) {
@@ -3841,7 +3886,8 @@ const TeacherDashboard = ({ user, onLogout }) => {
                      </div>
                      <div className="divide-y divide-blue-50">
                         {displayedStudents.map((student, idx) => {
-                           const isPaused = student.status === 'paused';
+                           const isQuotaLocked = student.isQuotaLocked;
+                           const isPaused = student.status === 'paused' || isQuotaLocked;
                            const classHomeworks = allHomeworks.filter(hw => hw.assignedClassId === activeClassroom?.id);
                            const studentSubs = allSubmissions.filter(sub => 
                               normalizeName(sub.studentName) === normalizeName(student.name) &&
@@ -3854,7 +3900,9 @@ const TeacherDashboard = ({ user, onLogout }) => {
                            
                            return (
                               <div key={idx} className={`grid grid-cols-12 px-8 py-6 items-center transition-all group ${
-                                 isPaused
+                                 isQuotaLocked
+                                   ? 'bg-amber-50/40 opacity-70 hover:opacity-90'
+                                   : isPaused
                                    ? 'bg-rose-50/40 opacity-70 hover:opacity-90'
                                    : 'hover:bg-blue-50/10'
                               }`}>
@@ -3865,23 +3913,30 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                           setStudentProfileTab('mastery');
                                           setSelectedProfileSubmission(null);
                                        }}
-                                       className="flex items-center gap-3 text-left focus:outline-none hover:opacity-85 transition-opacity"
+                                       disabled={isQuotaLocked}
+                                       className="flex items-center gap-3 text-left focus:outline-none hover:opacity-85 transition-opacity disabled:cursor-not-allowed"
                                     >
                                        <div className="relative">
                                           <img src={getStudentAvatar(student.name)} className={`w-10 h-10 rounded-full border-2 shadow-sm bg-white p-0.5 ${
-                                             isPaused ? 'border-rose-200 grayscale' : 'border-white'
+                                             isQuotaLocked ? 'border-amber-200 grayscale' : isPaused ? 'border-rose-200 grayscale' : 'border-white'
                                           }`} alt={student.name} />
-                                          {isPaused && (
+                                          {isQuotaLocked ? (
+                                             <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-amber-500 rounded-full flex items-center justify-center border border-white" title="Locked by plan limit">
+                                                <Lock className="w-2 h-2 text-white" />
+                                             </div>
+                                          ) : isPaused ? (
                                              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-rose-500 rounded-full flex items-center justify-center border border-white">
                                                 <Lock className="w-2 h-2 text-white" />
                                              </div>
-                                          )}
+                                          ) : null}
                                        </div>
                                        <div>
-                                          <span className={`text-sm font-black hover:text-[#EA580C] transition-colors ${isPaused ? 'text-slate-400 line-through' : 'text-[#14532d]'}`}>{student.name}</span>
-                                          {isPaused && (
+                                          <span className={`text-sm font-black hover:text-[#EA580C] transition-colors ${isQuotaLocked ? 'text-amber-700' : isPaused ? 'text-slate-400 line-through' : 'text-[#14532d]'}`}>{student.name}</span>
+                                          {isQuotaLocked ? (
+                                             <span className="ml-2 text-[9px] font-black uppercase tracking-wider text-amber-600 bg-amber-100 rounded-full px-1.5 py-0.5">Over Limit</span>
+                                          ) : isPaused ? (
                                              <span className="ml-2 text-[9px] font-black uppercase tracking-wider text-rose-500 bg-rose-100 rounded-full px-1.5 py-0.5">Paused</span>
-                                          )}
+                                          ) : null}
                                        </div>
                                     </button>
                                  </div>
@@ -3901,7 +3956,11 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                     <span className="text-[10px] font-black text-blue-400">{progress}%</span>
                                  </div>
                                  <div className="col-span-1">
-                                    {isPaused ? (
+                                    {isQuotaLocked ? (
+                                       <span className="inline-flex items-center gap-1 text-[10px] font-black text-amber-700 bg-amber-100 border border-amber-200 rounded-full px-2.5 py-1">
+                                          <Lock className="w-2.5 h-2.5" /> Locked
+                                       </span>
+                                    ) : isPaused ? (
                                        <span className="inline-flex items-center gap-1 text-[10px] font-black text-rose-600 bg-rose-100 border border-rose-200 rounded-full px-2.5 py-1">
                                           <Lock className="w-2.5 h-2.5" /> Paused
                                        </span>
@@ -6967,6 +7026,25 @@ const TeacherDashboard = ({ user, onLogout }) => {
       </aside>
 
       <main className="flex-1 overflow-y-auto no-scrollbar bg-[#F9F9FF] relative p-4 lg:p-6 flex flex-col">
+        {(() => {
+           const lockedCount = allStudents.filter(s => s.isQuotaLocked).length;
+           if (lockedCount > 0) {
+              return (
+                 <div className="bg-amber-50 border border-amber-200 text-amber-800 px-6 py-3 rounded-2xl mb-4 flex items-center justify-between shadow-sm animate-pulse">
+                    <div className="flex items-center gap-3">
+                       <span className="text-xl">⚠️</span>
+                       <p className="text-sm font-bold">
+                          You have {lockedCount} {lockedCount === 1 ? 'student' : 'students'} locked due to your current seat limit.
+                       </p>
+                    </div>
+                    <button onClick={() => setActiveTab('Billing & Licenses')} className="px-4 py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-black shadow-sm transition-all active:scale-95">
+                       Upgrade Plan to Unlock
+                    </button>
+                 </div>
+              );
+           }
+           return null;
+        })()}
         <div className="flex-1 bg-white rounded-[40px] shadow-sm flex flex-col border border-slate-100/50 relative overflow-hidden">
         {/* --- Dynamic Top Navigation --- */}
          {activeTab !== 'My Classes' && (

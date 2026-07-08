@@ -876,6 +876,13 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
                      }
                      return true;
                   });
+                
+                hwList.sort((a, b) => {
+                   const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                   const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                   return dateB - dateA;
+                });
+                
                 setHomeworks(hwList);
 
                 // Server-filtered parallel queries
@@ -2128,6 +2135,13 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                  }
                  return true;
               });
+              
+           hwList.sort((a, b) => {
+              const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+              const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+              return dateB - dateA;
+           });
+           
            setHomeworks(hwList);
         }
         
@@ -3708,7 +3722,15 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
               matchedStudentName = (matchedDoc.data().name || matchedDoc.id).trim();
               matchedStudentDoc = matchedDoc;
               matchedClassDocId = classDoc.id;
-              const studentStatus = matchedDoc.data().status;
+              const studentData = matchedDoc.data();
+              const studentStatus = studentData.status;
+              const isQuotaLocked = studentData.isQuotaLocked;
+
+              if (isQuotaLocked) {
+                setErrorMsg('Your account has been temporarily locked due to your class plan limits. Please speak to your teacher.');
+                setIsLoginLoading(false);
+                return;
+              }
               if (studentStatus === 'paused') {
                 setErrorMsg('Your account has been paused by your teacher. Please speak to your teacher to restore access.');
                 setIsLoginLoading(false);
