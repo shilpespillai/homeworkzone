@@ -831,7 +831,7 @@ export default function AdventureMazeView({
         
         {style.isImageBaked && (
           <img 
-            src={`/assets/adventure_${activeTrack}.${activeTrack === 'winter' ? 'jpg' : 'png'}?v=4`} 
+            src={`/assets/adventure_${activeTrack === 'pirate' ? 'pirate_v2' : activeTrack}.${activeTrack === 'winter' ? 'jpg' : 'png'}?v=5`} 
             className="absolute inset-0 w-full h-full object-cover pointer-events-none"
             style={{ imageRendering: 'high-quality' }}
             alt="Adventure Map"
