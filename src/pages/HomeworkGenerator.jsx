@@ -447,13 +447,14 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
           "step": 10
         }
 
-        IF the question involves counting stacked cubes, painted blocks, or isometric 3D spatial reasoning, include a "blockData" object property:
+        IF the question involves counting stacked cubes, painted blocks, or isometric 3D spatial reasoning, include a "blockData" object property. Firebase does NOT support nested arrays, so you MUST use an array of objects for the rows:
         "blockData": {
-          "grid": [
-            [5, 6, 5]
+          "rows": [
+            { "columns": [5, 6, 5] },
+            { "columns": [1, 2, 1] }
           ]
         }
-        (The grid is a 2D array of integers representing the height of the blocks at each x,y coordinate).
+        (Each row is an object with a "columns" array of integers representing the height of the blocks at each x,y coordinate).
 
         CRITICAL FOR SPATIAL REASONING: If the question involves 3D objects, stacking blocks, nets, cross-sections, or spatial reasoning, YOU ABSOLUTELY MUST include a visual (either "blockData", "geometryData", or "svgCode"). Do NOT generate text-only 3D visualization questions! If asking about nets, use "svgCode" in the options or the main question.
 

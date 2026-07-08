@@ -1,11 +1,19 @@
 import React from 'react';
 
 export default function DynamicBlockStructure({ data }) {
-  if (!data || !data.grid || !Array.isArray(data.grid)) return null;
+  if (!data) return null;
 
-  const { grid } = data;
+  let grid = [];
+  if (data.grid && Array.isArray(data.grid) && Array.isArray(data.grid[0])) {
+    grid = data.grid;
+  } else if (data.rows && Array.isArray(data.rows)) {
+    grid = data.rows.map(r => r.columns || []);
+  }
+
+  if (!grid || grid.length === 0 || !Array.isArray(grid[0])) return null;
+
   const rows = grid.length;
-  const cols = Math.max(...grid.map(row => row.length));
+  const cols = Math.max(...grid.map(row => (row && row.length) ? row.length : 0));
   
   if (rows === 0 || cols === 0) return null;
 
