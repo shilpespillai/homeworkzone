@@ -82,8 +82,18 @@ const TRACK_COORDS = {
     { x: 910, y: 615 }  // 9 FINISH
   ],
   candyland: [
-    { x: 80, y: 350 }, { x: 120, y: 250 }, { x: 220, y: 200 }, { x: 300, y: 280 }, { x: 400, y: 360 },
-    { x: 500, y: 280 }, { x: 550, y: 180 }, { x: 650, y: 100 }, { x: 750, y: 160 }, { x: 850, y: 250 }, { x: 940, y: 180 }
+    { x: 120, y: 520 }, // 0 START
+    { x: 70, y: 70 },   // 1
+    { x: 310, y: 60 },  // 2
+    { x: 550, y: 60 },  // 3
+    { x: 810, y: 60 },  // 4
+    { x: 810, y: 220 }, // 5
+    { x: 450, y: 240 }, // 6
+    { x: 160, y: 340 }, // 7
+    { x: 250, y: 460 }, // 8
+    { x: 550, y: 460 }, // 9
+    { x: 780, y: 400 }, // 10
+    { x: 840, y: 570 }  // 11 FINISH
   ],
   dinosaur: [
     { x: 90, y: 330 },  // 0 START
@@ -709,7 +719,8 @@ export default function AdventureMazeView({
       gradient: "from-pink-50 via-rose-50 to-fuchsia-100",
       pathColor: "#ec4899", pathOutline: "#be185d", centerDashes: "#fbcfe8",
       nodeColor: "fill-pink-400 stroke-pink-600", nodeColorCompleted: "fill-fuchsia-500 stroke-fuchsia-700",
-      finishColor: "text-rose-500 fill-rose-300", skyColor: "bg-[#831843]/10", finishNode: "🏰"
+      finishColor: "text-rose-500 fill-rose-300", skyColor: "bg-[#831843]/10", finishNode: "🏰",
+      isImageBaked: true
     },
     dinosaur: {
       displayName: "🦖 Dinosaur Safari", displayColor: "bg-lime-600 text-white shadow-lime-200",
