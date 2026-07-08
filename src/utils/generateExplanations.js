@@ -16,7 +16,7 @@ export async function generateExplanations(questions, subject = 'general', provi
   const isMath = subject?.toLowerCase() === 'maths' || subject?.toLowerCase() === 'math';
 
   const mathInstruction = isMath
-    ? `CRITICAL (Math subject): Format each explanation as a clear step-by-step calculation. Break each step onto its own line using \\n. Show formulas and substitutions explicitly.
+    ? `CRITICAL (Math subject): Format each explanation as a clear step-by-step calculation. Show formulas and substitutions explicitly.
 Example structure:
 Step 1: Identify the values: ...
 Step 2: Apply the operation: ...
@@ -41,8 +41,9 @@ ${mathInstruction}
 CRITICAL FORMATTING RULES:
 - Ensure the explanation is highly detailed.
 - Use clear distinct steps.
-- Each step MUST be on a new line.
 - The step titles MUST be bolded (e.g., **Step 1: Identify the variables**).
+- CRITICAL: You must output a valid JSON object. Do NOT use literal actual newlines inside your explanation strings. If you need a newline, use the exact characters "\\n".
+- Escape any internal double quotes with a backslash (\\").
 
 CRITICAL ACCURACY RULES:
 - All mathematical calculations must be 100% correct — double-check arithmetic
