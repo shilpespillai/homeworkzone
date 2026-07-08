@@ -457,6 +457,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
 
         CRITICAL FOR SPATIAL REASONING: If the question involves 3D objects, stacking blocks, nets, cross-sections, or spatial reasoning, YOU ABSOLUTELY MUST include a visual (either "blockData", "geometryData", or "svgCode"). Do NOT generate text-only 3D visualization questions! If asking about nets, use "svgCode" in the options or the main question.
 
+        IF the question involves 2D Geometry, Lines of Symmetry, or Transformational Geometry (like "Which flag has 2 lines of symmetry?"), use "svgCode" directly inside the "options" array! (e.g. `["<svg ...>...</svg>", "<svg ...>...</svg>", ...]`).
+
         CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData" or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!`;
 
       const textResponse = await generateContent({
