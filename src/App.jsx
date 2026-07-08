@@ -586,7 +586,7 @@ const SubjectIcon = ({ subject }) => {
   );
 };
 
-const HeroHomeworkCard = ({ hw, completedSubmission, hasDraft, onStart }) => {
+const HeroHomeworkCard = ({ hw, completedSubmission, hasDraft, onStart, teacher }) => {
   const isDueTomorrow = () => {
     if (!hw.dueDate) return false;
     const due = new Date(hw.dueDate);
@@ -597,6 +597,17 @@ const HeroHomeworkCard = ({ hw, completedSubmission, hasDraft, onStart }) => {
 
   const dueDateStr = hw.dueDate ? new Date(hw.dueDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : 'NO DUE DATE';
   const dueLabel = isDueTomorrow() ? 'DUE TOMORROW' : `DUE ${dueDateStr.toUpperCase()}`;
+  
+  const retentionDays = teacher?.dataRetentionPeriod !== undefined ? teacher.dataRetentionPeriod : 90;
+  let daysUntilExpiry = null;
+  if (retentionDays > 0) {
+      const createdAtDate = hw.createdAt?.seconds ? new Date(hw.createdAt.seconds * 1000) : new Date();
+      const expiryDate = new Date(createdAtDate.getTime() + retentionDays * 24 * 60 * 60 * 1000);
+      const now = new Date();
+      const diffMs = expiryDate.getTime() - now.getTime();
+      daysUntilExpiry = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+  }
+  const isExpiringSoon = daysUntilExpiry !== null && daysUntilExpiry <= 7 && daysUntilExpiry >= 0;
   
   let buttonLabel = hw.type === 'test' ? "START EXAM!" : "START LEARNING!";
   let buttonBg = "bg-[#ff6a00] shadow-[0_4px_0_0_#cc5500] hover:bg-[#ff8533]";
@@ -641,9 +652,16 @@ const HeroHomeworkCard = ({ hw, completedSubmission, hasDraft, onStart }) => {
           </p>
           
           <div className="mb-6 w-full">
-            <p className="text-[#ffce00] font-black text-sm md:text-base mb-1 uppercase tracking-wider drop-shadow-sm">
-              {dueLabel}
-            </p>
+            <div className="flex items-center gap-3 flex-wrap mb-1">
+              <p className="text-[#ffce00] font-black text-sm md:text-base uppercase tracking-wider drop-shadow-sm">
+                {dueLabel}
+              </p>
+              {isExpiringSoon && (
+                <span className="bg-rose-500 text-white text-xs font-black px-2 py-0.5 rounded uppercase tracking-wider shadow-sm animate-pulse">
+                  ⚠️ Expires in {daysUntilExpiry === 0 ? 'today' : `${daysUntilExpiry} days`}
+                </span>
+              )}
+            </div>
             <p className="text-white/80 text-xs md:text-sm font-bold mb-3">
               Task 1 of 4: {hw.topic || 'New Topic'}
             </p>
@@ -665,6 +683,17 @@ const HeroHomeworkCard = ({ hw, completedSubmission, hasDraft, onStart }) => {
 };
 
 const HomeworkCard = ({ hw, completedSubmission, hasDraft, delay, onStart, teacher }) => {
+  const retentionDays = teacher?.dataRetentionPeriod !== undefined ? teacher.dataRetentionPeriod : 90;
+  let daysUntilExpiry = null;
+  if (retentionDays > 0) {
+      const createdAtDate = hw.createdAt?.seconds ? new Date(hw.createdAt.seconds * 1000) : new Date();
+      const expiryDate = new Date(createdAtDate.getTime() + retentionDays * 24 * 60 * 60 * 1000);
+      const now = new Date();
+      const diffMs = expiryDate.getTime() - now.getTime();
+      daysUntilExpiry = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+  }
+  const isExpiringSoon = daysUntilExpiry !== null && daysUntilExpiry <= 7 && daysUntilExpiry >= 0;
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -713,6 +742,11 @@ const HomeworkCard = ({ hw, completedSubmission, hasDraft, delay, onStart, teach
                     const d = hw.createdAt.toDate ? hw.createdAt.toDate() : new Date(hw.createdAt);
                     return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
                  })()}
+              </span>
+           )}
+           {isExpiringSoon && (
+              <span className="text-[10px] font-black text-rose-500 bg-rose-50 px-2 py-1 rounded-md uppercase tracking-widest animate-pulse border border-rose-100 mt-1">
+                 ⚠️ Expires in {daysUntilExpiry === 0 ? 'today' : `${daysUntilExpiry} days`}
               </span>
            )}
            <div className="flex items-center gap-2 text-blue-500">
@@ -1101,6 +1135,7 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
                                                completedSubmission={submission}
                                                hasDraft={hasDraft}
                                                onStart={onStartMission}
+                                               teacher={teacher}
                                             />
                                          );
                                       }
