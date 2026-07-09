@@ -380,6 +380,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
            - "subtopic" (string, a specific subtopic or concept under the main topic)
         2. "passage": an optional string. If the quiz requires a reading comprehension passage, story, or shared text that applies to the questions, provide it here. Otherwise, omit this key.
         
+        CRITICAL FOR READING COMPREHENSION: DO NOT put the reading passage, story, or article inside the "text" of each question! The passage MUST be placed EXACTLY ONCE inside the root-level "passage" string key. The question "text" should only contain the actual question being asked.
         CRITICAL FOR LANGUAGE CONVENTIONS: If generating a Language Conventions spelling test, use questionType="text" for spelling correction questions, where the student must type the correct spelling of a misspelled word. For grammar/punctuation questions, use questionType="multiple_choice".
         
         ${assignmentType === 'test' ? 'CRITICAL FOR TESTS: This is a formal NAPLAN-style test paper. Generate a mix of multiple_choice and text input questions. Specifically, ensure that at least 30% of questions require text input (questionType="text" with NO options array), mimicking the actual exam format.' : 'CRITICAL FOR HOMEWORK: Generate ONLY multiple_choice questions (questionType="multiple_choice" with exactly 4 options) unless specifically instructed otherwise.'}
