@@ -172,6 +172,16 @@ function shouldScheduleRun(sched, now) {
     let dayDiff = currentDay - targetDay;
     if (dayDiff < 0) dayDiff += 7;
     latestScheduled.setDate(latestScheduled.getDate() - dayDiff);
+  } else if (sched.recurrence === 'monthly') {
+    const targetDate = parseInt(sched.recurrenceDate || '1', 10);
+    const currentMonth = latestScheduled.getMonth();
+    const currentYear = latestScheduled.getFullYear();
+    let targetMonthDate = new Date(currentYear, currentMonth, targetDate, targetHour, targetMin, 0, 0);
+
+    if (tzNow < targetMonthDate) {
+       targetMonthDate.setMonth(targetMonthDate.getMonth() - 1);
+    }
+    latestScheduled = new Date(targetMonthDate.getTime());
   }
 
   // 3. Compute the exact UTC timestamp for this local target time
@@ -182,8 +192,11 @@ function shouldScheduleRun(sched, now) {
   
   const targetUtcTime = latestScheduled.getTime() - offset;
 
+  // Only run if the most recent scheduled slot is exactly TODAY (no historical catch-up)
+  const isScheduledForToday = latestScheduled.toDateString() === tzNow.toDateString();
+
   // Run if we haven't run since the target, AND the current real time has actually passed the target
-  return lastRunTime < targetUtcTime && now.getTime() >= targetUtcTime;
+  return lastRunTime < targetUtcTime && now.getTime() >= targetUtcTime && isScheduledForToday;
 }
 
 // ─── Generate and save one schedule ───────────────────────────────────────
