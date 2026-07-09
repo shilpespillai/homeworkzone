@@ -23,11 +23,19 @@ Step 2: Apply the operation: ...
 Step 3: Final answer: ...`
     : '';
 
-  const questionsFormatted = questions.map(q =>
-    `ID: ${q.id}\nQuestion: "${q.text}"\nOptions: ${JSON.stringify(q.options)}\nCorrect Answer: "${q.answer}"\nSubtopic: "${q.subtopic || ''}"`
-  ).join('\n\n');
+  // Chunk size of 3 to avoid Vercel 10s serverless timeouts
+  const chunkSize = 3;
+  const chunks = [];
+  for (let i = 0; i < questions.length; i += chunkSize) {
+    chunks.push(questions.slice(i, i + chunkSize));
+  }
 
-  const prompt = `You are a friendly, highly-detailed, and accurate teacher preparing explanations for a ${subject} quiz.
+  const fetchChunk = async (chunk) => {
+    const questionsFormatted = chunk.map(q =>
+      `ID: ${q.id}\nQuestion: "${q.text}"\nOptions: ${JSON.stringify(q.options)}\nCorrect Answer: "${q.answer}"\nSubtopic: "${q.subtopic || ''}"`
+    ).join('\n\n');
+
+    const prompt = `You are a friendly, highly-detailed, and accurate teacher preparing explanations for a ${subject} quiz.
 
 For EACH question below, write an extremely detailed and encouraging explanation. You MUST follow this exact structure for EVERY explanation:
 
@@ -63,27 +71,40 @@ Example:
 
 CRITICAL: Use the EXACT question ID numbers as keys. Do not add prefixes or extra text.`;
 
-  try {
-    const resultText = await generateContent({
-      prompt,
-      responseMimeType: 'application/json',
-      provider
-    });
+    try {
+      const resultText = await generateContent({
+        prompt,
+        responseMimeType: 'application/json',
+        provider
+      });
 
-    if (!resultText) return {};
+      if (!resultText) return {};
 
-    // Clean any markdown wrappers
-    const clean = resultText.replace(/```json/g, '').replace(/```/g, '').trim();
-    const parsed = JSON.parse(clean);
+      // Clean any markdown wrappers
+      const clean = resultText.replace(/```json/g, '').replace(/```/g, '').trim();
+      const parsed = JSON.parse(clean);
 
-    // Normalize keys: ensure both numeric and string key lookups work
-    const normalized = {};
-    for (const [k, v] of Object.entries(parsed)) {
-      normalized[k] = v;
+      const normalized = {};
+      for (const [k, v] of Object.entries(parsed)) {
+        normalized[k] = v;
+      }
+      return normalized;
+    } catch (err) {
+      console.error('[generateExplanations] Failed to pre-generate explanation chunk:', err);
+      return {};
     }
-    return normalized;
+  };
+
+  // Run all chunks concurrently
+  try {
+    const chunkResults = await Promise.all(chunks.map(chunk => fetchChunk(chunk)));
+    const allExplanations = {};
+    for (const res of chunkResults) {
+      Object.assign(allExplanations, res);
+    }
+    return allExplanations;
   } catch (err) {
-    console.error('[generateExplanations] Failed to pre-generate explanations:', err);
-    return {}; // Non-fatal — student fallback AI call will handle it
+    console.error('[generateExplanations] Master fail:', err);
+    return {};
   }
 }
