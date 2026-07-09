@@ -1760,7 +1760,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
       time: '15',
       points: '10'
     });
-    setActiveTab('Homework');
+    setActiveTab('Homework/Test Builder');
   };
 
   const getPlanSeatLimit = (planId) => {
@@ -3106,7 +3106,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                            <button 
                                               onClick={() => {
                                                  setSelectedDraft(draft);
-                                                 setActiveTab('Homework');
+                                                 setActiveTab('Homework/Test Builder');
                                               }}
                                               className="text-[10px] font-black bg-[#C23C9F] text-white px-3 py-1.5 rounded-xl hover:bg-[#A13083] transition-colors shrink-0"
                                            >
