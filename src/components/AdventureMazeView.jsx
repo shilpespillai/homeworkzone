@@ -5,151 +5,152 @@ import { Compass, Map, Trophy, Users, Award, Sparkles, X } from 'lucide-react';
 
 const TRACK_COORDS = {
   sonic: [
-    { x: 184, y: 140 }, // 0: START (1)
-    { x: 153, y: 418 }, // 1: Green Hill (3)
-    { x: 358, y: 418 }, // 2: Marble (Purple 4)
-    { x: 460, y: 474 }, // 3: Spring Yard (Red 4)
-    { x: 460, y: 306 }, // 4: 5
-    { x: 460, y: 195 }, // 5: Cloud Fortress (6)
-    { x: 563, y: 306 }, // 6: Libyreon City (7)
-    { x: 665, y: 212 }, // 7: Death Egg (8)
-    { x: 665, y: 390 }, // 8: Death Egg Core (9)
-    { x: 819, y: 223 }, // 9: Final Temple (10)
-    { x: 900, y: 334 }  // 10: FINISH
+    { x: 184, y: 140 }, // 1: START
+    { x: 153, y: 418 }, // 2: Green Hill
+    { x: 358, y: 418 }, // 3: Marble
+    { x: 460, y: 474 }, // 4: Spring Yard
+    { x: 460, y: 306 }, // 5: 
+    { x: 460, y: 195 }, // 6: Cloud Fortress
+    { x: 563, y: 306 }, // 7: Libyreon City
+    { x: 665, y: 212 }, // 8: Death Egg
+    { x: 665, y: 390 }, // 9: Death Egg Core
+    { x: 819, y: 223 }  // 10: Final Temple
   ],
   island: [
-    { x: 593, y: 68 },   // 0 (START)
-    { x: 593, y: 142 },  // 1 (Circle 1)
-    { x: 798, y: 200 },  // 2 (Circle 2)
-    { x: 675, y: 234 },  // 3 (Circle 3)
-    { x: 327, y: 251 },  // 4 (Circle 4)
-    { x: 491, y: 274 },  // 5 (Circle 5)
-    { x: 389, y: 388 },  // 6 (U-Turn near Coast)
-    { x: 563, y: 348 },  // 7 (Circle 7)
-    { x: 645, y: 342 },  // 8 (Circle 8)
-    { x: 747, y: 371 },  // 9 (Circle 10)
-    { x: 870, y: 440 }   // 10 (FINISH)
+    { x: 593, y: 68 },   // 1
+    { x: 593, y: 142 },  // 2
+    { x: 798, y: 200 },  // 3
+    { x: 675, y: 234 },  // 4
+    { x: 327, y: 251 },  // 5
+    { x: 491, y: 274 },  // 6
+    { x: 389, y: 388 },  // 7
+    { x: 563, y: 348 },  // 8
+    { x: 645, y: 342 },  // 9
+    { x: 747, y: 371 }   // 10
   ],
   forest: [
-    { x: 25, y: 365 },  // 0 (1. Start Point)
-    { x: 275, y: 75 },  // 1 (2. Whispering Grove)
-    { x: 190, y: 325 }, // 2 (3. Mushroom Glade)
-    { x: 220, y: 500 }, // 3 (4. Glimmering Pool)
-    { x: 370, y: 385 }, // 4 (5. Mossy Ruins)
-    { x: 490, y: 350 }, // 5 (6. Ancient Tree of Ages)
-    { x: 640, y: 330 }, // 6 (7. Spider's Silken Web)
-    { x: 740, y: 155 }, // 7 (8. Crystal Cavern)
-    { x: 680, y: 500 }, // 8 (9. Flower Patch)
-    { x: 870, y: 370 }, // 9 (10. Stone Circle)
-    { x: 900, y: 560 }  // 10 (FINISH)
+    { x: 72, y: 328 },  // 1 Start Point
+    { x: 328, y: 52 },  // 2 Whispering Grove
+    { x: 236, y: 300 }, // 3 Mushroom Glade
+    { x: 276, y: 455 }, // 4 Glimmering Pool
+    { x: 399, y: 340 }, // 5 Mossy Ruins
+    { x: 553, y: 328 }, // 6 Ancient Tree of Ages
+    { x: 696, y: 305 }, // 7 Spider's Silken Web
+    { x: 809, y: 156 }, // 8 Crystal Cavern Entrance
+    { x: 748, y: 455 }, // 9 Bioluminescent Flower Patch
+    { x: 922, y: 340 }  // 10 Sentinel Stone Circle
   ],
   space: [
-    { x: 25, y: 365 },  // 0 (1. Star Point)
-    { x: 275, y: 75 },  // 1 (2. Asteroid Field)
-    { x: 190, y: 325 }, // 2 (3. Cosmic Nebula)
-    { x: 220, y: 500 }, // 3 (4. Glimmering Gas Cloud)
-    { x: 370, y: 385 }, // 4 (5. Xeno-Ruins)
-    { x: 490, y: 350 }, // 5 (6. Elder Pulsar)
-    { x: 640, y: 330 }, // 6 (7. Silken Singularity)
-    { x: 740, y: 155 }, // 7 (8. Crystal Comet)
-    { x: 680, y: 500 }, // 8 (9. Exotic Particle)
-    { x: 870, y: 370 }, // 9 (10. Sentience Stones)
-    { x: 900, y: 560 }  // 10 (FINISH)
+    { x: 25, y: 365 },  // 1
+    { x: 275, y: 75 },  // 2
+    { x: 190, y: 325 }, // 3
+    { x: 220, y: 500 }, // 4
+    { x: 370, y: 385 }, // 5
+    { x: 490, y: 350 }, // 6
+    { x: 640, y: 330 }, // 7
+    { x: 740, y: 155 }, // 8
+    { x: 680, y: 500 }, // 9
+    { x: 870, y: 370 }  // 10
   ],
   sports: [
-    { x: 100, y: 330 },  // 0
-    { x: 280, y: 330 },  // 1
-    { x: 460, y: 330 },  // 2
-    { x: 640, y: 330 },  // 3
-    { x: 820, y: 330 },  // 4
-    { x: 910, y: 230 },  // 5
-    { x: 820, y: 130 },  // 6
-    { x: 640, y: 130 },  // 7
-    { x: 460, y: 130 },  // 8
-    { x: 280, y: 130 },  // 9
-    { x: 100, y: 130 }   // 10
+    { x: 100, y: 330 },  // 1
+    { x: 280, y: 330 },  // 2
+    { x: 460, y: 330 },  // 3
+    { x: 640, y: 330 },  // 4
+    { x: 820, y: 330 },  // 5
+    { x: 910, y: 230 },  // 6
+    { x: 820, y: 130 },  // 7
+    { x: 640, y: 130 },  // 8
+    { x: 460, y: 130 },  // 9
+    { x: 280, y: 130 }   // 10
   ],
   undersea: [
-    { x: 45, y: 465 },   // 0 START
-    { x: 108, y: 545 },  // 1 Coral Reef
-    { x: 272, y: 215 },  // 2 Sea Forest
-    { x: 305, y: 555 },  // 3 Sunken Ship
-    { x: 450, y: 175 },  // 4 Deep Blue Zone
-    { x: 470, y: 580 },  // 5 Pearl Cave
-    { x: 705, y: 145 },  // 6 Volcano Ridge
-    { x: 745, y: 435 },  // 7 Ice Tunnels
-    { x: 635, y: 645 },  // 8 Treasure Lagoon
-    { x: 800, y: 500 },  // 9 Abyssal Plain (Hidden)
-    { x: 850, y: 550 },  // 10 Atlantis Gates (Hidden)
-    { x: 910, y: 615 }   // 11 FINISH / Poseidon's Throne
+    { x: 45, y: 465 },   // 1
+    { x: 108, y: 545 },  // 2
+    { x: 272, y: 215 },  // 3
+    { x: 305, y: 555 },  // 4
+    { x: 450, y: 175 },  // 5
+    { x: 470, y: 580 },  // 6
+    { x: 705, y: 145 },  // 7
+    { x: 745, y: 435 },  // 8
+    { x: 635, y: 645 },  // 9
+    { x: 800, y: 500 }   // 10
   ],
   candyland: [
-    { x: 120, y: 520 }, // 0 START
-    { x: 70, y: 70 },   // 1
-    { x: 310, y: 60 },  // 2
-    { x: 550, y: 60 },  // 3
-    { x: 810, y: 60 },  // 4
-    { x: 810, y: 220 }, // 5
-    { x: 450, y: 240 }, // 6
-    { x: 160, y: 340 }, // 7
-    { x: 250, y: 460 }, // 8
-    { x: 550, y: 460 }, // 9
-    { x: 780, y: 400 }, // 10
-    { x: 840, y: 570 }  // 11 FINISH
+    { x: 133, y: 63 },  // 1 Mr. Pop's Candy Shop
+    { x: 369, y: 52 },  // 2 Molasses Swamp
+    { x: 635, y: 40 },  // 3 Royal Peppermint Forest
+    { x: 891, y: 58 },  // 4 Gingerbread Orchard
+    { x: 881, y: 190 }, // 5 Lollipop Woods
+    { x: 512, y: 219 }, // 6 Ice Cream Sea
+    { x: 225, y: 305 }, // 7 Lord Licorice's Castle
+    { x: 297, y: 403 }, // 8 Candy Kid
+    { x: 625, y: 397 }, // 9 Captain Cookie
+    { x: 850, y: 351 }  // 10 The Grand Sugar Palace
   ],
   dinosaur: [
-    { x: 90, y: 330 },  // 0 START
-    { x: 110, y: 260 }, // 1
-    { x: 220, y: 130 }, // 2
-    { x: 245, y: 380 }, // 3
-    { x: 445, y: 125 }, // 4
-    { x: 490, y: 395 }, // 5
-    { x: 655, y: 80 },  // 6
-    { x: 745, y: 220 }, // 7
-    { x: 805, y: 350 }, // 8
-    { x: 645, y: 470 }, // 9
-    { x: 845, y: 415 }, // 10
-    { x: 900, y: 480 }  // 11 FINISH
+    { x: 164, y: 253 }, // 1 Dino Discovery
+    { x: 297, y: 132 }, // 2 The Fern Forest
+    { x: 297, y: 357 }, // 3 Fossil Find
+    { x: 512, y: 127 }, // 4 Dino Valley
+    { x: 563, y: 363 }, // 5 Crystal Caves
+    { x: 717, y: 86 },  // 6 Volcano Peak
+    { x: 819, y: 213 }, // 7 The Great Lake
+    { x: 881, y: 323 }, // 8 Ancient Ruins
+    { x: 727, y: 438 }, // 9 Dino Champion
+    { x: 942, y: 392 }  // 10 Hidden Nest
   ],
   pirate: [
-    { x: 80, y: 50 },   // 0 START
-    { x: 90, y: 170 },  // 1 Shipwreck
-    { x: 300, y: 130 }, // 2 Parrot Point
-    { x: 550, y: 130 }, // 3 Skeleton Beach
-    { x: 790, y: 130 }, // 4 Lost Temple
-    { x: 800, y: 380 }, // 5 Cannon Cove
-    { x: 550, y: 350 }, // 6 Blackwater Bay
-    { x: 290, y: 440 }, // 7 Hidden Lagoon
-    { x: 90, y: 560 },  // 8 Smuggler's Cave
-    { x: 350, y: 600 }, // 9 Treasure Falls
-    { x: 620, y: 580 }, // 10 Pirate's Prize
-    { x: 850, y: 590 }  // 11 FINISH
+    { x: 133, y: 98 },  // 1 Shipwreck Shore
+    { x: 389, y: 81 },  // 2 Parrot Point
+    { x: 614, y: 81 },  // 3 Skeleton Beach
+    { x: 860, y: 81 },  // 4 Lost Temple
+    { x: 870, y: 230 }, // 5 Cannon Cove
+    { x: 614, y: 213 }, // 6 Blackwater Bay
+    { x: 348, y: 265 }, // 7 Hidden Lagoon
+    { x: 113, y: 351 }, // 8 Smuggler's Cave
+    { x: 399, y: 409 }, // 9 Treasure Falls
+    { x: 676, y: 409 }  // 10 Pirate's Prize
   ],
   haunted: [
-    { x: 50, y: 250 }, { x: 100, y: 150 }, { x: 200, y: 100 }, { x: 300, y: 200 }, { x: 400, y: 300 },
-    { x: 500, y: 350 }, { x: 600, y: 250 }, { x: 700, y: 150 }, { x: 800, y: 100 }, { x: 900, y: 200 }, { x: 950, y: 300 }
+    { x: 100, y: 350 }, // 1 Haunted Gate
+    { x: 100, y: 200 }, // 2 Cemetery Path
+    { x: 200, y: 100 }, // 3 Ghost Forest
+    { x: 450, y: 100 }, // 4 Broken Clocktower
+    { x: 550, y: 250 }, // 5 Gargoyle Bridge
+    { x: 250, y: 350 }, // 6 Pumpkin Village
+    { x: 700, y: 150 }, // 7 Spectral Sky Path
+    { x: 550, y: 450 }, // 8 Crystal Dungeon
+    { x: 750, y: 450 }, // 9 Forgotten Courtyard
+    { x: 900, y: 200 }  // 10 Haunted Castle FINISH
   ],
   winter: [
-    { x: 100, y: 160 }, // 0 START
-    { x: 170, y: 200 }, // 1
-    { x: 420, y: 280 }, // 2
-    { x: 540, y: 200 }, // 3
-    { x: 700, y: 200 }, // 4
-    { x: 830, y: 250 }, // 5
-    { x: 800, y: 440 }, // 6
-    { x: 580, y: 440 }, // 7
-    { x: 125, y: 450 }, // 8
-    { x: 160, y: 600 }, // 9
-    { x: 650, y: 600 }, // 10
-    { x: 880, y: 560 }  // 11 FINISH
+    { x: 100, y: 160 }, // 1
+    { x: 170, y: 200 }, // 2
+    { x: 420, y: 280 }, // 3
+    { x: 540, y: 200 }, // 4
+    { x: 700, y: 200 }, // 5
+    { x: 830, y: 250 }, // 6
+    { x: 800, y: 440 }, // 7
+    { x: 580, y: 440 }, // 8
+    { x: 125, y: 450 }, // 9
+    { x: 160, y: 600 }  // 10
   ],
   jungle: [
     { x: 60, y: 120 }, { x: 160, y: 220 }, { x: 260, y: 320 }, { x: 360, y: 220 }, { x: 460, y: 120 },
-    { x: 560, y: 220 }, { x: 660, y: 320 }, { x: 760, y: 220 }, { x: 860, y: 120 }, { x: 920, y: 200 }, { x: 950, y: 300 }
+    { x: 560, y: 220 }, { x: 660, y: 320 }, { x: 760, y: 220 }, { x: 860, y: 120 }, { x: 920, y: 200 }
   ],
   desert: [
-    { x: 80, y: 380 }, { x: 180, y: 280 }, { x: 280, y: 180 }, { x: 380, y: 100 }, { x: 480, y: 150 },
-    { x: 580, y: 250 }, { x: 680, y: 350 }, { x: 780, y: 280 }, { x: 880, y: 180 }, { x: 940, y: 120 }, { x: 980, y: 80 }
+    { x: 100, y: 200 }, // 1
+    { x: 250, y: 100 }, // 2
+    { x: 450, y: 120 }, // 3
+    { x: 650, y: 120 }, // 4
+    { x: 850, y: 120 }, // 5
+    { x: 850, y: 250 }, // 6
+    { x: 500, y: 250 }, // 7
+    { x: 200, y: 350 }, // 8
+    { x: 450, y: 400 }, // 9
+    { x: 800, y: 400 }  // 10
   ],
   cyber: [
     { x: 92, y: 46 },   // 0 (1: 9%, 8%) Neon Launch Plaza (START)
@@ -164,8 +165,16 @@ const TRACK_COORDS = {
     { x: 819, y: 345 }  // 9 (10: 80%, 60%) Sky Nexus Command Tower (FINISH)
   ],
   magic: [
-    { x: 80, y: 150 }, { x: 180, y: 300 }, { x: 280, y: 150 }, { x: 380, y: 300 }, { x: 480, y: 150 },
-    { x: 580, y: 300 }, { x: 680, y: 150 }, { x: 780, y: 300 }, { x: 880, y: 150 }, { x: 940, y: 250 }, { x: 970, y: 120 }
+    { x: 50, y: 300 },  // 1 Academy Entrance
+    { x: 150, y: 100 }, // 2 Enchanted Courtyard
+    { x: 350, y: 50 },  // 3 Owl Tower
+    { x: 500, y: 50 },  // 4 Potion Gardens
+    { x: 750, y: 50 },  // 5 Crystal Library
+    { x: 900, y: 200 }, // 6 Dragon Courtyard
+    { x: 500, y: 300 }, // 7 Sky Bridge
+    { x: 200, y: 450 }, // 8 Enchanted Maze
+    { x: 600, y: 450 }, // 9 Wizard's Observatory
+    { x: 900, y: 400 }  // 10 Grand Hall of Magic
   ]
 };
 
@@ -180,8 +189,7 @@ const MILESTONE_DETAILS = {
     { name: "7. Libyreon City 🏙️", desc: "Drift through the glowing streets." },
     { name: "8. Death Egg Zone 🥚", desc: "Infiltrate Dr. Eggman's base." },
     { name: "9. Death Egg Core 🤖", desc: "Defeat the giant robot guard!" },
-    { name: "10. Ice Cap Zone ❄️", desc: "Snowboard down the frozen peaks." },
-    { name: "Finish 🎉", desc: "You've won the Grand Prix!" }
+    { name: "10. Ice Cap Zone ❄️", desc: "Snowboard down the frozen peaks." }
   ],
   island: [
     { name: "1. Start Gate 🏁", desc: "Start your engines!" },
@@ -193,21 +201,19 @@ const MILESTONE_DETAILS = {
     { name: "7. Coastal Curve 🏝️", desc: "Drift along the sandy beach." },
     { name: "8. Volcano Base 🌋", desc: "Feel the heat from the molten lava!" },
     { name: "9. Compass Point 🧭", desc: "Stay on track and keep your bearings." },
-    { name: "10. Palm Beach 🌴", desc: "The final straightaway!" },
-    { name: "Finish 🎉", desc: "You've crossed the island finish line!" }
+    { name: "10. Palm Beach 🌴", desc: "The final straightaway!" }
   ],
   forest: [
-    { name: "1. Start Point 🍄", desc: "Your journey begins!" },
-    { name: "2. Whispering Grove 🍃", desc: "The trees are whispering." },
-    { name: "3. Mushroom Glade 🍄", desc: "A cozy clearing filled with colorful, glowing mushrooms." },
-    { name: "4. Glimmering Pool 💧", desc: "Crystal clear magical water." },
-    { name: "5. Mossy Ruins 🏛️", desc: "Ancient stones covered in moss." },
-    { name: "6. Ancient Tree of Ages 🌳", desc: "The oldest tree in the forest." },
-    { name: "7. Spider's Silken Web 🕸️", desc: "Careful not to get stuck." },
-    { name: "8. Crystal Cavern Entrance 💎", desc: "Sparkling gems inside." },
-    { name: "9. Bioluminescent Flower Patch 🌸", desc: "Glowing flowers light the way." },
-    { name: "10. Sentinel Stone Circle 🗿", desc: "Ancient standing stones." },
-    { name: "Finish 🎉", desc: "You've completed the forest adventure!" }
+    { name: "1. Start Point", desc: "Your journey begins!" },
+    { name: "2. Whispering Grove", desc: "The trees are whispering." },
+    { name: "3. Mushroom Glade", desc: "A cozy clearing filled with colorful, glowing mushrooms." },
+    { name: "4. Glimmering Pool", desc: "Crystal clear magical water." },
+    { name: "5. Mossy Ruins", desc: "Ancient stones covered in moss." },
+    { name: "6. Ancient Tree of Ages", desc: "The oldest tree in the forest." },
+    { name: "7. Spider's Silken Web", desc: "Careful not to get stuck." },
+    { name: "8. Crystal Cavern Entrance", desc: "Sparkling gems inside." },
+    { name: "9. Bioluminescent Flower Patch", desc: "Glowing flowers light the way." },
+    { name: "10. Sentinel Stone Circle", desc: "Ancient standing stones." }
   ],
   space: [
     { name: "1. Star Point ⭐", desc: "Your cosmic journey begins!" },
@@ -219,8 +225,7 @@ const MILESTONE_DETAILS = {
     { name: "7. Silken Singularity 🕳️", desc: "A mesmerizing space anomaly." },
     { name: "8. Crystal Comet Entrance ☄️", desc: "Catch a ride on the icy comet." },
     { name: "9. Exotic Particle Field ✨", desc: "A dazzling display of quantum fireworks." },
-    { name: "10. Sentience Stones 🗿", desc: "The final orbital milestone." },
-    { name: "Finish 🎉", desc: "You've completed the cosmic race!" }
+    { name: "10. Sentience Stones 🗿", desc: "The final orbital milestone." }
   ],
   sports: [
     { name: "Warmup Zone 🤸", desc: "Get stretched and ready for action!" },
@@ -232,8 +237,7 @@ const MILESTONE_DETAILS = {
     { name: "Discus Circle ☄️", desc: "Spin and launch the disc into the distance." },
     { name: "Penalty Kick ⚽", desc: "Aim, shoot, and SCORE past the goalkeeper!" },
     { name: "Water Obstacle 🏊", desc: "Leap over the water pool and stay strong." },
-    { name: "Final Stretch 🏁", desc: "The crowd is cheering! Almost at the line!" },
-    { name: "Victory Podium 🏆", desc: "Take your place on the Gold stand! Champion! 🎖️" }
+    { name: "Final Stretch 🏁", desc: "The crowd is cheering! Almost at the line!" }
   ],
   undersea: [
     { name: "1. The Coral Reef 🪸", desc: "Get ready for the journey!", task: "Get familiar with the basics." },
@@ -245,61 +249,55 @@ const MILESTONE_DETAILS = {
     { name: "7. The Ice Tunnels 🧊", desc: "Cross the chilly ice tunnels.", task: "Test your skills and score high." },
     { name: "8. The Treasure Lagoon 💎", desc: "The final stretch to victory!", task: "Show what you've leaned." },
     { name: "9. Abyssal Plain 🦑", desc: "Glowing creatures light the way.", task: "Keep exploring." },
-    { name: "10. Atlantis Gates 🏛️", desc: "The entrance to the lost city.", task: "Unlock the gates." },
-    { name: "11. Poseidon's Throne 🔱", desc: "You are the ruler of the seas!", task: "Claim your crown." }
+    { name: "10. Atlantis Gates 🏛️", desc: "The entrance to the lost city.", task: "Unlock the gates." }
   ],
   candyland: [
-    { name: "Peppermint Gate 🍬", desc: "The sweet journey begins." },
-    { name: "Chocolate River 🍫", desc: "Don't fall in the gooey chocolate!" },
-    { name: "Gumdrop Mountain ⛰️", desc: "A sticky climb to the top." },
-    { name: "Licorice Loop 🌀", desc: "Twist and turn through the black vines." },
-    { name: "Marshmallow Marsh 🍡", desc: "Bounce safely across the soft ground." },
-    { name: "Lollipop Woods 🍭", desc: "Tall trees made of pure sugar." },
-    { name: "Cotton Candy Clouds ☁️", desc: "Light and fluffy and pink." },
-    { name: "Gummy Bear Cave 🐻", desc: "Say hi to the sleeping jelly bears." },
-    { name: "Jellybean Path 🫘", desc: "Step on the right colors!" },
-    { name: "Sugar Plum Falls 💧", desc: "A sparkling waterfall of syrup." },
-    { name: "Ice Cream Castle 🍦", desc: "You've reached the sweetest palace!" }
+    { name: "1. Mr. Pop's Candy Shop", desc: "Welcome to Candyland!" },
+    { name: "2. Molasses Swamp", desc: "Don't get stuck!" },
+    { name: "3. Royal Peppermint Forest", desc: "Minty fresh trees." },
+    { name: "4. Gingerbread Orchard", desc: "Watch out for crumbs." },
+    { name: "5. Lollipop Woods", desc: "Colorful and sweet." },
+    { name: "6. Ice Cream Sea", desc: "Sail the sugary waves." },
+    { name: "7. Lord Licorice's Castle", desc: "A dark, sweet fortress." },
+    { name: "8. Candy Kid", desc: "A sweet friend." },
+    { name: "9. Captain Cookie", desc: "The swashbuckling biscuit." },
+    { name: "10. The Grand Sugar Palace", desc: "You've reached the end!" }
   ],
   dinosaur: [
-    { name: "Start 🏕️", desc: "Adventure begins here!" },
-    { name: "1. Dino Discovery 🐾", desc: "Get ready for your dinosaur adventure!" },
-    { name: "2. The Fern Forest 🌿", desc: "Explore the lush Sea Forest." },
-    { name: "3. Fossil Find 🦴", desc: "Dig up fossils and discover the past." },
-    { name: "4. Dino Valley 🦕", desc: "Meet different dinosaurs." },
-    { name: "5. Crystal Caves 💎", desc: "Explore the sparkling crystal caves." },
-    { name: "6. Volcano Peak 🌋", desc: "Navigate the fiery Volcano Ridge." },
-    { name: "7. The Great Lake 💧", desc: "Cross the wide Ice Tunnels." },
-    { name: "8. Ancient Ruins 🏛️", desc: "Solve puzzles in the ancient ruins." },
-    { name: "9. Dino Champion 🏆", desc: "Complete challenges and become a Dino Champion!" },
-    { name: "10. Hidden Nest 🥚", desc: "Discover the lost eggs!" },
-    { name: "Finish 🎉", desc: "You survived the prehistoric era!" }
+    { name: "1. Dino Discovery", desc: "Get ready for your dinosaur adventure!" },
+    { name: "2. The Fern Forest", desc: "Explore the lush Sea Forest." },
+    { name: "3. Fossil Find", desc: "Dig up fossils and discover the past." },
+    { name: "4. Dino Valley", desc: "Meet different dinosaurs." },
+    { name: "5. Crystal Caves", desc: "Explore the sparkling crystal caves." },
+    { name: "6. Volcano Peak", desc: "Navigate the fiery Volcano Ridge." },
+    { name: "7. The Great Lake", desc: "Cross the wide Ice Tunnels." },
+    { name: "8. Ancient Ruins", desc: "Solve puzzles in the ancient ruins." },
+    { name: "9. Dino Champion", desc: "Complete challenges and become a Dino Champion!" },
+    { name: "10. Hidden Nest", desc: "Discover the lost eggs!" }
   ],
   pirate: [
-    { name: "Sandy Shores 🏖️", desc: "Leave the dinghy behind." },
-    { name: "Smuggler's Cove 🏴‍☠️", desc: "A hidden hideout for scallywags." },
-    { name: "Parrot's Perch 🦜", desc: "Squawk! Polly wants a cracker!" },
-    { name: "Kraken's Whirlpool 🐙", desc: "Steer clear of the giant tentacles." },
-    { name: "Cannonball Bay 💣", desc: "Watch out for incoming fire!" },
-    { name: "Mermaid Shoal 🧜‍♀️", desc: "Listen to the enchanting songs." },
-    { name: "Skull Rock 💀", desc: "A terrifying stone face in the cliff." },
-    { name: "Mutiny Beach ⚔️", desc: "A place of ancient pirate battles." },
-    { name: "X Marks the Spot ❌", desc: "Start digging here!" },
-    { name: "Captain's Cabin 🧭", desc: "Find the secret map." },
-    { name: "Treasure Hoard 💎", desc: "Gold doubloons galore! You are rich!" }
+    { name: "1. Shipwreck Shore", desc: "Leave the dinghy behind." },
+    { name: "2. Parrot Point", desc: "Squawk! Polly wants a cracker!" },
+    { name: "3. Skeleton Beach", desc: "A terrifying stone face in the cliff." },
+    { name: "4. Lost Temple", desc: "A place of ancient pirate battles." },
+    { name: "5. Cannon Cove", desc: "Watch out for incoming fire!" },
+    { name: "6. Blackwater Bay", desc: "Steer clear of the giant tentacles." },
+    { name: "7. Hidden Lagoon", desc: "Listen to the enchanting songs." },
+    { name: "8. Smuggler's Cave", desc: "A hidden hideout for scallywags." },
+    { name: "9. Treasure Falls", desc: "Start digging here!" },
+    { name: "10. Pirate's Prize", desc: "Gold doubloons galore! You are rich!" }
   ],
   haunted: [
-    { name: "Creepy Courtyard 🍂", desc: "Dry leaves crunch under your feet." },
-    { name: "Gargoyle Tower 🦇", desc: "Stone monsters watching you." },
-    { name: "Spiderweb Staircase 🕸️", desc: "Try not to get stuck." },
-    { name: "Hall of Mirrors 🪞", desc: "Which reflection is the real you?" },
-    { name: "Floating Candles 🕯️", desc: "Spooky lights guiding the way." },
-    { name: "Ghostly Gallery 🖼️", desc: "The paintings are staring at you." },
-    { name: "Witch's Kitchen 🧙‍♀️", desc: "Something green is bubbling in the pot." },
-    { name: "Poltergeist Parlor 👻", desc: "Furniture floating in the air!" },
-    { name: "Vampire's Crypt 🧛", desc: "Don't open the coffin." },
-    { name: "Howling Roof 🐺", desc: "The moon is full and bright." },
-    { name: "Monster Bash 🧟", desc: "You survived the haunted house!" }
+    { name: "1. Haunted Gate", desc: "Dry leaves crunch under your feet." },
+    { name: "2. Cemetery Path", desc: "Stone monsters watching you." },
+    { name: "3. Ghost Forest", desc: "Try not to get stuck." },
+    { name: "4. Broken Clocktower", desc: "Which reflection is the real you?" },
+    { name: "5. Gargoyle Bridge", desc: "Spooky lights guiding the way." },
+    { name: "6. Pumpkin Village", desc: "The paintings are staring at you." },
+    { name: "7. Spectral Sky Path", desc: "Something green is bubbling in the pot." },
+    { name: "8. Crystal Dungeon", desc: "Furniture floating in the air!" },
+    { name: "9. Forgotten Courtyard", desc: "Don't open the coffin." },
+    { name: "10. Haunted Castle FINISH", desc: "You survived the haunted house!" }
   ],
   winter: [
     { name: "Start 🛷", desc: "Bundle up, it's cold outside!" },
@@ -311,9 +309,7 @@ const MILESTONE_DETAILS = {
     { name: "6. Frozen Waterfall 🧊", desc: "A magnificent frozen cascade." },
     { name: "7. Snowman Valley ⛄", desc: "Say hello to the frosty friends." },
     { name: "8. Ice Crystal Caverns 💎", desc: "Glittering ice formations." },
-    { name: "9. Santa's Workshop 🎁", desc: "Where the magic happens!" },
-    { name: "10. Holiday Castle 🏰", desc: "A majestic winter palace." },
-    { name: "Grand Finish 🏆", desc: "You completed the winter wonderland!" }
+    { name: "9. Santa's Workshop 🎁", desc: "Where the magic happens!" }
   ],
   jungle: [
     { name: "Vine Swing 🌿", desc: "Tarzan your way across the gap." },
@@ -325,21 +321,19 @@ const MILESTONE_DETAILS = {
     { name: "Roaring Waterfall 🌊", desc: "A beautiful hidden cascade." },
     { name: "Dart Frog Pond 🐸", desc: "Don't touch the bright colorful frogs!" },
     { name: "Bamboo Forest 🎋", desc: "Thick stalks block the path." },
-    { name: "Golden Temple 🛕", desc: "A legendary lost city." },
-    { name: "Jungle Throne 👑", desc: "You are the ruler of the wild!" }
+    { name: "Golden Temple 🛕", desc: "A legendary lost city." }
   ],
   desert: [
-    { name: "Searing Sand Dunes 🐪", desc: "Hot sand as far as the eye can see." },
-    { name: "Oasis Spring 🌴", desc: "A refreshing drink of water." },
-    { name: "Scorpion's Nest 🦂", desc: "Watch where you step." },
-    { name: "Cactus Grove 🌵", desc: "Prickly plants everywhere." },
-    { name: "Mirage Lake 🏜️", desc: "Is it real or an illusion?" },
-    { name: "Vulture's Roost 🦅", desc: "Circling high above." },
-    { name: "Sandstorm Valley 🌪️", desc: "Cover your eyes from the wind!" },
-    { name: "Nomad Tent ⛺", desc: "A safe place to rest." },
-    { name: "Ancient Pyramid 🔺", desc: "A massive stone structure." },
-    { name: "Pharaoh's Tomb 🪦", desc: "Beware the mummy's curse." },
-    { name: "Jewel of the Sands 💎", desc: "You found the lost desert treasure!" }
+    { name: "1. Start", desc: "Hot sand as far as the eye can see." },
+    { name: "2. Top Left", desc: "A refreshing drink of water." },
+    { name: "3. Top Mid", desc: "Watch where you step." },
+    { name: "4. Pyramid", desc: "Prickly plants everywhere." },
+    { name: "5. Top Right", desc: "Is it real or an illusion?" },
+    { name: "6. Mid Right", desc: "Circling high above." },
+    { name: "7. Oasis Center", desc: "Cover your eyes from the wind!" },
+    { name: "8. Mid Left", desc: "A safe place to rest." },
+    { name: "9. Bottom Mid", desc: "A massive stone structure." },
+    { name: "10. Palace", desc: "You found the lost desert treasure!" }
   ],
   cyber: [
     { name: "1. Neon Launch Plaza 🚀", desc: "Your cyber journey begins here!" },
@@ -354,17 +348,16 @@ const MILESTONE_DETAILS = {
     { name: "10. Sky Nexus Command Tower 🏆", desc: "You've reached the top!" }
   ],
   magic: [
-    { name: "Sorting Hat 🎩", desc: "Discover your true house." },
-    { name: "Potion Class 🧪", desc: "Mix the bubbling ingredients." },
-    { name: "Flying Broom Track 🧹", desc: "Zoom through the air rings." },
-    { name: "Forbidden Forest 🌲", desc: "Dark and full of magical creatures." },
-    { name: "Troll Bridge 🧌", desc: "Answer the riddle to cross." },
-    { name: "Dragon's Keep 🐉", desc: "A fire-breathing guardian." },
-    { name: "Wand Shop 🪄", desc: "The wand chooses the wizard." },
-    { name: "Spellbook Library 📚", desc: "Flying books flutter around." },
-    { name: "Crystal Ball Room 🔮", desc: "See into the future." },
-    { name: "Wizard's Tower 🏰", desc: "Climb the spiral staircase." },
-    { name: "Master Sorcerer 🌟", desc: "You've graduated from Magic School!" }
+    { name: "1. Academy Entrance", desc: "Discover your true house." },
+    { name: "2. Enchanted Courtyard", desc: "Mix the bubbling ingredients." },
+    { name: "3. Owl Tower", desc: "Zoom through the air rings." },
+    { name: "4. Potion Gardens", desc: "Dark and full of magical creatures." },
+    { name: "5. Crystal Library", desc: "Answer the riddle to cross." },
+    { name: "6. Dragon Courtyard", desc: "A fire-breathing guardian." },
+    { name: "7. Sky Bridge", desc: "The wand chooses the wizard." },
+    { name: "8. Enchanted Maze", desc: "Flying books flutter around." },
+    { name: "9. Wizard's Observatory", desc: "See into the future." },
+    { name: "10. Grand Hall of Magic", desc: "You've graduated from Magic School!" }
   ]
 };
 
