@@ -438,8 +438,9 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           latestScheduled = targetMonthDate;
         }
 
-        // Should run if lastRun is older than the most recent scheduled slot
-        const shouldRun = lastRunTime < latestScheduled.getTime();
+        // Only run if the most recent scheduled slot is exactly TODAY (no historical catch-up)
+        const isScheduledForToday = latestScheduled.toDateString() === now.toDateString();
+        const shouldRun = (lastRunTime < latestScheduled.getTime()) && isScheduledForToday;
 
         if (shouldRun) {
           const lockKey = `${sched.id}_${todayStr}`;
