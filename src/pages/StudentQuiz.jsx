@@ -443,22 +443,16 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
 
       {/* Header & Progress */}
       <header className={`max-w-${homework.passage ? '7xl' : '5xl'} mx-auto w-full mb-8 sticky top-4 z-50`}>
-        <div className="flex justify-between items-center mb-4 px-4">
-          <button onClick={isReviewing ? () => setIsReviewing(false) : onComplete} className="flex items-center gap-3 text-slate-700 hover:text-slate-900 font-black text-xs uppercase tracking-widest transition-colors">
-            <ChevronLeft className="w-5 h-5" /> 
-            <div className="flex flex-col text-left leading-tight">
-              <span>{isReviewing ? "BACK TO RESULTS" : "BACK TO DASHBOARD"}</span>
-              <span className="text-[9px] text-slate-500">BACK TO HOMEWORK ZONE!</span>
-            </div>
-          </button>
-          
-
-        </div>
-
-        <div className="bg-white/95 backdrop-blur-md rounded-[32px] p-6 shadow-[0_8px_0_0_rgba(255,255,255,0.6)]">
+        <div className="bg-white/95 backdrop-blur-md rounded-[32px] p-6 shadow-[0_8px_0_0_rgba(255,255,255,0.6)] flex flex-col">
           <div className="flex justify-between items-start mb-6">
-            <div className="w-14 h-14 bg-[#F97316] text-white flex-center rounded-2xl shadow-[0_4px_0_0_#C2410C] shrink-0">
-              <Sparkles className="w-7 h-7" />
+            <div className="flex flex-col gap-4">
+              <button onClick={isReviewing ? () => setIsReviewing(false) : onComplete} className="flex items-center gap-2 text-slate-400 hover:text-slate-700 font-black text-xs uppercase tracking-widest transition-colors">
+                <ChevronLeft className="w-4 h-4" /> 
+                <span>{isReviewing ? "BACK TO RESULTS" : "BACK TO DASHBOARD"}</span>
+              </button>
+              <div className="w-14 h-14 bg-[#F97316] text-white flex-center rounded-2xl shadow-[0_4px_0_0_#C2410C] shrink-0">
+                <Sparkles className="w-7 h-7" />
+              </div>
             </div>
             
             <div className="text-center flex-1 px-4">
