@@ -433,9 +433,9 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
 
 
   return (
-    <div className="min-h-screen bg-[#AEE6FE] p-6 md:p-8 flex flex-col relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-[#AEE6FE] p-6 md:p-8 flex flex-col relative font-sans">
       {/* Custom Background Image */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-0">
+      <div className="fixed inset-0 pointer-events-none select-none z-0">
         <div 
           className="absolute inset-0 bg-[url('/quiz-bg.jpg')] bg-cover bg-center bg-no-repeat opacity-30 mix-blend-multiply"
         />
