@@ -442,7 +442,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
       </div>
 
       {/* Header & Progress */}
-      <header className={`max-w-${homework.passage ? '7xl' : '5xl'} mx-auto w-full mb-8 relative z-10`}>
+      <header className={`max-w-${homework.passage ? '7xl' : '5xl'} mx-auto w-full mb-8 sticky top-4 z-50`}>
         <div className="flex justify-between items-center mb-4 px-4">
           <button onClick={isReviewing ? () => setIsReviewing(false) : onComplete} className="flex items-center gap-3 text-slate-700 hover:text-slate-900 font-black text-xs uppercase tracking-widest transition-colors">
             <ChevronLeft className="w-5 h-5" /> 
@@ -578,8 +578,26 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                  return (
                    <div key={q.id} className={`bg-white/95 backdrop-blur-md rounded-[32px] p-8 shadow-[0_8px_0_0_rgba(255,255,255,0.6)] flex flex-col transition-all ${isReviewing && isWrong ? 'border-4 border-rose-100' : ''}`}>
                      <div className="flex gap-6">
-                       <div className="w-12 h-12 bg-[#F8FAFC] text-slate-500 border-2 border-slate-200 font-black text-xl rounded-2xl flex items-center justify-center shrink-0 shadow-inner">
-                         {index + 1}
+                       <div className="flex flex-col items-center gap-3 shrink-0">
+                         <div className="w-12 h-12 bg-[#F8FAFC] text-slate-500 border-2 border-slate-200 font-black text-xl rounded-2xl flex items-center justify-center shadow-inner">
+                           {index + 1}
+                         </div>
+                         {!isReviewing && (
+                           <button
+                             onClick={() => {
+                               setMarkedForReview(prev => {
+                                 const newState = { ...prev };
+                                 if (newState[q.id]) delete newState[q.id];
+                                 else newState[q.id] = true;
+                                 return newState;
+                               });
+                             }}
+                             className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${markedForReview[q.id] ? 'bg-amber-100 border-2 border-amber-300 shadow-[0_4px_0_0_#FCD34D] active:shadow-none active:translate-y-[4px]' : 'bg-white border-2 border-slate-200 shadow-[0_4px_0_0_#f1f2f6] hover:bg-slate-50 active:shadow-none active:translate-y-[4px]'}`}
+                             title="Mark for review"
+                           >
+                             <Flag className={`w-5 h-5 ${markedForReview[q.id] ? 'fill-amber-500 text-amber-500' : 'text-slate-400'}`} />
+                           </button>
+                         )}
                        </div>
                        <div className="flex-1 flex flex-col">
                          <div className="text-xl font-bold text-slate-800 mb-8 whitespace-pre-wrap leading-relaxed">{cleanText}</div>
