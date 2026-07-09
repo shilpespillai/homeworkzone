@@ -519,6 +519,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       const questionsToSave = generatedQuestions || [];
 
       const isSpatialReasoning = (formData.title || '').toLowerCase().includes('spatial') || (formData.aiPrompt || '').toLowerCase().includes('spatial');
+      const isNaplan = (formData.title || '').toLowerCase().includes('naplan') || (formData.aiPrompt || '').toLowerCase().includes('naplan');
+      const finalType = isNaplan ? 'test' : assignmentType;
 
       // Pre-generate explanations for all questions (one API call at creation time)
       // so students never trigger live AI calls when submitting.
@@ -543,7 +545,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         assignType: formData.assignType,
         assignedStudentIds: formData.assignType === 'students' ? formData.assignedStudentIds : [],
         status: 'published',
-        type: assignmentType,
+        type: finalType,
         timeLimit: formData.timeLimit || '30',
         marksPerQuestion: formData.marksPerQuestion || '5',
         createdAt: serverTimestamp()
@@ -642,6 +644,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       const questionsToSave = generatedQuestions || [];
 
       const isSpatialReasoning = (formData.title || '').toLowerCase().includes('spatial') || (formData.aiPrompt || '').toLowerCase().includes('spatial');
+      const isNaplan = (formData.title || '').toLowerCase().includes('naplan') || (formData.aiPrompt || '').toLowerCase().includes('naplan');
+      const finalType = isNaplan ? 'test' : assignmentType;
 
       // Pre-generate explanations at draft-save time as well,
       // so they are ready when the draft is later published.
@@ -666,7 +670,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         assignType: formData.assignType,
         assignedStudentIds: formData.assignType === 'students' ? formData.assignedStudentIds : [],
         status: 'draft',
-        type: assignmentType,
+        type: finalType,
         timeLimit: formData.timeLimit || '30',
         marksPerQuestion: formData.marksPerQuestion || '5',
         createdAt: serverTimestamp()
