@@ -152,17 +152,16 @@ const TRACK_COORDS = {
     { x: 580, y: 250 }, { x: 680, y: 350 }, { x: 780, y: 280 }, { x: 880, y: 180 }, { x: 940, y: 120 }, { x: 980, y: 80 }
   ],
   cyber: [
-    { x: 92, y: 46 },   // 0 (1: 9%, 8%)
-    { x: 276, y: 40 },  // 1 (2: 27%, 7%)
-    { x: 502, y: 40 },  // 2 (3: 49%, 7%)
-    { x: 707, y: 40 },  // 3 (4: 69%, 7%)
-    { x: 922, y: 40 },  // 4 (5: 90%, 7%)
-    { x: 942, y: 207 }, // 5 (6: 92%, 36%)
-    { x: 195, y: 253 }, // 6 (7: 19%, 44%)
-    { x: 430, y: 265 }, // 7 (8: 42%, 46%)
-    { x: 625, y: 276 }, // 8 (9: 61%, 48%)
-    { x: 722, y: 310 }, // 9 (Intermediate path to 10)
-    { x: 819, y: 345 }  // 10 (10: 80%, 60%)
+    { x: 92, y: 46 },   // 0 (1: 9%, 8%) Neon Launch Plaza (START)
+    { x: 276, y: 40 },  // 1 (2: 27%, 7%) Robot District
+    { x: 502, y: 40 },  // 2 (3: 49%, 7%) Hologram Square
+    { x: 707, y: 40 },  // 3 (4: 69%, 7%) Drone Skyport
+    { x: 922, y: 40 },  // 4 (5: 90%, 7%) Quantum Energy Core
+    { x: 942, y: 207 }, // 5 (6: 92%, 36%) Cyber Arcade
+    { x: 195, y: 253 }, // 6 (7: 19%, 44%) Hover Highway
+    { x: 430, y: 265 }, // 7 (8: 42%, 46%) AI Innovation Campus
+    { x: 625, y: 276 }, // 8 (9: 61%, 48%) Infinity Data Grid
+    { x: 819, y: 345 }  // 9 (10: 80%, 60%) Sky Nexus Command Tower (FINISH)
   ],
   magic: [
     { x: 80, y: 150 }, { x: 180, y: 300 }, { x: 280, y: 150 }, { x: 380, y: 300 }, { x: 480, y: 150 },
@@ -343,17 +342,16 @@ const MILESTONE_DETAILS = {
     { name: "Jewel of the Sands 💎", desc: "You found the lost desert treasure!" }
   ],
   cyber: [
-    { name: "Neon Grid 🟩", desc: "Welcome to the digital world." },
-    { name: "Hacker's Alley 💻", desc: "Lines of code stream down." },
-    { name: "Robot Factory 🤖", desc: "Mechanical arms building machines." },
-    { name: "Pixel Plaza 🕹️", desc: "Everything looks like a retro game." },
-    { name: "Data Stream 🌊", desc: "Ride the wave of information." },
-    { name: "Firewall Breach 🧱", desc: "Break through the security wall." },
-    { name: "Glitch Zone 👾", desc: "Reality is flickering here." },
-    { name: "Laser Grid 🔴", desc: "Dodge the red security beams." },
-    { name: "Motherboard Maze 🔋", desc: "Navigate the circuits." },
-    { name: "Mainframe Core 🧠", desc: "The brain of the supercomputer." },
-    { name: "System Admin 👑", desc: "You have full root access!" }
+    { name: "1. Neon Launch Plaza 🚀", desc: "Your cyber journey begins here!" },
+    { name: "2. Robot District 🤖", desc: "Mechanical marvels wander the streets." },
+    { name: "3. Hologram Square 🦄", desc: "A glowing digital unicorn greets you." },
+    { name: "4. Drone Skyport 🚁", desc: "Watch out for the flying delivery drones." },
+    { name: "5. Quantum Energy Core ⚡", desc: "The glowing power source of the city." },
+    { name: "6. Cyber Arcade 🕹️", desc: "Retro games in a futuristic setting." },
+    { name: "7. Hover Highway 🚗", desc: "Speeding cars on neon tracks." },
+    { name: "8. AI Innovation Campus 🧠", desc: "Where the smartest minds gather." },
+    { name: "9. Infinity Data Grid 💾", desc: "Streams of infinite data." },
+    { name: "10. Sky Nexus Command Tower 🏆", desc: "You've reached the top!" }
   ],
   magic: [
     { name: "Sorting Hat 🎩", desc: "Discover your true house." },
