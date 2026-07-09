@@ -152,17 +152,17 @@ const TRACK_COORDS = {
     { x: 580, y: 250 }, { x: 680, y: 350 }, { x: 780, y: 280 }, { x: 880, y: 180 }, { x: 940, y: 120 }, { x: 980, y: 80 }
   ],
   cyber: [
-    { x: 105, y: 130 }, // 0 START (Node 1)
-    { x: 320, y: 170 }, // 1 (Node 2)
-    { x: 490, y: 195 }, // 2 (Node 3)
-    { x: 680, y: 220 }, // 3 (Node 4)
-    { x: 880, y: 190 }, // 4 (Node 5)
-    { x: 900, y: 345 }, // 5 (Node 6)
-    { x: 180, y: 455 }, // 6 (Node 7)
-    { x: 420, y: 460 }, // 7 (Node 8)
-    { x: 620, y: 520 }, // 8 (Node 9)
-    { x: 730, y: 580 }, // 9 (Node 10 prepad)
-    { x: 820, y: 520 }  // 10 FINISH (Node 10)
+    { x: 110, y: 140 }, // 0 START (Node 1)
+    { x: 330, y: 160 }, // 1 (Node 2)
+    { x: 512, y: 170 }, // 2 (Node 3)
+    { x: 740, y: 180 }, // 3 (Node 4)
+    { x: 950, y: 180 }, // 4 (Node 5)
+    { x: 970, y: 390 }, // 5 (Node 6)
+    { x: 200, y: 480 }, // 6 (Node 7)
+    { x: 480, y: 500 }, // 7 (Node 8)
+    { x: 660, y: 520 }, // 8 (Node 9)
+    { x: 760, y: 520 }, // 9 (Pre-pad)
+    { x: 850, y: 520 }  // 10 FINISH (Node 10)
   ],
   magic: [
     { x: 80, y: 150 }, { x: 180, y: 300 }, { x: 280, y: 150 }, { x: 380, y: 300 }, { x: 480, y: 150 },
@@ -794,7 +794,9 @@ export default function AdventureMazeView({
       pathColor: "#22c55e", pathOutline: "#14532d", centerDashes: "#86efac",
       nodeColor: "fill-green-400 stroke-green-600", nodeColorCompleted: "fill-emerald-500 stroke-emerald-700",
       finishColor: "text-green-500 fill-green-300", skyColor: "bg-[#052e16]/40", finishNode: "💻",
-      isImageBaked: true
+      isImageBaked: true,
+      aspectRatio: "aspect-video",
+      viewBox: "0 0 1024 576"
     },
     magic: {
       displayName: "🪄 Magic School", displayColor: "bg-indigo-700 text-white shadow-indigo-200",
