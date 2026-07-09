@@ -181,7 +181,7 @@ function shouldScheduleRun(sched, now) {
     if (tzNow < targetMonthDate) {
        targetMonthDate.setMonth(targetMonthDate.getMonth() - 1);
     }
-    latestScheduled = new Date(targetMonthDate.getTime());
+    latestScheduled.setTime(targetMonthDate.getTime());
   }
 
   // 3. Compute the exact UTC timestamp for this local target time
