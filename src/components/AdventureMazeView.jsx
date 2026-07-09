@@ -152,8 +152,17 @@ const TRACK_COORDS = {
     { x: 580, y: 250 }, { x: 680, y: 350 }, { x: 780, y: 280 }, { x: 880, y: 180 }, { x: 940, y: 120 }, { x: 980, y: 80 }
   ],
   cyber: [
-    { x: 50, y: 350 }, { x: 50, y: 200 }, { x: 200, y: 200 }, { x: 200, y: 100 }, { x: 400, y: 100 },
-    { x: 400, y: 300 }, { x: 600, y: 300 }, { x: 600, y: 150 }, { x: 800, y: 150 }, { x: 800, y: 350 }, { x: 950, y: 350 }
+    { x: 105, y: 130 }, // 0 START (Node 1)
+    { x: 320, y: 170 }, // 1 (Node 2)
+    { x: 490, y: 195 }, // 2 (Node 3)
+    { x: 680, y: 220 }, // 3 (Node 4)
+    { x: 880, y: 190 }, // 4 (Node 5)
+    { x: 900, y: 345 }, // 5 (Node 6)
+    { x: 180, y: 455 }, // 6 (Node 7)
+    { x: 420, y: 460 }, // 7 (Node 8)
+    { x: 620, y: 520 }, // 8 (Node 9)
+    { x: 730, y: 580 }, // 9 (Node 10 prepad)
+    { x: 820, y: 520 }  // 10 FINISH (Node 10)
   ],
   magic: [
     { x: 80, y: 150 }, { x: 180, y: 300 }, { x: 280, y: 150 }, { x: 380, y: 300 }, { x: 480, y: 150 },
@@ -784,7 +793,8 @@ export default function AdventureMazeView({
       gradient: "from-slate-900 via-zinc-900 to-neutral-900",
       pathColor: "#22c55e", pathOutline: "#14532d", centerDashes: "#86efac",
       nodeColor: "fill-green-400 stroke-green-600", nodeColorCompleted: "fill-emerald-500 stroke-emerald-700",
-      finishColor: "text-green-500 fill-green-300", skyColor: "bg-[#052e16]/40", finishNode: "💻"
+      finishColor: "text-green-500 fill-green-300", skyColor: "bg-[#052e16]/40", finishNode: "💻",
+      isImageBaked: true
     },
     magic: {
       displayName: "🪄 Magic School", displayColor: "bg-indigo-700 text-white shadow-indigo-200",
