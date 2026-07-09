@@ -550,16 +550,16 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
       </header>
 
       {/* Content Area */}
-      <main className={`max-w-${homework.passage ? '7xl' : '4xl'} mx-auto w-full flex-1 relative z-10 flex flex-col lg:flex-row gap-6`}>
+      <main className={`max-w-${homework.passage ? '7xl' : '4xl'} mx-auto w-full flex-1 relative z-10 flex flex-col gap-6`}>
         {homework.type === 'test' && !showSummary ? (
-          <div className="w-full flex flex-col gap-8 pb-24">
+          <div className={`w-full flex ${homework.passage ? 'flex-col lg:flex-row' : 'flex-col'} gap-8 pb-24 items-start`}>
             {homework.passage && (
-              <div className="bg-white/95 backdrop-blur-md rounded-[32px] p-8 shadow-[0_8px_0_0_rgba(255,255,255,0.6)] flex flex-col mb-4">
-                <div className="flex items-center gap-2 mb-6">
+              <div className="w-full lg:w-1/2 lg:sticky lg:top-[180px] bg-white/95 backdrop-blur-md rounded-[32px] p-8 shadow-[0_8px_0_0_rgba(255,255,255,0.6)] flex flex-col lg:max-h-[calc(100vh-220px)] overflow-y-auto no-scrollbar">
+                <div className="flex items-center gap-2 mb-6 shrink-0">
                   <BookOpen className="w-6 h-6 text-indigo-500" />
                   <h2 className="text-xl font-black text-slate-800">Reading Passage</h2>
                 </div>
-                <div className="text-lg font-medium text-slate-700 leading-relaxed space-y-4">
+                <div className="text-lg font-medium text-slate-700 leading-relaxed space-y-4 pb-4">
                   {homework.passage.split('\n').map((paragraph, idx) => (
                     <p key={idx}>{paragraph}</p>
                   ))}
@@ -567,7 +567,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
               </div>
             )}
             
-            <div className="flex flex-col gap-6">
+            <div className={`flex flex-col gap-6 ${homework.passage ? 'w-full lg:w-1/2' : 'w-full'}`}>
               {displayQuestions.map((q, index) => {
                  let { text: cleanText, clockTime, inlineSvg } = parseQuestionText(q.text);
                  const effectiveSvgCode = inlineSvg || q.svgCode;
