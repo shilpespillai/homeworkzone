@@ -316,10 +316,13 @@ Return ONLY a JSON object with a single key "questions" containing an array of e
         ? 'draft'
         : sched.publishType === 'publish_scheduled' ? 'scheduled' : 'published';
 
+      const isNaplan = (sched.topic || '').toLowerCase().includes('naplan') || (sched.subject || '').toLowerCase().includes('naplan');
+      
       const newDoc = homeworksRef.doc();
       batch.set(newDoc, {
         title: `${sched.topic} (${sched.grade})`,
         subject: sched.subject,
+        type: isNaplan ? 'test' : 'homework',
         instructions: `Complete this automated ${sched.subject} homework on ${sched.topic}. Built for ${sched.grade} (${sched.difficulty}) matching the ${curriculumName} standard. 🤖`,
         assignedClassId: classId,
         dueDate: dueDateStr,

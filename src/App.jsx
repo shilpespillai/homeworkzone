@@ -942,7 +942,14 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
                const hwQ = query(collection(db, 'homeworks'), where('assignedClassId', '==', savedStudent.classroom.id));
                const hwSnap = await getDocs(hwQ);
                const cleanStudentId = studentName?.trim().toLowerCase();
-               const hwList = hwSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+               const hwList = hwSnap.docs.map(doc => {
+                  const data = doc.data();
+                  const isNaplan = (data.title || '').toLowerCase().includes('naplan') || (data.subject || '').toLowerCase().includes('naplan');
+                  if (isNaplan && data.type !== 'test') {
+                     data.type = 'test';
+                  }
+                  return { id: doc.id, ...data };
+               })
                   .filter(hw => {
                      if (hw.status === 'draft') return false;
                      if (hw.status === 'scheduled') {
@@ -2260,7 +2267,14 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
            const hwQ = query(collection(db, 'homeworks'), where('assignedClassId', '==', actualClassroom.id));
            const hwSnap = await getDocs(hwQ);
            const cleanStudentId = studentName?.trim().toLowerCase();
-           const hwList = hwSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+           const hwList = hwSnap.docs.map(doc => {
+                  const data = doc.data();
+                  const isNaplan = (data.title || '').toLowerCase().includes('naplan') || (data.subject || '').toLowerCase().includes('naplan');
+                  if (isNaplan && data.type !== 'test') {
+                     data.type = 'test';
+                  }
+                  return { id: doc.id, ...data };
+           })
               .filter(hw => {
                  if (hw.status === 'draft') return false;
                  if (hw.status === 'scheduled') {
