@@ -484,7 +484,12 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
       await updateDoc(schedRef, { lastRun: serverTimestamp() });
 
       let activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
-      let teacherPrompts = {};
+      let teacherPrompts = {
+        maths: 'Make 5 questions about adding fractions with unlike denominators. This is for grade 4 students.',
+        english: 'Make 5 questions about identifying nouns vs verbs in a sentence. This is for grade 4 students.',
+        science: 'Make 5 questions about the solar system and planets. This is for grade 4 students.',
+        olympiad: 'Generate 5 Olympiad-level maths questions. Focus on advanced problem-solving, combinatorics, number theory, and logic. These should be highly challenging.'
+      };
 
       if (user?.uid) {
         const teacherDoc = await getDoc(doc(db, 'teachers', user.uid));
@@ -492,7 +497,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           const data = teacherDoc.data();
           if (data.activeAi) activeModel = data.activeAi;
           if (data.subjectPrompts) {
-            teacherPrompts = data.subjectPrompts;
+            teacherPrompts = { ...teacherPrompts, ...data.subjectPrompts };
           }
         }
       }

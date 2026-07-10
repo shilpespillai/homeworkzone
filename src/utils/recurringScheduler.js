@@ -95,7 +95,12 @@ export const executeRecurringGeneration = async (sched, teacherUid, teacherCode)
     await updateDoc(schedRef, { lastRun: serverTimestamp() });
 
     let activeModel = 'gemini';
-    let teacherPrompts = {};
+    let teacherPrompts = {
+      maths: 'Make 5 questions about adding fractions with unlike denominators. This is for grade 4 students.',
+      english: 'Make 5 questions about identifying nouns vs verbs in a sentence. This is for grade 4 students.',
+      science: 'Make 5 questions about the solar system and planets. This is for grade 4 students.',
+      olympiad: 'Generate 5 Olympiad-level maths questions. Focus on advanced problem-solving, combinatorics, number theory, and logic. These should be highly challenging.'
+    };
     let resolvedTeacherName = 'Classroom Teacher';
 
     const teacherDoc = await getDoc(doc(db, 'teachers', teacherUid));
@@ -104,7 +109,7 @@ export const executeRecurringGeneration = async (sched, teacherUid, teacherCode)
       if (data.displayName) resolvedTeacherName = data.displayName;
       if (data.activeAi) activeModel = data.activeAi;
       if (data.subjectPrompts) {
-        teacherPrompts = data.subjectPrompts;
+        teacherPrompts = { ...teacherPrompts, ...data.subjectPrompts };
       }
     }
 

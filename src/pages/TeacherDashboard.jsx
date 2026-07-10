@@ -812,7 +812,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
             localStorage.setItem('hwz_active_ai', data.activeAi);
           }
           if (data.subjectPrompts) {
-            setSubjectPrompts(data.subjectPrompts);
+            setSubjectPrompts(prev => ({ ...prev, ...data.subjectPrompts }));
           }
           let loadedRetention = 90;
           let loadedPurgedAt = null;
