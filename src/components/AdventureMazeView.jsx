@@ -5,16 +5,16 @@ import { Compass, Map, Trophy, Users, Award, Sparkles, X } from 'lucide-react';
 
 const TRACK_COORDS = {
   sonic: [
-    { x: 184, y: 140 }, // 1: START
-    { x: 153, y: 418 }, // 2: Green Hill
-    { x: 358, y: 418 }, // 3: Marble
-    { x: 460, y: 474 }, // 4: Spring Yard
-    { x: 460, y: 306 }, // 5: 
-    { x: 460, y: 195 }, // 6: Cloud Fortress
-    { x: 563, y: 306 }, // 7: Libyreon City
-    { x: 665, y: 212 }, // 8: Death Egg
-    { x: 665, y: 390 }, // 9: Death Egg Core
-    { x: 819, y: 223 }  // 10: Final Temple
+    { x: 176, y: 174 }, // 1 Emerald Speed Plaza
+    { x: 374, y: 204 }, // 2 Spiral Loop Valley
+    { x: 671, y: 84 },  // 3 Sky Ring Cliffs
+    { x: 748, y: 204 }, // 4 Crystal Water Zone
+    { x: 407, y: 342 }, // 5 Neon Pinball Park
+    { x: 704, y: 342 }, // 6 Gearworks Factory
+    { x: 880, y: 336 }, // 7 Rainbow Sky Highway
+    { x: 704, y: 474 }, // 8 Starlight Garden
+    { x: 979, y: 480 }, // 9 Cosmic Energy Circuit
+    { x: 990, y: 180 }  // 10 Sky Emerald Citadel
   ],
   island: [
     { x: 579, y: 77 },   // 1
@@ -186,16 +186,16 @@ const TRACK_COORDS = {
 
 const MILESTONE_DETAILS = {
   sonic: [
-    { name: "1. Start Line 🏁", desc: "Ready, set, go!" },
-    { name: "2. Chemical Plant 🧪", desc: "Speed through the toxic tubes!" },
-    { name: "3. Green Hill 🌴", desc: "Collect rings on the grassy loops." },
-    { name: "4. Spring Yard 🎰", desc: "Bounce around the casino bumpers." },
-    { name: "5. Marble Zone 🌋", desc: "Watch out for the hot lava!" },
-    { name: "6. Cloud Fortress ☁️", desc: "Soar high above the clouds." },
-    { name: "7. Libyreon City 🏙️", desc: "Drift through the glowing streets." },
-    { name: "8. Death Egg Zone 🥚", desc: "Infiltrate Dr. Eggman's base." },
-    { name: "9. Death Egg Core 🤖", desc: "Defeat the giant robot guard!" },
-    { name: "10. Ice Cap Zone ❄️", desc: "Snowboard down the frozen peaks." }
+    { name: "1. Emerald Speed Plaza", desc: "Ready, set, go!" },
+    { name: "2. Spiral Loop Valley", desc: "Speed through the toxic tubes!" },
+    { name: "3. Sky Ring Cliffs", desc: "Collect rings on the grassy loops." },
+    { name: "4. Crystal Water Zone", desc: "Bounce around the casino bumpers." },
+    { name: "5. Neon Pinball Park", desc: "Watch out for the hot lava!" },
+    { name: "6. Gearworks Factory", desc: "Soar high above the clouds." },
+    { name: "7. Rainbow Sky Highway", desc: "Drift through the glowing streets." },
+    { name: "8. Starlight Garden", desc: "Infiltrate Dr. Eggman's base." },
+    { name: "9. Cosmic Energy Circuit", desc: "Defeat the giant robot guard!" },
+    { name: "10. Sky Emerald Citadel", desc: "Snowboard down the frozen peaks." }
   ],
   island: [
     { name: "1. Start Gate 🏁", desc: "Start your engines!" },
@@ -669,8 +669,8 @@ export default function AdventureMazeView({
       skyColor: "bg-[#60A5FA]/20",
       finishNode: "🏁",
       isImageBaked: true,
-      aspectRatio: "aspect-[1024/558]",
-      viewBox: "0 0 1024 558"
+      aspectRatio: "aspect-[11/6]",
+      viewBox: "0 0 1100 600"
     },
     island: {
       displayName: "🏝️ Adventure Island", displayColor: "bg-teal-500 text-white shadow-teal-200",
