@@ -111,16 +111,16 @@ const TRACK_COORDS = {
     { x: 660, y: 462 }  // 10 Pirate's Prize
   ],
   haunted: [
-    { x: 100, y: 350 }, // 1 Haunted Gate
-    { x: 100, y: 200 }, // 2 Cemetery Path
-    { x: 200, y: 100 }, // 3 Ghost Forest
-    { x: 450, y: 100 }, // 4 Broken Clocktower
-    { x: 550, y: 250 }, // 5 Gargoyle Bridge
-    { x: 250, y: 350 }, // 6 Pumpkin Village
-    { x: 700, y: 150 }, // 7 Spectral Sky Path
-    { x: 550, y: 450 }, // 8 Crystal Dungeon
-    { x: 750, y: 450 }, // 9 Forgotten Courtyard
-    { x: 900, y: 200 }  // 10 Haunted Castle FINISH
+    { x: 82, y: 334 },  // 1 Haunted Gate
+    { x: 92, y: 167 },  // 2 Cemetery Path
+    { x: 184, y: 40 },  // 3 Ghost Forest
+    { x: 399, y: 35 },  // 4 Broken Clocktower
+    { x: 532, y: 202 }, // 5 Gargoyle Bridge
+    { x: 287, y: 334 }, // 6 Pumpkin Village
+    { x: 666, y: 63 },  // 7 Spectral Sky Path
+    { x: 563, y: 380 }, // 8 Crystal Dungeon
+    { x: 788, y: 317 }, // 9 Forgotten Courtyard
+    { x: 942, y: 86 }   // 10 Haunted Castle FINISH
   ],
   winter: [
     { x: 140, y: 143 }, // 1 Frosty Village
