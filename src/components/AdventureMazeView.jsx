@@ -123,16 +123,16 @@ const TRACK_COORDS = {
     { x: 900, y: 200 }  // 10 Haunted Castle FINISH
   ],
   winter: [
-    { x: 100, y: 160 }, // 1
-    { x: 170, y: 200 }, // 2
-    { x: 420, y: 280 }, // 3
-    { x: 540, y: 200 }, // 4
-    { x: 700, y: 200 }, // 5
-    { x: 830, y: 250 }, // 6
-    { x: 800, y: 440 }, // 7
-    { x: 580, y: 440 }, // 8
-    { x: 125, y: 450 }, // 9
-    { x: 160, y: 600 }  // 10
+    { x: 143, y: 127 }, // 1 Frosty Village
+    { x: 328, y: 138 }, // 2 Twinkle Town Square
+    { x: 512, y: 86 },  // 3 Icy Bridge Crossing
+    { x: 707, y: 86 },  // 4 Whispering Pines
+    { x: 891, y: 138 }, // 5 Candy Cane Lane
+    { x: 850, y: 236 }, // 6 Frozen Waterfall
+    { x: 532, y: 265 }, // 7 Snowman Valley
+    { x: 215, y: 253 }, // 8 Ice Crystal Caverns
+    { x: 236, y: 392 }, // 9 Santa's Workshop
+    { x: 614, y: 426 }  // 10 Holiday Castle
   ],
   jungle: [
     { x: 60, y: 120 }, { x: 160, y: 220 }, { x: 260, y: 320 }, { x: 360, y: 220 }, { x: 460, y: 120 },
@@ -296,7 +296,6 @@ const MILESTONE_DETAILS = {
     { name: "10. Haunted Castle FINISH", desc: "You survived the haunted house!" }
   ],
   winter: [
-    { name: "Start 🛷", desc: "Bundle up, it's cold outside!" },
     { name: "1. Frosty Village 🏘️", desc: "A cozy snowy settlement." },
     { name: "2. Twinkle Town Square ✨", desc: "Festive lights everywhere." },
     { name: "3. Icy Bridge Crossing 🌉", desc: "Don't slip on the ice!" },
@@ -305,7 +304,8 @@ const MILESTONE_DETAILS = {
     { name: "6. Frozen Waterfall 🧊", desc: "A magnificent frozen cascade." },
     { name: "7. Snowman Valley ⛄", desc: "Say hello to the frosty friends." },
     { name: "8. Ice Crystal Caverns 💎", desc: "Glittering ice formations." },
-    { name: "9. Santa's Workshop 🎁", desc: "Where the magic happens!" }
+    { name: "9. Santa's Workshop 🎁", desc: "Where the magic happens!" },
+    { name: "10. Holiday Castle 🏰", desc: "A majestic winter palace." }
   ],
   jungle: [
     { name: "Vine Swing 🌿", desc: "Tarzan your way across the gap." },
