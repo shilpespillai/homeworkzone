@@ -593,18 +593,14 @@ export default function AdventureMazeView({
       const pts = Math.max(0, scores[name] || 0);
       
       const totalSteps = Math.floor(pts / 50);
-      const trackLength = activeCoords.length - 1; // e.g., 10 for most, 11 for dinosaur/winter
+      const trackLength = activeCoords.length; // e.g., 10 nodes
       
       let lap = 1;
-      let milestone = 0;
+      let milestone = 0; // 0 = Not started
       if (totalSteps > 0) {
-        if (totalSteps % trackLength === 0) {
-          milestone = trackLength;
-          lap = Math.floor(totalSteps / trackLength);
-        } else {
-          milestone = totalSteps % trackLength;
-          lap = Math.floor(totalSteps / trackLength) + 1;
-        }
+        lap = Math.floor((totalSteps - 1) / trackLength) + 1;
+        milestone = totalSteps % trackLength;
+        if (milestone === 0) milestone = trackLength;
       }
 
       const studentObj = classroomStudents.find(s => normalizeName(s.name) === normalizeName(name)) || {};
@@ -625,7 +621,7 @@ export default function AdventureMazeView({
   // Group students by milestone to cluster them without overlapping
   const studentsByMilestone = useMemo(() => {
     const map = {};
-    for (let i = 0; i < activeCoords.length; i++) {
+    for (let i = 0; i <= activeCoords.length; i++) {
       map[i] = [];
     }
     studentsWithMilestones.forEach(s => {
@@ -636,7 +632,14 @@ export default function AdventureMazeView({
 
   // Get offset coordinates for multiple students clustering on a milestone node
   const getOffsetPosition = (milestoneIdx, studentIdx, totalInMilestone) => {
-    const base = activeCoords[milestoneIdx];
+    if (milestoneIdx === 0) {
+      // Off board! Line them up on the left edge.
+      const col = Math.floor(studentIdx / 10);
+      const row = studentIdx % 10;
+      return { x: 40 + col * 45, y: 100 + row * 45 };
+    }
+
+    const base = activeCoords[milestoneIdx - 1];
     if (totalInMilestone <= 1) return { x: base.x, y: base.y };
     // Arrange in a neat little circle surrounding the milestone dot
     const radius = 26; // pixels distance
@@ -933,7 +936,7 @@ export default function AdventureMazeView({
 
           {/* 2. Milestone Node Circles */}
           {activeCoords.map((node, idx) => {
-            const hasStudentsHere = studentsByMilestone[idx]?.length > 0;
+            const hasStudentsHere = studentsByMilestone[idx + 1]?.length > 0;
             const isFinish = idx === activeCoords.length - 1;
             
             return (
@@ -971,7 +974,7 @@ export default function AdventureMazeView({
                       textAnchor="middle" 
                       className="text-[9px] font-black fill-white select-none pointer-events-none"
                     >
-                      {isFinish ? style.finishNode : idx}
+                      {isFinish ? style.finishNode : (idx + 1)}
                     </text>
                   </>
                 )}
@@ -1016,7 +1019,7 @@ export default function AdventureMazeView({
                       type: 'student',
                       name: st.name,
                       points: st.points,
-                      milestoneName: milestoneData[milestoneIndex].name,
+                      milestoneName: milestoneIndex === 0 ? "Not Started" : (milestoneData[milestoneIndex - 1]?.name || ""),
                       milestone: st.milestone,
                       lap: st.lap,
                       isMe: st.isMe,
