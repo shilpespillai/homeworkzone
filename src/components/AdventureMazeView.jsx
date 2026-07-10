@@ -111,16 +111,16 @@ const TRACK_COORDS = {
     { x: 660, y: 462 }  // 10 Pirate's Prize
   ],
   haunted: [
-    { x: 98, y: 395 }, // 1 Haunted Gate
-    { x: 98, y: 226 }, // 2 Cemetery Path
-    { x: 195, y: 113 }, // 3 Ghost Forest
-    { x: 439, y: 113 }, // 4 Broken Clocktower
-    { x: 537, y: 282 }, // 5 Gargoyle Bridge
-    { x: 244, y: 395 }, // 6 Pumpkin Village
-    { x: 684, y: 169 }, // 7 Spectral Sky Path
-    { x: 537, y: 508 }, // 8 Crystal Dungeon
-    { x: 732, y: 508 }, // 9 Forgotten Courtyard
-    { x: 879, y: 226 }  // 10 Haunted Castle FINISH
+    { x: 100, y: 350 }, // 1 Haunted Gate
+    { x: 100, y: 200 }, // 2 Cemetery Path
+    { x: 200, y: 100 }, // 3 Ghost Forest
+    { x: 450, y: 100 }, // 4 Broken Clocktower
+    { x: 550, y: 250 }, // 5 Gargoyle Bridge
+    { x: 250, y: 350 }, // 6 Pumpkin Village
+    { x: 700, y: 150 }, // 7 Spectral Sky Path
+    { x: 550, y: 450 }, // 8 Crystal Dungeon
+    { x: 750, y: 450 }, // 9 Forgotten Courtyard
+    { x: 900, y: 200 }  // 10 Haunted Castle FINISH
   ],
   winter: [
     { x: 140, y: 143 }, // 1 Frosty Village
@@ -139,16 +139,16 @@ const TRACK_COORDS = {
     { x: 547, y: 248 }, { x: 645, y: 361 }, { x: 742, y: 248 }, { x: 840, y: 135 }, { x: 898, y: 226 }
   ],
   desert: [
-    { x: 98, y: 226 }, // 1
-    { x: 244, y: 113 }, // 2
-    { x: 439, y: 135 }, // 3
-    { x: 635, y: 135 }, // 4
-    { x: 830, y: 135 }, // 5
-    { x: 830, y: 282 }, // 6
-    { x: 488, y: 282 }, // 7
-    { x: 195, y: 395 }, // 8
-    { x: 439, y: 451 }, // 9
-    { x: 781, y: 451 }  // 10
+    { x: 100, y: 200 }, // 1
+    { x: 250, y: 100 }, // 2
+    { x: 450, y: 120 }, // 3
+    { x: 650, y: 120 }, // 4
+    { x: 850, y: 120 }, // 5
+    { x: 850, y: 250 }, // 6
+    { x: 500, y: 250 }, // 7
+    { x: 200, y: 350 }, // 8
+    { x: 450, y: 400 }, // 9
+    { x: 800, y: 400 }  // 10
   ],
   cyber: [
     { x: 92, y: 46 },   // 0 (1: 9%, 8%) Neon Launch Plaza (START)
@@ -163,16 +163,16 @@ const TRACK_COORDS = {
     { x: 819, y: 345 }  // 9 (10: 80%, 60%) Sky Nexus Command Tower (FINISH)
   ],
   magic: [
-    { x: 49, y: 339 },  // 1 Academy Entrance
-    { x: 146, y: 113 }, // 2 Enchanted Courtyard
-    { x: 342, y: 56 },  // 3 Owl Tower
-    { x: 488, y: 56 },  // 4 Potion Gardens
-    { x: 732, y: 56 },  // 5 Crystal Library
-    { x: 879, y: 226 }, // 6 Dragon Courtyard
-    { x: 488, y: 339 }, // 7 Sky Bridge
-    { x: 195, y: 508 }, // 8 Enchanted Maze
-    { x: 586, y: 508 }, // 9 Wizard's Observatory
-    { x: 879, y: 451 }  // 10 Grand Hall of Magic
+    { x: 41, y: 173 },  // 1 Academy Entrance
+    { x: 164, y: 58 },  // 2 Enchanted Courtyard
+    { x: 399, y: 29 },  // 3 Owl Tower
+    { x: 563, y: 29 },  // 4 Potion Gardens
+    { x: 768, y: 29 },  // 5 Crystal Library
+    { x: 973, y: 225 }, // 6 Dragon Courtyard
+    { x: 471, y: 225 }, // 7 Sky Bridge
+    { x: 215, y: 397 }, // 8 Enchanted Maze
+    { x: 604, y: 386 }, // 9 Wizard's Observatory
+    { x: 911, y: 386 }  // 10 Grand Hall of Magic
   ]
 };
 
@@ -752,7 +752,9 @@ export default function AdventureMazeView({
       pathColor: "#9333ea", pathOutline: "#581c87", centerDashes: "#d8b4fe",
       nodeColor: "fill-purple-400 stroke-purple-600", nodeColorCompleted: "fill-indigo-500 stroke-indigo-700",
       finishColor: "text-fuchsia-500 fill-fuchsia-300", skyColor: "bg-[#2e1065]/40", finishNode: "🧛",
-      isImageBaked: true
+      isImageBaked: true,
+      aspectRatio: "aspect-video",
+      viewBox: "0 0 1024 576"
     },
     winter: {
       displayName: "⛄ Winter Wonderland", displayColor: "bg-sky-400 text-white shadow-sky-200",
@@ -776,7 +778,9 @@ export default function AdventureMazeView({
       pathColor: "#ca8a04", pathOutline: "#713f12", centerDashes: "#fef08a",
       nodeColor: "fill-yellow-400 stroke-yellow-600", nodeColorCompleted: "fill-orange-500 stroke-orange-700",
       finishColor: "text-amber-500 fill-amber-300", skyColor: "bg-[#451a03]/10", finishNode: "🐫",
-      isImageBaked: true
+      isImageBaked: true,
+      aspectRatio: "aspect-video",
+      viewBox: "0 0 1024 576"
     },
     cyber: {
       displayName: "🤖 Cyber City", displayColor: "bg-slate-800 text-green-400 shadow-slate-200",
@@ -793,7 +797,10 @@ export default function AdventureMazeView({
       gradient: "from-indigo-50 via-violet-50 to-purple-100",
       pathColor: "#4338ca", pathOutline: "#312e81", centerDashes: "#c7d2fe",
       nodeColor: "fill-indigo-400 stroke-indigo-600", nodeColorCompleted: "fill-violet-500 stroke-violet-700",
-      finishColor: "text-purple-500 fill-purple-300", skyColor: "bg-[#1e1b4b]/10", finishNode: "🌟"
+      finishColor: "text-purple-500 fill-purple-300", skyColor: "bg-[#1e1b4b]/10", finishNode: "🌟",
+      isImageBaked: true,
+      aspectRatio: "aspect-video",
+      viewBox: "0 0 1024 576"
     }
   };
 
