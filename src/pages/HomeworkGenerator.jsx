@@ -12,6 +12,7 @@ import {
   Star,
   Rocket,
   Wand2,
+  Trophy,
   Loader2,
   CheckCircle2,
   ChevronRight,
@@ -84,6 +85,20 @@ const SUBJECTS = [
     renderGraphic: () => (
       <div className="w-16 h-20 bg-green-100 rounded-full flex items-center justify-center text-green-500 shadow-inner overflow-hidden border-4 border-green-200">
         <FlaskConical className="w-10 h-10 text-green-500" />
+      </div>
+    )
+  },
+  { 
+    id: 'olympiad', 
+    name: 'Olympiad', 
+    titleColor: 'text-purple-600',
+    bgColor: 'bg-[#f8f5ff]', 
+    borderColor: 'border-purple-200',
+    selectedBorder: 'border-purple-500 ring-4 ring-purple-100',
+    desc: 'Advanced problem-solving & logic!',
+    renderGraphic: () => (
+      <div className="w-16 h-20 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 shadow-inner overflow-hidden border-4 border-purple-200">
+        <Trophy className="w-10 h-10 text-purple-500" />
       </div>
     )
   },

@@ -47,7 +47,8 @@ const DIFFICULTIES = ['Easy', 'Medium', 'Hard'];
 const SUBJECTS = [
   { id: 'english', name: 'English', emoji: '📚', color: 'text-orange-500', bgColor: 'bg-orange-50', borderColor: 'border-orange-200' },
   { id: 'maths', name: 'Maths', emoji: '🔢', color: 'text-blue-500', bgColor: 'bg-blue-50', borderColor: 'border-blue-200' },
-  { id: 'science', name: 'Science', emoji: '🧪', color: 'text-green-600', bgColor: 'bg-green-50', borderColor: 'border-green-200' }
+  { id: 'science', name: 'Science', emoji: '🧪', color: 'text-green-600', bgColor: 'bg-green-50', borderColor: 'border-green-200' },
+  { id: 'olympiad', name: 'Olympiad Maths', emoji: '🏆', color: 'text-purple-600', bgColor: 'bg-purple-50', borderColor: 'border-purple-200' }
 ];
 
 // Compile a prompt template by replacing keywords case-insensitively
