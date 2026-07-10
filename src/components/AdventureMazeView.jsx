@@ -751,7 +751,8 @@ export default function AdventureMazeView({
       gradient: "from-slate-900 via-purple-950 to-indigo-950",
       pathColor: "#9333ea", pathOutline: "#581c87", centerDashes: "#d8b4fe",
       nodeColor: "fill-purple-400 stroke-purple-600", nodeColorCompleted: "fill-indigo-500 stroke-indigo-700",
-      finishColor: "text-fuchsia-500 fill-fuchsia-300", skyColor: "bg-[#2e1065]/40", finishNode: "🧛"
+      finishColor: "text-fuchsia-500 fill-fuchsia-300", skyColor: "bg-[#2e1065]/40", finishNode: "🧛",
+      isImageBaked: true
     },
     winter: {
       displayName: "⛄ Winter Wonderland", displayColor: "bg-sky-400 text-white shadow-sky-200",
@@ -766,14 +767,16 @@ export default function AdventureMazeView({
       gradient: "from-green-50 via-emerald-50 to-teal-100",
       pathColor: "#15803d", pathOutline: "#14532d", centerDashes: "#bbf7d0",
       nodeColor: "fill-green-400 stroke-green-600", nodeColorCompleted: "fill-emerald-600 stroke-emerald-800",
-      finishColor: "text-teal-500 fill-teal-300", skyColor: "bg-[#064e3b]/10", finishNode: "👑"
+      finishColor: "text-teal-500 fill-teal-300", skyColor: "bg-[#064e3b]/10", finishNode: "👑",
+      isImageBaked: true
     },
     desert: {
       displayName: "🏜️ Desert Mirage", displayColor: "bg-yellow-600 text-white shadow-yellow-200",
       gradient: "from-yellow-50 via-orange-50 to-amber-100",
       pathColor: "#ca8a04", pathOutline: "#713f12", centerDashes: "#fef08a",
       nodeColor: "fill-yellow-400 stroke-yellow-600", nodeColorCompleted: "fill-orange-500 stroke-orange-700",
-      finishColor: "text-amber-500 fill-amber-300", skyColor: "bg-[#451a03]/10", finishNode: "🐫"
+      finishColor: "text-amber-500 fill-amber-300", skyColor: "bg-[#451a03]/10", finishNode: "🐫",
+      isImageBaked: true
     },
     cyber: {
       displayName: "🤖 Cyber City", displayColor: "bg-slate-800 text-green-400 shadow-slate-200",
