@@ -4,6 +4,18 @@ import { doc, collection, query, where, onSnapshot } from 'firebase/firestore';
 import { Compass, Map, Trophy, Users, Award, Sparkles, X } from 'lucide-react';
 
 const TRACK_COORDS = {
+  minecraft: [
+    { x: 160, y: 530 }, // 1 Builder's Village
+    { x: 170, y: 285 }, // 2 Emerald Forest
+    { x: 360, y: 195 }, // 3 Crystal Mountain
+    { x: 550, y: 78 },  // 4 Sky Island Network
+    { x: 480, y: 363 }, // 5 Ancient Block Temple
+    { x: 500, y: 530 }, // 6 Lava Caverns
+    { x: 760, y: 474 }, // 7 Riverlands
+    { x: 770, y: 352 }, // 8 Desert Oasis
+    { x: 700, y: 206 }, // 9 Enchanted Woodland
+    { x: 890, y: 234 }  // 10 Grand Crystal Fortress
+  ],
   mario: [
     { x: 140, y: 201 }, // 1 Toad Town Plaza
     { x: 360, y: 195 }, // 2 Giant Mushroom Valley
@@ -197,6 +209,18 @@ const TRACK_COORDS = {
 };
 
 const MILESTONE_DETAILS = {
+  minecraft: [
+    { name: "1. Builder's Village", desc: "Gather your tools and start the journey!" },
+    { name: "2. Emerald Forest", desc: "Watch out for the creepers in the woods." },
+    { name: "3. Crystal Mountain", desc: "Mine some rare gems on the snowy peaks." },
+    { name: "4. Sky Island Network", desc: "Don't fall off the floating blocks!" },
+    { name: "5. Ancient Block Temple", desc: "Discover hidden treasures." },
+    { name: "6. Lava Caverns", desc: "Bring some water buckets!" },
+    { name: "7. Riverlands", desc: "Cross the waterways by boat." },
+    { name: "8. Desert Oasis", desc: "Find shade in the sandy dunes." },
+    { name: "9. Enchanted Woodland", desc: "Magic surrounds these glowing trees." },
+    { name: "10. Grand Crystal Fortress", desc: "You've conquered the blocky world!" }
+  ],
   mario: [
     { name: "1. Toad Town Plaza", desc: "Let's a-go! Start your journey here." },
     { name: "2. Giant Mushroom Valley", desc: "Bounce over the mega mushrooms." },
@@ -681,6 +705,21 @@ export default function AdventureMazeView({
 
   // Theme Visual Assets/Styles
   const themeStyles = {
+    minecraft: {
+      displayName: "⛏️ Block Builder's Quest", displayColor: "bg-green-600 text-white shadow-green-300",
+      gradient: "from-green-200 via-amber-100 to-emerald-100",
+      pathColor: "#15803D", // green track
+      pathOutline: "#14532D",
+      centerDashes: "#FDE047", // yellow dashes
+      nodeColor: "fill-green-500 stroke-green-700",
+      nodeColorCompleted: "fill-emerald-400 stroke-emerald-600",
+      finishColor: "text-amber-500 fill-white",
+      skyColor: "bg-[#60A5FA]/20",
+      finishNode: "💎",
+      isImageBaked: true,
+      aspectRatio: "aspect-[1000/558]",
+      viewBox: "0 0 1000 558"
+    },
     mario: {
       displayName: "🍄 Super Adventure Kingdom", displayColor: "bg-red-600 text-white shadow-red-300",
       gradient: "from-red-200 via-yellow-100 to-green-100",

@@ -7158,6 +7158,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                               className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-[#14532d] focus:outline-none"
                            >
                               <option value="auto">Auto-Rotate Weekly (Recommended) 🔄</option>
+                              <option value="minecraft">Block Builder's Quest ⛏️</option>
                               <option value="sonic">Sonic Grand Prix 🦔</option>
                               <option value="mario">Super Adventure Kingdom 🍄</option>
                               <option value="forest">Enchanted Forest 🌲</option>
