@@ -140,7 +140,9 @@ CRITICAL VISUAL RULES:
    - "geometryData" must have: "type" (one of "rectangle", "triangle", "circle", "cylinder", "cube") and "labels" (object mapping dimensions like "width", "height", "radius" to strings like "5cm").
    - Example: "geometryData": {"type": "rectangle", "labels": {"width": "10m", "height": "5m"}}
    - Do NOT output "svgCode" if you provide "geometryData".
-3. For Science (or topics needing cute artistic illustrations):
+3. For Logical Reasoning / Pattern Recognition:
+   - If the question involves a series of shapes changing in a logical pattern, YOU ABSOLUTELY MUST include a visual using the "svgCode" property (or inline SVG in the options) to draw the actual sequence of shapes. NEVER use placeholder text like "[Insert figure...]".
+4. For Science (or topics needing cute artistic illustrations):
    - Include a short "imagePrompt" string describing the scene.`;
 
     let prompt = "";
