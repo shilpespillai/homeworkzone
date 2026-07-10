@@ -4,6 +4,18 @@ import { doc, collection, query, where, onSnapshot } from 'firebase/firestore';
 import { Compass, Map, Trophy, Users, Award, Sparkles, X } from 'lucide-react';
 
 const TRACK_COORDS = {
+  barbie: [
+    { x: 176, y: 30 },  // 1. Dream Welcome Plaza
+    { x: 462, y: 24 },  // 2. Fashion Boulevard
+    { x: 396, y: 198 }, // 3. Dream Castle Gardens
+    { x: 572, y: 372 }, // 4. Royal Beauty Spa
+    { x: 792, y: 402 }, // 5. Creative Design Studio
+    { x: 187, y: 570 }, // 6. Unicorn Meadow
+    { x: 561, y: 570 }, // 7. Glamour Beach Resort
+    { x: 935, y: 570 }, // 8. Rainbow Horse Ranch
+    { x: 748, y: 24 },  // 9. Star Celebration Square
+    { x: 968, y: 30 }   // 10. Royal Dream Palace
+  ],
   minecraft: [
     { x: 172, y: 570 }, // 1 Builder's Village
     { x: 183, y: 306 }, // 2 Emerald Forest
@@ -209,6 +221,18 @@ const TRACK_COORDS = {
 };
 
 const MILESTONE_DETAILS = {
+  barbie: [
+    { name: "1. Dream Welcome Plaza", desc: "Welcome to a world of fashion and fun!" },
+    { name: "2. Fashion Boulevard", desc: "Strut your stuff down the runway." },
+    { name: "3. Dream Castle Gardens", desc: "Explore the beautiful hedge mazes." },
+    { name: "4. Royal Beauty Spa", desc: "Relax and get pampered." },
+    { name: "5. Creative Design Studio", desc: "Design your next masterpiece." },
+    { name: "6. Unicorn Meadow", desc: "Make a wish on a shooting star." },
+    { name: "7. Glamour Beach Resort", desc: "Catch some waves in style." },
+    { name: "8. Rainbow Horse Ranch", desc: "Ride off into the sunset." },
+    { name: "9. Star Celebration Square", desc: "Dance the night away!" },
+    { name: "10. Royal Dream Palace", desc: "You're a true superstar!" }
+  ],
   minecraft: [
     { name: "1. Builder's Village", desc: "Gather your tools and start the journey!" },
     { name: "2. Emerald Forest", desc: "Watch out for the creepers in the woods." },
@@ -705,6 +729,22 @@ export default function AdventureMazeView({
 
   // Theme Visual Assets/Styles
   const themeStyles = {
+    barbie: {
+      displayName: "🎀 Dream World", displayColor: "bg-pink-500 text-white shadow-pink-300",
+      gradient: "from-pink-200 via-fuchsia-100 to-rose-100",
+      pathColor: "#EC4899", // pink track
+      pathOutline: "#BE185D",
+      centerDashes: "#FDF2F8",
+      nodeColor: "fill-pink-400 stroke-pink-600",
+      nodeColorCompleted: "fill-rose-400 stroke-rose-600",
+      finishColor: "text-pink-600 fill-white",
+      skyColor: "bg-[#FBCFE8]/20",
+      finishNode: "✨",
+      isImageBaked: true,
+      aspectRatio: "aspect-[11/6]",
+      aspectRatioStyle: '11/6',
+      viewBox: "0 0 1100 600"
+    },
     minecraft: {
       displayName: "⛏️ Block Builder's Quest", displayColor: "bg-green-600 text-white shadow-green-300",
       gradient: "from-green-200 via-amber-100 to-emerald-100",
