@@ -135,8 +135,16 @@ const TRACK_COORDS = {
     { x: 600, y: 481 }  // 10 Holiday Castle
   ],
   jungle: [
-    { x: 59, y: 135 }, { x: 156, y: 248 }, { x: 254, y: 361 }, { x: 352, y: 248 }, { x: 449, y: 135 },
-    { x: 547, y: 248 }, { x: 645, y: 361 }, { x: 742, y: 248 }, { x: 840, y: 135 }, { x: 898, y: 226 }
+    { x: 143, y: 179 }, // 1 Explorer Base Camp
+    { x: 338, y: 161 }, // 2 Giant Bamboo Forest
+    { x: 461, y: 121 }, // 3 Monkey Canopy Village
+    { x: 645, y: 132 }, // 4 Crystal Waterfalls
+    { x: 512, y: 282 }, // 5 Ancient Jungle Temple
+    { x: 635, y: 334 }, // 6 Crocodile River Crossing
+    { x: 369, y: 444 }, // 7 Lost Rainforest Village
+    { x: 645, y: 472 }, // 8 Giant Flower Valley
+    { x: 901, y: 397 }, // 9 Forgotten Jungle Ruins
+    { x: 922, y: 202 }  // 10 Lost Golden Jungle City
   ],
   desert: [
     { x: 100, y: 200 }, // 1
@@ -308,16 +316,16 @@ const MILESTONE_DETAILS = {
     { name: "10. Holiday Castle 🏰", desc: "A majestic winter palace." }
   ],
   jungle: [
-    { name: "Vine Swing 🌿", desc: "Tarzan your way across the gap." },
-    { name: "Monkey Canopy 🐒", desc: "Chattering friends in the treetops." },
-    { name: "Tiger's Den 🐅", desc: "Sneak past the sleeping cat." },
-    { name: "Hidden Ruins 🗿", desc: "Ancient stones covered in moss." },
-    { name: "Anaconda Swamp 🐍", desc: "Watch out for the slithering snake." },
-    { name: "Macaw Flock 🦜", desc: "A burst of colorful feathers." },
-    { name: "Roaring Waterfall 🌊", desc: "A beautiful hidden cascade." },
-    { name: "Dart Frog Pond 🐸", desc: "Don't touch the bright colorful frogs!" },
-    { name: "Bamboo Forest 🎋", desc: "Thick stalks block the path." },
-    { name: "Golden Temple 🛕", desc: "A legendary lost city." }
+    { name: "1. Explorer Base Camp (Start)", desc: "Tarzan your way across the gap." },
+    { name: "2. Giant Bamboo Forest", desc: "Thick stalks block the path." },
+    { name: "3. Monkey Canopy Village", desc: "Chattering friends in the treetops." },
+    { name: "4. Crystal Waterfalls", desc: "A beautiful hidden cascade." },
+    { name: "5. Ancient Jungle Temple", desc: "Ancient stones covered in moss." },
+    { name: "6. Crocodile River Crossing", desc: "Sneak past the sleeping croc." },
+    { name: "7. Lost Rainforest Village", desc: "A burst of colorful feathers." },
+    { name: "8. Giant Flower Valley", desc: "Don't touch the bright colorful frogs!" },
+    { name: "9. Forgotten Jungle Ruins", desc: "Watch out for the slithering snake." },
+    { name: "10. Lost Golden Jungle City", desc: "A legendary lost city." }
   ],
   desert: [
     { name: "1. Start", desc: "Hot sand as far as the eye can see." },
@@ -770,7 +778,9 @@ export default function AdventureMazeView({
       pathColor: "#15803d", pathOutline: "#14532d", centerDashes: "#bbf7d0",
       nodeColor: "fill-green-400 stroke-green-600", nodeColorCompleted: "fill-emerald-600 stroke-emerald-800",
       finishColor: "text-teal-500 fill-teal-300", skyColor: "bg-[#064e3b]/10", finishNode: "👑",
-      isImageBaked: true
+      isImageBaked: true,
+      aspectRatio: "aspect-video",
+      viewBox: "0 0 1024 576"
     },
     desert: {
       displayName: "🏜️ Desert Mirage", displayColor: "bg-yellow-600 text-white shadow-yellow-200",
