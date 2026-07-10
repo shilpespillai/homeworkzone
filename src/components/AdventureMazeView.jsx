@@ -135,16 +135,16 @@ const TRACK_COORDS = {
     { x: 600, y: 481 }  // 10 Holiday Castle
   ],
   jungle: [
-    { x: 143, y: 179 }, // 1 Explorer Base Camp
-    { x: 338, y: 161 }, // 2 Giant Bamboo Forest
-    { x: 461, y: 121 }, // 3 Monkey Canopy Village
-    { x: 645, y: 132 }, // 4 Crystal Waterfalls
-    { x: 512, y: 282 }, // 5 Ancient Jungle Temple
-    { x: 635, y: 334 }, // 6 Crocodile River Crossing
-    { x: 369, y: 444 }, // 7 Lost Rainforest Village
-    { x: 645, y: 472 }, // 8 Giant Flower Valley
-    { x: 901, y: 397 }, // 9 Forgotten Jungle Ruins
-    { x: 922, y: 202 }  // 10 Lost Golden Jungle City
+    { x: 154, y: 186 }, // 1 Explorer Base Camp
+    { x: 363, y: 168 }, // 2 Giant Bamboo Forest
+    { x: 495, y: 126 }, // 3 Monkey Canopy Village
+    { x: 693, y: 138 }, // 4 Crystal Waterfalls
+    { x: 550, y: 294 }, // 5 Ancient Jungle Temple
+    { x: 682, y: 348 }, // 6 Crocodile River Crossing
+    { x: 396, y: 462 }, // 7 Lost Rainforest Village
+    { x: 693, y: 492 }, // 8 Giant Flower Valley
+    { x: 968, y: 414 }, // 9 Forgotten Jungle Ruins
+    { x: 990, y: 210 }  // 10 Lost Golden Jungle City
   ],
   desert: [
     { x: 100, y: 200 }, // 1
@@ -779,8 +779,8 @@ export default function AdventureMazeView({
       nodeColor: "fill-green-400 stroke-green-600", nodeColorCompleted: "fill-emerald-600 stroke-emerald-800",
       finishColor: "text-teal-500 fill-teal-300", skyColor: "bg-[#064e3b]/10", finishNode: "👑",
       isImageBaked: true,
-      aspectRatio: "aspect-video",
-      viewBox: "0 0 1024 576"
+      aspectRatio: "aspect-[11/6]",
+      viewBox: "0 0 1100 600"
     },
     desert: {
       displayName: "🏜️ Desert Mirage", displayColor: "bg-yellow-600 text-white shadow-yellow-200",
