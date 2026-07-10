@@ -17,40 +17,40 @@ const TRACK_COORDS = {
     { x: 819, y: 223 }  // 10: Final Temple
   ],
   island: [
-    { x: 593, y: 68 },   // 1
-    { x: 593, y: 142 },  // 2
-    { x: 798, y: 200 },  // 3
-    { x: 675, y: 234 },  // 4
-    { x: 327, y: 251 },  // 5
-    { x: 491, y: 274 },  // 6
-    { x: 389, y: 388 },  // 7
-    { x: 563, y: 348 },  // 8
-    { x: 645, y: 342 },  // 9
-    { x: 747, y: 371 }   // 10
+    { x: 579, y: 77 },   // 1
+    { x: 579, y: 160 },  // 2
+    { x: 779, y: 226 },  // 3
+    { x: 659, y: 264 },  // 4
+    { x: 319, y: 283 },  // 5
+    { x: 479, y: 309 },  // 6
+    { x: 380, y: 438 },  // 7
+    { x: 550, y: 393 },  // 8
+    { x: 630, y: 386 },  // 9
+    { x: 729, y: 419 }   // 10
   ],
   forest: [
-    { x: 72, y: 328 },  // 1 Start Point
-    { x: 328, y: 52 },  // 2 Whispering Grove
-    { x: 236, y: 300 }, // 3 Mushroom Glade
-    { x: 276, y: 455 }, // 4 Glimmering Pool
-    { x: 399, y: 340 }, // 5 Mossy Ruins
-    { x: 553, y: 328 }, // 6 Ancient Tree of Ages
-    { x: 696, y: 305 }, // 7 Spider's Silken Web
-    { x: 809, y: 156 }, // 8 Crystal Cavern Entrance
-    { x: 748, y: 455 }, // 9 Bioluminescent Flower Patch
-    { x: 922, y: 340 }  // 10 Sentinel Stone Circle
+    { x: 70, y: 370 },  // 1 Start Point
+    { x: 320, y: 59 },  // 2 Whispering Grove
+    { x: 230, y: 339 }, // 3 Mushroom Glade
+    { x: 270, y: 513 }, // 4 Glimmering Pool
+    { x: 390, y: 384 }, // 5 Mossy Ruins
+    { x: 540, y: 370 }, // 6 Ancient Tree of Ages
+    { x: 680, y: 344 }, // 7 Spider's Silken Web
+    { x: 790, y: 176 }, // 8 Crystal Cavern Entrance
+    { x: 730, y: 513 }, // 9 Bioluminescent Flower Patch
+    { x: 900, y: 384 }  // 10 Sentinel Stone Circle
   ],
   space: [
-    { x: 25, y: 365 },  // 1
-    { x: 275, y: 75 },  // 2
-    { x: 190, y: 325 }, // 3
-    { x: 220, y: 500 }, // 4
-    { x: 370, y: 385 }, // 5
-    { x: 490, y: 350 }, // 6
-    { x: 640, y: 330 }, // 7
-    { x: 740, y: 155 }, // 8
-    { x: 680, y: 500 }, // 9
-    { x: 870, y: 370 }  // 10
+    { x: 24, y: 412 },  // 1
+    { x: 269, y: 85 },  // 2
+    { x: 186, y: 367 }, // 3
+    { x: 215, y: 564 }, // 4
+    { x: 361, y: 434 }, // 5
+    { x: 479, y: 395 }, // 6
+    { x: 625, y: 372 }, // 7
+    { x: 723, y: 175 }, // 8
+    { x: 664, y: 564 }, // 9
+    { x: 850, y: 418 }  // 10
   ],
   sports: [
     { x: 100, y: 330 },  // 1
@@ -65,90 +65,90 @@ const TRACK_COORDS = {
     { x: 280, y: 130 }   // 10
   ],
   undersea: [
-    { x: 143, y: 334 },  // 1 Coral Reef
-    { x: 317, y: 144 },  // 2 Sea Forest
-    { x: 348, y: 345 },  // 3 Sunken Ship
-    { x: 501, y: 115 },  // 4 Deep Blue Zone
-    { x: 512, y: 357 },  // 5 Pearl Cave
-    { x: 768, y: 103 },  // 6 Volcano Ridge
-    { x: 778, y: 259 },  // 7 Ice Tunnels
-    { x: 706, y: 391 }   // 8 Treasure Lagoon
+    { x: 140, y: 377 },  // 1 Coral Reef
+    { x: 310, y: 163 },  // 2 Sea Forest
+    { x: 340, y: 390 },  // 3 Sunken Ship
+    { x: 490, y: 130 },  // 4 Deep Blue Zone
+    { x: 500, y: 403 },  // 5 Pearl Cave
+    { x: 750, y: 117 },  // 6 Volcano Ridge
+    { x: 760, y: 293 },  // 7 Ice Tunnels
+    { x: 690, y: 442 }   // 8 Treasure Lagoon
   ],
   candyland: [
-    { x: 133, y: 63 },  // 1 Mr. Pop's Candy Shop
-    { x: 369, y: 52 },  // 2 Molasses Swamp
-    { x: 635, y: 40 },  // 3 Royal Peppermint Forest
-    { x: 891, y: 58 },  // 4 Gingerbread Orchard
-    { x: 881, y: 190 }, // 5 Lollipop Woods
-    { x: 512, y: 219 }, // 6 Ice Cream Sea
-    { x: 225, y: 305 }, // 7 Lord Licorice's Castle
-    { x: 297, y: 403 }, // 8 Candy Kid
-    { x: 625, y: 397 }, // 9 Captain Cookie
-    { x: 850, y: 351 }  // 10 The Grand Sugar Palace
+    { x: 130, y: 71 },  // 1 Mr. Pop's Candy Shop
+    { x: 360, y: 59 },  // 2 Molasses Swamp
+    { x: 620, y: 45 },  // 3 Royal Peppermint Forest
+    { x: 870, y: 65 },  // 4 Gingerbread Orchard
+    { x: 860, y: 214 }, // 5 Lollipop Woods
+    { x: 500, y: 247 }, // 6 Ice Cream Sea
+    { x: 220, y: 344 }, // 7 Lord Licorice's Castle
+    { x: 290, y: 455 }, // 8 Candy Kid
+    { x: 610, y: 448 }, // 9 Captain Cookie
+    { x: 830, y: 396 }  // 10 The Grand Sugar Palace
   ],
   dinosaur: [
-    { x: 164, y: 253 }, // 1 Dino Discovery
-    { x: 297, y: 132 }, // 2 The Fern Forest
-    { x: 297, y: 357 }, // 3 Fossil Find
-    { x: 512, y: 127 }, // 4 Dino Valley
-    { x: 563, y: 363 }, // 5 Crystal Caves
-    { x: 717, y: 86 },  // 6 Volcano Peak
-    { x: 819, y: 213 }, // 7 The Great Lake
-    { x: 881, y: 323 }, // 8 Ancient Ruins
-    { x: 727, y: 438 }, // 9 Dino Champion
-    { x: 942, y: 392 }  // 10 Hidden Nest
+    { x: 160, y: 286 }, // 1 Dino Discovery
+    { x: 290, y: 149 }, // 2 The Fern Forest
+    { x: 290, y: 403 }, // 3 Fossil Find
+    { x: 500, y: 143 }, // 4 Dino Valley
+    { x: 550, y: 410 }, // 5 Crystal Caves
+    { x: 700, y: 97 },  // 6 Volcano Peak
+    { x: 800, y: 240 }, // 7 The Great Lake
+    { x: 860, y: 364 }, // 8 Ancient Ruins
+    { x: 710, y: 494 }, // 9 Dino Champion
+    { x: 920, y: 442 }  // 10 Hidden Nest
   ],
   pirate: [
-    { x: 133, y: 98 },  // 1 Shipwreck Shore
-    { x: 389, y: 81 },  // 2 Parrot Point
-    { x: 614, y: 81 },  // 3 Skeleton Beach
-    { x: 860, y: 81 },  // 4 Lost Temple
-    { x: 870, y: 230 }, // 5 Cannon Cove
-    { x: 614, y: 213 }, // 6 Blackwater Bay
-    { x: 348, y: 265 }, // 7 Hidden Lagoon
-    { x: 113, y: 351 }, // 8 Smuggler's Cave
-    { x: 399, y: 409 }, // 9 Treasure Falls
-    { x: 676, y: 409 }  // 10 Pirate's Prize
+    { x: 130, y: 111 },  // 1 Shipwreck Shore
+    { x: 380, y: 91 },  // 2 Parrot Point
+    { x: 600, y: 91 },  // 3 Skeleton Beach
+    { x: 840, y: 91 },  // 4 Lost Temple
+    { x: 850, y: 260 }, // 5 Cannon Cove
+    { x: 600, y: 240 }, // 6 Blackwater Bay
+    { x: 340, y: 299 }, // 7 Hidden Lagoon
+    { x: 110, y: 396 }, // 8 Smuggler's Cave
+    { x: 390, y: 462 }, // 9 Treasure Falls
+    { x: 660, y: 462 }  // 10 Pirate's Prize
   ],
   haunted: [
-    { x: 100, y: 350 }, // 1 Haunted Gate
-    { x: 100, y: 200 }, // 2 Cemetery Path
-    { x: 200, y: 100 }, // 3 Ghost Forest
-    { x: 450, y: 100 }, // 4 Broken Clocktower
-    { x: 550, y: 250 }, // 5 Gargoyle Bridge
-    { x: 250, y: 350 }, // 6 Pumpkin Village
-    { x: 700, y: 150 }, // 7 Spectral Sky Path
-    { x: 550, y: 450 }, // 8 Crystal Dungeon
-    { x: 750, y: 450 }, // 9 Forgotten Courtyard
-    { x: 900, y: 200 }  // 10 Haunted Castle FINISH
+    { x: 98, y: 395 }, // 1 Haunted Gate
+    { x: 98, y: 226 }, // 2 Cemetery Path
+    { x: 195, y: 113 }, // 3 Ghost Forest
+    { x: 439, y: 113 }, // 4 Broken Clocktower
+    { x: 537, y: 282 }, // 5 Gargoyle Bridge
+    { x: 244, y: 395 }, // 6 Pumpkin Village
+    { x: 684, y: 169 }, // 7 Spectral Sky Path
+    { x: 537, y: 508 }, // 8 Crystal Dungeon
+    { x: 732, y: 508 }, // 9 Forgotten Courtyard
+    { x: 879, y: 226 }  // 10 Haunted Castle FINISH
   ],
   winter: [
-    { x: 143, y: 127 }, // 1 Frosty Village
-    { x: 328, y: 138 }, // 2 Twinkle Town Square
-    { x: 512, y: 86 },  // 3 Icy Bridge Crossing
-    { x: 707, y: 86 },  // 4 Whispering Pines
-    { x: 891, y: 138 }, // 5 Candy Cane Lane
-    { x: 850, y: 236 }, // 6 Frozen Waterfall
-    { x: 532, y: 265 }, // 7 Snowman Valley
-    { x: 215, y: 253 }, // 8 Ice Crystal Caverns
-    { x: 236, y: 392 }, // 9 Santa's Workshop
-    { x: 614, y: 426 }  // 10 Holiday Castle
+    { x: 140, y: 143 }, // 1 Frosty Village
+    { x: 320, y: 156 }, // 2 Twinkle Town Square
+    { x: 500, y: 98 },  // 3 Icy Bridge Crossing
+    { x: 690, y: 98 },  // 4 Whispering Pines
+    { x: 870, y: 156 }, // 5 Candy Cane Lane
+    { x: 830, y: 267 }, // 6 Frozen Waterfall
+    { x: 520, y: 299 }, // 7 Snowman Valley
+    { x: 210, y: 286 }, // 8 Ice Crystal Caverns
+    { x: 230, y: 442 }, // 9 Santa's Workshop
+    { x: 600, y: 481 }  // 10 Holiday Castle
   ],
   jungle: [
-    { x: 60, y: 120 }, { x: 160, y: 220 }, { x: 260, y: 320 }, { x: 360, y: 220 }, { x: 460, y: 120 },
-    { x: 560, y: 220 }, { x: 660, y: 320 }, { x: 760, y: 220 }, { x: 860, y: 120 }, { x: 920, y: 200 }
+    { x: 59, y: 135 }, { x: 156, y: 248 }, { x: 254, y: 361 }, { x: 352, y: 248 }, { x: 449, y: 135 },
+    { x: 547, y: 248 }, { x: 645, y: 361 }, { x: 742, y: 248 }, { x: 840, y: 135 }, { x: 898, y: 226 }
   ],
   desert: [
-    { x: 100, y: 200 }, // 1
-    { x: 250, y: 100 }, // 2
-    { x: 450, y: 120 }, // 3
-    { x: 650, y: 120 }, // 4
-    { x: 850, y: 120 }, // 5
-    { x: 850, y: 250 }, // 6
-    { x: 500, y: 250 }, // 7
-    { x: 200, y: 350 }, // 8
-    { x: 450, y: 400 }, // 9
-    { x: 800, y: 400 }  // 10
+    { x: 98, y: 226 }, // 1
+    { x: 244, y: 113 }, // 2
+    { x: 439, y: 135 }, // 3
+    { x: 635, y: 135 }, // 4
+    { x: 830, y: 135 }, // 5
+    { x: 830, y: 282 }, // 6
+    { x: 488, y: 282 }, // 7
+    { x: 195, y: 395 }, // 8
+    { x: 439, y: 451 }, // 9
+    { x: 781, y: 451 }  // 10
   ],
   cyber: [
     { x: 92, y: 46 },   // 0 (1: 9%, 8%) Neon Launch Plaza (START)
@@ -163,16 +163,16 @@ const TRACK_COORDS = {
     { x: 819, y: 345 }  // 9 (10: 80%, 60%) Sky Nexus Command Tower (FINISH)
   ],
   magic: [
-    { x: 50, y: 300 },  // 1 Academy Entrance
-    { x: 150, y: 100 }, // 2 Enchanted Courtyard
-    { x: 350, y: 50 },  // 3 Owl Tower
-    { x: 500, y: 50 },  // 4 Potion Gardens
-    { x: 750, y: 50 },  // 5 Crystal Library
-    { x: 900, y: 200 }, // 6 Dragon Courtyard
-    { x: 500, y: 300 }, // 7 Sky Bridge
-    { x: 200, y: 450 }, // 8 Enchanted Maze
-    { x: 600, y: 450 }, // 9 Wizard's Observatory
-    { x: 900, y: 400 }  // 10 Grand Hall of Magic
+    { x: 49, y: 339 },  // 1 Academy Entrance
+    { x: 146, y: 113 }, // 2 Enchanted Courtyard
+    { x: 342, y: 56 },  // 3 Owl Tower
+    { x: 488, y: 56 },  // 4 Potion Gardens
+    { x: 732, y: 56 },  // 5 Crystal Library
+    { x: 879, y: 226 }, // 6 Dragon Courtyard
+    { x: 488, y: 339 }, // 7 Sky Bridge
+    { x: 195, y: 508 }, // 8 Enchanted Maze
+    { x: 586, y: 508 }, // 9 Wizard's Observatory
+    { x: 879, y: 451 }  // 10 Grand Hall of Magic
   ]
 };
 
