@@ -7159,6 +7159,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                            >
                               <option value="auto">Auto-Rotate Weekly (Recommended) 🔄</option>
                               <option value="sonic">Sonic Grand Prix 🦔</option>
+                              <option value="mario">Super Adventure Kingdom 🍄</option>
                               <option value="forest">Enchanted Forest 🌲</option>
                               <option value="space">Cosmic Space Maze 🚀</option>
                               <option value="island">Adventure Island 🏝️</option>

@@ -4,6 +4,18 @@ import { doc, collection, query, where, onSnapshot } from 'firebase/firestore';
 import { Compass, Map, Trophy, Users, Award, Sparkles, X } from 'lucide-react';
 
 const TRACK_COORDS = {
+  mario: [
+    { x: 140, y: 201 }, // 1 Toad Town Plaza
+    { x: 360, y: 195 }, // 2 Giant Mushroom Valley
+    { x: 560, y: 179 }, // 3 Princess Peach's Cloud Kingdom
+    { x: 550, y: 324 }, // 4 Lava Cavern Crossing
+    { x: 140, y: 374 }, // 5 Candy Hills
+    { x: 340, y: 374 }, // 6 Clockwork Castle Workshop
+    { x: 510, y: 525 }, // 7 Rainbow River
+    { x: 910, y: 201 }, // 8 Star Garden
+    { x: 730, y: 374 }, // 9 Sky Tower District
+    { x: 880, y: 525 }  // 10 Royal Star Castle
+  ],
   sonic: [
     { x: 176, y: 174 }, // 1 Emerald Speed Plaza
     { x: 374, y: 204 }, // 2 Spiral Loop Valley
@@ -185,6 +197,18 @@ const TRACK_COORDS = {
 };
 
 const MILESTONE_DETAILS = {
+  mario: [
+    { name: "1. Toad Town Plaza", desc: "Let's a-go! Start your journey here." },
+    { name: "2. Giant Mushroom Valley", desc: "Bounce over the mega mushrooms." },
+    { name: "3. Princess Peach's Cloud Kingdom", desc: "Don't look down!" },
+    { name: "4. Lava Cavern Crossing", desc: "Watch out for the Bowser statues." },
+    { name: "5. Candy Hills", desc: "A sweet but slippery slope." },
+    { name: "6. Clockwork Castle Workshop", desc: "Time your jumps carefully!" },
+    { name: "7. Rainbow River", desc: "Slide down the colorful waterfalls." },
+    { name: "8. Star Garden", desc: "Catch a falling star." },
+    { name: "9. Sky Tower District", desc: "Climb to the very top!" },
+    { name: "10. Royal Star Castle", desc: "You saved the princess!" }
+  ],
   sonic: [
     { name: "1. Emerald Speed Plaza", desc: "Ready, set, go!" },
     { name: "2. Spiral Loop Valley", desc: "Speed through the toxic tubes!" },
@@ -657,6 +681,21 @@ export default function AdventureMazeView({
 
   // Theme Visual Assets/Styles
   const themeStyles = {
+    mario: {
+      displayName: "🍄 Super Adventure Kingdom", displayColor: "bg-red-600 text-white shadow-red-300",
+      gradient: "from-red-200 via-yellow-100 to-green-100",
+      pathColor: "#DC2626", // red track
+      pathOutline: "#991B1B",
+      centerDashes: "#FDE047", // yellow dashes
+      nodeColor: "fill-red-500 stroke-red-700",
+      nodeColorCompleted: "fill-yellow-400 stroke-yellow-600",
+      finishColor: "text-red-600 fill-white",
+      skyColor: "bg-[#60A5FA]/20",
+      finishNode: "👑",
+      isImageBaked: true,
+      aspectRatio: "aspect-[1000/558]",
+      viewBox: "0 0 1000 558"
+    },
     sonic: {
       displayName: "🦔 Sonic Grand Prix", displayColor: "bg-blue-600 text-white shadow-blue-300",
       gradient: "from-blue-200 via-sky-100 to-emerald-100",
