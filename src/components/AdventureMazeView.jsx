@@ -65,16 +65,14 @@ const TRACK_COORDS = {
     { x: 280, y: 130 }   // 10
   ],
   undersea: [
-    { x: 45, y: 465 },   // 1
-    { x: 108, y: 545 },  // 2
-    { x: 272, y: 215 },  // 3
-    { x: 305, y: 555 },  // 4
-    { x: 450, y: 175 },  // 5
-    { x: 470, y: 580 },  // 6
-    { x: 705, y: 145 },  // 7
-    { x: 745, y: 435 },  // 8
-    { x: 635, y: 645 },  // 9
-    { x: 800, y: 500 }   // 10
+    { x: 143, y: 334 },  // 1 Coral Reef
+    { x: 317, y: 144 },  // 2 Sea Forest
+    { x: 348, y: 345 },  // 3 Sunken Ship
+    { x: 501, y: 115 },  // 4 Deep Blue Zone
+    { x: 512, y: 357 },  // 5 Pearl Cave
+    { x: 768, y: 103 },  // 6 Volcano Ridge
+    { x: 778, y: 259 },  // 7 Ice Tunnels
+    { x: 706, y: 391 }   // 8 Treasure Lagoon
   ],
   candyland: [
     { x: 133, y: 63 },  // 1 Mr. Pop's Candy Shop
@@ -247,9 +245,7 @@ const MILESTONE_DETAILS = {
     { name: "5. The Pearl Cave 🦪", desc: "Collect the pearls of knowledge!", task: "Answer questions and earn points." },
     { name: "6. The Volcano Ridge 🌋", desc: "Navigate the hot underwater zone.", task: "Complete challenges to move ahead." },
     { name: "7. The Ice Tunnels 🧊", desc: "Cross the chilly ice tunnels.", task: "Test your skills and score high." },
-    { name: "8. The Treasure Lagoon 💎", desc: "The final stretch to victory!", task: "Show what you've leaned." },
-    { name: "9. Abyssal Plain 🦑", desc: "Glowing creatures light the way.", task: "Keep exploring." },
-    { name: "10. Atlantis Gates 🏛️", desc: "The entrance to the lost city.", task: "Unlock the gates." }
+    { name: "8. The Treasure Lagoon 💎", desc: "The final stretch to victory!", task: "Show what you've leaned." }
   ],
   candyland: [
     { name: "1. Mr. Pop's Candy Shop", desc: "Welcome to Candyland!" },
