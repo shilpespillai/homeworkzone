@@ -5,28 +5,28 @@ import { Compass, Map, Trophy, Users, Award, Sparkles, X } from 'lucide-react';
 
 const TRACK_COORDS = {
   minecraft: [
-    { x: 160, y: 530 }, // 1 Builder's Village
-    { x: 170, y: 285 }, // 2 Emerald Forest
-    { x: 360, y: 195 }, // 3 Crystal Mountain
-    { x: 550, y: 78 },  // 4 Sky Island Network
-    { x: 480, y: 363 }, // 5 Ancient Block Temple
-    { x: 500, y: 530 }, // 6 Lava Caverns
-    { x: 760, y: 474 }, // 7 Riverlands
-    { x: 770, y: 352 }, // 8 Desert Oasis
-    { x: 700, y: 206 }, // 9 Enchanted Woodland
-    { x: 890, y: 234 }  // 10 Grand Crystal Fortress
+    { x: 172, y: 570 }, // 1 Builder's Village
+    { x: 183, y: 306 }, // 2 Emerald Forest
+    { x: 387, y: 210 }, // 3 Crystal Mountain
+    { x: 591, y: 84 },  // 4 Sky Island Network
+    { x: 516, y: 390 }, // 5 Ancient Block Temple
+    { x: 538, y: 570 }, // 6 Lava Caverns
+    { x: 817, y: 510 }, // 7 Riverlands
+    { x: 828, y: 378 }, // 8 Desert Oasis
+    { x: 753, y: 222 }, // 9 Enchanted Woodland
+    { x: 957, y: 252 }  // 10 Grand Crystal Fortress
   ],
   mario: [
-    { x: 140, y: 201 }, // 1 Toad Town Plaza
-    { x: 360, y: 195 }, // 2 Giant Mushroom Valley
-    { x: 560, y: 179 }, // 3 Princess Peach's Cloud Kingdom
-    { x: 550, y: 324 }, // 4 Lava Cavern Crossing
-    { x: 140, y: 374 }, // 5 Candy Hills
-    { x: 340, y: 374 }, // 6 Clockwork Castle Workshop
-    { x: 510, y: 525 }, // 7 Rainbow River
-    { x: 910, y: 201 }, // 8 Star Garden
-    { x: 730, y: 374 }, // 9 Sky Tower District
-    { x: 880, y: 525 }  // 10 Royal Star Castle
+    { x: 151, y: 216 }, // 1 Toad Town Plaza
+    { x: 387, y: 210 }, // 2 Giant Mushroom Valley
+    { x: 602, y: 192 }, // 3 Princess Peach's Cloud Kingdom
+    { x: 591, y: 348 }, // 4 Lava Cavern Crossing
+    { x: 151, y: 402 }, // 5 Candy Hills
+    { x: 366, y: 402 }, // 6 Clockwork Castle Workshop
+    { x: 548, y: 564 }, // 7 Rainbow River
+    { x: 978, y: 216 }, // 8 Star Garden
+    { x: 785, y: 402 }, // 9 Sky Tower District
+    { x: 946, y: 564 }  // 10 Royal Star Castle
   ],
   sonic: [
     { x: 176, y: 174 }, // 1 Emerald Speed Plaza
@@ -717,8 +717,9 @@ export default function AdventureMazeView({
       skyColor: "bg-[#60A5FA]/20",
       finishNode: "💎",
       isImageBaked: true,
-      aspectRatio: "aspect-[1000/558]",
-      viewBox: "0 0 1000 558"
+      aspectRatio: "aspect-[1075/600]",
+      aspectRatioStyle: '2752/1536',
+      viewBox: "0 0 1075 600"
     },
     mario: {
       displayName: "🍄 Super Adventure Kingdom", displayColor: "bg-red-600 text-white shadow-red-300",
@@ -732,8 +733,9 @@ export default function AdventureMazeView({
       skyColor: "bg-[#60A5FA]/20",
       finishNode: "👑",
       isImageBaked: true,
-      aspectRatio: "aspect-[1000/558]",
-      viewBox: "0 0 1000 558"
+      aspectRatio: "aspect-[1075/600]",
+      aspectRatioStyle: '2752/1536',
+      viewBox: "0 0 1075 600"
     },
     sonic: {
       displayName: "🦔 Sonic Grand Prix", displayColor: "bg-blue-600 text-white shadow-blue-300",
@@ -929,7 +931,10 @@ export default function AdventureMazeView({
       </div>
 
       {/* SVG Canvas Map Area */}
-      <div className={`relative w-full rounded-[24px] overflow-hidden border border-slate-100 bg-gradient-to-br ${style.gradient} ${style.aspectRatio || (style.isImageBaked ? 'aspect-[1000/650]' : 'aspect-[1000/450]')}`}>
+      <div 
+        className={`relative w-full rounded-[24px] overflow-hidden border border-slate-100 bg-gradient-to-br ${style.gradient} ${style.aspectRatio || (style.isImageBaked ? 'aspect-[1000/650]' : 'aspect-[1000/450]')}`}
+        style={style.aspectRatioStyle ? { aspectRatio: style.aspectRatioStyle } : {}}
+      >
         
         {style.isImageBaked && (
           <img 
