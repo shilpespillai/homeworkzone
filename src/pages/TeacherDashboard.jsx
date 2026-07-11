@@ -548,7 +548,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
     fetchProfileHomeworkDetails();
   }, [selectedProfileSubmission]);
 
-  const handleGenerateAiParentReport = async (studentName, startingScore, currentScore, growth, speedBadge, masteryArray, totalQuizzes) => {
+  const handleGenerateAiParentReport = async (studentName, startingScore, currentScore, growth, speedBadge, masteryArray, totalQuizzes, timeSpentToday, timeSpentWeek, timeSpentMonth, timeSpentYear) => {
     setIsGeneratingReport(true);
     setShowReportOverlay(true);
     setAiReportContent('');
@@ -568,15 +568,22 @@ const TeacherDashboard = ({ user, onLogout }) => {
       Current Accuracy: ${currentScore}%
       Growth Index: ${growth >= 0 ? `+${growth}%` : `${growth}%`}
       Pacing Speed: ${speedBadge}
+
+      Time & Dedication on Homework Zone:
+      - Today: ${timeSpentToday} minutes
+      - This Week: ${timeSpentWeek} minutes
+      - This Month: ${timeSpentMonth} minutes
+      - This Year: ${timeSpentYear} minutes
       
       Concept Masteries:
       ${masteriesList}
       
       Write a beautifully formatted, structured report with:
       1. 🌟 General Performance Overview (encouraging, warm, and highlight their attitude/effort).
-      2. 💪 Areas of Strength (list specific concepts they have mastered or are doing well in).
-      3. 🎯 Key Areas for Growth & Practice (list specific concepts needing review with fun, actionable strategies parents can practice at home).
-      4. 💡 Personalized Teacher's Recommendation.
+      2. ⏱️ Dedication & Effort (write a short paragraph highlighting their time spent practicing, using the provided daily, weekly, monthly, and yearly time metrics to praise their consistency).
+      3. 💪 Areas of Strength (list specific concepts they have mastered or are doing well in).
+      4. 🎯 Key Areas for Growth & Practice (list specific concepts needing review with fun, actionable strategies parents can practice at home).
+      5. 💡 Personalized Teacher's Recommendation.
       
       Keep the tone highly professional, encouraging, warm, and helpful. Use simple parent-friendly language. 
       Output the report directly as clean text or markdown (no JSON wrapper, no HTML headers, just formatted markdown text). Do not write introductory meta commentary like "Here is the report...".`;
@@ -7865,6 +7872,29 @@ const TeacherDashboard = ({ user, onLogout }) => {
               return s > 0 ? `${m}m ${s}s` : `${m}m`;
            };
 
+           const now = new Date();
+           const oneDayMs = 24 * 60 * 60 * 1000;
+           let timeSpentToday = 0;
+           let timeSpentWeek = 0;
+           let timeSpentMonth = 0;
+           let timeSpentYear = 0;
+           
+           studentSubs.forEach(sub => {
+              if (sub.timeSpent && sub.submittedAt) {
+                 const subDate = sub.submittedAt.toDate ? sub.submittedAt.toDate() : new Date(sub.submittedAt);
+                 const diffDays = (now - subDate) / oneDayMs;
+                 const mins = sub.timeSpent / 60;
+                 if (diffDays <= 1) timeSpentToday += mins;
+                 if (diffDays <= 7) timeSpentWeek += mins;
+                 if (diffDays <= 30) timeSpentMonth += mins;
+                 if (diffDays <= 365) timeSpentYear += mins;
+              }
+           });
+           timeSpentToday = Math.round(timeSpentToday);
+           timeSpentWeek = Math.round(timeSpentWeek);
+           timeSpentMonth = Math.round(timeSpentMonth);
+           timeSpentYear = Math.round(timeSpentYear);
+
            return (
               <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                  <motion.div 
@@ -7902,7 +7932,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                         <div className="flex items-center gap-3">
                            {/* AI Parent Report Generator Button */}
                            <button
-                              onClick={() => handleGenerateAiParentReport(studentName, startingScore, currentScore, growth, speedBadge, masteryArray, studentSubs.length)}
+                              onClick={() => handleGenerateAiParentReport(studentName, startingScore, currentScore, growth, speedBadge, masteryArray, studentSubs.length, timeSpentToday, timeSpentWeek, timeSpentMonth, timeSpentYear)}
                               className="flex items-center gap-2 bg-[#EA580C] hover:bg-[#C2410C] text-white px-5 py-3 rounded-2xl text-xs font-black transition-all shadow-md shadow-orange-100 hover:scale-105"
                            >
                               <Sparkles className="w-4 h-4 fill-current" />
