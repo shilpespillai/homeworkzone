@@ -729,13 +729,13 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                                     >
                                       <Volume2 className="w-4 h-4" />
                                     </button>
-                                   <span className={`text-lg leading-snug ${textClass}`}>
+                                   <div className={`flex-1 text-lg leading-snug ${textClass}`}>
                                      {typeof opt === 'string' && opt.trim().startsWith('<svg') ? (
                                        <div dangerouslySetInnerHTML={{ __html: opt }} className="w-full flex justify-center overflow-hidden" />
                                      ) : (
                                        opt
                                      )}
-                                   </span>
+                                   </div>
                                  </label>
                                );
                              })}
@@ -1053,13 +1053,13 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                               <div className="w-10 h-10 flex-center rounded-xl bg-white/40 shadow-inner text-xl font-black">
                                 {String.fromCharCode(65 + i)}
                               </div>
-                              <span className={`text-xl font-black`}>
+                              <div className={`flex-1 text-xl font-black`}>
                                 {typeof option === 'string' && option.trim().startsWith('<svg') ? (
                                   <div dangerouslySetInnerHTML={{ __html: option }} className="w-full flex justify-center overflow-hidden" />
                                 ) : (
                                   option
                                 )}
-                              </span>
+                              </div>
                             </div>
                             {showIcon && (
                               <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
