@@ -1,0 +1,657 @@
+[
+  {
+    "id": "f_e_1",
+    "title": "Find the letter in the alphabet: uppercase",
+    "category": "A.\tLetter identification"
+  },
+  {
+    "id": "f_e_2",
+    "title": "Find the letter in the alphabet: lowercase",
+    "category": "A.\tLetter identification"
+  },
+  {
+    "id": "f_e_3",
+    "title": "Choose the letter that you hear: uppercase",
+    "category": "A.\tLetter identification"
+  },
+  {
+    "id": "f_e_4",
+    "title": "Choose the letter that you hear: lowercase",
+    "category": "A.\tLetter identification"
+  },
+  {
+    "id": "f_e_5",
+    "title": "Frequently confused letters: find the letter",
+    "category": "A.\tLetter identification"
+  },
+  {
+    "id": "f_e_6",
+    "title": "Frequently confused letters: find all the letters",
+    "category": "A.\tLetter identification"
+  },
+  {
+    "id": "f_e_7",
+    "title": "Choose the lowercase letter that matches: c, k, o, p, s, u, v, w, x, z",
+    "category": "B.\tLowercase and uppercase letters"
+  },
+  {
+    "id": "f_e_8",
+    "title": "Choose the lowercase letter that matches: f, i, j, l, m, t, y",
+    "category": "B.\tLowercase and uppercase letters"
+  },
+  {
+    "id": "f_e_9",
+    "title": "Choose the lowercase letter that matches: a, b, d, e, g, h, n, q, r",
+    "category": "B.\tLowercase and uppercase letters"
+  },
+  {
+    "id": "f_e_10",
+    "title": "Choose the lowercase letter that matches: review",
+    "category": "B.\tLowercase and uppercase letters"
+  },
+  {
+    "id": "f_e_11",
+    "title": "Find all the lowercase letters",
+    "category": "B.\tLowercase and uppercase letters"
+  },
+  {
+    "id": "f_e_12",
+    "title": "Choose the uppercase letter that matches: C, K, O, P, S, U, V, W, X, Z",
+    "category": "B.\tLowercase and uppercase letters"
+  },
+  {
+    "id": "f_e_13",
+    "title": "Choose the uppercase letter that matches: F, I, J, L, M, T, Y",
+    "category": "B.\tLowercase and uppercase letters"
+  },
+  {
+    "id": "f_e_14",
+    "title": "Choose the uppercase letter that matches: A, B, D, E, G, H, N, Q, R",
+    "category": "B.\tLowercase and uppercase letters"
+  },
+  {
+    "id": "f_e_15",
+    "title": "Choose the uppercase letter that matches: review",
+    "category": "B.\tLowercase and uppercase letters"
+  },
+  {
+    "id": "f_e_16",
+    "title": "Find all the uppercase letters",
+    "category": "B.\tLowercase and uppercase letters"
+  },
+  {
+    "id": "f_e_17",
+    "title": "Put the letters in ABC order",
+    "category": "B.\tLowercase and uppercase letters"
+  },
+  {
+    "id": "f_e_18",
+    "title": "Choose the two words that are the same",
+    "category": "C.\tWord recognition"
+  },
+  {
+    "id": "f_e_19",
+    "title": "Choose the sentence that is spaced correctly",
+    "category": "C.\tWord recognition"
+  },
+  {
+    "id": "f_e_20",
+    "title": "Find a word in a sentence",
+    "category": "C.\tWord recognition"
+  },
+  {
+    "id": "f_e_21",
+    "title": "Sort consonants and vowels",
+    "category": "D.\tConsonants and vowels"
+  },
+  {
+    "id": "f_e_22",
+    "title": "Find the vowel in the word",
+    "category": "D.\tConsonants and vowels"
+  },
+  {
+    "id": "f_e_23",
+    "title": "How many syllables does the word have?",
+    "category": "E.\tSyllables"
+  },
+  {
+    "id": "f_e_24",
+    "title": "Which word has more syllables?",
+    "category": "E.\tSyllables"
+  },
+  {
+    "id": "f_e_25",
+    "title": "Sort by the number of syllables",
+    "category": "E.\tSyllables"
+  },
+  {
+    "id": "f_e_26",
+    "title": "Which word has the same ending?",
+    "category": "F.\tRhyming"
+  },
+  {
+    "id": "f_e_27",
+    "title": "Which two words have the same ending?",
+    "category": "F.\tRhyming"
+  },
+  {
+    "id": "f_e_28",
+    "title": "Choose the picture that rhymes with the word",
+    "category": "F.\tRhyming"
+  },
+  {
+    "id": "f_e_29",
+    "title": "Which word does not rhyme?",
+    "category": "F.\tRhyming"
+  },
+  {
+    "id": "f_e_30",
+    "title": "Complete the rhyme",
+    "category": "F.\tRhyming"
+  },
+  {
+    "id": "f_e_31",
+    "title": "Blend onset and rime together to make a word",
+    "category": "G.\tBlending and segmenting"
+  },
+  {
+    "id": "f_e_32",
+    "title": "Blend each sound in a word together",
+    "category": "G.\tBlending and segmenting"
+  },
+  {
+    "id": "f_e_33",
+    "title": "Identify the first, second and last sound in a word",
+    "category": "G.\tBlending and segmenting"
+  },
+  {
+    "id": "f_e_34",
+    "title": "Put the sounds in order",
+    "category": "G.\tBlending and segmenting"
+  },
+  {
+    "id": "f_e_35",
+    "title": "Which two words start with the same sound?",
+    "category": "H.\tBeginning and ending sounds"
+  },
+  {
+    "id": "f_e_36",
+    "title": "Which word ends with the same sound?",
+    "category": "H.\tBeginning and ending sounds"
+  },
+  {
+    "id": "f_e_37",
+    "title": "Which two words end with the same sound?",
+    "category": "H.\tBeginning and ending sounds"
+  },
+  {
+    "id": "f_e_38",
+    "title": "Find the words that begin with a given sound",
+    "category": "I.\tLetter-sound associations"
+  },
+  {
+    "id": "f_e_39",
+    "title": "Choose the letter that matches the consonant sound: b, d, j, k, p, t, v, z",
+    "category": "I.\tLetter-sound associations"
+  },
+  {
+    "id": "f_e_40",
+    "title": "Choose the letter that matches the consonant sound: f, l, m, n, r, s",
+    "category": "I.\tLetter-sound associations"
+  },
+  {
+    "id": "f_e_41",
+    "title": "Choose the letter that matches the consonant sound: c, g, h, w",
+    "category": "I.\tLetter-sound associations"
+  },
+  {
+    "id": "f_e_42",
+    "title": "Choose the letter that matches the consonant sound: review",
+    "category": "I.\tLetter-sound associations"
+  },
+  {
+    "id": "f_e_43",
+    "title": "Which letter does the word start with?",
+    "category": "I.\tLetter-sound associations"
+  },
+  {
+    "id": "f_e_44",
+    "title": "Which letter does the word end with?",
+    "category": "I.\tLetter-sound associations"
+  },
+  {
+    "id": "f_e_45",
+    "title": "Which consonant blend does the word start with?",
+    "category": "J.\tConsonant blends and digraphs"
+  },
+  {
+    "id": "f_e_46",
+    "title": "Complete the word with the right initial consonant blend",
+    "category": "J.\tConsonant blends and digraphs"
+  },
+  {
+    "id": "f_e_47",
+    "title": "Does the word start with a consonant blend?",
+    "category": "J.\tConsonant blends and digraphs"
+  },
+  {
+    "id": "f_e_48",
+    "title": "Which consonant blend does the word end with?",
+    "category": "J.\tConsonant blends and digraphs"
+  },
+  {
+    "id": "f_e_49",
+    "title": "Complete the word with the right final consonant blend",
+    "category": "J.\tConsonant blends and digraphs"
+  },
+  {
+    "id": "f_e_50",
+    "title": "Does the word end with a consonant blend?",
+    "category": "J.\tConsonant blends and digraphs"
+  },
+  {
+    "id": "f_e_51",
+    "title": "Choose the word that matches the picture: -ss, -ll, -ff, -zz, -ck",
+    "category": "J.\tConsonant blends and digraphs"
+  },
+  {
+    "id": "f_e_52",
+    "title": "Choose the correct digraph",
+    "category": "J.\tConsonant blends and digraphs"
+  },
+  {
+    "id": "f_e_53",
+    "title": "Find the short a word",
+    "category": "K.\tShort a"
+  },
+  {
+    "id": "f_e_54",
+    "title": "Choose the short a word that matches the picture",
+    "category": "K.\tShort a"
+  },
+  {
+    "id": "f_e_55",
+    "title": "Complete the short a word",
+    "category": "K.\tShort a"
+  },
+  {
+    "id": "f_e_56",
+    "title": "Choose the short a sentence that matches the picture",
+    "category": "K.\tShort a"
+  },
+  {
+    "id": "f_e_57",
+    "title": "Find the short e word",
+    "category": "L.\tShort e"
+  },
+  {
+    "id": "f_e_58",
+    "title": "Choose the picture that matches the short e word",
+    "category": "L.\tShort e"
+  },
+  {
+    "id": "f_e_59",
+    "title": "Complete the short e word",
+    "category": "L.\tShort e"
+  },
+  {
+    "id": "f_e_60",
+    "title": "Choose the short e sentence that matches the picture",
+    "category": "L.\tShort e"
+  },
+  {
+    "id": "f_e_61",
+    "title": "Find the short i word",
+    "category": "M.\tShort i"
+  },
+  {
+    "id": "f_e_62",
+    "title": "Choose the short i word that matches the picture",
+    "category": "M.\tShort i"
+  },
+  {
+    "id": "f_e_63",
+    "title": "Complete the short i words",
+    "category": "M.\tShort i"
+  },
+  {
+    "id": "f_e_64",
+    "title": "Choose the short i sentence that matches the picture",
+    "category": "M.\tShort i"
+  },
+  {
+    "id": "f_e_65",
+    "title": "Find the short o word",
+    "category": "N.\tShort o"
+  },
+  {
+    "id": "f_e_66",
+    "title": "Choose the short o word that matches the picture",
+    "category": "N.\tShort o"
+  },
+  {
+    "id": "f_e_67",
+    "title": "Complete the short o word",
+    "category": "N.\tShort o"
+  },
+  {
+    "id": "f_e_68",
+    "title": "Choose the short o sentence that matches the picture",
+    "category": "N.\tShort o"
+  },
+  {
+    "id": "f_e_69",
+    "title": "Find the short u word",
+    "category": "O.\tShort u"
+  },
+  {
+    "id": "f_e_70",
+    "title": "Choose the picture that matches the short u word",
+    "category": "O.\tShort u"
+  },
+  {
+    "id": "f_e_71",
+    "title": "Complete the short u word",
+    "category": "O.\tShort u"
+  },
+  {
+    "id": "f_e_72",
+    "title": "Choose the short u sentence that matches the picture",
+    "category": "O.\tShort u"
+  },
+  {
+    "id": "f_e_73",
+    "title": "Identify the short vowel sound in a word",
+    "category": "P.\tShort vowels"
+  },
+  {
+    "id": "f_e_74",
+    "title": "Complete the word with the right short vowel",
+    "category": "P.\tShort vowels"
+  },
+  {
+    "id": "f_e_75",
+    "title": "Spell the short vowel word",
+    "category": "P.\tShort vowels"
+  },
+  {
+    "id": "f_e_76",
+    "title": "Complete the sentence with the correct short vowel word",
+    "category": "P.\tShort vowels"
+  },
+  {
+    "id": "f_e_77",
+    "title": "Read questions with short vowel words",
+    "category": "P.\tShort vowels"
+  },
+  {
+    "id": "f_e_78",
+    "title": "Find the word with the same vowel sound",
+    "category": "Q.\tLong vowels"
+  },
+  {
+    "id": "f_e_79",
+    "title": "Which two words have the same vowel sound?",
+    "category": "Q.\tLong vowels"
+  },
+  {
+    "id": "f_e_80",
+    "title": "Find the long a word",
+    "category": "Q.\tLong vowels"
+  },
+  {
+    "id": "f_e_81",
+    "title": "Find the long e word",
+    "category": "Q.\tLong vowels"
+  },
+  {
+    "id": "f_e_82",
+    "title": "Find the long i word",
+    "category": "Q.\tLong vowels"
+  },
+  {
+    "id": "f_e_83",
+    "title": "Find the long o word",
+    "category": "Q.\tLong vowels"
+  },
+  {
+    "id": "f_e_84",
+    "title": "Find the long u word",
+    "category": "Q.\tLong vowels"
+  },
+  {
+    "id": "f_e_85",
+    "title": "Sort short and long vowel words",
+    "category": "Q.\tLong vowels"
+  },
+  {
+    "id": "f_e_86",
+    "title": "Choose the two sight words that are the same",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_87",
+    "title": "Read sight words set 1: ate, he, of, that, was",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_88",
+    "title": "Read sight words set 2: are, green, on, please, they",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_89",
+    "title": "Read sight words set 3: be, have, or, pretty, this",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_90",
+    "title": "Read sight words: review sets 1, 2, 3",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_91",
+    "title": "Read sight words set 4: all, but, ride, saw, what",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_92",
+    "title": "Read sight words set 5: about, like, she, under, we",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_93",
+    "title": "Read sight words set 6: black, into, made, ran, white",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_94",
+    "title": "Read sight words: review sets 4, 5, 6",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_95",
+    "title": "Read sight words set 7: am, did, get, now, well",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_96",
+    "title": "Read sight words set 8: fast, good, him, take, will",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_97",
+    "title": "Read sight words set 9: came, going, say, too, with",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_98",
+    "title": "Read sight words set 10: brown, does, eat, must, went",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_99",
+    "title": "Read sight words: review sets 7, 8, 9, 10",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_100",
+    "title": "Read sight words: review sets 1–10",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_101",
+    "title": "Complete the sentence with the correct sight word",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_102",
+    "title": "Spell the sight word",
+    "category": "R.\tSight words"
+  },
+  {
+    "id": "f_e_103",
+    "title": "Identify book parts and features",
+    "category": "S.\tText features"
+  },
+  {
+    "id": "f_e_104",
+    "title": "Which could happen in real life?",
+    "category": "T.\tReality vs fiction"
+  },
+  {
+    "id": "f_e_105",
+    "title": "What is the picture about?",
+    "category": "U.\tMain idea"
+  },
+  {
+    "id": "f_e_106",
+    "title": "Which feeling matches the picture?",
+    "category": "V.\tInference and analysis"
+  },
+  {
+    "id": "f_e_107",
+    "title": "What will happen next?",
+    "category": "V.\tInference and analysis"
+  },
+  {
+    "id": "f_e_108",
+    "title": "What am I?",
+    "category": "W.\tRiddles"
+  },
+  {
+    "id": "f_e_109",
+    "title": "Use number words: one to ten",
+    "category": "X.\tColour and number words"
+  },
+  {
+    "id": "f_e_110",
+    "title": "Use colour words",
+    "category": "X.\tColour and number words"
+  },
+  {
+    "id": "f_e_111",
+    "title": "Compare pictures using adjectives",
+    "category": "Y.\tAdjectives and verbs"
+  },
+  {
+    "id": "f_e_112",
+    "title": "Find the picture that matches the action verb",
+    "category": "Y.\tAdjectives and verbs"
+  },
+  {
+    "id": "f_e_113",
+    "title": "Inside and outside, above and below, next to and beside",
+    "category": "Z.\tLocation words"
+  },
+  {
+    "id": "f_e_114",
+    "title": "Choose the best location word to match the picture",
+    "category": "Z.\tLocation words"
+  },
+  {
+    "id": "f_e_115",
+    "title": "Who, what, when, where or why?",
+    "category": "AA.\tQuestion words"
+  },
+  {
+    "id": "f_e_116",
+    "title": "Match antonyms to pictures",
+    "category": "BB.\tSynonyms and antonyms"
+  },
+  {
+    "id": "f_e_117",
+    "title": "Match synonyms",
+    "category": "BB.\tSynonyms and antonyms"
+  },
+  {
+    "id": "f_e_118",
+    "title": "Sort objects into categories",
+    "category": "CC.\tCategories"
+  },
+  {
+    "id": "f_e_119",
+    "title": "Which one is not like the others?",
+    "category": "CC.\tCategories"
+  },
+  {
+    "id": "f_e_120",
+    "title": "Multiple-meaning words with pictures",
+    "category": "DD.\tMultiple-meaning words"
+  },
+  {
+    "id": "f_e_121",
+    "title": "Is it a telling sentence or an asking sentence?",
+    "category": "EE.\tSentences"
+  },
+  {
+    "id": "f_e_122",
+    "title": "Identify and use end marks",
+    "category": "EE.\tSentences"
+  },
+  {
+    "id": "f_e_123",
+    "title": "Find the complete sentence",
+    "category": "EE.\tSentences"
+  },
+  {
+    "id": "f_e_124",
+    "title": "Unscramble the words to make a complete sentence",
+    "category": "EE.\tSentences"
+  },
+  {
+    "id": "f_e_125",
+    "title": "Capitalise the first letter of a sentence",
+    "category": "FF.\tCapitalisation"
+  },
+  {
+    "id": "f_e_126",
+    "title": "Capitalise the pronoun 'I'",
+    "category": "FF.\tCapitalisation"
+  },
+  {
+    "id": "f_e_127",
+    "title": "Is the noun a person, animal, place or thing?",
+    "category": "GG.\tNouns"
+  },
+  {
+    "id": "f_e_128",
+    "title": "Choose the singular or plural noun that matches the picture",
+    "category": "GG.\tNouns"
+  },
+  {
+    "id": "f_e_129",
+    "title": "Find the action verb with images",
+    "category": "HH.\tVerbs"
+  },
+  {
+    "id": "f_e_130",
+    "title": "Find the action verb",
+    "category": "HH.\tVerbs"
+  },
+  {
+    "id": "f_e_131",
+    "title": "Complete the sentence with an action verb to match the picture",
+    "category": "HH.\tVerbs"
+  }
+]

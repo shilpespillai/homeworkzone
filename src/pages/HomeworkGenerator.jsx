@@ -43,6 +43,7 @@ import DynamicInstrument from '../components/DynamicInstrument';
 import DynamicBlockStructure from '../components/DynamicBlockStructure';
 import DynamicVennDiagram from '../components/DynamicVennDiagram';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
+import CurriculumModal from '../components/CurriculumModal';
 import { curriculum } from '../data/curriculum';
 
 const resolveGradeFromClassroomName = (classroomName) => {
@@ -175,7 +176,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [studentSearchQuery, setStudentSearchQuery] = useState('');
 
   const [isCurriculumMode, setIsCurriculumMode] = useState(true);
-  const [selectedSkill, setSelectedSkill] = useState('');
+  const [selectedSkills, setSelectedSkills] = useState([]);
+  const [isCurriculumModalOpen, setIsCurriculumModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -376,8 +378,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
     try {
       const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
 
-      if (isCurriculumMode && !selectedSkill) {
-        alert("Please select a specific Micro-Skill from the Curriculum dropdown! 🎯");
+      if (isCurriculumMode && selectedSkills.length === 0) {
+        alert("Please select at least one Micro-Skill from the Curriculum! 🎯");
         setIsGenerating(false);
         return;
       }
@@ -388,13 +390,12 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       }
 
       const resolvedGrade = resolveGradeFromClassroomName(activeClassroom?.name);
-      const subjectKey = formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1);
-      const skillObj = isCurriculumMode ? (curriculum[resolvedGrade]?.[subjectKey] || []).find(s => s.id === selectedSkill) : null;
       
-      const topic = isCurriculumMode ? skillObj.title : (formData.title || (formData.aiPrompt ? formData.aiPrompt.slice(0, 45) + '...' : 'General Quiz'));
+      const topic = isCurriculumMode ? (selectedSkills.length === 1 ? selectedSkills[0].title : `Mixed Topic: ${selectedSkills.length} skills`) : (formData.title || (formData.aiPrompt ? formData.aiPrompt.slice(0, 45) + '...' : 'General Quiz'));
       
+      const skillTitles = selectedSkills.map(s => s.title).join(", ");
       const injectedPrompt = isCurriculumMode 
-        ? `${formData.aiPrompt || ''}\n\nCRITICAL INSTRUCTION: You must strictly generate questions focusing only on the following micro-skill: "${skillObj.title}". This is for ${resolvedGrade}.`
+        ? `${formData.aiPrompt || ''}\n\nCRITICAL INSTRUCTION: You must strictly generate questions focusing only on the following micro-skills: "${skillTitles}". Distribute the questions evenly across these topics. This is for ${resolvedGrade}.`
         : (formData.aiPrompt || formData.title);
 
       let prompt = `You are an expert curriculum designer. 
@@ -975,18 +976,42 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                    </div>
                    
                    <div>
-                     <label className="font-bold text-[#14532d] text-xs block mb-1">Select Micro-Skill <span className="text-rose-500">*</span></label>
-                     <select 
-                       value={selectedSkill}
-                       onChange={(e) => setSelectedSkill(e.target.value)}
-                       className="w-full h-12 bg-slate-50 border-2 border-slate-200 rounded-xl px-3 text-slate-700 font-bold outline-none focus:border-green-400 text-sm"
-                     >
-                       <option value="">-- Choose a skill --</option>
-                       {(curriculum[resolveGradeFromClassroomName(activeClassroom?.name)]?.[formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1)] || []).map(skill => (
-                         <option key={skill.id} value={skill.id}>{skill.title}</option>
-                       ))}
-                     </select>
-                   </div>
+                      <label className="font-bold text-[#14532d] text-xs block mb-1">Select Topics & Skills <span className="text-rose-500">*</span></label>
+                      <button 
+                        onClick={() => setIsCurriculumModalOpen(true)}
+                        className="w-full h-12 bg-slate-50 border-2 border-slate-200 rounded-xl px-4 text-slate-700 font-bold hover:border-green-400 hover:bg-white transition-all flex items-center justify-between"
+                      >
+                        <span className={selectedSkills.length > 0 ? "text-green-700" : "text-slate-400"}>
+                          {selectedSkills.length > 0 ? `${selectedSkills.length} skills selected` : "Browse Topics & Skills"}
+                        </span>
+                        <ChevronRight className="w-5 h-5 text-slate-400" />
+                      </button>
+                      
+                      {selectedSkills.length > 0 && (
+                        <div>
+                          <div className="mt-3 flex items-center justify-between">
+                            <span className="text-[10px] text-slate-500 font-bold">Selected Skills</span>
+                            <button 
+                              onClick={() => setSelectedSkills([])}
+                              className="text-[10px] text-rose-500 font-bold hover:underline"
+                            >
+                              Clear All
+                            </button>
+                          </div>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            {selectedSkills.map(skill => (
+                              <div key={skill.id} className="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1">
+                                {skill.title.length > 20 ? skill.title.substring(0, 20) + '...' : skill.title}
+                                <X 
+                                  className="w-3 h-3 cursor-pointer hover:text-green-600" 
+                                  onClick={() => setSelectedSkills(prev => prev.filter(s => s.id !== skill.id))}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                  </div>
                ) : (
                  <div className="relative">
@@ -1626,6 +1651,14 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
           </div>
         </div>
       )}
+
+      <CurriculumModal 
+        isOpen={isCurriculumModalOpen}
+        onClose={() => setIsCurriculumModalOpen(false)}
+        curriculumData={curriculum[resolveGradeFromClassroomName(activeClassroom?.name)]?.[formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1)] || []}
+        selectedSkills={selectedSkills}
+        setSelectedSkills={setSelectedSkills}
+      />
     </div>
   );
 }
