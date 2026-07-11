@@ -19,7 +19,8 @@ import {
   Upload,
   Copy,
   Download,
-  Flag
+  Flag,
+  Volume2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
@@ -34,7 +35,18 @@ import DynamicNumberLine from '../components/DynamicNumberLine';
 import DynamicPathMap from '../components/DynamicPathMap';
 import DynamicInstrument from '../components/DynamicInstrument';
 import DynamicBlockStructure from '../components/DynamicBlockStructure';
+import EarlyMathVisualizer from '../components/EarlyMathVisualizer';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
+
+const playTTS = (text) => {
+  if (!text) return;
+  const cleanText = text.replace(/<[^>]*>?/gm, ''); // Strip HTML if any
+  const utterance = new SpeechSynthesisUtterance(cleanText);
+  // Using a slightly slower, child-friendly rate
+  utterance.rate = 0.9;
+  utterance.pitch = 1.1;
+  window.speechSynthesis.speak(utterance);
+};
 
 export default function StudentQuiz({ homeworkId, studentName, teacher, initialSubmission, onComplete }) {
   const [activeModel, setActiveModel] = useState('gemini');
@@ -594,7 +606,16 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                          )}
                        </div>
                        <div className="flex-1 flex flex-col">
-                         <div className="text-xl font-bold text-slate-800 mb-8 whitespace-pre-wrap leading-relaxed">{cleanText}</div>
+                         <div className="text-xl font-bold text-slate-800 mb-8 whitespace-pre-wrap leading-relaxed flex items-start gap-3">
+                            <button 
+                              onClick={() => playTTS(cleanText)}
+                              className="mt-1 p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full transition-colors shrink-0"
+                              title="Read Aloud"
+                            >
+                              <Volume2 className="w-5 h-5" />
+                            </button>
+                            <span>{cleanText}</span>
+                          </div>
                          
                          {/* Visuals */}
                          <div className="flex flex-col md:flex-row gap-8 items-start mb-8">
@@ -605,12 +626,13 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                            {q.pathData && <div className="w-full md:w-1/2"><DynamicPathMap data={q.pathData} /></div>}
                            {q.instrumentData && <div className="w-full md:w-1/2"><DynamicInstrument data={q.instrumentData} /></div>}
                            {q.blockData && <div className="w-full md:w-1/2"><DynamicBlockStructure data={q.blockData} /></div>}
-                           {effectiveSvgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && (
+                           {q.earlyMathData && <div className="w-full md:w-1/2"><EarlyMathVisualizer data={q.earlyMathData} /></div>}
+                           {effectiveSvgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.earlyMathData && (
                              <div className="w-48 h-48 md:w-64 md:h-64 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
                                <div dangerouslySetInnerHTML={{ __html: effectiveSvgCode }} className="w-full h-full" />
                              </div>
                            )}
-                           {q.imageUrl && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !effectiveSvgCode && (
+                           {q.imageUrl && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.earlyMathData && !effectiveSvgCode && (
                              <div className="w-32 h-32 md:w-40 md:h-40 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner overflow-hidden">
                                <img src={q.imageUrl} alt="Visual" className="w-full h-full object-cover" loading="lazy" />
                              </div>
@@ -676,6 +698,13 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                                       {isReviewing && isCorrectOption && <CheckCircle2 className="w-5 h-5 text-white" />}
                                       {isReviewing && isSelected && !isCorrectOption && <XCircle className="w-5 h-5 text-rose-500" />}
                                    </div>
+                                   <button 
+                                      onClick={(e) => { e.preventDefault(); playTTS(opt); }}
+                                      className="p-1.5 bg-blue-50 hover:bg-blue-100 text-blue-500 rounded-full transition-colors shrink-0"
+                                      title="Read Option Aloud"
+                                    >
+                                      <Volume2 className="w-4 h-4" />
+                                    </button>
                                    <span className={`text-lg leading-snug ${textClass}`}>
                                      {typeof opt === 'string' && opt.trim().startsWith('<svg') ? (
                                        <div dangerouslySetInnerHTML={{ __html: opt }} className="w-full flex justify-center overflow-hidden" />
@@ -879,7 +908,12 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                           <DynamicBlockStructure data={currentQuestion.blockData} />
                         </div>
                       )}
-                      {effectiveSvgCode && !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.gridMapData && !currentQuestion.numberLineData && !currentQuestion.pathData && !currentQuestion.instrumentData && !currentQuestion.blockData && (
+                      {currentQuestion.earlyMathData && (
+                        <div className="w-full md:w-1/2 shrink-0">
+                          <EarlyMathVisualizer data={currentQuestion.earlyMathData} />
+                        </div>
+                      )}
+                      {effectiveSvgCode && !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.gridMapData && !currentQuestion.numberLineData && !currentQuestion.pathData && !currentQuestion.instrumentData && !currentQuestion.blockData && !currentQuestion.earlyMathData && (
                         <div className="w-48 h-48 md:w-64 md:h-64 shrink-0 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
                           <div dangerouslySetInnerHTML={{ __html: effectiveSvgCode }} className="w-full h-full" />
                         </div>
@@ -915,14 +949,31 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                            )}
                            {cleanText?.length > 150 ? (
                              <div className="text-lg md:text-xl font-medium text-slate-700 leading-relaxed space-y-4">
+                               <div className="flex justify-end mb-2">
+                                 <button 
+                                   onClick={(e) => { e.preventDefault(); playTTS(cleanText); }}
+                                   className="flex items-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full transition-colors font-bold text-sm"
+                                 >
+                                   <Volume2 className="w-4 h-4" /> Listen to Question
+                                 </button>
+                               </div>
                                {cleanText.split('\n').map((paragraph, idx) => (
                                  <p key={idx}>{paragraph}</p>
                                ))}
                              </div>
                            ) : (
-                             <h1 className="text-2xl md:text-[28px] font-black text-slate-800 leading-snug uppercase text-center md:text-left tracking-tight">
-                               {cleanText}
-                             </h1>
+                             <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start gap-4">
+                               <button 
+                                 onClick={(e) => { e.preventDefault(); playTTS(cleanText); }}
+                                 className="mt-1 p-3 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full transition-colors shrink-0"
+                                 title="Read Aloud"
+                               >
+                                 <Volume2 className="w-6 h-6" />
+                               </button>
+                               <h1 className="text-2xl md:text-[28px] font-black text-slate-800 leading-snug uppercase text-center md:text-left tracking-tight">
+                                 {cleanText}
+                               </h1>
+                             </div>
                            )}
                         </div>
                       </div>
@@ -967,29 +1018,37 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                     }
 
                     return (
-                      <button
-                        key={option}
-                        onClick={() => { if (!isReviewing) handleSelect(currentQuestion.id, option); }}
-                        className={`group relative p-5 md:p-6 text-left rounded-[24px] transition-all flex items-center justify-between ${isReviewing ? 'cursor-default' : 'active:translate-y-[6px] hover:brightness-105 active:shadow-none'} ${baseColor} ${activeState} ${reviewState}`}
-                      >
-                        <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 flex-center rounded-xl bg-white/40 shadow-inner text-xl font-black">
-                            {String.fromCharCode(65 + i)}
+                      <div key={option} className="flex gap-2">
+                        <button
+                          onClick={() => { if (!isReviewing) handleSelect(currentQuestion.id, option); }}
+                          className={`group relative flex-1 p-5 md:p-6 text-left rounded-[24px] transition-all flex items-center justify-between ${isReviewing ? 'cursor-default' : 'active:translate-y-[6px] hover:brightness-105 active:shadow-none'} ${baseColor} ${activeState} ${reviewState}`}
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 flex-center rounded-xl bg-white/40 shadow-inner text-xl font-black">
+                              {String.fromCharCode(65 + i)}
+                            </div>
+                            <span className={`text-xl font-black`}>
+                              {typeof option === 'string' && option.trim().startsWith('<svg') ? (
+                                <div dangerouslySetInnerHTML={{ __html: option }} className="w-full flex justify-center overflow-hidden" />
+                              ) : (
+                                option
+                              )}
+                            </span>
                           </div>
-                          <span className={`text-xl font-black`}>
-                            {typeof option === 'string' && option.trim().startsWith('<svg') ? (
-                              <div dangerouslySetInnerHTML={{ __html: option }} className="w-full flex justify-center overflow-hidden" />
-                            ) : (
-                              option
-                            )}
-                          </span>
-                        </div>
-                        {showIcon && (
-                          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                            {showIcon}
-                          </motion.div>
-                        )}
-                      </button>
+                          {showIcon && (
+                            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+                              {showIcon}
+                            </motion.div>
+                          )}
+                        </button>
+                        <button 
+                          onClick={(e) => { e.preventDefault(); playTTS(option); }}
+                          className="w-16 flex items-center justify-center bg-blue-50 hover:bg-blue-100 text-blue-500 rounded-[24px] transition-colors border-2 border-transparent hover:border-blue-200"
+                          title="Read Option Aloud"
+                        >
+                          <Volume2 className="w-6 h-6" />
+                        </button>
+                      </div>
                     );
                   })}
                 </div>

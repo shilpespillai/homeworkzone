@@ -43,6 +43,21 @@ import DynamicInstrument from '../components/DynamicInstrument';
 import DynamicBlockStructure from '../components/DynamicBlockStructure';
 import DynamicVennDiagram from '../components/DynamicVennDiagram';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
+import { curriculum } from '../data/curriculum';
+
+const resolveGradeFromClassroomName = (classroomName) => {
+  if (!classroomName) return 'Grade 1';
+  // Foundation detection
+  if (classroomName.toLowerCase().includes('foundation')) return 'Foundation';
+  const match = classroomName.match(/\d+/);
+  if (match) {
+    const num = parseInt(match[0], 10);
+    if (num >= 1 && num <= 12) {
+      return `Grade ${num}`;
+    }
+  }
+  return 'Grade 1';
+};
 
 const SUBJECTS = [
   { 
@@ -158,6 +173,9 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [students, setStudents] = useState([]);
   const [isLoadingStudents, setIsLoadingStudents] = useState(false);
   const [studentSearchQuery, setStudentSearchQuery] = useState('');
+
+  const [isCurriculumMode, setIsCurriculumMode] = useState(true);
+  const [selectedSkill, setSelectedSkill] = useState('');
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -358,19 +376,32 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
     try {
       const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
 
-      if (!formData.title && !formData.aiPrompt) {
+      if (isCurriculumMode && !selectedSkill) {
+        alert("Please select a specific Micro-Skill from the Curriculum dropdown! 🎯");
+        setIsGenerating(false);
+        return;
+      }
+      if (!isCurriculumMode && !formData.title && !formData.aiPrompt) {
         alert("Please provide either a Title or an AI Prompt to guide generation! 🎯");
         setIsGenerating(false);
         return;
       }
 
-      const topic = formData.title || (formData.aiPrompt ? formData.aiPrompt.slice(0, 45) + '...' : 'General Quiz');
+      const resolvedGrade = resolveGradeFromClassroomName(activeClassroom?.name);
+      const subjectKey = formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1);
+      const skillObj = isCurriculumMode ? (curriculum[resolvedGrade]?.[subjectKey] || []).find(s => s.id === selectedSkill) : null;
       
+      const topic = isCurriculumMode ? skillObj.title : (formData.title || (formData.aiPrompt ? formData.aiPrompt.slice(0, 45) + '...' : 'General Quiz'));
+      
+      const injectedPrompt = isCurriculumMode 
+        ? `${formData.aiPrompt || ''}\n\nCRITICAL INSTRUCTION: You must strictly generate questions focusing only on the following micro-skill: "${skillObj.title}". This is for ${resolvedGrade}.`
+        : (formData.aiPrompt || formData.title);
+
       let prompt = `You are an expert curriculum designer. 
         Create a ${questionCount}-question multiple-choice quiz for students about the following topic:
         Subject: ${formData.subject}
         Topic: ${topic}
-        Specific Content Instructions: ${formData.aiPrompt || formData.title}
+        Specific Content Instructions: ${injectedPrompt}
         
         Ensure the questions test the students' knowledge on the specific content instructions provided. DO NOT generate meta-questions about the instructions themselves.
 
@@ -413,6 +444,17 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         "geometryData": {
           "type": "rectangle" | "triangle" | "circle" | "cylinder" | "cube",
           "labels": { "width": "string", "height": "string", "radius": "string", "base": "string" }
+        }
+
+        CRITICAL FOR EARLY LEARNERS (Foundation, Grade 1, Grade 2 Maths): 
+        If the question involves basic counting, addition, or subtraction, you MUST include an "earlyMathData" object property to draw visual manipulatives instead of relying solely on text.
+        "earlyMathData": {
+          "type": "cubes" | "objects" | "ten-frame",
+          "icon": "Apple" | "Star" | "Car" | "Dog" | "Cat" | "Bug" | "Flower2" (only if type="objects"),
+          "groups": [
+            { "count": 5, "color": "text-red-500" },
+            { "count": 3, "color": "text-blue-500" }
+          ]
         }
         
         IF the question involves spatial reasoning, coordinate mapping, or street maps, include a "gridMapData" object property:
@@ -905,17 +947,58 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                 </div>
              </div>
 
-             <div className="space-y-1.5 text-left">
-               <label className="font-bold text-[#14532d] text-xs block ml-1">What should the quiz be about? (AI Prompt)</label>
-               <div className="relative">
-                 <textarea 
-                   placeholder={getPlaceholder()}
-                   value={formData.aiPrompt}
-                   onChange={(e) => setFormData({...formData, aiPrompt: e.target.value})}
-                   className="w-full h-64 bg-white border-2 border-slate-200 rounded-2xl p-4 text-slate-700 font-bold outline-none focus:border-green-400 transition-colors resize-y text-xs font-sans"
-                 />
-                 <Wand2 className="absolute right-4 bottom-4 w-5 h-5 text-green-400 opacity-50 pointer-events-none" />
+             <div className="space-y-3 text-left">
+               <div className="flex items-center justify-between ml-1">
+                 <label className="font-bold text-[#14532d] text-xs">Curriculum Mode</label>
+                 <div className="flex bg-green-100 rounded-xl p-1">
+                   <button
+                     onClick={() => setIsCurriculumMode(true)}
+                     className={`px-3 py-1 rounded-lg text-[10px] font-bold transition-all ${isCurriculumMode ? 'bg-white shadow-sm text-green-700' : 'text-green-600/70 hover:text-green-700'}`}
+                   >
+                     Browse Curriculum
+                   </button>
+                   <button
+                     onClick={() => setIsCurriculumMode(false)}
+                     className={`px-3 py-1 rounded-lg text-[10px] font-bold transition-all ${!isCurriculumMode ? 'bg-white shadow-sm text-green-700' : 'text-green-600/70 hover:text-green-700'}`}
+                   >
+                     Custom Prompt
+                   </button>
+                 </div>
                </div>
+
+               {isCurriculumMode ? (
+                 <div className="bg-white border-2 border-slate-200 rounded-2xl p-4 space-y-4">
+                   <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                     <p className="text-xs font-bold text-slate-500 mb-1">Target Grade</p>
+                     <p className="text-sm font-black text-slate-800">{resolveGradeFromClassroomName(activeClassroom?.name)}</p>
+                     <p className="text-[10px] text-slate-400 mt-0.5">Automatically selected based on your class.</p>
+                   </div>
+                   
+                   <div>
+                     <label className="font-bold text-[#14532d] text-xs block mb-1">Select Micro-Skill <span className="text-rose-500">*</span></label>
+                     <select 
+                       value={selectedSkill}
+                       onChange={(e) => setSelectedSkill(e.target.value)}
+                       className="w-full h-12 bg-slate-50 border-2 border-slate-200 rounded-xl px-3 text-slate-700 font-bold outline-none focus:border-green-400 text-sm"
+                     >
+                       <option value="">-- Choose a skill --</option>
+                       {(curriculum[resolveGradeFromClassroomName(activeClassroom?.name)]?.[formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1)] || []).map(skill => (
+                         <option key={skill.id} value={skill.id}>{skill.title}</option>
+                       ))}
+                     </select>
+                   </div>
+                 </div>
+               ) : (
+                 <div className="relative">
+                   <textarea 
+                     placeholder={getPlaceholder()}
+                     value={formData.aiPrompt}
+                     onChange={(e) => setFormData({...formData, aiPrompt: e.target.value})}
+                     className="w-full h-64 bg-white border-2 border-slate-200 rounded-2xl p-4 text-slate-700 font-bold outline-none focus:border-green-400 transition-colors resize-y text-xs font-sans"
+                   />
+                   <Wand2 className="absolute right-4 bottom-4 w-5 h-5 text-green-400 opacity-50 pointer-events-none" />
+                 </div>
+               )}
              </div>
 
              <div className="space-y-1.5 text-left">
