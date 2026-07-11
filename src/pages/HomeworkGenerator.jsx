@@ -442,16 +442,22 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         1. "questions": an array of objects. Each object must have: 
            - "id" (number)
            - "text" (string, the question)
-           - "questionType" (string, either "multiple_choice" or "text")
-           - "options" (array of exactly 4 strings. REQUIRED for "multiple_choice", OMIT for "text")
-           - "answer" (string. For "multiple_choice", must match one option exactly. For "text", provide the exact correct string/spelling)
+           - "questionType" (string, either "multiple_choice", "text", or "interactive")
+           - "interactiveType" (string, either "sorting" or "matching". REQUIRED ONLY IF questionType="interactive")
+           - "options" (array of exactly 4 strings. REQUIRED for "multiple_choice". OMIT for "text" and "interactive")
+           - "interactiveData" (array of strings. REQUIRED for "interactive". For "sorting", list 3-5 items to sort. For "matching", list 3-5 pairs as strings formatted "LeftItem||RightItem")
+           - "answer" (string. For "multiple_choice", must match one option exactly. For "text", provide the exact correct string/spelling. For "interactive", provide a comma-separated list of the correct order or pairs, e.g. "A, B, C" or "A||1, B||2")
            - "subtopic" (string, a specific subtopic or concept under the main topic)
         2. "passage": an optional string. If the quiz requires a reading comprehension passage, story, or shared text that applies to the questions, provide it here. Otherwise, omit this key.
         
         CRITICAL FOR READING COMPREHENSION: DO NOT put the reading passage, story, or article inside the "text" of each question! The passage MUST be placed EXACTLY ONCE inside the root-level "passage" string key. The question "text" should only contain the actual question being asked.
-        CRITICAL FOR LANGUAGE CONVENTIONS: If generating a Language Conventions spelling test, use questionType="text" for spelling correction questions, where the student must type the correct spelling of a misspelled word. For grammar/punctuation questions, use questionType="multiple_choice".
         
-        ${assignmentType === 'test' ? 'CRITICAL FOR TESTS: This is a formal NAPLAN-style test paper. Generate a mix of multiple_choice and text input questions. Specifically, ensure that at least 30% of questions require text input (questionType="text" with NO options array), mimicking the actual exam format.' : 'CRITICAL FOR HOMEWORK: Generate ONLY multiple_choice questions (questionType="multiple_choice" with exactly 4 options) unless specifically instructed otherwise.'}
+        CRITICAL FOR INTERACTIVE QUESTIONS:
+        If you want the student to physically drag and drop items into order, or connect matching pairs, use questionType="interactive". 
+        - For "sorting": Provide a scrambled array of 3-5 items in "interactiveData". The student will drag to reorder them. The "answer" should be the correctly sorted items joined by commas.
+        - For "matching": Provide an array of 3-5 string pairs in "interactiveData" separated by "||" (e.g. ["Apple||Fruit", "Carrot||Vegetable"]). The UI will split them and scramble the right side. The "answer" should be the correct pairs joined by commas.
+        
+        ${assignmentType === 'test' ? 'CRITICAL FOR TESTS: This is a formal NAPLAN-style test paper. Generate a mix of multiple_choice and text input questions. Specifically, ensure that at least 30% of questions require text input (questionType="text" with NO options array), mimicking the actual exam format.' : 'CRITICAL FOR HOMEWORK: Generate a healthy mix of "multiple_choice" and "interactive" questions to keep the student highly engaged. Use "sorting" for chronological order, numerical ordering, or steps. Use "matching" for vocabulary, math facts, and definitions.'}
         
         IF the question requires a chart, graph, table, or data interpretation, include a "chartData" object property:
         "chartData": {

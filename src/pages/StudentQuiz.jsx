@@ -36,6 +36,8 @@ import DynamicPathMap from '../components/DynamicPathMap';
 import DynamicInstrument from '../components/DynamicInstrument';
 import DynamicBlockStructure from '../components/DynamicBlockStructure';
 import EarlyMathVisualizer from '../components/EarlyMathVisualizer';
+import InteractiveSorting from '../components/InteractiveSorting';
+import InteractiveMatching from '../components/InteractiveMatching';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
 
 const playTTS = (text) => {
@@ -640,7 +642,29 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                          </div>
 
                          {/* Options */}
-                         {q.questionType === 'text' || !q.options || q.options.length === 0 ? (
+                         {q.questionType === 'interactive' ? (
+                           <div className="flex flex-col gap-4">
+                             {q.interactiveType === 'sorting' ? (
+                               <InteractiveSorting 
+                                 items={q.interactiveData} 
+                                 disabled={isReviewing} 
+                                 onReorder={(newOrder) => { if (!isReviewing) handleSelect(q.id, newOrder.join(', ')); }} 
+                               />
+                             ) : q.interactiveType === 'matching' ? (
+                               <InteractiveMatching 
+                                 pairs={q.interactiveData} 
+                                 disabled={isReviewing} 
+                                 onMatch={(newMatches) => { if (!isReviewing) handleSelect(q.id, newMatches.join(', ')); }}
+                               />
+                             ) : null}
+                             {isReviewing && isWrong && (
+                               <div className="mt-4 p-4 bg-rose-50 border-2 border-rose-200 rounded-2xl">
+                                 <p className="text-rose-600 font-black mb-1">Correct Answer:</p>
+                                 <p className="text-rose-800 font-bold text-lg">{q.answer}</p>
+                               </div>
+                             )}
+                           </div>
+                         ) : q.questionType === 'text' || !q.options || q.options.length === 0 ? (
                            <div className="flex flex-col gap-2">
                              <input 
                                type="text" 
@@ -981,77 +1005,92 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                   );
                 })()}
 
-            {/* Options */}
+            {/* Options or Text/Interactive Answer Display */}
             {homework.type !== 'lesson' && (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-8">
-                  {currentQuestion.options?.map((option, i) => {
-                    const isSelected = answers[currentQuestion.id] === option;
-                    const isCorrectOption = currentQuestion.answer === option;
-                    
-                    const colorStyles = [
-                      "bg-[#5CD6C6] shadow-[0_6px_0_0_#3B9D91] text-[#0F766E]", // A Teal
-                      "bg-[#FFDE59] shadow-[0_6px_0_0_#C9A71D] text-[#854D0E]", // B Yellow
-                      "bg-[#CB99FF] shadow-[0_6px_0_0_#8C52FF] text-[#581C87]", // C Purple
-                      "bg-[#FF8A65] shadow-[0_6px_0_0_#D84315] text-[#7F1D1D]"  // D Coral
-                    ];
-                    
-                    const baseColor = colorStyles[i % 4];
-                    const activeState = isSelected && !isReviewing 
-                      ? "ring-4 ring-offset-4 ring-slate-800 scale-[1.02] brightness-110 z-10" 
-                      : "opacity-90 hover:opacity-100 scale-100";
-                    
-                    let reviewState = "";
-                    let showIcon = null;
-
-                    if (isReviewing) {
-                      if (isCorrectOption) {
-                        showIcon = <CheckCircle2 className="w-8 h-8 text-white fill-emerald-500" />;
+                {currentQuestion.options && currentQuestion.options.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-8">
+                    {currentQuestion.options.map((option, i) => {
+                      const isSelected = answers[currentQuestion.id] === option;
+                      const isCorrectOption = currentQuestion.answer === option;
+                      
+                      const colorStyles = [
+                        "bg-[#5CD6C6] shadow-[0_6px_0_0_#3B9D91] text-[#0F766E]", // A Teal
+                        "bg-[#FFDE59] shadow-[0_6px_0_0_#C9A71D] text-[#854D0E]", // B Yellow
+                        "bg-[#CB99FF] shadow-[0_6px_0_0_#8C52FF] text-[#581C87]", // C Purple
+                        "bg-[#FF8A65] shadow-[0_6px_0_0_#D84315] text-[#7F1D1D]"  // D Coral
+                      ];
+                      
+                      const baseColor = colorStyles[i % 4];
+                      const activeState = isSelected && !isReviewing 
+                        ? "ring-4 ring-offset-4 ring-slate-800 scale-[1.02] brightness-110 z-10" 
+                        : "opacity-90 hover:opacity-100 scale-100";
+                      
+                      let reviewState = "";
+                      let showIcon = null;
+  
+                      if (isReviewing) {
+                        if (isCorrectOption) {
+                          showIcon = <CheckCircle2 className="w-8 h-8 text-white fill-emerald-500" />;
+                        } else if (isSelected) {
+                          reviewState = "opacity-50 grayscale";
+                          showIcon = <XCircle className="w-8 h-8 text-white fill-rose-500" />;
+                        } else {
+                          reviewState = "opacity-50";
+                        }
                       } else if (isSelected) {
-                        reviewState = "opacity-50 grayscale";
-                        showIcon = <XCircle className="w-8 h-8 text-white fill-rose-500" />;
-                      } else {
-                        reviewState = "opacity-50";
+                        showIcon = <CheckCircle2 className="w-8 h-8 text-slate-800 fill-white drop-shadow-md" />;
                       }
-                    } else if (isSelected) {
-                      showIcon = <CheckCircle2 className="w-8 h-8 text-slate-800 fill-white drop-shadow-md" />;
-                    }
-
-                    return (
-                      <div key={option} className="flex gap-2">
-                        <button
-                          onClick={() => { if (!isReviewing) handleSelect(currentQuestion.id, option); }}
-                          className={`group relative flex-1 p-5 md:p-6 text-left rounded-[24px] transition-all flex items-center justify-between ${isReviewing ? 'cursor-default' : 'active:translate-y-[6px] hover:brightness-105 active:shadow-none'} ${baseColor} ${activeState} ${reviewState}`}
-                        >
-                          <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 flex-center rounded-xl bg-white/40 shadow-inner text-xl font-black">
-                              {String.fromCharCode(65 + i)}
+  
+                      return (
+                        <div key={option} className="flex gap-2">
+                          <button
+                            onClick={() => { if (!isReviewing) handleSelect(currentQuestion.id, option); }}
+                            className={`group relative flex-1 p-5 md:p-6 text-left rounded-[24px] transition-all flex items-center justify-between ${isReviewing ? 'cursor-default' : 'active:translate-y-[6px] hover:brightness-105 active:shadow-none'} ${baseColor} ${activeState} ${reviewState}`}
+                          >
+                            <div className="flex items-center gap-4">
+                              <div className="w-10 h-10 flex-center rounded-xl bg-white/40 shadow-inner text-xl font-black">
+                                {String.fromCharCode(65 + i)}
+                              </div>
+                              <span className={`text-xl font-black`}>
+                                {typeof option === 'string' && option.trim().startsWith('<svg') ? (
+                                  <div dangerouslySetInnerHTML={{ __html: option }} className="w-full flex justify-center overflow-hidden" />
+                                ) : (
+                                  option
+                                )}
+                              </span>
                             </div>
-                            <span className={`text-xl font-black`}>
-                              {typeof option === 'string' && option.trim().startsWith('<svg') ? (
-                                <div dangerouslySetInnerHTML={{ __html: option }} className="w-full flex justify-center overflow-hidden" />
-                              ) : (
-                                option
-                              )}
-                            </span>
-                          </div>
-                          {showIcon && (
-                            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                              {showIcon}
-                            </motion.div>
-                          )}
-                        </button>
-                        <button 
-                          onClick={(e) => { e.preventDefault(); playTTS(option); }}
-                          className="w-16 flex items-center justify-center bg-blue-50 hover:bg-blue-100 text-blue-500 rounded-[24px] transition-colors border-2 border-transparent hover:border-blue-200"
-                          title="Read Option Aloud"
-                        >
-                          <Volume2 className="w-6 h-6" />
-                        </button>
+                            {showIcon && (
+                              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+                                {showIcon}
+                              </motion.div>
+                            )}
+                          </button>
+                          <button 
+                            onClick={(e) => { e.preventDefault(); playTTS(option); }}
+                            className="w-16 flex items-center justify-center bg-blue-50 hover:bg-blue-100 text-blue-500 rounded-[24px] transition-colors border-2 border-transparent hover:border-blue-200"
+                            title="Read Option Aloud"
+                          >
+                            <Volume2 className="w-6 h-6" />
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="mt-8 flex flex-col gap-4">
+                    <div className="p-6 bg-slate-50 border-4 border-slate-200 rounded-[24px]">
+                      <h3 className="text-slate-500 font-bold uppercase tracking-wider text-sm mb-2">Your Answer</h3>
+                      <p className="text-xl font-black text-slate-700">{answers[currentQuestion.id] || "No answer provided"}</p>
+                    </div>
+                    {isReviewing && answers[currentQuestion.id] !== currentQuestion.answer && (
+                      <div className="p-6 bg-emerald-50 border-4 border-emerald-200 rounded-[24px]">
+                        <h3 className="text-emerald-600 font-bold uppercase tracking-wider text-sm mb-2">Correct Answer</h3>
+                        <p className="text-xl font-black text-emerald-800">{currentQuestion.answer}</p>
                       </div>
-                    );
-                  })}
-                </div>
+                    )}
+                  </div>
+                )}
 
                 {isReviewing && (Object.keys(answers).length > 0 ? answers[currentQuestion.id] !== currentQuestion.answer : !!wrongAnswersExplanations[currentQuestion.id]) && (
                   <motion.div 
