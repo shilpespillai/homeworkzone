@@ -42,6 +42,7 @@ import DynamicPathMap from '../components/DynamicPathMap';
 import DynamicInstrument from '../components/DynamicInstrument';
 import DynamicBlockStructure from '../components/DynamicBlockStructure';
 import DynamicVennDiagram from '../components/DynamicVennDiagram';
+import EarlyMathVisualizer from '../components/EarlyMathVisualizer';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
 import CurriculumModal from '../components/CurriculumModal';
 import { curriculum } from '../data/curriculum';
@@ -1152,12 +1153,17 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                                 <DynamicBlockStructure data={q.blockData} />
                               </div>
                             )}
+                            {q.earlyMathData && (
+                              <div className="mb-4 transform scale-75 origin-top-left">
+                                <EarlyMathVisualizer data={q.earlyMathData} />
+                              </div>
+                            )}
                             {q.vennDiagramData && (
                               <div className="mb-4">
                                 <DynamicVennDiagram data={q.vennDiagramData} />
                               </div>
                             )}
-                            {q.svgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && (
+                            {q.svgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.earlyMathData && (
                               <div className="flex justify-center mb-4 bg-white rounded-lg p-2 border border-slate-100 shadow-sm max-w-[200px] mx-auto">
                                 <div dangerouslySetInnerHTML={{ __html: q.svgCode }} className="w-full h-auto" />
                               </div>
