@@ -352,6 +352,15 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
     }
   }, [activeTab, user, activeClassroom]);
 
+  useEffect(() => {
+    if (isCurriculumMode && selectedSkills.length > 0) {
+      const autoTitle = selectedSkills.length === 1 ? selectedSkills[0].title : `Mixed Topic: ${selectedSkills.length} skills`;
+      setFormData(prev => ({ ...prev, title: autoTitle }));
+    } else if (isCurriculumMode && selectedSkills.length === 0) {
+      setFormData(prev => ({ ...prev, title: '' }));
+    }
+  }, [selectedSkills, isCurriculumMode]);
+
   const handleDeleteHomework = async (hwId) => {
     if (!(await window.confirmCustom("Are you sure you want to delete this homework? 🗑️"))) return;
     try {
