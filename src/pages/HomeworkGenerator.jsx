@@ -557,10 +557,10 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         "svgCode": "<svg viewBox='0 0 400 400'>...</svg>"
         Rules for "svgCode":
         - For Cartesian planes: Draw grid lines, bold the x and y axes, add axis numbers, and draw the plotted points or shapes clearly.
-        - For Science models: Draw detailed, colorful, kid-friendly vector illustrations. Use descriptive labels with leader lines if needed.
-        - For Money: Draw cartoon-style coins (circles with '10¢', '$1') and banknotes (green rectangles with '$5', '$10').
-        - For Custom Geometry: Draw the shape and place text labels (e.g., "15 cm") along the edges.
-        - ALWAYS use a responsive viewBox, thick strokes (stroke-width="3"), and readable fonts (font-family="sans-serif" font-size="16" font-weight="bold").
+        - For Science models: Draw highly professional, detailed, textbook-grade vector illustrations. Use elegant color palettes, drop shadows, gradients, and precise leader lines with clear labels. It MUST look premium.
+        - For Money: Draw highly realistic or premium stylized coins and bank notes with proper shading.
+        - For Custom Geometry: Draw the shape perfectly with distinct stroke colors and place text labels (e.g., "15 cm") along the edges cleanly.
+        - ALWAYS use a responsive viewBox, high-quality aesthetics, and readable modern fonts (font-family="sans-serif" font-size="16" font-weight="bold").
 
         CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData" or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!`;
 
