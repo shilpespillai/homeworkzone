@@ -354,7 +354,17 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
 
   useEffect(() => {
     if (isCurriculumMode && selectedSkills.length > 0) {
-      const autoTitle = selectedSkills.length === 1 ? selectedSkills[0].title : `Mixed Topic: ${selectedSkills.length} skills`;
+      let autoTitle = '';
+      if (selectedSkills.length === 1) {
+        autoTitle = selectedSkills[0].title;
+      } else {
+        const allSameCategory = selectedSkills.every(s => s.category === selectedSkills[0].category);
+        if (allSameCategory && selectedSkills[0].category) {
+          autoTitle = selectedSkills[0].category;
+        } else {
+          autoTitle = `Mixed Topic: ${selectedSkills.length} skills`;
+        }
+      }
       setFormData(prev => ({ ...prev, title: autoTitle }));
     } else if (isCurriculumMode && selectedSkills.length === 0) {
       setFormData(prev => ({ ...prev, title: '' }));
