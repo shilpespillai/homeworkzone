@@ -21,7 +21,7 @@ const EarlyMathVisualizer = ({ data }) => {
               return (
                 <div 
                   key={`${gIdx}-${i}`} 
-                  className={`w-12 h-12 flex items-center justify-center shadow-sm relative ${group.color || 'bg-blue-500'} border-2 border-black/10`}
+                  className={`w-12 h-12 flex items-center justify-center shadow-sm relative ${group.color ? group.color.replace('text-', 'bg-') : 'bg-blue-500'} border-2 border-black/10`}
                   style={{
                     borderRadius: '8px',
                     marginLeft: i > 0 ? '-4px' : '0', // Interlocking effect
@@ -68,7 +68,7 @@ const EarlyMathVisualizer = ({ data }) => {
 
     groups.forEach(group => {
       for (let i = 0; i < group.count && currentSlot < 10; i++) {
-        slots[currentSlot] = group.color || 'bg-red-500';
+        slots[currentSlot] = group.color ? group.color.replace('text-', 'bg-') : 'bg-red-500';
         currentSlot++;
       }
     });
