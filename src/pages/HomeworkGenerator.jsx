@@ -533,6 +533,15 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
 
         IF the question involves 2D Geometry, Lines of Symmetry, or Transformational Geometry (like "Which flag has 2 lines of symmetry?"), use "svgCode" directly inside the "options" array! (e.g. '["<svg ...>...</svg>", "<svg ...>...</svg>", ...]').
 
+        CRITICAL FOR COMPLEX/CUSTOM DIAGRAMS (Cartesian Planes, Science Models, Perimeter/Area):
+        If the question requires a Cartesian coordinate plane (with x/y axes, e.g. from -5 to 5), a scientific model (like Earth's layers, plant cells), or a custom geometric figure (e.g., a triangle with all 3 sides labeled for a perimeter question), YOU MUST USE the "svgCode" property to draw it from scratch!
+        "svgCode": "<svg viewBox='0 0 400 400'>...</svg>"
+        Rules for "svgCode":
+        - For Cartesian planes: Draw grid lines, bold the x and y axes, add axis numbers, and draw the plotted points or shapes clearly.
+        - For Science models: Draw detailed, colorful, kid-friendly vector illustrations. Use descriptive labels with leader lines if needed.
+        - For Custom Geometry: Draw the shape and place text labels (e.g., "15 cm") along the edges.
+        - ALWAYS use a responsive viewBox, thick strokes (stroke-width="3"), and readable fonts (font-family="sans-serif" font-size="16" font-weight="bold").
+
         CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData" or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!`;
 
       const textResponse = await generateContent({
