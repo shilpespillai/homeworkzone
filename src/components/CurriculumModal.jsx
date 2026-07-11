@@ -60,7 +60,11 @@ export default function CurriculumModal({ isOpen, onClose, curriculumData, selec
     if (hasCategories) {
       const groups = {};
       filtered.forEach(skill => {
-        const cat = skill.category || "Other";
+        if (skill.category) {
+          // Strip out IXL's alphabetical prefixes like "A. ", "AA. ", "Z. " directly from the object
+          skill.category = skill.category.replace(/^[A-Z]{1,2}\.\s+/, '');
+        }
+        let cat = skill.category || "Other";
         if (!groups[cat]) groups[cat] = [];
         groups[cat].push(skill);
       });
