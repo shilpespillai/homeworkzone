@@ -41,6 +41,7 @@ import DynamicNumberLine from '../components/DynamicNumberLine';
 import DynamicPathMap from '../components/DynamicPathMap';
 import DynamicInstrument from '../components/DynamicInstrument';
 import DynamicBlockStructure from '../components/DynamicBlockStructure';
+import DynamicVennDiagram from '../components/DynamicVennDiagram';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
 
 const SUBJECTS = [
@@ -473,9 +474,19 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         }
         (Each row is an object with a "columns" array of integers representing the height of the blocks at each x,y coordinate).
 
+        IF the question involves a Venn Diagram (sorting objects/numbers into sets), include a "vennDiagramData" object property. DO NOT try to draw Venn diagrams with raw svgCode.
+        "vennDiagramData": {
+          "leftLabel": "Mammals",
+          "rightLabel": "Can Swim",
+          "leftItems": ["Dog", "Cat"],
+          "rightItems": ["Fish"],
+          "intersectionItems": ["Whale", "Dolphin"],
+          "outsideItems": ["Bird"]
+        }
+
         CRITICAL FOR SPATIAL REASONING: If the question involves 3D objects, stacking blocks, nets, cross-sections, or spatial reasoning, YOU ABSOLUTELY MUST include a visual (either "blockData", "geometryData", or "svgCode"). Do NOT generate text-only 3D visualization questions! If asking about nets, use "svgCode" in the options or the main question.
 
-        CRITICAL FOR LOGICAL REASONING / PATTERNS: If the question involves a series of shapes changing in a logical pattern, or pattern recognition, YOU ABSOLUTELY MUST include a visual using the "svgCode" property (or inline SVG in the options) to draw the actual sequence of shapes! NEVER use placeholder text like "[Insert figure...]". You are fully capable of generating raw SVG code strings. CRITICAL: Make absolutely sure the CORRECT logical next shape is ACTUALLY present in your "options" array, and that the "answer" string is a 100% exact character-for-character match of that option.
+        CRITICAL FOR LOGICAL REASONING / PATTERNS: If the question involves a series of shapes changing in a logical pattern, or pattern recognition, YOU ABSOLUTELY MUST include a visual using the "svgCode" property (or inline SVG in the options) to draw the actual sequence of shapes! NEVER use placeholder text like "[Insert figure...]". You are fully capable of generating raw SVG code strings. CRITICAL: Make absolutely sure the CORRECT logical next shape is ACTUALLY present in your "options" array, and that the "answer" string is a 100% exact character-for-character match of that option. If the question involves finding a "Mirror Image" or reflection, use SVG and the 'transform="scale(-1, 1)"' attribute to easily reflect shapes.
 
         IF the question involves 2D Geometry, Lines of Symmetry, or Transformational Geometry (like "Which flag has 2 lines of symmetry?"), use "svgCode" directly inside the "options" array! (e.g. '["<svg ...>...</svg>", "<svg ...>...</svg>", ...]').
 
@@ -996,6 +1007,11 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                             {q.blockData && (
                               <div className="mb-4">
                                 <DynamicBlockStructure data={q.blockData} />
+                              </div>
+                            )}
+                            {q.vennDiagramData && (
+                              <div className="mb-4">
+                                <DynamicVennDiagram data={q.vennDiagramData} />
                               </div>
                             )}
                             {q.svgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && (

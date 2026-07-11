@@ -142,6 +142,10 @@ CRITICAL VISUAL RULES:
    - Do NOT output "svgCode" if you provide "geometryData".
 3. For Logical Reasoning / Pattern Recognition:
    - If the question involves a series of shapes changing in a logical pattern, YOU ABSOLUTELY MUST include a visual using the "svgCode" property (or inline SVG in the options) to draw the actual sequence of shapes. NEVER use placeholder text like "[Insert figure...]". CRITICAL: Make absolutely sure the CORRECT logical next shape is ACTUALLY present in your "options" array, and that the "answer" string is a 100% exact character-for-character match of that option.
+   - If generating a Mirror Image question, use the 'transform="scale(-1, 1)"' SVG attribute to reflect shapes.
+4. For Venn Diagrams (Sorting data into overlapping sets):
+   - Include a "vennDiagramData" object. DO NOT try to draw Venn diagrams with raw svgCode.
+   - Example: "vennDiagramData": {"leftLabel": "Mammals", "rightLabel": "Can Swim", "leftItems": ["Dog", "Cat"], "rightItems": ["Fish"], "intersectionItems": ["Whale"], "outsideItems": ["Bird"]}
 4. For Science (or topics needing cute artistic illustrations):
    - Include a short "imagePrompt" string describing the scene.`;
 
