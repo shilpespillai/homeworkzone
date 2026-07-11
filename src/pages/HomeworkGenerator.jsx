@@ -384,6 +384,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         4. General:
            - The "answer" field MUST exactly match one of the 4 values inside the "options" array.
            - All options must be age-appropriate for elementary/middle school students.
+           - CRITICAL: Do NOT prepend letters (e.g., A., B., C., D.) or numbers (1., 2.) to the strings in your "options" array. The UI automatically renders the A/B/C/D buttons.
         
         Return ONLY a JSON object containing:
         1. "questions": an array of objects. Each object must have: 

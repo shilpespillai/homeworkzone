@@ -129,7 +129,7 @@ CRITICAL ACCURACY & QUALITY RULES:
 4. General:
    - The "answer" field MUST exactly match one of the 4 values inside the "options" array.
    - All options must be age-appropriate for elementary/middle school students.
-
+   - CRITICAL: Do NOT prepend letters (e.g., A., B., C., D.) or numbers (1., 2.) to the strings in your "options" array. The UI automatically renders the A/B/C/D buttons.
 CRITICAL VISUAL RULES:
 1. For Data Interpretation / Graph / Chart questions:
    - Instead of an image, include a "chartData" array in the question object.
