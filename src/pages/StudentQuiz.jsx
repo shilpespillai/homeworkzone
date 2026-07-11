@@ -630,12 +630,12 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                            {q.blockData && <div className="w-full md:w-1/2"><DynamicBlockStructure data={q.blockData} /></div>}
                            {q.earlyMathData && <div className="w-full md:w-1/2"><EarlyMathVisualizer data={q.earlyMathData} /></div>}
                            {effectiveSvgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.earlyMathData && (
-                             <div className="w-48 h-48 md:w-64 md:h-64 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
+                             <div className="w-64 h-64 md:w-80 md:h-80 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
                                <div dangerouslySetInnerHTML={{ __html: effectiveSvgCode }} className="w-full h-full" />
                              </div>
                            )}
                            {q.imageUrl && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.earlyMathData && !effectiveSvgCode && (
-                             <div className="w-32 h-32 md:w-40 md:h-40 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner overflow-hidden">
+                             <div className="w-64 h-64 md:w-80 md:h-80 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner overflow-hidden">
                                <img src={q.imageUrl} alt="Visual" className="w-full h-full object-cover" loading="lazy" />
                              </div>
                            )}
@@ -899,7 +899,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                       <div className="w-full">
                         <div className="flex flex-col gap-6">
                            {clockTime && (
-                             <div className="w-48 h-48 md:w-64 md:h-64 mx-auto shrink-0 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner">
+                             <div className="w-64 h-64 md:w-80 md:h-80 mx-auto shrink-0 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner">
                                <div className="transform scale-125">
                                  <ClockFace timeStr={clockTime} />
                                </div>
@@ -978,12 +978,12 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                         </div>
                       )}
                       {effectiveSvgCode && !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.gridMapData && !currentQuestion.numberLineData && !currentQuestion.pathData && !currentQuestion.instrumentData && !currentQuestion.blockData && !currentQuestion.earlyMathData && (
-                        <div className="w-48 h-48 md:w-64 md:h-64 shrink-0 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
+                        <div className="w-64 h-64 md:w-80 md:h-80 shrink-0 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
                           <div dangerouslySetInnerHTML={{ __html: effectiveSvgCode }} className="w-full h-full" />
                         </div>
                       )}
                       {showAbstractImage && (
-                        <div className="w-32 h-32 md:w-40 md:h-40 shrink-0 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner overflow-hidden">
+                        <div className="w-64 h-64 md:w-80 md:h-80 shrink-0 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner overflow-hidden">
                           {currentQuestion.imageUrl ? (
                             <img 
                               src={currentQuestion.imageUrl} 
