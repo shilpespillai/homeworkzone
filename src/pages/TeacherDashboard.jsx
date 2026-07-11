@@ -8086,9 +8086,35 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                 <div className="space-y-8 animate-fadeIn">
                                    {masteryArray.length > 0 ? (
                                       <>
+                                         {/* Time Dedicated Summary */}
+                                         <div className="bg-[#f0fdf4] border border-[#bbf7d0] rounded-3xl p-6 shadow-sm animate-fadeIn space-y-4 mb-6">
+                                            <h3 className="text-sm font-black text-[#166534] uppercase tracking-widest flex items-center gap-2">
+                                               <Clock className="w-5 h-5 text-[#22c55e]" />
+                                               Time Dedicated on Homework Zone
+                                            </h3>
+                                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                                               <div className="bg-white rounded-2xl border border-emerald-100 p-4 text-center">
+                                                  <span className="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Today</span>
+                                                  <span className="text-2xl font-black text-[#14532d]">{timeSpentToday} <span className="text-sm">mins</span></span>
+                                               </div>
+                                               <div className="bg-white rounded-2xl border border-emerald-100 p-4 text-center">
+                                                  <span className="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">This Week</span>
+                                                  <span className="text-2xl font-black text-[#14532d]">{timeSpentWeek} <span className="text-sm">mins</span></span>
+                                               </div>
+                                               <div className="bg-white rounded-2xl border border-emerald-100 p-4 text-center">
+                                                  <span className="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">This Month</span>
+                                                  <span className="text-2xl font-black text-[#14532d]">{timeSpentMonth} <span className="text-sm">mins</span></span>
+                                               </div>
+                                               <div className="bg-white rounded-2xl border border-emerald-100 p-4 text-center">
+                                                  <span className="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">This Year</span>
+                                                  <span className="text-2xl font-black text-[#14532d]">{timeSpentYear} <span className="text-sm">mins</span></span>
+                                               </div>
+                                            </div>
+                                         </div>
+
                                          {/* Gaps Banner */}
                                          {masteryArray.some(m => m.accuracy < 60) && (
-                                            <div className="p-6 bg-rose-50 border border-rose-100 rounded-3xl flex gap-4 text-left">
+                                            <div className="p-6 bg-rose-50 border border-rose-100 rounded-3xl flex gap-4 text-left mb-6">
                                                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm shrink-0 text-rose-500">
                                                   ⚠️
                                                </div>
