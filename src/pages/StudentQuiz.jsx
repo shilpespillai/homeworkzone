@@ -892,48 +892,88 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                     clockTime = '10:10';
                   }
 
-                  const showAbstractImage = !currentQuestion.chartData && !currentQuestion.geometryData && !effectiveSvgCode && !currentQuestion.gridMapData && !currentQuestion.numberLineData && !currentQuestion.pathData && !currentQuestion.instrumentData && !currentQuestion.blockData && !clockTime;
+                  const showAbstractImage = !currentQuestion.chartData && !currentQuestion.geometryData && !effectiveSvgCode && !currentQuestion.gridMapData && !currentQuestion.numberLineData && !currentQuestion.pathData && !currentQuestion.instrumentData && !currentQuestion.blockData && !currentQuestion.earlyMathData && !clockTime;
 
                   return (
-                    <div className="flex flex-col md:flex-row gap-8 items-center md:items-start mb-10">
+                    <div className="flex flex-col gap-8 items-center md:items-start mb-10 w-full">
+                      <div className="w-full">
+                        <div className="flex flex-col gap-6">
+                           {clockTime && (
+                             <div className="w-48 h-48 md:w-64 md:h-64 mx-auto shrink-0 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner">
+                               <div className="transform scale-125">
+                                 <ClockFace timeStr={clockTime} />
+                               </div>
+                             </div>
+                           )}
+                           {cleanText?.length > 150 ? (
+                             <div className="text-lg md:text-xl font-medium text-slate-700 leading-relaxed space-y-4">
+                               <div className="flex justify-start mb-2">
+                                 <button 
+                                   onClick={(e) => { e.preventDefault(); playTTS(cleanText); }}
+                                   className="flex items-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full transition-colors font-bold text-sm"
+                                 >
+                                   <Volume2 className="w-4 h-4" /> Listen to Question
+                                 </button>
+                               </div>
+                               {cleanText.split('\n').map((paragraph, idx) => (
+                                 <p key={idx}>{paragraph}</p>
+                               ))}
+                             </div>
+                           ) : (
+                             <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start gap-4">
+                               <button 
+                                 onClick={(e) => { e.preventDefault(); playTTS(cleanText); }}
+                                 className="mt-1 p-3 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full transition-colors shrink-0"
+                                 title="Read Aloud"
+                               >
+                                 <Volume2 className="w-6 h-6" />
+                               </button>
+                               <h1 className="text-2xl md:text-[28px] font-black text-slate-800 leading-snug uppercase text-center md:text-left tracking-tight">
+                                 {cleanText}
+                               </h1>
+                             </div>
+                           )}
+                        </div>
+                      </div>
+
                       {/* Dynamic Visuals for Quiz */}
                       {currentQuestion.chartData && (
-                        <div className="w-full md:w-1/2 shrink-0">
+                        <div className="w-full">
                           <DynamicChart data={currentQuestion.chartData} />
                         </div>
                       )}
                       {currentQuestion.geometryData && (
-                        <div className="w-full md:w-1/2 shrink-0">
+                        <div className="w-full">
                           <DynamicGeometry data={currentQuestion.geometryData} />
                         </div>
                       )}
                       {currentQuestion.gridMapData && (
-                        <div className="w-full md:w-1/2 shrink-0">
+                        <div className="w-full">
                           <DynamicGridMap data={currentQuestion.gridMapData} />
                         </div>
                       )}
                       {currentQuestion.numberLineData && (
-                        <div className="w-full md:w-2/3 shrink-0">
+                        <div className="w-full">
                           <DynamicNumberLine data={currentQuestion.numberLineData} />
                         </div>
                       )}
                       {currentQuestion.pathData && (
-                        <div className="w-full md:w-1/2 shrink-0">
+                        <div className="w-full">
                           <DynamicPathMap data={currentQuestion.pathData} />
                         </div>
                       )}
                       {currentQuestion.instrumentData && (
-                        <div className="w-full md:w-1/2 shrink-0">
+                        <div className="w-full">
                           <DynamicInstrument data={currentQuestion.instrumentData} />
                         </div>
                       )}
                       {currentQuestion.blockData && (
-                        <div className="w-full md:w-1/2 shrink-0">
+                        <div className="w-full">
                           <DynamicBlockStructure data={currentQuestion.blockData} />
                         </div>
                       )}
                       {currentQuestion.earlyMathData && (
-                        <div className="w-full md:w-1/2 shrink-0">
+                        <div className="w-full flex justify-start">
                           <EarlyMathVisualizer data={currentQuestion.earlyMathData} />
                         </div>
                       )}
@@ -962,45 +1002,6 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                           )}
                         </div>
                       )}
-                      <div className="flex-1 w-full">
-                        <div className="flex flex-col gap-6">
-                           {clockTime && (
-                             <div className="w-48 h-48 md:w-64 md:h-64 mx-auto shrink-0 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner">
-                               <div className="transform scale-125">
-                                 <ClockFace timeStr={clockTime} />
-                               </div>
-                             </div>
-                           )}
-                           {cleanText?.length > 150 ? (
-                             <div className="text-lg md:text-xl font-medium text-slate-700 leading-relaxed space-y-4">
-                               <div className="flex justify-end mb-2">
-                                 <button 
-                                   onClick={(e) => { e.preventDefault(); playTTS(cleanText); }}
-                                   className="flex items-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full transition-colors font-bold text-sm"
-                                 >
-                                   <Volume2 className="w-4 h-4" /> Listen to Question
-                                 </button>
-                               </div>
-                               {cleanText.split('\n').map((paragraph, idx) => (
-                                 <p key={idx}>{paragraph}</p>
-                               ))}
-                             </div>
-                           ) : (
-                             <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start gap-4">
-                               <button 
-                                 onClick={(e) => { e.preventDefault(); playTTS(cleanText); }}
-                                 className="mt-1 p-3 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full transition-colors shrink-0"
-                                 title="Read Aloud"
-                               >
-                                 <Volume2 className="w-6 h-6" />
-                               </button>
-                               <h1 className="text-2xl md:text-[28px] font-black text-slate-800 leading-snug uppercase text-center md:text-left tracking-tight">
-                                 {cleanText}
-                               </h1>
-                             </div>
-                           )}
-                        </div>
-                      </div>
                     </div>
                   );
                 })()}
