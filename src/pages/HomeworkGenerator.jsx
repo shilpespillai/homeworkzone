@@ -425,6 +425,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         Specific Content Instructions: ${injectedPrompt}
         
         Ensure the questions test the students' knowledge on the specific content instructions provided. DO NOT generate meta-questions about the instructions themselves.
+        
+        CRITICAL LASER-FOCUS RULE: If a highly specific topic or micro-skill is provided (e.g., 'place value in decimal numbers' or 'identifying nouns'), EVERY SINGLE QUESTION MUST STRICTLY TEST THAT EXACT SKILL. DO NOT generate generalized questions about the broader subject (e.g., if asked for 'decimal place value', DO NOT generate questions about 'ordering decimals' or 'adding decimals'). Stay completely laser-focused on the exact requested skill!
 
         CRITICAL ACCURACY & QUALITY RULES:
         1. For Language / English:
