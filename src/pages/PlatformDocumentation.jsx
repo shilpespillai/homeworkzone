@@ -62,6 +62,7 @@ export default function PlatformDocumentation() {
               icon={<LayoutDashboard className="w-6 h-6 text-blue-500" />}
               title="Dashboard"
               desc="A global overview of all classes and students. It provides quick statistics on active assignments, pending grading tasks, overall student progress, and total revenue summaries for independent tutors."
+              image="/images/docs-teacher-dashboard.png"
             />
             <DocItem 
               icon={<img src="/ic-classes.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Classes" />}
@@ -72,6 +73,7 @@ export default function PlatformDocumentation() {
               icon={<img src="/ic-homework.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Homework" />}
               title="Homework/Test Builder"
               desc="The core AI engine! Enter any topic or paste a text passage, and the AI automatically generates multiple-choice, short answer, and interactive drag-and-drop questions perfectly suited for the selected grade level and subject."
+              image="/images/docs-ai-builder.png"
             />
             <DocItem 
               icon={<Calendar className="w-6 h-6 text-pink-500" />}
@@ -134,6 +136,7 @@ export default function PlatformDocumentation() {
               icon={<LayoutDashboard className="w-6 h-6 text-red-500" />}
               title="Dashboard"
               desc="The student's home base. Displays upcoming 'Missions' (homework assignments), recent achievements, their interactive Virtual Pet Companion, and their current XP level."
+              image="/images/docs-student-dashboard.png"
             />
             <DocItem 
               icon={<img src="/ic-homework.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Homework" />}
@@ -203,16 +206,23 @@ export default function PlatformDocumentation() {
   );
 }
 
-function DocItem({ icon, title, desc }) {
+function DocItem({ icon, title, desc, image }) {
   return (
-    <div className="flex items-start gap-6 bg-slate-50 p-6 rounded-3xl border border-slate-100 page-break-inside-avoid">
-      <div className="p-4 bg-white rounded-2xl shadow-sm border border-slate-100 shrink-0">
-        {icon}
+    <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100 page-break-inside-avoid">
+      <div className="flex items-start gap-6">
+        <div className="p-4 bg-white rounded-2xl shadow-sm border border-slate-100 shrink-0">
+          {icon}
+        </div>
+        <div>
+          <h3 className="text-xl font-black text-slate-800 mb-2">{title}</h3>
+          <p className="text-slate-600 font-medium leading-relaxed">{desc}</p>
+        </div>
       </div>
-      <div>
-        <h3 className="text-xl font-black text-slate-800 mb-2">{title}</h3>
-        <p className="text-slate-600 font-medium leading-relaxed">{desc}</p>
-      </div>
+      {image && (
+        <div className="mt-6 md:ml-[88px]">
+          <img src={image} alt={title} className="w-full h-auto rounded-2xl shadow-md border border-slate-200 object-cover" />
+        </div>
+      )}
     </div>
   );
 }
