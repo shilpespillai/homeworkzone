@@ -781,7 +781,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             </div>
           </div>
         ) : (
-          <>
+          <div className={`w-full flex ${homework.passage ? 'flex-col lg:flex-row' : 'flex-col'} gap-8 items-start`}>
             {homework.passage && (
               <div className="lg:w-1/2 bg-white/95 backdrop-blur-md rounded-[40px] p-8 shadow-[0_16px_0_0_rgba(255,255,255,0.6)] flex flex-col max-h-[80vh] overflow-y-auto custom-scrollbar sticky top-24">
                 <div className="flex items-center gap-2 mb-6">
@@ -1109,7 +1109,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
           )}
         </AnimatePresence>
         </div>
-        </>
+        </div>
         )}
       </main>
 
