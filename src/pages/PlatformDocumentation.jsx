@@ -61,59 +61,71 @@ export default function PlatformDocumentation() {
             <DocItem 
               icon={<LayoutDashboard className="w-6 h-6 text-blue-500" />}
               title="Dashboard"
-              desc="A global overview of all classes and students. It provides quick statistics on active assignments, pending grading tasks, overall student progress, and total revenue summaries for independent tutors."
-              image="/images/hero-kids.jpg"
+              desc="Your central command center for the entire Homework Zone platform. It provides a real-time, global overview of all your classes and enrolled students. You can instantly see quick statistics on active assignments, monitor pending grading tasks that require your attention, track overall student progress, and view total revenue summaries if you are an independent tutor. The intuitive layout ensures you never miss a critical update."
+              image="/images/teacher-dashboard.jpg"
             />
             <DocItem 
               icon={<img src="/ic-classes.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Classes" />}
               title="My Classes"
-              desc="Manage individual classrooms. Here you can generate unique student invite codes, view specific class rosters, manage student quotas, and access class-level settings."
+              desc="A comprehensive classroom management system. Here you can easily group students into specific classrooms or subjects. Generate unique, secure 6-digit invite codes for students to join your class without needing email addresses. You can also view detailed class rosters, manage your elastic student quotas seamlessly, and access powerful class-level settings to tailor the learning experience."
+              image="/images/my-classes.jpg"
             />
             <DocItem 
               icon={<img src="/ic-homework.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Homework" />}
               title="Homework/Test Builder"
-              desc="The core AI engine! Enter any topic or paste a text passage, and the AI automatically generates multiple-choice, short answer, and interactive drag-and-drop questions perfectly suited for the selected grade level and subject."
-              image="/images/library.jpg"
+              desc="The core AI-powered engine of the platform! Simply enter a curriculum topic, paste a text passage, or provide learning objectives, and the advanced AI automatically generates high-quality assessments. It creates a perfect mix of multiple-choice, short-answer, and interactive drag-and-drop questions that are dynamically perfectly suited for your selected grade level and subject area."
+              image="/images/homeworkbuilder.jpg"
             />
             <DocItem 
               icon={<Calendar className="w-6 h-6 text-pink-500" />}
               title="Scheduler"
-              desc="Automate your curriculum delivery. Create assignments in advance and schedule them to be released to specific classes or students at precise dates and times."
+              desc="Fully automate your curriculum delivery workflow. The Scheduler allows you to create assignments weeks or months in advance and schedule them to automatically release to specific classes or individual students at precise dates and times. Perfect for maintaining a consistent homework cadence without daily manual intervention."
+              image="/images/homework_test_scheduler.jpg"
             />
             <DocItem 
               icon={<Trophy className="w-6 h-6 text-emerald-500" />}
               title="Gradebook"
-              desc="Review student submissions. The system auto-grades multiple-choice and interactive questions instantly, while providing a clean, side-by-side interface for teachers to review and grade text-based answers."
+              desc="Effortlessly review student submissions in one place. The intelligent system automatically grades all multiple-choice and interactive questions instantly, saving you hours of administrative work. For text-based answers, it provides a clean, side-by-side interface for teachers to review, leave personalized feedback, and assign manual grades quickly."
             />
             <DocItem 
               icon={<BarChart className="w-6 h-6 text-orange-500" />}
-              title="Reports & Test Reports"
-              desc="Deep analytics tracking student performance. Identify weak spots in specific subtopics across classes, track engagement, and export data for parent-teacher conferences."
+              title="Class Reports"
+              desc="Unlock deep analytics tracking student performance over time. Identify weak spots in specific subtopics across entire classes, track daily engagement metrics, and export beautiful data visualizations perfectly formatted for parent-teacher conferences."
+              image="/images/teacher_reports.jpg"
+            />
+            <DocItem 
+              icon={<BarChart className="w-6 h-6 text-rose-500" />}
+              title="Test Reports"
+              desc="Dive into specific summative assessment data. This dedicated view breaks down performance on formal tests and exams, providing question-by-question analytics to help you understand exactly where students struggled the most."
+              image="/images/test_reports.jpg"
             />
             <DocItem 
               icon={<img src="/ic-messages.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Messages" />}
               title="Messages"
-              desc="Communicate safely with students and broadcast announcements to entire classes. Send feedback, motivation, or reminders directly to student dashboards."
+              desc="Maintain a secure, monitored communication channel with your students. Broadcast important announcements to entire classes or send direct, encouraging feedback and reminders to individual student dashboards. It ensures all communication stays within the educational platform."
             />
             <DocItem 
               icon={<img src="/ic-rewards.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Rewards" />}
               title="Rewards"
-              desc="The gamification center! Customize XP point multipliers, coin rewards, and unlockable avatar accessories that students can earn by completing tasks and maintaining streaks."
+              desc="Take full control of the platform's gamification engine! Customize XP point multipliers, adjust daily coin rewards, and manage the unlockable avatar accessories that students can earn by completing tasks and maintaining learning streaks. This keeps engagement high and motivates consistent practice."
             />
             <DocItem 
               icon={<MessageSquare className="w-6 h-6 text-orange-500" />}
               title="My Prompts"
-              desc="Save custom AI prompts and templates to quickly generate your favorite style of questions or specific pedagogical structures without re-typing instructions."
+              desc="A massive time-saver for power users. Save your custom AI prompts, pedagogical structures, and specific formatting templates to quickly generate your favorite style of questions without needing to re-type complex instructions every time you build a new quiz."
+              image="/images/myprompts.jpg"
             />
             <DocItem 
               icon={<CreditCard className="w-6 h-6 text-green-500" />}
               title="Tuition Fees & Revenue"
-              desc="For private tutors and independent educators: Manage billing, send automated invoices, and track payments from parents securely within the platform."
+              desc="An integrated financial suite built specifically for private tutors and independent educators. Manage your billing cycles, set custom tuition rates, send automated professional invoices, and track payments securely directly from parents within the platform."
+              image="/images/set_tuitionfees.jpg"
             />
             <DocItem 
               icon={<Settings className="w-6 h-6 text-slate-500" />}
               title="Settings & Billing"
-              desc="Manage your teacher subscription plan, expand your student seat capacity, customize your dashboard theme, and update your account notification preferences."
+              desc="Manage your overarching teacher account configuration. Upgrade your subscription plan, expand your elastic student seat capacity as your business grows, customize your dashboard's visual theme, set data retention policies, and update your vital account notification preferences."
+              image="/images/data_retentionpolicy.jpg"
             />
           </div>
         </div>
