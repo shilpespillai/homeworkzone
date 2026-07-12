@@ -2103,11 +2103,11 @@ const TeacherDashboard = ({ user, onLogout }) => {
             <div className="space-y-4">
               <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center text-2xl font-bold">A</div>
               <div>
-                <h3 className="text-lg font-black text-slate-800">Option A: Pay-As-You-Grow</h3>
+                <h3 className="text-lg font-black text-slate-800">Parent/Tutors</h3>
                 <p className="text-xs text-slate-400 font-bold">Monthly Elastic Capacity</p>
               </div>
               <div className="text-3xl font-black text-slate-800">
-                $1.50 <span className="text-xs font-bold text-slate-400">/ student / month</span>
+                $5.00 <span className="text-xs font-bold text-slate-400">/ student / month</span>
               </div>
               <ul className="text-xs text-slate-500 font-bold space-y-2.5">
                 <li className="flex items-center gap-2">✔️ Pay only for active students</li>

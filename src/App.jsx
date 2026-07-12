@@ -4307,11 +4307,11 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                        </span>
                      </div>
                      <div>
-                       <h3 className="text-base font-semibold text-orange-600">Option A: Pay-As-You-Grow</h3>
+                       <h3 className="text-base font-semibold text-orange-600">Parent/Tutors</h3>
                        <p className="text-xs text-slate-500 font-normal">Monthly Elastic Seats</p>
                      </div>
                      <div className="text-3xl font-semibold text-slate-900">
-                       $1.50 <span className="text-sm font-normal text-slate-500">/ student / month</span>
+                       $5.00 <span className="text-sm font-normal text-slate-500">/ student / month</span>
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2">
                        <li className="flex items-center gap-2">✔️ Unlimited students scaling</li>
