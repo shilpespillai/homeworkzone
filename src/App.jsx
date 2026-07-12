@@ -92,6 +92,7 @@ import ArtsAndFunView from './components/ArtsAndFunView';
 import ChildReportView from './components/ChildReportView';
 import MathsLearningHub from './components/MathsLearningHub';
 import TuitionPayment from './pages/TuitionPayment';
+import PlatformDocumentation from './pages/PlatformDocumentation';
 
 // Helper to generate a clean, boutique 6-digit code
 const generateTeacherCode = () => {
@@ -3973,6 +3974,12 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
 
 
           <div className="flex items-center gap-4 ml-auto">
+            <Link to="/documentation" className="flex flex-col items-center text-xs font-bold text-slate-600 hover:scale-105 transition-transform duration-300">
+              <span className="icon-tile bg-indigo-50 text-indigo-500">
+                <FileText className="w-5 h-5 mx-auto" />
+              </span>
+              Docs
+            </Link>
             <button onClick={() => setShowHelpModal(true)} className="flex flex-col items-center text-xs font-bold text-slate-600 hover:scale-105 transition-transform duration-300">
               <span className="icon-tile bg-blue-50" style={{ color: 'var(--blue)' }}>?</span>
               Help
@@ -5330,6 +5337,7 @@ export default function App() {
           <Route path="/dashboard/teacher" element={currentUser ? <div className="teacher-theme"><TeacherDashboard user={currentUser} onLogout={handleTeacherLogout} /></div> : <Navigate to="/login/teacher" />} />
           <Route path="/dashboard/student" element={<div className="student-theme"><StudentDashboard teacher={activeStudent?.teacher} studentName={activeStudent?.name} classroom={activeStudent?.classroom} onLogout={handleStudentLogout} /></div>} />
           <Route path="/quiz/sample" element={<StudentQuiz />} />
+          <Route path="/documentation" element={<PlatformDocumentation />} />
         </Routes>
       </Router>
 
