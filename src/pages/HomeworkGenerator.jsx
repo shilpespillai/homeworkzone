@@ -1176,7 +1176,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                               </div>
                             )}
                             <div className="grid grid-cols-2 gap-2">
-                              {q.options.map((opt, i) => (
+                              {q.options && q.options.map((opt, i) => (
                                 <div key={i} className={`px-3 py-2 rounded-lg text-[10px] font-bold border ${opt === q.answer ? 'bg-emerald-100 border-emerald-300 text-emerald-800' : 'bg-white border-slate-200 text-slate-600'}`}>
                                   {typeof opt === 'string' && opt.trim().startsWith('<svg') ? (
                                     <div dangerouslySetInnerHTML={{ __html: opt }} className="w-full flex justify-center overflow-hidden" />
@@ -1628,7 +1628,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                                   );
                                 })()}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                  {q.options.map((opt, i) => (
+                                  {q.options && q.options.map((opt, i) => (
                                     <div key={i} className={`px-4 py-3 rounded-xl text-xs font-bold border flex items-center gap-3 ${opt === q.answer ? 'bg-emerald-100 border-emerald-300 text-emerald-800' : 'bg-white border-slate-200 text-slate-600'}`}>
                                       <div className={`w-5 h-5 rounded-full flex-center text-[10px] ${opt === q.answer ? 'bg-emerald-200' : 'bg-slate-100'}`}>
                                         {['A', 'B', 'C', 'D'][i]}
