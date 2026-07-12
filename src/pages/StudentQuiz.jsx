@@ -892,7 +892,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                     clockTime = '10:10';
                   }
 
-                  const showAbstractImage = !currentQuestion.chartData && !currentQuestion.geometryData && !effectiveSvgCode && !currentQuestion.gridMapData && !currentQuestion.numberLineData && !currentQuestion.pathData && !currentQuestion.instrumentData && !currentQuestion.blockData && !currentQuestion.earlyMathData && !clockTime;
+                  const showImage = !!currentQuestion.imageUrl;
 
                   return (
                     <div className="flex flex-col gap-8 items-center md:items-start mb-10 w-full">
@@ -982,24 +982,14 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                           <div dangerouslySetInnerHTML={{ __html: effectiveSvgCode }} className="w-full h-full" />
                         </div>
                       )}
-                      {showAbstractImage && (
+                      {showImage && !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.gridMapData && !currentQuestion.numberLineData && !currentQuestion.pathData && !currentQuestion.instrumentData && !currentQuestion.blockData && !currentQuestion.earlyMathData && !effectiveSvgCode && (
                         <div className="w-64 h-64 md:w-80 md:h-80 shrink-0 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner overflow-hidden">
-                          {currentQuestion.imageUrl ? (
-                            <img 
-                              src={currentQuestion.imageUrl} 
-                              alt="Question visual" 
-                              className="w-full h-full object-cover"
-                              loading="lazy"
-                            />
-                          ) : (
-                            <img 
-                              src={`https://api.dicebear.com/7.x/shapes/svg?seed=${currentQuestion.id}&backgroundColor=f8fafc`} 
-                              alt="Abstract shape" 
-                              className="w-full h-full object-cover opacity-80"
-                              loading="lazy"
-                              onError={(e) => { e.target.src = 'https://api.dicebear.com/7.x/shapes/svg?seed=' + currentQuestion.id; }}
-                            />
-                          )}
+                          <img 
+                            src={currentQuestion.imageUrl} 
+                            alt="Question visual" 
+                            className="w-full h-full object-cover" 
+                            loading="lazy" 
+                          />
                         </div>
                       )}
                     </div>

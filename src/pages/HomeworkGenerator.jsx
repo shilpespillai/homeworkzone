@@ -450,7 +450,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
            - "interactiveData" (array of strings. REQUIRED for "interactive". For "sorting", list 3-5 items to sort. For "matching", list 3-5 pairs as strings formatted "LeftItem||RightItem")
            - "answer" (string. For "multiple_choice", must match one option exactly. For "text", provide the exact correct string/spelling. For "interactive", provide a comma-separated list of the correct order or pairs, e.g. "A, B, C" or "A||1, B||2")
            - "subtopic" (string, a specific subtopic or concept under the main topic)
-           - "imagePrompt" (string, OPTIONAL. A highly detailed prompt to generate a beautiful background or illustrative image for the question, e.g. "A realistic macro photo of a plant root system").
+           - "imagePrompt" (string, OPTIONAL. ONLY use this if the question EXPLICITLY requires the student to look at an image to answer it, e.g. "Look at the diagram of the plant...". DO NOT generate images for word problems or questions that can be answered by reading the text alone.)
         2. "passage": an optional string. If the quiz requires a reading comprehension passage, story, or shared text that applies to the questions, provide it here. Otherwise, omit this key.
         
         CRITICAL FOR READING COMPREHENSION: DO NOT put the reading passage, story, or article inside the "text" of each question! The passage MUST be placed EXACTLY ONCE inside the root-level "passage" string key. The question "text" should only contain the actual question being asked.
@@ -590,6 +590,9 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         questions.forEach(q => {
           if (q.imagePrompt && !q.imageUrl) {
             q.imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(q.imagePrompt)}?width=800&height=800&nologo=true`;
+          } else if (q.imageUrl && !q.imageUrl.includes('pollinations')) {
+            // Delete broken hallucinated URLs
+            delete q.imageUrl;
           }
           if (Array.isArray(q.options) && q.options.length > 0) {
             for (let i = q.options.length - 1; i > 0; i--) {
