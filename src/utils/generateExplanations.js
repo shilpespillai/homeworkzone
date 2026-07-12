@@ -51,7 +51,7 @@ CRITICAL FORMATTING RULES:
 - Use clear distinct steps.
 - The step titles MUST be bolded (e.g., **Step 1: Identify the variables**).
 - CRITICAL: You must output a valid JSON object. Do NOT use literal actual newlines inside your explanation strings. If you need a newline, use the exact characters "\\n".
-- Escape any internal double quotes with a backslash (\\").
+- ABSOLUTELY NO DOUBLE QUOTES inside the explanation strings! Use single quotes (' ') instead if you need to quote something. Unescaped double quotes will crash the JSON parser.
 
 CRITICAL ACCURACY RULES:
 - All mathematical calculations must be 100% correct — double-check arithmetic
