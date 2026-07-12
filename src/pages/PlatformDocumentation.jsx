@@ -227,7 +227,7 @@ export default function PlatformDocumentation() {
                 "Provides quick access to their interactive Virtual Pet Companion.",
                 "Tracks and displays their current XP level and progress bar."
               ]}
-              image="/images/math-learning-banner.png"
+              image="/images/student_Dashboard.jpg"
             />
             <DocItem 
               icon={<img src="/ic-homework.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Homework" />}
@@ -239,6 +239,7 @@ export default function PlatformDocumentation() {
                 "Utilize built-in TTS (Text-to-Speech) for reading assistance.",
                 "Complete interactive drag-and-drop elements and multiple-choice questions."
               ]}
+              image="/images/myhomeworksection.jpg"
             />
             <DocItem 
               icon={<Award className="w-6 h-6 text-rose-500" />}
@@ -250,6 +251,7 @@ export default function PlatformDocumentation() {
                 "Creates a distraction-free zone focused on uninterrupted focus.",
                 "Results are held until the teacher releases them."
               ]}
+              image="/images/exam_arena.jpg"
             />
             <DocItem 
               icon={<Trophy className="w-6 h-6 text-emerald-500" />}
@@ -261,6 +263,7 @@ export default function PlatformDocumentation() {
                 "Track improvement over time across different subjects.",
                 "Analyze exactly which topics require more practice."
               ]}
+              image="/images/mission_report.jpg"
             />
             <DocItem 
               icon={<User className="w-6 h-6 text-green-500" />}
@@ -283,6 +286,7 @@ export default function PlatformDocumentation() {
                 "Take short, rewarding brain-breaks between intense learning sessions.",
                 "Foster a sense of exploration and continued engagement."
               ]}
+              image="/images/adventure_maze.jpg"
             />
             <DocItem 
               icon={<img src="/ic-messages.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Messages" />}
@@ -305,6 +309,7 @@ export default function PlatformDocumentation() {
                 "Access printable certificates awarded for completing major subject blocks.",
                 "Track progress toward the next big reward tier."
               ]}
+              image="/images/reward_student.jpg"
             />
             <DocItem 
               icon={<CreditCard className="w-6 h-6 text-green-500" />}
