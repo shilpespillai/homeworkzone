@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { 
   CheckCircle2, 
   ChevronRight, 
+  BookOpen,
   ChevronLeft, 
   Timer, 
   Award,
