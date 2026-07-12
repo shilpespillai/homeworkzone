@@ -929,7 +929,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                                >
                                  <Volume2 className="w-6 h-6" />
                                </button>
-                               <h1 className="text-2xl md:text-[28px] font-black text-slate-800 leading-snug uppercase text-center md:text-left tracking-tight">
+                               <h1 className="text-2xl md:text-[28px] font-extrabold text-slate-800 leading-snug text-center md:text-left tracking-tight">
                                  {cleanText}
                                </h1>
                              </div>
@@ -1001,7 +1001,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             {homework.type !== 'lesson' && (
               <>
                 {currentQuestion.options && currentQuestion.options.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mt-6">
                     {currentQuestion.options.map((option, i) => {
                       const isSelected = answers[currentQuestion.id] === option;
                       const isCorrectOption = currentQuestion.answer === option;
@@ -1038,13 +1038,13 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                         <div key={option} className="flex gap-2">
                           <button
                             onClick={() => { if (!isReviewing) handleSelect(currentQuestion.id, option); }}
-                            className={`group relative flex-1 p-5 md:p-6 text-left rounded-[24px] transition-all flex items-center justify-between ${isReviewing ? 'cursor-default' : 'active:translate-y-[6px] hover:brightness-105 active:shadow-none'} ${baseColor} ${activeState} ${reviewState}`}
+                            className={`group relative flex-1 p-4 md:p-5 text-left rounded-[24px] transition-all flex items-center justify-between ${isReviewing ? 'cursor-default' : 'active:translate-y-[6px] hover:brightness-105 active:shadow-none'} ${baseColor} ${activeState} ${reviewState}`}
                           >
                             <div className="flex items-center gap-4">
                               <div className="w-10 h-10 flex-center rounded-xl bg-white/40 shadow-inner text-xl font-black">
                                 {String.fromCharCode(65 + i)}
                               </div>
-                              <div className={`flex-1 text-xl font-black`}>
+                              <div className={`flex-1 text-lg font-bold`}>
                                 {typeof option === 'string' && option.trim().startsWith('<svg') ? (
                                   <div dangerouslySetInnerHTML={{ __html: option }} className="w-full flex justify-center overflow-hidden" />
                                 ) : (
