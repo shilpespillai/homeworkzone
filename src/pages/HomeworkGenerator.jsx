@@ -130,7 +130,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
     instructions: assignmentType === 'test' ? 'Read each question carefully. You are on a timer! ⏳' : 'Read each question carefully and select the best answer! 🚀',
     aiPrompt: '',
     classId: activeClassroom?.id || '',
-    dueDate: '',
+    dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     time: '',
     points: '10',
     timeLimit: '30',
