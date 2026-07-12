@@ -4422,6 +4422,94 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
           </div>
         </section>
 
+        {/* TESTIMONIALS SECTION */}
+        <section className="relative py-24 px-4 overflow-hidden bg-white">
+          <div className="max-w-7xl mx-auto relative z-10">
+            <div className="text-center mb-16 space-y-4">
+              <h2 className="font-display text-4xl md:text-5xl text-slate-900">
+                Loved by Teachers & Parents
+              </h2>
+              <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                See how Homework Zone is transforming the learning experience for students around the world.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Testimonial 1 */}
+              <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100 hover:shadow-xl transition-all duration-300 group">
+                <div className="flex gap-1 text-yellow-400 mb-6">
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                </div>
+                <p className="text-slate-700 leading-relaxed mb-8 italic">
+                  "Homework Zone completely changed how my students engage with their assignments. The gamified reward system keeps them coming back every day!"
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center font-bold text-blue-600 text-lg">
+                    S
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900">Sarah Jenkins</h4>
+                    <p className="text-sm text-slate-500">3rd Grade Teacher</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Testimonial 2 */}
+              <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100 hover:shadow-xl transition-all duration-300 group relative mt-4 md:mt-0">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-indigo-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
+                  Top Review
+                </div>
+                <div className="flex gap-1 text-yellow-400 mb-6">
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                </div>
+                <p className="text-slate-700 leading-relaxed mb-8 italic">
+                  "As a parent, seeing my son excited to do his math homework is a miracle. He loves taking care of his virtual pet and earning coins."
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center font-bold text-emerald-600 text-lg">
+                    M
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900">Marcus Chen</h4>
+                    <p className="text-sm text-slate-500">Parent of two</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Testimonial 3 */}
+              <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100 hover:shadow-xl transition-all duration-300 group">
+                <div className="flex gap-1 text-yellow-400 mb-6">
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                </div>
+                <p className="text-slate-700 leading-relaxed mb-8 italic">
+                  "The AI homework generator saves me literally hours every week. I can instantly create reading comprehension tasks tailored to my class."
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center font-bold text-purple-600 text-lg">
+                    E
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900">Elena Rodriguez</h4>
+                    <p className="text-sm text-slate-500">Primary School Educator</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </main>
 
       {/* Help / Documentation Modal */}

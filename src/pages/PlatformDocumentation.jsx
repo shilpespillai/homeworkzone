@@ -356,6 +356,10 @@ export default function PlatformDocumentation() {
           .page-break-before { page-break-before: always; }
           .page-break-inside-avoid { page-break-inside: avoid; }
           /* Hide app UI elements outside of this component if printed */
+          #vite-plugin-checker-error-overlay { display: none !important; }
+          vite-error-overlay { display: none !important; }
+          .fixed { display: none !important; }
+          [style*="position: fixed"] { display: none !important; }
         }
       `}} />
     </div>
