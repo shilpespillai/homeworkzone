@@ -95,12 +95,14 @@ CRITICAL: Use the EXACT question ID numbers as keys. Do not add prefixes or extr
     }
   };
 
-  // Run all chunks concurrently
+  // Run chunks sequentially to avoid 429 Too Many Requests limits (Free Tier)
   try {
-    const chunkResults = await Promise.all(chunks.map(chunk => fetchChunk(chunk)));
     const allExplanations = {};
-    for (const res of chunkResults) {
+    for (const chunk of chunks) {
+      const res = await fetchChunk(chunk);
       Object.assign(allExplanations, res);
+      // Wait 1.5s between chunks to be safe against rate limits
+      await new Promise(resolve => setTimeout(resolve, 1500));
     }
     return allExplanations;
   } catch (err) {
