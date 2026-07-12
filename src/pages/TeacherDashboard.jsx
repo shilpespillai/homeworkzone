@@ -7726,31 +7726,46 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                           {q.text}
                                        </p>
                                        
-                                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                          {q.options.map((opt, optIdx) => {
-                                             const isStudentSelection = opt === studentSelection;
-                                             const isActualCorrect = opt === actualAnswer;
-                                             
-                                             let optionClasses = "px-5 py-3.5 rounded-xl border flex items-center gap-4 transition-all ";
-                                             
-                                             if (isActualCorrect) {
-                                                optionClasses += "bg-[#d1f5d3] border-emerald-300 text-emerald-900";
-                                             } else if (isStudentSelection && !isActualCorrect) {
-                                                optionClasses += "bg-rose-50 border-rose-200 text-rose-900";
-                                             } else {
-                                                optionClasses += "bg-white border-slate-200 text-slate-600";
-                                             }
+                                       {q.options && q.options.length > 0 ? (
+                                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                             {q.options.map((opt, optIdx) => {
+                                                const isStudentSelection = opt === studentSelection;
+                                                const isActualCorrect = opt === actualAnswer;
+                                                
+                                                let optionClasses = "px-5 py-3.5 rounded-xl border flex items-center gap-4 transition-all ";
+                                                
+                                                if (isActualCorrect) {
+                                                   optionClasses += "bg-[#d1f5d3] border-emerald-300 text-emerald-900";
+                                                } else if (isStudentSelection && !isActualCorrect) {
+                                                   optionClasses += "bg-rose-50 border-rose-200 text-rose-900";
+                                                } else {
+                                                   optionClasses += "bg-white border-slate-200 text-slate-600";
+                                                }
 
-                                             return (
-                                                <div key={optIdx} className={optionClasses}>
-                                                   <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-[11px] font-black ${isActualCorrect ? 'bg-emerald-200/60 text-emerald-800' : isStudentSelection && !isActualCorrect ? 'bg-rose-200/60 text-rose-800' : 'bg-slate-50 text-slate-500'}`}>
-                                                      {String.fromCharCode(65 + optIdx)}
+                                                return (
+                                                   <div key={optIdx} className={optionClasses}>
+                                                      <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-[11px] font-black ${isActualCorrect ? 'bg-emerald-200/60 text-emerald-800' : isStudentSelection && !isActualCorrect ? 'bg-rose-200/60 text-rose-800' : 'bg-slate-50 text-slate-500'}`}>
+                                                         {String.fromCharCode(65 + optIdx)}
+                                                      </div>
+                                                      <span className="text-[13px] font-bold flex-1">{opt}</span>
                                                    </div>
-                                                   <span className="text-[13px] font-bold flex-1">{opt}</span>
-                                                </div>
-                                             );
-                                          })}
-                                       </div>
+                                                );
+                                             })}
+                                          </div>
+                                       ) : (
+                                          <div className="flex flex-col gap-3">
+                                            <div className={`p-4 rounded-xl border-2 ${studentSelection === actualAnswer ? 'bg-[#d1f5d3] border-emerald-300 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'}`}>
+                                              <p className="text-xs font-black uppercase mb-1 opacity-60">Student Answer</p>
+                                              <p className="font-bold">{studentSelection || '(No answer provided)'}</p>
+                                            </div>
+                                            {studentSelection !== actualAnswer && (
+                                              <div className="p-4 rounded-xl border-2 bg-emerald-50 border-emerald-200 text-emerald-900">
+                                                <p className="text-xs font-black uppercase mb-1 opacity-60">Correct Answer</p>
+                                                <p className="font-bold">{actualAnswer}</p>
+                                              </div>
+                                            )}
+                                          </div>
+                                       )}
                                     </div>
                                  );
                               })}
@@ -8029,31 +8044,46 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                                   {q.text}
                                                </p>
                                                
-                                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                  {q.options.map((opt, optIdx) => {
-                                                     const isStudentSelection = opt === studentSelection;
-                                                     const isActualCorrect = opt === actualAnswer;
-                                                     
-                                                     let optionClasses = "px-5 py-3.5 rounded-xl border flex items-center gap-4 transition-all ";
-                                                     
-                                                     if (isActualCorrect) {
-                                                        optionClasses += "bg-[#d1f5d3] border-emerald-300 text-emerald-900";
-                                                     } else if (isStudentSelection && !isActualCorrect) {
-                                                        optionClasses += "bg-rose-50 border-rose-200 text-rose-900";
-                                                     } else {
-                                                        optionClasses += "bg-white border-slate-200 text-slate-600";
-                                                     }
+                                               {q.options && q.options.length > 0 ? (
+                                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                     {q.options.map((opt, optIdx) => {
+                                                        const isStudentSelection = opt === studentSelection;
+                                                        const isActualCorrect = opt === actualAnswer;
+                                                        
+                                                        let optionClasses = "px-5 py-3.5 rounded-xl border flex items-center gap-4 transition-all ";
+                                                        
+                                                        if (isActualCorrect) {
+                                                           optionClasses += "bg-[#d1f5d3] border-emerald-300 text-emerald-900";
+                                                        } else if (isStudentSelection && !isActualCorrect) {
+                                                           optionClasses += "bg-rose-50 border-rose-200 text-rose-900";
+                                                        } else {
+                                                           optionClasses += "bg-white border-slate-200 text-slate-600";
+                                                        }
 
-                                                     return (
-                                                        <div key={optIdx} className={optionClasses}>
-                                                           <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-[11px] font-black ${isActualCorrect ? 'bg-emerald-200/60 text-emerald-800' : isStudentSelection && !isActualCorrect ? 'bg-rose-200/60 text-rose-800' : 'bg-slate-50 text-slate-500'}`}>
-                                                              {String.fromCharCode(65 + optIdx)}
+                                                        return (
+                                                           <div key={optIdx} className={optionClasses}>
+                                                              <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-[11px] font-black ${isActualCorrect ? 'bg-emerald-200/60 text-emerald-800' : isStudentSelection && !isActualCorrect ? 'bg-rose-200/60 text-rose-800' : 'bg-slate-50 text-slate-500'}`}>
+                                                                 {String.fromCharCode(65 + optIdx)}
+                                                              </div>
+                                                              <span className="text-[13px] font-bold flex-1">{opt}</span>
                                                            </div>
-                                                           <span className="text-[13px] font-bold flex-1">{opt}</span>
-                                                        </div>
-                                                     );
-                                                  })}
-                                               </div>
+                                                        );
+                                                     })}
+                                                  </div>
+                                               ) : (
+                                                  <div className="flex flex-col gap-3">
+                                                    <div className={`p-4 rounded-xl border-2 ${studentSelection === actualAnswer ? 'bg-[#d1f5d3] border-emerald-300 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'}`}>
+                                                      <p className="text-xs font-black uppercase mb-1 opacity-60">Student Answer</p>
+                                                      <p className="font-bold">{studentSelection || '(No answer provided)'}</p>
+                                                    </div>
+                                                    {studentSelection !== actualAnswer && (
+                                                      <div className="p-4 rounded-xl border-2 bg-emerald-50 border-emerald-200 text-emerald-900">
+                                                        <p className="text-xs font-black uppercase mb-1 opacity-60">Correct Answer</p>
+                                                        <p className="font-bold">{actualAnswer}</p>
+                                                      </div>
+                                                    )}
+                                                  </div>
+                                               )}
 
                                                {studentSelection !== actualAnswer && (
                                                   <div className="bg-green-50 border border-green-200 p-5 rounded-2xl flex gap-3 text-left mt-4">
