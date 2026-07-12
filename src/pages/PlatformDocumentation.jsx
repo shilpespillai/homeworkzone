@@ -62,7 +62,7 @@ export default function PlatformDocumentation() {
               icon={<LayoutDashboard className="w-6 h-6 text-blue-500" />}
               title="Dashboard"
               desc="A global overview of all classes and students. It provides quick statistics on active assignments, pending grading tasks, overall student progress, and total revenue summaries for independent tutors."
-              image="/images/docs-teacher-dashboard.png"
+              image="/images/hero-kids.jpg"
             />
             <DocItem 
               icon={<img src="/ic-classes.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Classes" />}
@@ -73,7 +73,7 @@ export default function PlatformDocumentation() {
               icon={<img src="/ic-homework.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Homework" />}
               title="Homework/Test Builder"
               desc="The core AI engine! Enter any topic or paste a text passage, and the AI automatically generates multiple-choice, short answer, and interactive drag-and-drop questions perfectly suited for the selected grade level and subject."
-              image="/images/docs-ai-builder.png"
+              image="/images/library.jpg"
             />
             <DocItem 
               icon={<Calendar className="w-6 h-6 text-pink-500" />}
@@ -136,7 +136,7 @@ export default function PlatformDocumentation() {
               icon={<LayoutDashboard className="w-6 h-6 text-red-500" />}
               title="Dashboard"
               desc="The student's home base. Displays upcoming 'Missions' (homework assignments), recent achievements, their interactive Virtual Pet Companion, and their current XP level."
-              image="/images/docs-student-dashboard.png"
+              image="/images/math-learning-banner.png"
             />
             <DocItem 
               icon={<img src="/ic-homework.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Homework" />}
