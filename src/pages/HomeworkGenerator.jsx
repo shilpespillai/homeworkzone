@@ -435,6 +435,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
            - CRITICAL VOCABULARY RULE: You MUST strictly adapt the reading level, vocabulary, and sentence structure to be age-appropriate for the specified grade level. For early learners (Foundation, Grade 1, Grade 2), use extremely simple, short, decodable words and short sentences. Avoid complex phrasing completely.
         2. For Mathematics:
            - Ensure all equations, word problems, and numeric values are mathematically correct. Double-check your own calculations so there is zero arithmetic error.
+           - CRITICAL MATH RULE: Never hallucinate mathematical properties! (e.g. 1234 is EVEN, not odd. Do not confidently assert false mathematical facts). The correct answer MUST be logically and mathematically indisputable.
         3. For Science:
            - Ensure all facts, definitions, and concepts are scientifically accurate and standard.
         4. General:

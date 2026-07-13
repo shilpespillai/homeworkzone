@@ -54,10 +54,9 @@ CRITICAL FORMATTING RULES:
 - ABSOLUTELY NO DOUBLE QUOTES inside the explanation strings! Use single quotes (' ') instead if you need to quote something. Unescaped double quotes will crash the JSON parser.
 
 CRITICAL ACCURACY RULES:
-- All mathematical calculations must be 100% correct — double-check arithmetic
-- All scientific facts must be accurate
-- All grammar/language explanations must be linguistically correct
-- The explanation MUST justify the stated correct answer
+- All mathematical calculations must be 100% correct — double-check arithmetic!
+- All scientific facts must be accurate.
+- The explanation must align with reality. If the provided 'Correct Answer' contains a blatant error (e.g., claiming 1234 is odd), DO NOT invent fake rules (like 'in this context') to justify it. Explain the actual true concept properly!
 
 Questions:
 ${questionsFormatted}
