@@ -575,6 +575,9 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         - Cartesian planes: Draw beautiful soft blue grid lines, bold colorful axes, and plot highly visible vibrant points/shapes with drop shadows.
         - Spinners & Probability: Draw gorgeous, brightly colored sections. Make the spinner arrow pop with a 3D shadow.
         - Geometry: Fill shapes with soft semi-transparent colors (fill-opacity="0.3") and use thick vibrant borders (e.g., a bright pink triangle with a thick hot pink border).
+        
+        CRITICAL FOR CLOCKS AND TIME: 
+        DO NOT try to draw analog clocks using "svgCode" because you will likely calculate the hand angles incorrectly! INSTEAD, simply include the string "[CLOCK:HH:MM]" anywhere in your question "text" (e.g., "What time is shown on the clock? [CLOCK:02:30]"). Our system will automatically detect this and render a mathematically perfect, beautiful analog clock diagram in its place!
 
         CRITICAL FOR BIOLOGICAL SCIENCE MODELS (Plants, Animals, Organs, Ecosystems):
         DO NOT try to draw biological organisms using "svgCode". Your raw SVG drawings of plants and animals look like rudimentary child drawings. INSTEAD, use the "imagePrompt" string property to describe a highly detailed realistic photo or textbook illustration. Formulate your question so it does NOT require A, B, C, D labels directly on the image. (e.g. Ask "Which part of a plant absorbs water?" with options "Roots", "Leaves", etc. and an imagePrompt of "A beautiful realistic 3D render of a plant showing its root system in the soil").

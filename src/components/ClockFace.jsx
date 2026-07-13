@@ -9,23 +9,36 @@ export const ClockFace = ({ timeStr }) => {
   const hourAngle = (hours % 12) * 30 + (minutes / 60) * 30;
 
   return (
-    <div className="flex justify-center my-6 w-full">
-      <svg width="200" height="200" viewBox="0 0 100 100" className="drop-shadow-lg">
-        <circle cx="50" cy="50" r="48" fill="white" stroke="#334155" strokeWidth="4" />
-        <circle cx="50" cy="50" r="40" fill="transparent" stroke="#f1f5f9" strokeWidth="1" />
+    <div className="flex justify-center my-8 w-full">
+      <svg width="250" height="250" viewBox="0 0 100 100" className="drop-shadow-2xl">
+        {/* Outer Rim Shadow & Bezel */}
+        <circle cx="50" cy="52" r="48" fill="#cbd5e1" />
+        <circle cx="50" cy="50" r="48" fill="#3b82f6" stroke="#2563eb" strokeWidth="2" />
         
-        {/* 12 Hour Marks */}
-        {[...Array(12)].map((_, i) => (
-          <line
-            key={`h-${i}`}
-            x1="50" y1="10"
-            x2="50" y2="15"
-            stroke="#1e293b"
-            strokeWidth="2"
-            strokeLinecap="round"
-            transform={`rotate(${i * 30} 50 50)`}
-          />
-        ))}
+        {/* Inner Clock Face */}
+        <circle cx="50" cy="50" r="40" fill="#ffffff" />
+        
+        {/* 12 Hour Numbers */}
+        {[...Array(12)].map((_, i) => {
+          const hour = i === 0 ? 12 : i;
+          const angle = (i * 30 - 90) * (Math.PI / 180);
+          const x = 50 + 29 * Math.cos(angle);
+          const y = 50 + 29 * Math.sin(angle);
+          return (
+            <text
+              key={`h-${i}`}
+              x={x} y={y}
+              fill="#1e293b"
+              fontSize="12"
+              fontWeight="900"
+              fontFamily="'Nunito', 'Comic Sans MS', sans-serif"
+              textAnchor="middle"
+              alignmentBaseline="central"
+            >
+              {hour}
+            </text>
+          );
+        })}
 
         {/* 60 Minute Marks */}
         {[...Array(60)].map((_, i) => {
@@ -33,8 +46,8 @@ export const ClockFace = ({ timeStr }) => {
           return (
             <line
               key={`m-${i}`}
-              x1="50" y1="10"
-              x2="50" y2="12"
+              x1="50" y1="11"
+              x2="50" y2="13"
               stroke="#94a3b8"
               strokeWidth="1"
               strokeLinecap="round"
@@ -43,29 +56,33 @@ export const ClockFace = ({ timeStr }) => {
           )
         })}
 
-        {/* Hour Hand */}
+        {/* Hour Hand Shadow & Hand */}
         <line
-          x1="50" y1="50"
-          x2="50" y2="25"
-          stroke="#0f172a"
-          strokeWidth="4"
-          strokeLinecap="round"
+          x1="50" y1="50" x2="50" y2="28"
+          stroke="#94a3b8" strokeWidth="5" strokeLinecap="round"
+          transform={`rotate(${hourAngle} 51 51)`}
+        />
+        <line
+          x1="50" y1="50" x2="50" y2="28"
+          stroke="#0f172a" strokeWidth="5" strokeLinecap="round"
           transform={`rotate(${hourAngle} 50 50)`}
         />
 
-        {/* Minute Hand */}
+        {/* Minute Hand Shadow & Hand */}
         <line
-          x1="50" y1="50"
-          x2="50" y2="15"
-          stroke="#ef4444"
-          strokeWidth="3"
-          strokeLinecap="round"
+          x1="50" y1="50" x2="50" y2="15"
+          stroke="#94a3b8" strokeWidth="3" strokeLinecap="round"
+          transform={`rotate(${minuteAngle} 51 51)`}
+        />
+        <line
+          x1="50" y1="50" x2="50" y2="15"
+          stroke="#ef4444" strokeWidth="3" strokeLinecap="round"
           transform={`rotate(${minuteAngle} 50 50)`}
         />
 
         {/* Center Dots */}
-        <circle cx="50" cy="50" r="4" fill="#0f172a" />
-        <circle cx="50" cy="50" r="2" fill="#ef4444" />
+        <circle cx="50" cy="50" r="5" fill="#0f172a" />
+        <circle cx="50" cy="50" r="2.5" fill="#facc15" />
       </svg>
     </div>
   );
