@@ -654,16 +654,11 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                              ) : q.interactiveType === 'matching' ? (
                                <InteractiveMatching 
                                  pairs={q.interactiveData} 
-                                 disabled={isReviewing} 
-                                 onMatch={(newMatches) => { if (!isReviewing) handleSelect(q.id, newMatches.join(', ')); }}
+                                 disabled={isReviewing}
+                                 reviewMatches={isReviewing ? answers[q.id] : undefined}
+                                 onMatch={(arr) => { if (!isReviewing) handleSelect(q.id, arr[0] || ''); }}
                                />
                              ) : null}
-                             {isReviewing && isWrong && (
-                               <div className="mt-4 p-4 bg-rose-50 border-2 border-rose-200 rounded-2xl">
-                                 <p className="text-rose-600 font-black mb-1">Correct Answer:</p>
-                                 <p className="text-rose-800 font-bold text-lg">{q.answer}</p>
-                               </div>
-                             )}
                            </div>
                          ) : q.questionType === 'text' || !q.options || q.options.length === 0 ? (
                            <div className="flex flex-col gap-2">
@@ -1011,17 +1006,11 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                     ) : currentQuestion.interactiveType === 'matching' ? (
                       <InteractiveMatching 
                         pairs={currentQuestion.interactiveData} 
-                        disabled={isReviewing} 
-                        onMatch={(newMatches) => { if (!isReviewing) handleSelect(currentQuestion.id, newMatches.join(', ')); }}
+                        disabled={isReviewing}
+                        reviewMatches={isReviewing ? answers[currentQuestion.id] : undefined}
+                        onMatch={(arr) => { if (!isReviewing) handleSelect(currentQuestion.id, arr[0] || ''); }}
                       />
                     ) : null}
-                    
-                    {isReviewing && answers[currentQuestion.id] !== currentQuestion.answer && (
-                      <div className="mt-4 p-4 bg-rose-50 border-2 border-rose-200 rounded-2xl">
-                        <p className="text-rose-600 font-black mb-1">Correct Answer:</p>
-                        <p className="text-rose-800 font-bold text-lg">{currentQuestion.answer}</p>
-                      </div>
-                    )}
                   </div>
                 ) : currentQuestion.options && currentQuestion.options.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mt-6">

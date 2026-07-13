@@ -1,125 +1,240 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
-export default function InteractiveMatching({ pairs, onMatch, disabled }) {
-  const [leftItems, setLeftItems] = useState([]);
+/**
+ * InteractiveMatching
+ * 
+ * A proper "Match the Following" component:
+ *  - Left column: questions/prompts (fixed order)
+ *  - Right column: answers (scrambled)
+ *  - Student clicks a left item, then a right item to form a pair
+ *  - NO wrong-answer feedback — any connection is accepted (homework mode)
+ *  - Matched pairs are highlighted with a unique color and connected by a line
+ *  - Student can unmatch by clicking a matched item again
+ */
+export default function InteractiveMatching({ pairs, onMatch, disabled, reviewMatches }) {
+  const [leftItems, setLeftItems]   = useState([]);
   const [rightItems, setRightItems] = useState([]);
-  
   const [selectedLeft, setSelectedLeft] = useState(null);
-  const [selectedRight, setSelectedRight] = useState(null);
-  const [matches, setMatches] = useState([]);
-  const [wrongAttempt, setWrongAttempt] = useState(false);
+  // matches: array of { left, right, color }
+  const [matches, setMatches]       = useState([]);
+  const svgRef                      = useRef(null);
+  const containerRef                = useRef(null);
+  const leftRefs                    = useRef([]);
+  const rightRefs                   = useRef([]);
 
-  // Initialize and scramble
+  const PAIR_COLORS = [
+    { line: '#6366f1', bg: 'bg-indigo-100', border: 'border-indigo-400', text: 'text-indigo-700' },
+    { line: '#f59e0b', bg: 'bg-amber-100',  border: 'border-amber-400',  text: 'text-amber-700' },
+    { line: '#10b981', bg: 'bg-emerald-100',border: 'border-emerald-400',text: 'text-emerald-700' },
+    { line: '#ef4444', bg: 'bg-rose-100',   border: 'border-rose-400',   text: 'text-rose-700' },
+    { line: '#8b5cf6', bg: 'bg-violet-100', border: 'border-violet-400', text: 'text-violet-700' },
+  ];
+
   useEffect(() => {
     if (!pairs) return;
-    
-    const lefts = [];
-    const rights = [];
-    
+    const lefts = [], rights = [];
     pairs.forEach(pair => {
       const parts = pair.split('||');
-      if (parts.length === 2) {
-        lefts.push(parts[0]);
-        rights.push(parts[1]);
-      }
+      if (parts.length === 2) { lefts.push(parts[0]); rights.push(parts[1]); }
     });
-
-    // Scramble right side
-    const scrambledRights = [...rights].sort(() => Math.random() - 0.5);
-    
     setLeftItems(lefts);
-    setRightItems(scrambledRights);
+    setRightItems([...rights].sort(() => Math.random() - 0.5));
+    setSelectedLeft(null);
+    setMatches([]);
   }, [pairs]);
 
+  // In review mode: show correct connections from reviewMatches string
   useEffect(() => {
-    // Check match when both selected
-    if (selectedLeft !== null && selectedRight !== null) {
-      const leftValue = leftItems[selectedLeft];
-      const rightValue = rightItems[selectedRight];
-      
-      // Look for the correct pair
-      const isCorrect = pairs.some(p => p === `${leftValue}||${rightValue}`);
-      
-      if (isCorrect) {
-        const newMatch = `${leftValue}||${rightValue}`;
-        const updatedMatches = [...matches, newMatch];
-        setMatches(updatedMatches);
-        
-        if (onMatch) {
-          onMatch(updatedMatches);
-        }
-        
-        setSelectedLeft(null);
-        setSelectedRight(null);
-      } else {
-        setWrongAttempt(true);
-        setTimeout(() => {
-          setWrongAttempt(false);
-          setSelectedLeft(null);
-          setSelectedRight(null);
-        }, 800);
-      }
+    if (!reviewMatches || !leftItems.length || !rightItems.length) return;
+    const reviewPairs = reviewMatches.split(',').map(s => s.trim());
+    const built = reviewPairs.map((rp, i) => {
+      const parts = rp.split('||');
+      if (parts.length !== 2) return null;
+      return { left: parts[0].trim(), right: parts[1].trim(), color: PAIR_COLORS[i % PAIR_COLORS.length] };
+    }).filter(Boolean);
+    setMatches(built);
+  }, [reviewMatches, leftItems, rightItems]);
+
+  const handleLeftClick = (item) => {
+    if (disabled) return;
+    // If already matched, unmatch it
+    const existingMatch = matches.find(m => m.left === item);
+    if (existingMatch) {
+      const updated = matches.filter(m => m.left !== item);
+      setMatches(updated);
+      reportMatches(updated);
+      return;
     }
-  }, [selectedLeft, selectedRight, leftItems, rightItems, matches, pairs, onMatch]);
+    setSelectedLeft(item === selectedLeft ? null : item);
+  };
+
+  const handleRightClick = (item) => {
+    if (disabled) return;
+    // If already matched, unmatch it
+    const existingMatch = matches.find(m => m.right === item);
+    if (existingMatch) {
+      const updated = matches.filter(m => m.right !== item);
+      setMatches(updated);
+      reportMatches(updated);
+      setSelectedLeft(null);
+      return;
+    }
+    if (selectedLeft === null) return;
+    // Make the match
+    const colorIdx = matches.length % PAIR_COLORS.length;
+    const newMatch = { left: selectedLeft, right: item, color: PAIR_COLORS[colorIdx] };
+    const updated = [...matches, newMatch];
+    setMatches(updated);
+    reportMatches(updated);
+    setSelectedLeft(null);
+  };
+
+  const reportMatches = useCallback((updatedMatches) => {
+    if (!onMatch) return;
+    // Report as "Left||Right, Left||Right" string
+    const str = updatedMatches.map(m => `${m.left}||${m.right}`).join(', ');
+    onMatch(str ? [str] : []);
+  }, [onMatch]);
+
+  // Draw SVG lines between matched pairs
+  const [lines, setLines] = useState([]);
+  const updateLines = useCallback(() => {
+    if (!containerRef.current || !svgRef.current) return;
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const svgRect       = svgRef.current.getBoundingClientRect();
+
+    const newLines = matches.map(match => {
+      const leftIdx  = leftItems.indexOf(match.left);
+      const rightIdx = rightItems.indexOf(match.right);
+      const leftEl   = leftRefs.current[leftIdx];
+      const rightEl  = rightRefs.current[rightIdx];
+      if (!leftEl || !rightEl) return null;
+      const lr = leftEl.getBoundingClientRect();
+      const rr = rightEl.getBoundingClientRect();
+      return {
+        x1: lr.right - svgRect.left,
+        y1: lr.top + lr.height / 2 - svgRect.top,
+        x2: rr.left - svgRect.left,
+        y2: rr.top + rr.height / 2 - svgRect.top,
+        color: match.color.line,
+      };
+    }).filter(Boolean);
+    setLines(newLines);
+  }, [matches, leftItems, rightItems]);
+
+  useEffect(() => {
+    updateLines();
+    window.addEventListener('resize', updateLines);
+    return () => window.removeEventListener('resize', updateLines);
+  }, [updateLines]);
 
   if (!pairs || pairs.length === 0) return null;
 
   return (
-    <div className="w-full max-w-4xl mx-auto py-6 grid grid-cols-2 gap-8">
-      {/* Left Column */}
-      <div className="space-y-4">
-        {leftItems.map((item, idx) => {
-          const isMatched = matches.some(m => m.startsWith(`${item}||`));
-          const isSelected = selectedLeft === idx;
-          return (
-            <motion.button
-              key={`left-${idx}`}
-              whileHover={!disabled && !isMatched ? { scale: 1.02 } : {}}
-              whileTap={!disabled && !isMatched ? { scale: 0.98 } : {}}
-              disabled={disabled || isMatched}
-              onClick={() => setSelectedLeft(idx)}
-              className={`
-                w-full p-4 rounded-2xl border-4 text-lg font-bold text-left transition-all
-                ${isMatched ? 'bg-emerald-50 border-emerald-200 text-emerald-700 opacity-50' : 
-                  isSelected ? 'bg-indigo-50 border-indigo-400 text-indigo-700 shadow-md' : 
-                  'bg-white border-slate-100 text-slate-700 shadow-sm hover:border-indigo-200'}
-                ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
-                ${isSelected && wrongAttempt ? 'bg-red-50 border-red-400 animate-shake' : ''}
-              `}
-            >
-              {item}
-            </motion.button>
-          );
-        })}
+    <div ref={containerRef} className="relative w-full max-w-3xl mx-auto select-none py-4">
+      {/* Hint text */}
+      {!disabled && (
+        <p className="text-center text-sm font-bold text-slate-400 mb-5 tracking-wide uppercase">
+          Tap a left item, then a right item to connect them. Tap a connected item to undo.
+        </p>
+      )}
+
+      {/* The grid */}
+      <div className="grid grid-cols-[1fr_auto_1fr] gap-x-2 items-start">
+        
+        {/* LEFT COLUMN */}
+        <div className="space-y-4">
+          {leftItems.map((item, idx) => {
+            const match   = matches.find(m => m.left === item);
+            const isSelected = selectedLeft === item && !match;
+            const c = match?.color;
+            return (
+              <button
+                key={`left-${idx}`}
+                ref={el => { leftRefs.current[idx] = el; }}
+                onClick={() => handleLeftClick(item)}
+                disabled={disabled}
+                className={`
+                  w-full p-4 rounded-2xl border-4 text-base font-bold text-left transition-all duration-200
+                  ${match
+                    ? `${c.bg} ${c.border} ${c.text} shadow-md`
+                    : isSelected
+                      ? 'bg-indigo-50 border-indigo-400 text-indigo-800 shadow-lg ring-4 ring-indigo-200'
+                      : 'bg-white border-slate-200 text-slate-700 shadow-sm hover:border-indigo-300 hover:shadow-md'
+                  }
+                  ${disabled ? 'cursor-default' : 'cursor-pointer'}
+                `}
+              >
+                <span className="flex items-center gap-3">
+                  {match && <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: c.line }} />}
+                  {!match && isSelected && <span className="w-3 h-3 rounded-full flex-shrink-0 bg-indigo-400 animate-pulse" />}
+                  {item}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* SVG connector lines */}
+        <div className="relative self-stretch" style={{ minWidth: 60 }}>
+          <svg
+            ref={svgRef}
+            className="absolute inset-0 w-full h-full pointer-events-none overflow-visible"
+            style={{ zIndex: 10 }}
+          >
+            {lines.map((l, i) => (
+              <g key={i}>
+                <line
+                  x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2}
+                  stroke={l.color} strokeWidth="3" strokeLinecap="round"
+                  strokeDasharray="0"
+                  opacity="0.9"
+                />
+                <circle cx={l.x1} cy={l.y1} r="5" fill={l.color} />
+                <circle cx={l.x2} cy={l.y2} r="5" fill={l.color} />
+              </g>
+            ))}
+          </svg>
+        </div>
+
+        {/* RIGHT COLUMN */}
+        <div className="space-y-4">
+          {rightItems.map((item, idx) => {
+            const match   = matches.find(m => m.right === item);
+            const c = match?.color;
+            return (
+              <button
+                key={`right-${idx}`}
+                ref={el => { rightRefs.current[idx] = el; }}
+                onClick={() => handleRightClick(item)}
+                disabled={disabled}
+                className={`
+                  w-full p-4 rounded-2xl border-4 text-base font-bold text-left transition-all duration-200
+                  ${match
+                    ? `${c.bg} ${c.border} ${c.text} shadow-md`
+                    : selectedLeft !== null
+                      ? 'bg-amber-50 border-amber-300 text-amber-800 shadow-sm hover:border-amber-400 hover:shadow-md ring-2 ring-amber-100'
+                      : 'bg-white border-slate-200 text-slate-700 shadow-sm hover:border-amber-300 hover:shadow-md'
+                  }
+                  ${disabled ? 'cursor-default' : 'cursor-pointer'}
+                `}
+              >
+                <span className="flex items-center gap-3">
+                  {match && <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: c.line }} />}
+                  {item}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Right Column */}
-      <div className="space-y-4">
-        {rightItems.map((item, idx) => {
-          const isMatched = matches.some(m => m.endsWith(`||${item}`));
-          const isSelected = selectedRight === idx;
-          return (
-            <motion.button
-              key={`right-${idx}`}
-              whileHover={!disabled && !isMatched ? { scale: 1.02 } : {}}
-              whileTap={!disabled && !isMatched ? { scale: 0.98 } : {}}
-              disabled={disabled || isMatched}
-              onClick={() => setSelectedRight(idx)}
-              className={`
-                w-full p-4 rounded-2xl border-4 text-lg font-bold text-center transition-all
-                ${isMatched ? 'bg-emerald-50 border-emerald-200 text-emerald-700 opacity-50' : 
-                  isSelected ? 'bg-amber-50 border-amber-400 text-amber-700 shadow-md' : 
-                  'bg-white border-slate-100 text-slate-700 shadow-sm hover:border-amber-200'}
-                ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
-                ${isSelected && wrongAttempt ? 'bg-red-50 border-red-400 animate-shake' : ''}
-              `}
-            >
-              {item}
-            </motion.button>
-          );
-        })}
-      </div>
+      {/* Match counter */}
+      {!disabled && (
+        <p className="mt-6 text-center text-sm font-bold text-slate-500">
+          {matches.length} of {leftItems.length} matched
+        </p>
+      )}
     </div>
   );
 }

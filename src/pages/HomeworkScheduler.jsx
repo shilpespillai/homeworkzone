@@ -27,6 +27,8 @@ import { collection, addDoc, serverTimestamp, getDocs, query, where, deleteDoc, 
 import { decryptText } from '../utils/crypto';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
 import { generateExplanations } from '../utils/generateExplanations';
+import CurriculumModal from '../components/CurriculumModal';
+import { curriculum } from '../data/curriculum';
 
 // Module-level lock to prevent double-execution (e.g. from React StrictMode double mounts or rapid mount cycles)
 const activeAutomationsLock = typeof window !== 'undefined'
@@ -139,6 +141,8 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
   const [editForm, setEditForm] = useState({});
 
   const [activeAutomationTab, setActiveAutomationTab] = useState('All');
+  const [isCurriculumModalOpen, setIsCurriculumModalOpen] = useState(false);
+  const [selectedSkills, setSelectedSkills] = useState([]);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -974,14 +978,38 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
             {/* Core Topic / Topic Instruction */}
             <div className="space-y-1.5">
               <label className="text-sm font-black text-blue-500 uppercase tracking-wider block">2. Homework Title / Topic</label>
-              <input 
-                type="text"
-                placeholder="e.g. Week 1 Practice, Water cycle, Past continuous tense..."
-                value={formData.topic}
-                onChange={(e) => setFormData(prev => ({ ...prev, topic: e.target.value }))}
-                className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-5 text-base md:text-lg font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C] focus:bg-white transition-all"
-                required
-              />
+              <div className="flex gap-2">
+                <input 
+                  type="text"
+                  placeholder="e.g. Week 1 Practice, Water cycle, Past continuous tense..."
+                  value={formData.topic}
+                  onChange={(e) => setFormData(prev => ({ ...prev, topic: e.target.value }))}
+                  className="flex-1 h-14 bg-slate-50 border border-slate-200 rounded-2xl px-5 text-base md:text-lg font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C] focus:bg-white transition-all"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setIsCurriculumModalOpen(true)}
+                  className="h-14 px-4 bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-2xl flex items-center gap-2 text-sm transition-all shadow-md shrink-0"
+                >
+                  <BookOpen className="w-4 h-4" />
+                  Browse
+                </button>
+              </div>
+              {selectedSkills.length > 0 && (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {selectedSkills.map((s, i) => (
+                    <span key={i} className="inline-flex items-center gap-1.5 bg-indigo-50 border border-indigo-200 text-indigo-700 font-bold text-xs px-3 py-1.5 rounded-full">
+                      {s.title}
+                      <button type="button" onClick={() => {
+                        const updated = selectedSkills.filter((_, idx) => idx !== i);
+                        setSelectedSkills(updated);
+                        if (updated.length > 0) setFormData(prev => ({ ...prev, topic: updated.map(sk => sk.title).join(', ') }));
+                      }} className="text-indigo-400 hover:text-indigo-600 ml-0.5">✕</button>
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Curriculum Alignment */}
@@ -1926,6 +1954,26 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
             </div>
           </div>
         </div>
+      )}
+      {isCurriculumModalOpen && (
+        <CurriculumModal
+          isOpen={isCurriculumModalOpen}
+          onClose={() => {
+            setIsCurriculumModalOpen(false);
+            if (selectedSkills.length > 0) {
+              setFormData(prev => ({ ...prev, topic: selectedSkills.map(s => s.title).join(', ') }));
+            }
+          }}
+          curriculumData={curriculum[formData.grade]?.[formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1)] || []}
+          selectedSkills={selectedSkills}
+          setSelectedSkills={(updaterFnOrValue) => {
+            const updated = typeof updaterFnOrValue === 'function' ? updaterFnOrValue(selectedSkills) : updaterFnOrValue;
+            setSelectedSkills(updated);
+            if (updated.length > 0) {
+              setFormData(prev => ({ ...prev, topic: updated.map(s => s.title).join(', ') }));
+            }
+          }}
+        />
       )}
     </div>
   );
