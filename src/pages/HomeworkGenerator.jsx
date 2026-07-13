@@ -567,11 +567,14 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         CRITICAL FOR COMPLEX/CUSTOM DIAGRAMS (Cartesian Planes, Science Models, Perimeter/Area, Money):
         If the question requires a Cartesian coordinate plane (with x/y axes, e.g. from -5 to 5), a custom geometric figure (e.g., a triangle with all 3 sides labeled), or pictures of MONEY (coins and banknotes), YOU MUST USE the "svgCode" property to draw it from scratch!
         "svgCode": "<svg viewBox='0 0 400 400'>...</svg>"
-        Rules for "svgCode":
-        - For Cartesian planes: Draw grid lines, bold the x and y axes, add axis numbers, and draw the plotted points or shapes clearly.
-        - For Money: Draw highly realistic or premium stylized coins and bank notes with proper shading.
-        - For Custom Geometry: Draw the shape perfectly with distinct stroke colors and place text labels (e.g., "15 cm") along the edges cleanly.
-        - ALWAYS use a responsive viewBox, high-quality aesthetics, and readable modern fonts (font-family="sans-serif" font-size="16" font-weight="bold").
+        CRITICAL RULES FOR "svgCode" AESTHETICS (Make it look like premium educational clipart!):
+        - 🎨 VIBRANT COLORS: NEVER use boring plain black lines on white backgrounds! Use bright, cheerful, or highly saturated hex colors (e.g., #FF6B6B red, #4ECDC4 teal, #FFE66D yellow, #6B5B95 purple, #A8E6CF mint). Fill backgrounds with a very soft pastel color instead of plain white.
+        - 🖌️ THICK STROKES & ROUNDED CORNERS: Make shapes look extremely friendly and professional by using thick strokes (stroke-width="3" or "4"), and always use stroke-linecap="round" and stroke-linejoin="round".
+        - ☁️ SHADOWS & DEPTH: Make shapes pop off the page! Draw a slightly offset dark-opacity copy of the shape underneath it to create a 3D drop shadow effect.
+        - ✏️ PLAYFUL FONTS: Use font-family="'Nunito', 'Comic Sans MS', sans-serif" font-weight="900" and large font sizes for a playful, highly readable, child-friendly look.
+        - Cartesian planes: Draw beautiful soft blue grid lines, bold colorful axes, and plot highly visible vibrant points/shapes with drop shadows.
+        - Spinners & Probability: Draw gorgeous, brightly colored sections. Make the spinner arrow pop with a 3D shadow.
+        - Geometry: Fill shapes with soft semi-transparent colors (fill-opacity="0.3") and use thick vibrant borders (e.g., a bright pink triangle with a thick hot pink border).
 
         CRITICAL FOR BIOLOGICAL SCIENCE MODELS (Plants, Animals, Organs, Ecosystems):
         DO NOT try to draw biological organisms using "svgCode". Your raw SVG drawings of plants and animals look like rudimentary child drawings. INSTEAD, use the "imagePrompt" string property to describe a highly detailed realistic photo or textbook illustration. Formulate your question so it does NOT require A, B, C, D labels directly on the image. (e.g. Ask "Which part of a plant absorbs water?" with options "Roots", "Leaves", etc. and an imagePrompt of "A beautiful realistic 3D render of a plant showing its root system in the soil").
@@ -592,7 +595,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       if (Array.isArray(questions)) {
         questions.forEach(q => {
           if (q.imagePrompt && !q.imageUrl) {
-            q.imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(q.imagePrompt)}?width=800&height=800&nologo=true`;
+            const styleModifier = " in the style of highly attractive, cute, flat vector educational clipart for children, vibrant pastel colors, clean white background, no text";
+            q.imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(q.imagePrompt + styleModifier)}?width=800&height=800&nologo=true`;
           } else if (q.imageUrl && !q.imageUrl.includes('pollinations')) {
             // Delete broken hallucinated URLs
             delete q.imageUrl;
