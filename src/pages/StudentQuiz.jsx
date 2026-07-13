@@ -647,7 +647,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                            <div className="flex flex-col gap-4">
                              {q.interactiveType === 'sorting' ? (
                                <InteractiveSorting 
-                                 items={q.interactiveData} 
+                                 items={answers[q.id] ? answers[q.id].split(', ') : q.interactiveData} 
                                  disabled={isReviewing} 
                                  onReorder={(newOrder) => { if (!isReviewing) handleSelect(q.id, newOrder.join(', ')); }} 
                                />
@@ -1000,7 +1000,30 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             {/* Options or Text/Interactive Answer Display */}
             {homework.type !== 'lesson' && (
               <>
-                {currentQuestion.options && currentQuestion.options.length > 0 ? (
+                {currentQuestion.questionType === 'interactive' ? (
+                  <div className="flex flex-col gap-4 mt-6">
+                    {currentQuestion.interactiveType === 'sorting' ? (
+                      <InteractiveSorting 
+                        items={answers[currentQuestion.id] ? answers[currentQuestion.id].split(', ') : currentQuestion.interactiveData} 
+                        disabled={isReviewing} 
+                        onReorder={(newOrder) => { if (!isReviewing) handleSelect(currentQuestion.id, newOrder.join(', ')); }} 
+                      />
+                    ) : currentQuestion.interactiveType === 'matching' ? (
+                      <InteractiveMatching 
+                        pairs={currentQuestion.interactiveData} 
+                        disabled={isReviewing} 
+                        onMatch={(newMatches) => { if (!isReviewing) handleSelect(currentQuestion.id, newMatches.join(', ')); }}
+                      />
+                    ) : null}
+                    
+                    {isReviewing && answers[currentQuestion.id] !== currentQuestion.answer && (
+                      <div className="mt-4 p-4 bg-rose-50 border-2 border-rose-200 rounded-2xl">
+                        <p className="text-rose-600 font-black mb-1">Correct Answer:</p>
+                        <p className="text-rose-800 font-bold text-lg">{currentQuestion.answer}</p>
+                      </div>
+                    )}
+                  </div>
+                ) : currentQuestion.options && currentQuestion.options.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mt-6">
                     {currentQuestion.options.map((option, i) => {
                       const isSelected = answers[currentQuestion.id] === option;
@@ -1071,10 +1094,20 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                   </div>
                 ) : (
                   <div className="mt-8 flex flex-col gap-4">
-                    <div className="p-6 bg-slate-50 border-4 border-slate-200 rounded-[24px]">
-                      <h3 className="text-slate-500 font-bold uppercase tracking-wider text-sm mb-2">Your Answer</h3>
-                      <p className="text-xl font-black text-slate-700">{answers[currentQuestion.id] || "No answer provided"}</p>
-                    </div>
+                    {!isReviewing && homework.type !== 'test' ? (
+                      <input 
+                        type="text" 
+                        value={answers[currentQuestion.id] || ''}
+                        onChange={(e) => handleSelect(currentQuestion.id, e.target.value)}
+                        className="w-full max-w-md p-5 text-xl font-bold border-4 rounded-[20px] focus:outline-none transition-all bg-white focus:border-[#38BDF8] focus:shadow-[0_0_0_4px_rgba(56,189,248,0.2)] hover:border-slate-300 border-slate-200 text-slate-700"
+                        placeholder="Type your answer here..."
+                      />
+                    ) : (
+                      <div className="p-6 bg-slate-50 border-4 border-slate-200 rounded-[24px]">
+                        <h3 className="text-slate-500 font-bold uppercase tracking-wider text-sm mb-2">Your Answer</h3>
+                        <p className="text-xl font-black text-slate-700">{answers[currentQuestion.id] || "No answer provided"}</p>
+                      </div>
+                    )}
                     {isReviewing && answers[currentQuestion.id] !== currentQuestion.answer && (
                       <div className="p-6 bg-emerald-50 border-4 border-emerald-200 rounded-[24px]">
                         <h3 className="text-emerald-600 font-bold uppercase tracking-wider text-sm mb-2">Correct Answer</h3>
