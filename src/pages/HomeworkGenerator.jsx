@@ -580,6 +580,14 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         
         CRITICAL FOR CLOCKS AND TIME: 
         DO NOT try to draw analog clocks using "svgCode" because you will likely calculate the hand angles incorrectly! INSTEAD, simply include the string "[CLOCK:HH:MM]" anywhere in your question "text" (e.g., "What time is shown on the clock? [CLOCK:02:30]"). Our system will automatically detect this and render a mathematically perfect, beautiful analog clock diagram in its place!
+        IMPORTANT TIME CONVERSION RULES — you MUST follow these exactly when choosing the HH:MM value for [CLOCK:]:
+        - "o'clock" → MM = 00. e.g. "3 o'clock" → [CLOCK:03:00]
+        - "half past X" → MM = 30. e.g. "half past 7" → [CLOCK:07:30]
+        - "quarter past X" → MM = 15. e.g. "quarter past 4" → [CLOCK:04:15]
+        - "quarter to X" → HH = X-1, MM = 45. e.g. "quarter to 11" → [CLOCK:10:45], "quarter to 3" → [CLOCK:02:45]
+        - "X minutes past Y" → HH = Y, MM = X. e.g. "20 minutes past 6" → [CLOCK:06:20]
+        - "X minutes to Y" → HH = Y-1, MM = 60-X. e.g. "10 minutes to 5" → [CLOCK:04:50]
+        ALWAYS double-check: if the question says "quarter to 11", the clock MUST show 10:45, NOT 10:10 or 11:45.
 
         CRITICAL FOR BIOLOGICAL SCIENCE MODELS (Plants, Animals, Organs, Ecosystems):
         DO NOT try to draw biological organisms using "svgCode". Your raw SVG drawings of plants and animals look like rudimentary child drawings. INSTEAD, use the "imagePrompt" string property to describe a highly detailed realistic photo or textbook illustration. Formulate your question so it does NOT require A, B, C, D labels directly on the image. (e.g. Ask "Which part of a plant absorbs water?" with options "Roots", "Leaves", etc. and an imagePrompt of "A beautiful realistic 3D render of a plant showing its root system in the soil").

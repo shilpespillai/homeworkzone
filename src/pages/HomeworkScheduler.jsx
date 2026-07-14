@@ -548,6 +548,14 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         2. For Mathematics:
            - Ensure all equations, word problems, and numeric values are mathematically correct. Double-check your own calculations so there is zero arithmetic error.
            - IF the question involves reading an analog clock, embed the time anywhere in the question text using the exact format [CLOCK:HH:MM] (e.g. [CLOCK:03:15] or [CLOCK:12:30]). The system will automatically render a visual clock for the student.
+             IMPORTANT TIME CONVERSION RULES — you MUST follow these exactly when choosing HH:MM for [CLOCK:]:
+             • "o'clock" → MM=00. e.g. "3 o'clock" → [CLOCK:03:00]
+             • "half past X" → MM=30. e.g. "half past 7" → [CLOCK:07:30]
+             • "quarter past X" → MM=15. e.g. "quarter past 4" → [CLOCK:04:15]
+             • "quarter to X" → HH=X-1, MM=45. e.g. "quarter to 11" → [CLOCK:10:45]; "quarter to 3" → [CLOCK:02:45]
+             • "X minutes past Y" → HH=Y, MM=X. e.g. "20 past 6" → [CLOCK:06:20]
+             • "X minutes to Y" → HH=Y-1, MM=60-X. e.g. "10 to 5" → [CLOCK:04:50]
+             ALWAYS verify: "quarter to 11" clock shows 10:45, NOT 10:10.
         3. For Science:
            - Ensure all facts, definitions, and concepts are scientifically accurate and standard.
         4. General:
@@ -796,6 +804,14 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         2. For Mathematics:
            - Ensure all equations, word problems, and numeric values are mathematically correct. Double-check your own calculations so there is zero arithmetic error.
            - IF the question involves reading an analog clock, embed the time anywhere in the question text using the exact format [CLOCK:HH:MM] (e.g. [CLOCK:03:15] or [CLOCK:12:30]). The system will automatically render a visual clock for the student.
+             IMPORTANT TIME CONVERSION RULES — you MUST follow these exactly when choosing HH:MM for [CLOCK:]:
+             • "o'clock" → MM=00. e.g. "3 o'clock" → [CLOCK:03:00]
+             • "half past X" → MM=30. e.g. "half past 7" → [CLOCK:07:30]
+             • "quarter past X" → MM=15. e.g. "quarter past 4" → [CLOCK:04:15]
+             • "quarter to X" → HH=X-1, MM=45. e.g. "quarter to 11" → [CLOCK:10:45]; "quarter to 3" → [CLOCK:02:45]
+             • "X minutes past Y" → HH=Y, MM=X. e.g. "20 past 6" → [CLOCK:06:20]
+             • "X minutes to Y" → HH=Y-1, MM=60-X. e.g. "10 to 5" → [CLOCK:04:50]
+             ALWAYS verify: "quarter to 11" clock shows 10:45, NOT 10:10.
         3. For Science:
            - Ensure all facts, definitions, and concepts are scientifically accurate and standard.
         4. General:

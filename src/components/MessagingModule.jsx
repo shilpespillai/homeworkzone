@@ -391,7 +391,7 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
           {/* Right Pane (Message Thread View) */}
           <div className={`${activeTab === 'Class Lounge' ? 'w-full' : 'w-2/3'} p-10 flex flex-col justify-between min-h-0 bg-blue-50/10`}>
             {activeTab === 'Class Lounge' ? (
-              <div className="flex flex-col h-full justify-between">
+              <div className="flex flex-col h-full justify-between min-h-0">
                 <div className="mb-6 border-b border-orange-100/50 pb-4 flex justify-between items-start">
                   <div>
                     <h2 className="text-2xl font-black text-[#14532d]">Class Lounge 🎪</h2>
@@ -452,7 +452,7 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
               </div>
             ) : activeTab === 'Classmates' ? (
               activeClassmate ? (
-                <div className="flex flex-col h-full justify-between">
+                <div className="flex flex-col h-full justify-between min-h-0">
                   <div className="mb-6 border-b border-orange-100/50 pb-4 flex justify-between items-start">
                     <div>
                       <h2 className="text-2xl font-black text-[#14532d]">Chat with {activeClassmate.name}</h2>
