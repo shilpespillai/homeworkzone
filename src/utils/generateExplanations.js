@@ -81,7 +81,49 @@ CRITICAL: Use the EXACT question ID numbers as keys. Do not add prefixes or extr
 
       // Clean any markdown wrappers
       const clean = resultText.replace(/```json/g, '').replace(/```/g, '').trim();
-      const parsed = JSON.parse(clean);
+      let parsed;
+      try {
+        parsed = JSON.parse(clean);
+      } catch (jsonErr) {
+        console.warn('[generateExplanations] Standard JSON parse failed, trying loose parser...', jsonErr);
+        parsed = {};
+        const keyPositions = [];
+        const keyRegex = /(?:[{,]\s*)"(\d+)"\s*:\s*"/g;
+        let match;
+        while ((match = keyRegex.exec(clean)) !== null) {
+          const keyStart = match[0].indexOf(`"${match[1]}"`);
+          const absoluteKeyStart = match.index + keyStart;
+          keyPositions.push({
+            key: match[1],
+            index: absoluteKeyStart,
+            valueStartIndex: match.index + match[0].length
+          });
+        }
+        for (let i = 0; i < keyPositions.length; i++) {
+          const current = keyPositions[i];
+          const next = keyPositions[i + 1];
+          let rawValue = next 
+            ? clean.substring(current.valueStartIndex, next.index) 
+            : clean.substring(current.valueStartIndex);
+          rawValue = rawValue.trim();
+          if (rawValue.endsWith(',')) {
+            rawValue = rawValue.slice(0, -1).trim();
+          }
+          if (rawValue.endsWith('}')) {
+            rawValue = rawValue.slice(0, -1).trim();
+          }
+          if (rawValue.endsWith('"')) {
+            rawValue = rawValue.slice(0, -1);
+          }
+          parsed[current.key] = rawValue
+            .replace(/\\"/g, '"')
+            .replace(/\\n/g, '\n')
+            .replace(/\\\\/g, '\\');
+        }
+        if (Object.keys(parsed).length === 0) {
+          throw jsonErr;
+        }
+      }
 
       const normalized = {};
       for (const [k, v] of Object.entries(parsed)) {
