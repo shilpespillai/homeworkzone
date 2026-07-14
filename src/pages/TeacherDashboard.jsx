@@ -954,6 +954,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   }, [user, activeClassroom, activeTab]);
 
   const isInitialMessagesLoadRef = React.useRef(true);
+  const teacherChatEndRef = React.useRef(null);
 
   useEffect(() => {
     if (!user?.uid) return;
@@ -1015,6 +1016,14 @@ const TeacherDashboard = ({ user, onLogout }) => {
       }
     }
   }, [activeTab, activeChat, teacherMessages, user]);
+
+  useEffect(() => {
+    if (activeTab === 'Messages') {
+      setTimeout(() => {
+        teacherChatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 80);
+    }
+  }, [activeTab, activeChat, teacherMessages]);
 
   const fetchClassrooms = async () => {
     if (!user?.uid) return;
@@ -5547,6 +5556,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
                                        </p>
                                     </div>
                                  </div>
+                                 <div ref={teacherChatEndRef} />
                               </div>
 
                               {messagesTab === 'Inbox' && (

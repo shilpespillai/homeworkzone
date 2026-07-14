@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Plus, 
   X, 
@@ -40,6 +40,22 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
   const [newSubject, setNewSubject] = useState('');
   const [newMessageBody, setNewMessageBody] = useState('');
   const [onlineUsers, setOnlineUsers] = useState({});
+
+  const classLoungeEndRef = useRef(null);
+  const classmateEndRef = useRef(null);
+  const inboxEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      classLoungeEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      classmateEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      inboxEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 80);
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, activeTab, activeClassmate, activeMessage]);
   // Real-time listener for messages
   useEffect(() => {
     if (!teacher?.uid || !studentName) return;
@@ -385,8 +401,9 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
                   </div>
                 </div>
                 
-                <div className="overflow-y-auto custom-scrollbar pr-2 flex-1 flex flex-col-reverse gap-4">
+                <div className="overflow-y-auto custom-scrollbar pr-2 flex-1 flex flex-col gap-4">
                   {[...messages]
+                    .reverse()
                     .map((m) => (
                       <div key={m.id} className={`flex gap-4 max-w-[85%] ${m.senderId?.toLowerCase() === studentName?.toLowerCase() ? 'self-end flex-row-reverse' : 'self-start'}`}>
                         {m.senderId?.toLowerCase() !== studentName?.toLowerCase() && (
@@ -409,6 +426,7 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
                   {messages.length === 0 && (
                      <div className="text-center text-slate-400 font-bold italic py-10 w-full">Welcome to the Class Lounge! Say hi to everyone! 👋</div>
                   )}
+                  <div ref={classLoungeEndRef} />
                 </div>
 
                 <div className="mt-6 flex flex-col gap-2">
@@ -444,11 +462,12 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
                     </div>
                   </div>
                   
-                  <div className="overflow-y-auto custom-scrollbar pr-2 flex-1 flex flex-col-reverse gap-4">
+                  <div className="overflow-y-auto custom-scrollbar pr-2 flex-1 flex flex-col gap-4">
                     {/* Messages are sorted descending in state, so we reverse for display */}
                     {[...messages]
                       .filter(m => (m.senderId?.toLowerCase() === activeClassmate.name?.toLowerCase() && m.recipientId?.toLowerCase() === studentName?.toLowerCase()) || 
                                    (m.senderId?.toLowerCase() === studentName?.toLowerCase() && m.recipientId?.toLowerCase() === activeClassmate.name?.toLowerCase()))
+                      .reverse()
                       .map(msg => (
                         <div key={msg.id} className={`max-w-[80%] p-4 rounded-[24px] ${msg.senderId?.toLowerCase() === studentName?.toLowerCase() ? 'bg-[#EA580C] text-white self-end rounded-tr-none shadow-orange-100 shadow-md' : 'bg-white text-slate-700 self-start rounded-tl-none border border-orange-100 shadow-sm'}`}>
                           {msg.content.includes('[DAILY_ROOM:') || msg.content.includes('[JITSI_MEET_ROOM:') ? (
@@ -467,6 +486,7 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
                     {messages.filter(m => (m.senderId?.toLowerCase() === activeClassmate.name?.toLowerCase() && m.recipientId?.toLowerCase() === studentName?.toLowerCase()) || (m.senderId?.toLowerCase() === studentName?.toLowerCase() && m.recipientId?.toLowerCase() === activeClassmate.name?.toLowerCase())).length === 0 && (
                        <div className="text-center text-slate-400 font-bold italic py-10 w-full">Say hi to {activeClassmate.name}! 👋</div>
                     )}
+                    <div ref={classmateEndRef} />
                   </div>
 
                   <div className="pt-6 mt-4 border-t border-orange-100/50 flex items-center gap-4 bg-transparent">
@@ -499,7 +519,7 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
               )
             ) : activeMessage ? (
               <div className="flex flex-col h-full justify-between">
-                <div className="overflow-y-auto custom-scrollbar pr-2 flex-1">
+                <div className="overflow-y-auto custom-scrollbar pr-2 flex-1 flex flex-col gap-4">
                   <div className="mb-6 border-b border-orange-100/50 pb-4 flex justify-between items-start">
                     <div>
                       <h2 className="text-2xl font-black text-[#14532d]">{activeMessage.subject || 'No Subject'}</h2>
@@ -524,6 +544,7 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
                       </div>
                     </div>
                   </div>
+                  <div ref={inboxEndRef} />
                 </div>
 
                 {/* Footer Section (Message Input for Direct Message Replies) */}
