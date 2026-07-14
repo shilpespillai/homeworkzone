@@ -74,11 +74,19 @@ export default function DynamicBlockStructure({ data }) {
           const cx = originX + (x - y) * w;
           const cy = originY + (x + y) * h - (z * 2 * h);
 
-          // Colors to simulate light from top-left
-          const colorTop = "#f8fafc"; // Lightest
-          const colorLeft = "#cbd5e1"; // Mid tone
-          const colorRight = "#94a3b8"; // Darkest
-          const strokeColor = "#475569";
+          // Beautiful toy block color palettes (top, left, right)
+          const palettes = [
+            { top: "#bae6fd", left: "#38bdf8", right: "#0284c7" }, // Blue
+            { top: "#fef08a", left: "#facc15", right: "#ca8a04" }, // Yellow
+            { top: "#a7f3d0", left: "#34d399", right: "#059669" }, // Green
+            { top: "#fecdd3", left: "#fb7185", right: "#e11d48" }, // Red/Pink
+            { top: "#c7d2fe", left: "#818cf8", right: "#4f46e5" }, // Indigo
+            { top: "#fed7aa", left: "#fb923c", right: "#ea580c" }, // Orange
+          ];
+
+          const paletteIdx = (x + y) % palettes.length;
+          const { top: colorTop, left: colorLeft, right: colorRight } = palettes[paletteIdx];
+          const strokeColor = "#1e293b"; // Dark outline for comic/cartoon style
 
           return (
             <g key={`cube-${x}-${y}-${z}`}>
@@ -92,7 +100,7 @@ export default function DynamicBlockStructure({ data }) {
                 `}
                 fill={colorTop}
                 stroke={strokeColor}
-                strokeWidth="1.5"
+                strokeWidth="2.5"
                 strokeLinejoin="round"
               />
               {/* Left Face */}
@@ -105,7 +113,7 @@ export default function DynamicBlockStructure({ data }) {
                 `}
                 fill={colorLeft}
                 stroke={strokeColor}
-                strokeWidth="1.5"
+                strokeWidth="2.5"
                 strokeLinejoin="round"
               />
               {/* Right Face */}
@@ -118,7 +126,7 @@ export default function DynamicBlockStructure({ data }) {
                 `}
                 fill={colorRight}
                 stroke={strokeColor}
-                strokeWidth="1.5"
+                strokeWidth="2.5"
                 strokeLinejoin="round"
               />
             </g>

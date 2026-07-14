@@ -37,6 +37,7 @@ import DynamicPathMap from '../components/DynamicPathMap';
 import DynamicInstrument from '../components/DynamicInstrument';
 import DynamicBlockStructure from '../components/DynamicBlockStructure';
 import EarlyMathVisualizer from '../components/EarlyMathVisualizer';
+import DynamicVennDiagram from '../components/DynamicVennDiagram';
 import InteractiveSorting from '../components/InteractiveSorting';
 import InteractiveMatching from '../components/InteractiveMatching';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
@@ -630,12 +631,13 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                            {q.instrumentData && <div className="w-full md:w-1/2"><DynamicInstrument data={q.instrumentData} /></div>}
                            {q.blockData && <div className="w-full md:w-1/2"><DynamicBlockStructure data={q.blockData} /></div>}
                            {q.earlyMathData && <div className="w-full md:w-1/2"><EarlyMathVisualizer data={q.earlyMathData} /></div>}
-                           {effectiveSvgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.earlyMathData && (
+                           {q.vennDiagramData && <div className="w-full md:w-1/2"><DynamicVennDiagram data={q.vennDiagramData} /></div>}
+                           {effectiveSvgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.earlyMathData && !q.vennDiagramData && (
                              <div className="w-64 h-64 md:w-80 md:h-80 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
                                <div dangerouslySetInnerHTML={{ __html: effectiveSvgCode }} className="w-full h-full" />
                              </div>
                            )}
-                           {q.imageUrl && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.earlyMathData && !effectiveSvgCode && (
+                           {q.imageUrl && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.earlyMathData && !q.vennDiagramData && !effectiveSvgCode && (
                              <div className="w-64 h-64 md:w-80 md:h-80 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner overflow-hidden">
                                <img src={q.imageUrl} alt="Visual" className="w-full h-full object-cover" loading="lazy" />
                              </div>
@@ -973,12 +975,17 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                           <EarlyMathVisualizer data={currentQuestion.earlyMathData} />
                         </div>
                       )}
-                      {effectiveSvgCode && !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.gridMapData && !currentQuestion.numberLineData && !currentQuestion.pathData && !currentQuestion.instrumentData && !currentQuestion.blockData && !currentQuestion.earlyMathData && (
+                      {currentQuestion.vennDiagramData && (
+                        <div className="w-full">
+                          <DynamicVennDiagram data={currentQuestion.vennDiagramData} />
+                        </div>
+                      )}
+                      {effectiveSvgCode && !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.gridMapData && !currentQuestion.numberLineData && !currentQuestion.pathData && !currentQuestion.instrumentData && !currentQuestion.blockData && !currentQuestion.earlyMathData && !currentQuestion.vennDiagramData && (
                         <div className="w-64 h-64 md:w-80 md:h-80 shrink-0 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
                           <div dangerouslySetInnerHTML={{ __html: effectiveSvgCode }} className="w-full h-full" />
                         </div>
                       )}
-                      {showImage && !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.gridMapData && !currentQuestion.numberLineData && !currentQuestion.pathData && !currentQuestion.instrumentData && !currentQuestion.blockData && !currentQuestion.earlyMathData && !effectiveSvgCode && (
+                      {showImage && !currentQuestion.chartData && !currentQuestion.geometryData && !currentQuestion.gridMapData && !currentQuestion.numberLineData && !currentQuestion.pathData && !currentQuestion.instrumentData && !currentQuestion.blockData && !currentQuestion.earlyMathData && !currentQuestion.vennDiagramData && !effectiveSvgCode && (
                         <div className="w-64 h-64 md:w-80 md:h-80 shrink-0 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner overflow-hidden">
                           <img 
                             src={currentQuestion.imageUrl} 
