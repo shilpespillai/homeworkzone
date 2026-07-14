@@ -713,7 +713,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const handleDeleteSubject = async (subKey) => {
     if (await window.confirmCustom(`Are you sure you want to delete the generic prompt for "${subKey}"?`)) {
       const updated = { ...subjectPrompts };
-      delete updated[subKey];
+      updated[subKey] = null;
       setSubjectPrompts(updated);
       if (user?.uid) {
         try {
@@ -6248,8 +6248,8 @@ const TeacherDashboard = ({ user, onLogout }) => {
                     <div className="grid grid-cols-12 gap-8 items-start">
                        {/* Left: Prompts List */}
                        <div className="col-span-8 space-y-6">
-                          {Object.keys(subjectPrompts).length > 0 ? (
-                             Object.keys(subjectPrompts).map(subKey => (
+                          {Object.keys(subjectPrompts).filter(k => subjectPrompts[k] !== null).length > 0 ? (
+                             Object.keys(subjectPrompts).filter(k => subjectPrompts[k] !== null).map(subKey => (
                                 <div key={subKey} className="bg-white rounded-[32px] border border-orange-100 shadow-sm p-6 space-y-4 hover:shadow-md transition-all relative overflow-hidden group">
                                    <div className="flex items-center justify-between">
                                       <div className="flex items-center gap-3">

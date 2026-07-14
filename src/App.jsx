@@ -4025,6 +4025,63 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
           </div>
         </section>
 
+        {/* PARENT & TUTOR ADVANTAGE SECTION */}
+        <section className="mt-8 bg-gradient-to-br from-indigo-50 via-white to-orange-50/30 rounded-[36px] border-4 border-indigo-100 p-8 md:p-12 shadow-md relative overflow-hidden">
+          {/* Decorative shapes/emojis */}
+          <div className="absolute top-6 right-8 text-5xl opacity-80 select-none animate-pulse">💡</div>
+          <div className="absolute bottom-6 left-6 text-5xl opacity-80 select-none">💸</div>
+
+          <div className="max-w-4xl mx-auto space-y-8 relative z-10">
+             <div className="text-center space-y-3">
+                <span className="text-[10px] font-black uppercase text-indigo-600 bg-indigo-50 px-4 py-1.5 rounded-full tracking-widest border border-indigo-100">
+                   Designed for Parents &amp; Tutors
+                </span>
+                <h2 className="font-display text-3xl md:text-4xl text-slate-800 leading-tight">
+                   Stop Relying on Expensive Websites &amp; Workbooks!
+                </h2>
+                <p className="text-sm md:text-base font-medium text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                   Quit buying endless practice books or paying for high-priced question banks. Generate custom, curriculum-aligned homework on <strong className="text-indigo-600">any topic</strong> in seconds—tailored perfectly to your child’s needs.
+                </p>
+             </div>
+
+             <div className="grid md:grid-cols-3 gap-6 mt-4">
+                <div className="bg-white rounded-3xl p-6 border-2 border-slate-100 shadow-sm hover:shadow-md transition-shadow space-y-3">
+                   <div className="w-12 h-12 bg-orange-50 rounded-2xl flex items-center justify-center text-2xl">💰</div>
+                   <h3 className="font-display text-lg text-slate-800">Save Thousands of Dollars</h3>
+                   <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                      No more subscriptions to expensive learning platforms or constant textbook purchases. Create unlimited custom worksheets and quizzes for free.
+                   </p>
+                </div>
+
+                <div className="bg-white rounded-3xl p-6 border-2 border-slate-100 shadow-sm hover:shadow-md transition-shadow space-y-3">
+                   <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-2xl">🧠</div>
+                   <h3 className="font-display text-lg text-slate-800">Target Any Micro-Skill</h3>
+                   <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                      Whether they need help with decimal place values, specific punctuation, or logical puzzles, select the exact skill from our browser or type any custom prompt.
+                   </p>
+                </div>
+
+                <div className="bg-white rounded-3xl p-6 border-2 border-slate-100 shadow-sm hover:shadow-md transition-shadow space-y-3">
+                   <div className="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center text-2xl">🎮</div>
+                   <h3 className="font-display text-lg text-slate-800">Self-Motivated Practice</h3>
+                   <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                      Kids complete tasks inside a fun, gamified kids' dashboard featuring interactive adventures, mazes, pet companions, and coin collections.
+                   </p>
+                </div>
+             </div>
+
+             <div className="text-center pt-2">
+                <button 
+                   onClick={() => openLogin('teacher')} 
+                   className="btn-primary inline-flex items-center gap-2 hover:scale-105 transition-all text-sm px-8 py-4 bg-indigo-600 border-indigo-700 text-white shadow-lg shadow-indigo-100"
+                   style={{ background: 'var(--blue)', borderColor: 'var(--blue-dark)' }}
+                >
+                   Start Creating as Parent / Tutor <span>&#8594;</span>
+                </button>
+             </div>
+          </div>
+        </section>
+
         {/* FEATURE CARDS */}
         <section className="grid lg:grid-cols-3 gap-5 mt-6">
 

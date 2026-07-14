@@ -223,6 +223,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
     const list = [...SUBJECTS];
     if (subjectPrompts) {
       Object.keys(subjectPrompts).forEach(key => {
+        if (subjectPrompts[key] === null) return;
         const lowerKey = key.toLowerCase();
         if (!list.some(s => s.id === lowerKey)) {
           list.push({

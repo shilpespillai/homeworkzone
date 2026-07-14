@@ -179,6 +179,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
     // Add from subjectPrompts
     if (subjectPrompts) {
       Object.keys(subjectPrompts).forEach(key => {
+        if (subjectPrompts[key] === null) return;
         const lowerKey = key.toLowerCase();
         if (!list.some(s => s.id === lowerKey)) {
           list.push({
@@ -503,6 +504,9 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           if (data.activeAi) activeModel = data.activeAi;
           if (data.subjectPrompts) {
             teacherPrompts = { ...teacherPrompts, ...data.subjectPrompts };
+            Object.keys(teacherPrompts).forEach(k => {
+              if (teacherPrompts[k] === null) delete teacherPrompts[k];
+            });
           }
         }
       }
