@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { 
   BookOpen, 
   FlaskConical, 
+  Brain,
   Pencil, 
   Book, 
   Upload, 
