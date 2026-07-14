@@ -4307,15 +4307,15 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                        </span>
                      </div>
                      <div>
-                       <h3 className="text-base font-semibold text-orange-600">Parent/Tutors</h3>
-                       <p className="text-xs text-slate-500 font-normal">Monthly Elastic Seats</p>
+                       <h3 className="text-base font-semibold text-orange-600">Option A: Elastic Monthly</h3>
+                       <p className="text-xs text-slate-500 font-normal">Monthly Elastic Seats (For 1–5 students)</p>
                      </div>
                      <div className="text-3xl font-semibold text-slate-900">
                        $5.00 <span className="text-sm font-normal text-slate-500">/ student / month</span>
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2">
-                       <li className="flex items-center gap-2">✔️ Unlimited students scaling</li>
-                       <li className="flex items-center gap-2">✔️ Unlimited homework assignments</li>
+                       <li className="flex items-center gap-2">✔️ Best for small parent/tutor setups</li>
+                       <li className="flex items-center gap-2">✔️ Scale up to 5 students maximum</li>
                        <li className="flex items-center gap-2">✔️ Pay only for active students</li>
                        <li className="flex items-center gap-2">✔️ No long term commitment</li>
                      </ul>
@@ -4341,7 +4341,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                      </div>
                      <div>
                        <h3 className="text-base font-semibold text-orange-600">Option B: Flat Tiers</h3>
-                       <p className="text-xs text-slate-500 font-normal">Fixed Capacity Tiers</p>
+                       <p className="text-xs text-slate-500 font-normal">Fixed Capacity Tiers (For 6–150 students)</p>
                      </div>
                      <div className="space-y-2 pt-2">
                        <div className="flex justify-between items-center text-xs md:text-sm font-normal text-slate-800">
@@ -4358,8 +4358,8 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                        </div>
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2 border-t border-slate-100">
-                       <li className="flex items-center gap-2">✔️ Unlimited homework assignments</li>
-                       <li className="flex items-center gap-2">✔️ Save up to 50% vs per-student</li>
+                       <li className="flex items-center gap-2">✔️ Designed for 6 to 150 students</li>
+                       <li className="flex items-center gap-2">✔️ Save up to 50% vs per-student rates</li>
                        <li className="flex items-center gap-2">✔️ Simple flat monthly price</li>
                        <li className="flex items-center gap-2">✔️ Switch plans instantly</li>
                      </ul>
@@ -4385,19 +4385,19 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                      </div>
                      <div>
                        <h3 className="text-base font-semibold text-orange-600">Option C: Graduated Yearly</h3>
-                       <p className="text-xs text-slate-500 font-normal">Yearly Per-Seat Tiers</p>
+                       <p className="text-xs text-slate-500 font-normal">Yearly Per-Seat Tiers (For 151+ students)</p>
                      </div>
                      <div className="space-y-2 pt-2">
                        <div className="flex justify-between text-xs md:text-sm font-normal text-slate-800">
-                         <span>1–50 students</span>
+                         <span>151–200 students</span>
                          <span className="font-semibold text-slate-900">$12 / student / yr</span>
                        </div>
                        <div className="flex justify-between text-xs md:text-sm font-normal text-slate-800">
-                         <span>51–200 students</span>
+                         <span>201–500 students</span>
                          <span className="font-semibold text-slate-900">$8 / student / yr</span>
                        </div>
                        <div className="flex justify-between text-xs md:text-sm font-normal text-slate-800">
-                         <span>201–1,000 students</span>
+                         <span>501–1,000 students</span>
                          <span className="font-semibold text-slate-900">$5 / student / yr</span>
                        </div>
                        <div className="flex justify-between text-xs md:text-sm font-normal text-slate-800">
@@ -4406,7 +4406,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                        </div>
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2 border-t border-slate-100">
-                       <li className="flex items-center gap-2">✔️ Unlimited homework assignments</li>
+                       <li className="flex items-center gap-2">✔️ Requires minimum 151 student seats</li>
                        <li className="flex items-center gap-2">✔️ Perfect for whole school setups</li>
                        <li className="flex items-center gap-2">✔️ Graduated automatic discounts</li>
                        <li className="flex items-center gap-2">✔️ Billed once per year</li>
