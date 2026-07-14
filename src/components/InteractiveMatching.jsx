@@ -14,13 +14,13 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 export default function InteractiveMatching({ pairs, onMatch, disabled, reviewMatches }) {
   const [leftItems, setLeftItems]   = useState([]);
   const [rightItems, setRightItems] = useState([]);
-  const [selectedLeft, setSelectedLeft] = useState(null);
-  // matches: array of { left, right, color }
+  const [selectedLeft, setSelectedLeft] = useState(null); // left index
+  // matches: array of { leftIdx, rightIdx, color }
   const [matches, setMatches]       = useState([]);
   const svgRef                      = useRef(null);
   const containerRef                = useRef(null);
   const leftRefs                    = useRef([]);
-  const rightRefs                   = useRef([]);
+  const rightRefs                    = useRef([]);
 
   const PAIR_COLORS = [
     { line: '#6366f1', bg: 'bg-indigo-100', border: 'border-indigo-400', text: 'text-indigo-700' },
@@ -47,33 +47,60 @@ export default function InteractiveMatching({ pairs, onMatch, disabled, reviewMa
   useEffect(() => {
     if (!reviewMatches || !leftItems.length || !rightItems.length) return;
     const reviewPairs = reviewMatches.split(',').map(s => s.trim());
-    const built = reviewPairs.map((rp, i) => {
+    const built = [];
+    const usedRightIndices = new Set();
+
+    reviewPairs.forEach((rp, i) => {
       const parts = rp.split('||');
-      if (parts.length !== 2) return null;
-      return { left: parts[0].trim(), right: parts[1].trim(), color: PAIR_COLORS[i % PAIR_COLORS.length] };
-    }).filter(Boolean);
+      if (parts.length !== 2) return;
+      const leftText = parts[0].trim();
+      const rightText = parts[1].trim();
+
+      const leftIdx = leftItems.indexOf(leftText);
+      const rightIdx = rightItems.findIndex((val, idx) => val === rightText && !usedRightIndices.has(idx));
+
+      if (leftIdx !== -1 && rightIdx !== -1) {
+        usedRightIndices.add(rightIdx);
+        built.push({
+          leftIdx,
+          rightIdx,
+          color: PAIR_COLORS[i % PAIR_COLORS.length]
+        });
+      }
+    });
     setMatches(built);
   }, [reviewMatches, leftItems, rightItems]);
 
-  const handleLeftClick = (item) => {
+  const reportMatches = useCallback((updatedMatches) => {
+    if (!onMatch) return;
+    // Report as "Left||Right, Left||Right" string
+    const str = updatedMatches.map(m => {
+      const leftText = leftItems[m.leftIdx];
+      const rightText = rightItems[m.rightIdx];
+      return `${leftText}||${rightText}`;
+    }).join(', ');
+    onMatch(str ? [str] : []);
+  }, [onMatch, leftItems, rightItems]);
+
+  const handleLeftClick = (idx) => {
     if (disabled) return;
     // If already matched, unmatch it
-    const existingMatch = matches.find(m => m.left === item);
+    const existingMatch = matches.find(m => m.leftIdx === idx);
     if (existingMatch) {
-      const updated = matches.filter(m => m.left !== item);
+      const updated = matches.filter(m => m.leftIdx !== idx);
       setMatches(updated);
       reportMatches(updated);
       return;
     }
-    setSelectedLeft(item === selectedLeft ? null : item);
+    setSelectedLeft(idx === selectedLeft ? null : idx);
   };
 
-  const handleRightClick = (item) => {
+  const handleRightClick = (idx) => {
     if (disabled) return;
     // If already matched, unmatch it
-    const existingMatch = matches.find(m => m.right === item);
+    const existingMatch = matches.find(m => m.rightIdx === idx);
     if (existingMatch) {
-      const updated = matches.filter(m => m.right !== item);
+      const updated = matches.filter(m => m.rightIdx !== idx);
       setMatches(updated);
       reportMatches(updated);
       setSelectedLeft(null);
@@ -82,32 +109,22 @@ export default function InteractiveMatching({ pairs, onMatch, disabled, reviewMa
     if (selectedLeft === null) return;
     // Make the match
     const colorIdx = matches.length % PAIR_COLORS.length;
-    const newMatch = { left: selectedLeft, right: item, color: PAIR_COLORS[colorIdx] };
+    const newMatch = { leftIdx: selectedLeft, rightIdx: idx, color: PAIR_COLORS[colorIdx] };
     const updated = [...matches, newMatch];
     setMatches(updated);
     reportMatches(updated);
     setSelectedLeft(null);
   };
 
-  const reportMatches = useCallback((updatedMatches) => {
-    if (!onMatch) return;
-    // Report as "Left||Right, Left||Right" string
-    const str = updatedMatches.map(m => `${m.left}||${m.right}`).join(', ');
-    onMatch(str ? [str] : []);
-  }, [onMatch]);
-
   // Draw SVG lines between matched pairs
   const [lines, setLines] = useState([]);
   const updateLines = useCallback(() => {
     if (!containerRef.current || !svgRef.current) return;
-    const containerRect = containerRef.current.getBoundingClientRect();
-    const svgRect       = svgRef.current.getBoundingClientRect();
+    const svgRect = svgRef.current.getBoundingClientRect();
 
     const newLines = matches.map(match => {
-      const leftIdx  = leftItems.indexOf(match.left);
-      const rightIdx = rightItems.indexOf(match.right);
-      const leftEl   = leftRefs.current[leftIdx];
-      const rightEl  = rightRefs.current[rightIdx];
+      const leftEl   = leftRefs.current[match.leftIdx];
+      const rightEl  = rightRefs.current[match.rightIdx];
       if (!leftEl || !rightEl) return null;
       const lr = leftEl.getBoundingClientRect();
       const rr = rightEl.getBoundingClientRect();
@@ -120,7 +137,7 @@ export default function InteractiveMatching({ pairs, onMatch, disabled, reviewMa
       };
     }).filter(Boolean);
     setLines(newLines);
-  }, [matches, leftItems, rightItems]);
+  }, [matches]);
 
   useEffect(() => {
     updateLines();
@@ -145,14 +162,14 @@ export default function InteractiveMatching({ pairs, onMatch, disabled, reviewMa
         {/* LEFT COLUMN */}
         <div className="space-y-4">
           {leftItems.map((item, idx) => {
-            const match   = matches.find(m => m.left === item);
-            const isSelected = selectedLeft === item && !match;
+            const match   = matches.find(m => m.leftIdx === idx);
+            const isSelected = selectedLeft === idx && !match;
             const c = match?.color;
             return (
               <button
                 key={`left-${idx}`}
                 ref={el => { leftRefs.current[idx] = el; }}
-                onClick={() => handleLeftClick(item)}
+                onClick={() => handleLeftClick(idx)}
                 disabled={disabled}
                 className={`
                   w-full p-4 rounded-2xl border-4 text-base font-bold text-left transition-all duration-200
@@ -200,13 +217,13 @@ export default function InteractiveMatching({ pairs, onMatch, disabled, reviewMa
         {/* RIGHT COLUMN */}
         <div className="space-y-4">
           {rightItems.map((item, idx) => {
-            const match   = matches.find(m => m.right === item);
+            const match   = matches.find(m => m.rightIdx === idx);
             const c = match?.color;
             return (
               <button
                 key={`right-${idx}`}
                 ref={el => { rightRefs.current[idx] = el; }}
-                onClick={() => handleRightClick(item)}
+                onClick={() => handleRightClick(idx)}
                 disabled={disabled}
                 className={`
                   w-full p-4 rounded-2xl border-4 text-base font-bold text-left transition-all duration-200
