@@ -682,9 +682,9 @@ const TeacherDashboard = ({ user, onLogout }) => {
     if (!user?.uid) return;
     setIsSavingPrompts(true);
     try {
-      await setDoc(doc(db, 'teachers', user.uid), {
+      await updateDoc(doc(db, 'teachers', user.uid), {
         subjectPrompts: subjectPrompts
-      }, { merge: true });
+      });
       alert("Generic Subject Prompts saved successfully! 🚀🪄");
     } catch (err) {
       console.error("Save Prompts Error:", err);
@@ -712,11 +712,18 @@ const TeacherDashboard = ({ user, onLogout }) => {
 
   const handleDeleteSubject = async (subKey) => {
     if (await window.confirmCustom(`Are you sure you want to delete the generic prompt for "${subKey}"?`)) {
-      setSubjectPrompts(prev => {
-        const copy = { ...prev };
-        delete copy[subKey];
-        return copy;
-      });
+      const updated = { ...subjectPrompts };
+      delete updated[subKey];
+      setSubjectPrompts(updated);
+      if (user?.uid) {
+        try {
+          await updateDoc(doc(db, 'teachers', user.uid), {
+            subjectPrompts: updated
+          });
+        } catch (err) {
+          console.error("Failed to delete subject prompt from database:", err);
+        }
+      }
     }
   };
 
