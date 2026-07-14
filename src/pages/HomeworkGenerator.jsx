@@ -107,6 +107,20 @@ const SUBJECTS = [
     )
   },
   { 
+    id: 'logical_reasoning', 
+    name: 'Logical Reasoning', 
+    titleColor: 'text-indigo-600',
+    bgColor: 'bg-[#f5f8ff]', 
+    borderColor: 'border-indigo-200',
+    selectedBorder: 'border-indigo-500 ring-4 ring-indigo-100',
+    desc: 'Puzzles, patterns & analytical thinking!',
+    renderGraphic: () => (
+      <div className="w-16 h-20 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 shadow-inner overflow-hidden border-4 border-indigo-200">
+        <Brain className="w-10 h-10 text-indigo-500" />
+      </div>
+    )
+  },
+  { 
     id: 'olympiad', 
     name: 'Olympiad', 
     titleColor: 'text-purple-600',
@@ -1716,7 +1730,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       <CurriculumModal 
         isOpen={isCurriculumModalOpen}
         onClose={() => setIsCurriculumModalOpen(false)}
-        curriculumData={curriculum[resolveGradeFromClassroomName(activeClassroom?.name)]?.[formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1)] || []}
+        curriculumData={curriculum[resolveGradeFromClassroomName(activeClassroom?.name)]?.[formData.subject === 'logical_reasoning' ? 'Logical Reasoning' : (formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1))] || []}
         selectedSkills={selectedSkills}
         setSelectedSkills={setSelectedSkills}
       />

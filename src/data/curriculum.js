@@ -4928,6 +4928,58 @@ export const curriculum = {
         "title": "Design a sunshade",
         "category": "N. Engineering practices"
       }
+    ],
+    "Logical Reasoning": [
+      {
+        "id": "g1_lr_1",
+        "title": "Odd One Out",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g1_lr_2",
+        "title": "Matching",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g1_lr_3",
+        "title": "Picture Patterns",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g1_lr_4",
+        "title": "Shape Recognition",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g1_lr_5",
+        "title": "Colour Patterns",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g1_lr_6",
+        "title": "Size Comparison",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g1_lr_7",
+        "title": "Simple Sequencing",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g1_lr_8",
+        "title": "Which Comes Next?",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g1_lr_9",
+        "title": "Same & Different",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g1_lr_10",
+        "title": "Basic Classification",
+        "category": "Logical Reasoning"
+      }
     ]
   },
   "Grade 2": {
@@ -7585,6 +7637,58 @@ export const curriculum = {
         "id": "2_s_39",
         "title": "Identify the planets in the solar system",
         "category": "M. Astronomy"
+      }
+    ],
+    "Logical Reasoning": [
+      {
+        "id": "g2_lr_1",
+        "title": "Number Patterns",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g2_lr_2",
+        "title": "Alphabet Patterns",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g2_lr_3",
+        "title": "Picture Series",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g2_lr_4",
+        "title": "Simple Analogies",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g2_lr_5",
+        "title": "Missing Parts",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g2_lr_6",
+        "title": "Sorting & Grouping",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g2_lr_7",
+        "title": "Simple Direction (Left/Right)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g2_lr_8",
+        "title": "Shadow Matching",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g2_lr_9",
+        "title": "Mirror Images (Basic)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g2_lr_10",
+        "title": "Logical Stories",
+        "category": "Logical Reasoning"
       }
     ]
   },
@@ -10579,6 +10683,58 @@ export const curriculum = {
         "title": "Abbreviate mass and volume units",
         "category": "U. Units and measurement"
       }
+    ],
+    "Logical Reasoning": [
+      {
+        "id": "g3_lr_1",
+        "title": "Number Series",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g3_lr_2",
+        "title": "Letter Series",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g3_lr_3",
+        "title": "Coding (Simple)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g3_lr_4",
+        "title": "Classification",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g3_lr_5",
+        "title": "Picture Analogies",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g3_lr_6",
+        "title": "Venn Diagrams (Basic)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g3_lr_7",
+        "title": "Calendar Basics",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g3_lr_8",
+        "title": "Simple Puzzles",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g3_lr_9",
+        "title": "Direction Sense",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g3_lr_10",
+        "title": "Shape Rotation",
+        "category": "Logical Reasoning"
+      }
     ]
   },
   "Grade 4": {
@@ -13121,6 +13277,58 @@ export const curriculum = {
         "id": "4_s_62",
         "title": "Choose units of volume",
         "category": "S. Units and measurement"
+      }
+    ],
+    "Logical Reasoning": [
+      {
+        "id": "g4_lr_1",
+        "title": "Number & Letter Patterns",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g4_lr_2",
+        "title": "Coding-Decoding",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g4_lr_3",
+        "title": "Family Relationships",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g4_lr_4",
+        "title": "Ranking & Ordering",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g4_lr_5",
+        "title": "Calendar",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g4_lr_6",
+        "title": "Clock Reasoning",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g4_lr_7",
+        "title": "Venn Diagrams",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g4_lr_8",
+        "title": "Picture Completion",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g4_lr_9",
+        "title": "Matrix Patterns",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g4_lr_10",
+        "title": "Simple Deductive Reasoning",
+        "category": "Logical Reasoning"
       }
     ]
   },
@@ -15675,6 +15883,58 @@ export const curriculum = {
         "title": "Abbreviate mass, volume and temperature units",
         "category": "U. Units and measurement"
       }
+    ],
+    "Logical Reasoning": [
+      {
+        "id": "g5_lr_1",
+        "title": "Blood Relations",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g5_lr_2",
+        "title": "Direction Sense",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g5_lr_3",
+        "title": "Seating Arrangement (Basic)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g5_lr_4",
+        "title": "Syllogisms (Simple)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g5_lr_5",
+        "title": "Statements & Conclusions",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g5_lr_6",
+        "title": "Figure Series",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g5_lr_7",
+        "title": "Cube & Dice (Basic)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g5_lr_8",
+        "title": "Logical Puzzles",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g5_lr_9",
+        "title": "Pattern Recognition",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g5_lr_10",
+        "title": "Number Logic",
+        "category": "Logical Reasoning"
+      }
     ]
   },
   "Grade 6": {
@@ -18037,6 +18297,58 @@ export const curriculum = {
         "id": "6_s_63",
         "title": "Abbreviate force, energy and electricity units",
         "category": "Q. Units and measurement"
+      }
+    ],
+    "Logical Reasoning": [
+      {
+        "id": "g6_lr_1",
+        "title": "Advanced Coding-Decoding",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g6_lr_2",
+        "title": "Seating Arrangements",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g6_lr_3",
+        "title": "Analytical Puzzles",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g6_lr_4",
+        "title": "Venn Diagrams",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g6_lr_5",
+        "title": "Deductive Reasoning",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g6_lr_6",
+        "title": "Statement-Assumption",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g6_lr_7",
+        "title": "Data Sufficiency (Basic)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g6_lr_8",
+        "title": "Clock & Calendar",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g6_lr_9",
+        "title": "Figure Folding",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g6_lr_10",
+        "title": "Spatial Reasoning",
+        "category": "Logical Reasoning"
       }
     ]
   },
@@ -20786,6 +21098,58 @@ export const curriculum = {
         "title": "Abbreviate force, energy and electricity units",
         "category": "EE. Units and measurement"
       }
+    ],
+    "Logical Reasoning": [
+      {
+        "id": "g7_lr_1",
+        "title": "Multi-step Puzzles",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g7_lr_2",
+        "title": "Logical Deductions",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g7_lr_3",
+        "title": "Critical Thinking",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g7_lr_4",
+        "title": "Cause & Effect",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g7_lr_5",
+        "title": "Syllogisms",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g7_lr_6",
+        "title": "Input-Output (Basic)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g7_lr_7",
+        "title": "Cube Counting",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g7_lr_8",
+        "title": "Figure Analysis",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g7_lr_9",
+        "title": "Data Sufficiency",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g7_lr_10",
+        "title": "Analytical Reasoning",
+        "category": "Logical Reasoning"
+      }
     ]
   },
   "Grade 8": {
@@ -23518,6 +23882,58 @@ export const curriculum = {
         "id": "8_s_114",
         "title": "Abbreviate force, energy and electricity units",
         "category": "EE. Units and measurement"
+      }
+    ],
+    "Logical Reasoning": [
+      {
+        "id": "g8_lr_1",
+        "title": "Complex Seating Arrangements",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g8_lr_2",
+        "title": "Advanced Syllogisms",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g8_lr_3",
+        "title": "Critical Reasoning",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g8_lr_4",
+        "title": "Statement-Argument",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g8_lr_5",
+        "title": "Statement-Inference",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g8_lr_6",
+        "title": "Decision Making",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g8_lr_7",
+        "title": "Non-Verbal Reasoning",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g8_lr_8",
+        "title": "Spatial Visualization",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g8_lr_9",
+        "title": "Analytical Reasoning",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "g8_lr_10",
+        "title": "Mixed Logic Problems",
+        "category": "Logical Reasoning"
       }
     ]
   },

@@ -99,6 +99,7 @@ export const executeRecurringGeneration = async (sched, teacherUid, teacherCode)
       maths: 'Make 5 questions about adding fractions with unlike denominators. This is for grade 4 students.',
       english: 'Make 5 questions about identifying nouns vs verbs in a sentence. This is for grade 4 students.',
       science: 'Make 5 questions about the solar system and planets. This is for grade 4 students.',
+      logical_reasoning: 'Generate 5 logical reasoning questions. Focus on puzzles, patterns, seating arrangements, coding-decoding, syllogisms, or blood relations suitable for the grade level. Ensure highly visual structure and logical flow.',
       olympiad: 'Generate 5 Olympiad-level maths questions. Focus on advanced problem-solving, combinatorics, number theory, and logic. These should be highly challenging.'
     };
     let resolvedTeacherName = 'Classroom Teacher';
