@@ -25,7 +25,7 @@ import {
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, getDocs, query, where, deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { decryptText } from '../utils/crypto';
-import { fetchWithRetry, generateContent } from '../utils/aiClient';
+import { fetchWithRetry, generateContent, getModelForGrade } from '../utils/aiClient';
 import { generateExplanations } from '../utils/generateExplanations';
 import CurriculumModal from '../components/CurriculumModal';
 import { curriculum } from '../data/curriculum';
@@ -572,10 +572,11 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           pastQuestions.slice(0, 15).map((q, idx) => `- "${q}"`).join('\n');
       }
 
+      const tieredModel1 = getModelForGrade(sched.grade, sched.subject, activeModel);
       const textResponse = await generateContent({
         prompt,
         responseMimeType: 'application/json',
-        provider: activeModel
+        provider: tieredModel1
       });
 
       const parsed = JSON.parse(textResponse);
@@ -596,7 +597,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
       const formattedDueDate = futureDue.toISOString().split('T')[0];
 
       // Pre-generate explanations once — all students share them (zero runtime AI calls)
-      const questionExplanations = await generateExplanations(questions, sched.subject, activeModel);
+      const questionExplanations = await generateExplanations(questions, sched.subject, tieredModel1);
 
       for (const classId of sched.selectedClasses) {
         const statusVal = sched.publishType === 'draft' 
@@ -831,10 +832,11 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           pastQuestions.slice(0, 15).map((q, idx) => `- "${q}"`).join('\n');
       }
 
+      const tieredModel2 = getModelForGrade(formData.grade, formData.subject, activeModel);
       const textResponse = await generateContent({
         prompt,
         responseMimeType: 'application/json',
-        provider: activeModel
+        provider: tieredModel2
       });
 
       const parsed = JSON.parse(textResponse);
@@ -846,7 +848,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
       }
 
       // Pre-generate explanations once for all students (zero runtime AI at submission)
-      const questionExplanations = await generateExplanations(questions, formData.subject, activeModel);
+      const questionExplanations = await generateExplanations(questions, formData.subject, tieredModel2);
 
       // Save homeworks
       for (const classId of formData.selectedClasses) {

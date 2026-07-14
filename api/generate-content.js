@@ -94,9 +94,20 @@ export default async function handler(req, res) {
       const messages = systemInstruction ? [{ role: 'system', content: systemInstruction }, { role: 'user', content: prompt }] : [{ role: 'user', content: prompt }];
       bodyObj = { model: modelName, messages, temperature: 0.7 };
       if (responseMimeType === 'application/json') bodyObj.response_format = { type: 'json_object' };
-    } else if (provider === 'anthropic') {
+    } else if (provider === 'anthropic' || provider === 'claude-haiku' || provider === 'claude-sonnet' || provider === 'claude-opus') {
+      // Grade-tiered Claude models:
+      //   claude-haiku  → claude-haiku-4-5        (Foundation–Grade 5, simple tasks)
+      //   claude-sonnet → claude-sonnet-4-5        (Grade 6–10, general work)
+      //   claude-opus   → claude-opus-4-5          (Grade 11–12, senior maths/science)
+      //   anthropic     → claude-sonnet-4-5        (legacy fallback = sonnet)
+      const claudeModelMap = {
+        'claude-haiku':  'claude-haiku-4-5',
+        'claude-sonnet': 'claude-sonnet-4-5',
+        'claude-opus':   'claude-opus-4-5',
+        'anthropic':     'claude-sonnet-4-5',
+      };
       apiKey = process.env.ANTHROPIC_API_KEY;
-      modelName = 'claude-3-5-sonnet-20241022';
+      modelName = claudeModelMap[provider] || 'claude-sonnet-4-5';
       if (!apiKey) return res.status(500).json({ error: 'ANTHROPIC_API_KEY not configured' });
       endpoint = 'https://api.anthropic.com/v1/messages';
       headers = { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' };

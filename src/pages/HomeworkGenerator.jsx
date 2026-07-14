@@ -33,7 +33,7 @@ import { collection, addDoc, serverTimestamp, getDocs, query, where, orderBy, de
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../firebase';
 import { decryptText } from '../utils/crypto';
-import { fetchWithRetry, generateContent } from '../utils/aiClient';
+import { fetchWithRetry, generateContent, getModelForGrade } from '../utils/aiClient';
 import { generateExplanations } from '../utils/generateExplanations';
 import DynamicChart from '../components/DynamicChart';
 import DynamicGeometry from '../components/DynamicGeometry';
@@ -594,10 +594,12 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
 
         CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData" or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!`;
 
+      const tieredModel = getModelForGrade(resolvedGrade, formData.subject, activeModel);
+      console.log(`[AI] Grade: ${resolvedGrade}, Subject: ${formData.subject} → model: ${tieredModel}`);
       const textResponse = await generateContent({
         prompt,
         responseMimeType: 'application/json',
-        provider: activeModel
+        provider: tieredModel
       });
 
       const parsed = JSON.parse(textResponse);
@@ -655,6 +657,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
     setIsPublishing(true);
     try {
       const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
+      const publishGrade = resolveGradeFromClassroomName(activeClassroom?.name);
       const questionsToSave = generatedQuestions || [];
 
       const isSpatialReasoning = (formData.title || '').toLowerCase().includes('spatial') || (formData.aiPrompt || '').toLowerCase().includes('spatial');
@@ -665,7 +668,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       // so students never trigger live AI calls when submitting.
       let questionExplanations = {};
       if (questionsToSave.length > 0 && !isSpatialReasoning) {
-        questionExplanations = await generateExplanations(questionsToSave, formData.subject, activeModel);
+        questionExplanations = await generateExplanations(questionsToSave, formData.subject, getModelForGrade(publishGrade, formData.subject, activeModel));
       }
 
       const payload = {
@@ -780,6 +783,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
     setIsSavingDraft(true);
     try {
       const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
+      const draftGrade = resolveGradeFromClassroomName(activeClassroom?.name);
       const questionsToSave = generatedQuestions || [];
 
       const isSpatialReasoning = (formData.title || '').toLowerCase().includes('spatial') || (formData.aiPrompt || '').toLowerCase().includes('spatial');
@@ -790,7 +794,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       // so they are ready when the draft is later published.
       let questionExplanations = {};
       if (questionsToSave.length > 0 && !isSpatialReasoning) {
-        questionExplanations = await generateExplanations(questionsToSave, formData.subject, activeModel);
+        questionExplanations = await generateExplanations(questionsToSave, formData.subject, getModelForGrade(draftGrade, formData.subject, activeModel));
       }
 
       const payload = {
