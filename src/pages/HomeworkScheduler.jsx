@@ -50,7 +50,6 @@ const SUBJECTS = [
   { id: 'english', name: 'English', emoji: '📚', color: 'text-orange-500', bgColor: 'bg-orange-50', borderColor: 'border-orange-200' },
   { id: 'maths', name: 'Maths', emoji: '🔢', color: 'text-blue-500', bgColor: 'bg-blue-50', borderColor: 'border-blue-200' },
   { id: 'science', name: 'Science', emoji: '🧪', color: 'text-green-600', bgColor: 'bg-green-50', borderColor: 'border-green-200' },
-  { id: 'logical_reasoning', name: 'Logical Reasoning', emoji: '🧠', color: 'text-indigo-600', bgColor: 'bg-indigo-50', borderColor: 'border-indigo-200' },
   { id: 'olympiad', name: 'Olympiad Maths', emoji: '🏆', color: 'text-purple-600', bgColor: 'bg-purple-50', borderColor: 'border-purple-200' }
 ];
 
@@ -1966,7 +1965,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
               setFormData(prev => ({ ...prev, topic: selectedSkills.map(s => s.title).join(', ') }));
             }
           }}
-          curriculumData={curriculum[formData.grade]?.[formData.subject === 'logical_reasoning' ? 'Logical Reasoning' : (formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1))] || []}
+          curriculumData={curriculum[formData.grade]?.[(formData.subject?.toLowerCase().replace('_', ' ') === 'logical reasoning') ? 'Logical Reasoning' : (formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1))] || []}
           selectedSkills={selectedSkills}
           setSelectedSkills={(updaterFnOrValue) => {
             const updated = typeof updaterFnOrValue === 'function' ? updaterFnOrValue(selectedSkills) : updaterFnOrValue;
