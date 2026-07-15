@@ -81,7 +81,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import TeacherDashboard from './pages/TeacherDashboard';
 import StudentQuiz from './pages/StudentQuiz';
 import { auth, db, googleProvider } from './firebase';
-import { signInWithPopup, onAuthStateChanged } from 'firebase/auth';
+import { signInWithPopup, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, orderBy, arrayUnion, onSnapshot, limit } from 'firebase/firestore';
 import MessagingModule from './components/MessagingModule';
 import VirtualPetCompanionWidget from './components/VirtualPetCompanionWidget';
@@ -3900,6 +3900,9 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
   const [createPwLoading, setCreatePwLoading] = useState(false);
   const [createPwError, setCreatePwError] = useState('');
   const [showPwField, setShowPwField] = useState(false);
+  const [teacherMode, setTeacherMode] = useState('login'); // 'login' or 'register'
+  const [teacherEmail, setTeacherEmail] = useState('');
+  const [teacherPassword, setTeacherPassword] = useState('');
 
   // SHA-256 hash a password string (returns hex string)
   const hashPassword = async (password) => {
@@ -3939,6 +3942,55 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
     setShowLoginModal(role);
   };
 
+  const handleGoogleLogin = async () => {
+    setErrorMsg('');
+    setIsLoginLoading(true);
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const userDoc = doc(db, 'teachers', result.user.uid);
+      const docSnap = await getDoc(userDoc);
+      let teacherCode;
+      if (!docSnap.exists()) {
+        teacherCode = generateTeacherCode();
+        await setDoc(userDoc, {
+          uid: result.user.uid,
+          displayName: result.user.displayName || result.user.email.split('@')[0],
+          email: result.user.email,
+          teacherCode,
+          createdAt: new Date().toISOString()
+        });
+      } else {
+        teacherCode = docSnap.data().teacherCode;
+        if (!teacherCode) {
+          teacherCode = generateTeacherCode();
+          await setDoc(userDoc, { teacherCode }, { merge: true });
+        }
+      }
+      onTeacherLogin({ uid: result.user.uid, email: result.user.email, displayName: result.user.displayName || result.user.email.split('@')[0], teacherCode });
+      setShowLoginModal(null);
+      navigate('/dashboard/teacher');
+    } catch (err) {
+      console.error("Google login error:", err);
+      setErrorMsg(err.message || 'Google Sign In failed.');
+    } finally {
+      setIsLoginLoading(false);
+    }
+  };
+
+  const handlePasswordReset = async () => {
+    if (!teacherEmail) {
+      setErrorMsg('Please enter your email address to reset your password!');
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, teacherEmail);
+      alert('Password reset email sent! Please check your inbox. 📬');
+    } catch (err) {
+      console.error("Password reset error:", err);
+      setErrorMsg(err.message || 'Failed to send password reset email.');
+    }
+  };
+
   const handleLoginSubmit = async (e) => {
     if (e) e.preventDefault();
     setErrorMsg('');
@@ -3949,27 +4001,56 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
     setIsLoginLoading(true);
     try {
       if (showLoginModal === 'teacher') {
-        const result = await signInWithPopup(auth, googleProvider);
-        const userDoc = doc(db, 'teachers', result.user.uid);
-        const docSnap = await getDoc(userDoc);
+        if (!teacherEmail || !teacherPassword) {
+          setErrorMsg('Please enter both your email and password!');
+          setIsLoginLoading(false);
+          return;
+        }
+        
+        let userCredential;
         let teacherCode;
-        if (!docSnap.exists()) {
+        
+        if (teacherMode === 'register') {
+          userCredential = await createUserWithEmailAndPassword(auth, teacherEmail, teacherPassword);
+          const user = userCredential.user;
+          const userDoc = doc(db, 'teachers', user.uid);
           teacherCode = generateTeacherCode();
+          
           await setDoc(userDoc, {
-            uid: result.user.uid,
-            displayName: result.user.displayName,
-            email: result.user.email,
+            uid: user.uid,
+            displayName: user.email.split('@')[0],
+            email: user.email,
             teacherCode,
             createdAt: new Date().toISOString()
           });
+          
+          onTeacherLogin({ uid: user.uid, email: user.email, displayName: user.email.split('@')[0], teacherCode });
         } else {
-          teacherCode = docSnap.data().teacherCode;
-          if (!teacherCode) {
+          userCredential = await signInWithEmailAndPassword(auth, teacherEmail, teacherPassword);
+          const user = userCredential.user;
+          const userDoc = doc(db, 'teachers', user.uid);
+          const docSnap = await getDoc(userDoc);
+          
+          if (!docSnap.exists()) {
             teacherCode = generateTeacherCode();
-            await setDoc(userDoc, { teacherCode }, { merge: true });
+            await setDoc(userDoc, {
+              uid: user.uid,
+              displayName: user.email.split('@')[0],
+              email: user.email,
+              teacherCode,
+              createdAt: new Date().toISOString()
+            });
+          } else {
+            teacherCode = docSnap.data().teacherCode;
+            if (!teacherCode) {
+              teacherCode = generateTeacherCode();
+              await setDoc(userDoc, { teacherCode }, { merge: true });
+            }
           }
+          
+          onTeacherLogin({ uid: user.uid, email: user.email, displayName: docSnap.data()?.displayName || user.email.split('@')[0], teacherCode });
         }
-        onTeacherLogin({ uid: result.user.uid, email: result.user.email, displayName: result.user.displayName, teacherCode });
+        
         setShowLoginModal(null);
         navigate('/dashboard/teacher');
       } else {
@@ -4963,11 +5044,60 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
 
               <form onSubmit={handleLoginSubmit} className="space-y-4">
                 {showLoginModal === 'teacher' ? (
-                  <div className="flex flex-col items-center gap-4 py-2">
-                    <img src="https://img.icons8.com/color/96/google-logo.png" className="w-14 h-14" alt="Google" />
-                    <p className="text-sm text-slate-600 text-center">
-                      Sign in with your school Google account to manage your Homework Zone.
-                    </p>
+                  <div className="space-y-4">
+                    {/* Toggle Mode */}
+                    <div className="flex bg-slate-100 p-1 rounded-2xl">
+                      <button
+                        type="button"
+                        onClick={() => setTeacherMode('login')}
+                        className={`flex-1 py-2 text-xs font-black rounded-xl transition-all ${teacherMode === 'login' ? 'bg-white text-green-700 shadow-sm' : 'text-slate-500'}`}
+                      >
+                        🔑 Sign In
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setTeacherMode('register')}
+                        className={`flex-1 py-2 text-xs font-black rounded-xl transition-all ${teacherMode === 'register' ? 'bg-white text-green-700 shadow-sm' : 'text-slate-500'}`}
+                      >
+                        🚀 Register
+                      </button>
+                    </div>
+
+                    <div>
+                      <label className="text-[10px] font-black uppercase text-slate-400 tracking-wider block mb-1">Email Address</label>
+                      <input
+                        type="email"
+                        value={teacherEmail}
+                        onChange={(e) => setTeacherEmail(e.target.value)}
+                        placeholder="teacher@school.com"
+                        required
+                        className="w-full px-4 py-2.5 rounded-2xl border-2 border-slate-200 outline-none focus:border-green-400 transition-colors font-bold text-center text-sm"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-[10px] font-black uppercase text-slate-400 tracking-wider block mb-1">Password</label>
+                      <input
+                        type="password"
+                        value={teacherPassword}
+                        onChange={(e) => setTeacherPassword(e.target.value)}
+                        placeholder="••••••••"
+                        required
+                        className="w-full px-4 py-2.5 rounded-2xl border-2 border-slate-200 outline-none focus:border-green-400 transition-colors font-bold text-center text-sm"
+                      />
+                    </div>
+
+                    {teacherMode === 'login' && (
+                      <div className="text-right">
+                        <button
+                          type="button"
+                          onClick={handlePasswordReset}
+                          className="text-[10px] font-black text-slate-400 hover:text-green-500 transition-colors"
+                        >
+                          Forgot Password?
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="space-y-4">
@@ -4999,7 +5129,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                         <input
                           type="password"
                           value={studentPassword}
-                          onChange={(e) => setStudentPassword(e.target.value)}
+                           onChange={(e) => setStudentPassword(e.target.value)}
                           placeholder="Enter your password"
                           required
                           autoFocus
@@ -5022,9 +5152,29 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                       <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin inline-block" />
                       Please wait...
                     </span>
-                  ) : showLoginModal === 'teacher' ? 'Sign In with Google' : showPwField ? '🔓 Login' : "Let's Go!"}
+                  ) : showLoginModal === 'teacher' ? (teacherMode === 'register' ? 'Create Account 🚀' : 'Sign In 🔑') : showPwField ? '🔓 Login' : "Let's Go!"}
                 </button>
               </form>
+
+              {showLoginModal === 'teacher' && (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="h-px bg-slate-200 flex-1" />
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Or Continue With</span>
+                    <div className="h-px bg-slate-200 flex-1" />
+                  </div>
+                  
+                  <button
+                    type="button"
+                    onClick={handleGoogleLogin}
+                    disabled={isLoginLoading}
+                    className="w-full flex items-center justify-center gap-3 bg-white hover:bg-slate-50 border-2 border-slate-200 active:scale-95 rounded-2xl py-3 text-sm font-black text-slate-700 shadow-sm transition-all"
+                  >
+                    <img src="https://img.icons8.com/color/48/google-logo.png" className="w-5 h-5" alt="Google" />
+                    Sign In with Google
+                  </button>
+                </div>
+              )}
 
               <div className="text-center">
                 {showLoginModal === 'teacher' ? (
