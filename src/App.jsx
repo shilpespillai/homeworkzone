@@ -81,7 +81,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import TeacherDashboard from './pages/TeacherDashboard';
 import StudentQuiz from './pages/StudentQuiz';
 import { auth, db, googleProvider } from './firebase';
-import { signInWithPopup, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { signInWithPopup, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, signOut } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, orderBy, arrayUnion, onSnapshot, limit } from 'firebase/firestore';
 import MessagingModule from './components/MessagingModule';
 import VirtualPetCompanionWidget from './components/VirtualPetCompanionWidget';
@@ -4013,6 +4013,10 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
         if (teacherMode === 'register') {
           userCredential = await createUserWithEmailAndPassword(auth, teacherEmail, teacherPassword);
           const user = userCredential.user;
+          
+          // Send verification email
+          await sendEmailVerification(user);
+          
           const userDoc = doc(db, 'teachers', user.uid);
           teacherCode = generateTeacherCode();
           
@@ -4024,10 +4028,24 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
             createdAt: new Date().toISOString()
           });
           
-          onTeacherLogin({ uid: user.uid, email: user.email, displayName: user.email.split('@')[0], teacherCode });
+          // Sign out immediately so they must verify
+          await signOut(auth);
+          setIsLoginLoading(false);
+          alert('Account created! 🚀 A verification email has been sent to your inbox. Please click the link to verify your email before logging in. 📬');
+          setTeacherMode('login');
+          return;
         } else {
           userCredential = await signInWithEmailAndPassword(auth, teacherEmail, teacherPassword);
           const user = userCredential.user;
+          
+          // Enforce email verification check
+          if (!user.emailVerified) {
+            setErrorMsg('Please verify your email address to log in! Check your inbox for the verification link. 📬');
+            await signOut(auth);
+            setIsLoginLoading(false);
+            return;
+          }
+          
           const userDoc = doc(db, 'teachers', user.uid);
           const docSnap = await getDoc(userDoc);
           
@@ -5679,7 +5697,13 @@ export default function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // Restore teacher session
+        const isEmailProvider = user.providerData.some(p => p.providerId === 'password');
+        if (isEmailProvider && !user.emailVerified) {
+          console.log("App: Email not verified. Auto-login skipped.");
+          setCurrentUser(null);
+          setIsLoading(false);
+          return;
+        }
         const userDoc = doc(db, 'teachers', user.uid);
         const docSnap = await getDoc(userDoc);
         const userData = docSnap.exists() ? { 
