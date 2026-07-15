@@ -18,6 +18,7 @@ import {
 const normalizeName = (name) => (name || '').trim().toLowerCase();
 
 import { MATHS_CURRICULUM } from '../data/mathsCurriculum';
+import VedicMathsGuide from './VedicMathsGuide';
 import { 
   FractionVisualizer,
   PlaceValueVisualizer,
@@ -466,7 +467,8 @@ export default function MathsLearningHub({ activeConcept = 'Numbers & Place Valu
           { name: 'Time & Clocks', emoji: '⏰' },
           { name: 'Geometry & Shapes', emoji: '📐' },
           { name: 'Algebra & Patterns', emoji: '⚡' },
-          { name: 'Data & Probability', emoji: '📊' }
+          { name: 'Data & Probability', emoji: '📊' },
+          { name: 'Vedic Maths', emoji: '🧮' }
         ].map((concept) => (
           <button
             key={concept.name}
@@ -731,37 +733,43 @@ export default function MathsLearningHub({ activeConcept = 'Numbers & Place Valu
           </div>
         )}
 
-        {sortedGrades.map((gradeLevel) => (
-          <div key={gradeLevel} className="space-y-4">
-            <h2 className="text-lg font-black text-green-900 tracking-tight border-b-2 border-slate-100 pb-2 flex items-center gap-2">
-              <span>🎓</span> Grade {gradeLevel} Progression
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {topicsByGrade[gradeLevel].map((topic, index) => (
-                <motion.div
-                  key={index}
-                  whileHover={{ scale: 1.03, y: -4 }}
-                  className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm hover:shadow-md cursor-pointer flex items-center gap-4 transition-all"
-                  onClick={() => handleOpenTopic(topic)}
-                >
-                  <div className="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center text-3xl shrink-0">
-                    {topic.emoji}
-                  </div>
-                  <div className="space-y-1 flex-1">
-                    <span className="text-[9px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md font-black uppercase tracking-wider block w-fit mb-1">
-                      {topic.category}
-                    </span>
-                    <h3 className="text-sm font-black text-slate-800 tracking-tight leading-tight">{topic.title}</h3>
-                    <span className="text-[10px] text-orange-500 font-black uppercase tracking-wider flex items-center gap-1 pt-1">
-                      Start Lesson <ChevronRight className="w-3.5 h-3.5" />
-                    </span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+        {activeConcept === 'Vedic Maths' ? (
+          <div className="max-w-6xl mx-auto">
+            <VedicMathsGuide />
           </div>
-        ))}
+        ) : (
+          sortedGrades.map((gradeLevel) => (
+            <div key={gradeLevel} className="space-y-4">
+              <h2 className="text-lg font-black text-green-900 tracking-tight border-b-2 border-slate-100 pb-2 flex items-center gap-2">
+                <span>🎓</span> Grade {gradeLevel} Progression
+              </h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {topicsByGrade[gradeLevel].map((topic, index) => (
+                  <motion.div
+                    key={index}
+                    whileHover={{ scale: 1.03, y: -4 }}
+                    className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm hover:shadow-md cursor-pointer flex items-center gap-4 transition-all"
+                    onClick={() => handleOpenTopic(topic)}
+                  >
+                    <div className="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center text-3xl shrink-0">
+                      {topic.emoji}
+                    </div>
+                    <div className="space-y-1 flex-1">
+                      <span className="text-[9px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md font-black uppercase tracking-wider block w-fit mb-1">
+                        {topic.category}
+                      </span>
+                      <h3 className="text-sm font-black text-slate-800 tracking-tight leading-tight">{topic.title}</h3>
+                      <span className="text-[10px] text-orange-500 font-black uppercase tracking-wider flex items-center gap-1 pt-1">
+                        Start Lesson <ChevronRight className="w-3.5 h-3.5" />
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          ))
+        )}
       </div>
 
       {/* Lesson Details Overlay Modal */}

@@ -25,7 +25,6 @@ import confetti from 'canvas-confetti';
 import { db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
-import VedicMathsGuide from './VedicMathsGuide';
 
 // ═══════════════════════════════════════════════════════════════
 //  ILLUSTRATED MULTI-PAGE STORIES DATABASE
@@ -852,7 +851,6 @@ Schema:
           { label: 'Read Books', icon: '📖' },
           { label: 'Read Along', icon: '🎧' },
           { label: 'Quizzes', icon: '🏆' },
-          { label: 'Vedic Maths', icon: '🧮' },
           { label: 'Earn Rewards', icon: '⭐' }
         ].map(tab => (
           <button
@@ -1512,13 +1510,6 @@ Schema:
                 ))}
               </div>
             </div>
-          </div>
-        )}
-
-        {/* ==================== 5. VEDIC MATHS ==================== */}
-        {activeTab === 'Vedic Maths' && (
-          <div className="max-w-5xl mx-auto">
-            <VedicMathsGuide />
           </div>
         )}
 

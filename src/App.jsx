@@ -2834,7 +2834,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                            { name: 'Time & Clocks', emoji: '⏰' },
                            { name: 'Geometry & Shapes', emoji: '📐' },
                            { name: 'Algebra & Patterns', emoji: '⚡' },
-                           { name: 'Data & Probability', emoji: '📊' }
+                           { name: 'Data & Probability', emoji: '📊' },
+                           { name: 'Vedic Maths', emoji: '🧮' }
                         ].map((concept) => (
                            <button
                               key={concept.name}
