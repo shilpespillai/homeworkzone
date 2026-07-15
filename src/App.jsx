@@ -685,7 +685,7 @@ const HeroHomeworkCard = ({ hw, completedSubmission, hasDraft, onStart, teacher 
         <div className="absolute right-0 top-0 bottom-0 w-[60%] md:w-[50%] h-full z-0 opacity-90 md:opacity-100">
           <div className={`w-full h-full absolute inset-0 bg-gradient-to-r ${hw.type === 'test' ? 'from-[#7f1d1d] via-[#7f1d1d]/60' : 'from-[#1e3a8a] via-[#1e3a8a]/60'} to-transparent z-10`} />
           <img 
-            src="/science_hero.png" 
+            src={getSubjectAesthetics(hw.subject).img} 
             className="w-full h-full object-cover object-right" 
             alt="Hero Illustration" 
           />
@@ -846,17 +846,128 @@ const getHomeworkDate = (hw) => {
   return new Date();
 };
 
-const SubjectDashboardCard = ({ subject, assignments, submissions, studentName, onSelect }) => {
-  const getSubjectAesthetics = (sub) => {
-    const s = (sub || '').toLowerCase();
-    if (s.includes('math')) return { bg: 'bg-[#1e88e5]', title: 'MATH', subtitle: 'MATH ADVENTURE:', topic: 'Fraction Fun!', img: '/subject_math.png', pillBg: 'bg-[#4ade80]', pillText: 'text-white' };
-    if (s.includes('read') || s.includes('english')) return { bg: 'bg-[#f97316]', title: 'READING', subtitle: 'STORY TIME:', topic: "Maya's Magic Map", img: '/subject_reading.png', pillBg: 'bg-[#38bdf8]', pillText: 'text-white' };
-    if (s.includes('geo') || s.includes('hist')) return { bg: 'bg-[#22c55e]', title: 'GEOGRAPHY', subtitle: 'WORLD EXPLORERS:', topic: 'Australia!', img: '/subject_geography.png', pillBg: 'bg-[#4ade80]', pillText: 'text-white' };
-    if (s.includes('art')) return { bg: 'bg-[#ef4444]', title: 'ART', subtitle: 'ART STUDIO:', topic: 'Colorful Creatures', img: '/subject_art.png', pillBg: 'bg-[#9f1239]', pillText: 'text-white' };
-    
-    return { bg: 'bg-[#0f766e]', title: sub.toUpperCase() || 'GENERAL', subtitle: 'LEARNING QUEST:', topic: 'New Adventures!', img: '/science_hero.png', pillBg: 'bg-[#fde047]', pillText: 'text-slate-800' };
+const getSubjectAesthetics = (sub) => {
+  const s = (sub || '').toLowerCase();
+  if (s.includes('math')) {
+    return {
+      bg: 'bg-[#1e88e5]',
+      reportBg: 'bg-gradient-to-br from-blue-400 to-indigo-500 shadow-blue-500/30',
+      title: 'MATH',
+      reportTitle: 'MATH MISSIONS',
+      subtitle: 'MATH ADVENTURE:',
+      topic: 'Fraction Fun!',
+      img: '/subject_math.png',
+      pillBg: 'bg-[#4ade80]',
+      pillText: 'text-white'
+    };
+  }
+  if (s.includes('read') || s.includes('english')) {
+    return {
+      bg: 'bg-[#f97316]',
+      reportBg: 'bg-gradient-to-br from-orange-400 to-rose-500 shadow-orange-500/30',
+      title: 'READING',
+      reportTitle: 'READING MISSIONS',
+      subtitle: 'STORY TIME:',
+      topic: "Maya's Magic Map",
+      img: '/subject_reading.png',
+      pillBg: 'bg-[#38bdf8]',
+      pillText: 'text-white'
+    };
+  }
+  if (s.includes('geo') || s.includes('hist')) {
+    return {
+      bg: 'bg-[#22c55e]',
+      reportBg: 'bg-gradient-to-br from-emerald-400 to-teal-500 shadow-emerald-500/30',
+      title: 'GEOGRAPHY',
+      reportTitle: 'GEO MISSIONS',
+      subtitle: 'WORLD EXPLORERS:',
+      topic: 'Australia!',
+      img: '/subject_geography.png',
+      pillBg: 'bg-[#4ade80]',
+      pillText: 'text-white'
+    };
+  }
+  if (s.includes('art')) {
+    return {
+      bg: 'bg-[#ef4444]',
+      reportBg: 'bg-gradient-to-br from-pink-400 to-purple-500 shadow-pink-500/30',
+      title: 'ART',
+      reportTitle: 'ART MISSIONS',
+      subtitle: 'ART STUDIO:',
+      topic: 'Colorful Creatures',
+      img: '/subject_art.png',
+      pillBg: 'bg-[#9f1239]',
+      pillText: 'text-white'
+    };
+  }
+  if (s.includes('hindi')) {
+    return {
+      bg: 'bg-[#d97706]',
+      reportBg: 'bg-gradient-to-br from-amber-400 to-orange-600 shadow-amber-500/30',
+      title: 'HINDI',
+      reportTitle: 'HINDI MISSIONS',
+      subtitle: 'LEARNING QUEST:',
+      topic: 'New Adventures!',
+      img: '/subject_hindi.png',
+      pillBg: 'bg-[#fde047]',
+      pillText: 'text-slate-800'
+    };
+  }
+  if (s.includes('logical') || s.includes('reasoning')) {
+    return {
+      bg: 'bg-[#6366f1]',
+      reportBg: 'bg-gradient-to-br from-indigo-400 to-purple-600 shadow-indigo-500/30',
+      title: 'LOGICAL REASONING',
+      reportTitle: 'REASONING MISSIONS',
+      subtitle: 'LEARNING QUEST:',
+      topic: 'New Adventures!',
+      img: '/subject_logical_reasoning.png',
+      pillBg: 'bg-[#fde047]',
+      pillText: 'text-slate-800'
+    };
+  }
+  if (s.includes('olympiad')) {
+    return {
+      bg: 'bg-[#ec4899]',
+      reportBg: 'bg-gradient-to-br from-pink-400 to-fuchsia-600 shadow-pink-500/30',
+      title: 'OLYMPIAD',
+      reportTitle: 'OLYMPIAD MISSIONS',
+      subtitle: 'LEARNING QUEST:',
+      topic: 'New Adventures!',
+      img: '/subject_olympiad.png',
+      pillBg: 'bg-[#fde047]',
+      pillText: 'text-slate-800'
+    };
+  }
+  if (s.includes('science')) {
+    return {
+      bg: 'bg-[#0d9488]',
+      reportBg: 'bg-gradient-to-br from-teal-400 to-emerald-600 shadow-teal-500/30',
+      title: 'SCIENCE',
+      reportTitle: 'SCIENCE MISSIONS',
+      subtitle: 'LEARNING QUEST:',
+      topic: 'New Adventures!',
+      img: '/subject_science.png',
+      pillBg: 'bg-[#fde047]',
+      pillText: 'text-slate-800'
+    };
+  }
+  
+  // Generic Fallback
+  return {
+    bg: 'bg-[#0f766e]',
+    reportBg: 'bg-gradient-to-br from-amber-400 to-orange-500 shadow-amber-500/30',
+    title: sub.toUpperCase() || 'GENERAL',
+    reportTitle: (sub.toUpperCase() || 'GENERAL') + ' MISSIONS',
+    subtitle: 'LEARNING QUEST:',
+    topic: 'New Adventures!',
+    img: '/science_hero.png',
+    pillBg: 'bg-[#fde047]',
+    pillText: 'text-slate-800'
   };
+};
 
+const SubjectDashboardCard = ({ subject, assignments, submissions, studentName, onSelect }) => {
   const aes = getSubjectAesthetics(subject);
   
   const total = assignments.length;
@@ -1351,29 +1462,19 @@ const MissionReportModal = ({ submission, homework, onClose }) => {
 };
 
 const ReportSubjectCard = ({ subject, submissionsCount, averageScore, onSelect }) => {
-  const getSubjectAesthetics = (sub) => {
-    const s = (sub || '').toLowerCase();
-    if (s.includes('math')) return { bg: 'bg-gradient-to-br from-blue-400 to-indigo-500 shadow-blue-500/30', title: 'MATH MISSIONS', img: '/subject_math.png' };
-    if (s.includes('read') || s.includes('english')) return { bg: 'bg-gradient-to-br from-orange-400 to-rose-500 shadow-orange-500/30', title: 'READING MISSIONS', img: '/subject_reading.png' };
-    if (s.includes('geo') || s.includes('hist')) return { bg: 'bg-gradient-to-br from-emerald-400 to-teal-500 shadow-emerald-500/30', title: 'GEO MISSIONS', img: '/subject_geography.png' };
-    if (s.includes('art')) return { bg: 'bg-gradient-to-br from-pink-400 to-purple-500 shadow-pink-500/30', title: 'ART MISSIONS', img: '/subject_art.png' };
-    
-    return { bg: 'bg-gradient-to-br from-amber-400 to-orange-500 shadow-amber-500/30', title: (sub.toUpperCase() || 'GENERAL') + ' MISSIONS', img: '/science_hero.png' };
-  };
-
   const aes = getSubjectAesthetics(subject);
   
   return (
     <div 
       onClick={() => onSelect(subject)}
-      className={`${aes.bg} rounded-[32px] w-full min-h-[220px] relative overflow-hidden flex flex-col p-8 shadow-xl cursor-pointer hover:-translate-y-2 hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 group border-4 border-white/20`}
+      className={`${aes.reportBg} rounded-[32px] w-full min-h-[220px] relative overflow-hidden flex flex-col p-8 shadow-xl cursor-pointer hover:-translate-y-2 hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 group border-4 border-white/20`}
     >
       <div className="flex flex-col items-center text-center gap-4 mb-6 relative z-10">
          <div className="w-24 h-24 rounded-full overflow-hidden bg-white/20 border-4 border-white/30 shadow-lg shrink-0 group-hover:rotate-12 transition-transform duration-500">
-            <img src={aes.img} className="w-full h-full object-cover" alt={aes.title} />
+            <img src={aes.img} className="w-full h-full object-cover" alt={aes.reportTitle} />
          </div>
          <div>
-            <h4 className="font-black tracking-widest text-xl mb-2 text-white drop-shadow-sm">{aes.title}</h4>
+            <h4 className="font-black tracking-widest text-xl mb-2 text-white drop-shadow-sm">{aes.reportTitle}</h4>
             <div className="inline-flex items-center gap-3 bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-white text-sm font-bold uppercase shadow-sm">
                <span>{submissionsCount} Reports</span>
                <span className="opacity-50">•</span>
