@@ -953,15 +953,49 @@ const getSubjectAesthetics = (sub) => {
     };
   }
   
-  // Generic Fallback
+  // Generic Fallback - Dynamic Automated Assignment using deterministic hashing
+  const hashCode = (str) => {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return Math.abs(hash);
+  };
+
+  const colorsPool = [
+    { bg: 'bg-[#6366f1]', reportBg: 'bg-gradient-to-br from-indigo-400 to-purple-600 shadow-indigo-500/30' },
+    { bg: 'bg-[#0ea5e9]', reportBg: 'bg-gradient-to-br from-sky-400 to-blue-600 shadow-sky-500/30' },
+    { bg: 'bg-[#10b981]', reportBg: 'bg-gradient-to-br from-emerald-400 to-teal-600 shadow-emerald-500/30' },
+    { bg: 'bg-[#f43f5e]', reportBg: 'bg-gradient-to-br from-rose-400 to-pink-600 shadow-rose-500/30' },
+    { bg: 'bg-[#eab308]', reportBg: 'bg-gradient-to-br from-yellow-400 to-amber-600 shadow-yellow-500/30' },
+    { bg: 'bg-[#a855f7]', reportBg: 'bg-gradient-to-br from-purple-400 to-violet-600 shadow-purple-500/30' },
+    { bg: 'bg-[#ec4899]', reportBg: 'bg-gradient-to-br from-pink-400 to-fuchsia-600 shadow-pink-500/30' },
+    { bg: 'bg-[#14b8a6]', reportBg: 'bg-gradient-to-br from-teal-400 to-cyan-600 shadow-teal-500/30' },
+    { bg: 'bg-[#f97316]', reportBg: 'bg-gradient-to-br from-orange-400 to-red-600 shadow-orange-500/30' },
+    { bg: 'bg-[#84cc16]', reportBg: 'bg-gradient-to-br from-lime-400 to-green-600 shadow-lime-500/30' }
+  ];
+
+  const imagesPool = [
+    '/fallback_backpack.png',
+    '/fallback_globe.png',
+    '/fallback_lightbulb.png',
+    '/fallback_rocket.png',
+    '/fallback_compass.png',
+    '/fallback_trophy.png'
+  ];
+
+  const hashVal = hashCode(sub || 'general');
+  const selectedColor = colorsPool[hashVal % colorsPool.length];
+  const selectedImg = imagesPool[hashVal % imagesPool.length];
+
   return {
-    bg: 'bg-[#0f766e]',
-    reportBg: 'bg-gradient-to-br from-amber-400 to-orange-500 shadow-amber-500/30',
+    bg: selectedColor.bg,
+    reportBg: selectedColor.reportBg,
     title: sub.toUpperCase() || 'GENERAL',
     reportTitle: (sub.toUpperCase() || 'GENERAL') + ' MISSIONS',
     subtitle: 'LEARNING QUEST:',
     topic: 'New Adventures!',
-    img: '/science_hero.png',
+    img: selectedImg,
     pillBg: 'bg-[#fde047]',
     pillText: 'text-slate-800'
   };
