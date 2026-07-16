@@ -416,9 +416,16 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       const topic = isCurriculumMode ? (selectedSkills.length === 1 ? selectedSkills[0].title : `Mixed Topic: ${selectedSkills.length} skills`) : (formData.title || (formData.aiPrompt ? formData.aiPrompt.slice(0, 45) + '...' : 'General Quiz'));
       
       const skillTitles = selectedSkills.map(s => s.title).join(", ");
-      const injectedPrompt = isCurriculumMode 
+      const rawInjected = isCurriculumMode 
         ? `${formData.aiPrompt || ''}\n\nCRITICAL INSTRUCTION: You must strictly generate questions focusing only on the following micro-skills: "${skillTitles}". Distribute the questions evenly across these topics. This is for ${resolvedGrade}.`
         : (formData.aiPrompt || formData.title);
+
+      const injectedPrompt = (rawInjected || '')
+        .replace(/\{SUBJECT\}/gi, formData.subject || '')
+        .replace(/\{GRADE\}/gi, resolvedGrade || 'Age-Appropriate')
+        .replace(/\{TOPIC\}/gi, topic || '')
+        .replace(/\{DIFFICULTY\}/gi, 'Balanced')
+        .replace(/\{QUESTION_COUNT\}/gi, String(questionCount));
 
       // Find up to 10 questions recently generated for this subject to prevent duplicates
       const recentlyGenerated = [];

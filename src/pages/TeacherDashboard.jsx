@@ -694,23 +694,40 @@ const TeacherDashboard = ({ user, onLogout }) => {
   };
 
   const getPremiumPromptTemplate = (subjectName) => {
-    const norm = subjectName.toLowerCase().trim();
-    if (norm.includes('math') || norm.includes('numeracy') || norm.includes('arithmetic')) {
-      return `CRITICAL VARIETY & MATHS DIVERSITY RULES:\n1. NO DUPLICATE TEMPLATES: Do not repeat identical question layouts with just the numbers swapped.\n2. MULTI-SKILL INTEGRATION: Blend concepts (e.g. money calculations combined with calendar/time).\n3. INVERSE PROBLEMS: Include backward-reasoning questions (giving the final outcome and asking for starting values).\n4. MULTIPLE REPRESENTATIONS: Rotate between word problems, coordinate maps, data charts, and geometric patterns.`;
-    }
-    if (norm.includes('science') || norm.includes('physics') || norm.includes('biology') || norm.includes('chemistry')) {
-      return `CRITICAL VARIETY & SCIENCE DIVERSITY RULES:\n1. SCENARIO-BASED ANALYSIS: Frame questions around an experiment or observation (e.g., analyzing a table of plant growth or weather data).\n2. NO SIMPLE FACT RECALL: Avoid simple definitions. Focus on cause and effect and scientific deduction.\n3. MULTI-CONCEPT INTEGRATION: Blend related topics (e.g. states of matter combined with environmental heat/temperature changes).`;
-    }
-    if (norm.includes('english') || norm.includes('literacy') || norm.includes('reading') || norm.includes('grammar') || norm.includes('spelling') || norm.includes('writing')) {
-      return `CRITICAL VARIETY & ENGLISH DIVERSITY RULES:\n1. VARY FORMATS: Mix reading comprehension, spelling edits, grammar conventions, and punctuation updates.\n2. INFERENCING QUESTIONS: Include comprehension questions where students must infer meaning rather than just copy facts from the text.\n3. INTEGRATED LITERACY: Combine multiple grammatical skills in one sentence context.`;
-    }
-    if (norm.includes('logical') || norm.includes('reasoning') || norm.includes('aptitude')) {
-      return `CRITICAL VARIETY & LOGIC DIVERSITY RULES:\n1. NO REPETITIVE PUZZLES: Rotate riddle structures. Do not repeat the same relational template.\n2. VARIETY OF LOGIC STYLES: Alternate between grid number patterns, relational orderings, Venn diagram sorts, and spatial rotations.\n3. LOGICAL DISTRACTORS: Ensure incorrect options represent common reasoning errors.`;
-    }
-    if (norm.includes('naplan')) {
-      return `CRITICAL VARIETY & NAPLAN ALIGNED RULES:\n1. OFFICIAL BENCHMARK FORMATS: Emulate standard NAPLAN-style word puzzles, charts, coordinates, spelling edits, and short passages.\n2. BALANCED Numeracy & Literacy: Ensure a healthy mix of numeracy reasoning and language conventions.\n3. COMPLEX MULTI-STEP PROBLEMS: Design questions that require translating contexts before calculating.`;
-    }
-    return `CRITICAL VARIETY & ${subjectName.toUpperCase()} RULES:\n1. NO DUPLICATED QUESTIONS: Do not repeat similar question layouts or scenarios. Each question must be distinct.\n2. SCENARIO-BASED: Place questions in engaging real-world scenarios or kid-friendly stories.\n3. GRADUAL DIFFICULTY: Include a mix of simple recall, application, and multi-step reasoning questions.\n4. HIGHER-ORDER THINKING: Ask questions that require analyzing connections or drawing conclusions rather than simple fact matching.`;
+    return `You are an expert educator and curriculum designer creating practice questions for an educational learning platform used by school students.
+
+I am creating an educational app that helps students learn **{SUBJECT}**.
+
+Generate a high-quality practice paper based on the following details:
+
+Subject: {SUBJECT}
+Grade: {GRADE}
+Topic: {TOPIC}
+Difficulty Level: {DIFFICULTY}
+Number of Questions: {QUESTION_COUNT}
+
+Instructions:
+
+• Create engaging, age-appropriate questions that match the student's grade level.
+• Questions should progressively increase in difficulty.
+• Cover all important concepts within the specified topic.
+• Avoid repeating similar questions.
+• Use clear and simple language suitable for the selected grade.
+• Make the worksheet enjoyable and educational.
+• Ensure every question has only one correct answer.
+• Do not include ambiguous questions.
+• Use real-world examples wherever appropriate.
+• Mix question types to maintain student engagement.
+
+Include a balanced combination of question types such as:
+- Multiple Choice Questions (MCQ)
+- True or False
+- Fill in the Blanks
+- Match the Following
+- Short Answer Questions
+- Picture-based questions (describe the image instead of generating one)
+- Sequence or Ordering questions (when applicable)
+- Odd One Out (where applicable)`;
   };
 
   const handleAddSubject = () => {
