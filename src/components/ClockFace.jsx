@@ -106,5 +106,9 @@ export const parseQuestionText = (text) => {
     newText = newText.replace(svgMatch[0], '').trim();
   }
 
+  // Automatically insert line breaks before "Row X:" and "Column X:" patterns to display them in rows
+  newText = newText.replace(/([^\n])\s*(Row\s+(\d+|[a-zA-Z])[:\-—])/gi, '$1\n$2');
+  newText = newText.replace(/([^\n])\s*(Column\s+(\d+|[a-zA-Z])[:\-—])/gi, '$1\n$2');
+
   return { text: newText, clockTime, inlineSvg };
 };

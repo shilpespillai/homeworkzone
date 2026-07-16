@@ -1136,7 +1136,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                               const { text: cleanText, clockTime, inlineSvg } = parseQuestionText(q.text);
                               return (
                                 <>
-                                  <p className="font-bold text-slate-800 text-xs mb-3">
+                                  <p className="font-bold text-slate-800 text-xs mb-3 whitespace-pre-wrap">
                                     <span className="text-green-600 mr-1 font-black">Q{idx + 1}.</span> {cleanText}
                                   </p>
                                   {clockTime && (
@@ -1640,7 +1640,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                                   const { text: cleanText, clockTime, inlineSvg } = parseQuestionText(q.text);
                                   return (
                                     <>
-                                      <p className="font-bold text-slate-800 text-sm mb-4"><span className="text-green-600 mr-2">Q{idx + 1}.</span> {cleanText}</p>
+                                      <p className="font-bold text-slate-800 text-sm mb-4 whitespace-pre-wrap"><span className="text-green-600 mr-2">Q{idx + 1}.</span> {cleanText}</p>
                                       {clockTime && (
                                         <div className="mb-4 transform scale-75 origin-top-left">
                                           <ClockFace timeStr={clockTime} />

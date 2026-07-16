@@ -926,7 +926,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                                >
                                  <Volume2 className="w-6 h-6" />
                                </button>
-                               <h1 className="text-2xl md:text-[28px] font-extrabold text-slate-800 leading-snug text-center md:text-left tracking-tight">
+                               <h1 className="text-2xl md:text-[28px] font-extrabold text-slate-800 leading-snug text-center md:text-left tracking-tight whitespace-pre-wrap">
                                  {cleanText}
                                </h1>
                              </div>
