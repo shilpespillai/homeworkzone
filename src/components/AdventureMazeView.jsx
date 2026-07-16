@@ -1311,14 +1311,16 @@ export default function AdventureMazeView({
         {/* Treasure Chest Overlay */}
         {(() => {
           const me = studentsWithMilestones.find(s => s.isMe);
-          if (me && me.milestone === 10 && !claimedTreasures.includes(me.lap)) {
-            const finalCoords = activeCoords[10];
+          const trackLength = activeCoords.length;
+          if (me && me.milestone === trackLength && !claimedTreasures.includes(me.lap)) {
+            const finalCoords = activeCoords[trackLength - 1];
+            const heightVal = style.viewBox ? parseInt(style.viewBox.split(' ')[3], 10) : (style.isImageBaked ? 650 : 450);
             return (
               <div 
                 className="absolute z-20 cursor-pointer hover:scale-110 active:scale-95 transition-transform animate-bounce"
                 style={{ 
                   left: `${(finalCoords.x / 1000) * 100}%`, 
-                  top: `${(finalCoords.y / 450) * 100}%`,
+                  top: `${(finalCoords.y / heightVal) * 100}%`,
                   transform: 'translate(-50%, -100%)',
                   marginTop: '-15px'
                 }}
@@ -1373,7 +1375,7 @@ export default function AdventureMazeView({
           <div className="space-y-0.5">
             <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider block">Completed Lap 1</span>
             <span className="text-sm font-black text-emerald-500 flex items-center gap-1">
-              <Trophy className="w-3.5 h-3.5" /> {studentsWithMilestones.filter(s => s.lap > 1 || s.milestone === 10).length}
+              <Trophy className="w-3.5 h-3.5" /> {studentsWithMilestones.filter(s => s.lap > 1 || s.milestone === activeCoords.length).length}
             </span>
           </div>
 
