@@ -420,11 +420,40 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         ? `${formData.aiPrompt || ''}\n\nCRITICAL INSTRUCTION: You must strictly generate questions focusing only on the following micro-skills: "${skillTitles}". Distribute the questions evenly across these topics. This is for ${resolvedGrade}.`
         : (formData.aiPrompt || formData.title);
 
+      // Find up to 10 questions recently generated for this subject to prevent duplicates
+      const recentlyGenerated = [];
+      if (allHomeworks && allHomeworks.length > 0) {
+        const matchingHws = allHomeworks
+          .filter(h => h.subject?.toLowerCase() === formData.subject?.toLowerCase())
+          .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+        
+        for (const hw of matchingHws) {
+          if (hw.questions && Array.isArray(hw.questions)) {
+            for (const q of hw.questions) {
+              if (q.text) {
+                const cleanText = q.text.replace(/<svg[\s\S]*?<\/svg>/gi, '').replace(/\[CLOCK:.*?\]/gi, '').trim();
+                const preview = cleanText.split('\n')[0].slice(0, 100).trim();
+                if (preview && !recentlyGenerated.includes(preview)) {
+                  recentlyGenerated.push(preview);
+                }
+              }
+              if (recentlyGenerated.length >= 10) break;
+            }
+          }
+          if (recentlyGenerated.length >= 10) break;
+        }
+      }
+      
+      const previousQuestionsBlock = recentlyGenerated.length > 0
+        ? `\n        CRITICAL UNIFORMITY AVOIDANCE RULE: You MUST NOT repeat or use similar templates, wording, or scenarios to these recently generated questions for this subject. Create completely different situations, contexts, numbers, or question types:\n        ${recentlyGenerated.map((q, idx) => `        ${idx + 1}. "${q}"`).join('\n')}\n`
+        : '';
+
       let prompt = `You are an expert curriculum designer. 
         Create a ${questionCount}-question multiple-choice quiz for students about the following topic:
         Subject: ${formData.subject}
         Topic: ${topic}
         Specific Content Instructions: ${injectedPrompt}
+        ${previousQuestionsBlock}
         
         Ensure the questions test the students' knowledge on the specific content instructions provided. DO NOT generate meta-questions about the instructions themselves.
         
