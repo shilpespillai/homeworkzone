@@ -6314,7 +6314,7 @@ Include a balanced combination of question types such as:
                                    </div>
                                    <div className="relative">
                                       <textarea 
-                                         value={subjectPrompts[subKey]}
+                                         value={subjectPrompts[subKey] || ''}
                                          onChange={(e) => setSubjectPrompts(prev => ({ ...prev, [subKey]: e.target.value }))}
                                          className="w-full h-32 bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-slate-700 font-bold outline-none focus:border-green-400 transition-colors resize-none text-xs pb-12"
                                          placeholder={`Enter generic prompt for ${subKey}...`}
