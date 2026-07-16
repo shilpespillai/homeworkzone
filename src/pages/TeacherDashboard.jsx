@@ -736,7 +736,7 @@ Include a balanced combination of question types such as:
       return;
     }
     const cleanName = newSubjectName.trim().toLowerCase();
-    if (subjectPrompts[cleanName] !== undefined) {
+    if (subjectPrompts[cleanName] !== undefined && subjectPrompts[cleanName] !== null) {
       alert("This subject already exists! ⚠️");
       return;
     }
