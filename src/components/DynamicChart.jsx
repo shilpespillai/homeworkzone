@@ -45,7 +45,36 @@ export default function DynamicChart({ data }) {
 
   const type = isArray ? 'bar' : (parsedData.type || 'bar');
   const title = isArray ? null : parsedData.title;
-  const chartData = actualData;
+  const chartData = actualData.map(row => {
+    if (typeof row !== 'object' || row === null) return { name: String(row), value: 0 };
+    
+    const keys = Object.keys(row);
+    if (keys.length === 0) return { name: '', value: 0 };
+    
+    if (row.name !== undefined && row.value !== undefined) {
+      return { name: row.name, value: row.value };
+    }
+
+    // Find value key (numeric or matches common value terms)
+    let valueKey = keys.find(k => typeof row[k] === 'number');
+    if (valueKey === undefined) {
+      valueKey = keys.find(k => /value|val|temp|score|num|count|qty/i.test(k));
+    }
+    if (valueKey === undefined) {
+      valueKey = keys[1] || keys[0];
+    }
+
+    // Find name key (the other key or matches common category terms)
+    let nameKey = keys.find(k => k !== valueKey);
+    if (nameKey === undefined) {
+      nameKey = keys[0];
+    }
+
+    return {
+      name: row[nameKey] !== undefined ? String(row[nameKey]) : '',
+      value: row[valueKey] !== undefined ? Number(row[valueKey]) : 0
+    };
+  });
 
   const renderChart = () => {
     switch (type) {
