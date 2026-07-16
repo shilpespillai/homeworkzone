@@ -694,13 +694,14 @@ const TeacherDashboard = ({ user, onLogout }) => {
   };
 
   const getPremiumPromptTemplate = (subjectName) => {
+    const capsSubject = subjectName.charAt(0).toUpperCase() + subjectName.slice(1);
     return `You are an expert educator and curriculum designer creating practice questions for an educational learning platform used by school students.
 
-I am creating an educational app that helps students learn **{SUBJECT}**.
+I am creating an educational app that helps students learn **${capsSubject}**.
 
 Generate a high-quality practice paper based on the following details:
 
-Subject: {SUBJECT}
+Subject: ${capsSubject}
 Grade: {GRADE}
 Topic: {TOPIC}
 Difficulty Level: {DIFFICULTY}
@@ -749,7 +750,7 @@ Include a balanced combination of question types such as:
 
     try {
       const generatedText = await generateContent({
-        prompt: `Generate a prompt for creating a paper for ${displaySubject}. The prompt should dynamically cater to the grade and difficulty level selected. It has to be detailed, so that when the prompt is run, the paper is generated with the best questions and correct answers. Output only the generated prompt text directly, with no surrounding explanations or quotes.`,
+        prompt: `Write a highly detailed, customized, and structured instruction prompt template for another AI to generate high-quality worksheets and questions specifically for the subject: "${displaySubject}". The generated prompt must contain subject-specific details (for example, if the subject is "${displaySubject}", the instructions must specify key concepts, terminology, question structures, and topics unique to "${displaySubject}"). It should dynamically cater to the grade and difficulty level selected. Do not write a generic template containing '{SUBJECT}'. Write a concrete prompt tailored specifically to "${displaySubject}". Output only the prompt text itself, with no explanations or markdown quotes.`,
         systemInstruction: "You are an expert AI prompt engineer. Write a highly detailed, professional, structured instruction prompt for another AI to generate high-quality worksheets and questions. Output ONLY the resulting prompt.",
         provider: "gemini"
       });
@@ -6347,7 +6348,7 @@ Include a balanced combination of question types such as:
                                             setSubjectPrompts(prev => ({ ...prev, [subKey]: "Generating premium prompt using AI... 🪄 Please wait a moment." }));
                                             try {
                                                const generatedText = await generateContent({
-                                                  prompt: `Generate a prompt for creating a paper for ${subKey}. The prompt should dynamically cater to the grade and difficulty level selected. It has to be detailed, so that when the prompt is run, the paper is generated with the best questions and correct answers. Output only the generated prompt text directly, with no surrounding explanations or quotes.`,
+                                                  prompt: `Write a highly detailed, customized, and structured instruction prompt template for another AI to generate high-quality worksheets and questions specifically for the subject: "${subKey}". The generated prompt must contain subject-specific details (for example, if the subject is "${subKey}", the instructions must specify key concepts, terminology, question structures, and topics unique to "${subKey}"). It should dynamically cater to the grade and difficulty level selected. Do not write a generic template containing '{SUBJECT}'. Write a concrete prompt tailored specifically to "${subKey}". Output only the prompt text itself, with no explanations or markdown quotes.`,
                                                   systemInstruction: "You are an expert AI prompt engineer. Write a highly detailed, professional, structured instruction prompt for another AI to generate high-quality worksheets and questions. Output ONLY the resulting prompt.",
                                                   provider: "gemini"
                                                });
