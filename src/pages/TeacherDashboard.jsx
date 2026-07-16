@@ -6249,7 +6249,6 @@ const TeacherDashboard = ({ user, onLogout }) => {
                     {/* Top Header */}
                     <div className="flex items-center justify-between">
                        <div>
-                          <h1 className="text-4xl font-black text-[#14532d] tracking-tight">My AI Prompts</h1>
                           <p className="text-sm font-bold text-[#166534] italic">Configure default templates that automatically pre-fill the Magic Quiz Builder when a subject is chosen.</p>
                        </div>
                     </div>
