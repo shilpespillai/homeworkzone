@@ -730,21 +730,42 @@ Include a balanced combination of question types such as:
 - Odd One Out (where applicable)`;
   };
 
-  const handleAddSubject = () => {
+  const handleAddSubject = async () => {
     if (!newSubjectName.trim()) {
       alert("Please enter a subject name! 🎒");
       return;
     }
     const cleanName = newSubjectName.trim().toLowerCase();
+    const displaySubject = newSubjectName.trim();
     if (subjectPrompts[cleanName] !== undefined && subjectPrompts[cleanName] !== null) {
       alert("This subject already exists! ⚠️");
       return;
     }
     setSubjectPrompts(prev => ({
       ...prev,
-      [cleanName]: getPremiumPromptTemplate(cleanName)
+      [cleanName]: "Generating premium prompt using AI... 🪄 Please wait a moment."
     }));
     setNewSubjectName('');
+
+    try {
+      const generatedText = await generateContent({
+        prompt: `Generate a prompt for creating a paper for ${displaySubject}. The prompt should dynamically cater to the grade and difficulty level selected. It has to be detailed, so that when the prompt is run, the paper is generated with the best questions and correct answers. Output only the generated prompt text directly, with no surrounding explanations or quotes.`,
+        systemInstruction: "You are an expert AI prompt engineer. Write a highly detailed, professional, structured instruction prompt for another AI to generate high-quality worksheets and questions. Output ONLY the resulting prompt.",
+        provider: "gemini"
+      });
+      if (generatedText) {
+        setSubjectPrompts(prev => ({
+          ...prev,
+          [cleanName]: generatedText.trim()
+        }));
+      }
+    } catch (err) {
+      console.error("AI prompt generation error:", err);
+      setSubjectPrompts(prev => ({
+        ...prev,
+        [cleanName]: getPremiumPromptTemplate(cleanName)
+      }));
+    }
   };
 
   const handleDeleteSubject = async (subKey) => {
@@ -6321,13 +6342,27 @@ Include a balanced combination of question types such as:
                                       />
                                       <button
                                          type="button"
-                                         onClick={() => {
-                                            const template = getPremiumPromptTemplate(subKey);
-                                            setSubjectPrompts(prev => ({ ...prev, [subKey]: template }));
+                                         disabled={subjectPrompts[subKey]?.startsWith("Generating")}
+                                         onClick={async () => {
+                                            setSubjectPrompts(prev => ({ ...prev, [subKey]: "Generating premium prompt using AI... 🪄 Please wait a moment." }));
+                                            try {
+                                               const generatedText = await generateContent({
+                                                  prompt: `Generate a prompt for creating a paper for ${subKey}. The prompt should dynamically cater to the grade and difficulty level selected. It has to be detailed, so that when the prompt is run, the paper is generated with the best questions and correct answers. Output only the generated prompt text directly, with no surrounding explanations or quotes.`,
+                                                  systemInstruction: "You are an expert AI prompt engineer. Write a highly detailed, professional, structured instruction prompt for another AI to generate high-quality worksheets and questions. Output ONLY the resulting prompt.",
+                                                  provider: "gemini"
+                                               });
+                                               if (generatedText) {
+                                                  setSubjectPrompts(prev => ({ ...prev, [subKey]: generatedText.trim() }));
+                                               }
+                                            } catch (err) {
+                                               console.error("AI prompt generation error:", err);
+                                               const template = getPremiumPromptTemplate(subKey);
+                                               setSubjectPrompts(prev => ({ ...prev, [subKey]: template }));
+                                            }
                                          }}
-                                         className="absolute bottom-3 right-3 bg-white hover:bg-slate-50 active:scale-95 border border-slate-200 text-slate-600 font-black px-2.5 py-1 rounded-xl text-[9px] shadow-sm transition-all flex items-center gap-1.5 z-10"
+                                         className="absolute bottom-3 right-3 bg-white hover:bg-slate-50 active:scale-95 border border-slate-200 text-slate-600 font-black px-2.5 py-1 rounded-xl text-[9px] shadow-sm transition-all flex items-center gap-1.5 z-10 disabled:opacity-50"
                                       >
-                                         ✨ Auto-Fill Template
+                                         {subjectPrompts[subKey]?.startsWith("Generating") ? "🪄 Generating..." : "✨ Auto-Fill Template"}
                                       </button>
                                    </div>
                                 </div>
