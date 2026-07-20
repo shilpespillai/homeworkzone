@@ -137,7 +137,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
     timeLimit: '30',
     marksPerQuestion: '5',
     assignType: 'all',
-    assignedStudentIds: []
+    assignedStudentIds: [],
+    difficulty: 'Medium'
   });
 
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
@@ -293,7 +294,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         time: initialDraft.time || '',
         points: initialDraft.points || '10',
         assignType: initialDraft.assignType || 'all',
-        assignedStudentIds: initialDraft.assignedStudentIds || (initialDraft.assignedStudentId ? [initialDraft.assignedStudentId] : [])
+        assignedStudentIds: initialDraft.assignedStudentIds || (initialDraft.assignedStudentId ? [initialDraft.assignedStudentId] : []),
+        difficulty: initialDraft.difficulty || 'Medium'
       });
       setGeneratedQuestions(initialDraft.questions || null);
       setIsAiAccepted(!!initialDraft.questions);
@@ -424,7 +426,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         .replace(/\{SUBJECT\}/gi, formData.subject || '')
         .replace(/\{GRADE\}/gi, resolvedGrade || 'Age-Appropriate')
         .replace(/\{TOPIC\}/gi, topic || '')
-        .replace(/\{DIFFICULTY\}/gi, 'Balanced')
+        .replace(/\{DIFFICULTY\}/gi, formData.difficulty || 'Medium')
         .replace(/\{QUESTION_COUNT\}/gi, String(questionCount));
 
       // Find up to 10 questions recently generated for this subject to prevent duplicates
@@ -735,6 +737,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         type: finalType,
         timeLimit: formData.timeLimit || '30',
         marksPerQuestion: formData.marksPerQuestion || '5',
+        difficulty: formData.difficulty || 'Medium',
         createdAt: serverTimestamp()
       };
 
@@ -758,7 +761,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         timeLimit: '30',
         marksPerQuestion: '5',
         assignType: 'all',
-        assignedStudentIds: []
+        assignedStudentIds: [],
+        difficulty: 'Medium'
       });
       setGeneratedQuestions(null);
       setIsAiAccepted(false);
@@ -861,6 +865,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         type: finalType,
         timeLimit: formData.timeLimit || '30',
         marksPerQuestion: formData.marksPerQuestion || '5',
+        difficulty: formData.difficulty || 'Medium',
         createdAt: serverTimestamp()
       };
 
@@ -884,7 +889,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         timeLimit: '30',
         marksPerQuestion: '5',
         assignType: 'all',
-        assignedStudentIds: []
+        assignedStudentIds: [],
+        difficulty: 'Medium'
       });
       setGeneratedQuestions(null);
       setIsAiAccepted(false);
@@ -1048,6 +1054,26 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
             <div className="flex justify-between text-[10px] font-bold text-slate-400 mt-1">
                <span>1 (Quick check)</span>
                <span>50 (Full exam)</span>
+            </div>
+          </div>
+
+          <div className="space-y-2 mb-6">
+            <label className="font-bold text-[#14532d] block text-sm">Complexity Level</label>
+            <div className="grid grid-cols-3 gap-2 bg-slate-50 p-1.5 border border-slate-200 rounded-2xl">
+              {['Easy', 'Medium', 'Hard'].map(diff => (
+                <button
+                  key={diff}
+                  type="button"
+                  onClick={() => setFormData(prev => ({ ...prev, difficulty: diff }))}
+                  className={`py-2.5 rounded-xl text-sm font-black transition-all ${
+                    formData.difficulty === diff 
+                      ? 'bg-green-600 text-white shadow-sm' 
+                      : 'text-slate-500 hover:text-slate-700'
+                  }`}
+                >
+                  {diff}
+                </button>
+              ))}
             </div>
           </div>
 

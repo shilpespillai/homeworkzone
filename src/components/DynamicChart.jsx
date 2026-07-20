@@ -45,34 +45,80 @@ export default function DynamicChart({ data }) {
 
   const type = isArray ? 'bar' : (parsedData.type || 'bar');
   const title = isArray ? null : parsedData.title;
+
+  const headers = React.useMemo(() => {
+    if (!actualData || actualData.length === 0) return ['Item', 'Value'];
+    const sample = actualData[0];
+    if (typeof sample !== 'object' || sample === null) return ['Item', 'Value'];
+    const keys = Object.keys(sample);
+    if (keys.length === 0) return ['Item', 'Value'];
+    
+    let valK = keys.find(k => typeof sample[k] === 'number');
+    if (valK === undefined) {
+      valK = keys.find(k => /value|val|temp|score|num|count|qty|price|cost/i.test(k));
+    }
+    if (valK === undefined) {
+      valK = keys[1] || keys[0];
+    }
+    
+    let nameK = keys.find(k => k !== valK);
+    if (nameK === undefined) {
+      nameK = keys[0];
+    }
+    
+    const formatHeader = (str) => {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+    
+    return [formatHeader(nameK), formatHeader(valK)];
+  }, [actualData]);
+
   const chartData = actualData.map(row => {
-    if (typeof row !== 'object' || row === null) return { name: String(row), value: 0 };
+    if (typeof row !== 'object' || row === null) {
+      return { name: String(row), value: 0, displayValue: String(row) };
+    }
     
     const keys = Object.keys(row);
-    if (keys.length === 0) return { name: '', value: 0 };
+    if (keys.length === 0) return { name: '', value: 0, displayValue: '' };
+    
+    let nameVal = '';
+    let rawVal = '';
     
     if (row.name !== undefined && row.value !== undefined) {
-      return { name: row.name, value: row.value };
-    }
+      nameVal = row.name;
+      rawVal = row.value;
+    } else {
+      let valueKey = keys.find(k => typeof row[k] === 'number');
+      if (valueKey === undefined) {
+        valueKey = keys.find(k => /value|val|temp|score|num|count|qty|price|cost/i.test(k));
+      }
+      if (valueKey === undefined) {
+        valueKey = keys[1] || keys[0];
+      }
 
-    // Find value key (numeric or matches common value terms)
-    let valueKey = keys.find(k => typeof row[k] === 'number');
-    if (valueKey === undefined) {
-      valueKey = keys.find(k => /value|val|temp|score|num|count|qty/i.test(k));
+      let nameKey = keys.find(k => k !== valueKey);
+      if (nameKey === undefined) {
+        nameKey = keys[0];
+      }
+      
+      nameVal = row[nameKey];
+      rawVal = row[valueKey];
     }
-    if (valueKey === undefined) {
-      valueKey = keys[1] || keys[0];
-    }
-
-    // Find name key (the other key or matches common category terms)
-    let nameKey = keys.find(k => k !== valueKey);
-    if (nameKey === undefined) {
-      nameKey = keys[0];
+    
+    let numVal = 0;
+    if (typeof rawVal === 'number') {
+      numVal = rawVal;
+    } else if (rawVal !== undefined && rawVal !== null) {
+      // Strip currency signs or letters to parse float
+      const cleaned = String(rawVal).replace(/[^\d.-]/g, '');
+      const parsed = parseFloat(cleaned);
+      numVal = isNaN(parsed) ? 0 : parsed;
     }
 
     return {
-      name: row[nameKey] !== undefined ? String(row[nameKey]) : '',
-      value: row[valueKey] !== undefined ? Number(row[valueKey]) : 0
+      name: nameVal !== undefined ? String(nameVal) : '',
+      value: numVal,
+      displayValue: rawVal !== undefined ? String(rawVal) : ''
     };
   });
 
@@ -120,15 +166,15 @@ export default function DynamicChart({ data }) {
             <table className="w-full max-w-sm border-collapse rounded-xl overflow-hidden shadow-sm border border-slate-200">
               <thead className="bg-slate-100 border-b-2 border-slate-200">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-black text-slate-600 uppercase tracking-wider">Item</th>
-                  <th className="px-4 py-3 text-left text-xs font-black text-slate-600 uppercase tracking-wider">Value</th>
+                  <th className="px-4 py-3 text-left text-xs font-black text-slate-600 uppercase tracking-wider">{headers[0]}</th>
+                  <th className="px-4 py-3 text-left text-xs font-black text-slate-600 uppercase tracking-wider">{headers[1]}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 bg-white">
                 {chartData.map((row, i) => (
                   <tr key={i} className="hover:bg-slate-50 transition-colors">
                     <td className="px-4 py-3 whitespace-nowrap text-sm font-bold text-slate-700 border-r border-slate-100">{row.name}</td>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-indigo-600 font-black">{row.value}</td>
+                    <td className="px-4 py-3 whitespace-nowrap text-sm text-indigo-600 font-black">{row.displayValue}</td>
                   </tr>
                 ))}
               </tbody>
