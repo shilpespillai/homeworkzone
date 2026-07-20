@@ -473,10 +473,10 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
            - Identify the part of speech based strictly on its exact syntactic function inside the sentence context. E.g. in "The walk was long", "walk" is a noun. In "We walk daily", "walk" is a verb.
            - Ensure that the "answer" option is grammatically 100% correct, and the other 3 options are clearly incorrect or represent different parts of speech. No ambiguity.
            - CRITICAL VOCABULARY RULE: You MUST strictly adapt the reading level, vocabulary, and sentence structure to be age-appropriate for the specified grade level. For early learners (Foundation, Grade 1, Grade 2), use extremely simple, short, decodable words and short sentences. Avoid complex phrasing completely.
-        2. For Mathematics:
+        2. For Mathematics and Olympiad Maths:
            - Ensure all equations, word problems, and numeric values are mathematically correct. Double-check your own calculations so there is zero arithmetic error.
            - CRITICAL MATH RULE: Never hallucinate mathematical properties! (e.g. 1234 is EVEN, not odd. Do not confidently assert false mathematical facts). The correct answer MUST be logically and mathematically indisputable.
-           - CRITICAL DIAGRAM & INTERACTIVE DISTRIBUTION RULE: For Mathematics, you MUST ensure that exactly 60% of the questions generated are diagram-based or interactive (questions containing "svgCode", "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData", "[CLOCK:]", or questionType="interactive"). The remaining 40% must be plain text-based questions (without visual diagrams or interactive drag-and-drop elements). Design the quiz to strictly follow this 60% diagram/interactive and 40% text-based ratio!
+           - CRITICAL DIAGRAM & INTERACTIVE DISTRIBUTION RULE: For Mathematics and Olympiad Maths, you MUST ensure that exactly 60% of the questions generated are diagram-based or interactive (questions containing "svgCode", "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData", "[CLOCK:]", or questionType="interactive"). The remaining 40% must be plain text-based questions (without visual diagrams or interactive drag-and-drop elements). Design the quiz to strictly follow this 60% diagram/interactive and 40% text-based ratio!
         3. For Science:
            - Ensure all facts, definitions, and concepts are scientifically accurate and standard.
         4. General:

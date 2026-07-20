@@ -100,7 +100,7 @@ export const executeRecurringGeneration = async (sched, teacherUid, teacherCode)
       english: 'Make 5 questions about identifying nouns vs verbs in a sentence. This is for grade 4 students.',
       science: 'Make 5 questions about the solar system and planets. This is for grade 4 students.',
       logical_reasoning: 'Generate 5 logical reasoning questions. Focus on puzzles, patterns, seating arrangements, coding-decoding, syllogisms, or blood relations suitable for the grade level. Ensure highly visual structure and logical flow.',
-      olympiad: 'Generate 5 Olympiad-level maths questions. Focus on advanced problem-solving, combinatorics, number theory, and logic. These should be highly challenging.'
+      olympiad: 'Generate 5 Olympiad-level maths questions. Focus on advanced problem-solving, combinatorics, number theory, and logic. Ensure that at least 60% of the questions contain visual mathematical diagrams (using custom svgCode or chartData/geometryData) or interactive components to make them highly challenging and engaging.'
     };
     let resolvedTeacherName = 'Classroom Teacher';
 
@@ -126,9 +126,9 @@ CRITICAL ACCURACY & QUALITY RULES:
 1. For English Grammar / Word Classification (nouns, verbs, adjectives, adverbs, prepositions, etc.):
    - Identify the part of speech based strictly on its exact syntactic function inside the sentence context. E.g. in "The walk was long", "walk" is a noun. In "We walk daily", "walk" is a verb.
    - Ensure that the "answer" option is grammatically 100% correct, and the other 3 options are clearly incorrect or represent different parts of speech. No ambiguity.
-2. For Mathematics:
+2. For Mathematics and Olympiad Maths:
    - Ensure all equations, word problems, and numeric values are mathematically correct. Double-check your own calculations so there is zero arithmetic error.
-   - CRITICAL DIAGRAM & INTERACTIVE DISTRIBUTION RULE: For Mathematics, you MUST ensure that exactly 60% of the questions generated are diagram-based or interactive (questions containing "svgCode", "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData", "[CLOCK:]", or questionType="interactive"). The remaining 40% must be plain text-based questions (without visual diagrams or interactive drag-and-drop elements). Design the quiz to strictly follow this 60% diagram/interactive and 40% text-based ratio!
+   - CRITICAL DIAGRAM & INTERACTIVE DISTRIBUTION RULE: For Mathematics and Olympiad Maths, you MUST ensure that exactly 60% of the questions generated are diagram-based or interactive (questions containing "svgCode", "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData", "[CLOCK:]", or questionType="interactive"). The remaining 40% must be plain text-based questions (without visual diagrams or interactive drag-and-drop elements). Design the quiz to strictly follow this 60% diagram/interactive and 40% text-based ratio!
 3. For Science:
    - Ensure all facts, definitions, and concepts are scientifically accurate and standard.
 4. General:
