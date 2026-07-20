@@ -33810,25 +33810,85 @@ const olympiadG1_G2 = [
 ];
 
 const olympiadG3_G4 = [
-  { id: "ol_34_1", title: "Divisibility Rules & Prime/Composite Numbers", category: "A. Number Theory" },
-  { id: "ol_34_2", title: "Finding Units Digit Patterns of Large Numbers", category: "A. Number Theory" },
-  { id: "ol_34_3", title: "Basic Pigeonhole Principle (Socks/Drawers)", category: "B. Combinatorics & Counting" },
-  { id: "ol_34_4", title: "Grid Paths and Counting Shortcuts", category: "B. Combinatorics & Counting" },
-  { id: "ol_34_5", title: "Alphametics and Cryptarithms (Letters as Digits)", category: "C. Mathematical Operations" },
-  { id: "ol_34_6", title: "Areas of Compound Shapes & Stair-Step Figures", category: "D. Geometry & Measurement" },
-  { id: "ol_34_7", title: "Truth-Tellers and Liars Logic Puzzles", category: "E. Logical Reasoning" },
-  { id: "ol_34_8", title: "Solving Venn Diagram Intersections", category: "E. Logical Reasoning" }
+  // Number Theory
+  { id: "ol_34_1", title: "Divisibility Rules (2, 3, 5, 9, 10)", category: "Number Theory" },
+  { id: "ol_34_2", title: "Prime Factorisation & Prime Numbers", category: "Number Theory" },
+  { id: "ol_34_3", title: "Finding the Units Digit of Large Products", category: "Number Theory" },
+  { id: "ol_34_4", title: "Lowest Common Multiple (LCM) Word Problems", category: "Number Theory" },
+  { id: "ol_34_5", title: "Greatest Common Divisor (GCD) Word Problems", category: "Number Theory" },
+  { id: "ol_34_6", title: "Properties of Odd and Even Integers", category: "Number Theory" },
+  { id: "ol_34_7", title: "Magic Squares and Number Grids", category: "Number Theory" },
+  { id: "ol_34_8", title: "Consecutive Integer Sums", category: "Number Theory" },
+
+  // Combinatorics & Counting
+  { id: "ol_34_9", title: "Basic Pigeonhole Principle (Socks/Drawers)", category: "Combinatorics & Counting" },
+  { id: "ol_34_10", title: "Grid Paths (Shortest Routes on Grid Maps)", category: "Combinatorics & Counting" },
+  { id: "ol_34_11", title: "Handshake & Matchmaking Puzzles", category: "Combinatorics & Counting" },
+  { id: "ol_34_12", title: "Systematic Listing of Combinations", category: "Combinatorics & Counting" },
+  { id: "ol_34_13", title: "Permutations of Words and Letters", category: "Combinatorics & Counting" },
+  { id: "ol_34_14", title: "Venn Diagrams (2-Set Intersections)", category: "Combinatorics & Counting" },
+  { id: "ol_34_15", title: "Overlapping Intervals & Tree Planting Problems", category: "Combinatorics & Counting" },
+
+  // Mathematical Operations & Algebra
+  { id: "ol_34_16", title: "Alphametics (Addition & Subtraction Cryptarithms)", category: "Mathematical Operations" },
+  { id: "ol_34_17", title: "Shape Math (Solving Visual Systems of Equations)", category: "Mathematical Operations" },
+  { id: "ol_34_18", title: "The Working Backwards Method", category: "Mathematical Operations" },
+  { id: "ol_34_19", title: "The Chicken and Rabbit Problem (Heuristics)", category: "Mathematical Operations" },
+  { id: "ol_34_20", title: "Age Word Problems (Past and Future Relationships)", category: "Mathematical Operations" },
+  { id: "ol_34_21", title: "Excess and Deficit Puzzles", category: "Mathematical Operations" },
+  { id: "ol_34_22", title: "Gauss Series Summation Methods", category: "Mathematical Operations" },
+
+  // Geometry & Measurement
+  { id: "ol_34_23", title: "Perimeter of Compound & L-Shaped Polygons", category: "Geometry & Measurement" },
+  { id: "ol_34_24", title: "Shaded Area of Squares, Rectangles & Triangles", category: "Geometry & Measurement" },
+  { id: "ol_34_25", title: "Area on Grid Maps (Counting Unit Squares)", category: "Geometry & Measurement" },
+  { id: "ol_34_26", title: "Spatial Cube Stacks (Visible vs. Hidden Blocks)", category: "Geometry & Measurement" },
+  { id: "ol_34_27", title: "Paper Folding, Symmetry & Mirror Reflections", category: "Geometry & Measurement" },
+  { id: "ol_34_28", title: "Geometry of Angles in Triangles", category: "Geometry & Measurement" },
+
+  // Logical Reasoning
+  { id: "ol_34_29", title: "Truth-Tellers and Liars (Knights & Knaves)", category: "Logical Reasoning" },
+  { id: "ol_34_30", title: "Grid Logic Elimination (Attribute Matching)", category: "Logical Reasoning" },
+  { id: "ol_34_31", title: "Visual Pattern Matrices (Sequence Prediction)", category: "Logical Reasoning" },
+  { id: "ol_34_32", title: "Clock and Calendar Math (Hand Angles & Leap Years)", category: "Logical Reasoning" },
+  { id: "ol_34_33", title: "Seating Arrangements and Circular Logic", category: "Logical Reasoning" }
 ];
 
 const olympiadG5_G6 = [
-  { id: "ol_56_1", title: "GCD, LCM, and Remainder Word Problems", category: "A. Advanced Number Theory" },
-  { id: "ol_56_2", title: "Modular Arithmetic & Calendar Calculations", category: "A. Advanced Number Theory" },
-  { id: "ol_56_3", title: "Permutations, Combinations & Handshake Puzzles", category: "B. Combinatorics & Counting" },
-  { id: "ol_56_4", title: "Age Word Problems & Multi-Step Rates", category: "C. Algebra & Patterns" },
-  { id: "ol_56_5", title: "Rate-Time-Distance and Work-Rate Word Problems", category: "C. Algebra & Patterns" },
-  { id: "ol_56_6", title: "Pythagorean Theorem & Right-Angle Geometry Puzzles", category: "D. Geometry & Measurement" },
-  { id: "ol_56_7", title: "Inscribed Figures and Shifting Shaded Area Puzzles", category: "D. Geometry & Measurement" },
-  { id: "ol_56_8", title: "Truth-Tellers, Liars & Strategic Elimination", category: "E. Logical Reasoning" }
+  // Number Theory
+  { id: "ol_56_1", title: "Advanced Divisibility Rules (7, 11, 13)", category: "Number Theory" },
+  { id: "ol_56_2", title: "GCD, LCM, and Remainder Word Problems", category: "Number Theory" },
+  { id: "ol_56_3", title: "Modular Arithmetic & Calendar Calculations", category: "Number Theory" },
+  { id: "ol_56_4", title: "Finding the Last Two Digits of Large Numbers", category: "Number Theory" },
+  { id: "ol_56_5", title: "Farey Sequences and Fraction Properties", category: "Number Theory" },
+  { id: "ol_56_6", title: "Factors and Divisors (Counting and Summing)", category: "Number Theory" },
+
+  // Combinatorics & Counting
+  { id: "ol_56_7", title: "Permutations, Combinations & Arrangements", category: "Combinatorics & Counting" },
+  { id: "ol_56_8", title: "Pigeonhole Principle (Advanced Sorting)", category: "Combinatorics & Counting" },
+  { id: "ol_56_9", title: "Path Counting on Chessboards & Grid Networks", category: "Combinatorics & Counting" },
+  { id: "ol_56_10", title: "Venn Diagrams (3-Set Complex Intersections)", category: "Combinatorics & Counting" },
+  { id: "ol_56_11", title: "Systematic Tree Diagrams & Probability Trees", category: "Combinatorics & Counting" },
+
+  // Mathematical Operations & Algebra
+  { id: "ol_56_12", title: "Alphametics with Multiplication & Division", category: "Mathematical Operations" },
+  { id: "ol_56_13", title: "Solving Visual Algebraic Equations with 3 Variables", category: "Mathematical Operations" },
+  { id: "ol_56_14", title: "Rate-Time-Distance Word Problems", category: "Mathematical Operations" },
+  { id: "ol_56_15", title: "Work-Rate Puzzles (Cooperative Pipes & Jobs)", category: "Mathematical Operations" },
+  { id: "ol_56_16", title: "Multi-Step Fraction Word Problems", category: "Mathematical Operations" },
+  { id: "ol_56_17", title: "Arithmetic & Geometric Sequences", category: "Mathematical Operations" },
+
+  // Geometry & Measurement
+  { id: "ol_56_18", title: "Pythagorean Theorem & Geometric Angle Puzzles", category: "Geometry & Measurement" },
+  { id: "ol_56_19", title: "Inscribed Figures & Shifting Shaded Segments", category: "Geometry & Measurement" },
+  { id: "ol_56_20", title: "Nets, Surface Area & Volumes of 3D Prisms", category: "Geometry & Measurement" },
+  { id: "ol_56_21", title: "Transformational Geometry (Rotation, Dilations)", category: "Geometry & Measurement" },
+
+  // Logical Reasoning
+  { id: "ol_56_22", title: "Complex Liars & Truth-Tellers Deduction", category: "Logical Reasoning" },
+  { id: "ol_56_23", title: "Logic grids & multi-parameter elimination", category: "Logical Reasoning" },
+  { id: "ol_56_24", title: "Symmetric Game Strategies & Winning Piles", category: "Logical Reasoning" },
+  { id: "ol_56_25", title: "Cryptographic Decryption & Cipher Decoding", category: "Logical Reasoning" }
 ];
 
 const olympiadG7_G8 = [
