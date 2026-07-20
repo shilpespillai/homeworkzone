@@ -33791,3 +33791,86 @@ export const curriculum = {
     ]
   }
 };
+
+// Define Olympiad topics for different grade bands
+const olympiadFoundation = [
+  { id: "ol_f_1", title: "Visual Pattern Recognition", category: "Patterns & Logic" },
+  { id: "ol_f_2", title: "Count and Group Objects", category: "Numbers & Counting" },
+  { id: "ol_f_3", title: "Basic Spatial Shapes", category: "Geometry" },
+  { id: "ol_f_4", title: "Simple Logic Elimination Puzzles", category: "Patterns & Logic" }
+];
+
+const olympiadG1_G2 = [
+  { id: "ol_12_1", title: "Completing Visual and Numeric Sequences", category: "A. Patterns & Sequences" },
+  { id: "ol_12_2", title: "Symbol Math and Simple Alphametics", category: "B. Mathematical Operations" },
+  { id: "ol_12_3", title: "Counting Shapes and Overlapping Figures", category: "C. Spatial Visualisation" },
+  { id: "ol_12_4", title: "Paper Folding and Mirror Reflection Puzzles", category: "C. Spatial Visualisation" },
+  { id: "ol_12_5", title: "Logic Elimination and Ordering Puzzles", category: "D. Logical Reasoning" },
+  { id: "ol_12_6", title: "Systematic Coin and Currency Counting", category: "B. Mathematical Operations" }
+];
+
+const olympiadG3_G4 = [
+  { id: "ol_34_1", title: "Divisibility Rules & Prime/Composite Numbers", category: "A. Number Theory" },
+  { id: "ol_34_2", title: "Finding Units Digit Patterns of Large Numbers", category: "A. Number Theory" },
+  { id: "ol_34_3", title: "Basic Pigeonhole Principle (Socks/Drawers)", category: "B. Combinatorics & Counting" },
+  { id: "ol_34_4", title: "Grid Paths and Counting Shortcuts", category: "B. Combinatorics & Counting" },
+  { id: "ol_34_5", title: "Alphametics and Cryptarithms (Letters as Digits)", category: "C. Mathematical Operations" },
+  { id: "ol_34_6", title: "Areas of Compound Shapes & Stair-Step Figures", category: "D. Geometry & Measurement" },
+  { id: "ol_34_7", title: "Truth-Tellers and Liars Logic Puzzles", category: "E. Logical Reasoning" },
+  { id: "ol_34_8", title: "Solving Venn Diagram Intersections", category: "E. Logical Reasoning" }
+];
+
+const olympiadG5_G6 = [
+  { id: "ol_56_1", title: "GCD, LCM, and Remainder Word Problems", category: "A. Advanced Number Theory" },
+  { id: "ol_56_2", title: "Modular Arithmetic & Calendar Calculations", category: "A. Advanced Number Theory" },
+  { id: "ol_56_3", title: "Permutations, Combinations & Handshake Puzzles", category: "B. Combinatorics & Counting" },
+  { id: "ol_56_4", title: "Age Word Problems & Multi-Step Rates", category: "C. Algebra & Patterns" },
+  { id: "ol_56_5", title: "Rate-Time-Distance and Work-Rate Word Problems", category: "C. Algebra & Patterns" },
+  { id: "ol_56_6", title: "Pythagorean Theorem & Right-Angle Geometry Puzzles", category: "D. Geometry & Measurement" },
+  { id: "ol_56_7", title: "Inscribed Figures and Shifting Shaded Area Puzzles", category: "D. Geometry & Measurement" },
+  { id: "ol_56_8", title: "Truth-Tellers, Liars & Strategic Elimination", category: "E. Logical Reasoning" }
+];
+
+const olympiadG7_G8 = [
+  { id: "ol_78_1", title: "Prime Factorisation & Diophantine Equations", category: "A. Higher Number Theory" },
+  { id: "ol_78_2", title: "Modular Arithmetic Congruences & Divisibility Proofs", category: "A. Higher Number Theory" },
+  { id: "ol_78_3", title: "Combinatorics Permutations (nPr) and Combinations (nCr)", category: "B. Advanced Combinatorics" },
+  { id: "ol_78_4", title: "Advanced Pigeonhole Principle & Extremal Cases", category: "B. Advanced Combinatorics" },
+  { id: "ol_78_5", title: "System of Linear Equations & Functional Relations", category: "C. Algebra" },
+  { id: "ol_78_6", title: "Factoring Polynomials & Quadratic Sequences", category: "C. Algebra" },
+  { id: "ol_78_7", title: "Angles, Similarity and Congruence in Polygons", category: "D. Geometry & Measurement" },
+  { id: "ol_78_8", title: "Chessboard Coloring Proofs & Grid Route Puzzles", category: "E. Logical Reasoning" }
+];
+
+const olympiadG9_G12 = [
+  { id: "ol_912_1", title: "Diophantine Equations & Fermat's Little Theorem", category: "A. Olympiad Number Theory" },
+  { id: "ol_912_2", title: "Advanced Combinatorics (Stars and Bars Method)", category: "B. Olympiad Combinatorics" },
+  { id: "ol_912_3", title: "Principle of Inclusion-Exclusion (PIE)", category: "B. Olympiad Combinatorics" },
+  { id: "ol_912_4", title: "Logarithmic, Exponential & Polynomial Equations", category: "C. Olympiad Algebra" },
+  { id: "ol_912_5", title: "Inequalities (AM-GM, Cauchy-Schwarz)", category: "C. Olympiad Algebra" },
+  { id: "ol_912_6", title: "Power of a Point, Cyclic Quadrilaterals & Geometry Proofs", category: "D. Olympiad Geometry" },
+  { id: "ol_912_7", title: "Game Theory, Winning Strategies & Invariants", category: "E. Advanced Logic" }
+];
+
+// Dynamically inject Olympiad arrays to corresponding Grade keys
+if (curriculum) {
+  if (curriculum["Foundation"]) curriculum["Foundation"]["Olympiad"] = olympiadFoundation;
+  
+  if (curriculum["Grade 1"]) curriculum["Grade 1"]["Olympiad"] = olympiadG1_G2;
+  if (curriculum["Grade 2"]) curriculum["Grade 2"]["Olympiad"] = olympiadG1_G2;
+  
+  if (curriculum["Grade 3"]) curriculum["Grade 3"]["Olympiad"] = olympiadG3_G4;
+  if (curriculum["Grade 4"]) curriculum["Grade 4"]["Olympiad"] = olympiadG3_G4;
+  
+  if (curriculum["Grade 5"]) curriculum["Grade 5"]["Olympiad"] = olympiadG5_G6;
+  if (curriculum["Grade 6"]) curriculum["Grade 6"]["Olympiad"] = olympiadG5_G6;
+  
+  if (curriculum["Grade 7"]) curriculum["Grade 7"]["Olympiad"] = olympiadG7_G8;
+  if (curriculum["Grade 8"]) curriculum["Grade 8"]["Olympiad"] = olympiadG7_G8;
+  
+  for (let g = 9; g <= 12; g++) {
+    const key = `Grade ${g}`;
+    if (curriculum[key]) curriculum[key]["Olympiad"] = olympiadG9_G12;
+  }
+}
+
