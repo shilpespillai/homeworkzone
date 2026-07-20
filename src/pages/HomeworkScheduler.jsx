@@ -1079,17 +1079,36 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                 </button>
               </div>
               {selectedSkills.length > 0 && (
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {selectedSkills.map((s, i) => (
-                    <span key={i} className="inline-flex items-center gap-1.5 bg-indigo-50 border border-indigo-200 text-indigo-700 font-bold text-xs px-3 py-1.5 rounded-full">
-                      {s.title}
-                      <button type="button" onClick={() => {
-                        const updated = selectedSkills.filter((_, idx) => idx !== i);
-                        setSelectedSkills(updated);
-                        if (updated.length > 0) setFormData(prev => ({ ...prev, topic: updated.map(sk => sk.title).join(', ') }));
-                      }} className="text-indigo-400 hover:text-indigo-600 ml-0.5">✕</button>
-                    </span>
-                  ))}
+                <div className="space-y-2 pt-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] text-slate-500 font-bold">Selected Skills</span>
+                    <button 
+                      type="button"
+                      onClick={() => {
+                        setSelectedSkills([]);
+                        setFormData(prev => ({ ...prev, topic: '' }));
+                      }}
+                      className="text-[10px] text-rose-500 font-bold hover:underline"
+                    >
+                      Clear All
+                    </button>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedSkills.map((s, i) => (
+                      <span key={i} className="inline-flex items-center gap-1.5 bg-indigo-50 border border-indigo-200 text-indigo-700 font-bold text-xs px-3 py-1.5 rounded-full">
+                        {s.title}
+                        <button type="button" onClick={() => {
+                          const updated = selectedSkills.filter((_, idx) => idx !== i);
+                          setSelectedSkills(updated);
+                          if (updated.length > 0) {
+                            setFormData(prev => ({ ...prev, topic: updated.map(sk => sk.title).join(', ') }));
+                          } else {
+                            setFormData(prev => ({ ...prev, topic: '' }));
+                          }
+                        }} className="text-indigo-400 hover:text-indigo-600 ml-0.5">✕</button>
+                      </span>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
