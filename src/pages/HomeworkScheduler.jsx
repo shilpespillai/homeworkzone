@@ -548,6 +548,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         2. For Mathematics:
            - Ensure all equations, word problems, and numeric values are mathematically correct. Double-check your own calculations so there is zero arithmetic error.
            - The correct answer MUST be logically and mathematically indisputable.
+           - CRITICAL DIAGRAM & INTERACTIVE DISTRIBUTION RULE: For Mathematics, you MUST ensure that exactly 60% of the questions generated are diagram-based or interactive (questions containing "svgCode", "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData", "[CLOCK:]", or questionType="interactive"). The remaining 40% must be plain text-based questions (without visual diagrams or interactive drag-and-drop elements). Design the quiz to strictly follow this 60% diagram/interactive and 40% text-based ratio!
         3. For Science:
            - Ensure all facts, definitions, and concepts are scientifically accurate and standard.
         4. General:
@@ -835,6 +836,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         2. For Mathematics:
            - Ensure all equations, word problems, and numeric values are mathematically correct. Double-check your own calculations so there is zero arithmetic error.
            - The correct answer MUST be logically and mathematically indisputable.
+           - CRITICAL DIAGRAM & INTERACTIVE DISTRIBUTION RULE: For Mathematics, you MUST ensure that exactly 60% of the questions generated are diagram-based or interactive (questions containing "svgCode", "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData", "[CLOCK:]", or questionType="interactive"). The remaining 40% must be plain text-based questions (without visual diagrams or interactive drag-and-drop elements). Design the quiz to strictly follow this 60% diagram/interactive and 40% text-based ratio!
         3. For Science:
            - Ensure all facts, definitions, and concepts are scientifically accurate and standard.
         4. General:

@@ -262,6 +262,8 @@ Curriculum Alignment: Strictly match the ${curriculumName} standards for ${sched
 
 Ensure the questions test the students' knowledge on the specific topic at the selected grade and difficulty.
 
+${(sched.subject?.toLowerCase() === 'maths' || sched.subject?.toLowerCase() === 'mathematics') ? 'CRITICAL DIAGRAM & INTERACTIVE DISTRIBUTION RULE: For Mathematics, you MUST ensure that exactly 60% of the questions generated are diagram-based or interactive (questions containing "svgCode", "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData", or [CLOCK:]). The remaining 40% must be plain text-based questions (without visual diagrams or interactive elements). Design the quiz to strictly follow this 60% diagram/interactive and 40% text-based ratio!' : ''}
+
 ${visualRules}
 
 Return ONLY a JSON object with a single key "questions" containing an array of exactly ${qCount} objects. Each object must have: "id" (number), "text" (string), "options" (array of exactly 4 strings), "answer" (string matching one option exactly), "subtopic" (string), and optionally "chartData", "geometryData", or "imagePrompt". Do not include any markdown formatting.`;
