@@ -52,6 +52,68 @@ const playTTS = (text) => {
   window.speechSynthesis.speak(utterance);
 };
 
+const renderTrianglePattern = (text) => {
+  if (!text) return null;
+  // Match "Triangle 1 corners: 2, 3, 5 -> Center: 10" or similar
+  const pattern = /Triangle\s+(\d+)\s+corners:\s*([\d\s,]+)\s*->\s*Center:\s*([\d\?]+)/gi;
+  const matches = [...text.matchAll(pattern)];
+  if (matches.length === 0) return null;
+
+  const triangles = matches.map(m => {
+    const id = m[1];
+    const corners = m[2].split(',').map(s => s.trim());
+    const center = m[3].trim();
+    return { id, corners, center };
+  });
+
+  return (
+    <div className="w-full bg-slate-50 border-4 border-slate-100 rounded-3xl p-6 mb-6 flex flex-col items-center shadow-inner">
+      <h3 className="text-slate-500 font-bold uppercase tracking-wider text-xs mb-6">Triangle Pattern Visual</h3>
+      <div className="w-full max-w-2xl overflow-x-auto">
+        <svg viewBox="0 0 600 240" className="w-[600px] h-[240px] mx-auto drop-shadow-md">
+          {triangles.map((tri, index) => {
+            const Xc = 100 + index * 200;
+            const Yc = 100;
+            // Define colors for each triangle to make it vibrant and premium
+            const colors = [
+              { fill: "#bae6fd", stroke: "#0ea5e9", text: "#0369a1" }, // Blue
+              { fill: "#fde047", stroke: "#eab308", text: "#a16207" }, // Yellow
+              { fill: "#fbcfe8", stroke: "#ec4899", text: "#be185d" }, // Pink
+            ];
+            const c = colors[index % colors.length];
+
+            return (
+              <g key={tri.id}>
+                {/* Draw the Triangle shape */}
+                <polygon 
+                  points={`${Xc},${Yc - 60} ${Xc + 75},${Yc + 50} ${Xc - 75},${Yc + 50}`} 
+                  fill={c.fill} 
+                  stroke={c.stroke} 
+                  strokeWidth="4" 
+                />
+                {/* Corner Values */}
+                {/* Top Corner */}
+                <text x={Xc} y={Yc - 70} textAnchor="middle" fill={c.text} fontWeight="black" fontSize="22">{tri.corners[0]}</text>
+                {/* Bottom Left Corner */}
+                <text x={Xc - 90} y={Yc + 65} textAnchor="middle" fill={c.text} fontWeight="black" fontSize="22">{tri.corners[1]}</text>
+                {/* Bottom Right Corner */}
+                <text x={Xc + 90} y={Yc + 65} textAnchor="middle" fill={c.text} fontWeight="black" fontSize="22">{tri.corners[2]}</text>
+                
+                {/* Center Value with a small background badge */}
+                <circle cx={Xc} cy={Yc + 10} r="24" fill="white" stroke={c.stroke} strokeWidth="3" />
+                <text x={Xc} y={Yc + 18} textAnchor="middle" fill={c.text} fontWeight="black" fontSize="22">{tri.center}</text>
+                
+                {/* Label */}
+                <text x={Xc} y={Yc + 95} textAnchor="middle" fill="#475569" fontWeight="black" fontSize="14" className="uppercase tracking-wider">Triangle {tri.id}</text>
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+    </div>
+  );
+};
+
 export default function StudentQuiz({ homeworkId, studentName, teacher, initialSubmission, onComplete }) {
   const [activeModel, setActiveModel] = useState('gemini');
   const [homework, setHomework] = useState(null);
@@ -448,43 +510,67 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
   }
 
 
+  const subjectLower = (homework?.subject || '').toLowerCase();
+
   return (
-    <div className="min-h-screen bg-[#AEE6FE] p-6 md:p-8 flex flex-col relative font-sans">
-      {/* Custom Background Image */}
-      <div className="fixed inset-0 pointer-events-none select-none z-0">
-        <div 
-          className="absolute inset-0 bg-[url('/quiz-bg.jpg')] bg-cover bg-center bg-no-repeat opacity-30 mix-blend-multiply"
-        />
+    <div className="min-h-screen bg-[#FFFDF6] p-6 md:p-8 flex flex-col relative font-sans overflow-x-hidden selection:bg-orange-200">
+      {/* Playful Floating Pattern Background */}
+      <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden">
+        {/* Cute grid layout background lines */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1.5px,transparent_1.5px),linear-gradient(to_bottom,#e2e8f0_1.5px,transparent_1.5px)] bg-[size:4rem_4rem] opacity-35" />
+        {/* Floating math shapes with soft colors */}
+        <div className="absolute top-[10%] left-[5%] text-6xl text-orange-200 font-black opacity-50 animate-float-slow">＋</div>
+        <div className="absolute top-[40%] right-[8%] text-7xl text-blue-200 font-black opacity-50 animate-float">÷</div>
+        <div className="absolute bottom-[20%] left-[12%] text-8xl text-pink-200 font-black opacity-40 animate-float-reverse">△</div>
+        <div className="absolute bottom-[10%] right-[15%] text-7xl text-yellow-300 font-black opacity-50 animate-float-slow">➗</div>
+        <div className="absolute top-[15%] right-[25%] text-6xl text-purple-200 font-black opacity-45 animate-float-reverse">▢</div>
+        <div className="absolute top-[65%] left-[2%] text-7xl text-emerald-200 font-black opacity-45 animate-float">＝</div>
       </div>
 
       {/* Header & Progress */}
       <header className={`max-w-${homework.passage ? '7xl' : '5xl'} mx-auto w-full mb-8 sticky top-4 z-50`}>
-        <div className="bg-white/95 backdrop-blur-md rounded-[32px] p-6 shadow-[0_8px_0_0_rgba(255,255,255,0.6)] flex flex-col">
-          <div className="flex justify-between items-start mb-6">
-            <div className="flex flex-col gap-4">
-              <button onClick={isReviewing ? () => setIsReviewing(false) : onComplete} className="flex items-center gap-2 text-slate-400 hover:text-slate-700 font-black text-xs uppercase tracking-widest transition-colors">
-                <ChevronLeft className="w-4 h-4" /> 
-                <span>{isReviewing ? "BACK TO RESULTS" : "BACK TO DASHBOARD"}</span>
+        <div className="bg-white/95 backdrop-blur-md rounded-[32px] overflow-hidden shadow-[0_12px_24px_-8px_rgba(20,40,90,0.15)] border-4 border-white flex flex-col">
+          {/* Textbook styled banner strip */}
+          <div className={`h-14 bg-gradient-to-r ${subjectLower.includes('math') ? 'from-[#FF6B6B] via-[#FF8E53] to-[#FFD05B]' : subjectLower.includes('english') || subjectLower.includes('literacy') ? 'from-[#4FACFE] to-[#00F2FE]' : 'from-[#43E97B] to-[#38F9D7]'} flex items-center justify-between px-6 text-white font-display border-b-4 border-white/20 shadow-sm`}>
+            <div className="flex items-center gap-3">
+              <span className="bg-black/25 text-white font-black text-[10px] px-3 py-1.5 rounded-full tracking-widest uppercase shadow-inner">
+                Unit {displayQuestions.length}
+              </span>
+              <span className="text-base font-black tracking-wide uppercase drop-shadow-md">
+                {homework.title} {isReviewing && "(Review)"}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-sm shadow-inner">
+                🎒
+              </div>
+              <span className="text-[10px] font-black tracking-widest uppercase opacity-95 hidden sm:inline">
+                {homework.subject}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex justify-between items-center p-6 gap-4 border-b border-slate-100/80">
+            <div className="flex flex-col gap-1.5">
+              <button onClick={isReviewing ? () => setIsReviewing(false) : onComplete} className="flex items-center gap-1 text-slate-400 hover:text-slate-700 font-black text-[10px] uppercase tracking-widest transition-colors">
+                <ChevronLeft className="w-3.5 h-3.5" /> 
+                <span>{isReviewing ? "Back to Results" : "Back to Hub"}</span>
               </button>
-              <div className="w-14 h-14 bg-[#F97316] text-white flex-center rounded-2xl shadow-[0_4px_0_0_#C2410C] shrink-0">
-                <Sparkles className="w-7 h-7" />
+              <div className="text-slate-800 font-black text-xs uppercase tracking-wider">
+                {!isReviewing 
+                  ? `${homework.questions.length} Questions Quiz` 
+                  : (isReviewing === 'correct' ? `${displayQuestions.length} Correct Answers` : `${displayQuestions.length} Mistakes to Review`)}
               </div>
             </div>
             
-            <div className="text-center flex-1 px-4">
-               <h2 className="text-3xl font-black text-[#F97316] uppercase tracking-tight">{homework.title} {isReviewing && "(REVIEW)"}</h2>
-               <p className="text-[#F97316] font-bold text-sm tracking-[0.2em] uppercase mt-0.5">ADVENTURE QUEST</p>
-               <p className="text-slate-700 font-black text-sm uppercase tracking-widest mt-3">
-                 {homework.subject} - {!isReviewing 
-                   ? `${homework.questions.length} QUESTIONS` 
-                   : (isReviewing === 'correct' ? `${displayQuestions.length} CORRECT ANSWERS` : `${displayQuestions.length} MISTAKES TO REVIEW`)}
-               </p>
+            <div className="text-center flex-1 hidden md:block">
+              <p className="text-slate-400 font-black text-[9px] tracking-[0.25em] uppercase">Student Homework Portal</p>
             </div>
 
-            <div className="bg-[#B45309] p-1.5 rounded-[20px] shadow-[0_4px_0_0_#78350F] shrink-0">
-              <div className="bg-[#FDE68A] border-2 border-[#D97706] rounded-xl px-4 py-2 flex items-center gap-2 shadow-inner">
-                 <Timer className="w-5 h-5 text-[#B45309]" />
-                 <span className="font-black text-[#B45309] tracking-wider text-lg">
+            <div className="bg-[#B45309] p-1 rounded-[16px] shadow-[0_3px_0_0_#78350F] shrink-0 scale-95">
+              <div className="bg-[#FDE68A] border-2 border-[#D97706] rounded-xl px-3 py-1.5 flex items-center gap-1.5 shadow-inner">
+                 <Timer className="w-4 h-4 text-[#B45309]" />
+                 <span className="font-black text-[#B45309] tracking-wider text-base">
                    {homework?.type === 'test' && homework?.timeLimit 
                      ? formatTime(Math.max(0, parseInt(homework.timeLimit) * 60 - secondsSpent))
                      : formatTime(secondsSpent)}
@@ -623,6 +709,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                          
                          {/* Visuals */}
                          <div className="flex flex-col md:flex-row gap-8 items-start mb-8">
+                           {renderTrianglePattern(q.text)}
                            {q.chartData && <div className="w-full md:w-1/2"><DynamicChart data={q.chartData} /></div>}
                            {q.geometryData && <div className="w-full md:w-1/2"><DynamicGeometry data={q.geometryData} /></div>}
                            {q.gridMapData && <div className="w-full md:w-1/2"><DynamicGridMap data={q.gridMapData} /></div>}
@@ -893,7 +980,8 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                   const showImage = !!currentQuestion.imageUrl;
 
                   return (
-                    <div className="flex flex-col gap-8 items-center md:items-start mb-10 w-full">
+                    <>
+                      <div className="flex flex-col gap-8 items-center md:items-start mb-10 w-full">
                       <div className="w-full">
                         <div className="flex flex-col gap-6">
                            {clockTime && (
@@ -935,6 +1023,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                       </div>
 
                       {/* Dynamic Visuals for Quiz */}
+                      {renderTrianglePattern(currentQuestion.text)}
                       {currentQuestion.chartData && (
                         <div className="w-full">
                           <DynamicChart data={currentQuestion.chartData} />
@@ -996,6 +1085,29 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                         </div>
                       )}
                     </div>
+                    {/* Textbook Mastery Checklist at the bottom of the card */}
+                    <div className="mt-8 pt-6 border-t-2 border-dashed border-slate-200 w-full shrink-0">
+                      <div className="bg-slate-50 border-2 border-slate-200/60 rounded-[28px] p-6">
+                        <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2 select-none">
+                          📋 Mastery Checklist
+                        </h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                          <div className="flex items-center gap-2.5 text-xs font-black text-slate-600">
+                            <div className="w-4 h-4 rounded bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-extrabold select-none">✓</div>
+                            <span>{currentQuestion.subtopic || "Understand topic concepts"}</span>
+                          </div>
+                          <div className="flex items-center gap-2.5 text-xs font-black text-slate-600">
+                            <div className="w-4 h-4 rounded bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-extrabold select-none">✓</div>
+                            <span>Analyze diagrams & details</span>
+                          </div>
+                          <div className="flex items-center gap-2.5 text-xs font-black text-slate-600">
+                            <div className="w-4 h-4 rounded bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-extrabold select-none">✓</div>
+                            <span>Select correct answer</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    </>
                   );
                 })()}
 
@@ -1213,17 +1325,19 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                </button>
              )
           ) : (
-            currentIdx === displayQuestions.length - 1 ? (
+            <div className="flex items-center gap-4">
+              {currentIdx < displayQuestions.length - 1 && (
+                <button 
+                  onClick={() => setCurrentIdx(prev => Math.min(displayQuestions.length - 1, prev + 1))}
+                  className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
+                >
+                  NEXT QUEST! <ChevronRight className="w-5 h-5 shrink-0" />
+                </button>
+              )}
               <button 
-                onClick={() => {
-                  if (homework.type === 'test') {
-                    setShowSummary(true);
-                  } else {
-                    handleSubmit();
-                  }
-                }}
-                disabled={isSubmitting || (!answers[currentQuestion.id] && homework.type !== 'test')}
-                className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C] disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-[0_6px_0_0_#C2410C] disabled:active:translate-y-0"
+                onClick={() => setShowSummary(true)}
+                disabled={isSubmitting}
+                className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#10B981] text-white shadow-[0_6px_0_0_#047857] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#059669] disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-[0_6px_0_0_#047857] disabled:active:translate-y-0"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
@@ -1233,14 +1347,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                   </>
                 )}
               </button>
-            ) : (
-              <button 
-                onClick={() => setCurrentIdx(prev => Math.min(displayQuestions.length - 1, prev + 1))}
-                className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
-              >
-                NEXT QUEST! <ChevronRight className="w-5 h-5 shrink-0" />
-              </button>
-            )
+            </div>
           )}
         </footer>
       )}

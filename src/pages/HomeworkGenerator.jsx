@@ -598,6 +598,15 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
 
         CRITICAL FOR SPATIAL REASONING: If the question involves 3D objects, stacking blocks, nets, cross-sections, or spatial reasoning, YOU ABSOLUTELY MUST include a visual (either "blockData", "geometryData", or "svgCode"). Do NOT generate text-only 3D visualization questions! If asking about nets, use "svgCode" in the options or the main question.
 
+        CRITICAL FOR FRACTIONS AND EQUIVALENT SHAPES:
+        - If a question involves fractions, patterns, or equivalent fractions, you MUST include a visual diagram using "svgCode" representing the fraction (e.g., a circle/pizza divided into equal slices, a 2x5 grid of boxes with some colored in, or geometric shapes like triangles/hexagons/pentagons split into equal pieces with a fraction of them shaded in bright yellow or orange). Ensure the parts are mathematically equal.
+
+        CRITICAL FOR ANGLES AND MEASUREMENTS:
+        - If a question is about angles (e.g., measuring acute/obtuse/right angles, finding the missing angle in a triangle or quadrilateral, or calculating angle sums), you MUST include a geometric diagram using "svgCode". Draw the angle rays or shapes (triangle/quadrilateral) with clear black or colored lines, include curved arcs for the angles, and label the angles clearly with degrees (e.g., "70°", "130°", "x°") near their respective vertices.
+
+        CRITICAL FOR GRAPHS AND CHARTS:
+        - For questions about surveys, data, or column/bar graphs (like tracking sports preferences, favorites, etc.), include a "chartData" object or use "svgCode" to draw a beautiful grid-based bar graph with axis ticks, labels, and horizontal or vertical colored bars.
+
         CRITICAL FOR LOGICAL REASONING / PATTERNS: If the question involves a series of shapes changing in a logical pattern, or pattern recognition, YOU ABSOLUTELY MUST include a visual using the "svgCode" property (or inline SVG in the options) to draw the actual sequence of shapes! NEVER use placeholder text like "[Insert figure...]". You are fully capable of generating raw SVG code strings. CRITICAL: Make absolutely sure the CORRECT logical next shape is ACTUALLY present in your "options" array, and that the "answer" string is a 100% exact character-for-character match of that option. If the question involves finding a "Mirror Image" or reflection, use SVG and the 'transform="scale(-1, 1)"' attribute to easily reflect shapes.
 
         IF the question involves 2D Geometry, Lines of Symmetry, or Transformational Geometry (like "Which flag has 2 lines of symmetry?"), use "svgCode" directly inside the "options" array! (e.g. '["<svg ...>...</svg>", "<svg ...>...</svg>", ...]').
@@ -623,12 +632,12 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         - "quarter to X" → HH = X-1, MM = 45. e.g. "quarter to 11" → [CLOCK:10:45], "quarter to 3" → [CLOCK:02:45]
         - "X minutes past Y" → HH = Y, MM = X. e.g. "20 minutes past 6" → [CLOCK:06:20]
         - "X minutes to Y" → HH = Y-1, MM = 60-X. e.g. "10 minutes to 5" → [CLOCK:04:50]
-        ALWAYS double-check: if the question says "quarter to 11", the clock MUST show 10:45, NOT 10:10 or 11:45.
+        - ALWAYS double-check: if the question says "quarter to 11", the clock MUST show 10:45, NOT 10:10 or 11:45.
 
         CRITICAL FOR BIOLOGICAL SCIENCE MODELS (Plants, Animals, Organs, Ecosystems):
         DO NOT try to draw biological organisms using "svgCode". Your raw SVG drawings of plants and animals look like rudimentary child drawings. INSTEAD, use the "imagePrompt" string property to describe a highly detailed realistic photo or textbook illustration. Formulate your question so it does NOT require A, B, C, D labels directly on the image. (e.g. Ask "Which part of a plant absorbs water?" with options "Roots", "Leaves", etc. and an imagePrompt of "A beautiful realistic 3D render of a plant showing its root system in the soil").
 
-        CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData" or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!`;
+        CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData" or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!. NAPLAN heavily relies on visual stimulus for problem-solving!`;
 
       const tieredModel = getModelForGrade(resolvedGrade, formData.subject, activeModel);
       console.log(`[AI] Grade: ${resolvedGrade}, Subject: ${formData.subject} → model: ${tieredModel}`);

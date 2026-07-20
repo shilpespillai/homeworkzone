@@ -32,6 +32,7 @@ import {
 
 const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = [], getStudentAvatar }) => {
   const [activeTab, setActiveTab] = useState('Inbox');
+  const [allMessages, setAllMessages] = useState([]);
   const [messages, setMessages] = useState([]);
   const [activeMessage, setActiveMessage] = useState(null);
   const [activeClassmate, setActiveClassmate] = useState(null);
@@ -56,6 +57,20 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
   useEffect(() => {
     scrollToBottom();
   }, [messages, activeTab, activeClassmate, activeMessage]);
+
+  const getTabUnreadCount = (tabName) => {
+    return allMessages.filter(msg => {
+      if (msg.isRead) return false;
+      if (msg.recipientId?.toLowerCase() !== studentName?.toLowerCase()) return false;
+      
+      if (tabName === 'Inbox') {
+        return msg.senderRole === 'teacher' && msg.recipientType === 'student';
+      } else if (tabName === 'Classmates') {
+        return msg.senderRole === 'student' && msg.recipientType === 'student';
+      }
+      return false;
+    }).length;
+  };
   // Real-time listener for messages
   useEffect(() => {
     if (!teacher?.uid || !studentName) return;
@@ -124,6 +139,7 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
         return false;
       });
 
+      setAllMessages(allMsgs);
       setMessages(filtered);
       
       // Auto-select the first message if none is active or if active message is not in current list
@@ -280,18 +296,26 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
         {/* 2. Tabs Section */}
         <div className="px-8 flex items-center justify-between border-b border-orange-100/60">
           <div className="flex gap-10">
-            {['Inbox', 'Sent', 'Announcements', 'Class Lounge', 'Classmates'].map((tab) => (
-              <button 
-                key={tab}
-                onClick={() => {
-                   setActiveTab(tab);
-                   if (tab !== 'Classmates') setActiveClassmate(null);
-                }}
-                className={`py-4 font-black relative text-base transition-colors ${activeTab === tab ? 'text-[#EA580C] border-b-4 border-[#EA580C]' : 'text-[#166534] hover:text-blue-500'}`}
-              >
-                {tab}
-              </button>
-            ))}
+            {['Inbox', 'Sent', 'Announcements', 'Class Lounge', 'Classmates'].map((tab) => {
+              const unreadCount = getTabUnreadCount(tab);
+              return (
+                <button 
+                  key={tab}
+                  onClick={() => {
+                     setActiveTab(tab);
+                     if (tab !== 'Classmates') setActiveClassmate(null);
+                  }}
+                  className={`py-4 font-black relative text-base transition-colors flex items-center gap-2 ${activeTab === tab ? 'text-[#EA580C] border-b-4 border-[#EA580C]' : 'text-[#166534] hover:text-blue-500'}`}
+                >
+                  <span>{tab}</span>
+                  {unreadCount > 0 && (
+                    <span className="bg-red-500 text-white font-black text-[10px] px-2 py-0.5 rounded-full shadow-sm animate-pulse">
+                      {unreadCount}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
           <div className="pr-4 text-[#EA580C] opacity-30">
             <Send size={24} className="transform rotate-12" />
@@ -305,33 +329,46 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
           {activeTab !== 'Class Lounge' && (
             <div className="w-1/3 border-r border-orange-100/60 overflow-y-auto custom-scrollbar bg-white">
             {activeTab === 'Classmates' ? (
-              classroomStudents.filter(s => s.name?.toLowerCase() !== studentName?.toLowerCase()).map((cm) => (
-                <div 
-                  key={cm.id || cm.name} 
-                  onClick={() => setActiveClassmate(cm)}
-                  className={`flex items-center gap-4 p-5 cursor-pointer transition-all border-b border-slate-50 ${activeClassmate?.name === cm.name ? 'bg-green-50/30' : 'hover:bg-slate-50/50'}`}
-                >
-                  <div className="relative">
-                    <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border-2 border-white shadow-sm bg-green-50 flex items-center justify-center">
-                      <img 
-                        src={getStudentAvatar ? getStudentAvatar(cm.name) : `https://api.dicebear.com/7.x/adventurer/svg?seed=${cm.name || 'Felix'}`} 
-                        alt="Avatar" 
-                        className="w-full h-full object-cover" 
-                      />
+              classroomStudents.filter(s => s.name?.toLowerCase() !== studentName?.toLowerCase()).map((cm) => {
+                const unreadCount = allMessages.filter(msg => 
+                  !msg.isRead && 
+                  msg.senderId?.toLowerCase() === cm.name?.toLowerCase() && 
+                  msg.recipientId?.toLowerCase() === studentName?.toLowerCase()
+                ).length;
+                
+                return (
+                  <div 
+                    key={cm.id || cm.name} 
+                    onClick={() => setActiveClassmate(cm)}
+                    className={`flex items-center gap-4 p-5 cursor-pointer transition-all border-b border-slate-50 ${activeClassmate?.name === cm.name ? 'bg-green-50/30' : 'hover:bg-slate-50/50'}`}
+                  >
+                    <div className="relative">
+                      <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border-2 border-white shadow-sm bg-green-50 flex items-center justify-center">
+                        <img 
+                          src={getStudentAvatar ? getStudentAvatar(cm.name) : `https://api.dicebear.com/7.x/adventurer/svg?seed=${cm.name || 'Felix'}`} 
+                          alt="Avatar" 
+                          className="w-full h-full object-cover" 
+                        />
+                      </div>
+                      {/* Online status indicator */}
+                      <div className={`absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-white ${onlineUsers[cm.name?.toLowerCase()] ? 'bg-green-500 animate-pulse' : 'bg-slate-300'}`}></div>
                     </div>
-                    {/* Online status indicator */}
-                    <div className={`absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-white ${onlineUsers[cm.name?.toLowerCase()] ? 'bg-green-500 animate-pulse' : 'bg-slate-300'}`}></div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className={`font-black text-sm truncate ${activeClassmate?.name === cm.name ? 'text-[#14532d]' : 'text-slate-700'}`}>
+                        {cm.name}
+                      </h3>
+                      <p className="text-xs text-slate-400 font-bold">
+                        {onlineUsers[cm.name?.toLowerCase()] ? 'Online' : 'Offline'}
+                      </p>
+                    </div>
+                    {unreadCount > 0 && (
+                      <div className="bg-red-500 text-white font-black text-xs px-2.5 py-1 rounded-full animate-pulse shadow-sm">
+                        {unreadCount}
+                      </div>
+                    )}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className={`font-black text-sm truncate ${activeClassmate?.name === cm.name ? 'text-[#14532d]' : 'text-slate-700'}`}>
-                      {cm.name}
-                    </h3>
-                    <p className="text-xs text-slate-400 font-bold">
-                      {onlineUsers[cm.name?.toLowerCase()] ? 'Online' : 'Offline'}
-                    </p>
-                  </div>
-                </div>
-              ))
+                );
+              })
             ) : (
               messages.length > 0 ? (
                 messages.map((item) => (

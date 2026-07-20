@@ -547,22 +547,52 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
            - Ensure that the "answer" option is grammatically 100% correct, and the other 3 options are clearly incorrect or represent different parts of speech. No ambiguity.
         2. For Mathematics:
            - Ensure all equations, word problems, and numeric values are mathematically correct. Double-check your own calculations so there is zero arithmetic error.
-           - IF the question involves reading an analog clock, embed the time anywhere in the question text using the exact format [CLOCK:HH:MM] (e.g. [CLOCK:03:15] or [CLOCK:12:30]). The system will automatically render a visual clock for the student.
-             IMPORTANT TIME CONVERSION RULES — you MUST follow these exactly when choosing HH:MM for [CLOCK:]:
-             • "o'clock" → MM=00. e.g. "3 o'clock" → [CLOCK:03:00]
-             • "half past X" → MM=30. e.g. "half past 7" → [CLOCK:07:30]
-             • "quarter past X" → MM=15. e.g. "quarter past 4" → [CLOCK:04:15]
-             • "quarter to X" → HH=X-1, MM=45. e.g. "quarter to 11" → [CLOCK:10:45]; "quarter to 3" → [CLOCK:02:45]
-             • "X minutes past Y" → HH=Y, MM=X. e.g. "20 past 6" → [CLOCK:06:20]
-             • "X minutes to Y" → HH=Y-1, MM=60-X. e.g. "10 to 5" → [CLOCK:04:50]
-             ALWAYS verify: "quarter to 11" clock shows 10:45, NOT 10:10.
+           - The correct answer MUST be logically and mathematically indisputable.
         3. For Science:
            - Ensure all facts, definitions, and concepts are scientifically accurate and standard.
         4. General:
            - The "answer" field MUST exactly match one of the 4 values inside the "options" array.
            - All options must be age-appropriate for elementary/middle school students.
+           - Do NOT prepend letters (e.g., A., B., C., D.) to the option strings.
 
-        Return ONLY a JSON object with a single key "questions" containing an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), and "subtopic" (string, a specific subtopic or concept under the main topic, e.g. "Adding Fractions", "Identifying Nouns", "Photosynthesis", etc.). Do not include any markdown formatting.`;
+        Return ONLY a JSON object containing:
+        1. "questions": an array of objects. Each object must have: 
+           - "id" (number)
+           - "text" (string, the question)
+           - "questionType" (string, "multiple_choice")
+           - "options" (array of exactly 4 strings)
+           - "answer" (string, must match one option exactly)
+           - "subtopic" (string, specific subtopic or concept)
+           - "imagePrompt" (string, OPTIONAL. ONLY for decorative or real-world photos. NEVER use for math diagrams)
+           - "svgCode" (string, OPTIONAL. For custom diagrams, geometry shapes, fraction models, mirror images, spinner layouts, etc.)
+           - "chartData" (object, OPTIONAL. For bar, line, pie, or table visuals)
+           - "geometryData" (object, OPTIONAL. For rectangle, triangle, circle, cylinder, cube with labels)
+           - "earlyMathData" (object, OPTIONAL. For basic counting, cubes, ten-frames)
+           - "gridMapData" (object, OPTIONAL. For 2D grid coordinates, maps, coordinate reading)
+           - "pathData" (object, OPTIONAL. For routes, turns, angles)
+           - "numberLineData" (object, OPTIONAL. For fractions/decimals on a number line)
+           - "instrumentData" (object, OPTIONAL. For ruler, beaker, thermometer measurements)
+           - "blockData" (object, OPTIONAL. For stacked 3D cubes/blocks)
+           - "vennDiagramData" (object, OPTIONAL. For set sorting)
+        2. "passage": an optional string. If the quiz requires a reading comprehension passage, story, or shared text, provide it here. Otherwise, omit this key.
+
+        CRITICAL FOR FRACTIONS AND EQUIVALENT SHAPES:
+        - If a question involves fractions, patterns, or equivalent fractions, you MUST include a visual diagram using "svgCode" representing the fraction (e.g., a circle/pizza divided into equal slices, a 2x5 grid of boxes with some colored in, or geometric shapes like triangles/hexagons/pentagons split into equal pieces with a fraction of them shaded in bright yellow or orange). Ensure the parts are mathematically equal.
+
+        CRITICAL FOR ANGLES AND MEASUREMENTS:
+        - If a question is about angles (e.g., measuring acute/obtuse/right angles, finding the missing angle in a triangle or quadrilateral, or calculating angle sums), you MUST include a geometric diagram using "svgCode". Draw the angle rays or shapes (triangle/quadrilateral) with clear black or colored lines, include curved arcs for the angles, and label the angles clearly with degrees (e.g., "70°", "130°", "x°") near their respective vertices.
+
+        CRITICAL FOR GRAPHS AND CHARTS:
+        - For questions about surveys, data, or column/bar graphs (like tracking sports preferences, favorites, etc.), include a "chartData" object or use "svgCode" to draw a beautiful grid-based bar graph with axis ticks, labels, and horizontal or vertical colored bars.
+
+        CRITICAL RULES FOR "svgCode" AESTHETICS (Make it look like premium educational clipart!):
+        - 🎨 VIBRANT COLORS: NEVER use boring plain black lines on white backgrounds! Use bright, cheerful, or highly saturated hex colors (e.g., #FF6B6B red, #4ECDC4 teal, #FFE66D yellow, #6B5B95 purple, #A8E6CF mint). Fill backgrounds with a very soft pastel color instead of plain white.
+        - 🖌️ THICK STROKES & ROUNDED CORNERS: Make shapes look extremely friendly and professional by using thick strokes (stroke-width="3" or "4"), and always use stroke-linecap="round" and stroke-linejoin="round".
+        - ☁️ SHADOWS & DEPTH: Make shapes pop off the page! Draw a slightly offset dark-opacity copy of the shape underneath it to create a 3D drop shadow effect.
+        - ✏️ PLAYFUL FONTS: Use font-family="'Nunito', 'Comic Sans MS', sans-serif" font-weight="900" and large font sizes for a playful, highly readable, child-friendly look.
+
+        CRITICAL FOR CLOCKS AND TIME: 
+        DO NOT try to draw analog clocks using "svgCode"! INSTEAD, simply include the string "[CLOCK:HH:MM]" anywhere in your question "text" (e.g., "What time is shown on the clock? [CLOCK:02:30]"). Our system will automatically detect this and render a mathematically perfect, beautiful analog clock diagram in its place!`;
       }
 
       // Fetch past questions to avoid duplication
@@ -804,25 +834,52 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
            - Ensure that the "answer" option is grammatically 100% correct, and the other 3 options are clearly incorrect or represent different parts of speech. No ambiguity.
         2. For Mathematics:
            - Ensure all equations, word problems, and numeric values are mathematically correct. Double-check your own calculations so there is zero arithmetic error.
-           - IF the question involves reading an analog clock, embed the time anywhere in the question text using the exact format [CLOCK:HH:MM] (e.g. [CLOCK:03:15] or [CLOCK:12:30]). The system will automatically render a visual clock for the student.
-             IMPORTANT TIME CONVERSION RULES — you MUST follow these exactly when choosing HH:MM for [CLOCK:]:
-             • "o'clock" → MM=00. e.g. "3 o'clock" → [CLOCK:03:00]
-             • "half past X" → MM=30. e.g. "half past 7" → [CLOCK:07:30]
-             • "quarter past X" → MM=15. e.g. "quarter past 4" → [CLOCK:04:15]
-             • "quarter to X" → HH=X-1, MM=45. e.g. "quarter to 11" → [CLOCK:10:45]; "quarter to 3" → [CLOCK:02:45]
-             • "X minutes past Y" → HH=Y, MM=X. e.g. "20 past 6" → [CLOCK:06:20]
-             • "X minutes to Y" → HH=Y-1, MM=60-X. e.g. "10 to 5" → [CLOCK:04:50]
-             ALWAYS verify: "quarter to 11" clock shows 10:45, NOT 10:10.
+           - The correct answer MUST be logically and mathematically indisputable.
         3. For Science:
            - Ensure all facts, definitions, and concepts are scientifically accurate and standard.
         4. General:
            - The "answer" field MUST exactly match one of the 4 values inside the "options" array.
            - All options must be age-appropriate for elementary/middle school students.
+           - Do NOT prepend letters (e.g., A., B., C., D.) to the option strings.
 
         Return ONLY a JSON object containing:
-        1. "questions": an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), and "subtopic" (string, a specific subtopic or concept under the main topic).
-        2. "passage": an optional string. If the quiz requires a reading comprehension passage, story, or shared text that applies to the questions, provide it here. Otherwise, omit this key.
-        Do not include any markdown formatting.`;
+        1. "questions": an array of objects. Each object must have: 
+           - "id" (number)
+           - "text" (string, the question)
+           - "questionType" (string, "multiple_choice")
+           - "options" (array of exactly 4 strings)
+           - "answer" (string, must match one option exactly)
+           - "subtopic" (string, specific subtopic or concept)
+           - "imagePrompt" (string, OPTIONAL. ONLY for decorative or real-world photos. NEVER use for math diagrams)
+           - "svgCode" (string, OPTIONAL. For custom diagrams, geometry shapes, fraction models, mirror images, spinner layouts, etc.)
+           - "chartData" (object, OPTIONAL. For bar, line, pie, or table visuals)
+           - "geometryData" (object, OPTIONAL. For rectangle, triangle, circle, cylinder, cube with labels)
+           - "earlyMathData" (object, OPTIONAL. For basic counting, cubes, ten-frames)
+           - "gridMapData" (object, OPTIONAL. For 2D grid coordinates, maps, coordinate reading)
+           - "pathData" (object, OPTIONAL. For routes, turns, angles)
+           - "numberLineData" (object, OPTIONAL. For fractions/decimals on a number line)
+           - "instrumentData" (object, OPTIONAL. For ruler, beaker, thermometer measurements)
+           - "blockData" (object, OPTIONAL. For stacked 3D cubes/blocks)
+           - "vennDiagramData" (object, OPTIONAL. For set sorting)
+        2. "passage": an optional string. If the quiz requires a reading comprehension passage, story, or shared text, provide it here. Otherwise, omit this key.
+
+        CRITICAL FOR FRACTIONS AND EQUIVALENT SHAPES:
+        - If a question involves fractions, patterns, or equivalent fractions, you MUST include a visual diagram using "svgCode" representing the fraction (e.g., a circle/pizza divided into equal slices, a 2x5 grid of boxes with some colored in, or geometric shapes like triangles/hexagons/pentagons split into equal pieces with a fraction of them shaded in bright yellow or orange). Ensure the parts are mathematically equal.
+
+        CRITICAL FOR ANGLES AND MEASUREMENTS:
+        - If a question is about angles (e.g., measuring acute/obtuse/right angles, finding the missing angle in a triangle or quadrilateral, or calculating angle sums), you MUST include a geometric diagram using "svgCode". Draw the angle rays or shapes (triangle/quadrilateral) with clear black or colored lines, include curved arcs for the angles, and label the angles clearly with degrees (e.g., "70°", "130°", "x°") near their respective vertices.
+
+        CRITICAL FOR GRAPHS AND CHARTS:
+        - For questions about surveys, data, or column/bar graphs (like tracking sports preferences, favorites, etc.), include a "chartData" object or use "svgCode" to draw a beautiful grid-based bar graph with axis ticks, labels, and horizontal or vertical colored bars.
+
+        CRITICAL RULES FOR "svgCode" AESTHETICS (Make it look like premium educational clipart!):
+        - 🎨 VIBRANT COLORS: NEVER use boring plain black lines on white backgrounds! Use bright, cheerful, or highly saturated hex colors (e.g., #FF6B6B red, #4ECDC4 teal, #FFE66D yellow, #6B5B95 purple, #A8E6CF mint). Fill backgrounds with a very soft pastel color instead of plain white.
+        - 🖌️ THICK STROKES & ROUNDED CORNERS: Make shapes look extremely friendly and professional by using thick strokes (stroke-width="3" or "4"), and always use stroke-linecap="round" and stroke-linejoin="round".
+        - ☁️ SHADOWS & DEPTH: Make shapes pop off the page! Draw a slightly offset dark-opacity copy of the shape underneath it to create a 3D drop shadow effect.
+        - ✏️ PLAYFUL FONTS: Use font-family="'Nunito', 'Comic Sans MS', sans-serif" font-weight="900" and large font sizes for a playful, highly readable, child-friendly look.
+
+        CRITICAL FOR CLOCKS AND TIME: 
+        DO NOT try to draw analog clocks using "svgCode"! INSTEAD, simply include the string "[CLOCK:HH:MM]" anywhere in your question "text" (e.g., "What time is shown on the clock? [CLOCK:02:30]"). Our system will automatically detect this and render a mathematically perfect, beautiful analog clock diagram in its place!`;
       }
 
       // Fetch past questions to avoid repetition
