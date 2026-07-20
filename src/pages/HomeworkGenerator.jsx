@@ -1058,25 +1058,34 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
             </div>
           </div>
 
-          <div className="space-y-2 mb-6">
-            <label className="font-bold text-[#14532d] block text-sm">Complexity Level</label>
-            <div className="grid grid-cols-3 gap-2 bg-slate-50 p-1.5 border border-slate-200 rounded-2xl">
-              {['Easy', 'Medium', 'Hard'].map(diff => (
-                <button
-                  key={diff}
-                  type="button"
-                  onClick={() => setFormData(prev => ({ ...prev, difficulty: diff }))}
-                  className={`py-2.5 rounded-xl text-sm font-black transition-all ${
-                    formData.difficulty === diff 
-                      ? 'bg-green-600 text-white shadow-sm' 
-                      : 'text-slate-500 hover:text-slate-700'
-                  }`}
-                >
-                  {diff}
-                </button>
-              ))}
+          {formData.subject !== 'olympiad' ? (
+            <div className="space-y-2 mb-6">
+              <label className="font-bold text-[#14532d] block text-sm">Complexity Level</label>
+              <div className="grid grid-cols-3 gap-2 bg-slate-50 p-1.5 border border-slate-200 rounded-2xl">
+                {['Easy', 'Medium', 'Hard'].map(diff => (
+                  <button
+                    key={diff}
+                    type="button"
+                    onClick={() => setFormData(prev => ({ ...prev, difficulty: diff }))}
+                    className={`py-2.5 rounded-xl text-sm font-black transition-all ${
+                      formData.difficulty === diff 
+                        ? 'bg-green-600 text-white shadow-sm' 
+                        : 'text-slate-500 hover:text-slate-700'
+                    }`}
+                  >
+                    {diff}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="space-y-2 mb-6">
+              <label className="font-bold text-[#14532d] block text-sm">Complexity Level</label>
+              <div className="w-full py-2.5 bg-slate-50 border border-slate-200 rounded-2xl px-4 flex items-center text-sm font-bold text-green-700">
+                <span>Olympiad (Inherently Hard)</span>
+              </div>
+            </div>
+          )}
 
           {/* Unified Magic Quiz Builder Panel */}
           <div className="bg-green-50/50 p-6 rounded-3xl border-2 border-green-200/80 flex flex-col space-y-5">

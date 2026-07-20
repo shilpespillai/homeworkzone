@@ -1119,25 +1119,34 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
             {/* Difficulty & Question Count */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="space-y-1.5">
-                <label className="text-sm font-black text-teal-500 uppercase tracking-wider block">5. Complexity</label>
-                <div className="grid grid-cols-3 gap-2 bg-slate-50 p-1.5 border border-slate-100 rounded-2xl">
-                  {DIFFICULTIES.map(diff => (
-                    <button
-                      key={diff}
-                      type="button"
-                      onClick={() => setFormData(prev => ({ ...prev, difficulty: diff }))}
-                      className={`py-2 rounded-xl text-sm font-black transition-all ${
-                        formData.difficulty === diff 
-                          ? 'bg-[#EA580C] text-white shadow-sm' 
-                          : 'text-slate-500 hover:text-slate-700'
-                      }`}
-                    >
-                      {diff}
-                    </button>
-                  ))}
+              {formData.subject !== 'olympiad' ? (
+                <div className="space-y-1.5">
+                  <label className="text-sm font-black text-teal-500 uppercase tracking-wider block">5. Complexity</label>
+                  <div className="grid grid-cols-3 gap-2 bg-slate-50 p-1.5 border border-slate-100 rounded-2xl">
+                    {DIFFICULTIES.map(diff => (
+                      <button
+                        key={diff}
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, difficulty: diff }))}
+                        className={`py-2 rounded-xl text-sm font-black transition-all ${
+                          formData.difficulty === diff 
+                            ? 'bg-[#EA580C] text-white shadow-sm' 
+                            : 'text-slate-500 hover:text-slate-700'
+                        }`}
+                      >
+                        {diff}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="space-y-1.5">
+                  <label className="text-sm font-black text-teal-500 uppercase tracking-wider block">5. Complexity</label>
+                  <div className="w-full h-11 bg-slate-50 border border-slate-200 rounded-2xl px-4 flex items-center text-sm font-bold text-[#EA580C]">
+                    <span>Olympiad (Inherently Hard)</span>
+                  </div>
+                </div>
+              )}
 
               <div className="space-y-1.5">
                 <div className="flex justify-between items-center">
