@@ -278,14 +278,14 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
     );
   }
 
-  if (!homework) {
+  if (!homework || !homework.questions || homework.questions.length === 0) {
     return (
       <div className="min-h-screen flex-center bg-[#F9F9FF]">
         <div className="text-center space-y-6">
           <div className="w-24 h-24 bg-rose-50 text-rose-500 rounded-full flex-center mx-auto border-4 border-white shadow-xl">
             <AlertCircle className="w-12 h-12" />
           </div>
-          <h2 className="text-2xl font-black text-slate-800">Mission Not Found</h2>
+          <h2 className="text-2xl font-black text-slate-800">{!homework ? 'Mission Not Found' : 'No Questions Found in this Mission'}</h2>
           <button onClick={onComplete} className="btn-bubble btn-primary">Go Back</button>
         </div>
       </div>
@@ -293,7 +293,8 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
   }
 
   const reviewQuestions = isReviewing 
-    ? homework.questions.filter(q => {
+    ? (homework.questions || []).filter(q => {
+        if (!q) return false;
         let isWrong = false;
         if (Object.keys(answers).length > 0) {
           isWrong = answers[q.id] !== q.answer;
@@ -302,14 +303,14 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         }
         return isReviewing === 'correct' ? !isWrong : isWrong;
       }) 
-    : homework.questions;
+    : (homework.questions || []);
   
   // If the filter returns empty, we can just show an empty state or fall back to all.
   // For simplicity, if they have no correct/incorrect, we just show all but we will label it appropriately later.
-  const displayQuestions = (isReviewing && reviewQuestions.length === 0) ? homework.questions : reviewQuestions;
+  const displayQuestions = (isReviewing && reviewQuestions.length === 0) ? (homework.questions || []) : reviewQuestions;
 
   const currentQuestion = displayQuestions[currentIdx] || displayQuestions[0];
-  const progress = ((currentIdx + 1) / displayQuestions.length) * 100;
+  const progress = displayQuestions.length > 0 ? ((currentIdx + 1) / displayQuestions.length) * 100 : 0;
 
   const handleSelect = (qId, option) => {
     if (isSubmitted) return;
@@ -665,11 +666,11 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             
             <div className={`flex flex-col gap-6 ${homework.passage ? 'w-full lg:w-1/2' : 'w-full'}`}>
               {displayQuestions.map((q, index) => {
-                 let { text: cleanText, clockTime, inlineSvg } = parseQuestionText(q.text);
-                 const effectiveSvgCode = inlineSvg || q.svgCode;
-                 const hasAnswer = answers[q.id] !== undefined;
-                 const isCorrect = isReviewing ? q.answer === answers[q.id] : null;
-                 const isWrong = isReviewing ? q.answer !== answers[q.id] : null;
+                 let { text: cleanText, clockTime, inlineSvg } = parseQuestionText(q?.text || '');
+                 const effectiveSvgCode = inlineSvg || q?.svgCode;
+                 const hasAnswer = answers[q?.id] !== undefined;
+                 const isCorrect = isReviewing ? q?.answer === answers[q?.id] : null;
+                 const isWrong = isReviewing ? q?.answer !== answers[q?.id] : null;
                  
                  return (
                    <div key={q.id} className={`bg-white/95 backdrop-blur-md rounded-[32px] p-8 shadow-[0_8px_0_0_rgba(255,255,255,0.6)] flex flex-col transition-all ${isReviewing && isWrong ? 'border-4 border-rose-100' : ''}`}>
@@ -709,22 +710,22 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                          
                          {/* Visuals */}
                          <div className="flex flex-col md:flex-row gap-8 items-start mb-8">
-                           {renderTrianglePattern(q.text)}
-                           {q.chartData && <div className="w-full md:w-1/2"><DynamicChart data={q.chartData} /></div>}
-                           {q.geometryData && <div className="w-full md:w-1/2"><DynamicGeometry data={q.geometryData} /></div>}
-                           {q.gridMapData && <div className="w-full md:w-1/2"><DynamicGridMap data={q.gridMapData} /></div>}
-                           {q.numberLineData && <div className="w-full md:w-2/3"><DynamicNumberLine data={q.numberLineData} /></div>}
-                           {q.pathData && <div className="w-full md:w-1/2"><DynamicPathMap data={q.pathData} /></div>}
-                           {q.instrumentData && <div className="w-full md:w-1/2"><DynamicInstrument data={q.instrumentData} /></div>}
-                           {q.blockData && <div className="w-full md:w-1/2"><DynamicBlockStructure data={q.blockData} /></div>}
-                           {q.earlyMathData && <div className="w-full md:w-1/2"><EarlyMathVisualizer data={q.earlyMathData} /></div>}
-                           {q.vennDiagramData && <div className="w-full md:w-1/2"><DynamicVennDiagram data={q.vennDiagramData} /></div>}
-                           {effectiveSvgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.earlyMathData && !q.vennDiagramData && (
+                           {renderTrianglePattern(q?.text)}
+                           {q?.chartData && <div className="w-full md:w-1/2"><DynamicChart data={q.chartData} /></div>}
+                           {q?.geometryData && <div className="w-full md:w-1/2"><DynamicGeometry data={q.geometryData} /></div>}
+                           {q?.gridMapData && <div className="w-full md:w-1/2"><DynamicGridMap data={q.gridMapData} /></div>}
+                           {q?.numberLineData && <div className="w-full md:w-2/3"><DynamicNumberLine data={q.numberLineData} /></div>}
+                           {q?.pathData && <div className="w-full md:w-1/2"><DynamicPathMap data={q.pathData} /></div>}
+                           {q?.instrumentData && <div className="w-full md:w-1/2"><DynamicInstrument data={q.instrumentData} /></div>}
+                           {q?.blockData && <div className="w-full md:w-1/2"><DynamicBlockStructure data={q.blockData} /></div>}
+                           {q?.earlyMathData && <div className="w-full md:w-1/2"><EarlyMathVisualizer data={q.earlyMathData} /></div>}
+                           {q?.vennDiagramData && <div className="w-full md:w-1/2"><DynamicVennDiagram data={q.vennDiagramData} /></div>}
+                           {effectiveSvgCode && !q?.chartData && !q?.geometryData && !q?.gridMapData && !q?.numberLineData && !q?.pathData && !q?.instrumentData && !q?.blockData && !q?.earlyMathData && !q?.vennDiagramData && (
                              <div className="w-64 h-64 md:w-80 md:h-80 bg-slate-50 rounded-[32px] flex-center p-4 border-4 border-slate-100 shadow-inner">
                                <div dangerouslySetInnerHTML={{ __html: effectiveSvgCode }} className="w-full h-full" />
                              </div>
                            )}
-                           {q.imageUrl && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.earlyMathData && !q.vennDiagramData && !effectiveSvgCode && (
+                           {q?.imageUrl && !q?.chartData && !q?.geometryData && !q?.gridMapData && !q?.numberLineData && !q?.pathData && !q?.instrumentData && !q?.blockData && !q?.earlyMathData && !q?.vennDiagramData && !effectiveSvgCode && (
                              <div className="w-64 h-64 md:w-80 md:h-80 bg-slate-50 rounded-[32px] flex-center border-4 border-slate-100 shadow-inner overflow-hidden">
                                <img src={q.imageUrl} alt="Visual" className="w-full h-full object-cover" loading="lazy" />
                              </div>
@@ -1084,28 +1085,6 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                           />
                         </div>
                       )}
-                    </div>
-                    {/* Textbook Mastery Checklist at the bottom of the card */}
-                    <div className="mt-8 pt-6 border-t-2 border-dashed border-slate-200 w-full shrink-0">
-                      <div className="bg-slate-50 border-2 border-slate-200/60 rounded-[28px] p-6">
-                        <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2 select-none">
-                          📋 Mastery Checklist
-                        </h4>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                          <div className="flex items-center gap-2.5 text-xs font-black text-slate-600">
-                            <div className="w-4 h-4 rounded bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-extrabold select-none">✓</div>
-                            <span>{currentQuestion.subtopic || "Understand topic concepts"}</span>
-                          </div>
-                          <div className="flex items-center gap-2.5 text-xs font-black text-slate-600">
-                            <div className="w-4 h-4 rounded bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-extrabold select-none">✓</div>
-                            <span>Analyze diagrams & details</span>
-                          </div>
-                          <div className="flex items-center gap-2.5 text-xs font-black text-slate-600">
-                            <div className="w-4 h-4 rounded bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-extrabold select-none">✓</div>
-                            <span>Select correct answer</span>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                     </>
                   );
