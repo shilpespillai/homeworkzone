@@ -16,11 +16,7 @@ export async function generateExplanations(questions, subject = 'general', provi
   const isMath = subject?.toLowerCase() === 'maths' || subject?.toLowerCase() === 'math';
 
   const mathInstruction = isMath
-    ? `CRITICAL (Math subject): Format each explanation as a clear step-by-step calculation. Show formulas and substitutions explicitly.
-Example structure:
-Step 1: Identify the values: ...
-Step 2: Apply the operation: ...
-Step 3: Final answer: ...`
+    ? `CRITICAL (Math subject): State the direct calculation clearly and concisely.`
     : '';
 
   // Chunk size of 3 to avoid Vercel 10s serverless timeouts
@@ -35,28 +31,20 @@ Step 3: Final answer: ...`
       `ID: ${q.id}\nQuestion: "${q.text}"\nOptions: ${JSON.stringify(q.options)}\nCorrect Answer: "${q.answer}"\nSubtopic: "${q.subtopic || ''}"`
     ).join('\n\n');
 
-    const prompt = `You are a friendly, highly-detailed, and accurate teacher preparing explanations for a ${subject} quiz.
+    const prompt = `You are a friendly and accurate teacher preparing short explanations for a ${subject} quiz.
 
-For EACH question below, write an extremely detailed and encouraging explanation. You MUST follow this exact structure for EVERY explanation:
-
-1. **Concept First**: Start by explicitly teaching the underlying concept or rule being tested. Explain the "why" and "how" before even mentioning the specific question. Do not skip this, even for the smallest or simplest questions.
-2. **Step-by-Step Breakdown**: Walk through the problem step-by-step applying the concept.
-3. **Correct Answer Validation**: State exactly why the correct answer is right.
-4. **Incorrect Option Analysis**: Briefly explain why the other options are wrong (if relevant).
+For EACH question below, write a very concise, direct explanation (maximum 2 sentences). Focus only on why the correct answer is right and the basic calculation or concept. Do NOT write long paragraphs, step-by-step guides, or analyze incorrect options. Keep it short and to the point.
 
 ${mathInstruction}
 
 CRITICAL FORMATTING RULES:
-- Ensure the explanation is highly detailed.
-- Use clear distinct steps.
-- The step titles MUST be bolded (e.g., **Step 1: Identify the variables**).
+- Keep the explanation extremely short and concise (under 2 sentences).
 - CRITICAL: You must output a valid JSON object. Do NOT use literal actual newlines inside your explanation strings. If you need a newline, use the exact characters "\\n".
 - ABSOLUTELY NO DOUBLE QUOTES inside the explanation strings! Use single quotes (' ') instead if you need to quote something. Unescaped double quotes will crash the JSON parser.
 
 CRITICAL ACCURACY RULES:
 - All mathematical calculations must be 100% correct — double-check arithmetic!
-- All scientific facts must be accurate.
-- The explanation must align with reality. If the provided 'Correct Answer' contains a blatant error (e.g., claiming 1234 is odd), DO NOT invent fake rules (like 'in this context') to justify it. Explain the actual true concept properly!
+- All facts must be accurate.
 
 Questions:
 ${questionsFormatted}
@@ -64,11 +52,11 @@ ${questionsFormatted}
 Return ONLY a valid JSON object where keys are the exact question IDs (as strings) and values are the explanation strings.
 Example:
 {
-  "1": "The correct answer is 12 because 3 × 4 = 12...",
-  "2": "Photosynthesis occurs in chloroplasts because..."
+  "1": "The correct answer is 12 because 3 × 4 = 12.",
+  "2": "Photosynthesis occurs in chloroplasts because they contain chlorophyll to capture sunlight."
 }
 
-CRITICAL: Use the EXACT question ID numbers as keys. Do not add prefixes or extra text.`;
+CRITICAL: Use the EXACT question ID numbers as keys.`;
 
     try {
       const resultText = await generateContent({
