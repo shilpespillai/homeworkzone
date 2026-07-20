@@ -419,7 +419,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       
       const skillTitles = selectedSkills.map(s => s.title).join(", ");
       const rawInjected = isCurriculumMode 
-        ? `${formData.aiPrompt || ''}\n\nCRITICAL INSTRUCTION: You must strictly generate questions focusing only on the following micro-skills: "${skillTitles}". Distribute the questions evenly across these topics. This is for ${resolvedGrade}.`
+        ? `${formData.aiPrompt || ''}\n\nCRITICAL INSTRUCTION: You must strictly generate questions focusing only on the following micro-skills: "${skillTitles}". Distribute the questions evenly across these topics. This is for ${resolvedGrade} at a ${formData.difficulty || 'Medium'} complexity level.`
         : (formData.aiPrompt || formData.title);
 
       const injectedPrompt = (rawInjected || '')
