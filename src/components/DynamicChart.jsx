@@ -5,19 +5,28 @@ import {
 } from 'recharts';
 
 const COLORS = ['#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
+// Used for the "unknown/hidden" segment
+const UNKNOWN_COLOR = '#cbd5e1'; // slate-300
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
+    const val = payload[0].payload?.isUnknown ? '?' : payload[0].value;
     return (
       <div className="bg-white p-3 border border-slate-200 rounded-xl shadow-lg">
-        <p className="font-bold text-slate-700">{label}</p>
+        <p className="font-bold text-slate-700">{label || payload[0].name}</p>
         <p className="text-indigo-600 font-black">
-          Value: {payload[0].value}
+          Value: {val}
         </p>
       </div>
     );
   }
   return null;
+};
+
+// Custom label for pie charts — hides value when unknown
+const renderPieLabel = ({ name, percent, isUnknown }) => {
+  if (isUnknown) return `${name} (?)`;
+  return `${name} (${(percent * 100).toFixed(0)}%)`;
 };
 
 export default function DynamicChart({ data }) {
@@ -75,11 +84,11 @@ export default function DynamicChart({ data }) {
 
   const chartData = actualData.map(row => {
     if (typeof row !== 'object' || row === null) {
-      return { name: String(row), value: 0, displayValue: String(row) };
+      return { name: String(row), value: 0, displayValue: String(row), isUnknown: false };
     }
     
     const keys = Object.keys(row);
-    if (keys.length === 0) return { name: '', value: 0, displayValue: '' };
+    if (keys.length === 0) return { name: '', value: 0, displayValue: '', isUnknown: false };
     
     let nameVal = '';
     let rawVal = '';
@@ -104,12 +113,18 @@ export default function DynamicChart({ data }) {
       nameVal = row[nameKey];
       rawVal = row[valueKey];
     }
+
+    // -1 signals a hidden/unknown value (the answer the student must find)
+    const isUnknown = rawVal === -1 || rawVal === '-1';
     
     let numVal = 0;
-    if (typeof rawVal === 'number') {
+    if (isUnknown) {
+      // For pie charts, we still need a positive slice area.
+      // Estimate: take the average of known values so the slice is visible but not revealing.
+      numVal = -1; // will be replaced below for pie
+    } else if (typeof rawVal === 'number') {
       numVal = rawVal;
     } else if (rawVal !== undefined && rawVal !== null) {
-      // Strip currency signs or letters to parse float
       const cleaned = String(rawVal).replace(/[^\d.-]/g, '');
       const parsed = parseFloat(cleaned);
       numVal = isNaN(parsed) ? 0 : parsed;
@@ -118,9 +133,20 @@ export default function DynamicChart({ data }) {
     return {
       name: nameVal !== undefined ? String(nameVal) : '',
       value: numVal,
-      displayValue: rawVal !== undefined ? String(rawVal) : ''
+      displayValue: isUnknown ? '?' : (rawVal !== undefined ? String(rawVal) : ''),
+      isUnknown,
     };
   });
+
+  // For pie charts, replace -1 (unknown) with a proportional estimate so the slice is visible
+  const knownTotal = chartData.filter(d => !d.isUnknown).reduce((s, d) => s + d.value, 0);
+  const unknownCount = chartData.filter(d => d.isUnknown).length;
+  const estimatedUnknown = unknownCount > 0
+    ? Math.max(10, (100 - knownTotal) / unknownCount)
+    : 10;
+  const pieData = chartData.map(d =>
+    d.isUnknown ? { ...d, value: estimatedUnknown } : d
+  );
 
   const renderChart = () => {
     switch (type) {
@@ -129,17 +155,23 @@ export default function DynamicChart({ data }) {
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
-                data={chartData}
+                data={pieData}
                 cx="50%"
                 cy="50%"
                 labelLine={true}
-                label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                label={renderPieLabel}
                 outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
               >
-                {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                {pieData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={entry.isUnknown ? UNKNOWN_COLOR : COLORS[index % COLORS.length]}
+                    strokeDasharray={entry.isUnknown ? '6 3' : '0'}
+                    stroke={entry.isUnknown ? '#94a3b8' : 'none'}
+                    strokeWidth={entry.isUnknown ? 2 : 0}
+                  />
                 ))}
               </Pie>
               <Tooltip content={<CustomTooltip />} />
@@ -174,7 +206,11 @@ export default function DynamicChart({ data }) {
                 {chartData.map((row, i) => (
                   <tr key={i} className="hover:bg-slate-50 transition-colors">
                     <td className="px-4 py-3 whitespace-nowrap text-sm font-bold text-slate-700 border-r border-slate-100">{row.name}</td>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-indigo-600 font-black">{row.displayValue}</td>
+                    <td className={`px-4 py-3 whitespace-nowrap text-sm font-black ${row.isUnknown ? 'text-slate-400 italic' : 'text-indigo-600'}`}>
+                      {row.isUnknown ? (
+                        <span className="inline-flex items-center justify-center w-8 h-8 bg-slate-200 rounded-full text-slate-500 font-black text-base">?</span>
+                      ) : row.displayValue}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -191,9 +227,20 @@ export default function DynamicChart({ data }) {
               <XAxis dataKey="name" stroke="#64748b" tick={{fill: '#64748b', fontSize: 12, fontWeight: 600}} dy={10} />
               <YAxis stroke="#64748b" tick={{fill: '#64748b', fontSize: 12, fontWeight: 600}} />
               <Tooltip content={<CustomTooltip />} />
-              <Bar dataKey="value" fill="#4f46e5" radius={[6, 6, 0, 0]}>
+              <Bar dataKey="value" radius={[6, 6, 0, 0]}
+                label={({ x, y, width, value, index }) => {
+                  const entry = chartData[index];
+                  if (!entry?.isUnknown) return null;
+                  return (
+                    <text x={x + width / 2} y={y - 8} textAnchor="middle" fill="#94a3b8" fontWeight="900" fontSize={18}>?</text>
+                  );
+                }}
+              >
                 {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={entry.isUnknown ? UNKNOWN_COLOR : COLORS[index % COLORS.length]}
+                  />
                 ))}
               </Bar>
             </BarChart>
@@ -206,6 +253,12 @@ export default function DynamicChart({ data }) {
     <div className="w-full bg-slate-50 border border-slate-200 rounded-3xl p-6 mb-6">
       {title && (
         <h4 className="text-center text-lg font-black text-slate-700 mb-4">{title}</h4>
+      )}
+      {/* Legend for unknown segment */}
+      {chartData.some(d => d.isUnknown) && (
+        <p className="text-center text-xs text-slate-400 font-bold mb-3">
+          🔍 The <span className="text-slate-500 font-black">?</span> segment is what you need to find!
+        </p>
       )}
       <div className="w-full h-[300px]">
         {renderChart()}

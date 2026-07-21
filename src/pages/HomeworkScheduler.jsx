@@ -585,6 +585,8 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
         CRITICAL FOR GRAPHS AND CHARTS:
         - For questions about surveys, data, or column/bar graphs (like tracking sports preferences, favorites, etc.), include a "chartData" object or use "svgCode" to draw a beautiful grid-based bar graph with axis ticks, labels, and horizontal or vertical colored bars.
+        - CRITICAL CHART ANSWER-HIDING RULE: If the question asks the student to FIND or CALCULATE a specific value (e.g. "what percentage is Bus?", "how many students chose Soccer?", "what is the missing value?"), you MUST set the value for the unknown/answer category to -1 in chartData. The UI will render it as a "?" segment/bar so the answer is hidden. NEVER expose the answer as a numeric label on the chart itself. Example: if Bus=45% is the answer, use {"name": "Bus", "value": -1} in chartData.
+
 
         CRITICAL RULES FOR "svgCode" AESTHETICS (Make it look like premium educational clipart!):
         - 🎨 VIBRANT COLORS: NEVER use boring plain black lines on white backgrounds! Use bright, cheerful, or highly saturated hex colors (e.g., #FF6B6B red, #4ECDC4 teal, #FFE66D yellow, #6B5B95 purple, #A8E6CF mint). Fill backgrounds with a very soft pastel color instead of plain white.

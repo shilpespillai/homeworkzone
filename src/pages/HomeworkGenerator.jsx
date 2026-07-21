@@ -512,6 +512,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
           "title": "String title",
           "data": [{"name": "Category A", "value": 10}, {"name": "Category B", "value": 20}]
         }
+        CRITICAL CHART ANSWER-HIDING RULE: If the question asks the student to FIND or CALCULATE a specific value (e.g. "what percentage is Bus?", "how many students chose Soccer?", "what is the missing value?"), you MUST set the value for the unknown/answer category to -1 in the chartData. The UI will render it as a "?" segment/bar so the answer is hidden. NEVER expose the answer as a numeric label on the chart itself. Example: if Bus=45% is the answer, use {"name": "Bus", "value": -1} in chartData.
         
         IF the question involves geometry, shapes, or area/volume, include a "geometryData" object property:
         "geometryData": {
