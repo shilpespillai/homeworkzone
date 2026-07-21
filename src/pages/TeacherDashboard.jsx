@@ -104,21 +104,30 @@ const mapToUmbrellaCategory = (subtopic, subject = '') => {
   const t = (subtopic || '').toLowerCase();
   const s = (subject || '').toLowerCase();
 
-  // Mathematics Umbrellas
+  // Mathematics & Quantitative Umbrellas
   if (t.includes('fraction') || t.includes('decimal') || t.includes('percentage') || t.includes('percent') || t.includes('ratio')) {
     return 'Fractions, Decimals & Percentages';
   }
-  if (t.includes('addition') || t.includes('subtraction') || t.includes('multiplication') || t.includes('division') || t.includes('place value') || t.includes('number') || t.includes('prime') || t.includes('factor') || t.includes('lcm') || t.includes('hcf') || t.includes('rounding')) {
+  if (t.includes('addition') || t.includes('subtraction') || t.includes('multiplication') || t.includes('division') || t.includes('place value') || t.includes('number') || t.includes('prime') || t.includes('factor') || t.includes('lcm') || t.includes('hcf') || t.includes('rounding') || t.includes('operation') || t.includes('calculation') || t.includes('sum') || t.includes('difference') || t.includes('product') || t.includes('quotient')) {
     return 'Number & Operations';
   }
-  if (t.includes('geometry') || t.includes('shape') || t.includes('angle') || t.includes('perimeter') || t.includes('area') || t.includes('volume') || t.includes('symmetry') || t.includes('projection') || t.includes('cross-section') || t.includes('ruler') || t.includes('grid')) {
+  if (t.includes('geometry') || t.includes('shape') || t.includes('angle') || t.includes('perimeter') || t.includes('area') || t.includes('volume') || t.includes('symmetry') || t.includes('projection') || t.includes('cross-section') || t.includes('ruler') || t.includes('grid') || t.includes('unit') || t.includes('measurement') || t.includes('measuring') || t.includes('length') || t.includes('mass') || t.includes('weight') || t.includes('capacity') || t.includes('metric')) {
     return 'Geometry & Measurement';
   }
-  if (t.includes('probability') || t.includes('data') || t.includes('stat') || t.includes('graph') || t.includes('chart') || t.includes('plot') || t.includes('climate') || t.includes('bias') || t.includes('gambler')) {
-    return 'Statistics, Data & Probability';
+  if (t.includes('time') || t.includes('clock') || t.includes('elapsed') || t.includes('calendar') || t.includes('duration') || t.includes('hour') || t.includes('minute')) {
+    return 'Time & Clock Reasoning';
   }
-  if (t.includes('algebra') || t.includes('equation') || t.includes('variable') || t.includes('expression') || t.includes('pattern') || t.includes('sequence') || t.includes('logic')) {
-    return 'Algebra, Patterns & Logic';
+  if (t.includes('probability') || t.includes('data') || t.includes('stat') || t.includes('graph') || t.includes('chart') || t.includes('plot') || t.includes('tally') || t.includes('table') || t.includes('venn') || t.includes('diagram') || t.includes('categorization')) {
+    return 'Statistics, Data & Charts';
+  }
+  if (t.includes('algebra') || t.includes('equation') || t.includes('variable') || t.includes('expression') || t.includes('pattern') || t.includes('sequence') || t.includes('series') || t.includes('figure')) {
+    return 'Algebra, Patterns & Sequences';
+  }
+  if (t.includes('logic') || t.includes('reasoning') || t.includes('ranking') || t.includes('seating') || t.includes('arrangement') || t.includes('deduction') || t.includes('cube') || t.includes('spatial') || t.includes('net') || t.includes('code') || t.includes('decoding')) {
+    return 'Spatial & Logical Reasoning';
+  }
+  if (t.includes('money') || t.includes('currency') || t.includes('coin') || t.includes('dollar') || t.includes('cent') || t.includes('cost') || t.includes('price')) {
+    return 'Money & Financial Literacy';
   }
   
   // English / Literacy Umbrellas
@@ -132,9 +141,15 @@ const mapToUmbrellaCategory = (subtopic, subject = '') => {
     return 'Reading & Comprehension';
   }
   
-  // Science & Reasoning Umbrellas
-  if (t.includes('planet') || t.includes('solar') || t.includes('earth') || t.includes('matter') || t.includes('particle') || t.includes('cell') || t.includes('gravity') || t.includes('water cycle') || t.includes('science') || t.includes('climate')) {
+  // Science Umbrellas
+  if (t.includes('planet') || t.includes('solar') || t.includes('earth') || t.includes('matter') || t.includes('particle') || t.includes('cell') || t.includes('gravity') || t.includes('water cycle') || t.includes('science') || t.includes('climate') || t.includes('environment') || t.includes('biology') || t.includes('chemistry') || t.includes('physics')) {
     return 'Science & Environmental Inquiry';
+  }
+
+  // If subtopic has a colon like "Clock Reasoning: Time Forward Calculation", split prefix!
+  if (subtopic && typeof subtopic === 'string' && subtopic.includes(':')) {
+    const prefix = subtopic.split(':')[0].trim();
+    if (prefix) return prefix;
   }
 
   if (s.includes('math')) return 'Mathematics Core';
@@ -145,12 +160,9 @@ const mapToUmbrellaCategory = (subtopic, subject = '') => {
 };
 
 const getQuestionSubtopic = (hw, q) => {
-  // Priority 1: Direct subtopic specified on question
   if (q.subtopic && typeof q.subtopic === 'string' && q.subtopic.trim()) {
     return q.subtopic.trim();
   }
-
-  // Priority 2: Selected curriculum skills/topics saved on the homework
   if (hw.topics && Array.isArray(hw.topics) && hw.topics.length > 0) {
     const validTopic = hw.topics.find(t => typeof t === 'string' && t.trim().length > 0);
     if (validTopic) return validTopic.trim();
@@ -167,52 +179,8 @@ const getQuestionSubtopic = (hw, q) => {
   const text = (q.text || '').toLowerCase();
   const title = (hw.title || '').toLowerCase();
   const subject = (hw.subject || '').toLowerCase();
-  
   const context = `${sub} ${title} ${text}`.toLowerCase();
-  
-const mapToUmbrellaCategory = (subtopic, subject = '') => {
-  const t = (subtopic || '').toLowerCase();
-  const s = (subject || '').toLowerCase();
 
-  // Mathematics Umbrellas
-  if (t.includes('fraction') || t.includes('decimal') || t.includes('percentage') || t.includes('percent') || t.includes('ratio')) {
-    return 'Fractions, Decimals & Percentages';
-  }
-  if (t.includes('addition') || t.includes('subtraction') || t.includes('multiplication') || t.includes('division') || t.includes('place value') || t.includes('number') || t.includes('prime') || t.includes('factor') || t.includes('lcm') || t.includes('hcf') || t.includes('rounding')) {
-    return 'Number & Operations';
-  }
-  if (t.includes('geometry') || t.includes('shape') || t.includes('angle') || t.includes('perimeter') || t.includes('area') || t.includes('volume') || t.includes('symmetry') || t.includes('projection') || t.includes('cross-section') || t.includes('ruler') || t.includes('grid')) {
-    return 'Geometry & Measurement';
-  }
-  if (t.includes('probability') || t.includes('data') || t.includes('stat') || t.includes('graph') || t.includes('chart') || t.includes('plot') || t.includes('climate') || t.includes('bias') || t.includes('gambler')) {
-    return 'Statistics, Data & Probability';
-  }
-  if (t.includes('algebra') || t.includes('equation') || t.includes('variable') || t.includes('expression') || t.includes('pattern') || t.includes('sequence') || t.includes('logic')) {
-    return 'Algebra, Patterns & Logic';
-  }
-  
-  // English / Literacy Umbrellas
-  if (t.includes('spelling') || t.includes('vocab') || t.includes('root') || t.includes('suffix') || t.includes('prefix') || t.includes('synonym') || t.includes('antonym') || t.includes('word') || t.includes('meaning')) {
-    return 'Spelling & Vocabulary';
-  }
-  if (t.includes('punctuation') || t.includes('comma') || t.includes('grammar') || t.includes('verb') || t.includes('noun') || t.includes('adjective') || t.includes('pronoun') || t.includes('subject-verb') || t.includes('conjunction') || t.includes('sentence') || t.includes('predicate') || t.includes('clause') || t.includes('colon') || t.includes('semicolon') || t.includes('apostrophe')) {
-    return 'Grammar & Conventions';
-  }
-  if (t.includes('reading') || t.includes('comprehension') || t.includes('text') || t.includes('passage') || t.includes('inference') || t.includes('analogy') || t.includes('analogies') || t.includes('fact vs opinion')) {
-    return 'Reading & Comprehension';
-  }
-  
-  // Science & Reasoning Umbrellas
-  if (t.includes('planet') || t.includes('solar') || t.includes('earth') || t.includes('matter') || t.includes('particle') || t.includes('cell') || t.includes('gravity') || t.includes('water cycle') || t.includes('science') || t.includes('climate')) {
-    return 'Science & Environmental Inquiry';
-  }
-
-  if (s.includes('math')) return 'Mathematics Core';
-  if (s.includes('english') || s.includes('literacy')) return 'Literacy & Language';
-  if (s.includes('science')) return 'Science & Inquiry';
-
-  return subtopic || 'Core Learning Concepts';
-};
   if (context.includes('fraction') || context.includes('numerator') || context.includes('denominator')) return 'Fractions';
   if (context.includes('decimal') || context.includes('tenths') || context.includes('hundredths')) return 'Decimals';
   if (context.includes('addition') || context.includes('add ') || context.includes('adding') || context.includes('sum') || context.includes('+')) return 'Addition';
@@ -635,7 +603,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [remediationMessageContent, setRemediationMessageContent] = useState('');
   const [isSendingRemediationMsg, setIsSendingRemediationMsg] = useState(false);
   const [conceptSearchQuery, setConceptSearchQuery] = useState('');
-  const [conceptTierFilter, setConceptTierFilter] = useState('all');
+  const [conceptTierFilter, setConceptTierFilter] = useState('Needs Focus');
   const [conceptPage, setConceptPage] = useState(1);
 
   // Student Profile Modal States
@@ -4639,7 +4607,11 @@ Include a balanced combination of question types such as:
 
             // Calculation of umbrella concept mastery for Report A
             const subtopicsData = {};
-            currentSubmissions.forEach(sub => {
+            const masterySubmissions = selectedReportStudent 
+               ? currentSubmissions.filter(sub => normalizeName(sub.studentName) === normalizeName(selectedReportStudent))
+               : currentSubmissions;
+
+            masterySubmissions.forEach(sub => {
                const hw = allHomeworks.find(h => h.id === sub.homeworkId);
                if (!hw || !hw.questions) return;
                hw.questions.forEach(q => {
@@ -4946,16 +4918,35 @@ Include a balanced combination of question types such as:
                   {/* Tab Contents */}
                   {selectedReportTab === 'mastery' && (
                      <div className="space-y-8 animate-fadeIn">
-                        <div className="bg-white rounded-[40px] p-8 border border-orange-100 shadow-sm space-y-4">
-                           <h2 className="text-2xl font-black text-[#14532d]">Concept Mastery Overview</h2>
-                           <p className="text-xs text-[#166534] font-medium">Grouped by umbrella category based on historical quiz submissions. Visual breakdown of mastery tiers and accuracy across all concepts.</p>
+                        {/* Header & Student Filter */}
+                        <div className="bg-white rounded-[40px] p-8 border border-orange-100 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
+                           <div className="space-y-2 text-center md:text-left">
+                              <h2 className="text-2xl font-black text-[#14532d]">
+                                 Concept Mastery Overview {selectedReportStudent ? `— ${selectedReportStudent}` : ''}
+                              </h2>
+                              <p className="text-xs text-[#166534] font-medium">
+                                 Grouped by umbrella category based on historical quiz submissions. Visual breakdown of mastery tiers and accuracy across concepts.
+                              </p>
+                           </div>
+                           <div className="w-full md:w-64">
+                              <select 
+                                 value={selectedReportStudent} 
+                                 onChange={(e) => setSelectedReportStudent(e.target.value)} 
+                                 className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-[#14532d] focus:outline-none focus:ring-2 focus:ring-[#EA580C]/25 shadow-sm"
+                              >
+                                 <option value="">All Students (Class Average)</option>
+                                 {currentStudents.map((st, i) => (
+                                    <option key={i} value={st.name}>{st.name}</option>
+                                 ))}
+                              </select>
+                           </div>
                         </div>
 
                         {subtopicsArray.length > 0 ? (
                            <>
-                              {/* Charts Row â€” Pie + Bar */}
+                              {/* Charts Row — Pie + Bar */}
                               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                 {/* Pie Chart â€” Tier Distribution */}
+                                 {/* Pie Chart — Tier Distribution */}
                                  <div className="bg-white rounded-[40px] p-8 border border-orange-100 shadow-sm">
                                     <h3 className="text-sm font-black text-[#14532d] uppercase tracking-widest mb-6">Tier Distribution</h3>
                                     <div className="flex items-center justify-center gap-8">
@@ -4990,13 +4981,13 @@ Include a balanced combination of question types such as:
                                        </ResponsiveContainer>
                                        <div className="space-y-3">
                                           {[
-                                             { label: 'Mastered', color: 'bg-emerald-400', count: subtopicsArray.filter(s => s.tier === 'Mastered').length, emoji: 'âœ¨' },
-                                             { label: 'Reviewing', color: 'bg-blue-400', count: subtopicsArray.filter(s => s.tier === 'Reviewing').length, emoji: 'â±ï¸' },
-                                             { label: 'Needs Focus', color: 'bg-rose-400', count: subtopicsArray.filter(s => s.tier === 'Needs Focus').length, emoji: 'âš ï¸' }
+                                             { label: 'Mastered', color: 'bg-emerald-400', count: subtopicsArray.filter(s => s.tier === 'Mastered').length },
+                                             { label: 'Reviewing', color: 'bg-blue-400', count: subtopicsArray.filter(s => s.tier === 'Reviewing').length },
+                                             { label: 'Needs Focus', color: 'bg-rose-400', count: subtopicsArray.filter(s => s.tier === 'Needs Focus').length }
                                           ].map(item => (
                                              <div key={item.label} className="flex items-center gap-3">
                                                 <div className={`w-3 h-3 rounded-full ${item.color}`} />
-                                                <span className="text-xs font-black text-slate-700">{item.emoji} {item.label}</span>
+                                                <span className="text-xs font-black text-slate-700">{item.label}</span>
                                                 <span className="text-xs font-black text-slate-400">{item.count}</span>
                                              </div>
                                           ))}
@@ -5004,20 +4995,32 @@ Include a balanced combination of question types such as:
                                     </div>
                                  </div>
 
-                                 {/* Bar Chart â€” Accuracy by Category */}
-                                 <div className="bg-white rounded-[40px] p-8 border border-orange-100 shadow-sm">
-                                    <h3 className="text-sm font-black text-[#14532d] uppercase tracking-widest mb-6">Accuracy by Concept</h3>
-                                    <ResponsiveContainer width="100%" height={220}>
-                                       <BarChart data={subtopicsArray.sort((a, b) => b.accuracy - a.accuracy).slice(0, 12)} layout="vertical" margin={{ left: 10, right: 20 }}>
+                                 {/* Bar Chart — Accuracy by Category */}
+                                 <div className="bg-white rounded-[40px] p-8 border border-orange-100 shadow-sm flex flex-col justify-between">
+                                    <h3 className="text-sm font-black text-[#14532d] uppercase tracking-widest mb-4">Accuracy by Concept</h3>
+                                    <ResponsiveContainer width="100%" height={260}>
+                                       <BarChart 
+                                          data={[...subtopicsArray].sort((a, b) => b.accuracy - a.accuracy).slice(0, 8)} 
+                                          layout="vertical" 
+                                          margin={{ left: 10, right: 30, top: 5, bottom: 5 }}
+                                       >
                                           <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" horizontal={false} />
                                           <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }} tickLine={false} axisLine={false} />
-                                          <YAxis type="category" dataKey="name" width={140} tick={{ fontSize: 10, fontWeight: 700, fill: '#334155' }} tickLine={false} axisLine={false} />
+                                          <YAxis 
+                                             type="category" 
+                                             dataKey="name" 
+                                             width={160} 
+                                             tick={{ fontSize: 11, fontWeight: 700, fill: '#334155' }} 
+                                             tickFormatter={(val) => val.length > 22 ? `${val.substring(0, 20)}...` : val}
+                                             tickLine={false} 
+                                             axisLine={false} 
+                                          />
                                           <RechartsTooltip
                                              contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', fontSize: '12px', fontWeight: 700 }}
                                              formatter={(value) => [`${value}%`, 'Accuracy']}
                                           />
-                                          <Bar dataKey="accuracy" radius={[0, 8, 8, 0]} barSize={14}>
-                                             {subtopicsArray.sort((a, b) => b.accuracy - a.accuracy).slice(0, 12).map((entry, index) => (
+                                          <Bar dataKey="accuracy" radius={[0, 8, 8, 0]} barSize={16}>
+                                             {[...subtopicsArray].sort((a, b) => b.accuracy - a.accuracy).slice(0, 8).map((entry, index) => (
                                                 <Cell
                                                    key={`bar-${index}`}
                                                    fill={entry.accuracy >= 80 ? '#34d399' : entry.accuracy >= 60 ? '#60a5fa' : '#fb7185'}
@@ -5029,28 +5032,27 @@ Include a balanced combination of question types such as:
                                  </div>
                               </div>
 
-                              {/* Filter Pills */}
-                              <div className="flex flex-wrap gap-2 justify-center">
+                              {/* Filter Pills — Focus, Review, Mastered ONLY (No "All") */}
+                              <div className="flex flex-wrap gap-3 justify-center">
                                  {[
-                                    { id: 'all', label: 'All', count: subtopicsArray.length, color: 'text-orange-600 bg-orange-50 border-orange-200' },
-                                    { id: 'Needs Focus', label: 'Needs Focus âš ï¸', count: subtopicsArray.filter(s => s.tier === 'Needs Focus').length, color: 'text-rose-600 bg-rose-50 border-rose-100' },
-                                    { id: 'Reviewing', label: 'Reviewing â±ï¸', count: subtopicsArray.filter(s => s.tier === 'Reviewing').length, color: 'text-blue-600 bg-blue-50 border-blue-100' },
-                                    { id: 'Mastered', label: 'Mastered âœ¨', count: subtopicsArray.filter(s => s.tier === 'Mastered').length, color: 'text-emerald-600 bg-emerald-50 border-emerald-100' }
+                                    { id: 'Needs Focus', label: 'Needs Focus', count: subtopicsArray.filter(s => s.tier === 'Needs Focus').length, color: 'text-rose-600 bg-rose-50 border-rose-200' },
+                                    { id: 'Reviewing', label: 'Reviewing', count: subtopicsArray.filter(s => s.tier === 'Reviewing').length, color: 'text-blue-600 bg-blue-50 border-blue-200' },
+                                    { id: 'Mastered', label: 'Mastered', count: subtopicsArray.filter(s => s.tier === 'Mastered').length, color: 'text-emerald-600 bg-emerald-50 border-emerald-200' }
                                  ].map((pill) => {
                                     const isActive = conceptTierFilter === pill.id;
                                     return (
                                        <button
                                           key={pill.id}
                                           onClick={() => setConceptTierFilter(pill.id)}
-                                          className={`px-4 py-2 rounded-xl text-xs font-black border transition-all flex items-center gap-2 ${
+                                          className={`px-5 py-2.5 rounded-2xl text-xs font-black border transition-all flex items-center gap-2.5 ${
                                              isActive 
-                                                ? `${pill.color} shadow-sm scale-105` 
+                                                ? `${pill.color} shadow-sm scale-105 ring-2 ring-offset-1 ring-current` 
                                                 : 'bg-white hover:bg-slate-50 text-slate-500 border-slate-100'
                                           }`}
                                        >
                                           <span>{pill.label}</span>
-                                          <span className={`px-1.5 py-0.5 rounded-md text-[10px] font-black ${
-                                             isActive ? 'bg-white/60' : 'bg-slate-100 text-slate-500'
+                                          <span className={`px-2 py-0.5 rounded-md text-[10px] font-black ${
+                                             isActive ? 'bg-white/70' : 'bg-slate-100 text-slate-500'
                                           }`}>
                                              {pill.count}
                                           </span>
@@ -5064,15 +5066,12 @@ Include a balanced combination of question types such as:
                                  {sortedAndFilteredSubtopics.map((sub, idx) => {
                                     let tierColor = 'bg-rose-50 text-rose-600 border border-rose-100';
                                     let progressColor = 'bg-rose-400';
-                                    let tierEmoji = 'âš ï¸';
                                     if (sub.tier === 'Mastered') {
                                        tierColor = 'bg-emerald-50 text-emerald-600 border border-emerald-100';
                                        progressColor = 'bg-emerald-400';
-                                       tierEmoji = 'âœ¨';
                                     } else if (sub.tier === 'Reviewing') {
                                        tierColor = 'bg-blue-50 text-blue-600 border border-blue-100';
                                        progressColor = 'bg-blue-400';
-                                       tierEmoji = 'â±ï¸';
                                     }
 
                                     return (
@@ -5083,7 +5082,7 @@ Include a balanced combination of question types such as:
                                           <div className="flex justify-between items-start gap-2">
                                              <h3 className="font-black text-slate-800 text-sm leading-snug flex-1 truncate">{sub.name}</h3>
                                              <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider whitespace-nowrap ${tierColor}`}>
-                                                {tierEmoji} {sub.tier}
+                                                {sub.tier}
                                              </span>
                                           </div>
                                           <span className="text-[10px] font-bold text-slate-400 mt-1">{sub.totalCount} responses</span>
@@ -5103,8 +5102,8 @@ Include a balanced combination of question types such as:
                                  {sortedAndFilteredSubtopics.length === 0 && (
                                     <div className="col-span-3 bg-white rounded-[40px] py-16 text-center text-slate-400 font-bold border border-slate-100 shadow-sm flex flex-col items-center justify-center gap-2 animate-fadeIn">
                                        <Search className="w-6 h-6 text-slate-300" />
-                                       <p className="mt-2 text-slate-600 font-black text-sm">No matching concepts found</p>
-                                       <p className="text-xs text-slate-400 font-bold">Try adjusting your filter.</p>
+                                       <p className="mt-2 text-slate-600 font-black text-sm">No concepts in this tier</p>
+                                       <p className="text-xs text-slate-400 font-bold">Select another tier above to view concepts.</p>
                                     </div>
                                  )}
                               </div>
