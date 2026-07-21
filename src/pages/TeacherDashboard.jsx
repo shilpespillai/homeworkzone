@@ -8038,7 +8038,7 @@ Include a balanced combination of question types such as:
       
       {/* Student Detail Profile Modal */}
       <AnimatePresence>
-        {selectedProfileStudent && (
+        {selectedProfileStudent && (() => {
            // 1. Gather all student submissions
            const studentName = selectedProfileStudent.name;
            const studentSubs = allSubmissions.filter(sub => normalizeName(sub.studentName) === normalizeName(studentName) && (!sub.classId || sub.classId === activeClassroom?.id))
