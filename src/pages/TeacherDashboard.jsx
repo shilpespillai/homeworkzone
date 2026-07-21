@@ -1815,7 +1815,7 @@ Include a balanced combination of question types such as:
         customBadges: [...currentBadges, newBadge]
       }, { merge: true });
 
-      alert(`Badge "${badgeName}" awarded successfully to ${selectedStudentForBadge.name}! ðŸŽ–ï¸✨¨`);
+      alert(`Badge "${badgeName}" awarded successfully to ${selectedStudentForBadge.name}! 🎖️ï¸✨¨`);
       setShowAwardBadgeModal(false);
       setBadgeName('');
       setBadgeDesc('');
@@ -3390,7 +3390,7 @@ Include a balanced combination of question types such as:
                              <div className="flex justify-between items-start relative z-10">
                              <div>
                              <h3 className="text-lg font-black text-[#3C2E75] tracking-tight flex items-center gap-2">
-                             ðŸ“‹ Homework Completion Hub
+                             📋 Homework Completion Hub
                              </h3>
                              <p className="text-[10px] font-black text-[#8C83B5] uppercase tracking-widest mt-0.5">
                              Real-time student completion vs lagging breakdown
@@ -3506,7 +3506,7 @@ Include a balanced combination of question types such as:
                              }}
                              className="text-[9px] font-black bg-rose-500 hover:bg-rose-600 text-white px-2.5 py-1 rounded-xl transition-colors shrink-0"
                              >
-                             Remind ðŸ””
+                             Remind 🔔
                              </button>
                              </div>
                              </div>
@@ -3593,7 +3593,7 @@ Include a balanced combination of question types such as:
                              }}
                              className="w-6 h-6 hover:bg-[#FFDDF5] rounded-lg flex items-center justify-center text-[#C23C9F] text-xs font-black transition-all"
                              >
-                             â—€
+                             ◀
                              </button>
                              <span className="text-[#C23C9F] text-[10px] font-black uppercase tracking-wider select-none min-w-[80px] text-center">
                              {monthNames[calendarMonth]} {calendarYear}
@@ -3609,7 +3609,7 @@ Include a balanced combination of question types such as:
                              }}
                              className="w-6 h-6 hover:bg-[#FFDDF5] rounded-lg flex items-center justify-center text-[#C23C9F] text-xs font-black transition-all"
                              >
-                             â–¶
+                             ▶¶
                              </button>
                              </div>
                              </div>
@@ -3917,7 +3917,7 @@ Include a balanced combination of question types such as:
                           
                           {/* Compact Reward Message */}
                           <div className="bg-[#FAF2FF] rounded-2xl p-4 border border-[#E8C6FF]/35 flex items-center gap-3">
-                          <span className="text-2xl">ðŸ¦–</span>
+                          <span className="text-2xl">🦖</span>
                           <div className="min-w-0 flex-1">
                           <p className="text-[10px] font-black text-[#3C2E75] uppercase tracking-wider mb-0.5">Mascot Party Reward</p>
                           <p className="text-[11px] font-bold text-[#5C4D9F] leading-snug">
@@ -5696,7 +5696,7 @@ Include a balanced combination of question types such as:
                         ) : (
                            <div className="flex-1 flex flex-col items-center justify-center text-[#166534] font-bold italic text-sm gap-2">
                               <MessageSquare size={48} className="stroke-1 text-blue-200" />
-                              <span>Select a chat to read & reply! ðŸ’Œ</span>
+                              <span>Select a chat to read & reply! 💌</span>
                            </div>
                         )}
                      </div>
@@ -5778,7 +5778,7 @@ Include a balanced combination of question types such as:
                                  <div>
                                     <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest block mb-2">Recipient</label>
                                     <div className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-slate-600">
-                                       ðŸ“¢ All Classes & Classrooms
+                                       📢 All Classes & Classrooms
                                     </div>
                                  </div>
                               )}
@@ -5871,7 +5871,7 @@ Include a balanced combination of question types such as:
                const badges = (student.customBadges || []).map(b => ({
                   name: b.name || b.label,
                   desc: b.desc || b.description,
-                  icon: b.icon || 'ðŸŽ–ï¸',
+                  icon: b.icon || '🎖️ï¸',
                   color: b.color || 'bg-yellow-50 text-yellow-600 border-yellow-100',
                   isCustom: true
                }));
@@ -5999,7 +5999,7 @@ Include a balanced combination of question types such as:
                            <RewardKPICard title="Total Points" value={totalPoints} subtitle="Derived from grades & quizzes" bgColor="bg-blue-50/50" textColor="text-blue-600" />
                            <RewardKPICard title="Badges Earned" value={totalBadges} subtitle="Star, Whiz & Explorer" bgColor="bg-rose-50/50" textColor="text-rose-600" />
                            <RewardKPICard title="Rewarded Kids" value={rewardedCount} subtitle={`${rewardedCount}/${computedStudents.length} active students`} bgColor="bg-emerald-50/50" textColor="text-emerald-600" />
-                           <RewardKPICard title="Class Champion" value={topEarner.name} subtitle={`${topEarner.points || 0} Points ðŸ”¥`} bgColor="bg-amber-50/50" textColor="text-amber-600" />
+                           <RewardKPICard title="Class Champion" value={topEarner.name} subtitle={`${topEarner.points || 0} Points 🔥`} bgColor="bg-amber-50/50" textColor="text-amber-600" />
                         </div>
 
                         <div className="grid grid-cols-12 gap-10">
@@ -6123,9 +6123,9 @@ Include a balanced combination of question types such as:
                            {sortedByPoints.length > 0 ? (
                               sortedByPoints.map((student, idx) => {
                                  let rankIcon = `#${idx + 1}`;
-                                 if (idx === 0) rankIcon = 'ðŸ¥‡';
-                                 else if (idx === 1) rankIcon = 'ðŸ¥ˆ';
-                                 else if (idx === 2) rankIcon = 'ðŸ¥‰';
+                                 if (idx === 0) rankIcon = '🥇';
+                                 else if (idx === 1) rankIcon = '🥈';
+                                 else if (idx === 2) rankIcon = '🥉';
 
                                  return (
                                     <div key={student.id} className="grid grid-cols-12 px-8 py-6 items-center text-sm font-bold text-slate-600 hover:bg-blue-50/10 transition-colors">
@@ -6264,10 +6264,10 @@ Include a balanced combination of question types such as:
                                <p className="text-sm font-black text-[#14532d]">Goal Progress Message</p>
                                <p className="text-xs font-bold text-blue-400 italic">
                                   {progressPercent >= 100 
-                                     ? `Incredible! Your class reached the goal! The Dino party is unlocked on their student panels! 🎈ðŸ¦–`
+                                     ? `Incredible! Your class reached the goal! The Dino party is unlocked on their student panels! 🎈🦖`
                                      : `You need ${targetGoal - currentClassPoints} more points to unlock this prize. Keep submitting homework quizzes!`}
                                </p>
-                            <p className="text-xs font-bold text-[#166534] italic">{progressPercent >= 100 ? 'Unlocked & Active! ðŸ¦•' : 'Goal Locked'}</p>
+                            <p className="text-xs font-bold text-[#166534] italic">{progressPercent >= 100 ? 'Unlocked & Active! 🦖' : 'Goal Locked'}</p>
                          </div>
                       </div>
                    </div>
@@ -7317,17 +7317,17 @@ Include a balanced combination of question types such as:
                               className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-[#14532d] focus:outline-none"
                            >
                               <option value="auto">Auto-Rotate Weekly (Recommended) 🔄</option>
-                              <option value="barbie">Dream World ðŸŽ€</option>
+                              <option value="barbie">Dream World 🎀</option>
                               <option value="minecraft">Block Builder's Quest â›ï¸</option>
-                              <option value="sonic">Sonic Grand Prix ðŸ¦”</option>
+                              <option value="sonic">Sonic Grand Prix 🦔</option>
                               <option value="mario">Super Adventure Kingdom ðŸ„</option>
-                              <option value="forest">Enchanted Forest ðŸŒ²</option>
+                              <option value="forest">Enchanted Forest 🌲</option>
                               <option value="space">Cosmic Space Maze 🚀</option>
                               <option value="island">Adventure Island ðŸï¸</option>
                               <option value="sports">Sports Track ðŸƒ</option>
                               <option value="undersea">Undersea Voyage ðŸŒŠ</option>
                               <option value="candyland">Candyland Adventure ðŸ¬</option>
-                              <option value="dinosaur">Dinosaur Safari ðŸ¦–</option>
+                              <option value="dinosaur">Dinosaur Safari 🦖</option>
                               <option value="pirate">Pirate Treasure Hunt ðŸ´â€â˜ ï¸</option>
                               <option value="haunted">Haunted Castle ðŸ‘»</option>
                               <option value="winter">Winter Wonderland â›„</option>
@@ -7419,7 +7419,7 @@ Include a balanced combination of question types such as:
                         <div>
                            <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest block mb-3">Choose Badge Icon</label>
                            <div className="grid grid-cols-6 gap-3">
-                              {['ðŸ†', '🎨', 'ðŸ§ª', 'ðŸ¤', '🌟', 'ðŸ§ ', 'â¤ï¸', '⚠️¡', '🚀', 'ðŸŒ±', '📚', 'ðŸŽ–ï¸'].map(emoji => (
+                              {['ðŸ†', '🎨', 'ðŸ§ª', 'ðŸ¤', '🌟', 'ðŸ§ ', 'â¤ï¸', '⚠️¡', '🚀', 'ðŸŒ±', '📚', '🎖️ï¸'].map(emoji => (
                                  <button
                                     key={emoji}
                                     type="button"
@@ -7585,7 +7585,7 @@ Include a balanced combination of question types such as:
                                     onClick={() => handleSendReminderPing(student)}
                                     className="px-2.5 py-1 bg-amber-400 hover:bg-amber-500 text-white rounded-lg text-[9px] font-black transition-colors"
                                  >
-                                    Send Ping ðŸ””
+                                    Send Ping 🔔
                                  </button>
                               </div>
                            ))}
@@ -8592,11 +8592,11 @@ Include a balanced combination of question types such as:
                                      <button
                                        onClick={() => {
                                          navigator.clipboard.writeText(aiReportContent);
-                                         alert("Report copied to clipboard! ðŸ“‹✨¨");
+                                         alert("Report copied to clipboard! 📋✨¨");
                                        }}
                                        className="flex-1 py-4 bg-[#EA580C] text-white rounded-2xl text-xs font-black shadow-md shadow-orange-100 hover:bg-[#C2410C] transition-all flex items-center justify-center gap-2"
                                      >
-                                       <span>ðŸ“‹</span> Copy to Clipboard
+                                       <span>📋</span> Copy to Clipboard
                                      </button>
                                      <button
                                        onClick={handlePublishAiReportToParent}
