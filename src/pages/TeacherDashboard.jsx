@@ -58,6 +58,7 @@ import {
 } from 'recharts';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import { DEFAULT_SUBJECT_PROMPTS, getPremiumPromptTemplate } from '../utils/defaultPrompts';
 import { db } from '../firebase';
 
 const toTitleCase = (str) => {
@@ -660,13 +661,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
      }
   }, [activeClassroom]);
 
-  const [subjectPrompts, setSubjectPrompts] = useState({
-    maths: 'Make 5 questions about adding fractions with unlike denominators. This is for grade 4 students.',
-    english: 'Make 5 questions about identifying nouns vs verbs in a sentence. This is for grade 4 students.',
-    science: 'Make 5 questions about the solar system and planets. This is for grade 4 students.',
-    logical_reasoning: 'Generate 5 logical reasoning questions. Focus on puzzles, patterns, seating arrangements, coding-decoding, syllogisms, or blood relations suitable for the grade level. Ensure highly visual structure and logical flow.',
-    olympiad: 'Generate 5 Olympiad-level maths questions. Focus on advanced problem-solving, combinatorics, number theory, and logic. Ensure that at least 60% of the questions contain visual mathematical diagrams (using custom svgCode or chartData/geometryData) or interactive components to make them highly challenging and engaging.'
-  });
+  const [subjectPrompts, setSubjectPrompts] = useState(DEFAULT_SUBJECT_PROMPTS);
   const [newSubjectName, setNewSubjectName] = useState('');
   const [isSavingPrompts, setIsSavingPrompts] = useState(false);
   const getStudentAvatar = (name) => {

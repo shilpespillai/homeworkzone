@@ -12,6 +12,7 @@ import {
 } from 'firebase/firestore';
 import { fetchWithRetry, generateContent } from './aiClient';
 import { generateExplanations } from './generateExplanations';
+import { DEFAULT_SUBJECT_PROMPTS } from './defaultPrompts';
 
 // Local helper to format date
 const getLocalDateString = (date) => {
@@ -95,13 +96,7 @@ export const executeRecurringGeneration = async (sched, teacherUid, teacherCode)
     await updateDoc(schedRef, { lastRun: serverTimestamp() });
 
     let activeModel = 'gemini';
-    let teacherPrompts = {
-      maths: 'Make 5 questions about adding fractions with unlike denominators. This is for grade 4 students.',
-      english: 'Make 5 questions about identifying nouns vs verbs in a sentence. This is for grade 4 students.',
-      science: 'Make 5 questions about the solar system and planets. This is for grade 4 students.',
-      logical_reasoning: 'Generate 5 logical reasoning questions. Focus on puzzles, patterns, seating arrangements, coding-decoding, syllogisms, or blood relations suitable for the grade level. Ensure highly visual structure and logical flow.',
-      olympiad: 'Generate 5 Olympiad-level maths questions. Focus on advanced problem-solving, combinatorics, number theory, and logic. Ensure that at least 60% of the questions contain visual mathematical diagrams (using custom svgCode or chartData/geometryData) or interactive components to make them highly challenging and engaging.'
-    };
+    let teacherPrompts = { ...DEFAULT_SUBJECT_PROMPTS };
     let resolvedTeacherName = 'Classroom Teacher';
 
     const teacherDoc = await getDoc(doc(db, 'teachers', teacherUid));
