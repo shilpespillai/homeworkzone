@@ -4623,8 +4623,8 @@ Include a balanced combination of question types such as:
                });
             });
 
-            const masteryArray = Object.keys(studentUmbrellas).map(name => {
-               const data = studentUmbrellas[name];
+            const masteryArray = Object.keys(studentSubtopics).map(name => {
+               const data = studentSubtopics[name];
                const accuracy = Math.round((data.correctCount / data.totalCount) * 100);
                let tier = 'Needs Focus';
                if (accuracy >= 80) tier = 'Mastered';
