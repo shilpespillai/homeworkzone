@@ -5236,7 +5236,7 @@ Include a balanced combination of question types such as:
                            if (selectedStudentSubs.length === 0) {
                               return (
                                  <div className="bg-white rounded-[40px] py-20 text-center text-[#166534] font-bold italic border border-orange-100 shadow-sm">
-                                    {selectedReportStudent} has not submitted any quizzes yet. ðŸŽ’
+                                    {selectedReportStudent} has not submitted any quizzes yet.
                                  </div>
                               );
                            }
@@ -5280,7 +5280,7 @@ Include a balanced combination of question types such as:
                                           </div>
                                        </div>
                                        <div className={`w-12 h-12 rounded-2xl flex-center font-black ${growth >= 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
-                                          {growth >= 0 ? 'â–²' : 'â–¼'}
+                                          {growth >= 0 ? '↑' : '↓'}
                                        </div>
                                     </div>
                                  </div>
@@ -5333,7 +5333,7 @@ Include a balanced combination of question types such as:
                            );
                         })() : (
                            <div className="bg-white rounded-[40px] py-20 text-center text-[#166534] font-bold italic border border-orange-100 shadow-sm">
-                              Please select a student from the dropdown menu to inspect chronological progress maps. ðŸ“ˆ
+                              Please select a student from the dropdown menu to inspect chronological progress maps.
                            </div>
                         )}
                      </div>
@@ -5343,7 +5343,7 @@ Include a balanced combination of question types such as:
                      <div className="space-y-8 animate-fadeIn">
                         <div className="bg-amber-50/50 border border-amber-100 rounded-[40px] p-8 flex gap-6">
                            <div className="w-12 h-12 shrink-0 bg-amber-400 rounded-2xl flex items-center justify-center text-white shadow-sm font-black text-xl">
-                              âš ï¸
+                              !
                            </div>
                            <div className="space-y-2">
                               <h4 className="text-sm font-black text-amber-800 uppercase tracking-widest">Early Intervention Flags</h4>
@@ -5411,11 +5411,11 @@ Include a balanced combination of question types such as:
                                        <button 
                                           onClick={() => {
                                              setRemediationModalStudent({ name: st.name, gapSubtopic: st.primaryGap });
-                                             setRemediationMessageContent(`Hi ${st.name}! I noticed we could focus a bit more on "${st.primaryGap}". Let me know if you want to review this together! ðŸŒŸ`);
+                                             setRemediationMessageContent(`Hi ${st.name}! I noticed we could focus a bit more on "${st.primaryGap}". Let me know if you want to review this together!`);
                                           }}
                                           className="flex-1 bg-slate-50 border border-slate-100 text-slate-700 py-3 rounded-2xl text-xs font-black transition-colors hover:bg-slate-100"
                                        >
-                                          ðŸ“© Direct Message
+                                          Direct Message
                                        </button>
                                        <button 
                                           onClick={() => handleRemediationTrigger(st, st.primaryGap)}
