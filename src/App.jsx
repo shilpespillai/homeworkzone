@@ -5162,7 +5162,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                 <button
                   type="submit"
                   disabled={isLoginLoading}
-                  className="btn-primary w-full justify-center"
+                  className="btn-bubble btn-primary w-full justify-center"
                   style={isLoginLoading ? { background: '#94a3b8', boxShadow: 'none' } : {}}
                 >
                   {isLoginLoading ? (
@@ -5301,7 +5301,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                   }
                   setCreatePwLoading(false);
                 }}
-                className="btn-primary w-full justify-center"
+                className="btn-bubble btn-primary w-full justify-center"
                 style={createPwLoading ? { background: '#94a3b8', boxShadow: 'none' } : {}}
               >
                 {createPwLoading ? (
