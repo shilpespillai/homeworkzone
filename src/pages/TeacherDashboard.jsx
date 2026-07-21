@@ -95,6 +95,50 @@ const checkIsAnswerCorrect = (studentSelection, actualAnswer) => {
   return cleanSel === cleanAns;
 };
 
+const mapToUmbrellaCategory = (subtopic, subject = '') => {
+  const t = (subtopic || '').toLowerCase();
+  const s = (subject || '').toLowerCase();
+
+  // Mathematics Umbrellas
+  if (t.includes('fraction') || t.includes('decimal') || t.includes('percentage') || t.includes('percent') || t.includes('ratio')) {
+    return 'Fractions, Decimals & Percentages';
+  }
+  if (t.includes('addition') || t.includes('subtraction') || t.includes('multiplication') || t.includes('division') || t.includes('place value') || t.includes('number') || t.includes('prime') || t.includes('factor') || t.includes('lcm') || t.includes('hcf') || t.includes('rounding')) {
+    return 'Number & Operations';
+  }
+  if (t.includes('geometry') || t.includes('shape') || t.includes('angle') || t.includes('perimeter') || t.includes('area') || t.includes('volume') || t.includes('symmetry') || t.includes('projection') || t.includes('cross-section') || t.includes('ruler') || t.includes('grid')) {
+    return 'Geometry & Measurement';
+  }
+  if (t.includes('probability') || t.includes('data') || t.includes('stat') || t.includes('graph') || t.includes('chart') || t.includes('plot') || t.includes('climate') || t.includes('bias') || t.includes('gambler')) {
+    return 'Statistics, Data & Probability';
+  }
+  if (t.includes('algebra') || t.includes('equation') || t.includes('variable') || t.includes('expression') || t.includes('pattern') || t.includes('sequence') || t.includes('logic')) {
+    return 'Algebra, Patterns & Logic';
+  }
+  
+  // English / Literacy Umbrellas
+  if (t.includes('spelling') || t.includes('vocab') || t.includes('root') || t.includes('suffix') || t.includes('prefix') || t.includes('synonym') || t.includes('antonym') || t.includes('word') || t.includes('meaning')) {
+    return 'Spelling & Vocabulary';
+  }
+  if (t.includes('punctuation') || t.includes('comma') || t.includes('grammar') || t.includes('verb') || t.includes('noun') || t.includes('adjective') || t.includes('pronoun') || t.includes('subject-verb') || t.includes('conjunction') || t.includes('sentence') || t.includes('predicate') || t.includes('clause') || t.includes('colon') || t.includes('semicolon') || t.includes('apostrophe')) {
+    return 'Grammar & Conventions';
+  }
+  if (t.includes('reading') || t.includes('comprehension') || t.includes('text') || t.includes('passage') || t.includes('inference') || t.includes('analogy') || t.includes('analogies') || t.includes('fact vs opinion')) {
+    return 'Reading & Comprehension';
+  }
+  
+  // Science & Reasoning Umbrellas
+  if (t.includes('planet') || t.includes('solar') || t.includes('earth') || t.includes('matter') || t.includes('particle') || t.includes('cell') || t.includes('gravity') || t.includes('water cycle') || t.includes('science') || t.includes('climate')) {
+    return 'Science & Environmental Inquiry';
+  }
+
+  if (s.includes('math')) return 'Mathematics Core';
+  if (s.includes('english') || s.includes('literacy')) return 'Literacy & Language';
+  if (s.includes('science')) return 'Science & Inquiry';
+
+  return subtopic || 'Core Learning Concepts';
+};
+
 const getQuestionSubtopic = (hw, q) => {
   // Priority 1: Direct subtopic specified on question
   if (q.subtopic && typeof q.subtopic === 'string' && q.subtopic.trim()) {
@@ -121,7 +165,49 @@ const getQuestionSubtopic = (hw, q) => {
   
   const context = `${sub} ${title} ${text}`.toLowerCase();
   
-  if (context.includes('analogy') || context.includes('analogies')) return 'Word Analogies';
+const mapToUmbrellaCategory = (subtopic, subject = '') => {
+  const t = (subtopic || '').toLowerCase();
+  const s = (subject || '').toLowerCase();
+
+  // Mathematics Umbrellas
+  if (t.includes('fraction') || t.includes('decimal') || t.includes('percentage') || t.includes('percent') || t.includes('ratio')) {
+    return 'Fractions, Decimals & Percentages';
+  }
+  if (t.includes('addition') || t.includes('subtraction') || t.includes('multiplication') || t.includes('division') || t.includes('place value') || t.includes('number') || t.includes('prime') || t.includes('factor') || t.includes('lcm') || t.includes('hcf') || t.includes('rounding')) {
+    return 'Number & Operations';
+  }
+  if (t.includes('geometry') || t.includes('shape') || t.includes('angle') || t.includes('perimeter') || t.includes('area') || t.includes('volume') || t.includes('symmetry') || t.includes('projection') || t.includes('cross-section') || t.includes('ruler') || t.includes('grid')) {
+    return 'Geometry & Measurement';
+  }
+  if (t.includes('probability') || t.includes('data') || t.includes('stat') || t.includes('graph') || t.includes('chart') || t.includes('plot') || t.includes('climate') || t.includes('bias') || t.includes('gambler')) {
+    return 'Statistics, Data & Probability';
+  }
+  if (t.includes('algebra') || t.includes('equation') || t.includes('variable') || t.includes('expression') || t.includes('pattern') || t.includes('sequence') || t.includes('logic')) {
+    return 'Algebra, Patterns & Logic';
+  }
+  
+  // English / Literacy Umbrellas
+  if (t.includes('spelling') || t.includes('vocab') || t.includes('root') || t.includes('suffix') || t.includes('prefix') || t.includes('synonym') || t.includes('antonym') || t.includes('word') || t.includes('meaning')) {
+    return 'Spelling & Vocabulary';
+  }
+  if (t.includes('punctuation') || t.includes('comma') || t.includes('grammar') || t.includes('verb') || t.includes('noun') || t.includes('adjective') || t.includes('pronoun') || t.includes('subject-verb') || t.includes('conjunction') || t.includes('sentence') || t.includes('predicate') || t.includes('clause') || t.includes('colon') || t.includes('semicolon') || t.includes('apostrophe')) {
+    return 'Grammar & Conventions';
+  }
+  if (t.includes('reading') || t.includes('comprehension') || t.includes('text') || t.includes('passage') || t.includes('inference') || t.includes('analogy') || t.includes('analogies') || t.includes('fact vs opinion')) {
+    return 'Reading & Comprehension';
+  }
+  
+  // Science & Reasoning Umbrellas
+  if (t.includes('planet') || t.includes('solar') || t.includes('earth') || t.includes('matter') || t.includes('particle') || t.includes('cell') || t.includes('gravity') || t.includes('water cycle') || t.includes('science') || t.includes('climate')) {
+    return 'Science & Environmental Inquiry';
+  }
+
+  if (s.includes('math')) return 'Mathematics Core';
+  if (s.includes('english') || s.includes('literacy')) return 'Literacy & Language';
+  if (s.includes('science')) return 'Science & Inquiry';
+
+  return subtopic || 'Core Learning Concepts';
+};
   if (context.includes('fraction') || context.includes('numerator') || context.includes('denominator')) return 'Fractions';
   if (context.includes('decimal') || context.includes('tenths') || context.includes('hundredths')) return 'Decimals';
   if (context.includes('addition') || context.includes('add ') || context.includes('adding') || context.includes('sum') || context.includes('+')) return 'Addition';
@@ -588,41 +674,40 @@ const TeacherDashboard = ({ user, onLogout }) => {
 
       const masteriesList = masteryArray.map(m => `- ${m.name}: ${m.correctCount}/${m.totalCount} correct (${m.accuracy}%) - Tier: ${m.tier}`).join('\n');
 
-      const prompt = `You are an expert, encouraging educator named "${teacherName}" teaching ${className}.
-      Analyze this student's progress and generate a parent-friendly progress report for ${studentName}:
+      const prompt = `You are an expert educator named "${teacherName}" teaching ${className}.
+      Analyze this student's progress OVER THE LAST 4 WEEKS ONLY and generate an 80% visual-friendly, highly concise parent report summary for ${studentName}:
       
       Student Name: ${studentName}
       Classroom / Grade: ${className}
       Teacher Name: ${teacherName}
-      Total Homework Quizzes Completed: ${totalQuizzes}
+      Time Window: Last 4 Weeks Only
+      4-Week Homework Quizzes Completed: ${totalQuizzes}
       Starting Accuracy: ${startingScore}%
       Current Accuracy: ${currentScore}%
       Growth Index: ${growth >= 0 ? `+${growth}%` : `${growth}%`}
       Pacing Speed: ${speedBadge}
 
-      Time Dedicated on Homework Zone:
+      4-Week Time Dedicated on Homework Zone:
       - Today: ${timeSpentToday} minutes
       - This Week: ${timeSpentWeek} minutes
-      - This Month: ${timeSpentMonth} minutes
-      - This Year: ${timeSpentYear} minutes
+      - Last 4 Weeks Total: ${timeSpentMonth} minutes
       
-      Exact Skills & Concept Masteries:
+      Umbrella Concept Masteries (Last 4 Weeks):
       ${masteriesList}
       
-      Write a beautifully structured, highly visual report with clear headers, key takeaways, and bullet points:
-      1. 🌟 General Performance Overview (encouraging, warm, highlighting growth).
-      2. ⏱️ Dedication & Effort (highlight time spent practicing and consistency).
-      3. 💪 Areas of Strength (list specific skills mastered).
-      4. 🎯 Key Areas for Growth & Practice (list specific skills needing review with actionable home practice activities).
-      5. 💡 Personalized Teacher's Recommendation.
+      CRITICAL CONCISE FORMAT & LENGTH RULES:
+      1. Keep the entire text extremely CONCISE (under 140 words total!). Parents do NOT have time for long text essays.
+      2. Focus strictly on broad umbrella categories (e.g. "Number & Operations", "Geometry & Measurement", "Grammar & Conventions").
+      3. Structure into 4 short bulleted sections:
+         - 🌟 Performance Overview (1-2 short encouraging sentences)
+         - ⏱️ Dedication & Effort (1 short sentence on consistency)
+         - 💪 Key Strengths (top 2-3 umbrella domains mastered)
+         - 🎯 Focus Areas (top 1-2 umbrella domains needing review with 1 quick home tip)
+         - 💡 Teacher Recommendation (1 concise closing sentence)
       
       CRITICAL NAME & PLACEHOLDER RULE:
-      - Sign the report at the bottom using:
-        Warm regards,
-        ${teacherName}
-        ${className} Teacher
-      - NEVER write "[Teacher's Name]", "[Teacher Name]", "[Your Name]", or any square bracket placeholders anywhere in the text!
-      - Keep the tone professional, encouraging, warm, and clear for parents.`;
+      - Sign at bottom: Warm regards, ${teacherName} (${className} Teacher).
+      - NEVER write "[Teacher's Name]", "[Teacher Name]", "[Your Name]", or any bracketed placeholders anywhere in the text!`;
 
       const textResponse = await generateContent({
         prompt,
@@ -4508,6 +4593,52 @@ Include a balanced combination of question types such as:
                   </div>
                );
             }
+
+            // 1. Gather student submissions from LAST 4 WEEKS ONLY (28 days)
+            const fourWeeksAgo = Date.now() - 28 * 24 * 60 * 60 * 1000;
+            const studentName = selectedProfileStudent.name;
+            const studentSubs = allSubmissions.filter(sub => {
+              if (normalizeName(sub.studentName) !== normalizeName(studentName)) return false;
+              if (sub.classId && sub.classId !== activeClassroom?.id) return false;
+              const subDate = sub.submittedAt?.toDate ? sub.submittedAt.toDate().getTime() : new Date(sub.submittedAt || 0).getTime();
+              return subDate >= fourWeeksAgo;
+            }).sort((a, b) => {
+               const dateA = a.submittedAt?.toDate ? a.submittedAt.toDate() : new Date(a.submittedAt || 0);
+               const dateB = b.submittedAt?.toDate ? b.submittedAt.toDate() : new Date(b.submittedAt || 0);
+               return dateB - dateA;
+            });
+
+            // 2. Calculate Umbrella Category Masteries for the last 4 weeks
+            const studentUmbrellas = {};
+            studentSubs.forEach(sub => {
+               const hw = allHomeworks.find(h => h.id === sub.homeworkId);
+               if (!hw || !hw.questions) return;
+               hw.questions.forEach(q => {
+                  const rawSubtopic = getQuestionSubtopic(hw, q);
+                  const umbrella = mapToUmbrellaCategory(rawSubtopic, hw.subject);
+
+                  if (!studentUmbrellas[umbrella]) {
+                     studentUmbrellas[umbrella] = { correctCount: 0, totalCount: 0 };
+                  }
+                  const studentSelection = sub.answers?.[q.id];
+                  const actualAnswer = q.answer;
+                  const isCorrect = checkIsAnswerCorrect(studentSelection, actualAnswer);
+                  
+                  studentUmbrellas[umbrella].totalCount += 1;
+                  if (isCorrect) {
+                     studentUmbrellas[umbrella].correctCount += 1;
+                  }
+               });
+            });
+
+            const masteryArray = Object.keys(studentUmbrellas).map(name => {
+               const data = studentUmbrellas[name];
+               const accuracy = Math.round((data.correctCount / data.totalCount) * 100);
+               let tier = 'Needs Focus';
+               if (accuracy >= 80) tier = 'Mastered';
+               else if (accuracy >= 60) tier = 'Reviewing';
+               return { name, accuracy, correctCount: data.correctCount, totalCount: data.totalCount, tier };
+            }).sort((a, b) => a.accuracy - b.accuracy);
 
             // Calculation of subtopics for Report A
             const subtopicsData = {};
@@ -8513,11 +8644,57 @@ Include a balanced combination of question types such as:
                                {isGeneratingReport ? (
                                  <div className="py-20 flex flex-col items-center justify-center gap-4">
                                    <div className="w-12 h-12 border-4 border-green-200 border-t-[#EA580C] rounded-full animate-spin" />
-                                   <p className="text-sm font-black text-green-800 animate-pulse">Analyzing submissions &amp; drafting parent report...</p>
+                                   <p className="text-sm font-black text-green-800 animate-pulse">Analyzing 4-week submissions &amp; compiling visual report...</p>
                                  </div>
                                ) : (
                                  <div className="space-y-6">
-                                   <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 text-slate-700 text-xs font-bold leading-relaxed whitespace-pre-wrap font-sans max-h-[50vh] overflow-y-auto custom-scrollbar">
+                                   {/* 80% Visual KPI Gauges Header */}
+                                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 border border-slate-100 p-4 rounded-3xl">
+                                     <div className="bg-white p-3.5 rounded-2xl border border-slate-100 text-center shadow-sm">
+                                       <span className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">4-Wk Accuracy</span>
+                                       <span className="text-xl font-black text-emerald-600">{currentScore}%</span>
+                                     </div>
+                                     <div className="bg-white p-3.5 rounded-2xl border border-slate-100 text-center shadow-sm">
+                                       <span className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">4-Wk Growth</span>
+                                       <span className="text-xl font-black text-orange-600">{growth >= 0 ? `+${growth}%` : `${growth}%`}</span>
+                                     </div>
+                                     <div className="bg-white p-3.5 rounded-2xl border border-slate-100 text-center shadow-sm">
+                                       <span className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Practice Time</span>
+                                       <span className="text-xl font-black text-purple-600">{timeSpentMonth}m</span>
+                                     </div>
+                                     <div className="bg-white p-3.5 rounded-2xl border border-slate-100 text-center shadow-sm">
+                                       <span className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Missions</span>
+                                       <span className="text-xl font-black text-blue-600">{studentSubs.length}</span>
+                                     </div>
+                                   </div>
+
+                                   {/* Umbrella Skill Mastery Visual Progress Bars */}
+                                   {masteryArray.length > 0 && (
+                                     <div className="bg-white border border-slate-150 rounded-3xl p-5 space-y-3 shadow-sm">
+                                       <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                                         <span>📊</span> 4-Week Umbrella Skill Masteries
+                                       </h4>
+                                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                                         {masteryArray.map((m, idx) => {
+                                           const barColor = m.accuracy >= 80 ? 'bg-emerald-500' : m.accuracy >= 60 ? 'bg-blue-500' : 'bg-rose-500';
+                                           return (
+                                             <div key={idx} className="bg-slate-50 p-3 rounded-2xl border border-slate-100 space-y-1.5">
+                                               <div className="flex justify-between items-center text-xs font-bold text-slate-700">
+                                                 <span className="truncate max-w-[170px]">{m.name}</span>
+                                                 <span className="font-black text-slate-900">{m.accuracy}%</span>
+                                               </div>
+                                               <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+                                                 <div className={`h-full rounded-full ${barColor}`} style={{ width: `${m.accuracy}%` }} />
+                                               </div>
+                                             </div>
+                                           );
+                                         })}
+                                       </div>
+                                     </div>
+                                   )}
+
+                                   {/* Concise 20% Text Summary */}
+                                   <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 text-slate-700 text-xs font-bold leading-relaxed whitespace-pre-wrap font-sans max-h-[35vh] overflow-y-auto custom-scrollbar">
                                      {aiReportContent}
                                    </div>
 
