@@ -50,6 +50,11 @@ import EmojiPicker from '../components/EmojiPicker';
 import { 
   LineChart, 
   Line, 
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
   XAxis, 
   YAxis, 
   CartesianGrid, 
@@ -88,7 +93,7 @@ const checkIsAnswerCorrect = (studentSelection, actualAnswer) => {
 
   if (strSel === strAns) return true;
 
-  // Clean trailing bracketed translations e.g. "लाल (red)" -> "लाल"
+  // Clean trailing bracketed translations e.g. "à¤²à¤¾à¤² (red)" -> "à¤²à¤¾à¤²"
   const cleanSel = strSel.replace(/\s*\([A-Za-z\s,-]+\)$/, '').trim().toLowerCase();
   const cleanAns = strAns.replace(/\s*\([A-Za-z\s,-]+\)$/, '').trim().toLowerCase();
 
@@ -289,18 +294,18 @@ const BirthdayCelebration = ({ students }) => {
       <div className="relative overflow-hidden bg-gradient-to-r from-amber-400 via-orange-400 to-green-500 p-6 rounded-[32px] shadow-lg text-white mb-6 flex flex-col md:flex-row items-center justify-between gap-4 animate-bounce-subtle">
          {/* Beautiful floating sprinkles/emojis */}
          <div className="absolute inset-0 pointer-events-none opacity-20">
-            <div className="absolute top-2 left-4 text-xl animate-ping select-none">🍬</div>
-            <div className="absolute top-6 right-12 text-2xl animate-bounce select-none">✨</div>
-            <div className="absolute bottom-3 left-1/3 text-lg animate-pulse select-none">🎈</div>
-            <div className="absolute bottom-2 right-1/4 text-xl animate-bounce select-none">🧁</div>
-            <div className="absolute top-1/2 left-10 text-lg animate-bounce select-none">🎉</div>
+            <div className="absolute top-2 left-4 text-xl animate-ping select-none">ðŸ¬</div>
+            <div className="absolute top-6 right-12 text-2xl animate-bounce select-none">âœ¨</div>
+            <div className="absolute bottom-3 left-1/3 text-lg animate-pulse select-none">ðŸŽˆ</div>
+            <div className="absolute bottom-2 right-1/4 text-xl animate-bounce select-none">ðŸ§</div>
+            <div className="absolute top-1/2 left-10 text-lg animate-bounce select-none">ðŸŽ‰</div>
          </div>
          
          <div className="flex items-center gap-4 z-10">
-            <div className="text-4xl">🎂</div>
+            <div className="text-4xl">ðŸŽ‚</div>
             <div>
                <h3 className="text-xl font-black tracking-tight drop-shadow-sm">Hurray Its {names}'s birthday today!</h3>
-               <p className="text-xs font-bold text-white/95">Let's celebrate our star student's special day! 🎈✨</p>
+               <p className="text-xs font-bold text-white/95">Let's celebrate our star student's special day! ðŸŽˆâœ¨</p>
             </div>
          </div>
          
@@ -309,7 +314,7 @@ const BirthdayCelebration = ({ students }) => {
                onClick={() => setBurstKey(prev => prev + 1)}
                className="bg-white/20 hover:bg-white/30 text-white font-bold text-xs px-4 py-2 rounded-xl transition-all border border-white/30 shadow-sm active:scale-95"
             >
-               More Sprinkles 🎉
+               More Sprinkles ðŸŽ‰
             </button>
          </div>
          
@@ -349,7 +354,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [teacherBilling, setTeacherBilling] = useState(null);
   const [teacherData, setTeacherData] = useState(null);
   
-  // ─── Admin Executive Roles ───────────────────────────────────────────────
+  // â”€â”€â”€ Admin Executive Roles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const isAdminUser = teacherData?.isAdmin === true || teacherData?.role === 'admin';
 
   const [adminTeachers, setAdminTeachers] = useState([]);
@@ -506,17 +511,17 @@ const TeacherDashboard = ({ user, onLogout }) => {
     return () => unsub();
   }, [user]);
 
-  // ── Tuition Fees State ──────────────────────────────────────────────
+  // â”€â”€ Tuition Fees State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const DEFAULT_PACKAGES = [
-    { id: 'weekly',  label: 'Weekly Tuition',  description: 'Cover one week of personalised tuition sessions.',       icon: '📅', amount: 50  },
-    { id: 'monthly', label: 'Monthly Tuition', description: 'Full month of homework help & learning support.',          icon: '🌟', amount: 180 },
-    { id: 'term',    label: 'Term Package',    description: 'Best value — a full school term of guided study.',        icon: '🏆', amount: 500 },
-    { id: 'resources', label: 'Resources Fee', description: 'Worksheets, materials & learning resource pack.',         icon: '📚', amount: 100 },
+    { id: 'weekly',  label: 'Weekly Tuition',  description: 'Cover one week of personalised tuition sessions.',       icon: 'ðŸ“…', amount: 50  },
+    { id: 'monthly', label: 'Monthly Tuition', description: 'Full month of homework help & learning support.',          icon: 'ðŸŒŸ', amount: 180 },
+    { id: 'term',    label: 'Term Package',    description: 'Best value â€” a full school term of guided study.',        icon: 'ðŸ†', amount: 500 },
+    { id: 'resources', label: 'Resources Fee', description: 'Worksheets, materials & learning resource pack.',         icon: 'ðŸ“š', amount: 100 },
   ];
   const [tuitionPackages, setTuitionPackages] = useState(DEFAULT_PACKAGES);
   const [allGradeFees, setAllGradeFees] = useState({});
   const [tuitionCurrency, setTuitionCurrency] = useState('USD');
-  const CURRENCIES = { USD: '$', EUR: '€', GBP: '£', AUD: 'A$', CAD: 'C$', NZD: 'NZ$', INR: '₹', ZAR: 'R', SGD: 'S$' };
+  const CURRENCIES = { USD: '$', EUR: 'â‚¬', GBP: 'Â£', AUD: 'A$', CAD: 'C$', NZD: 'NZ$', INR: 'â‚¹', ZAR: 'R', SGD: 'S$' };
   
   // selectedTuitionGrade is dynamically derived from the active classroom selected at the top header
   const selectedTuitionGrade = resolveGradeFromClassroomName(activeClassroom?.name);
@@ -611,7 +616,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [selectedStudentForBadge, setSelectedStudentForBadge] = useState(null);
   const [badgeName, setBadgeName] = useState('');
   const [badgeDesc, setBadgeDesc] = useState('');
-  const [badgeIcon, setBadgeIcon] = useState('🏆');
+  const [badgeIcon, setBadgeIcon] = useState('ðŸ†');
   const [badgeColor, setBadgeColor] = useState('bg-amber-50 text-amber-600 border-amber-100');
   const [isAwardingBadge, setIsAwardingBadge] = useState(false);
   const [messagesTab, setMessagesTab] = useState('Inbox');
@@ -699,11 +704,11 @@ const TeacherDashboard = ({ user, onLogout }) => {
       1. Keep the entire text extremely CONCISE (under 140 words total!). Parents do NOT have time for long text essays.
       2. Focus strictly on broad umbrella categories (e.g. "Number & Operations", "Geometry & Measurement", "Grammar & Conventions").
       3. Structure into 4 short bulleted sections:
-         - 🌟 Performance Overview (1-2 short encouraging sentences)
-         - ⏱️ Dedication & Effort (1 short sentence on consistency)
-         - 💪 Key Strengths (top 2-3 umbrella domains mastered)
-         - 🎯 Focus Areas (top 1-2 umbrella domains needing review with 1 quick home tip)
-         - 💡 Teacher Recommendation (1 concise closing sentence)
+         - ðŸŒŸ Performance Overview (1-2 short encouraging sentences)
+         - â±ï¸ Dedication & Effort (1 short sentence on consistency)
+         - ðŸ’ª Key Strengths (top 2-3 umbrella domains mastered)
+         - ðŸŽ¯ Focus Areas (top 1-2 umbrella domains needing review with 1 quick home tip)
+         - ðŸ’¡ Teacher Recommendation (1 concise closing sentence)
       
       CRITICAL NAME & PLACEHOLDER RULE:
       - Sign at bottom: Warm regards, ${teacherName} (${className} Teacher).
@@ -717,7 +722,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
       setAiReportContent(textResponse);
     } catch (err) {
       console.error("AI Report Gen Error:", err);
-      setAiReportContent("Failed to generate report. Please verify cloud settings and try again! ❌");
+      setAiReportContent("Failed to generate report. Please verify cloud settings and try again! âŒ");
     } finally {
       setIsGeneratingReport(false);
     }
@@ -731,7 +736,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
       const classId = selectedProfileStudent.classId || activeClassroom?.id;
       
       if (!classId) {
-         alert("Oops! Could not resolve classroom ID for this student. ❌");
+         alert("Oops! Could not resolve classroom ID for this student. âŒ");
          setIsPublishingReport(false);
          return;
       }
@@ -755,11 +760,11 @@ const TeacherDashboard = ({ user, onLogout }) => {
       parentReports = [newReport, ...parentReports];
 
       await setDoc(studentRef, { parentReports }, { merge: true });
-      alert(`Report successfully published to the Parent Portal for ${selectedProfileStudent.name}! 📤✨`);
+      alert(`Report successfully published to the Parent Portal for ${selectedProfileStudent.name}! ðŸ“¤âœ¨`);
       setShowReportOverlay(false);
     } catch (err) {
       console.error("Publish Report Error:", err);
-      alert("Failed to publish report to Parent Portal. ❌");
+      alert("Failed to publish report to Parent Portal. âŒ");
     } finally {
       setIsPublishingReport(false);
     }
@@ -800,10 +805,10 @@ const TeacherDashboard = ({ user, onLogout }) => {
       await updateDoc(doc(db, 'teachers', user.uid), {
         subjectPrompts: subjectPrompts
       });
-      alert("Generic Subject Prompts saved successfully! 🚀🪄");
+      alert("Generic Subject Prompts saved successfully! ðŸš€ðŸª„");
     } catch (err) {
       console.error("Save Prompts Error:", err);
-      alert("Failed to save prompts. ❌");
+      alert("Failed to save prompts. âŒ");
     }
     setIsSavingPrompts(false);
   };
@@ -824,16 +829,16 @@ Number of Questions: {QUESTION_COUNT}
 
 Instructions:
 
-• Create engaging, age-appropriate questions that match the student's grade level.
-• Questions should progressively increase in difficulty.
-• Cover all important concepts within the specified topic.
-• Avoid repeating similar questions.
-• Use clear and simple language suitable for the selected grade.
-• Make the worksheet enjoyable and educational.
-• Ensure every question has only one correct answer.
-• Do not include ambiguous questions.
-• Use real-world examples wherever appropriate.
-• Mix question types to maintain student engagement.
+â€¢ Create engaging, age-appropriate questions that match the student's grade level.
+â€¢ Questions should progressively increase in difficulty.
+â€¢ Cover all important concepts within the specified topic.
+â€¢ Avoid repeating similar questions.
+â€¢ Use clear and simple language suitable for the selected grade.
+â€¢ Make the worksheet enjoyable and educational.
+â€¢ Ensure every question has only one correct answer.
+â€¢ Do not include ambiguous questions.
+â€¢ Use real-world examples wherever appropriate.
+â€¢ Mix question types to maintain student engagement.
 
 Include a balanced combination of question types such as:
 - Multiple Choice Questions (MCQ)
@@ -848,18 +853,18 @@ Include a balanced combination of question types such as:
 
   const handleAddSubject = async () => {
     if (!newSubjectName.trim()) {
-      alert("Please enter a subject name! 🎒");
+      alert("Please enter a subject name! ðŸŽ’");
       return;
     }
     const cleanName = newSubjectName.trim().toLowerCase();
     const displaySubject = newSubjectName.trim();
     if (subjectPrompts[cleanName] !== undefined && subjectPrompts[cleanName] !== null) {
-      alert("This subject already exists! ⚠️");
+      alert("This subject already exists! âš ï¸");
       return;
     }
     setSubjectPrompts(prev => ({
       ...prev,
-      [cleanName]: "Generating premium prompt using AI... 🪄 Please wait a moment."
+      [cleanName]: "Generating premium prompt using AI... ðŸª„ Please wait a moment."
     }));
     setNewSubjectName('');
 
@@ -910,7 +915,7 @@ Include a balanced combination of question types such as:
   const [selectedCalendarHw, setSelectedCalendarHw] = useState(null);
   const [showCalendarModal, setShowCalendarModal] = useState(false);
   const [isEditingGoal, setIsEditingGoal] = useState(false);
-  const [newGoalTitle, setNewGoalTitle] = useState('Dino Pizza Party! 🍕');
+  const [newGoalTitle, setNewGoalTitle] = useState('Dino Pizza Party! ðŸ•');
   const [newGoalTarget, setNewGoalTarget] = useState(1500);
   const [newGoalTrack, setNewGoalTrack] = useState('auto');
   const [dashboardRosterTab, setDashboardRosterTab] = useState('Support');
@@ -978,13 +983,13 @@ Include a balanced combination of question types such as:
           },
           activeAi: activeAi
         }, { merge: true });
-        alert("AI Configuration saved securely to Cloud and locally! 🧠🔒");
+        alert("AI Configuration saved securely to Cloud and locally! ðŸ§ ðŸ”’");
       } catch (err) {
         console.error("Save AI settings to Firestore failed:", err);
-        alert("AI Configuration saved locally, but failed to sync to Cloud. ⚠️");
+        alert("AI Configuration saved locally, but failed to sync to Cloud. âš ï¸");
       }
     } else {
-      alert("AI Configuration saved locally! 🧠🔒");
+      alert("AI Configuration saved locally! ðŸ§ ðŸ”’");
     }
     setShowAiSettings(false);
   };
@@ -1155,12 +1160,12 @@ Include a balanced combination of question types such as:
           if (!msg.isRead && msg.recipientId === user.uid) {
             if (window.showToast) {
               window.showToast({
-                message: `New message from ${msg.senderName}! 💬`,
+                message: `New message from ${msg.senderName}! ðŸ’¬`,
                 type: 'info',
                 onClick: () => setActiveTab('Messages')
               });
             } else {
-              window.alert(`New message from ${msg.senderName}! 💬`);
+              window.alert(`New message from ${msg.senderName}! ðŸ’¬`);
             }
           }
         }
@@ -1245,7 +1250,7 @@ Include a balanced combination of question types such as:
   const handleAddClassroom = async () => {
     console.log("Add Classroom triggered:", { newClassName, userId: user?.uid });
     if (!newClassName.trim() || !user?.uid) {
-      alert("Missing class name or teacher session! ⚠️");
+      alert("Missing class name or teacher session! âš ï¸");
       return;
     }
 
@@ -1275,10 +1280,10 @@ Include a balanced combination of question types such as:
       setSelectedSubjects([]);
       await fetchClassrooms();
       setShowAddClassModal(false);
-      alert("Class created successfully! 🎨✨");
+      alert("Class created successfully! ðŸŽ¨âœ¨");
     } catch (err) {
       console.error("Add Classroom Error:", err);
-      alert(`Oops! Failed to create class: ${err.message} ❌`);
+      alert(`Oops! Failed to create class: ${err.message} âŒ`);
     } finally {
       setIsAddingClass(false);
     }
@@ -1286,7 +1291,7 @@ Include a balanced combination of question types such as:
 
   const handleEditClassroom = async () => {
     if (!editClassName.trim() || !editingClass?.id || !user?.uid) {
-      alert("Missing class name or teacher session! ⚠️");
+      alert("Missing class name or teacher session! âš ï¸");
       return;
     }
 
@@ -1304,10 +1309,10 @@ Include a balanced combination of question types such as:
       setSelectedEditSubjects([]);
       setShowEditClassModal(false);
       await fetchClassrooms();
-      alert("Class updated successfully! ✨");
+      alert("Class updated successfully! âœ¨");
     } catch (err) {
       console.error("Edit Classroom Error:", err);
-      alert(`Oops! Failed to update class: ${err.message} ❌`);
+      alert(`Oops! Failed to update class: ${err.message} âŒ`);
     }
   };
 
@@ -1330,7 +1335,7 @@ Include a balanced combination of question types such as:
   const handleDeleteClassroom = async (classId) => {
     console.log("TeacherDashboard: Starting deletion process for:", classId);
     if (!user?.uid) {
-      alert("Session expired. Please log in again. ⚠️");
+      alert("Session expired. Please log in again. âš ï¸");
       return;
     }
     
@@ -1345,10 +1350,10 @@ Include a balanced combination of question types such as:
       }
       
       await fetchClassrooms();
-      alert("Class deleted successfully! 🗑️✨");
+      alert("Class deleted successfully! ðŸ—‘ï¸âœ¨");
     } catch (err) {
       console.error("TeacherDashboard: Delete Error:", err);
-      alert(`Oops! Delete failed: ${err.message} ❌`);
+      alert(`Oops! Delete failed: ${err.message} âŒ`);
     }
   };
 
@@ -1589,7 +1594,7 @@ Include a balanced combination of question types such as:
     }
   }, [user, classrooms, activeTab]);
 
-  // ── Load tuition fees from Firestore ──────────────────────────────────
+  // â”€â”€ Load tuition fees from Firestore â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   useEffect(() => {
     if (!user?.uid) return;
     const load = async () => {
@@ -1606,7 +1611,7 @@ Include a balanced combination of question types such as:
     load();
   }, [user]);
 
-  // ── Listen to payments collection ──────────────────────────────────────
+  // â”€â”€ Listen to payments collection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   useEffect(() => {
     if (!user?.uid) return;
     const paymentsRef = collection(db, 'teachers', user.uid, 'payments');
@@ -1651,7 +1656,7 @@ Include a balanced combination of question types such as:
     setTuitionPackages(prev => prev.map(p => p.id === id ? { ...p, [field]: value } : p));
   };
 
-  // ── Toggle student active / paused status ──────────────────────────────────
+  // â”€â”€ Toggle student active / paused status â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const handleToggleStudentStatus = async (student) => {
     if (!user?.uid || !student.classId) return;
     const newStatus = student.status === 'paused' ? 'active' : 'paused';
@@ -1755,7 +1760,7 @@ Include a balanced combination of question types such as:
   const handleDeleteStudent = async (e, studentId, studentName, classId) => {
     e.stopPropagation();
     const targetClassId = classId || activeClassroom?.id;
-    if (!user?.uid || !targetClassId || !(await window.confirmCustom(`Remove ${studentName} from the class? 🍎`))) return;
+    if (!user?.uid || !targetClassId || !(await window.confirmCustom(`Remove ${studentName} from the class? ðŸŽ`))) return;
     
     try {
       // 1. Delete student profile doc in classroom
@@ -1806,7 +1811,7 @@ Include a balanced combination of question types such as:
       fetchStudents(); 
       fetchClassrooms(); // Update counts on main dashboard
       
-      alert(`${studentName} has been removed. ✨`);
+      alert(`${studentName} has been removed. âœ¨`);
 
       // Trigger seat sync on Stripe for Option A or C
       const activePlanId = (teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free';
@@ -1819,7 +1824,7 @@ Include a balanced combination of question types such as:
       }
     } catch (err) {
       console.error("Delete Student Error:", err);
-      alert("Oops! Failed to remove student. ❌");
+      alert("Oops! Failed to remove student. âŒ");
     }
   };
 
@@ -1842,7 +1847,7 @@ Include a balanced combination of question types such as:
         customBadges: [...currentBadges, newBadge]
       }, { merge: true });
 
-      alert(`Badge "${badgeName}" awarded successfully to ${selectedStudentForBadge.name}! 🎖️✨`);
+      alert(`Badge "${badgeName}" awarded successfully to ${selectedStudentForBadge.name}! ðŸŽ–ï¸âœ¨`);
       setShowAwardBadgeModal(false);
       setBadgeName('');
       setBadgeDesc('');
@@ -1872,7 +1877,7 @@ Include a balanced combination of question types such as:
         activeTrack: newGoalTrack
       }));
       setIsEditingGoal(false);
-      alert("Classroom collaborative goal saved successfully! 🚀");
+      alert("Classroom collaborative goal saved successfully! ðŸš€");
     } catch (err) {
       console.error(err);
       alert("Failed to save goal.");
@@ -1881,7 +1886,7 @@ Include a balanced combination of question types such as:
 
   const handleResetGoalProgress = async () => {
     if (!activeClassroom) return;
-    if (!(await window.confirmCustom("Are you sure you want to reset the combined points progress for this classroom goal? 🔄\n\nThis will reset the thermometer and pizza back to 0, but will NOT delete any student grades, homework submissions, or history!"))) return;
+    if (!(await window.confirmCustom("Are you sure you want to reset the combined points progress for this classroom goal? ðŸ”„\n\nThis will reset the thermometer and pizza back to 0, but will NOT delete any student grades, homework submissions, or history!"))) return;
     
     try {
       // Re-calculate raw points right now so we have the absolute current total
@@ -1910,17 +1915,17 @@ Include a balanced combination of question types such as:
       }));
 
       setIsEditingGoal(false);
-      alert("Goal points progress has been reset back to 0! 🔄🎒 Let's build a new adventure!");
+      alert("Goal points progress has been reset back to 0! ðŸ”„ðŸŽ’ Let's build a new adventure!");
     } catch (err) {
       console.error("Reset Goal Progress Error:", err);
-      alert("Oops! Failed to reset goal progress. ❌");
+      alert("Oops! Failed to reset goal progress. âŒ");
     }
   };
 
   const handleSendRemediationMsg = async () => {
     if (!remediationModalStudent) return;
     if (!remediationMessageContent.trim()) {
-      alert("Please write a message first! 📝");
+      alert("Please write a message first! ðŸ“");
       return;
     }
     setIsSendingRemediationMsg(true);
@@ -1933,11 +1938,11 @@ Include a balanced combination of question types such as:
         recipientType: 'student',
         recipientId: remediationModalStudent.name,
         recipientName: remediationModalStudent.name,
-        subject: `💡 Practice Tip: ${remediationModalStudent.gapSubtopic}`,
+        subject: `ðŸ’¡ Practice Tip: ${remediationModalStudent.gapSubtopic}`,
         content: remediationMessageContent.trim(),
         createdAt: new Date().toISOString()
       });
-      alert(`Remediation message sent live to ${remediationModalStudent.name}! 🚀`);
+      alert(`Remediation message sent live to ${remediationModalStudent.name}! ðŸš€`);
       setRemediationModalStudent(null);
       setRemediationMessageContent('');
     } catch (err) {
@@ -1952,7 +1957,7 @@ Include a balanced combination of question types such as:
     setSelectedDraft({
       subject: 'maths',
       title: `Remediation Quiz: ${gapSubtopic}`,
-      instructions: `Hi ${student.name}! Here is a quick practice quiz to review our concepts on "${gapSubtopic}". Take your time! 🌟`,
+      instructions: `Hi ${student.name}! Here is a quick practice quiz to review our concepts on "${gapSubtopic}". Take your time! ðŸŒŸ`,
       aiPrompt: `Generate 5 clear multiple-choice questions focusing on the subtopic "${gapSubtopic}" for remedial review. Keep explanations simple and encouraging.`,
       assignedClassId: activeClassroom?.id || '',
       dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
@@ -2043,7 +2048,7 @@ Include a balanced combination of question types such as:
       await setDoc(doc(db, 'teachers', user.uid), {
         dataRetentionPeriod: dataRetentionPeriod
       }, { merge: true });
-      alert("Data Retention Settings Saved! 💾");
+      alert("Data Retention Settings Saved! ðŸ’¾");
     } catch (err) {
       console.error("Save Data Settings Error:", err);
       alert("Oops! Could not save data settings.");
@@ -2056,10 +2061,10 @@ Include a balanced combination of question types such as:
       return;
     }
     const daysStr = dataRetentionPeriod + " Days";
-    if (await window.confirmCustom(`Are you sure you want to PERMANENTLY DELETE all Homeworks, Tests, Gradebooks, and Messages older than ${daysStr}? 🗑️\n\nThis cannot be undone.`)) {
+    if (await window.confirmCustom(`Are you sure you want to PERMANENTLY DELETE all Homeworks, Tests, Gradebooks, and Messages older than ${daysStr}? ðŸ—‘ï¸\n\nThis cannot be undone.`)) {
       try {
         const deletedCount = await runPurge(dataRetentionPeriod);
-        alert(`Purge Complete! 🧹 Deleted ${deletedCount || 0} old records.`);
+        alert(`Purge Complete! ðŸ§¹ Deleted ${deletedCount || 0} old records.`);
       } catch (err) {
         console.error("Purge Error:", err);
         alert("Oops! Something went wrong while purging.");
@@ -2242,7 +2247,7 @@ Include a balanced combination of question types such as:
             <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 min-w-[200px]">
               <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block">Classroom Capacity</span>
               <div className="text-3xl font-black text-slate-800 mt-1">
-                {allStudents.length} <span className="text-sm font-bold text-slate-400">/ {limit === Infinity ? '∞' : limit} students</span>
+                {allStudents.length} <span className="text-sm font-bold text-slate-400">/ {limit === Infinity ? 'âˆž' : limit} students</span>
               </div>
               <div className="progress mt-2 h-1.5 bg-slate-200 rounded-full overflow-hidden">
                 <div 
@@ -2263,7 +2268,7 @@ Include a balanced combination of question types such as:
                 disabled={isRedirectingStripe}
                 className="flex items-center gap-2 px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl font-bold text-xs shadow-sm transition-all"
               >
-                {isRedirectingStripe ? 'Opening Portal...' : 'Manage Billing & Invoices 💳'}
+                {isRedirectingStripe ? 'Opening Portal...' : 'Manage Billing & Invoices ðŸ’³'}
               </button>
             </div>
           )}
@@ -2272,7 +2277,7 @@ Include a balanced combination of question types such as:
         {isAdminUser ? (
           <div className="bg-[#FFFBEB] rounded-[32px] border-4 border-amber-300 p-8 space-y-6 text-center">
             <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center text-4xl mx-auto mb-2 animate-pulse">
-              👑
+              ðŸ‘‘
             </div>
             <h3 className="text-2xl font-black text-amber-900">Executive Account Clearance</h3>
             <p className="text-sm font-bold text-amber-700 max-w-2xl mx-auto leading-relaxed">
@@ -2301,10 +2306,10 @@ Include a balanced combination of question types such as:
                 $5.00 <span className="text-xs font-bold text-slate-400">/ student / month</span>
               </div>
               <ul className="text-xs text-slate-500 font-bold space-y-2.5">
-                <li className="flex items-center gap-2">✔️ Pay only for active students</li>
-                <li className="flex items-center gap-2">✔️ Scales automatically as you add/remove</li>
-                <li className="flex items-center gap-2">✔️ No long term annual commitment</li>
-                <li className="flex items-center gap-2">✔️ Perfect for tutor/mid-semester setups</li>
+                <li className="flex items-center gap-2">âœ”ï¸ Pay only for active students</li>
+                <li className="flex items-center gap-2">âœ”ï¸ Scales automatically as you add/remove</li>
+                <li className="flex items-center gap-2">âœ”ï¸ No long term annual commitment</li>
+                <li className="flex items-center gap-2">âœ”ï¸ Perfect for tutor/mid-semester setups</li>
               </ul>
             </div>
             <button
@@ -2380,15 +2385,15 @@ Include a balanced combination of question types such as:
               <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 space-y-1">
                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Graduated Tiers (Annual)</span>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
-                  <span>1–50 students</span>
+                  <span>1â€“50 students</span>
                   <span>$12 / student</span>
                 </div>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
-                  <span>51–200 students</span>
+                  <span>51â€“200 students</span>
                   <span>$8 / student</span>
                 </div>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
-                  <span>201–1000 students</span>
+                  <span>201â€“1000 students</span>
                   <span>$5 / student</span>
                 </div>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
@@ -2416,7 +2421,7 @@ Include a balanced combination of question types such as:
         <div className="bg-white rounded-[32px] border border-slate-100 shadow-sm p-7 space-y-6">
           <div className="border-b border-slate-50 pb-4">
             <h3 className="text-xl font-black text-slate-800 flex items-center gap-2">
-              🧮 Interactive Plan Calculator
+              ðŸ§® Interactive Plan Calculator
             </h3>
             <p className="text-xs text-slate-400 font-bold mt-1">
               Slide to select your expected student intake. We will calculate the total cost across all options and recommend the cheapest plan!
@@ -2467,7 +2472,7 @@ Include a balanced combination of question types such as:
 
               {/* Recommendation Alert */}
               <div className="bg-orange-50/70 border border-orange-200/50 rounded-2xl p-5 flex items-start gap-4">
-                <div className="text-2xl mt-0.5">🏆</div>
+                <div className="text-2xl mt-0.5">ðŸ†</div>
                 <div>
                   <h4 className="text-sm font-black text-orange-900">Cheapest Choice: {cheapestName}</h4>
                   <p className="text-xs text-orange-700 font-medium mt-1">
@@ -2556,14 +2561,14 @@ Include a balanced combination of question types such as:
               Executive Playground Admin Room
             </span>
             <h1 className="text-4xl font-black tracking-tight text-[#166534] flex items-center gap-2">
-              🦉 System Analytics Dashboard
+              ðŸ¦‰ System Analytics Dashboard
             </h1>
           </div>
           <button 
             onClick={fetchAdminData} 
             className="px-6 py-3 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-650 rounded-2xl text-xs font-black uppercase tracking-wider transition-all shadow-sm hover:scale-[1.02]"
           >
-            Sync Records 🔄
+            Sync Records ðŸ”„
           </button>
         </div>
 
@@ -2846,7 +2851,7 @@ Include a balanced combination of question types such as:
              const rawClassPoints = computedStudents.reduce((acc, s) => acc + s.points, 0);
              const resetOffset = activeClassroom?.goalResetPointsOffset || 0;
              const currentClassPoints = Math.max(0, rawClassPoints - resetOffset);
-             const targetTitle = activeClassroom?.goalTitle || 'Dino Pizza Party! 🍕';
+             const targetTitle = activeClassroom?.goalTitle || 'Dino Pizza Party! ðŸ•';
              const targetGoal = activeClassroom?.goalTarget || 1500;
              const progressPercent = Math.min(Math.round((currentClassPoints / targetGoal) * 100), 100);
 
@@ -3252,7 +3257,7 @@ Include a balanced combination of question types such as:
                                      }}
                                      className="px-5 py-2.5 border-2 border-[#FFE0D6] hover:border-[#FFAB91] text-[#C64F33] rounded-2xl text-xs font-black transition-all bg-white"
                                   >
-                                     Change Goal ✏️
+                                     Change Goal âœï¸
                                   </button>
                                </div>
 
@@ -3283,7 +3288,7 @@ Include a balanced combination of question types such as:
                          {pendingDrafts.length > 0 && (
                             <div className="bg-gradient-to-br from-[#FFF0FA] to-[#FFE5F6] rounded-[32px] border border-[#FFD5F0] shadow-sm p-6 space-y-4 animate-in slide-in-from-top duration-300">
                                <div className="flex items-center gap-3">
-                                  <span className="text-3xl animate-bounce">📝</span>
+                                  <span className="text-3xl animate-bounce">ðŸ“</span>
                                   <div>
                                      <h3 className="text-xl font-black text-[#8A1F6E] tracking-tight">Drafts Pending Review</h3>
                                      <p className="text-[9px] font-black text-[#C6339A] uppercase tracking-widest">Left to be checked & published</p>
@@ -3309,7 +3314,7 @@ Include a balanced combination of question types such as:
                                               }}
                                               className="text-[10px] font-black bg-[#C23C9F] text-white px-3 py-1.5 rounded-xl hover:bg-[#A13083] transition-colors shrink-0"
                                            >
-                                              Check & Publish 🚀
+                                              Check & Publish ðŸš€
                                            </button>
                                         </div>
                                      ))}
@@ -3321,7 +3326,7 @@ Include a balanced combination of question types such as:
                          {/* Homework Diagnosis */}
                          <div className="bg-gradient-to-br from-[#FAF2FF] to-[#F1E0FF] rounded-[32px] border border-[#E8C6FF] shadow-sm p-6 space-y-4">
                             <div className="flex items-center gap-3">
-                               <span className="text-3xl">📊</span>
+                               <span className="text-3xl">ðŸ“Š</span>
                                <div className="space-y-0.5">
                                   <h3 className="text-xl font-black text-[#3C2E75] tracking-tight">Homework Diagnosis</h3>
                                   <p className="text-[9px] font-black text-green-500 uppercase tracking-widest">Real-time conceptual learning gaps</p>
@@ -3361,7 +3366,7 @@ Include a balanced combination of question types such as:
                                               <div className={`h-full ${progressColor}`} style={{ width: `${gap.average}%` }} />
                                            </div>
                                            <div className="bg-[#FAF2FF] rounded-xl p-3 border border-[#E8C6FF]/30">
-                                              <span className="text-[8px] font-black uppercase text-green-500 tracking-wider block mb-0.5">💡 Teacher Prep Hint</span>
+                                              <span className="text-[8px] font-black uppercase text-green-500 tracking-wider block mb-0.5">ðŸ’¡ Teacher Prep Hint</span>
                                               <p className="text-[11px] font-bold text-[#5C4D9F] leading-snug">{gap.tip}</p>
                                            </div>
                                         </div>
@@ -3369,7 +3374,7 @@ Include a balanced combination of question types such as:
                                   })
                                ) : (
                                   <div className="bg-white/80 backdrop-blur-sm border border-[#E9E4FF] p-5 rounded-2xl text-center space-y-2">
-                                     <span className="text-2xl block">🎉</span>
+                                     <span className="text-2xl block">ðŸŽ‰</span>
                                      <p className="text-xs font-black text-[#3C2E75]">All clear! No active learning gaps</p>
                                      <p className="text-[10px] font-bold text-slate-400 leading-snug">
                                         {activeSubjectAverages.length > 0 
@@ -3390,7 +3395,7 @@ Include a balanced combination of question types such as:
                     {activeClassroom && (
                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                           <div className="space-y-6">
-                             {/* ── Homework Completion Hub ── */}
+                             {/* â”€â”€ Homework Completion Hub â”€â”€ */}
                              {(() => {
                              const completionData = classStudents.map(student => {
                              const submitted = classSubmissions.filter(s => normalizeName(s.studentName) === normalizeName(student.name));
@@ -3417,7 +3422,7 @@ Include a balanced combination of question types such as:
                              <div className="flex justify-between items-start relative z-10">
                              <div>
                              <h3 className="text-lg font-black text-[#3C2E75] tracking-tight flex items-center gap-2">
-                             📋 Homework Completion Hub
+                             ðŸ“‹ Homework Completion Hub
                              </h3>
                              <p className="text-[10px] font-black text-[#8C83B5] uppercase tracking-widest mt-0.5">
                              Real-time student completion vs lagging breakdown
@@ -3490,13 +3495,13 @@ Include a balanced combination of question types such as:
                              onClick={() => setCompletionTab('lagging')}
                              className={`flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${completionTab === 'lagging' ? 'bg-white text-rose-600 shadow-sm' : 'text-[#8C83B5] hover:text-[#3C2E75]'}`}
                              >
-                             ⚠️ Lagging ({laggingNum})
+                             âš ï¸ Lagging ({laggingNum})
                              </button>
                              <button
                              onClick={() => setCompletionTab('ontrack')}
                              className={`flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${completionTab === 'ontrack' ? 'bg-white text-emerald-600 shadow-sm' : 'text-[#8C83B5] hover:text-[#3C2E75]'}`}
                              >
-                             ✅ On Track ({onTrackNum})
+                             âœ… On Track ({onTrackNum})
                              </button>
                              </div>
                              <div className="space-y-2 max-h-[280px] overflow-y-auto relative z-10">
@@ -3510,7 +3515,7 @@ Include a balanced combination of question types such as:
                              <img src={getStudentAvatar(d.student.name)} className="w-8 h-8 rounded-full border-2 border-white shadow-sm group-hover:scale-105 transition-transform" alt={d.student.name} />
                              <div>
                              <p className="text-xs font-black text-[#3C2E75]">{d.student.name}</p>
-                             <p className="text-[9px] font-bold text-[#8C83B5]">{d.completedCount}/{classHomeworks.length} completed{d.avgScore !== null ? ` • ${d.avgScore}% avg` : ''}</p>
+                             <p className="text-[9px] font-bold text-[#8C83B5]">{d.completedCount}/{classHomeworks.length} completed{d.avgScore !== null ? ` â€¢ ${d.avgScore}% avg` : ''}</p>
                              </div>
                              </div>
                              <div className="flex items-center gap-2">
@@ -3524,16 +3529,16 @@ Include a balanced combination of question types such as:
                              teacherId: user.uid, senderId: user.uid,
                              senderName: user.displayName || 'Teacher', senderRole: 'teacher',
                              recipientType: 'student', recipientId: d.student.name, recipientName: d.student.name,
-                             subject: '⏰ Homework Reminder!',
-                             content: `Hi ${d.student.name}! You have ${d.missing.length} assignment${d.missing.length > 1 ? 's' : ''} still to complete. Please check your homework portal and submit soon! 🚀`,
+                             subject: 'â° Homework Reminder!',
+                             content: `Hi ${d.student.name}! You have ${d.missing.length} assignment${d.missing.length > 1 ? 's' : ''} still to complete. Please check your homework portal and submit soon! ðŸš€`,
                              createdAt: new Date().toISOString()
                              });
-                             alert(`✅ Reminder sent to ${d.student.name}!`);
+                             alert(`âœ… Reminder sent to ${d.student.name}!`);
                              } catch (err) { console.error(err); alert('Failed to send reminder.'); }
                              }}
                              className="text-[9px] font-black bg-rose-500 hover:bg-rose-600 text-white px-2.5 py-1 rounded-xl transition-colors shrink-0"
                              >
-                             Remind 🔔
+                             Remind ðŸ””
                              </button>
                              </div>
                              </div>
@@ -3552,7 +3557,7 @@ Include a balanced combination of question types such as:
                              </div>
                              )) : (
                              <div className="bg-emerald-50 rounded-2xl p-8 border border-emerald-100 flex flex-col items-center text-center space-y-3">
-                             <span className="text-4xl">🎉</span>
+                             <span className="text-4xl">ðŸŽ‰</span>
                              <div>
                              <h4 className="text-emerald-700 font-black text-base">Everyone is caught up!</h4>
                              <p className="text-emerald-600/80 text-xs font-bold mt-1">All students have completed their assigned homework.</p>
@@ -3570,7 +3575,7 @@ Include a balanced combination of question types such as:
                              <img src={getStudentAvatar(d.student.name)} className="w-8 h-8 rounded-full border-2 border-white shadow-sm group-hover:scale-105 transition-transform" alt={d.student.name} />
                              <div>
                              <p className="text-xs font-black text-[#3C2E75]">{d.student.name}</p>
-                             <p className="text-[9px] font-bold text-[#8C83B5]">All {classHomeworks.length} done{d.avgScore !== null ? ` • ${d.avgScore}% avg` : ''}</p>
+                             <p className="text-[9px] font-bold text-[#8C83B5]">All {classHomeworks.length} done{d.avgScore !== null ? ` â€¢ ${d.avgScore}% avg` : ''}</p>
                              </div>
                              </div>
                              <div className="flex items-center gap-2">
@@ -3579,12 +3584,12 @@ Include a balanced combination of question types such as:
                              {d.avgScore}% avg
                              </span>
                              )}
-                             <span className="text-lg">✅</span>
+                             <span className="text-lg">âœ…</span>
                              </div>
                              </div>
                              )) : (
                              <div className="bg-amber-50 rounded-2xl p-8 border border-amber-100 flex flex-col items-center text-center space-y-3">
-                             <span className="text-4xl">📚</span>
+                             <span className="text-4xl">ðŸ“š</span>
                              <div>
                              <h4 className="text-amber-700 font-black text-base">No submissions yet</h4>
                              <p className="text-amber-600/80 text-xs font-bold mt-1">No student has completed all assignments yet.</p>
@@ -3604,7 +3609,7 @@ Include a balanced combination of question types such as:
                              <div className="flex justify-between items-center border-b border-[#FFEDD5] pb-3">
                              <div className="space-y-0.5">
                              <h3 className="text-base font-black text-[#3B2B85] tracking-tight flex items-center gap-1.5">
-                             <span>📅</span> Learning Calendar & Reminder Center
+                             <span>ðŸ“…</span> Learning Calendar & Reminder Center
                              </h3>
                              <p className="text-[10px] font-bold text-[#7A69D6]">Click active quiz dates to review submissions and send reminder pings.</p>
                              </div>
@@ -3620,7 +3625,7 @@ Include a balanced combination of question types such as:
                              }}
                              className="w-6 h-6 hover:bg-[#FFDDF5] rounded-lg flex items-center justify-center text-[#C23C9F] text-xs font-black transition-all"
                              >
-                             ◀
+                             â—€
                              </button>
                              <span className="text-[#C23C9F] text-[10px] font-black uppercase tracking-wider select-none min-w-[80px] text-center">
                              {monthNames[calendarMonth]} {calendarYear}
@@ -3636,7 +3641,7 @@ Include a balanced combination of question types such as:
                              }}
                              className="w-6 h-6 hover:bg-[#FFDDF5] rounded-lg flex items-center justify-center text-[#C23C9F] text-xs font-black transition-all"
                              >
-                             ▶
+                             â–¶
                              </button>
                              </div>
                              </div>
@@ -3715,7 +3720,7 @@ Include a balanced combination of question types such as:
                              setSelectedCalendarHw(activeHw);
                              setShowCalendarModal(true);
                              } else if (bdays.length > 0) {
-                             alert(`🎉 Birthday celebration today for: ${bdays.map(s => s.name).join(', ')}! 🎂`);
+                             alert(`ðŸŽ‰ Birthday celebration today for: ${bdays.map(s => s.name).join(', ')}! ðŸŽ‚`);
                              }
                              }}
                              >
@@ -3726,7 +3731,7 @@ Include a balanced combination of question types such as:
                              className="text-xs animate-bounce"
                              title={`Birthday: ${bdays.map(s => s.name).join(', ')}`}
                              >
-                             🎂
+                             ðŸŽ‚
                              </span>
                              )}
                              </div>
@@ -3740,7 +3745,7 @@ Include a balanced combination of question types such as:
                              
                              {!activeHw && bdays.length > 0 && (
                              <div className="bg-white/60 border border-pink-200/50 text-[#C2185B] px-1 py-0.5 rounded-lg text-[7px] font-black truncate text-center select-none mt-1">
-                             🎉 {bdays.map(s => s.name).join(', ')}
+                             ðŸŽ‰ {bdays.map(s => s.name).join(', ')}
                              </div>
                              )}
                              </div>
@@ -3772,7 +3777,7 @@ Include a balanced combination of question types such as:
                           }}
                           className="px-3 py-1.5 border border-[#FFE0D6] hover:border-[#FFAB91] text-[#C64F33] rounded-xl text-[10px] font-black transition-all bg-white hover:bg-orange-50/20 shrink-0"
                           >
-                          Change Goal ✏️
+                          Change Goal âœï¸
                           </button>
                           </div>
                           
@@ -3789,7 +3794,7 @@ Include a balanced combination of question types such as:
                           <div className="absolute inset-4 rounded-full border-2 border-slate-400/25" />
                           <div className="absolute inset-8 rounded-full border border-slate-400/15" />
                           <div className="absolute inset-16 rounded-full border border-slate-400/10" />
-                          <span className="absolute text-5xl opacity-15 select-none font-black text-slate-800">🍽️</span>
+                          <span className="absolute text-5xl opacity-15 select-none font-black text-slate-800">ðŸ½ï¸</span>
                           
                           {/* Crumbs & Grease marks on empty tray */}
                           <div className="absolute top-1/4 left-1/3 w-2 h-2 rounded-full bg-amber-800/10" />
@@ -3944,12 +3949,12 @@ Include a balanced combination of question types such as:
                           
                           {/* Compact Reward Message */}
                           <div className="bg-[#FAF2FF] rounded-2xl p-4 border border-[#E8C6FF]/35 flex items-center gap-3">
-                          <span className="text-2xl">🦖</span>
+                          <span className="text-2xl">ðŸ¦–</span>
                           <div className="min-w-0 flex-1">
                           <p className="text-[10px] font-black text-[#3C2E75] uppercase tracking-wider mb-0.5">Mascot Party Reward</p>
                           <p className="text-[11px] font-bold text-[#5C4D9F] leading-snug">
                           {progressPercent >= 100
-                          ? `Fantastic! Dino Pizza Party is unlocked! 🎈🍕`
+                          ? `Fantastic! Dino Pizza Party is unlocked! ðŸŽˆðŸ•`
                           : `Need ${targetGoal - currentClassPoints} more points to bake the pizza party!`}
                           </p>
                           </div>
@@ -4199,7 +4204,7 @@ Include a balanced combination of question types such as:
                                     <button 
                                        onClick={() => {
                                           setSelectedStudentForBadge(student);
-                                          setBadgeIcon('🏆');
+                                          setBadgeIcon('ðŸ†');
                                           setBadgeColor('bg-amber-50 text-amber-600 border-amber-100');
                                           setBadgeName('');
                                           setBadgeDesc('');
@@ -4223,7 +4228,7 @@ Include a balanced combination of question types such as:
                         })}
                         {filteredStudents.length === 0 && (
                            <div className="py-20 text-center text-[#166534] italic font-bold">
-                              No students found. 🔍
+                              No students found. ðŸ”
                            </div>
                         )}
                      </div>
@@ -4487,7 +4492,7 @@ Include a balanced combination of question types such as:
                                                    <span className="bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100 font-mono text-[9px] text-slate-500">
                                                       {hwCode}
                                                    </span>
-                                                   <span>•</span>
+                                                   <span>â€¢</span>
                                                    <span className="text-rose-500">
                                                       Due: {formattedDueDate}
                                                    </span>
@@ -4518,8 +4523,8 @@ Include a balanced combination of question types such as:
                         ) : (
                            <div className="py-20 text-center text-[#166534] italic font-bold">
                               {gradebookDueDate 
-                                 ? `No mission reports due on ${new Date(gradebookDueDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })} found. 📅`
-                                 : "No mission reports yet. 🚀"
+                                 ? `No mission reports due on ${new Date(gradebookDueDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })} found. ðŸ“…`
+                                 : "No mission reports yet. ðŸš€"
                               }
                            </div>
                         )}
@@ -4549,7 +4554,7 @@ Include a balanced combination of question types such as:
                                                 <span key={h.id} className="text-[10px] font-black text-rose-600 bg-rose-50 px-3 py-1.5 rounded-lg inline-block w-fit border border-rose-100 shadow-sm">
                                                    {h.title || h.subject || 'Mission'} 
                                                    <span className="text-rose-400 font-bold ml-1">
-                                                      • ID: {h.id.slice(0,6).toUpperCase()} {dateStr ? `• Assigned: ${dateStr}` : ''} {hwDueDate ? `• Due: ${hwDueDate}` : ''}
+                                                      â€¢ ID: {h.id.slice(0,6).toUpperCase()} {dateStr ? `â€¢ Assigned: ${dateStr}` : ''} {hwDueDate ? `â€¢ Due: ${hwDueDate}` : ''}
                                                    </span>
                                                 </span>
                                              );
@@ -4587,7 +4592,7 @@ Include a balanced combination of question types such as:
                         <img src="/ic-homework.png" className="w-20 h-20 object-contain" alt="Classroom" />
                      </div>
                      <div className="space-y-2">
-                        <h1 className="text-4xl font-black text-[#14532d] tracking-tight">Select a Classroom 🏫</h1>
+                        <h1 className="text-4xl font-black text-[#14532d] tracking-tight">Select a Classroom ðŸ«</h1>
                         <p className="text-sm font-bold text-[#166534] italic">Please select a classroom from the top selector to see classroom analytics reports.</p>
                      </div>
                   </div>
@@ -4632,46 +4637,28 @@ Include a balanced combination of question types such as:
                return { name, accuracy, correctCount: data.correctCount, totalCount: data.totalCount, tier };
             }).sort((a, b) => a.accuracy - b.accuracy);
 
-            // Calculation of subtopics for Report A
+            // Calculation of umbrella concept mastery for Report A
             const subtopicsData = {};
             currentSubmissions.forEach(sub => {
                const hw = allHomeworks.find(h => h.id === sub.homeworkId);
                if (!hw || !hw.questions) return;
                hw.questions.forEach(q => {
-                  const subtopic = getQuestionSubtopic(hw, q);
+                  const rawSubtopic = getQuestionSubtopic(hw, q);
+                  const subtopic = mapToUmbrellaCategory(rawSubtopic, hw.subject);
                   if (!subtopicsData[subtopic]) {
                      subtopicsData[subtopic] = {
                         name: subtopic,
                         correctCount: 0,
-                        totalCount: 0,
-                        students: {},
-                        questions: {}
+                        totalCount: 0
                      };
                   }
                   const studentSelection = sub.answers?.[q.id];
                   const actualAnswer = q.answer;
-                  const isCorrect = studentSelection === actualAnswer;
+                  const isCorrect = checkIsAnswerCorrect(studentSelection, actualAnswer);
                   
                   subtopicsData[subtopic].totalCount += 1;
                   if (isCorrect) {
                      subtopicsData[subtopic].correctCount += 1;
-                  }
-                  
-                  const studentName = normalizeName(sub.studentName);
-                  if (!subtopicsData[subtopic].students[studentName]) {
-                     subtopicsData[subtopic].students[studentName] = { correct: 0, total: 0 };
-                  }
-                  subtopicsData[subtopic].students[studentName].total += 1;
-                  if (isCorrect) {
-                     subtopicsData[subtopic].students[studentName].correct += 1;
-                  }
-                  
-                  if (!subtopicsData[subtopic].questions[q.id]) {
-                     subtopicsData[subtopic].questions[q.id] = { text: q.text, correct: 0, total: 0 };
-                  }
-                  subtopicsData[subtopic].questions[q.id].total += 1;
-                  if (isCorrect) {
-                     subtopicsData[subtopic].questions[q.id].correct += 1;
                   }
                });
             });
@@ -4688,8 +4675,6 @@ Include a balanced combination of question types such as:
                   accuracy,
                   correctCount: data.correctCount,
                   totalCount: data.totalCount,
-                  students: data.students,
-                  questions: data.questions,
                   tier
                };
             });
@@ -4810,13 +4795,13 @@ Include a balanced combination of question types such as:
                let badgeColor = 'bg-slate-50 text-slate-400';
                if (p.subsCount > 0) {
                   if (pacePerQ < 15) {
-                     speedBadge = 'Quick Solver ⚡';
+                     speedBadge = 'Quick Solver âš¡';
                      badgeColor = 'bg-amber-50 text-amber-600 border border-amber-100';
                   } else if (pacePerQ >= 15 && pacePerQ <= 40) {
-                     speedBadge = 'Paced Solver ⏱️';
+                     speedBadge = 'Paced Solver â±ï¸';
                      badgeColor = 'bg-emerald-50 text-emerald-600 border border-emerald-100';
                   } else {
-                     speedBadge = 'Deep Thinker 🧠';
+                     speedBadge = 'Deep Thinker ðŸ§ ';
                      badgeColor = 'bg-[#FFEDD5] text-[#EA580C] border border-[#FED7AA]';
                   }
                }
@@ -4878,7 +4863,8 @@ Include a balanced combination of question types such as:
                      if (!hw || !hw.questions) return;
                      
                      hw.questions.forEach(q => {
-                        const subtopic = getQuestionSubtopic(hw, q);
+                        const rawSubtopic = getQuestionSubtopic(hw, q);
+                   const subtopic = mapToUmbrellaCategory(rawSubtopic, hw.subject);
                         if (!studentSubtopics[subtopic]) {
                            studentSubtopics[subtopic] = { correct: 0, total: 0 };
                         }
@@ -4960,261 +4946,174 @@ Include a balanced combination of question types such as:
                   {/* Tab Contents */}
                   {selectedReportTab === 'mastery' && (
                      <div className="space-y-8 animate-fadeIn">
-                        {!selectedReportSubtopic ? (
+                        <div className="bg-white rounded-[40px] p-8 border border-orange-100 shadow-sm space-y-4">
+                           <h2 className="text-2xl font-black text-[#14532d]">Concept Mastery Overview</h2>
+                           <p className="text-xs text-[#166534] font-medium">Grouped by umbrella category based on historical quiz submissions. Visual breakdown of mastery tiers and accuracy across all concepts.</p>
+                        </div>
+
+                        {subtopicsArray.length > 0 ? (
                            <>
-                              <div className="bg-white rounded-[40px] p-8 border border-orange-100 shadow-sm space-y-4">
-                                 <h2 className="text-2xl font-black text-[#14532d]">Concept Mastery Overview</h2>
-                                 <p className="text-xs text-[#166534] font-medium">Grouped by subtopic based on historical quiz submissions. Click on any concept card below to drill down into question difficulty details and student accuracy rankings.</p>
-                              </div>
-
-                              {subtopicsArray.length > 0 && (
-                                 <div className="flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center bg-white rounded-[32px] p-4 border border-orange-100 shadow-sm animate-fadeIn">
-                                    {/* Search Input */}
-                                    <div className="relative flex-1 max-w-md">
-                                       <Search className="absolute left-4 top-3.5 w-4 h-4 text-slate-400" />
-                                       <input
-                                          type="text"
-                                          placeholder="Search concepts..."
-                                          value={conceptSearchQuery}
-                                          onChange={(e) => {
-                                             setConceptSearchQuery(e.target.value);
-                                             setConceptPage(1);
-                                          }}
-                                          className="w-full bg-slate-50 border border-slate-100 focus:border-green-300 focus:bg-white transition-all rounded-2xl py-3 pl-11 pr-10 text-xs font-bold text-[#14532d] placeholder-slate-400 focus:outline-none"
-                                       />
-                                       {conceptSearchQuery && (
-                                          <button
-                                             onClick={() => {
-                                                setConceptSearchQuery('');
-                                                setConceptPage(1);
-                                             }}
-                                             className="absolute right-3 top-3 w-5 h-5 flex items-center justify-center rounded-full bg-slate-200/60 hover:bg-slate-200 text-slate-500 transition-colors"
-                                          >
-                                             <X className="w-3 h-3" />
-                                          </button>
-                                       )}
-                                    </div>
-
-                                    {/* Filter Pills */}
-                                    <div className="flex flex-wrap gap-2">
-                                       {[
-                                          { id: 'all', label: 'All', count: subtopicsArray.length, color: 'text-orange-600 bg-orange-50 border-orange-200' },
-                                          { id: 'Needs Focus', label: 'Needs Focus ⚠️', count: subtopicsArray.filter(s => s.tier === 'Needs Focus').length, color: 'text-rose-600 bg-rose-50 border-rose-100' },
-                                          { id: 'Reviewing', label: 'Reviewing ⏱️', count: subtopicsArray.filter(s => s.tier === 'Reviewing').length, color: 'text-blue-600 bg-blue-50 border-blue-100' },
-                                          { id: 'Mastered', label: 'Mastered ✨', count: subtopicsArray.filter(s => s.tier === 'Mastered').length, color: 'text-emerald-600 bg-emerald-50 border-emerald-100' }
-                                       ].map((pill) => {
-                                          const isActive = conceptTierFilter === pill.id;
-                                          return (
-                                             <button
-                                                key={pill.id}
-                                                onClick={() => {
-                                                   setConceptTierFilter(pill.id);
-                                                   setConceptPage(1);
-                                                }}
-                                                className={`px-4 py-2 rounded-xl text-xs font-black border transition-all flex items-center gap-2 ${
-                                                   isActive 
-                                                      ? `${pill.color} shadow-sm scale-105` 
-                                                      : 'bg-white hover:bg-slate-50 text-slate-500 border-slate-100'
-                                                }`}
+                              {/* Charts Row â€” Pie + Bar */}
+                              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                 {/* Pie Chart â€” Tier Distribution */}
+                                 <div className="bg-white rounded-[40px] p-8 border border-orange-100 shadow-sm">
+                                    <h3 className="text-sm font-black text-[#14532d] uppercase tracking-widest mb-6">Tier Distribution</h3>
+                                    <div className="flex items-center justify-center gap-8">
+                                       <ResponsiveContainer width={180} height={180}>
+                                          <PieChart>
+                                             <Pie
+                                                data={[
+                                                   { name: 'Mastered', value: subtopicsArray.filter(s => s.tier === 'Mastered').length },
+                                                   { name: 'Reviewing', value: subtopicsArray.filter(s => s.tier === 'Reviewing').length },
+                                                   { name: 'Needs Focus', value: subtopicsArray.filter(s => s.tier === 'Needs Focus').length }
+                                                ].filter(d => d.value > 0)}
+                                                cx="50%"
+                                                cy="50%"
+                                                innerRadius={50}
+                                                outerRadius={80}
+                                                paddingAngle={3}
+                                                dataKey="value"
+                                                strokeWidth={0}
                                              >
-                                                <span>{pill.label}</span>
-                                                <span className={`px-1.5 py-0.5 rounded-md text-[10px] font-black ${
-                                                   isActive ? 'bg-white/60' : 'bg-slate-100 text-slate-500'
-                                                }`}>
-                                                   {pill.count}
-                                                </span>
-                                             </button>
-                                          );
-                                       })}
+                                                {[
+                                                   { name: 'Mastered', color: '#34d399' },
+                                                   { name: 'Reviewing', color: '#60a5fa' },
+                                                   { name: 'Needs Focus', color: '#fb7185' }
+                                                ].filter(d => subtopicsArray.some(s => s.tier === d.name)).map((entry, index) => (
+                                                   <Cell key={`cell-${index}`} fill={entry.color} />
+                                                ))}
+                                             </Pie>
+                                             <RechartsTooltip
+                                                contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', fontSize: '12px', fontWeight: 700 }}
+                                             />
+                                          </PieChart>
+                                       </ResponsiveContainer>
+                                       <div className="space-y-3">
+                                          {[
+                                             { label: 'Mastered', color: 'bg-emerald-400', count: subtopicsArray.filter(s => s.tier === 'Mastered').length, emoji: 'âœ¨' },
+                                             { label: 'Reviewing', color: 'bg-blue-400', count: subtopicsArray.filter(s => s.tier === 'Reviewing').length, emoji: 'â±ï¸' },
+                                             { label: 'Needs Focus', color: 'bg-rose-400', count: subtopicsArray.filter(s => s.tier === 'Needs Focus').length, emoji: 'âš ï¸' }
+                                          ].map(item => (
+                                             <div key={item.label} className="flex items-center gap-3">
+                                                <div className={`w-3 h-3 rounded-full ${item.color}`} />
+                                                <span className="text-xs font-black text-slate-700">{item.emoji} {item.label}</span>
+                                                <span className="text-xs font-black text-slate-400">{item.count}</span>
+                                             </div>
+                                          ))}
+                                       </div>
                                     </div>
                                  </div>
-                              )}
 
+                                 {/* Bar Chart â€” Accuracy by Category */}
+                                 <div className="bg-white rounded-[40px] p-8 border border-orange-100 shadow-sm">
+                                    <h3 className="text-sm font-black text-[#14532d] uppercase tracking-widest mb-6">Accuracy by Concept</h3>
+                                    <ResponsiveContainer width="100%" height={220}>
+                                       <BarChart data={subtopicsArray.sort((a, b) => b.accuracy - a.accuracy).slice(0, 12)} layout="vertical" margin={{ left: 10, right: 20 }}>
+                                          <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" horizontal={false} />
+                                          <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }} tickLine={false} axisLine={false} />
+                                          <YAxis type="category" dataKey="name" width={140} tick={{ fontSize: 10, fontWeight: 700, fill: '#334155' }} tickLine={false} axisLine={false} />
+                                          <RechartsTooltip
+                                             contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', fontSize: '12px', fontWeight: 700 }}
+                                             formatter={(value) => [`${value}%`, 'Accuracy']}
+                                          />
+                                          <Bar dataKey="accuracy" radius={[0, 8, 8, 0]} barSize={14}>
+                                             {subtopicsArray.sort((a, b) => b.accuracy - a.accuracy).slice(0, 12).map((entry, index) => (
+                                                <Cell
+                                                   key={`bar-${index}`}
+                                                   fill={entry.accuracy >= 80 ? '#34d399' : entry.accuracy >= 60 ? '#60a5fa' : '#fb7185'}
+                                                />
+                                             ))}
+                                          </Bar>
+                                       </BarChart>
+                                    </ResponsiveContainer>
+                                 </div>
+                              </div>
+
+                              {/* Filter Pills */}
+                              <div className="flex flex-wrap gap-2 justify-center">
+                                 {[
+                                    { id: 'all', label: 'All', count: subtopicsArray.length, color: 'text-orange-600 bg-orange-50 border-orange-200' },
+                                    { id: 'Needs Focus', label: 'Needs Focus âš ï¸', count: subtopicsArray.filter(s => s.tier === 'Needs Focus').length, color: 'text-rose-600 bg-rose-50 border-rose-100' },
+                                    { id: 'Reviewing', label: 'Reviewing â±ï¸', count: subtopicsArray.filter(s => s.tier === 'Reviewing').length, color: 'text-blue-600 bg-blue-50 border-blue-100' },
+                                    { id: 'Mastered', label: 'Mastered âœ¨', count: subtopicsArray.filter(s => s.tier === 'Mastered').length, color: 'text-emerald-600 bg-emerald-50 border-emerald-100' }
+                                 ].map((pill) => {
+                                    const isActive = conceptTierFilter === pill.id;
+                                    return (
+                                       <button
+                                          key={pill.id}
+                                          onClick={() => setConceptTierFilter(pill.id)}
+                                          className={`px-4 py-2 rounded-xl text-xs font-black border transition-all flex items-center gap-2 ${
+                                             isActive 
+                                                ? `${pill.color} shadow-sm scale-105` 
+                                                : 'bg-white hover:bg-slate-50 text-slate-500 border-slate-100'
+                                          }`}
+                                       >
+                                          <span>{pill.label}</span>
+                                          <span className={`px-1.5 py-0.5 rounded-md text-[10px] font-black ${
+                                             isActive ? 'bg-white/60' : 'bg-slate-100 text-slate-500'
+                                          }`}>
+                                             {pill.count}
+                                          </span>
+                                       </button>
+                                    );
+                                 })}
+                              </div>
+
+                              {/* Topic Cards Grid */}
                               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                 {displayedSubtopics.map((sub, idx) => {
+                                 {sortedAndFilteredSubtopics.map((sub, idx) => {
                                     let tierColor = 'bg-rose-50 text-rose-600 border border-rose-100';
                                     let progressColor = 'bg-rose-400';
+                                    let tierEmoji = 'âš ï¸';
                                     if (sub.tier === 'Mastered') {
                                        tierColor = 'bg-emerald-50 text-emerald-600 border border-emerald-100';
                                        progressColor = 'bg-emerald-400';
+                                       tierEmoji = 'âœ¨';
                                     } else if (sub.tier === 'Reviewing') {
                                        tierColor = 'bg-blue-50 text-blue-600 border border-blue-100';
                                        progressColor = 'bg-blue-400';
+                                       tierEmoji = 'â±ï¸';
                                     }
 
                                     return (
                                        <div 
                                           key={idx} 
-                                          onClick={() => setSelectedReportSubtopic(sub)}
-                                          className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm hover:shadow-lg hover:scale-[1.02] cursor-pointer transition-all flex flex-col justify-between h-48 group"
+                                          className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between h-44"
                                        >
-                                          <div className="flex justify-between items-start">
-                                             <div className="space-y-1 max-w-[70%]">
-                                                <h3 className="font-black text-slate-800 text-base leading-snug group-hover:text-[#EA580C] transition-colors truncate">{sub.name}</h3>
-                                                <span className="text-[10px] font-bold text-slate-400">{sub.totalCount} responses</span>
-                                             </div>
-                                             <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${tierColor}`}>
-                                                {sub.tier}
+                                          <div className="flex justify-between items-start gap-2">
+                                             <h3 className="font-black text-slate-800 text-sm leading-snug flex-1 truncate">{sub.name}</h3>
+                                             <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider whitespace-nowrap ${tierColor}`}>
+                                                {tierEmoji} {sub.tier}
                                              </span>
                                           </div>
-                                          <div className="space-y-2">
+                                          <span className="text-[10px] font-bold text-slate-400 mt-1">{sub.totalCount} responses</span>
+                                          <div className="mt-auto space-y-1.5">
                                              <div className="flex justify-between items-center text-xs font-black">
                                                 <span className="text-slate-400">Class Accuracy</span>
                                                 <span className="text-slate-800">{sub.accuracy}%</span>
                                              </div>
                                              <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                                                <div className={`h-full rounded-full transition-all duration-500 ${progressColor}`} style={{ width: `${sub.accuracy}%` }} />
+                                                <div className={`h-full rounded-full transition-all duration-700 ${progressColor}`} style={{ width: `${sub.accuracy}%` }} />
                                              </div>
                                           </div>
                                        </div>
                                     );
                                  })}
-                                 
-                                 {subtopicsArray.length > 0 && sortedAndFilteredSubtopics.length === 0 && (
-                                    <div className="col-span-3 bg-white rounded-[40px] py-16 text-center text-slate-400 font-bold border border-slate-100 shadow-sm flex flex-col items-center justify-center gap-2 animate-fadeIn">
-                                       <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-300">
-                                          <Search className="w-6 h-6" />
-                                       </div>
-                                       <p className="mt-2 text-slate-600 font-black text-sm">No matching concepts found</p>
-                                       <p className="text-xs text-slate-400 font-bold not-italic">Try adjusting your search terms or status filters.</p>
-                                    </div>
-                                 )}
 
-                                 {subtopicsArray.length === 0 && (
-                                    <div className="col-span-3 bg-white rounded-[40px] py-16 text-center text-[#166534] font-bold italic border border-orange-100 shadow-sm">
-                                       No mastery data has been logged yet. Check back once students submit their quizzes! 🚀
+                                 {sortedAndFilteredSubtopics.length === 0 && (
+                                    <div className="col-span-3 bg-white rounded-[40px] py-16 text-center text-slate-400 font-bold border border-slate-100 shadow-sm flex flex-col items-center justify-center gap-2 animate-fadeIn">
+                                       <Search className="w-6 h-6 text-slate-300" />
+                                       <p className="mt-2 text-slate-600 font-black text-sm">No matching concepts found</p>
+                                       <p className="text-xs text-slate-400 font-bold">Try adjusting your filter.</p>
                                     </div>
                                  )}
                               </div>
-
-                              {/* Pagination Controls */}
-                              {totalPages > 1 && (
-                                 <div className="flex flex-col sm:flex-row items-center justify-between bg-white rounded-[32px] p-4 border border-orange-100 shadow-sm mt-6 gap-4 animate-fadeIn">
-                                    <span className="text-xs font-bold text-slate-400">
-                                       Showing <span className="font-black text-slate-700">{(currentPageSafe - 1) * itemsPerPage + 1}</span> to{' '}
-                                       <span className="font-black text-slate-700">
-                                          {Math.min(currentPageSafe * itemsPerPage, sortedAndFilteredSubtopics.length)}
-                                       </span>{' '}
-                                       of <span className="font-black text-slate-700">{sortedAndFilteredSubtopics.length}</span> concepts
-                                    </span>
-                                    <div className="flex items-center gap-2">
-                                       <button
-                                          onClick={() => setConceptPage(prev => Math.max(prev - 1, 1))}
-                                          disabled={currentPageSafe === 1}
-                                          className={`px-4 py-2 rounded-xl text-xs font-black border transition-all ${
-                                             currentPageSafe === 1
-                                                ? 'bg-slate-50 text-slate-300 border-slate-100 cursor-not-allowed'
-                                                : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200 hover:shadow-sm'
-                                          }`}
-                                       >
-                                          Previous
-                                       </button>
-                                       {Array.from({ length: totalPages }).map((_, i) => {
-                                          const pageNum = i + 1;
-                                          const isActive = pageNum === currentPageSafe;
-                                          return (
-                                             <button
-                                                key={pageNum}
-                                                onClick={() => setConceptPage(pageNum)}
-                                                className={`w-8 h-8 rounded-xl text-xs font-black border transition-all ${
-                                                   isActive
-                                                      ? 'bg-[#EA580C] text-white border-[#EA580C] shadow-sm scale-105'
-                                                      : 'bg-white hover:bg-slate-50 text-slate-500 border-slate-200'
-                                                }`}
-                                             >
-                                                {pageNum}
-                                             </button>
-                                          );
-                                       })}
-                                       <button
-                                          onClick={() => setConceptPage(prev => Math.min(prev + 1, totalPages))}
-                                          disabled={currentPageSafe === totalPages}
-                                          className={`px-4 py-2 rounded-xl text-xs font-black border transition-all ${
-                                             currentPageSafe === totalPages
-                                                ? 'bg-slate-50 text-slate-300 border-slate-100 cursor-not-allowed'
-                                                : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200 hover:shadow-sm'
-                                          }`}
-                                       >
-                                          Next
-                                       </button>
-                                    </div>
-                                 </div>
-                              )}
                            </>
                         ) : (
-                           <div className="space-y-8">
-                              <div className="flex items-center gap-4">
-                                 <button 
-                                    onClick={() => setSelectedReportSubtopic(null)}
-                                    className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black rounded-2xl transition-colors"
-                                 >
-                                    ← Back to Subtopics
-                                 </button>
-                                 <h2 className="text-2xl font-black text-[#14532d]">Drilldown: {selectedReportSubtopic.name}</h2>
-                              </div>
-
-                              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                                 {/* Left side: Questions analysis */}
-                                 <div className="lg:col-span-7 bg-white rounded-[40px] border border-orange-100 shadow-sm p-8 space-y-6">
-                                    <h3 className="text-lg font-black text-slate-800">Question Difficulty Breakdown</h3>
-                                    <div className="space-y-4">
-                                       {Object.entries(selectedReportSubtopic.questions).map(([qId, qData], index) => {
-                                          const qAcc = qData.total > 0 ? Math.round((qData.correct / qData.total) * 100) : 0;
-                                          let scoreColor = 'bg-rose-50 text-rose-600';
-                                          if (qAcc >= 80) scoreColor = 'bg-emerald-50 text-emerald-600';
-                                          else if (qAcc >= 60) scoreColor = 'bg-blue-50 text-blue-600';
-                                          
-                                          return (
-                                             <div key={qId} className="p-4 bg-slate-50 rounded-2xl flex justify-between items-start gap-4 hover:bg-slate-100 transition-colors">
-                                                <div className="space-y-1">
-                                                   <span className="text-[10px] font-black text-[#EA580C] uppercase tracking-wider block">Question {index + 1}</span>
-                                                   <p className="text-xs font-bold text-slate-700 leading-relaxed">{qData.text}</p>
-                                                   <span className="text-[10px] font-bold text-slate-400 block mt-1">{qData.correct}/{qData.total} correct attempts</span>
-                                                </div>
-                                                <span className={`px-3 py-1 rounded-full text-xs font-black whitespace-nowrap ${scoreColor}`}>
-                                                   {qAcc}% accuracy
-                                                </span>
-                                             </div>
-                                          );
-                                       })}
-                                    </div>
-                                 </div>
-
-                                 {/* Right side: Students accuracy ranking */}
-                                 <div className="lg:col-span-5 bg-white rounded-[40px] border border-orange-100 shadow-sm p-8 space-y-6">
-                                    <h3 className="text-lg font-black text-slate-800">Student Standings</h3>
-                                    <div className="space-y-3 max-h-[450px] overflow-y-auto pr-2 custom-scrollbar">
-                                       {currentStudents.map((st, idx) => {
-                                          const stData = selectedReportSubtopic.students[normalizeName(st.name)];
-                                          const stAcc = stData && stData.total > 0 ? Math.round((stData.correct / stData.total) * 100) : null;
-                                          
-                                          return (
-                                             <button 
-                                                key={idx} 
-                                                onClick={() => {
-                                                   setSelectedProfileStudent(st);
-                                                   setStudentProfileTab('mastery');
-                                                   setSelectedProfileSubmission(null);
-                                                }}
-                                                className="w-full flex justify-between items-center bg-slate-50 hover:bg-slate-100 px-4 py-3 rounded-2xl transition-colors focus:outline-none hover:opacity-85 text-left"
-                                             >
-                                                <div className="flex items-center gap-3">
-                                                   <img src={getStudentAvatar(st.name)} className="w-8 h-8 rounded-full border border-white bg-white p-0.5" alt={st.name} />
-                                                   <span className="text-xs font-black text-slate-700">{st.name}</span>
-                                                </div>
-                                                {stAcc !== null ? (
-                                                   <span className={`px-2.5 py-1 rounded-full text-[10px] font-black ${stAcc >= 80 ? 'bg-emerald-50 text-emerald-600' : stAcc >= 60 ? 'bg-blue-50 text-blue-600' : 'bg-rose-50 text-rose-600'}`}>
-                                                      {stAcc}%
-                                                   </span>
-                                                ) : (
-                                                   <span className="text-[10px] font-bold text-slate-300 italic">No submissions</span>
-                                                )}
-                                             </button>
-                                          );
-                                       })}
-                                    </div>
-                                 </div>
-                              </div>
+                           <div className="text-center py-20 bg-white rounded-[40px] border border-orange-100 shadow-sm space-y-3">
+                              <div className="text-5xl">ðŸ“Š</div>
+                              <h3 className="text-lg font-black text-[#14532d]">No Concept Data Yet</h3>
+                              <p className="text-xs font-bold text-slate-400">Assign some quizzes and check back once students start submitting! ðŸš€</p>
                            </div>
                         )}
                      </div>
@@ -5338,7 +5237,7 @@ Include a balanced combination of question types such as:
                            if (selectedStudentSubs.length === 0) {
                               return (
                                  <div className="bg-white rounded-[40px] py-20 text-center text-[#166534] font-bold italic border border-orange-100 shadow-sm">
-                                    {selectedReportStudent} has not submitted any quizzes yet. 🎒
+                                    {selectedReportStudent} has not submitted any quizzes yet. ðŸŽ’
                                  </div>
                               );
                            }
@@ -5382,7 +5281,7 @@ Include a balanced combination of question types such as:
                                           </div>
                                        </div>
                                        <div className={`w-12 h-12 rounded-2xl flex-center font-black ${growth >= 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
-                                          {growth >= 0 ? '▲' : '▼'}
+                                          {growth >= 0 ? 'â–²' : 'â–¼'}
                                        </div>
                                     </div>
                                  </div>
@@ -5435,7 +5334,7 @@ Include a balanced combination of question types such as:
                            );
                         })() : (
                            <div className="bg-white rounded-[40px] py-20 text-center text-[#166534] font-bold italic border border-orange-100 shadow-sm">
-                              Please select a student from the dropdown menu to inspect chronological progress maps. 📈
+                              Please select a student from the dropdown menu to inspect chronological progress maps. ðŸ“ˆ
                            </div>
                         )}
                      </div>
@@ -5445,7 +5344,7 @@ Include a balanced combination of question types such as:
                      <div className="space-y-8 animate-fadeIn">
                         <div className="bg-amber-50/50 border border-amber-100 rounded-[40px] p-8 flex gap-6">
                            <div className="w-12 h-12 shrink-0 bg-amber-400 rounded-2xl flex items-center justify-center text-white shadow-sm font-black text-xl">
-                              ⚠️
+                              âš ï¸
                            </div>
                            <div className="space-y-2">
                               <h4 className="text-sm font-black text-amber-800 uppercase tracking-widest">Early Intervention Flags</h4>
@@ -5513,17 +5412,17 @@ Include a balanced combination of question types such as:
                                        <button 
                                           onClick={() => {
                                              setRemediationModalStudent({ name: st.name, gapSubtopic: st.primaryGap });
-                                             setRemediationMessageContent(`Hi ${st.name}! I noticed we could focus a bit more on "${st.primaryGap}". Let me know if you want to review this together! 🌟`);
+                                             setRemediationMessageContent(`Hi ${st.name}! I noticed we could focus a bit more on "${st.primaryGap}". Let me know if you want to review this together! ðŸŒŸ`);
                                           }}
                                           className="flex-1 bg-slate-50 border border-slate-100 text-slate-700 py-3 rounded-2xl text-xs font-black transition-colors hover:bg-slate-100"
                                        >
-                                          📩 Direct Message
+                                          ðŸ“© Direct Message
                                        </button>
                                        <button 
                                           onClick={() => handleRemediationTrigger(st, st.primaryGap)}
                                           className="flex-1 bg-[#EA580C] text-white py-3 rounded-2xl text-xs font-black hover:bg-[#C2410C] transition-colors shadow-lg shadow-orange-200"
                                        >
-                                          ⚡ Remediation Homework
+                                          âš¡ Remediation Homework
                                        </button>
                                     </div>
                                  </div>
@@ -5532,9 +5431,9 @@ Include a balanced combination of question types such as:
                            {flaggedStudents.length === 0 && (
                               <div className="col-span-2 bg-white rounded-[40px] py-16 text-center text-emerald-500 font-bold italic border border-orange-100 shadow-sm flex flex-col items-center justify-center space-y-4">
                                  <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex-center text-2xl">
-                                    ✨
+                                    âœ¨
                                  </div>
-                                 <p className="text-base font-black">All students are on track! No intervention flagged. 🌟</p>
+                                 <p className="text-base font-black">All students are on track! No intervention flagged. ðŸŒŸ</p>
                               </div>
                            )}
                         </div>
@@ -5575,13 +5474,13 @@ Include a balanced combination of question types such as:
 
             const handleDeleteMessage = async (e, msgId) => {
                e.stopPropagation(); // prevent chat selection
-               if (await window.confirmCustom("Are you sure you want to delete this message forever? 🗑️")) {
+               if (await window.confirmCustom("Are you sure you want to delete this message forever? ðŸ—‘ï¸")) {
                   try {
                      await deleteDoc(doc(db, 'messages', msgId));
                      if (activeChat?.id === msgId) setActiveChat(null);
                   } catch (err) {
                      console.error("Error deleting message:", err);
-                     alert("Oops! Could not delete message. ❌");
+                     alert("Oops! Could not delete message. âŒ");
                   }
                }
             };
@@ -5604,7 +5503,7 @@ Include a balanced combination of question types such as:
                    });
                   setReplyText('');
                   setMessagesTab('Sent');
-                  alert('Reply sent! 🚀');
+                  alert('Reply sent! ðŸš€');
                } catch (err) {
                   console.error("Error replying:", err);
                }
@@ -5653,7 +5552,7 @@ Include a balanced combination of question types such as:
                   } else {
                      setMessagesTab('Announcements');
                   }
-                  alert('Message sent successfully! 🚀');
+                  alert('Message sent successfully! ðŸš€');
                } catch (err) {
                   console.error("Error creating message:", err);
                   alert("Failed to send: " + err.message);
@@ -5755,7 +5654,7 @@ Include a balanced combination of question types such as:
                                  <div>
                                     <h3 className="text-lg font-black text-[#14532d]">{currentChat.subject}</h3>
                                     <p className="text-[10px] font-bold text-[#166534] uppercase tracking-widest mt-1">
-                                       From: {currentChat.senderName} • To: {currentChat.recipientName} • {currentChat.createdAt ? new Date(currentChat.createdAt).toLocaleString() : ''}
+                                       From: {currentChat.senderName} â€¢ To: {currentChat.recipientName} â€¢ {currentChat.createdAt ? new Date(currentChat.createdAt).toLocaleString() : ''}
                                     </p>
                                  </div>
                               </div>
@@ -5798,7 +5697,7 @@ Include a balanced combination of question types such as:
                         ) : (
                            <div className="flex-1 flex flex-col items-center justify-center text-[#166534] font-bold italic text-sm gap-2">
                               <MessageSquare size={48} className="stroke-1 text-blue-200" />
-                              <span>Select a chat to read & reply! 💌</span>
+                              <span>Select a chat to read & reply! ðŸ’Œ</span>
                            </div>
                         )}
                      </div>
@@ -5880,7 +5779,7 @@ Include a balanced combination of question types such as:
                                  <div>
                                     <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest block mb-2">Recipient</label>
                                     <div className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-slate-600">
-                                       📢 All Classes & Classrooms
+                                       ðŸ“¢ All Classes & Classrooms
                                     </div>
                                  </div>
                               )}
@@ -5921,7 +5820,7 @@ Include a balanced combination of question types such as:
                                     type="submit"
                                     className="flex-1 bg-[#EA580C] hover:bg-[#C2410C] text-white py-4 rounded-2xl font-black text-sm transition-colors shadow-lg shadow-orange-100"
                                  >
-                                    Send Message 🚀
+                                    Send Message ðŸš€
                                  </button>
                               </div>
                            </form>
@@ -5973,7 +5872,7 @@ Include a balanced combination of question types such as:
                const badges = (student.customBadges || []).map(b => ({
                   name: b.name || b.label,
                   desc: b.desc || b.description,
-                  icon: b.icon || '🎖️',
+                  icon: b.icon || 'ðŸŽ–ï¸',
                   color: b.color || 'bg-yellow-50 text-yellow-600 border-yellow-100',
                   isCustom: true
                }));
@@ -5982,18 +5881,18 @@ Include a balanced combination of question types such as:
                const englishAvg = getAvg('english');
 
                if (mathsAvg >= 80) {
-                  badges.push({ name: 'Maths Whiz', desc: 'Scored 80%+ in Maths', icon: '⚡', color: 'bg-blue-50 text-blue-600 border-blue-100' });
+                  badges.push({ name: 'Maths Whiz', desc: 'Scored 80%+ in Maths', icon: 'âš¡', color: 'bg-blue-50 text-blue-600 border-blue-100' });
                }
                if (scienceAvg >= 80) {
-                  badges.push({ name: 'Science Explorer', desc: 'Scored 80%+ in Science', icon: '🚀', color: 'bg-emerald-50 text-emerald-600 border-emerald-100' });
+                  badges.push({ name: 'Science Explorer', desc: 'Scored 80%+ in Science', icon: 'ðŸš€', color: 'bg-emerald-50 text-emerald-600 border-emerald-100' });
                }
                if (englishAvg >= 80) {
-                  badges.push({ name: 'Super Writer', desc: 'Scored 80%+ in English', icon: '📝', color: 'bg-amber-50 text-amber-600 border-amber-100' });
+                  badges.push({ name: 'Super Writer', desc: 'Scored 80%+ in English', icon: 'ðŸ“', color: 'bg-amber-50 text-amber-600 border-amber-100' });
                }
                if (completedCount >= 3) {
-                  badges.push({ name: 'Homework Hero', desc: 'Completed 3+ quizzes', icon: '🏆', color: 'bg-green-50 text-green-600 border-green-200' });
+                  badges.push({ name: 'Homework Hero', desc: 'Completed 3+ quizzes', icon: 'ðŸ†', color: 'bg-green-50 text-green-600 border-green-200' });
                } else if (completedCount >= 1) {
-                  badges.push({ name: 'Rising Star', desc: 'Active and scoring', icon: '⭐', color: 'bg-rose-50 text-rose-600 border-rose-100' });
+                  badges.push({ name: 'Rising Star', desc: 'Active and scoring', icon: 'â­', color: 'bg-rose-50 text-rose-600 border-rose-100' });
                }
 
                return {
@@ -6050,7 +5949,7 @@ Include a balanced combination of question types such as:
                         <button 
                            onClick={() => {
                               setSelectedStudentForBadge(null);
-                              setBadgeIcon('🏆');
+                              setBadgeIcon('ðŸ†');
                               setBadgeColor('bg-amber-50 text-amber-600 border-amber-100');
                               setBadgeName('');
                               setBadgeDesc('');
@@ -6101,7 +6000,7 @@ Include a balanced combination of question types such as:
                            <RewardKPICard title="Total Points" value={totalPoints} subtitle="Derived from grades & quizzes" bgColor="bg-blue-50/50" textColor="text-blue-600" />
                            <RewardKPICard title="Badges Earned" value={totalBadges} subtitle="Star, Whiz & Explorer" bgColor="bg-rose-50/50" textColor="text-rose-600" />
                            <RewardKPICard title="Rewarded Kids" value={rewardedCount} subtitle={`${rewardedCount}/${computedStudents.length} active students`} bgColor="bg-emerald-50/50" textColor="text-emerald-600" />
-                           <RewardKPICard title="Class Champion" value={topEarner.name} subtitle={`${topEarner.points || 0} Points 🔥`} bgColor="bg-amber-50/50" textColor="text-amber-600" />
+                           <RewardKPICard title="Class Champion" value={topEarner.name} subtitle={`${topEarner.points || 0} Points ðŸ”¥`} bgColor="bg-amber-50/50" textColor="text-amber-600" />
                         </div>
 
                         <div className="grid grid-cols-12 gap-10">
@@ -6118,10 +6017,10 @@ Include a balanced combination of question types such as:
                                        ).toLocaleDateString(undefined, {month: 'short', day: 'numeric'}) : '';
 
                                        const getScoreFeedback = (score) => {
-                                          if (score >= 85) return `Outstanding effort in ${subject}! 🚀`;
-                                          if (score >= 70) return `Great work in ${subject}! 🌟`;
-                                          if (score >= 50) return `Good progress in ${subject}! 👍`;
-                                          return `Completed ${subject} quiz • Keep practicing! 💪`;
+                                          if (score >= 85) return `Outstanding effort in ${subject}! ðŸš€`;
+                                          if (score >= 70) return `Great work in ${subject}! ðŸŒŸ`;
+                                          if (score >= 50) return `Good progress in ${subject}! ðŸ‘`;
+                                          return `Completed ${subject} quiz â€¢ Keep practicing! ðŸ’ª`;
                                        };
 
                                        return (
@@ -6142,7 +6041,7 @@ Include a balanced combination of question types such as:
                                     })
                                  ) : (
                                     <div className="py-20 text-center text-[#166534] font-bold italic text-sm">
-                                       No homework submissions to reward yet! 🌟
+                                       No homework submissions to reward yet! ðŸŒŸ
                                     </div>
                                  )}
                               </div>
@@ -6170,11 +6069,11 @@ Include a balanced combination of question types such as:
                   {rewardsTab === 'Badges' && (
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {[
-                           { name: 'Maths Whiz', desc: 'Scored 80% or more in Mathematics homework quizzes.', icon: '⚡', color: 'bg-blue-50 border-blue-100 text-blue-600' },
-                           { name: 'Science Explorer', desc: 'Scored 80% or more in Science homework quizzes.', icon: '🚀', color: 'bg-emerald-50 border-emerald-100 text-emerald-600' },
-                           { name: 'Super Writer', desc: 'Scored 80% or more in English homework quizzes.', icon: '📝', color: 'bg-amber-50 border-amber-100 text-amber-600' },
-                           { name: 'Homework Hero', desc: 'Completed at least 3 homework assignments.', icon: '🏆', color: 'bg-green-50 border-green-200 text-green-600' },
-                           { name: 'Rising Star', desc: 'Earned by student after submitting their first homework quiz.', icon: '⭐', color: 'bg-rose-50 border-rose-100 text-rose-600' }
+                           { name: 'Maths Whiz', desc: 'Scored 80% or more in Mathematics homework quizzes.', icon: 'âš¡', color: 'bg-blue-50 border-blue-100 text-blue-600' },
+                           { name: 'Science Explorer', desc: 'Scored 80% or more in Science homework quizzes.', icon: 'ðŸš€', color: 'bg-emerald-50 border-emerald-100 text-emerald-600' },
+                           { name: 'Super Writer', desc: 'Scored 80% or more in English homework quizzes.', icon: 'ðŸ“', color: 'bg-amber-50 border-amber-100 text-amber-600' },
+                           { name: 'Homework Hero', desc: 'Completed at least 3 homework assignments.', icon: 'ðŸ†', color: 'bg-green-50 border-green-200 text-green-600' },
+                           { name: 'Rising Star', desc: 'Earned by student after submitting their first homework quiz.', icon: 'â­', color: 'bg-rose-50 border-rose-100 text-rose-600' }
                         ].map((badge) => {
                            const earners = computedStudents.filter(s => s.badges.some(b => b.name === badge.name));
 
@@ -6199,7 +6098,7 @@ Include a balanced combination of question types such as:
                                              </span>
                                           ))}
                                           {earners.length === 0 && (
-                                             <span className="text-[#166534] font-bold text-xs italic">No students have unlocked this yet! Keep going! 🚀</span>
+                                             <span className="text-[#166534] font-bold text-xs italic">No students have unlocked this yet! Keep going! ðŸš€</span>
                                           )}
                                        </div>
                                     </div>
@@ -6225,9 +6124,9 @@ Include a balanced combination of question types such as:
                            {sortedByPoints.length > 0 ? (
                               sortedByPoints.map((student, idx) => {
                                  let rankIcon = `#${idx + 1}`;
-                                 if (idx === 0) rankIcon = '🥇';
-                                 else if (idx === 1) rankIcon = '🥈';
-                                 else if (idx === 2) rankIcon = '🥉';
+                                 if (idx === 0) rankIcon = 'ðŸ¥‡';
+                                 else if (idx === 1) rankIcon = 'ðŸ¥ˆ';
+                                 else if (idx === 2) rankIcon = 'ðŸ¥‰';
 
                                  return (
                                     <div key={student.id} className="grid grid-cols-12 px-8 py-6 items-center text-sm font-bold text-slate-600 hover:bg-blue-50/10 transition-colors">
@@ -6251,7 +6150,7 @@ Include a balanced combination of question types such as:
                                           <button
                                              onClick={() => {
                                                 setSelectedStudentForBadge(student);
-                                                setBadgeIcon('🏆');
+                                                setBadgeIcon('ðŸ†');
                                                 setBadgeColor('bg-amber-50 text-amber-600 border-amber-100');
                                                 setBadgeName('');
                                                 setBadgeDesc('');
@@ -6268,7 +6167,7 @@ Include a balanced combination of question types such as:
                               })
                            ) : (
                               <div className="py-20 text-center text-[#166534] font-bold italic text-sm">
-                                 No students in this class roster yet. Add students to get started! 🍎
+                                 No students in this class roster yet. Add students to get started! ðŸŽ
                               </div>
                            )}
                         </div>
@@ -6282,7 +6181,7 @@ Include a balanced combination of question types such as:
              if (!activeClassroom) {
                 return (
                    <div className="px-10 py-20 text-center text-[#166534] font-bold italic text-sm">
-                      Please select a class to view and configure collaborative goals! 🏆
+                      Please select a class to view and configure collaborative goals! ðŸ†
                    </div>
                 );
              }
@@ -6304,7 +6203,7 @@ Include a balanced combination of question types such as:
              const currentClassPoints = Math.max(0, rawClassPoints - resetOffset);
 
              // Fetch goal parameters with beautiful fallbacks
-             const targetTitle = activeClassroom.goalTitle || 'Dino Pizza Party! 🍕';
+             const targetTitle = activeClassroom.goalTitle || 'Dino Pizza Party! ðŸ•';
              const targetGoal = activeClassroom.goalTarget || 1500;
              const progressPercent = Math.min(Math.round((currentClassPoints / targetGoal) * 100), 100);
 
@@ -6338,7 +6237,7 @@ Include a balanced combination of question types such as:
                                   }}
                                   className="px-4 py-2 border-2 border-green-200 hover:border-green-200 text-[#EA580C] rounded-2xl text-xs font-black transition-all bg-white"
                                >
-                                  Customize Goal ✏️
+                                  Customize Goal âœï¸
                                </button>
                             </div>
 
@@ -6361,15 +6260,15 @@ Include a balanced combination of question types such as:
                          </div>
 
                          <div className="bg-green-50/50 rounded-3xl p-6 border border-green-200/50 flex items-center gap-4">
-                            <span className="text-4xl">🎉</span>
+                            <span className="text-4xl">ðŸŽ‰</span>
                             <div>
                                <p className="text-sm font-black text-[#14532d]">Goal Progress Message</p>
                                <p className="text-xs font-bold text-blue-400 italic">
                                   {progressPercent >= 100 
-                                     ? `Incredible! Your class reached the goal! The Dino party is unlocked on their student panels! 🎈🦖`
+                                     ? `Incredible! Your class reached the goal! The Dino party is unlocked on their student panels! ðŸŽˆðŸ¦–`
                                      : `You need ${targetGoal - currentClassPoints} more points to unlock this prize. Keep submitting homework quizzes!`}
                                </p>
-                            <p className="text-xs font-bold text-[#166534] italic">{progressPercent >= 100 ? 'Unlocked & Active! 🦕' : 'Goal Locked'}</p>
+                            <p className="text-xs font-bold text-[#166534] italic">{progressPercent >= 100 ? 'Unlocked & Active! ðŸ¦•' : 'Goal Locked'}</p>
                          </div>
                       </div>
                    </div>
@@ -6498,7 +6397,7 @@ Include a balanced combination of question types such as:
                                          type="button"
                                          disabled={subjectPrompts[subKey]?.startsWith("Generating")}
                                          onClick={async () => {
-                                            setSubjectPrompts(prev => ({ ...prev, [subKey]: "Generating premium prompt using AI... 🪄 Please wait a moment." }));
+                                            setSubjectPrompts(prev => ({ ...prev, [subKey]: "Generating premium prompt using AI... ðŸª„ Please wait a moment." }));
                                             try {
                                                const generatedText = await generateContent({
                                                   prompt: `Write a highly detailed, customized, and structured instruction prompt template for another AI to generate high-quality worksheets and questions specifically for the subject: "${subKey}". The generated prompt must contain subject-specific details (for example, if the subject is "${subKey}", the instructions must specify key concepts, terminology, question structures, and topics unique to "${subKey}"). It should dynamically cater to the grade and difficulty level selected. Do not write a generic template containing '{SUBJECT}'. Write a concrete prompt tailored specifically to "${subKey}". Output only the prompt text itself, with no explanations or markdown quotes.`,
@@ -6516,7 +6415,7 @@ Include a balanced combination of question types such as:
                                          }}
                                          className="absolute bottom-3 right-3 bg-white hover:bg-slate-50 active:scale-95 border border-slate-200 text-slate-600 font-black px-2.5 py-1 rounded-xl text-[9px] shadow-sm transition-all flex items-center gap-1.5 z-10 disabled:opacity-50"
                                       >
-                                         {subjectPrompts[subKey]?.startsWith("Generating") ? "🪄 Generating..." : "✨ Auto-Fill Template"}
+                                         {subjectPrompts[subKey]?.startsWith("Generating") ? "ðŸª„ Generating..." : "âœ¨ Auto-Fill Template"}
                                       </button>
                                    </div>
                                 </div>
@@ -6534,7 +6433,7 @@ Include a balanced combination of question types such as:
                                 disabled={isSavingPrompts}
                                 className="bg-orange-600 hover:bg-orange-500 text-white font-black py-4 px-10 rounded-[24px] shadow-lg shadow-orange-100 active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50"
                              >
-                                {isSavingPrompts ? 'Saving...' : 'Save All Prompts ✨'}
+                                {isSavingPrompts ? 'Saving...' : 'Save All Prompts âœ¨'}
                              </button>
                           </div>
                        </div>
@@ -6561,7 +6460,7 @@ Include a balanced combination of question types such as:
                                 onClick={handleAddSubject}
                                 className="w-full bg-orange-600 hover:bg-orange-500 text-white font-black py-3.5 rounded-2xl shadow-md hover:scale-[1.02] active:scale-95 transition-all text-xs"
                              >
-                                Create Subject Card ➕
+                                Create Subject Card âž•
                              </button>
                           </div>
                        </div>
@@ -6594,12 +6493,12 @@ Include a balanced combination of question types such as:
                               className="bg-white border-2 border-slate-200 text-[#3C2E75] text-xs font-black rounded-xl px-3 py-1.5 outline-none focus:border-green-400 focus:ring-2 focus:ring-green-100 transition-all cursor-pointer"
                            >
                               <option value="USD">USD ($)</option>
-                              <option value="EUR">EUR (€)</option>
-                              <option value="GBP">GBP (£)</option>
+                              <option value="EUR">EUR (â‚¬)</option>
+                              <option value="GBP">GBP (Â£)</option>
                               <option value="AUD">AUD (A$)</option>
                               <option value="CAD">CAD (C$)</option>
                               <option value="NZD">NZD (NZ$)</option>
-                              <option value="INR">INR (₹)</option>
+                              <option value="INR">INR (â‚¹)</option>
                               <option value="ZAR">ZAR (R)</option>
                               <option value="SGD">SGD (S$)</option>
                            </select>
@@ -7165,7 +7064,7 @@ Include a balanced combination of question types such as:
 
                         {studentRoster.length === 0 && (
                            <div className="py-20 text-center text-[#166534] italic font-bold">
-                              No students found. 🔍
+                              No students found. ðŸ”
                            </div>
                         )}
                      </div>
@@ -7276,7 +7175,7 @@ Include a balanced combination of question types such as:
             <div className="bg-orange-50/50 rounded-[32px] p-8 relative group overflow-hidden border border-orange-200/50">
                <div className="absolute top-2 left-2 w-3 h-3 bg-white rounded-full opacity-40" />
                <p className="text-[11px] font-bold text-orange-900 leading-tight text-center relative z-10 italic">
-                  Guiding every student<br/>to their best! 🍎
+                  Guiding every student<br/>to their best! ðŸŽ
                </p>
                <div className="mt-4 flex-center">
                   <img src="/mascot.png" className="w-36 h-36 object-contain animate-float mix-blend-multiply drop-shadow-xl" alt="Mascot" />
@@ -7293,7 +7192,7 @@ Include a balanced combination of question types such as:
               return (
                  <div className="bg-amber-50 border border-amber-200 text-amber-800 px-6 py-3 rounded-2xl mb-4 flex items-center justify-between shadow-sm animate-pulse">
                     <div className="flex items-center gap-3">
-                       <span className="text-xl">⚠️</span>
+                       <span className="text-xl">âš ï¸</span>
                        <p className="text-sm font-bold">
                           You have {lockedCount} {lockedCount === 1 ? 'student' : 'students'} locked due to your current seat limit.
                        </p>
@@ -7315,7 +7214,7 @@ Include a balanced combination of question types such as:
                     <h2 className="text-xl font-bold text-slate-800 tracking-tight">{activeTab === 'Dashboard' ? 'Executive Dashboard' : activeTab}</h2>
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                        {activeTab === 'Dashboard' ? 'Global Overview' : (activeTab === 'Scheduler' ? 'Automated Curriculum Scheduler' : 'Class View')}
-                       {activeTab !== 'Scheduler' && activeTab !== 'Billing & Licenses' && activeTab !== 'Admin Reports' && activeTab !== 'My Prompts' && ` • ${activeClassroom?.name || 'All Classes'}`}
+                       {activeTab !== 'Scheduler' && activeTab !== 'Billing & Licenses' && activeTab !== 'Admin Reports' && activeTab !== 'My Prompts' && ` â€¢ ${activeClassroom?.name || 'All Classes'}`}
                     </p>
                  </div>
                  
@@ -7398,7 +7297,7 @@ Include a balanced combination of question types such as:
                               value={newGoalTitle} 
                               onChange={(e) => setNewGoalTitle(e.target.value)} 
                               className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-[#14532d] focus:outline-none"
-                              placeholder="e.g. Pizza Party! 🍕"
+                              placeholder="e.g. Pizza Party! ðŸ•"
                            />
                         </div>
                         <div>
@@ -7418,32 +7317,32 @@ Include a balanced combination of question types such as:
                               onChange={(e) => setNewGoalTrack(e.target.value)} 
                               className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-[#14532d] focus:outline-none"
                            >
-                              <option value="auto">Auto-Rotate Weekly (Recommended) 🔄</option>
-                              <option value="barbie">Dream World 🎀</option>
-                              <option value="minecraft">Block Builder's Quest ⛏️</option>
-                              <option value="sonic">Sonic Grand Prix 🦔</option>
-                              <option value="mario">Super Adventure Kingdom 🍄</option>
-                              <option value="forest">Enchanted Forest 🌲</option>
-                              <option value="space">Cosmic Space Maze 🚀</option>
-                              <option value="island">Adventure Island 🏝️</option>
-                              <option value="sports">Sports Track 🏃</option>
-                              <option value="undersea">Undersea Voyage 🌊</option>
-                              <option value="candyland">Candyland Adventure 🍬</option>
-                              <option value="dinosaur">Dinosaur Safari 🦖</option>
-                              <option value="pirate">Pirate Treasure Hunt 🏴‍☠️</option>
-                              <option value="haunted">Haunted Castle 👻</option>
-                              <option value="winter">Winter Wonderland ⛄</option>
-                              <option value="jungle">Jungle Explorer 🌴</option>
-                              <option value="desert">Desert Mirage 🏜️</option>
-                              <option value="cyber">Cyber City 🤖</option>
-                              <option value="magic">Magic School 🪄</option>
+                              <option value="auto">Auto-Rotate Weekly (Recommended) ðŸ”„</option>
+                              <option value="barbie">Dream World ðŸŽ€</option>
+                              <option value="minecraft">Block Builder's Quest â›ï¸</option>
+                              <option value="sonic">Sonic Grand Prix ðŸ¦”</option>
+                              <option value="mario">Super Adventure Kingdom ðŸ„</option>
+                              <option value="forest">Enchanted Forest ðŸŒ²</option>
+                              <option value="space">Cosmic Space Maze ðŸš€</option>
+                              <option value="island">Adventure Island ðŸï¸</option>
+                              <option value="sports">Sports Track ðŸƒ</option>
+                              <option value="undersea">Undersea Voyage ðŸŒŠ</option>
+                              <option value="candyland">Candyland Adventure ðŸ¬</option>
+                              <option value="dinosaur">Dinosaur Safari ðŸ¦–</option>
+                              <option value="pirate">Pirate Treasure Hunt ðŸ´â€â˜ ï¸</option>
+                              <option value="haunted">Haunted Castle ðŸ‘»</option>
+                              <option value="winter">Winter Wonderland â›„</option>
+                              <option value="jungle">Jungle Explorer ðŸŒ´</option>
+                              <option value="desert">Desert Mirage ðŸœï¸</option>
+                              <option value="cyber">Cyber City ðŸ¤–</option>
+                              <option value="magic">Magic School ðŸª„</option>
                            </select>
                         </div>
                      </div>
                      <div className="flex flex-col gap-3">
                         <div className="flex gap-4">
                            <button onClick={handleSaveGoal} className="flex-1 bg-[#EA580C] text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#C2410C] transition-all shadow-lg shadow-orange-100">
-                              Save Goal 🚀
+                              Save Goal ðŸš€
                            </button>
                            <button onClick={() => setIsEditingGoal(false)} className="flex-1 bg-slate-50 hover:bg-slate-100 text-slate-500 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-colors">
                               Cancel
@@ -7453,7 +7352,7 @@ Include a balanced combination of question types such as:
                            onClick={handleResetGoalProgress}
                            className="w-full bg-red-50 hover:bg-red-100/80 text-red-500 py-3.5 rounded-2xl font-black text-xs uppercase tracking-widest transition-all border border-red-100"
                         >
-                           Reset Goal Progress 🔄
+                           Reset Goal Progress ðŸ”„
                         </button>
                      </div>
                   </div>
@@ -7521,7 +7420,7 @@ Include a balanced combination of question types such as:
                         <div>
                            <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest block mb-3">Choose Badge Icon</label>
                            <div className="grid grid-cols-6 gap-3">
-                              {['🏆', '🎨', '🧪', '🤝', '🌟', '🧠', '❤️', '⚡', '🚀', '🌱', '📚', '🎖️'].map(emoji => (
+                              {['ðŸ†', 'ðŸŽ¨', 'ðŸ§ª', 'ðŸ¤', 'ðŸŒŸ', 'ðŸ§ ', 'â¤ï¸', 'âš¡', 'ðŸš€', 'ðŸŒ±', 'ðŸ“š', 'ðŸŽ–ï¸'].map(emoji => (
                                  <button
                                     key={emoji}
                                     type="button"
@@ -7563,7 +7462,7 @@ Include a balanced combination of question types such as:
                               value={badgeName} 
                               onChange={(e) => setBadgeName(e.target.value)} 
                               className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3.5 px-5 text-sm font-bold text-[#14532d] focus:outline-none focus:border-[#EA580C] transition-all"
-                              placeholder="e.g. Maths Genius 📐"
+                              placeholder="e.g. Maths Genius ðŸ“"
                               required
                            />
                         </div>
@@ -7600,7 +7499,7 @@ Include a balanced combination of question types such as:
                            disabled={isAwardingBadge || !badgeName.trim()}
                            className="flex-grow bg-[#EA580C] hover:bg-[#C2410C] text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg shadow-orange-100 disabled:opacity-50"
                         >
-                           {isAwardingBadge ? 'Awarding...' : 'Award Badge 🏆'}
+                           {isAwardingBadge ? 'Awarding...' : 'Award Badge ðŸ†'}
                         </button>
                         <button 
                            onClick={() => setShowAwardBadgeModal(false)} 
@@ -7630,11 +7529,11 @@ Include a balanced combination of question types such as:
                   recipientType: 'student',
                   recipientId: student.name,
                   recipientName: student.name,
-                  subject: `⚠️ Reminder: ${selectedCalendarHw.title}`,
-                  content: `Hi ${student.name}! Friendly reminder to finish your ${selectedCalendarHw.subject} quiz on "${selectedCalendarHw.title}" as soon as possible! 🚀`,
+                  subject: `âš ï¸ Reminder: ${selectedCalendarHw.title}`,
+                  content: `Hi ${student.name}! Friendly reminder to finish your ${selectedCalendarHw.subject} quiz on "${selectedCalendarHw.title}" as soon as possible! ðŸš€`,
                   createdAt: new Date().toISOString()
                });
-               alert(`Reminder sent live to ${student.name}! 🚀`);
+               alert(`Reminder sent live to ${student.name}! ðŸš€`);
             } catch (err) {
                console.error(err);
                alert("Failed to send reminder.");
@@ -7648,7 +7547,7 @@ Include a balanced combination of question types such as:
                      <div>
                         <span className="text-[9px] font-black uppercase text-[#806BFF] tracking-wider">Mission Details</span>
                         <h3 className="text-2xl font-black text-[#3B2B85]">{selectedCalendarHw.title}</h3>
-                        <p className="text-xs font-bold text-[#7A69D6] italic">{selectedCalendarHw.subject} • Due: {selectedCalendarHw.dueDate}</p>
+                        <p className="text-xs font-bold text-[#7A69D6] italic">{selectedCalendarHw.subject} â€¢ Due: {selectedCalendarHw.dueDate}</p>
                      </div>
                      <button onClick={() => setShowCalendarModal(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
                         <X size={20} strokeWidth={3} />
@@ -7659,7 +7558,7 @@ Include a balanced combination of question types such as:
                      {/* Submitted List */}
                      <div className="space-y-4">
                         <h4 className="text-sm font-black text-emerald-500 uppercase tracking-widest flex items-center gap-2">
-                           <span>✅</span> Submitted ({submissions.length})
+                           <span>âœ…</span> Submitted ({submissions.length})
                         </h4>
                         <div className="space-y-2 max-h-[250px] overflow-y-auto no-scrollbar">
                            {submissions.map(sub => (
@@ -7677,7 +7576,7 @@ Include a balanced combination of question types such as:
                      {/* Pending List */}
                      <div className="space-y-4">
                         <h4 className="text-sm font-black text-amber-500 uppercase tracking-widest flex items-center gap-2">
-                           <span>⏳</span> Pending ({pendingStudents.length})
+                           <span>â³</span> Pending ({pendingStudents.length})
                         </h4>
                         <div className="space-y-2 max-h-[250px] overflow-y-auto no-scrollbar">
                            {pendingStudents.map(student => (
@@ -7687,12 +7586,12 @@ Include a balanced combination of question types such as:
                                     onClick={() => handleSendReminderPing(student)}
                                     className="px-2.5 py-1 bg-amber-400 hover:bg-amber-500 text-white rounded-lg text-[9px] font-black transition-colors"
                                  >
-                                    Send Ping 🔔
+                                    Send Ping ðŸ””
                                  </button>
                               </div>
                            ))}
                            {pendingStudents.length === 0 && (
-                              <span className="text-xs text-emerald-500 font-black italic">Excellent! Everyone has submitted! 🎉</span>
+                              <span className="text-xs text-emerald-500 font-black italic">Excellent! Everyone has submitted! ðŸŽ‰</span>
                            )}
                         </div>
                      </div>
@@ -7714,7 +7613,7 @@ Include a balanced combination of question types such as:
             >
               <div className="text-center space-y-2">
                 <h2 className="text-3xl font-black text-slate-800 tracking-tight">Create New Class</h2>
-                <p className="text-sm font-bold text-slate-400">Give your new class a fun name! 🎨</p>
+                <p className="text-sm font-bold text-slate-400">Give your new class a fun name! ðŸŽ¨</p>
               </div>
               <div className="space-y-4">
                 <div className="space-y-2">
@@ -7817,7 +7716,7 @@ Include a balanced combination of question types such as:
             >
               <div className="text-center space-y-2">
                 <h2 className="text-3xl font-black text-slate-800 tracking-tight">Edit Class</h2>
-                <p className="text-sm font-bold text-slate-400">Update your class details! ✨</p>
+                <p className="text-sm font-bold text-slate-400">Update your class details! âœ¨</p>
               </div>
               <div className="space-y-4">
                 <div className="space-y-2">
@@ -7942,7 +7841,7 @@ Include a balanced combination of question types such as:
                        onClick={() => setSelectedSubmission(null)}
                        className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-blue-400 hover:text-rose-500 hover:bg-rose-50 hover:scale-110 transition-all shadow-sm border border-orange-100"
                     >
-                       ✕
+                       âœ•
                     </button>
                  </div>
 
@@ -8122,13 +8021,13 @@ Include a balanced combination of question types such as:
            let badgeColorClass = 'bg-slate-50 text-slate-400';
            if (studentSubs.length > 0) {
               if (pacePerQ < 15) {
-                 speedBadge = 'Quick Solver ⚡';
+                 speedBadge = 'Quick Solver âš¡';
                  badgeColorClass = 'bg-amber-50 text-amber-600 border border-amber-100';
               } else if (pacePerQ >= 15 && pacePerQ <= 40) {
-                 speedBadge = 'Paced Solver ⏱️';
+                 speedBadge = 'Paced Solver â±ï¸';
                  badgeColorClass = 'bg-emerald-50 text-emerald-600 border border-emerald-100';
               } else {
-                 speedBadge = 'Deep Thinker 🧠';
+                 speedBadge = 'Deep Thinker ðŸ§ ';
                  badgeColorClass = 'bg-[#FFEDD5] text-[#EA580C] border border-[#FED7AA]';
               }
            }
@@ -8214,7 +8113,7 @@ Include a balanced combination of question types such as:
                               }}
                               className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-blue-400 hover:text-rose-500 hover:bg-rose-50 hover:scale-110 transition-all shadow-sm border border-orange-100"
                            >
-                              ✕
+                              âœ•
                            </button>
                         </div>
                     </div>
@@ -8258,7 +8157,7 @@ Include a balanced combination of question types such as:
                                    onClick={() => setSelectedProfileSubmission(null)}
                                    className="flex items-center gap-2 text-xs font-black text-orange-600 hover:underline uppercase tracking-wider"
                                 >
-                                   ← Back to submissions list
+                                   â† Back to submissions list
                                 </button>
                                 <span className={`px-4 py-1.5 rounded-full text-xs font-black ${selectedProfileSubmission.score >= 80 ? 'bg-emerald-50 text-emerald-600' : selectedProfileSubmission.score >= 50 ? 'bg-blue-50 text-blue-600' : 'bg-rose-50 text-rose-600'}`}>
                                    Score: {selectedProfileSubmission.score}%
@@ -8399,7 +8298,7 @@ Include a balanced combination of question types such as:
                                          {masteryArray.some(m => m.accuracy < 60) && (
                                             <div className="p-6 bg-rose-50 border border-rose-100 rounded-3xl flex gap-4 text-left mb-6">
                                                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm shrink-0 text-rose-500">
-                                                  ⚠️
+                                                  âš ï¸
                                                </div>
                                                <div>
                                                   <h4 className="text-sm font-black text-rose-800 uppercase tracking-widest">Gaps Identified</h4>
@@ -8439,7 +8338,7 @@ Include a balanced combination of question types such as:
                                       </>
                                    ) : (
                                       <div className="py-20 text-center text-[#166534] font-bold italic">
-                                         No mastery data has been logged yet. Check back once they submit their quizzes! 🚀
+                                         No mastery data has been logged yet. Check back once they submit their quizzes! ðŸš€
                                       </div>
                                    )}
                                 </div>
@@ -8491,7 +8390,7 @@ Include a balanced combination of question types such as:
                                                   </div>
                                                </div>
                                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs shadow-sm ${growth >= 0 ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-rose-50 text-rose-600 border border-rose-100'}`}>
-                                                  {growth >= 0 ? '▲' : '▼'}
+                                                  {growth >= 0 ? 'â–²' : 'â–¼'}
                                                </div>
                                             </div>
                                          </div>
@@ -8598,7 +8497,7 @@ Include a balanced combination of question types such as:
                                       </div>
                                    ) : (
                                       <div className="py-20 text-center text-[#166534] font-bold italic">
-                                         No missions completed yet. 🚀
+                                         No missions completed yet. ðŸš€
                                       </div>
                                    )}
                                 </div>
@@ -8627,7 +8526,7 @@ Include a balanced combination of question types such as:
                                  onClick={() => setShowReportOverlay(false)}
                                  className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-green-500 hover:text-rose-500 hover:bg-rose-50 hover:scale-105 transition-all shadow-sm border border-green-200"
                                >
-                                 ✕
+                                 âœ•
                                </button>
                              </div>
 
@@ -8664,7 +8563,7 @@ Include a balanced combination of question types such as:
                                    {masteryArray.length > 0 && (
                                      <div className="bg-white border border-slate-150 rounded-3xl p-5 space-y-3 shadow-sm">
                                        <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
-                                         <span>📊</span> 4-Week Umbrella Skill Masteries
+                                         <span>ðŸ“Š</span> 4-Week Umbrella Skill Masteries
                                        </h4>
                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                                          {masteryArray.map((m, idx) => {
@@ -8694,18 +8593,18 @@ Include a balanced combination of question types such as:
                                      <button
                                        onClick={() => {
                                          navigator.clipboard.writeText(aiReportContent);
-                                         alert("Report copied to clipboard! 📋✨");
+                                         alert("Report copied to clipboard! ðŸ“‹âœ¨");
                                        }}
                                        className="flex-1 py-4 bg-[#EA580C] text-white rounded-2xl text-xs font-black shadow-md shadow-orange-100 hover:bg-[#C2410C] transition-all flex items-center justify-center gap-2"
                                      >
-                                       <span>📋</span> Copy to Clipboard
+                                       <span>ðŸ“‹</span> Copy to Clipboard
                                      </button>
                                      <button
                                        onClick={handlePublishAiReportToParent}
                                        disabled={isPublishingReport}
                                        className="flex-1 py-4 bg-emerald-500 text-white rounded-2xl text-xs font-black shadow-md shadow-emerald-100 hover:bg-emerald-600 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
                                      >
-                                       {isPublishingReport ? "Publishing..." : "📤 Publish to Parent Portal"}
+                                       {isPublishingReport ? "Publishing..." : "ðŸ“¤ Publish to Parent Portal"}
                                      </button>
                                      <button
                                        onClick={() => {
@@ -8737,7 +8636,7 @@ Include a balanced combination of question types such as:
                                        }}
                                        className="py-4 px-6 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-2xl text-xs font-black transition-all flex items-center justify-center gap-2"
                                      >
-                                       <span>🖨️</span> Print
+                                       <span>ðŸ–¨ï¸</span> Print
                                      </button>
                                    </div>
                                  </div>
@@ -8834,7 +8733,7 @@ Include a balanced combination of question types such as:
                  className="max-w-md w-full bg-white rounded-[40px] p-10 space-y-6 shadow-2xl border-8 border-orange-200 relative text-center"
                >
                  <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center text-4xl mx-auto mb-2">
-                   {isTrialExpired ? '🔒' : '🚀'}
+                   {isTrialExpired ? 'ðŸ”’' : 'ðŸš€'}
                  </div>
                  <h2 className="text-2xl font-black text-[#14532d] tracking-tight">
                    {isTrialExpired ? 'Free Trial Expired' : 'Classroom Capacity Reached'}
@@ -8852,7 +8751,7 @@ Include a balanced combination of question types such as:
                      }} 
                      className="w-full bg-[#EA580C] hover:bg-[#C2410C] text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-orange-200"
                    >
-                     View Plans & Upgrade 💳
+                     View Plans & Upgrade ðŸ’³
                    </button>
                    <button 
                      onClick={() => setShowUpgradeAlert(false)} 
@@ -8927,7 +8826,7 @@ const ClassCard = ({ name, students, bgColor, kidsImg, subjects, onDelete, onVie
              </div>
              <div className="space-y-1">
                 <h4 className="text-white font-black text-xl">Delete Class?</h4>
-                <p className="text-white/80 text-xs font-bold leading-tight">This will remove all students and data! ⚠️</p>
+                <p className="text-white/80 text-xs font-bold leading-tight">This will remove all students and data! âš ï¸</p>
              </div>
              <div className="flex items-center gap-3 w-full">
                 <button 
