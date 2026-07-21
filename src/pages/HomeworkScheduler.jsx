@@ -53,6 +53,52 @@ const SUBJECTS = [
   { id: 'olympiad', name: 'Olympiad Maths', emoji: '🏆', color: 'text-purple-600', bgColor: 'bg-purple-50', borderColor: 'border-purple-200' }
 ];
 
+export const cleanCategoryName = (cat) => {
+  if (!cat) return '';
+  // Strip leading section codes like "A.\t", "B. ", "1. ", "10.\t", "F. ", "3.1 " etc.
+  return cat.replace(/^[A-Z0-9]+(?:\.[0-9]+)*[\.\t\s]+\s*/i, '').trim();
+};
+
+export const getSmartTopicTitle = (skills) => {
+  if (!skills || skills.length === 0) return '';
+
+  const categoryMap = new Map();
+  skills.forEach(s => {
+    const rawCat = s.category || s.topicCategory || '';
+    const cleanCat = cleanCategoryName(rawCat);
+    if (cleanCat && !categoryMap.has(cleanCat)) {
+      categoryMap.set(cleanCat, rawCat);
+    }
+  });
+
+  const categories = Array.from(categoryMap.keys());
+
+  if (categories.length === 0) {
+    if (skills.length === 1) return skills[0].title;
+    return `${skills[0].title} & ${skills.length - 1} more`;
+  }
+
+  if (categories.length === 1) {
+    return categories[0];
+  }
+
+  if (categories.length === 2) {
+    const combined = `${categories[0]} & ${categories[1]}`;
+    if (combined.length <= 55) {
+      return combined;
+    }
+    return `${categories[0]} & 1 more topic`;
+  }
+
+  const combinedTwo = `${categories[0]}, ${categories[1]}`;
+  if (combinedTwo.length <= 45) {
+    return `${combinedTwo} & ${categories.length - 2} more`;
+  }
+
+  return `${categories[0]} & ${categories.length - 1} more topics`;
+};
+
+
 // Compile a prompt template by replacing keywords case-insensitively
 const compilePrompt = (customPrompt, params) => {
   if (!customPrompt) return '';
@@ -535,6 +581,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         Create a ${sched.questionCount || 5}-question multiple-choice quiz for students on the following:
         Subject: ${sched.subject}
         Topic/Concept: ${sched.topic}
+        ${sched.selectedSkills && sched.selectedSkills.length > 0 ? `Specific Micro-Skills / Subtopics to Cover: ${sched.selectedSkills.map(s => s.title).join(', ')}` : ''}
         Grade Level: ${sched.grade}
         Difficulty: ${sched.difficulty}
         Curriculum Alignment: Strictly match the ${sched.curriculumName || 'ACARA'} standards for ${sched.grade} at a ${sched.difficulty} difficulty.
@@ -757,6 +804,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           teacherName: user?.displayName || 'Classroom Teacher',
           subject: formData.subject,
           topic: formData.topic,
+          selectedSkills: selectedSkills || [],
           curriculum: formData.curriculum,
           curriculumName,
           grade: formData.grade,
@@ -784,6 +832,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         alert(`Successfully created recurring homework automation! 🤖`);
 
         // Reset topic and class selections
+        setSelectedSkills([]);
         setFormData(prev => ({
           ...prev,
           topic: '',
@@ -826,6 +875,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         Create a ${formData.questionCount}-question multiple-choice quiz for students on the following:
         Subject: ${formData.subject}
         Topic/Concept: ${formData.topic}
+        ${selectedSkills && selectedSkills.length > 0 ? `Specific Micro-Skills / Subtopics to Cover: ${selectedSkills.map(s => s.title).join(', ')}` : ''}
         Grade Level: ${formData.grade}
         Difficulty: ${formData.difficulty}
         Curriculum Alignment: Strictly match the ${curriculumName} standards for ${formData.grade} at a ${formData.difficulty} difficulty.
@@ -958,6 +1008,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
       alert(`Successfully generated and scheduled homework! 🎉`);
       
       // Reset topic and class selections
+      setSelectedSkills([]);
       setFormData(prev => ({
         ...prev,
         topic: '',
@@ -1106,7 +1157,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                           const updated = selectedSkills.filter((_, idx) => idx !== i);
                           setSelectedSkills(updated);
                           if (updated.length > 0) {
-                            setFormData(prev => ({ ...prev, topic: updated.map(sk => sk.title).join(', ') }));
+                            setFormData(prev => ({ ...prev, topic: getSmartTopicTitle(updated) }));
                           } else {
                             setFormData(prev => ({ ...prev, topic: '' }));
                           }
@@ -2076,7 +2127,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           onClose={() => {
             setIsCurriculumModalOpen(false);
             if (selectedSkills.length > 0) {
-              setFormData(prev => ({ ...prev, topic: selectedSkills.map(s => s.title).join(', ') }));
+              setFormData(prev => ({ ...prev, topic: getSmartTopicTitle(selectedSkills) }));
             }
           }}
           curriculumData={curriculum[formData.grade]?.[(formData.subject?.toLowerCase().replace('_', ' ') === 'logical reasoning') ? 'Logical Reasoning' : (formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1))] || []}
@@ -2085,7 +2136,9 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
             const updated = typeof updaterFnOrValue === 'function' ? updaterFnOrValue(selectedSkills) : updaterFnOrValue;
             setSelectedSkills(updated);
             if (updated.length > 0) {
-              setFormData(prev => ({ ...prev, topic: updated.map(s => s.title).join(', ') }));
+              setFormData(prev => ({ ...prev, topic: getSmartTopicTitle(updated) }));
+            } else {
+              setFormData(prev => ({ ...prev, topic: '' }));
             }
           }}
         />

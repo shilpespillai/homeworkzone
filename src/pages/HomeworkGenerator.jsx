@@ -47,6 +47,7 @@ import EarlyMathVisualizer from '../components/EarlyMathVisualizer';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
 import CurriculumModal from '../components/CurriculumModal';
 import { curriculum } from '../data/curriculum';
+import { getSmartTopicTitle } from './HomeworkScheduler';
 
 const resolveGradeFromClassroomName = (classroomName) => {
   if (!classroomName) return 'Grade 1';
@@ -359,17 +360,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
 
   useEffect(() => {
     if (isCurriculumMode && selectedSkills.length > 0) {
-      let autoTitle = '';
-      if (selectedSkills.length === 1) {
-        autoTitle = selectedSkills[0].title;
-      } else {
-        const allSameCategory = selectedSkills.every(s => s.category === selectedSkills[0].category);
-        if (allSameCategory && selectedSkills[0].category) {
-          autoTitle = selectedSkills[0].category;
-        } else {
-          autoTitle = `Mixed Topic: ${selectedSkills.length} skills`;
-        }
-      }
+      const autoTitle = getSmartTopicTitle(selectedSkills);
       setFormData(prev => ({ ...prev, title: autoTitle }));
     } else if (isCurriculumMode && selectedSkills.length === 0) {
       setFormData(prev => ({ ...prev, title: '' }));
@@ -415,7 +406,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
 
       const resolvedGrade = resolveGradeFromClassroomName(activeClassroom?.name);
       
-      const topic = isCurriculumMode ? (selectedSkills.length === 1 ? selectedSkills[0].title : `Mixed Topic: ${selectedSkills.length} skills`) : (formData.title || (formData.aiPrompt ? formData.aiPrompt.slice(0, 45) + '...' : 'General Quiz'));
+      const topic = isCurriculumMode ? getSmartTopicTitle(selectedSkills) : (formData.title || (formData.aiPrompt ? formData.aiPrompt.slice(0, 45) + '...' : 'General Quiz'));
       
       const skillTitles = selectedSkills.map(s => s.title).join(", ");
       const rawInjected = isCurriculumMode 
