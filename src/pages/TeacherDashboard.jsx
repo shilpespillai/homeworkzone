@@ -79,17 +79,49 @@ import { fetchWithRetry, generateContent } from '../utils/aiClient';
 
 const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
 
+const checkIsAnswerCorrect = (studentSelection, actualAnswer) => {
+  if (studentSelection === undefined || studentSelection === null || actualAnswer === undefined || actualAnswer === null) return false;
+  if (studentSelection === actualAnswer) return true;
+
+  const strSel = Array.isArray(studentSelection) ? studentSelection.join(', ') : String(studentSelection).trim();
+  const strAns = Array.isArray(actualAnswer) ? actualAnswer.join(', ') : String(actualAnswer).trim();
+
+  if (strSel === strAns) return true;
+
+  // Clean trailing bracketed translations e.g. "लाल (red)" -> "लाल"
+  const cleanSel = strSel.replace(/\s*\([A-Za-z\s,-]+\)$/, '').trim().toLowerCase();
+  const cleanAns = strAns.replace(/\s*\([A-Za-z\s,-]+\)$/, '').trim().toLowerCase();
+
+  return cleanSel === cleanAns;
+};
+
 const getQuestionSubtopic = (hw, q) => {
+  // Priority 1: Direct subtopic specified on question
+  if (q.subtopic && typeof q.subtopic === 'string' && q.subtopic.trim()) {
+    return q.subtopic.trim();
+  }
+
+  // Priority 2: Selected curriculum skills/topics saved on the homework
+  if (hw.topics && Array.isArray(hw.topics) && hw.topics.length > 0) {
+    const validTopic = hw.topics.find(t => typeof t === 'string' && t.trim().length > 0);
+    if (validTopic) return validTopic.trim();
+  }
+  if (hw.selectedSkills && Array.isArray(hw.selectedSkills) && hw.selectedSkills.length > 0) {
+    const validSkill = hw.selectedSkills.find(s => typeof s === 'string' && s.trim().length > 0);
+    if (validSkill) return validSkill.trim();
+  }
+  if (hw.skillTitle && typeof hw.skillTitle === 'string' && hw.skillTitle.trim()) {
+    return hw.skillTitle.trim();
+  }
+
   const sub = (q.subtopic || '').trim();
   const text = (q.text || '').toLowerCase();
   const title = (hw.title || '').toLowerCase();
   const subject = (hw.subject || '').toLowerCase();
   
-  // Combine all context clues
   const context = `${sub} ${title} ${text}`.toLowerCase();
   
-  // 1. Map context clues to a standardized core concept
-  // Mathematics
+  if (context.includes('analogy') || context.includes('analogies')) return 'Word Analogies';
   if (context.includes('fraction') || context.includes('numerator') || context.includes('denominator')) return 'Fractions';
   if (context.includes('decimal') || context.includes('tenths') || context.includes('hundredths')) return 'Decimals';
   if (context.includes('addition') || context.includes('add ') || context.includes('adding') || context.includes('sum') || context.includes('+')) return 'Addition';
@@ -100,7 +132,6 @@ const getQuestionSubtopic = (hw, q) => {
   if (context.includes('algebra') || context.includes('equation') || context.includes('variable') || context.includes('expression')) return 'Algebra';
   if (context.includes('measurement') || context.includes('metric') || context.includes('ruler') || context.includes('time') || context.includes('clock') || context.includes('money') || context.includes('calendar') || context.includes('hour') || context.includes('minute')) return 'Measurement & Time';
   
-  // English / Literacy
   if (context.includes('spelling') || context.includes('spell ')) return 'Spelling';
   if (context.includes('punctuation') || context.includes('comma') || context.includes('period') || context.includes('question mark') || context.includes('apostrophe') || context.includes('exclamation') || context.includes('quotation')) return 'Punctuation';
   if (context.includes('noun')) return 'Nouns';
@@ -111,25 +142,20 @@ const getQuestionSubtopic = (hw, q) => {
   if (context.includes('comprehension') || context.includes('reading') || context.includes('passage') || context.includes('inference') || context.includes('context clue')) return 'Reading Comprehension';
   if (context.includes('vocabulary') || context.includes('synonym') || context.includes('antonym') || context.includes('definition') || context.includes('meaning')) return 'Vocabulary';
 
-  // Science
   if (context.includes('planet') || context.includes('solar') || context.includes('star') || context.includes('space') || context.includes('orbit') || context.includes('universe') || context.includes('galaxy') || context.includes('moon')) return 'Space & Astronomy';
   if (context.includes('cell') || context.includes('plant') || context.includes('animal') || context.includes('photosynthesis') || context.includes('body') || context.includes('organism') || context.includes('ecosystem') || context.includes('human') || context.includes('biology')) return 'Biology & Life Sciences';
   if (context.includes('chemical') || context.includes('molecule') || context.includes('atom') || context.includes('reaction') || context.includes('element') || context.includes('state of matter') || context.includes('chemistry')) return 'Chemistry & Matter';
   if (context.includes('gravity') || context.includes('force') || context.includes('energy') || context.includes('motion') || context.includes('magnet') || context.includes('physics') || context.includes('electricity') || context.includes('light')) return 'Physics & Energy';
   if (context.includes('weather') || context.includes('climate') || context.includes('rock') || context.includes('earth') || context.includes('water cycle') || context.includes('erosion') || context.includes('soil') || context.includes('environment')) return 'Earth & Environmental Sciences';
   
-  // Fallback based on Subject if available
+  if (hw.title && typeof hw.title === 'string' && hw.title.trim() && !hw.title.toLowerCase().includes('quiz') && !hw.title.toLowerCase().includes('mission')) {
+    return hw.title.trim();
+  }
+  
   if (subject.includes('math') || subject.includes('arithmetic')) return 'General Maths';
   if (subject.includes('english') || subject.includes('literacy') || subject.includes('reading')) return 'General English';
   if (subject.includes('science')) return 'General Science';
   
-  // Final generic fallbacks
-  if (sub) {
-     return sub.charAt(0).toUpperCase() + sub.slice(1);
-  }
-  if (hw.title) {
-     return hw.title.replace(/\(Grade\s+\d+\)/i, '').trim();
-  }
   return 'General Concepts';
 };
 
@@ -557,37 +583,46 @@ const TeacherDashboard = ({ user, onLogout }) => {
     try {
       const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
 
-      const className = selectedProfileStudent?.className || 'Classroom Student';
+      const className = selectedProfileStudent?.className || activeClassroom?.name || 'Classroom Student';
+      const teacherName = user?.displayName?.trim() || activeClassroom?.teacherName || 'Classroom Teacher';
+
       const masteriesList = masteryArray.map(m => `- ${m.name}: ${m.correctCount}/${m.totalCount} correct (${m.accuracy}%) - Tier: ${m.tier}`).join('\n');
 
-      const prompt = `You are an expert, encouraging elementary and middle school teacher.
-      Analyze this student's progress and generate a parent-friendly report:
+      const prompt = `You are an expert, encouraging educator named "${teacherName}" teaching ${className}.
+      Analyze this student's progress and generate a parent-friendly progress report for ${studentName}:
+      
       Student Name: ${studentName}
-      Class: ${className}
+      Classroom / Grade: ${className}
+      Teacher Name: ${teacherName}
       Total Homework Quizzes Completed: ${totalQuizzes}
       Starting Accuracy: ${startingScore}%
       Current Accuracy: ${currentScore}%
       Growth Index: ${growth >= 0 ? `+${growth}%` : `${growth}%`}
       Pacing Speed: ${speedBadge}
 
-      Time & Dedication on Homework Zone:
+      Time Dedicated on Homework Zone:
       - Today: ${timeSpentToday} minutes
       - This Week: ${timeSpentWeek} minutes
       - This Month: ${timeSpentMonth} minutes
       - This Year: ${timeSpentYear} minutes
       
-      Concept Masteries:
+      Exact Skills & Concept Masteries:
       ${masteriesList}
       
-      Write a beautifully formatted, structured report with:
-      1. 🌟 General Performance Overview (encouraging, warm, and highlight their attitude/effort).
-      2. ⏱️ Dedication & Effort (write a short paragraph highlighting their time spent practicing, using the provided daily, weekly, monthly, and yearly time metrics to praise their consistency).
-      3. 💪 Areas of Strength (list specific concepts they have mastered or are doing well in).
-      4. 🎯 Key Areas for Growth & Practice (list specific concepts needing review with fun, actionable strategies parents can practice at home).
+      Write a beautifully structured, highly visual report with clear headers, key takeaways, and bullet points:
+      1. 🌟 General Performance Overview (encouraging, warm, highlighting growth).
+      2. ⏱️ Dedication & Effort (highlight time spent practicing and consistency).
+      3. 💪 Areas of Strength (list specific skills mastered).
+      4. 🎯 Key Areas for Growth & Practice (list specific skills needing review with actionable home practice activities).
       5. 💡 Personalized Teacher's Recommendation.
       
-      Keep the tone highly professional, encouraging, warm, and helpful. Use simple parent-friendly language. 
-      Output the report directly as clean text or markdown (no JSON wrapper, no HTML headers, just formatted markdown text). Do not write introductory meta commentary like "Here is the report...".`;
+      CRITICAL NAME & PLACEHOLDER RULE:
+      - Sign the report at the bottom using:
+        Warm regards,
+        ${teacherName}
+        ${className} Teacher
+      - NEVER write "[Teacher's Name]", "[Teacher Name]", "[Your Name]", or any square bracket placeholders anywhere in the text!
+      - Keep the tone professional, encouraging, warm, and clear for parents.`;
 
       const textResponse = await generateContent({
         prompt,
@@ -4726,7 +4761,7 @@ Include a balanced combination of question types such as:
                         }
                         const studentSelection = sub.answers?.[q.id];
                         const actualAnswer = q.answer;
-                        if (studentSelection === actualAnswer) {
+                        if (checkIsAnswerCorrect(studentSelection, actualAnswer)) {
                            studentSubtopics[subtopic].correct += 1;
                         }
                         studentSubtopics[subtopic].total += 1;
@@ -7902,7 +7937,7 @@ Include a balanced combination of question types such as:
                  }
                  const studentSelection = sub.answers?.[q.id];
                  const actualAnswer = q.answer;
-                 const isCorrect = studentSelection === actualAnswer;
+                 const isCorrect = checkIsAnswerCorrect(studentSelection, actualAnswer);
                  
                  studentSubtopics[subtopic].totalCount += 1;
                  if (isCorrect) {
