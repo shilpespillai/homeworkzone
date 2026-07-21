@@ -83,8 +83,13 @@ export default async function handler(req, res) {
       if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY not configured' });
       endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
       headers = { 'Content-Type': 'application/json' };
-      const contents = systemInstruction ? [{ role: 'system', parts: [{ text: systemInstruction }] }, { parts: [{ text: prompt }] }] : [{ parts: [{ text: prompt }] }];
-      bodyObj = { contents, generationConfig: { temperature: 0.7, responseMimeType: responseMimeType === 'application/json' ? 'application/json' : 'text/plain' } };
+      bodyObj = {
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.7, responseMimeType: responseMimeType === 'application/json' ? 'application/json' : 'text/plain' }
+      };
+      if (systemInstruction) {
+        bodyObj.systemInstruction = { parts: [{ text: systemInstruction }] };
+      }
     } else if (provider === 'openai') {
       apiKey = process.env.OPENAI_API_KEY;
       modelName = 'gpt-4o';
