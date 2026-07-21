@@ -970,6 +970,9 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
               <>
                 {(() => {
                   let { text: cleanText, clockTime, inlineSvg } = parseQuestionText(currentQuestion.text);
+                  if (cleanText) {
+                    cleanText = cleanText.replace(/\s*\((?:Read this|Translation|In English|Meaning):?\s*[^)]+\)/gi, '').trim();
+                  }
                   const effectiveSvgCode = inlineSvg || currentQuestion.svgCode;
                   const isClockRelated = cleanText.toLowerCase().includes('clock') || cleanText.toLowerCase().includes('time');
                   
@@ -1113,6 +1116,10 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                 ) : currentQuestion.options && currentQuestion.options.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mt-6">
                     {currentQuestion.options.map((option, i) => {
+                      const cleanOptText = typeof option === 'string' && (/[\u0900-\u097F]/.test(option) || /[^\x00-\x7F]/.test(option))
+                        ? option.replace(/\s*\([A-Za-z\s,-]+\)$/, '').trim()
+                        : option;
+
                       const isSelected = answers[currentQuestion.id] === option;
                       const isCorrectOption = currentQuestion.answer === option;
                       
@@ -1130,7 +1137,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                       
                       let reviewState = "";
                       let showIcon = null;
-  
+   
                       if (isReviewing) {
                         if (isCorrectOption) {
                           showIcon = <CheckCircle2 className="w-8 h-8 text-white fill-emerald-500" />;
@@ -1143,7 +1150,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                       } else if (isSelected) {
                         showIcon = <CheckCircle2 className="w-8 h-8 text-slate-800 fill-white drop-shadow-md" />;
                       }
-  
+   
                       return (
                         <div key={option} className="flex gap-2">
                           <button
@@ -1158,7 +1165,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                                 {typeof option === 'string' && option.trim().startsWith('<svg') ? (
                                   <div dangerouslySetInnerHTML={{ __html: option }} className="w-full flex justify-center overflow-hidden" />
                                 ) : (
-                                  option
+                                  cleanOptText
                                 )}
                               </div>
                             </div>
@@ -1169,7 +1176,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                             )}
                           </button>
                           <button 
-                            onClick={(e) => { e.preventDefault(); playTTS(option); }}
+                            onClick={(e) => { e.preventDefault(); playTTS(cleanOptText); }}
                             className="w-16 flex items-center justify-center bg-blue-50 hover:bg-blue-100 text-blue-500 rounded-[24px] transition-colors border-2 border-transparent hover:border-blue-200"
                             title="Read Option Aloud"
                           >

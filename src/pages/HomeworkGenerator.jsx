@@ -49,6 +49,44 @@ import CurriculumModal from '../components/CurriculumModal';
 import { curriculum } from '../data/curriculum';
 import { getSmartTopicTitle } from './HomeworkScheduler';
 
+export const sanitizeQuestionData = (q) => {
+  if (!q) return q;
+  let text = q.text || '';
+  // Strip bracketed English translations like " (Read this: ...)" or " (Translation: ...)"
+  text = text.replace(/\s*\((?:Read this|Translation|In English|Meaning):?\s*[^)]+\)/gi, '').trim();
+
+  let options = q.options;
+  let answer = q.answer;
+
+  if (Array.isArray(options)) {
+    const cleanedOptions = options.map(opt => {
+      if (typeof opt !== 'string') return opt;
+      if (/[\u0900-\u097F]/.test(opt) || /[^\x00-\x7F]/.test(opt)) {
+        return opt.replace(/\s*\([A-Za-z\s,-]+\)$/, '').trim();
+      }
+      return opt;
+    });
+
+    if (answer && typeof answer === 'string') {
+      const matchIdx = options.findIndex(o => o === answer);
+      if (matchIdx !== -1) {
+        answer = cleanedOptions[matchIdx];
+      } else if (/[\u0900-\u097F]/.test(answer) || /[^\x00-\x7F]/.test(answer)) {
+        answer = answer.replace(/\s*\([A-Za-z\s,-]+\)$/, '').trim();
+      }
+    }
+
+    options = cleanedOptions;
+  }
+
+  return {
+    ...q,
+    text,
+    options,
+    answer
+  };
+};
+
 const resolveGradeFromClassroomName = (classroomName) => {
   if (!classroomName) return 'Grade 1';
   // Foundation detection
@@ -471,10 +509,12 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
            - CRITICAL DIAGRAM & INTERACTIVE DISTRIBUTION RULE: For Mathematics and Olympiad Maths, you MUST ensure that exactly 60% of the questions generated are diagram-based or interactive (questions containing "svgCode", "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData", "[CLOCK:]", or questionType="interactive"). The remaining 40% must be plain text-based questions (without visual diagrams or interactive drag-and-drop elements). Design the quiz to strictly follow this 60% diagram/interactive and 40% text-based ratio!
         3. For Science:
            - Ensure all facts, definitions, and concepts are scientifically accurate and standard.
-        4. General:
+        4. General & Non-English Languages:
            - The "answer" field MUST exactly match one of the 4 values inside the "options" array.
            - All options must be age-appropriate for elementary/middle school students.
            - CRITICAL: Do NOT prepend letters (e.g., A., B., C., D.) or numbers (1., 2.) to the strings in your "options" array. The UI automatically renders the A/B/C/D buttons.
+           - ABSOLUTE NO UNREQUESTED TRANSLATIONS RULE: For Hindi, foreign languages, or non-English content, DO NOT include English translations in parentheses inside option strings (e.g. NEVER write "लाल (red)" or "हरा (green)"). Option strings MUST contain ONLY the target language text (e.g. "लाल", "हरा"). Appending English translations in option choices ruins language testing and reveals answers to students! DO NOT include full English translation sentences in parentheses inside question text (e.g. NEVER write "(Read this: 'This is a red flower.' What color is the flower?)"). Keep question text purely in the target language unless specifically asked for a translation task.
+           - ABSOLUTE NON-TRIVIAL QUESTION RULE: Never write self-answering questions where the prompt sentence states the exact answer being asked (e.g. DO NOT write "This is a red flower. What color is the flower?" where the answer "red" is literally given in the sentence context!). Questions must test genuine comprehension or vocabulary.
         
         Return ONLY a JSON object containing:
         1. "questions": an array of objects. Each object must have: 
@@ -644,7 +684,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       });
 
       const parsed = JSON.parse(textResponse);
-      const questions = parsed.questions || parsed;
+      const rawQuestions = parsed.questions || parsed;
+      const questions = Array.isArray(rawQuestions) ? rawQuestions.map(sanitizeQuestionData) : rawQuestions;
       const passage = parsed.passage || null;
 
       // Shuffle options for each question to randomize correct answer position
