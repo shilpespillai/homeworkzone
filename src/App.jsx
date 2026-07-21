@@ -2828,21 +2828,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
      color: "text-emerald-500"
   }));
 
-  if (standings.length < 3) {
-     const currentStandingsScore = standingsScores[activeRegisteredName] || 0;
-     const mockPeers = [
-        { rank: 1, name: "Vansh Pillai", students: 120, progress: "+20", color: "text-emerald-500" },
-        { rank: 2, name: "Ved Pillai", students: 80, progress: "+10", color: "text-emerald-500" },
-        { rank: 3, name: studentName, students: currentStandingsScore, progress: "+5", color: "text-[#EA580C]" }
-     ];
-     mockPeers.forEach(peer => {
-        if (peer.name !== studentName && !standings.some(s => s.name === peer.name)) {
-           standings.push(peer);
-        }
-     });
-     standings.sort((a,b) => b.students - a.students);
-     standings.forEach((s, i) => s.rank = i + 1);
-  }
+  // No mock padding — only show real students from the classroom
+
 
   // Dynamic Badges
   const badges = [
