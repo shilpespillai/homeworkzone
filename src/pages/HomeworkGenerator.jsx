@@ -469,10 +469,11 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         CRITICAL LASER-FOCUS RULE: If a highly specific topic or micro-skill is provided (e.g., 'place value in decimal numbers' or 'identifying nouns'), EVERY SINGLE QUESTION MUST STRICTLY TEST THAT EXACT SKILL. DO NOT generate generalized questions about the broader subject (e.g., if asked for 'decimal place value', DO NOT generate questions about 'ordering decimals' or 'adding decimals'). Stay completely laser-focused on the exact requested skill!
 
         CRITICAL ACCURACY & QUALITY RULES:
-        1. For Language / English:
+        1. For Language / English / Language Conventions / Spellings / Literacy:
            - Identify the part of speech based strictly on its exact syntactic function inside the sentence context. E.g. in "The walk was long", "walk" is a noun. In "We walk daily", "walk" is a verb.
            - Ensure that the "answer" option is grammatically 100% correct, and the other 3 options are clearly incorrect or represent different parts of speech. No ambiguity.
            - CRITICAL VOCABULARY RULE: You MUST strictly adapt the reading level, vocabulary, and sentence structure to be age-appropriate for the specified grade level. For early learners (Foundation, Grade 1, Grade 2), use extremely simple, short, decodable words and short sentences. Avoid complex phrasing completely.
+           - ABSOLUTE SUBJECT BOUNDARY RULE: English, Language Conventions, Spellings, and Literacy subjects must ONLY contain questions about grammar, punctuation, spelling, vocabulary, reading comprehension, sentence structure, or writing. NEVER include maths, arithmetic, geometry, measurement, perimeter, area, angles, fractions, statistics, data, or any other numeracy content — even if framed as a creative word problem or real-world scenario. A perimeter-of-a-whiteboard question is a MATHS question, NOT an English question. DO NOT cross subject boundaries.
         2. For Mathematics and Olympiad Maths:
            - Ensure all equations, word problems, and numeric values are mathematically correct. Double-check your own calculations so there is zero arithmetic error.
            - CRITICAL MATH RULE: Never hallucinate mathematical properties! (e.g. 1234 is EVEN, not odd. Do not confidently assert false mathematical facts). The correct answer MUST be logically and mathematically indisputable.

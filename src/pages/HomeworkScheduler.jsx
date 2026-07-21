@@ -542,9 +542,10 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         Ensure the questions test the students' knowledge on the specific topic at the selected grade and difficulty.
 
         CRITICAL ACCURACY & QUALITY RULES:
-        1. For English Grammar / Word Classification (nouns, verbs, adjectives, adverbs, prepositions, etc.):
+        1. For English Grammar / Language Conventions / Spellings / Literacy / Word Classification (nouns, verbs, adjectives, adverbs, prepositions, etc.):
            - Identify the part of speech based strictly on its exact syntactic function inside the sentence context. E.g. in "The walk was long", "walk" is a noun. In "We walk daily", "walk" is a verb.
            - Ensure that the "answer" option is grammatically 100% correct, and the other 3 options are clearly incorrect or represent different parts of speech. No ambiguity.
+           - ABSOLUTE SUBJECT BOUNDARY RULE: English, Language Conventions, Spellings, and Literacy subjects must ONLY contain questions about grammar, punctuation, spelling, vocabulary, reading comprehension, sentence structure, or writing. NEVER include maths, arithmetic, geometry, measurement, perimeter, area, angles, fractions, statistics, data, or any other numeracy content — even if framed as a creative word problem or real-world scenario. DO NOT cross subject boundaries.
         2. For Mathematics and Olympiad Maths:
            - Ensure all equations, word problems, and numeric values are mathematically correct. Double-check your own calculations so there is zero arithmetic error.
            - The correct answer MUST be logically and mathematically indisputable.
@@ -832,10 +833,12 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         Ensure the questions test the students' knowledge on the specific topic at the selected grade and difficulty.
 
         CRITICAL ACCURACY & QUALITY RULES:
-        1. For English Grammar / Word Classification (nouns, verbs, adjectives, adverbs, prepositions, etc.):
+        1. For English Grammar / Language Conventions / Spellings / Literacy / Word Classification (nouns, verbs, adjectives, adverbs, prepositions, etc.):
            - Identify the part of speech based strictly on its exact syntactic function inside the sentence context. E.g. in "The walk was long", "walk" is a noun. In "We walk daily", "walk" is a verb.
            - Ensure that the "answer" option is grammatically 100% correct, and the other 3 options are clearly incorrect or represent different parts of speech. No ambiguity.
+           - ABSOLUTE SUBJECT BOUNDARY RULE: English, Language Conventions, Spellings, and Literacy subjects must ONLY contain questions about grammar, punctuation, spelling, vocabulary, reading comprehension, sentence structure, or writing. NEVER include maths, arithmetic, geometry, measurement, perimeter, area, angles, fractions, statistics, data, or any other numeracy content — even if framed as a creative word problem or real-world scenario. DO NOT cross subject boundaries.
         2. For Mathematics and Olympiad Maths:
+
             - Ensure all equations, word problems, and numeric values are mathematically correct. Double-check your own calculations so there is zero arithmetic error.
             - The correct answer MUST be logically and mathematically indisputable.
             - CRITICAL DIAGRAM & INTERACTIVE DISTRIBUTION RULE: For Mathematics and Olympiad Maths, you MUST ensure that exactly 60% of the questions generated are diagram-based or interactive (questions containing "svgCode", "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData", "[CLOCK:]", or questionType="interactive"). The remaining 40% must be plain text-based questions (without visual diagrams or interactive drag-and-drop elements). Design the quiz to strictly follow this 60% diagram/interactive and 40% text-based ratio!
