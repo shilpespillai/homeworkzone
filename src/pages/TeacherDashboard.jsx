@@ -4594,39 +4594,31 @@ Include a balanced combination of question types such as:
                );
             }
 
-            // 1. Gather student submissions from LAST 4 WEEKS ONLY (28 days)
-            const fourWeeksAgo = Date.now() - 28 * 24 * 60 * 60 * 1000;
-            const studentName = selectedProfileStudent.name;
-            const studentSubs = allSubmissions.filter(sub => {
-              if (normalizeName(sub.studentName) !== normalizeName(studentName)) return false;
-              if (sub.classId && sub.classId !== activeClassroom?.id) return false;
-              const subDate = sub.submittedAt?.toDate ? sub.submittedAt.toDate().getTime() : new Date(sub.submittedAt || 0).getTime();
-              return subDate >= fourWeeksAgo;
-            }).sort((a, b) => {
+            // 1. Sort current submissions
+            const studentSubs = currentSubmissions.sort((a, b) => {
                const dateA = a.submittedAt?.toDate ? a.submittedAt.toDate() : new Date(a.submittedAt || 0);
                const dateB = b.submittedAt?.toDate ? b.submittedAt.toDate() : new Date(b.submittedAt || 0);
                return dateB - dateA;
             });
 
             // 2. Calculate Umbrella Category Masteries for the last 4 weeks
-            const studentUmbrellas = {};
+            const studentSubtopics = {};
             studentSubs.forEach(sub => {
                const hw = allHomeworks.find(h => h.id === sub.homeworkId);
                if (!hw || !hw.questions) return;
                hw.questions.forEach(q => {
                   const rawSubtopic = getQuestionSubtopic(hw, q);
                   const umbrella = mapToUmbrellaCategory(rawSubtopic, hw.subject);
-
-                  if (!studentUmbrellas[umbrella]) {
-                     studentUmbrellas[umbrella] = { correctCount: 0, totalCount: 0 };
+                  if (!studentSubtopics[umbrella]) {
+                     studentSubtopics[umbrella] = { correctCount: 0, totalCount: 0 };
                   }
                   const studentSelection = sub.answers?.[q.id];
                   const actualAnswer = q.answer;
                   const isCorrect = checkIsAnswerCorrect(studentSelection, actualAnswer);
                   
-                  studentUmbrellas[umbrella].totalCount += 1;
+                  studentSubtopics[umbrella].totalCount += 1;
                   if (isCorrect) {
-                     studentUmbrellas[umbrella].correctCount += 1;
+                     studentSubtopics[umbrella].correctCount += 1;
                   }
                });
             });
@@ -8046,7 +8038,7 @@ Include a balanced combination of question types such as:
       
       {/* Student Detail Profile Modal */}
       <AnimatePresence>
-        {selectedProfileStudent && (() => {
+        {selectedProfileStudent && (
            // 1. Gather all student submissions
            const studentName = selectedProfileStudent.name;
            const studentSubs = allSubmissions.filter(sub => normalizeName(sub.studentName) === normalizeName(studentName) && (!sub.classId || sub.classId === activeClassroom?.id))
