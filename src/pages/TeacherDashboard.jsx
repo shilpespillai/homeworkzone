@@ -25,7 +25,7 @@ import {
   Users,
   User,
   MessageSquare,
-  BarChart,
+  BarChart as BarChartIcon,
   Trophy,
   X,
   Award,
@@ -7151,8 +7151,8 @@ Include a balanced combination of question types such as:
             <SidebarItem id="Homework/Test Builder" label="Homework/Test Builder" icon={<img src="/ic-homework.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Homework" />} active={activeTab === 'Homework/Test Builder'} onClick={setActiveTab} />
             <SidebarItem id="Scheduler" label="Scheduler" icon={<Calendar className="w-5 h-5 text-pink-500" />} active={activeTab === 'Scheduler'} onClick={setActiveTab} />
             <SidebarItem id="Gradebook" label="Gradebook" icon={<Trophy className="w-5 h-5 text-emerald-500" />} active={activeTab === 'Gradebook'} onClick={setActiveTab} />
-            <SidebarItem id="Reports" label="Reports" icon={<BarChart className="w-5 h-5 text-[#EA580C]" />} active={activeTab === 'Reports'} onClick={setActiveTab} />
-            <SidebarItem id="Test Reports" label="Test Reports" icon={<BarChart className="w-5 h-5 text-purple-500" />} active={activeTab === 'Test Reports'} onClick={setActiveTab} />
+            <SidebarItem id="Reports" label="Reports" icon={<BarChartIcon className="w-5 h-5 text-[#EA580C]" />} active={activeTab === 'Reports'} onClick={setActiveTab} />
+            <SidebarItem id="Test Reports" label="Test Reports" icon={<BarChartIcon className="w-5 h-5 text-purple-500" />} active={activeTab === 'Test Reports'} onClick={setActiveTab} />
             {(() => {
                const unreadMessageCount = teacherMessages.filter(msg => msg.recipientId === user?.uid && !msg.isRead).length;
                return (
