@@ -4253,7 +4253,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
               <p className="mt-1 md:mt-2 text-[10px] sm:text-xs md:text-sm lg:text-base text-slate-700 font-medium leading-relaxed">
                 Fun places for learning &amp; adventure!
               </p>
-              <button onClick={() => openLogin('student')} className="btn-primary mt-2 md:mt-4 lg:mt-6 scale-75 sm:scale-90 md:scale-100 origin-left">
+              <button onClick={() => openLogin('student')} className="btn-bubble btn-primary mt-2 md:mt-4 lg:mt-6 scale-75 sm:scale-90 md:scale-100 origin-left">
                 Start Learning <span>&#8594;</span>
               </button>
             </div>
@@ -4291,7 +4291,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                 </ul>
               </div>
             </div>
-            <button onClick={() => openLogin('student')} className="btn-primary mt-5 w-full justify-center">
+            <button onClick={() => openLogin('student')} className="btn-bubble btn-primary mt-5 w-full justify-center">
               Explore Library <span>&#8594;</span>
             </button>
           </article>
