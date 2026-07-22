@@ -177,6 +177,7 @@ export default function BodyAndFunctionsHub() {
       <div className="flex gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
         {[
           { id: 'overview', label: '7 Major Stages', icon: '⚡' },
+          { id: 'infographic', label: 'Full Infographic Chart', icon: '🖼️' },
           { id: 'pathway', label: '14-Step Food Pathway', icon: '🔄' },
           { id: 'enzymes', label: 'Digestive Enzymes', icon: '🧪' },
           { id: 'absorption', label: 'Nutrient Absorption (Villi)', icon: '🔬' },
@@ -196,9 +197,57 @@ export default function BodyAndFunctionsHub() {
         ))}
       </div>
 
+      {/* ==================================== TAB: INFOGRAPHIC CHART ==================================== */}
+      {activeTab === 'infographic' && (
+        <div className="space-y-6 bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-100">
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">
+                Official Visual Reference
+              </span>
+              <h2 className="text-2xl font-black text-slate-800 mt-1">The Human Digestive System Infographic</h2>
+              <p className="text-slate-500 text-xs mt-1">High-resolution diagram detailing Digestion and Absorption of Food.</p>
+            </div>
+            <a 
+              href="/digestive_system_infographic.jpg" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-extrabold text-xs shadow-md shadow-emerald-500/20 hover:bg-emerald-700 transition-all flex items-center gap-2"
+            >
+              🔍 Open Full Size Image
+            </a>
+          </div>
+
+          <div className="flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden">
+            <img 
+              src="/digestive_system_infographic.jpg" 
+              alt="The Human Digestive System - Digestion and Absorption of Food Infographic" 
+              className="max-w-full h-auto rounded-xl shadow-lg border border-white max-h-[800px] object-contain"
+            />
+          </div>
+        </div>
+      )}
+
       {/* ==================================== TAB 1: 7 MAJOR STAGES ==================================== */}
       {activeTab === 'overview' && (
         <div className="space-y-6">
+          {/* Infographic Quick Banner */}
+          <div className="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl p-4 text-white flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">🖼️</span>
+              <div>
+                <h4 className="font-extrabold text-sm">Official Digestive System Chart Included</h4>
+                <p className="text-emerald-100 text-xs">View the high-resolution infographic for complete anatomical diagrams.</p>
+              </div>
+            </div>
+            <button 
+              onClick={() => setActiveTab('infographic')}
+              className="px-4 py-2 rounded-xl bg-white text-emerald-900 font-black text-xs hover:bg-emerald-50 transition-all shrink-0 cursor-pointer shadow-sm"
+            >
+              View Infographic Chart →
+            </button>
+          </div>
+
           <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 flex items-start gap-4">
             <div className="p-3 bg-emerald-600 text-white rounded-xl font-bold">7</div>
             <div>
