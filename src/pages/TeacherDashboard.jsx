@@ -61,7 +61,12 @@ import {
   CartesianGrid, 
   Tooltip as RechartsTooltip, 
   ResponsiveContainer,
-  Legend
+  Legend,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar
 } from 'recharts';
 
 import { motion, AnimatePresence } from 'framer-motion';
@@ -5118,48 +5123,33 @@ Include a balanced combination of question types such as:
                                     </div>
                                  </div>
 
-                                 {/* Bar Chart — Accuracy by Subject */}
+                                 {/* Radar Chart — Accuracy by Subject */}
                                   <div className="bg-white rounded-[40px] p-8 border border-orange-100 shadow-sm flex flex-col justify-between">
-                                     <h3 className="text-sm font-black text-[#14532d] uppercase tracking-widest mb-4">Accuracy by Subject</h3>
+                                     <h3 className="text-sm font-black text-[#14532d] uppercase tracking-widest mb-4">Subject Performance Profile</h3>
                                      <ResponsiveContainer width="100%" height={260}>
-                                        <BarChart 
-                                           data={subjectsArray} 
-                                           layout="vertical" 
-                                           margin={{ left: 10, right: 30, top: 5, bottom: 5 }}
-                                           barGap={2}
-                                        >
-                                           <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" horizontal={false} />
-                                           <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 10, fontWeight: 700, fill: '#94a3b8' }} tickLine={false} axisLine={false} />
-                                           <YAxis 
-                                              type="category" 
-                                              dataKey="name" 
-                                              width={140} 
-                                              tick={{ fontSize: 11, fontWeight: 700, fill: '#334155' }} 
-                                              tickLine={false} 
-                                              axisLine={false} 
-                                           />
+                                        <RadarChart cx="50%" cy="50%" outerRadius="70%" data={subjectsArray}>
+                                           <PolarGrid stroke="#f1f5f9" />
+                                           <PolarAngleAxis dataKey="name" tick={{ fontSize: 10, fontWeight: 700, fill: '#334155' }} />
+                                           <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 8, fill: '#94a3b8' }} axisLine={false} />
+                                           {selectedReportStudent ? (
+                                              <>
+                                                 <Radar name="Student Accuracy" dataKey="accuracy" stroke="#10b981" fill="#10b981" fillOpacity={0.25} />
+                                                 <Radar name="Class Average" dataKey="classAverage" stroke="#a78bfa" fill="#a78bfa" fillOpacity={0.15} />
+                                              </>
+                                           ) : (
+                                              <Radar name="Class Average" dataKey="classAverage" stroke="#10b981" fill="#10b981" fillOpacity={0.3} />
+                                           )}
                                            <RechartsTooltip
                                               contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', fontSize: '12px', fontWeight: 700 }}
                                            />
                                            <Legend 
-                                              verticalAlign="top" 
+                                              verticalAlign="bottom" 
                                               height={36} 
                                               iconType="circle"
                                               iconSize={8}
-                                              wrapperStyle={{ fontSize: '11px', fontWeight: 700, paddingBottom: '10px' }}
+                                              wrapperStyle={{ fontSize: '11px', fontWeight: 700, paddingTop: '10px' }}
                                            />
-                                           <Bar name={selectedReportStudent ? "Student Accuracy" : "Class Average"} dataKey="accuracy" radius={[0, 4, 4, 0]} barSize={selectedReportStudent ? 8 : 14}>
-                                              {subjectsArray.map((entry, index) => (
-                                                 <Cell
-                                                    key={`bar-${index}`}
-                                                    fill={entry.accuracy >= 80 ? '#10b981' : entry.accuracy >= 60 ? '#3b82f6' : '#f43f5e'}
-                                                 />
-                                              ))}
-                                           </Bar>
-                                           {selectedReportStudent && (
-                                              <Bar name="Class Average" dataKey="classAverage" fill="#cbd5e1" radius={[0, 4, 4, 0]} barSize={8} />
-                                           )}
-                                        </BarChart>
+                                        </RadarChart>
                                      </ResponsiveContainer>
                                   </div>
                               </div>
