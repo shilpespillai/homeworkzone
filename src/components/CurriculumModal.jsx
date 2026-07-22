@@ -26,6 +26,7 @@ export default function CurriculumModal({
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedCategories, setExpandedCategories] = useState({});
   const [showAddForm, setShowAddForm] = useState(false);
+  const [mainTopicMode, setMainTopicMode] = useState('existing'); // 'existing' | 'new'
   const [newTitle, setNewTitle] = useState('');
   const [newCategory, setNewCategory] = useState('');
   const [customCategoryInput, setCustomCategoryInput] = useState('');
@@ -78,7 +79,7 @@ export default function CurriculumModal({
 
   const handleSaveCustomTopic = (e) => {
     e.preventDefault();
-    let mainCat = newCategory === '__new__' ? customCategoryInput.trim() : newCategory.trim();
+    let mainCat = mainTopicMode === 'new' ? customCategoryInput.trim() : newCategory.trim();
     if (!mainCat) {
       mainCat = 'Custom Topics';
     }
@@ -229,27 +230,46 @@ export default function CurriculumModal({
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-bold text-slate-600 mb-1">1. Main Topic / Category <span className="text-rose-500">*</span></label>
-                      <select 
-                        value={newCategory}
-                        onChange={e => setNewCategory(e.target.value)}
-                        className="w-full bg-white border-2 border-rose-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 focus:outline-none focus:border-rose-400 mb-2"
-                      >
-                        <option value="">Select Existing Main Topic...</option>
-                        {availableCategories.map((cat, idx) => (
-                          <option key={idx} value={cat}>{cat}</option>
-                        ))}
-                        <option value="__new__">+ Create New Main Topic</option>
-                      </select>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="block text-xs font-bold text-slate-600">1. Main Topic / Category <span className="text-rose-500">*</span></label>
+                        <div className="flex bg-rose-100/70 p-0.5 rounded-lg text-[11px] font-bold">
+                          <button 
+                            type="button" 
+                            onClick={() => setMainTopicMode('existing')} 
+                            className={`px-2.5 py-1 rounded-md transition-all ${mainTopicMode === 'existing' ? 'bg-white text-rose-700 shadow-xs' : 'text-rose-600/70 hover:text-rose-800'}`}
+                          >
+                            Choose Existing
+                          </button>
+                          <button 
+                            type="button" 
+                            onClick={() => setMainTopicMode('new')} 
+                            className={`px-2.5 py-1 rounded-md transition-all ${mainTopicMode === 'new' ? 'bg-rose-500 text-white shadow-xs' : 'text-rose-600/70 hover:text-rose-800'}`}
+                          >
+                            + New Main Topic
+                          </button>
+                        </div>
+                      </div>
 
-                      {newCategory === '__new__' && (
+                      {mainTopicMode === 'existing' ? (
+                        <select 
+                          value={newCategory}
+                          onChange={e => setNewCategory(e.target.value)}
+                          className="w-full bg-white border-2 border-rose-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 focus:outline-none focus:border-rose-400"
+                          required={mainTopicMode === 'existing'}
+                        >
+                          <option value="">Select Existing Main Topic...</option>
+                          {availableCategories.map((cat, idx) => (
+                            <option key={idx} value={cat}>{cat}</option>
+                          ))}
+                        </select>
+                      ) : (
                         <input 
                           type="text"
                           placeholder="e.g. My Body, Solar System, Ancient Egypt..."
                           value={customCategoryInput}
                           onChange={e => setCustomCategoryInput(e.target.value)}
                           className="w-full bg-white border-2 border-rose-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 focus:outline-none focus:border-rose-500"
-                          required
+                          required={mainTopicMode === 'new'}
                         />
                       )}
                     </div>
