@@ -3748,7 +3748,7 @@ Include a balanced combination of question types such as:
                           }}
                           className="px-3 py-1.5 border border-[#FFE0D6] hover:border-[#FFAB91] text-[#C64F33] rounded-xl text-[10px] font-black transition-all bg-white hover:bg-orange-50/20 shrink-0"
                           >
-                          Change Goal ✨ï¸
+                          Change Goal <Pencil className="w-3.5 h-3.5 inline-block ml-1" />
                           </button>
                           </div>
                           
