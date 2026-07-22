@@ -606,6 +606,8 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [selectedReportTab, setSelectedReportTab] = useState('mastery');
   const [selectedReportSubtopic, setSelectedReportSubtopic] = useState(null);
   const [selectedReportStudent, setSelectedReportStudent] = useState('');
+  const [selectedReportSubject, setSelectedReportSubject] = useState('');
+  const [selectedReportTimeRange, setSelectedReportTimeRange] = useState('all');
   const [remediationModalStudent, setRemediationModalStudent] = useState(null);
   const [remediationMessageContent, setRemediationMessageContent] = useState('');
   const [isSendingRemediationMsg, setIsSendingRemediationMsg] = useState(false);
@@ -4923,7 +4925,36 @@ Include a balanced combination of question types such as:
                return dateA - dateB;
             });
 
-            const trajectoryChartData = classroomHws.map((hw, idx) => {
+            const filteredClassroomHws = classroomHws.filter(hw => {
+               // Subject Filter
+               if (selectedReportSubject) {
+                  const subjectMatch = (hw.subject || '').toLowerCase() === selectedReportSubject.toLowerCase();
+                  if (!subjectMatch) return false;
+               }
+               
+               // Time Range Filter
+               if (selectedReportTimeRange && selectedReportTimeRange !== 'all') {
+                  const hwDate = new Date(hw.dueDate || hw.createdAt || 0);
+                  const now = new Date();
+                  
+                  if (selectedReportTimeRange === 'week') {
+                     const diffTime = Math.abs(now - hwDate);
+                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                     if (diffDays > 7) return false;
+                  } else if (selectedReportTimeRange === 'month') {
+                     const diffTime = Math.abs(now - hwDate);
+                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                     if (diffDays > 30) return false;
+                  } else if (selectedReportTimeRange === 'ytd') {
+                     const startOfYear = new Date(now.getFullYear(), 0, 1);
+                     if (hwDate < startOfYear) return false;
+                  }
+               }
+               
+               return true;
+            });
+
+            const trajectoryChartData = filteredClassroomHws.map((hw, idx) => {
                const hwSubs = currentSubmissions.filter(s => s.homeworkId === hw.id);
                const classAvg = hwSubs.length > 0 ? Math.round(hwSubs.reduce((acc, s) => acc + (s.score || 0), 0) / hwSubs.length) : 0;
                
@@ -5357,19 +5388,50 @@ Include a balanced combination of question types such as:
                         <div className="bg-white rounded-[40px] border border-orange-100 shadow-sm p-8 flex flex-col md:flex-row items-center justify-between gap-6">
                            <div className="space-y-2 text-center md:text-left">
                               <h2 className="text-2xl font-black text-[#14532d]">Growth Trajectory Timeline</h2>
-                              <p className="text-xs text-[#166534] font-medium">Select a student from the dropdown to overlay their individual quiz performance timeline against the class average.</p>
+                              <p className="text-xs text-[#166534] font-medium">Select a student, subject, and time range to overlay timelines against the class average.</p>
                            </div>
-                           <div className="w-full md:w-64">
-                              <select 
-                                 value={selectedReportStudent} 
-                                 onChange={(e) => setSelectedReportStudent(e.target.value)} 
-                                 className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-[#14532d] focus:outline-none focus:ring-2 focus:ring-[#EA580C]/25 shadow-sm"
-                              >
-                                 <option value="">All Students (Class Average Trend)</option>
-                                 {currentStudents.map((st, i) => (
-                                    <option key={i} value={st.name}>{st.name}</option>
-                                 ))}
-                              </select>
+                           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full md:w-auto">
+                              <div className="w-full sm:w-44">
+                                 <label className="text-[9px] font-black text-[#166534] uppercase tracking-wider block mb-1">Subject</label>
+                                 <select 
+                                    value={selectedReportSubject} 
+                                    onChange={(e) => setSelectedReportSubject(e.target.value)} 
+                                    className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-2.5 px-3 text-xs font-bold text-[#14532d] focus:outline-none focus:ring-2 focus:ring-[#EA580C]/25 shadow-sm"
+                                 >
+                                    <option value="">All Subjects</option>
+                                    <option value="maths">Mathematics</option>
+                                    <option value="english">English</option>
+                                    <option value="science">Science</option>
+                                    <option value="logical reasoning">Logical Reasoning</option>
+                                    <option value="olympiad">Olympiad</option>
+                                 </select>
+                              </div>
+                              <div className="w-full sm:w-44">
+                                 <label className="text-[9px] font-black text-[#166534] uppercase tracking-wider block mb-1">Time Range</label>
+                                 <select 
+                                    value={selectedReportTimeRange} 
+                                    onChange={(e) => setSelectedReportTimeRange(e.target.value)} 
+                                    className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-2.5 px-3 text-xs font-bold text-[#14532d] focus:outline-none focus:ring-2 focus:ring-[#EA580C]/25 shadow-sm"
+                                 >
+                                    <option value="all">All Time</option>
+                                    <option value="week">Last 7 Days</option>
+                                    <option value="month">Last 30 Days</option>
+                                    <option value="ytd">Year to Date (YTD)</option>
+                                 </select>
+                              </div>
+                              <div className="w-full sm:w-44">
+                                 <label className="text-[9px] font-black text-[#166534] uppercase tracking-wider block mb-1">Student</label>
+                                 <select 
+                                    value={selectedReportStudent} 
+                                    onChange={(e) => setSelectedReportStudent(e.target.value)} 
+                                    className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-2.5 px-3 text-xs font-bold text-[#14532d] focus:outline-none focus:ring-2 focus:ring-[#EA580C]/25 shadow-sm"
+                                 >
+                                    <option value="">All Students (Class Avg)</option>
+                                    {currentStudents.map((st, i) => (
+                                       <option key={i} value={st.name}>{st.name}</option>
+                                    ))}
+                                 </select>
+                              </div>
                            </div>
                         </div>
 
@@ -5377,7 +5439,7 @@ Include a balanced combination of question types such as:
                            if (trajectoryChartData.length === 0) {
                               return (
                                  <div className="bg-white rounded-[40px] py-20 text-center text-[#166534] font-bold italic border border-orange-100 shadow-sm">
-                                    No completed quiz data is available for this classroom yet.
+                                    No completed quiz data matches these filters.
                                  </div>
                               );
                            }
