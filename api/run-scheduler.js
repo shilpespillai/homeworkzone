@@ -263,6 +263,7 @@ Curriculum Alignment: Strictly match the ${curriculumName} standards for ${sched
 Ensure the questions test the students' knowledge on the specific topic at the selected grade and difficulty.
 
 ${(sched.subject?.toLowerCase() === 'maths' || sched.subject?.toLowerCase() === 'mathematics') ? 'CRITICAL DIAGRAM & INTERACTIVE DISTRIBUTION RULE: For Mathematics, you MUST ensure that exactly 60% of the questions generated are diagram-based or interactive (questions containing "svgCode", "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData", or [CLOCK:]). The remaining 40% must be plain text-based questions (without visual diagrams or interactive elements). Design the quiz to strictly follow this 60% diagram/interactive and 40% text-based ratio!' : ''}
+${(sched.subject?.toLowerCase().includes('science')) ? 'ABSOLUTE NO MATHS SUMS IN SCIENCE RULE: Science subjects MUST ONLY test scientific concepts, biological/physical processes, organ functions, classification, cause-and-effect, and scientific reasoning. NEVER generate primary school arithmetic sums, word problem calculations, addition/subtraction, multiplication/division, time arithmetic (e.g. 9 o\'clock + 3 hours), or bar chart math counts (e.g., \'How many more cups/blocks/hours?\') in a Science quiz. Even if framed with scientific words like \'digestive system\' or \'nutrients\', arithmetic word problems are MATHEMATICS questions, NOT Science questions. Keep Science quizzes 100% focused on scientific understanding!' : ''}
 
 ${visualRules}
 
