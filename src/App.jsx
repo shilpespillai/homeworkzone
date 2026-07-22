@@ -91,6 +91,7 @@ import LibraryZoneView from './components/LibraryZoneView';
 import ArtsAndFunView from './components/ArtsAndFunView';
 import ChildReportView from './components/ChildReportView';
 import MathsLearningHub from './components/MathsLearningHub';
+import BodyAndFunctionsHub from './components/BodyAndFunctionsHub';
 import TuitionPayment from './pages/TuitionPayment';
 import PlatformDocumentation from './pages/PlatformDocumentation';
 
@@ -2220,7 +2221,9 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
     activeNavRef.current = activeNav;
   }, [activeNav]);
   const [activeMission, setActiveMission] = useState(null);
-  const [learningExpanded, setLearningExpanded] = useState(false);
+  const [learningExpanded, setLearningExpanded] = useState(true);
+  const [mathsExpanded, setMathsExpanded] = useState(true);
+  const [scienceExpanded, setScienceExpanded] = useState(true);
   const [activeMathGrade, setActiveMathGrade] = useState(1);
   const [activeMathConcept, setActiveMathConcept] = useState('Numbers & Place Value');
 
@@ -2946,34 +2949,82 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        className="pl-6 mt-1 space-y-1 overflow-hidden text-left"
+                        className="pl-4 mt-1 space-y-2 overflow-hidden text-left"
                      >
-                        {[
-                           { name: 'Numbers & Place Value', emoji: '🔢' },
-                           { name: 'Arithmetic & Operations', emoji: '🧮' },
-                           { name: 'Fractions & Decimals', emoji: '🍕' },
-                           { name: 'Measurement & Money', emoji: '📏' },
-                           { name: 'Time & Clocks', emoji: '⏰' },
-                           { name: 'Geometry & Shapes', emoji: '📐' },
-                           { name: 'Algebra & Patterns', emoji: '⚡' },
-                           { name: 'Data & Probability', emoji: '📊' },
-                           { name: 'Vedic Maths', emoji: '🧮' }
-                        ].map((concept) => (
+                        {/* Umbrella 1: MATHS */}
+                        <div className="space-y-1">
                            <button
-                              key={concept.name}
-                              onClick={() => {
-                                 setActiveMathConcept(concept.name);
-                                 setActiveNav(`Learning: ${concept.name}`);
-                              }}
-                              className={`w-full text-left px-4 py-2.5 rounded-xl text-[11px] font-black transition-all flex items-center justify-between ${
-                                 activeNav === `Learning: ${concept.name}`
-                                    ? 'bg-green-100/50 text-[#EA580C]'
-                                    : 'text-[#166534] hover:text-[#14532d] hover:bg-slate-50/50'
-                              }`}
+                              onClick={() => setMathsExpanded(!mathsExpanded)}
+                              className="w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-[11px] font-black text-blue-700 bg-blue-50/70 hover:bg-blue-100/60 uppercase tracking-wider cursor-pointer"
                            >
-                              <span>{concept.emoji} {concept.name}</span>
+                              <span className="flex items-center gap-1.5">🧮 MATHS</span>
+                              <span className="text-[9px]">{mathsExpanded ? '▲' : '▼'}</span>
                            </button>
-                        ))}
+
+                           {mathsExpanded && (
+                              <div className="pl-2 space-y-0.5 border-l-2 border-blue-200 ml-2">
+                                 {[
+                                    { name: 'Numbers & Place Value', emoji: '🔢' },
+                                    { name: 'Arithmetic & Operations', emoji: '🧮' },
+                                    { name: 'Fractions & Decimals', emoji: '🍕' },
+                                    { name: 'Measurement & Money', emoji: '📏' },
+                                    { name: 'Time & Clocks', emoji: '⏰' },
+                                    { name: 'Geometry & Shapes', emoji: '📐' },
+                                    { name: 'Algebra & Patterns', emoji: '⚡' },
+                                    { name: 'Data & Probability', emoji: '📊' },
+                                    { name: 'Vedic Maths', emoji: '🧮' }
+                                 ].map((concept) => (
+                                    <button
+                                       key={concept.name}
+                                       onClick={() => {
+                                          setActiveMathConcept(concept.name);
+                                          setActiveNav(`Learning: ${concept.name}`);
+                                       }}
+                                       className={`w-full text-left px-3 py-2 rounded-xl text-[11px] font-black transition-all flex items-center justify-between cursor-pointer ${
+                                          activeNav === `Learning: ${concept.name}`
+                                             ? 'bg-blue-100 text-blue-800 font-extrabold shadow-sm'
+                                             : 'text-[#166534] hover:text-[#14532d] hover:bg-slate-50/60'
+                                       }`}
+                                    >
+                                       <span>{concept.emoji} {concept.name}</span>
+                                    </button>
+                                 ))}
+                              </div>
+                           )}
+                        </div>
+
+                        {/* Umbrella 2: SCIENCE */}
+                        <div className="space-y-1">
+                           <button
+                              onClick={() => setScienceExpanded(!scienceExpanded)}
+                              className="w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-[11px] font-black text-emerald-700 bg-emerald-50/70 hover:bg-emerald-100/60 uppercase tracking-wider cursor-pointer"
+                           >
+                              <span className="flex items-center gap-1.5">🔬 SCIENCE</span>
+                              <span className="text-[9px]">{scienceExpanded ? '▲' : '▼'}</span>
+                           </button>
+
+                           {scienceExpanded && (
+                              <div className="pl-2 space-y-0.5 border-l-2 border-emerald-200 ml-2">
+                                 {[
+                                    { name: 'Body and Functions', emoji: '🫀' }
+                                 ].map((topic) => (
+                                    <button
+                                       key={topic.name}
+                                       onClick={() => {
+                                          setActiveNav(`Learning: ${topic.name}`);
+                                       }}
+                                       className={`w-full text-left px-3 py-2 rounded-xl text-[11px] font-black transition-all flex items-center justify-between cursor-pointer ${
+                                          activeNav === `Learning: ${topic.name}`
+                                             ? 'bg-emerald-100 text-emerald-800 font-extrabold shadow-sm'
+                                             : 'text-[#166534] hover:text-[#14532d] hover:bg-slate-50/60'
+                                       }`}
+                                    >
+                                       <span>{topic.emoji} {topic.name}</span>
+                                    </button>
+                                 ))}
+                              </div>
+                           )}
+                        </div>
                      </motion.div>
                   )}
                </AnimatePresence>
@@ -3639,7 +3690,11 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                />
             )}
 
-            {activeNav.startsWith('Learning: ') && (
+            {activeNav === 'Learning: Body and Functions' && (
+               <BodyAndFunctionsHub />
+            )}
+
+            {activeNav.startsWith('Learning: ') && activeNav !== 'Learning: Body and Functions' && (
                <MathsLearningHub
                   activeConcept={activeMathConcept}
                   onConceptSelect={(concept) => {
