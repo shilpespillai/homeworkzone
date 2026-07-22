@@ -4687,6 +4687,93 @@ Include a balanced combination of question types such as:
                };
             });
 
+            // Class-wide accuracy by subject
+            const classSubjectsData = {};
+            currentSubmissions.forEach(sub => {
+               const hw = allHomeworks.find(h => h.id === sub.homeworkId);
+               if (!hw || !hw.questions) return;
+               
+               let rawSubject = hw.subject || 'general';
+               let subjectName = rawSubject.charAt(0).toUpperCase() + rawSubject.slice(1);
+               if (rawSubject.toLowerCase() === 'maths') subjectName = 'Mathematics';
+               if (rawSubject.toLowerCase() === 'logical reasoning') subjectName = 'Logical Reasoning';
+               
+               if (!classSubjectsData[subjectName]) {
+                  classSubjectsData[subjectName] = {
+                     name: subjectName,
+                     correctCount: 0,
+                     totalCount: 0
+                  };
+               }
+               
+               hw.questions.forEach(q => {
+                  const studentSelection = sub.answers?.[q.id];
+                  const actualAnswer = q.answer;
+                  const isCorrect = checkIsAnswerCorrect(studentSelection, actualAnswer);
+                  
+                  classSubjectsData[subjectName].totalCount += 1;
+                  if (isCorrect) {
+                     classSubjectsData[subjectName].correctCount += 1;
+                  }
+               });
+            });
+
+            // Selected student accuracy by subject
+            const studentSubjectsData = {};
+            const subjectSubmissions = selectedReportStudent 
+               ? currentSubmissions.filter(sub => normalizeName(sub.studentName) === normalizeName(selectedReportStudent))
+               : currentSubmissions;
+
+            subjectSubmissions.forEach(sub => {
+               const hw = allHomeworks.find(h => h.id === sub.homeworkId);
+               if (!hw || !hw.questions) return;
+               
+               let rawSubject = hw.subject || 'general';
+               let subjectName = rawSubject.charAt(0).toUpperCase() + rawSubject.slice(1);
+               if (rawSubject.toLowerCase() === 'maths') subjectName = 'Mathematics';
+               if (rawSubject.toLowerCase() === 'logical reasoning') subjectName = 'Logical Reasoning';
+               
+               if (!studentSubjectsData[subjectName]) {
+                  studentSubjectsData[subjectName] = {
+                     name: subjectName,
+                     correctCount: 0,
+                     totalCount: 0
+                  };
+               }
+               
+               hw.questions.forEach(q => {
+                  const studentSelection = sub.answers?.[q.id];
+                  const actualAnswer = q.answer;
+                  const isCorrect = checkIsAnswerCorrect(studentSelection, actualAnswer);
+                  
+                  studentSubjectsData[subjectName].totalCount += 1;
+                  if (isCorrect) {
+                     studentSubjectsData[subjectName].correctCount += 1;
+                  }
+               });
+            });
+
+            const subjectsArray = Object.keys(classSubjectsData).map(name => {
+               const classData = classSubjectsData[name];
+               const classAverage = classData.totalCount > 0 ? Math.round((classData.correctCount / classData.totalCount) * 100) : 0;
+               
+               const studentData = studentSubjectsData[name];
+               const accuracy = studentData && studentData.totalCount > 0 
+                  ? Math.round((studentData.correctCount / studentData.totalCount) * 100) 
+                  : (selectedReportStudent ? 0 : classAverage);
+               
+               let tier = 'Needs Focus';
+               if (accuracy >= 80) tier = 'Mastered';
+               else if (accuracy >= 60) tier = 'Reviewing';
+
+               return {
+                  name,
+                  accuracy,
+                  classAverage,
+                  tier
+               };
+            }).sort((a, b) => b.accuracy - a.accuracy);
+
             // Filtering, Sorting, and Pagination for Concept Mastery (Report A)
             const tierWeights = { 'Needs Focus': 1, 'Reviewing': 2, 'Mastered': 3 };
             const sortedAndFilteredSubtopics = subtopicsArray
@@ -5031,12 +5118,12 @@ Include a balanced combination of question types such as:
                                     </div>
                                  </div>
 
-                                 {/* Bar Chart — Accuracy by Category */}
+                                 {/* Bar Chart — Accuracy by Subject */}
                                   <div className="bg-white rounded-[40px] p-8 border border-orange-100 shadow-sm flex flex-col justify-between">
-                                     <h3 className="text-sm font-black text-[#14532d] uppercase tracking-widest mb-4">Accuracy by Concept</h3>
+                                     <h3 className="text-sm font-black text-[#14532d] uppercase tracking-widest mb-4">Accuracy by Subject</h3>
                                      <ResponsiveContainer width="100%" height={260}>
                                         <BarChart 
-                                           data={[...subtopicsArray].sort((a, b) => b.accuracy - a.accuracy).slice(0, 8)} 
+                                           data={subjectsArray} 
                                            layout="vertical" 
                                            margin={{ left: 10, right: 30, top: 5, bottom: 5 }}
                                            barGap={2}
@@ -5046,9 +5133,8 @@ Include a balanced combination of question types such as:
                                            <YAxis 
                                               type="category" 
                                               dataKey="name" 
-                                              width={160} 
+                                              width={140} 
                                               tick={{ fontSize: 11, fontWeight: 700, fill: '#334155' }} 
-                                              tickFormatter={(val) => val.length > 22 ? `${val.substring(0, 20)}...` : val}
                                               tickLine={false} 
                                               axisLine={false} 
                                            />
@@ -5063,7 +5149,7 @@ Include a balanced combination of question types such as:
                                               wrapperStyle={{ fontSize: '11px', fontWeight: 700, paddingBottom: '10px' }}
                                            />
                                            <Bar name={selectedReportStudent ? "Student Accuracy" : "Class Average"} dataKey="accuracy" radius={[0, 4, 4, 0]} barSize={selectedReportStudent ? 8 : 14}>
-                                              {[...subtopicsArray].sort((a, b) => b.accuracy - a.accuracy).slice(0, 8).map((entry, index) => (
+                                              {subjectsArray.map((entry, index) => (
                                                  <Cell
                                                     key={`bar-${index}`}
                                                     fill={entry.accuracy >= 80 ? '#10b981' : entry.accuracy >= 60 ? '#3b82f6' : '#f43f5e'}
