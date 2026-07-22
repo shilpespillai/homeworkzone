@@ -17,6 +17,7 @@ import {
   Trash2,
   Calendar,
   Plus,
+  ChevronLeft,
   ChevronRight,
   Star,
   Sparkles,
@@ -3214,19 +3215,21 @@ Include a balanced combination of question types such as:
                                <div className="flex justify-between items-center">
                                   <div className="space-y-1">
                                      <span className="text-[10px] font-black uppercase text-[#FFAB91] tracking-wider">Active Classroom Collaborative Goal</span>
-                                     <h3 className="text-xl font-black text-[#3C2E75]">{targetTitle}</h3>
+                                     <h3 className="text-xl font-black text-[#3C2E75]">
+                                       {targetTitle}
+                                       <button 
+                                          onClick={() => {
+                                             setNewGoalTitle(targetTitle);
+                                             setNewGoalTarget(targetGoal);
+                                             setNewGoalTrack(activeClassroom?.activeTrack || 'auto');
+                                             setIsEditingGoal(true);
+                                          }}
+                                          className="ml-2 inline-flex items-center text-[#C64F33] hover:text-[#FF7043]"
+                                       >
+                                          <Pencil className="w-3.5 h-3.5" />
+                                       </button>
+                                     </h3>
                                   </div>
-                                  <button 
-                                     onClick={() => {
-                                        setNewGoalTitle(targetTitle);
-                                        setNewGoalTarget(targetGoal);
-                                        setNewGoalTrack(activeClassroom?.activeTrack || 'auto');
-                                        setIsEditingGoal(true);
-                                     }}
-                                     className="px-5 py-2.5 border-2 border-[#FFE0D6] hover:border-[#FFAB91] text-[#C64F33] rounded-2xl text-xs font-black transition-all bg-white"
-                                  >
-                                     Change Goal ✨ï¸
-                                  </button>
                                </div>
 
                                <div className="space-y-4 pt-2">
@@ -3256,7 +3259,7 @@ Include a balanced combination of question types such as:
                          {pendingDrafts.length > 0 && (
                             <div className="bg-gradient-to-br from-[#FFF0FA] to-[#FFE5F6] rounded-[32px] border border-[#FFD5F0] shadow-sm p-6 space-y-4 animate-in slide-in-from-top duration-300">
                                <div className="flex items-center gap-3">
-                                  <span className="text-3xl animate-bounce">ðŸ“</span>
+                                  <span className="text-3xl animate-bounce">📁</span>
                                   <div>
                                      <h3 className="text-xl font-black text-[#8A1F6E] tracking-tight">Drafts Pending Review</h3>
                                      <p className="text-[9px] font-black text-[#C6339A] uppercase tracking-widest">Left to be checked & published</p>
@@ -3463,13 +3466,13 @@ Include a balanced combination of question types such as:
                              onClick={() => setCompletionTab('lagging')}
                              className={`flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${completionTab === 'lagging' ? 'bg-white text-rose-600 shadow-sm' : 'text-[#8C83B5] hover:text-[#3C2E75]'}`}
                              >
-                             ⚠️ï¸ Lagging ({laggingNum})
+                             ⚠️ Lagging ({laggingNum})
                              </button>
                              <button
                              onClick={() => setCompletionTab('ontrack')}
                              className={`flex-1 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${completionTab === 'ontrack' ? 'bg-white text-emerald-600 shadow-sm' : 'text-[#8C83B5] hover:text-[#3C2E75]'}`}
                              >
-                             ✨… On Track ({onTrackNum})
+                             ✨ On Track ({onTrackNum})
                              </button>
                              </div>
                              <div className="space-y-2 max-h-[280px] overflow-y-auto relative z-10">
@@ -3497,11 +3500,11 @@ Include a balanced combination of question types such as:
                              teacherId: user.uid, senderId: user.uid,
                              senderName: user.displayName || 'Teacher', senderRole: 'teacher',
                              recipientType: 'student', recipientId: d.student.name, recipientName: d.student.name,
-                             subject: 'â° Homework Reminder!',
+                             subject: '⏳ Homework Reminder!',
                              content: `Hi ${d.student.name}! You have ${d.missing.length} assignment${d.missing.length > 1 ? 's' : ''} still to complete. Please check your homework portal and submit soon! 🚀`,
                              createdAt: new Date().toISOString()
                              });
-                             alert(`✨… Reminder sent to ${d.student.name}!`);
+                             alert(`✨ Reminder sent to ${d.student.name}!`);
                              } catch (err) { console.error(err); alert('Failed to send reminder.'); }
                              }}
                              className="text-[9px] font-black bg-rose-500 hover:bg-rose-600 text-white px-2.5 py-1 rounded-xl transition-colors shrink-0"
@@ -3552,7 +3555,7 @@ Include a balanced combination of question types such as:
                              {d.avgScore}% avg
                              </span>
                              )}
-                             <span className="text-lg">✨…</span>
+                             <span className="text-lg">✨</span>
                              </div>
                              </div>
                              )) : (
@@ -3593,7 +3596,7 @@ Include a balanced combination of question types such as:
                              }}
                              className="w-6 h-6 hover:bg-[#FFDDF5] rounded-lg flex items-center justify-center text-[#C23C9F] text-xs font-black transition-all"
                              >
-                             ◀
+                             <ChevronLeft className="w-3 h-3" />
                              </button>
                              <span className="text-[#C23C9F] text-[10px] font-black uppercase tracking-wider select-none min-w-[80px] text-center">
                              {monthNames[calendarMonth]} {calendarYear}
@@ -3609,7 +3612,7 @@ Include a balanced combination of question types such as:
                              }}
                              className="w-6 h-6 hover:bg-[#FFDDF5] rounded-lg flex items-center justify-center text-[#C23C9F] text-xs font-black transition-all"
                              >
-                             ▶¶
+                             <ChevronRight className="w-3 h-3" />
                              </button>
                              </div>
                              </div>
