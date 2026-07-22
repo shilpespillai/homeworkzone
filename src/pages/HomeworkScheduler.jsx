@@ -27,6 +27,7 @@ import { collection, addDoc, serverTimestamp, getDocs, query, where, deleteDoc, 
 import { decryptText } from '../utils/crypto';
 import { fetchWithRetry, generateContent, getModelForGrade } from '../utils/aiClient';
 import { generateExplanations } from '../utils/generateExplanations';
+import { cleanFirestorePayload } from '../utils/cleanFirestorePayload';
 import CurriculumModal from '../components/CurriculumModal';
 import { curriculum } from '../data/curriculum';
 import { sanitizeQuestionData } from './HomeworkGenerator';
@@ -191,6 +192,57 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
   const [activeAutomationTab, setActiveAutomationTab] = useState('All');
   const [isCurriculumModalOpen, setIsCurriculumModalOpen] = useState(false);
   const [selectedSkills, setSelectedSkills] = useState([]);
+
+  const [customTopics, setCustomTopics] = useState(() => {
+    try {
+      const saved = localStorage.getItem('hwz_custom_topics');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    if (!user?.uid) return;
+    const loadCustomTopics = async () => {
+      try {
+        const teacherDoc = await getDoc(doc(db, 'teachers', user.uid));
+        if (teacherDoc.exists() && Array.isArray(teacherDoc.data().customTopics)) {
+          setCustomTopics(teacherDoc.data().customTopics);
+          localStorage.setItem('hwz_custom_topics', JSON.stringify(teacherDoc.data().customTopics));
+        }
+      } catch (err) {
+        console.warn("Failed to fetch custom topics from Firestore:", err);
+      }
+    };
+    loadCustomTopics();
+  }, [user?.uid]);
+
+  const handleAddCustomTopic = async (newTopic) => {
+    const updated = [...customTopics, newTopic];
+    setCustomTopics(updated);
+    localStorage.setItem('hwz_custom_topics', JSON.stringify(updated));
+    if (user?.uid) {
+      try {
+        await setDoc(doc(db, 'teachers', user.uid), { customTopics: updated }, { merge: true });
+      } catch (err) {
+        console.error("Failed to save custom topic to Firestore:", err);
+      }
+    }
+  };
+
+  const handleDeleteCustomTopic = async (topicId) => {
+    const updated = customTopics.filter(t => t.id !== topicId);
+    setCustomTopics(updated);
+    localStorage.setItem('hwz_custom_topics', JSON.stringify(updated));
+    if (user?.uid) {
+      try {
+        await setDoc(doc(db, 'teachers', user.uid), { customTopics: updated }, { merge: true });
+      } catch (err) {
+        console.error("Failed to delete custom topic from Firestore:", err);
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -716,7 +768,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           },
           createdAt: serverTimestamp()
         };
-        await addDoc(collection(db, 'homeworks'), payload);
+        await addDoc(collection(db, 'homeworks'), cleanFirestorePayload(payload));
       }
     } catch (err) {
       console.error("Execute recurring generation error:", err);
@@ -826,7 +878,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           createdAt: serverTimestamp(),
           isActive: true
         };
-        await addDoc(collection(db, 'recurring_schedules'), schedulePayload);
+        await addDoc(collection(db, 'recurring_schedules'), cleanFirestorePayload(schedulePayload));
 
         alert(`Successfully created recurring homework automation! 🤖`);
 
@@ -1004,7 +1056,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           createdAt: serverTimestamp()
         };
 
-        await addDoc(collection(db, 'homeworks'), payload);
+        await addDoc(collection(db, 'homeworks'), cleanFirestorePayload(payload));
       }
 
       alert(`Successfully generated and scheduled homework! 🎉`);
@@ -2134,6 +2186,9 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           }}
           curriculumData={curriculum[formData.grade]?.[(formData.subject?.toLowerCase().replace('_', ' ') === 'logical reasoning') ? 'Logical Reasoning' : (formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1))] || []}
           selectedSkills={selectedSkills}
+          customTopics={customTopics}
+          onAddCustomTopic={handleAddCustomTopic}
+          onDeleteCustomTopic={handleDeleteCustomTopic}
           setSelectedSkills={(updaterFnOrValue) => {
             const updated = typeof updaterFnOrValue === 'function' ? updaterFnOrValue(selectedSkills) : updaterFnOrValue;
             setSelectedSkills(updated);

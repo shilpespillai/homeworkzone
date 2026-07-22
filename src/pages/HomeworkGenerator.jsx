@@ -35,6 +35,7 @@ import { storage } from '../firebase';
 import { decryptText } from '../utils/crypto';
 import { fetchWithRetry, generateContent, getModelForGrade } from '../utils/aiClient';
 import { generateExplanations } from '../utils/generateExplanations';
+import { cleanFirestorePayload } from '../utils/cleanFirestorePayload';
 import DynamicChart from '../components/DynamicChart';
 import DynamicGeometry from '../components/DynamicGeometry';
 import DynamicGridMap from '../components/DynamicGridMap';
@@ -220,6 +221,57 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [isCurriculumMode, setIsCurriculumMode] = useState(true);
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [isCurriculumModalOpen, setIsCurriculumModalOpen] = useState(false);
+
+  const [customTopics, setCustomTopics] = useState(() => {
+    try {
+      const saved = localStorage.getItem('hwz_custom_topics');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    if (!user?.uid) return;
+    const loadCustomTopics = async () => {
+      try {
+        const teacherDoc = await getDoc(doc(db, 'teachers', user.uid));
+        if (teacherDoc.exists() && Array.isArray(teacherDoc.data().customTopics)) {
+          setCustomTopics(teacherDoc.data().customTopics);
+          localStorage.setItem('hwz_custom_topics', JSON.stringify(teacherDoc.data().customTopics));
+        }
+      } catch (err) {
+        console.warn("Failed to fetch custom topics from Firestore:", err);
+      }
+    };
+    loadCustomTopics();
+  }, [user?.uid]);
+
+  const handleAddCustomTopic = async (newTopic) => {
+    const updated = [...customTopics, newTopic];
+    setCustomTopics(updated);
+    localStorage.setItem('hwz_custom_topics', JSON.stringify(updated));
+    if (user?.uid) {
+      try {
+        await setDoc(doc(db, 'teachers', user.uid), { customTopics: updated }, { merge: true });
+      } catch (err) {
+        console.error("Failed to save custom topic to Firestore:", err);
+      }
+    }
+  };
+
+  const handleDeleteCustomTopic = async (topicId) => {
+    const updated = customTopics.filter(t => t.id !== topicId);
+    setCustomTopics(updated);
+    localStorage.setItem('hwz_custom_topics', JSON.stringify(updated));
+    if (user?.uid) {
+      try {
+        await setDoc(doc(db, 'teachers', user.uid), { customTopics: updated }, { merge: true });
+      } catch (err) {
+        console.error("Failed to delete custom topic from Firestore:", err);
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -753,28 +805,28 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         questionExplanations = await generateExplanations(questionsToSave, formData.subject, getModelForGrade(publishGrade, formData.subject, activeModel));
       }
 
-      const payload = {
-        title: formData.title,
-        subject: formData.subject,
-        instructions: formData.instructions,
-        assignedClassId: formData.classId,
-        dueDate: formData.dueDate,
-        time: formData.time,
-        points: formData.points,
-        passage: generatedPassage,
-        questions: questionsToSave,
-        questionExplanations,
-        teacherId: user?.uid,
+      const payload = cleanFirestorePayload({
+        title: formData.title || '',
+        subject: formData.subject || 'maths',
+        instructions: formData.instructions || '',
+        assignedClassId: formData.classId || '',
+        dueDate: formData.dueDate || '',
+        time: formData.time || '',
+        points: formData.points || '10',
+        passage: generatedPassage || null,
+        questions: questionsToSave || [],
+        questionExplanations: questionExplanations || {},
+        teacherId: user?.uid || '',
         teacherName: user?.displayName || 'Classroom Teacher',
-        assignType: formData.assignType,
-        assignedStudentIds: formData.assignType === 'students' ? formData.assignedStudentIds : [],
+        assignType: formData.assignType || 'all',
+        assignedStudentIds: formData.assignType === 'students' ? (formData.assignedStudentIds || []) : [],
         status: 'published',
-        type: finalType,
+        type: finalType || 'homework',
         timeLimit: formData.timeLimit || '30',
         marksPerQuestion: formData.marksPerQuestion || '5',
         difficulty: formData.difficulty || 'Medium',
         createdAt: serverTimestamp()
-      };
+      });
 
       if (initialDraft?.id) {
         await setDoc(doc(db, 'homeworks', initialDraft.id), payload, { merge: true });
@@ -881,28 +933,28 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         questionExplanations = await generateExplanations(questionsToSave, formData.subject, getModelForGrade(draftGrade, formData.subject, activeModel));
       }
 
-      const payload = {
-        title: formData.title,
-        subject: formData.subject,
-        instructions: formData.instructions,
-        assignedClassId: formData.classId,
+      const payload = cleanFirestorePayload({
+        title: formData.title || '',
+        subject: formData.subject || 'maths',
+        instructions: formData.instructions || '',
+        assignedClassId: formData.classId || '',
         dueDate: formData.dueDate || '',
         time: formData.time || '',
-        points: formData.points,
-        passage: generatedPassage,
-        questions: questionsToSave,
-        questionExplanations,
-        teacherId: user?.uid,
+        points: formData.points || '10',
+        passage: generatedPassage || null,
+        questions: questionsToSave || [],
+        questionExplanations: questionExplanations || {},
+        teacherId: user?.uid || '',
         teacherName: user?.displayName || 'Classroom Teacher',
-        assignType: formData.assignType,
-        assignedStudentIds: formData.assignType === 'students' ? formData.assignedStudentIds : [],
+        assignType: formData.assignType || 'all',
+        assignedStudentIds: formData.assignType === 'students' ? (formData.assignedStudentIds || []) : [],
         status: 'draft',
-        type: finalType,
+        type: finalType || 'homework',
         timeLimit: formData.timeLimit || '30',
         marksPerQuestion: formData.marksPerQuestion || '5',
         difficulty: formData.difficulty || 'Medium',
         createdAt: serverTimestamp()
-      };
+      });
 
       if (initialDraft?.id) {
         await setDoc(doc(db, 'homeworks', initialDraft.id), payload, { merge: true });
@@ -1848,6 +1900,9 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         curriculumData={curriculum[resolveGradeFromClassroomName(activeClassroom?.name)]?.[(formData.subject?.toLowerCase().replace('_', ' ') === 'logical reasoning') ? 'Logical Reasoning' : (formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1))] || []}
         selectedSkills={selectedSkills}
         setSelectedSkills={setSelectedSkills}
+        customTopics={customTopics}
+        onAddCustomTopic={handleAddCustomTopic}
+        onDeleteCustomTopic={handleDeleteCustomTopic}
       />
     </div>
   );

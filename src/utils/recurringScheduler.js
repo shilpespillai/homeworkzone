@@ -12,6 +12,7 @@ import {
 } from 'firebase/firestore';
 import { fetchWithRetry, generateContent } from './aiClient';
 import { generateExplanations } from './generateExplanations';
+import { cleanFirestorePayload } from './cleanFirestorePayload';
 import { DEFAULT_SUBJECT_PROMPTS } from './defaultPrompts';
 
 // Local helper to format date
@@ -246,7 +247,7 @@ CRITICAL VISUAL RULES:
         },
         createdAt: serverTimestamp()
       };
-      await addDoc(collection(db, 'homeworks'), payload);
+      await addDoc(collection(db, 'homeworks'), cleanFirestorePayload(payload));
     }
     return true;
   } catch (err) {
