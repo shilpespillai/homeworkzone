@@ -560,7 +560,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
            - CRITICAL MATH RULE: Never hallucinate mathematical properties! (e.g. 1234 is EVEN, not odd. Do not confidently assert false mathematical facts). The correct answer MUST be logically and mathematically indisputable.
            - CRITICAL DIAGRAM & INTERACTIVE DISTRIBUTION RULE: For Mathematics and Olympiad Maths, you MUST ensure that exactly 60% of the questions generated are diagram-based or interactive (questions containing "svgCode", "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData", "[CLOCK:]", or questionType="interactive"). The remaining 40% must be plain text-based questions (without visual diagrams or interactive drag-and-drop elements). Design the quiz to strictly follow this 60% diagram/interactive and 40% text-based ratio!
         3. For Science:
-           - Ensure all facts, definitions, and concepts are scientifically accurate and standard.
+           - Ensure all facts, definitions, and concepts are scientifically accurate, standard, and strictly grounded in the target grade's national curriculum (e.g., ACARA for Australia, NGSS for USA, UK National Curriculum).
+           - ABSOLUTE SCIENCE CURRICULUM BOUNDARY RULE: Science questions must be strictly age-appropriate for the specified grade level. DO NOT include advanced high school or college-level concepts (such as molecular organelle biochemistry, complex chemical formulas, advanced genetics, or physics calculus) when generating primary/elementary science questions. Stay laser-focused on grade-level observational science, ecosystems, food groups, materials, forces, and real-world phenomena.
         4. General & Non-English Languages:
            - The "answer" field MUST exactly match one of the 4 values inside the "options" array.
            - All options must be age-appropriate for elementary/middle school students.
