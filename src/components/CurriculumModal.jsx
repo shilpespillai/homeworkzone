@@ -29,6 +29,8 @@ export default function CurriculumModal({
   const [newTitle, setNewTitle] = useState('');
   const [newCategory, setNewCategory] = useState('');
   const [customCategoryInput, setCustomCategoryInput] = useState('');
+  const [inlineSubTopicCategory, setInlineSubTopicCategory] = useState(null);
+  const [inlineSubTopicInput, setInlineSubTopicInput] = useState('');
 
   const toggleCategory = (category) => {
     setExpandedCategories(prev => ({ ...prev, [category]: !prev[category] }));
@@ -56,7 +58,7 @@ export default function CurriculumModal({
     }
   };
 
-  // Collect available category names from standard curriculum
+  // Collect available category (Main Topic) names from standard curriculum + custom topics
   const availableCategories = useMemo(() => {
     const cats = new Set();
     if (curriculumData && Array.isArray(curriculumData)) {
@@ -66,40 +68,69 @@ export default function CurriculumModal({
         }
       });
     }
+    if (customTopics && Array.isArray(customTopics)) {
+      customTopics.forEach(ct => {
+        if (ct.category) cats.add(ct.category);
+      });
+    }
     return Array.from(cats).sort();
-  }, [curriculumData]);
+  }, [curriculumData, customTopics]);
 
   const handleSaveCustomTopic = (e) => {
     e.preventDefault();
-    if (!newTitle.trim()) return;
-
-    let targetCat = newCategory;
-    if (newCategory === '__new__' && customCategoryInput.trim()) {
-      targetCat = customCategoryInput.trim();
-    }
-    if (!targetCat) {
-      targetCat = 'Custom Topics';
+    let mainCat = newCategory === '__new__' ? customCategoryInput.trim() : newCategory.trim();
+    if (!mainCat) {
+      mainCat = 'Custom Topics';
     }
 
-    const newSkill = {
-      id: `custom-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
-      title: newTitle.trim(),
-      category: targetCat,
+    const rawSubTopics = newTitle.split(',').map(s => s.trim()).filter(Boolean);
+    if (rawSubTopics.length === 0) {
+      rawSubTopics.push(mainCat);
+    }
+
+    const createdSkills = rawSubTopics.map((subTitle, idx) => ({
+      id: `custom-${Date.now()}-${idx}-${Math.random().toString(36).substr(2, 4)}`,
+      title: subTitle,
+      category: mainCat,
       isCustom: true
-    };
+    }));
 
     if (typeof onAddCustomTopic === 'function') {
-      onAddCustomTopic(newSkill);
+      createdSkills.forEach(skill => onAddCustomTopic(skill));
     }
 
-    // Auto select newly created topic
-    setSelectedSkills(prev => [...prev, newSkill]);
+    // Auto select newly created topic(s)
+    setSelectedSkills(prev => [...prev, ...createdSkills]);
+
+    // Ensure category is expanded
+    setExpandedCategories(prev => ({ ...prev, [mainCat]: true }));
 
     // Reset form state
     setNewTitle('');
     setNewCategory('');
     setCustomCategoryInput('');
     setShowAddForm(false);
+  };
+
+  const handleSaveInlineSubTopic = (categoryName) => {
+    if (!inlineSubTopicInput.trim()) return;
+    const rawSubTopics = inlineSubTopicInput.split(',').map(s => s.trim()).filter(Boolean);
+
+    const createdSkills = rawSubTopics.map((subTitle, idx) => ({
+      id: `custom-${Date.now()}-${idx}-${Math.random().toString(36).substr(2, 4)}`,
+      title: subTitle,
+      category: categoryName,
+      isCustom: true
+    }));
+
+    if (typeof onAddCustomTopic === 'function') {
+      createdSkills.forEach(skill => onAddCustomTopic(skill));
+    }
+
+    setSelectedSkills(prev => [...prev, ...createdSkills]);
+    setExpandedCategories(prev => ({ ...prev, [categoryName]: true }));
+    setInlineSubTopicInput('');
+    setInlineSubTopicCategory(null);
   };
 
   const groupedData = useMemo(() => {
@@ -130,7 +161,7 @@ export default function CurriculumModal({
           cat = skill.category.replace(/^[A-Z]{1,2}\.\s+/, '');
         }
         if (!groups[cat]) groups[cat] = [];
-        // Avoid duplicate ID injection if custom topic shares ID
+        // Avoid duplicate ID injection
         if (!groups[cat].some(existing => existing.id === skill.id)) {
           groups[cat].push(skill);
         }
@@ -162,7 +193,7 @@ export default function CurriculumModal({
           <div className="p-6 md:p-8 border-b-2 border-slate-100 flex items-center justify-between bg-amber-50 shrink-0">
             <div>
               <h2 className="text-3xl md:text-4xl font-black text-rose-500 drop-shadow-sm tracking-tight">Discover Topics</h2>
-              <p className="text-sm md:text-base font-bold text-amber-700 mt-1">Pick or add custom skills for your child's next activity! ✨</p>
+              <p className="text-sm md:text-base font-bold text-amber-700 mt-1">Pick Main Topics and Sub-topics for your child's next activity! ✨</p>
             </div>
             <div className="flex items-center gap-3">
               <button 
@@ -193,51 +224,49 @@ export default function CurriculumModal({
                 <form onSubmit={handleSaveCustomTopic} className="p-6 max-w-3xl mx-auto space-y-4">
                   <div className="flex items-center gap-2 text-rose-700 font-black text-lg">
                     <Sparkles className="w-5 h-5 text-amber-500" />
-                    <span>Create Custom Skill / Topic</span>
+                    <span>Create Main Topic & Sub-topics</span>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-bold text-slate-600 mb-1">Topic Title <span className="text-rose-500">*</span></label>
+                      <label className="block text-xs font-bold text-slate-600 mb-1">1. Main Topic / Category <span className="text-rose-500">*</span></label>
+                      <select 
+                        value={newCategory}
+                        onChange={e => setNewCategory(e.target.value)}
+                        className="w-full bg-white border-2 border-rose-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 focus:outline-none focus:border-rose-400 mb-2"
+                      >
+                        <option value="">Select Existing Main Topic...</option>
+                        {availableCategories.map((cat, idx) => (
+                          <option key={idx} value={cat}>{cat}</option>
+                        ))}
+                        <option value="__new__">+ Create New Main Topic</option>
+                      </select>
+
+                      {newCategory === '__new__' && (
+                        <input 
+                          type="text"
+                          placeholder="e.g. My Body, Solar System, Ancient Egypt..."
+                          value={customCategoryInput}
+                          onChange={e => setCustomCategoryInput(e.target.value)}
+                          className="w-full bg-white border-2 border-rose-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 focus:outline-none focus:border-rose-500"
+                          required
+                        />
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-600 mb-1">2. Sub-topics / Micro-skills <span className="text-rose-500">*</span></label>
                       <input 
                         type="text"
-                        placeholder="e.g. Solar System & Planets, Money Word Problems..."
+                        placeholder="e.g. Five Senses, Organs, Skeleton (comma separated)"
                         value={newTitle}
                         onChange={e => setNewTitle(e.target.value)}
                         className="w-full bg-white border-2 border-rose-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 focus:outline-none focus:border-rose-400"
                         required
                       />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-slate-600 mb-1">Category <span className="text-rose-500">*</span></label>
-                      <select 
-                        value={newCategory}
-                        onChange={e => setNewCategory(e.target.value)}
-                        className="w-full bg-white border-2 border-rose-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 focus:outline-none focus:border-rose-400"
-                      >
-                        <option value="">Select Existing Category...</option>
-                        {availableCategories.map((cat, idx) => (
-                          <option key={idx} value={cat}>{cat}</option>
-                        ))}
-                        <option value="__new__">+ Create New Category</option>
-                      </select>
+                      <p className="text-[11px] text-rose-600/80 font-bold mt-1">Tip: Separate multiple sub-topics with commas!</p>
                     </div>
                   </div>
-
-                  {newCategory === '__new__' && (
-                    <div>
-                      <label className="block text-xs font-bold text-slate-600 mb-1">New Category Name</label>
-                      <input 
-                        type="text"
-                        placeholder="e.g. Science Projects, Creative Writing..."
-                        value={customCategoryInput}
-                        onChange={e => setCustomCategoryInput(e.target.value)}
-                        className="w-full bg-white border-2 border-rose-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 focus:outline-none focus:border-rose-400"
-                        required
-                      />
-                    </div>
-                  )}
 
                   <div className="flex justify-end gap-3 pt-2">
                     <button 
@@ -251,7 +280,7 @@ export default function CurriculumModal({
                       type="submit"
                       className="px-6 py-2.5 rounded-xl font-black text-sm text-white bg-rose-500 hover:bg-rose-600 shadow-md shadow-rose-200"
                     >
-                      Save Topic
+                      Save Topic & Sub-topics
                     </button>
                   </div>
                 </form>
@@ -279,7 +308,7 @@ export default function CurriculumModal({
               <div className="text-center py-20">
                 <span className="text-6xl mb-4 block">🔍</span>
                 <div className="text-2xl text-slate-400 font-black">Oops! No skills found.</div>
-                <div className="text-slate-400 mt-2 font-bold">Try searching for something else or add a custom topic above!</div>
+                <div className="text-slate-400 mt-2 font-bold">Try searching for something else or add a custom main topic above!</div>
               </div>
             ) : (
               <div className="columns-1 md:columns-2 gap-6 space-y-6">
@@ -288,30 +317,92 @@ export default function CurriculumModal({
                   const isExpanded = expandedCategories[group.category];
                   const selectedInGroup = group.skills.filter(s => selectedSkills.some(sel => sel.id === s.id)).length;
                   const isAllSelected = selectedInGroup === group.skills.length && group.skills.length > 0;
+                  const isAddingInline = inlineSubTopicCategory === group.category;
 
                   return (
                     <div key={idx} className={`break-inside-avoid bg-white rounded-[32px] border-4 ${theme.border} overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md`}>
+                      {/* Main Topic / Category Header */}
                       <div 
                         className={`flex items-center justify-between p-5 ${theme.headerBg} cursor-pointer transition-colors`} 
                         onClick={() => toggleCategory(group.category)}
                       >
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-4 min-w-0 pr-2">
                           <button 
                             onClick={(e) => { e.stopPropagation(); handleSelectCategory(group.category, group.skills, !isAllSelected); }}
                             className={`w-8 h-8 rounded-xl flex items-center justify-center border-4 shrink-0 transition-all ${isAllSelected ? `${theme.checkBg} ${theme.checkBorder}` : `bg-white ${theme.border}`}`}
                           >
                             {isAllSelected && <Check className="w-5 h-5 text-white stroke-[4]" />}
                           </button>
-                          <div>
-                            <h3 className={`font-black ${theme.text} text-lg leading-tight`}>{group.category}</h3>
-                            <p className={`text-xs font-bold ${theme.textMuted} mt-1 uppercase tracking-wider`}>{group.skills.length} skills • {selectedInGroup} selected</p>
+                          <div className="min-w-0">
+                            <h3 className={`font-black ${theme.text} text-lg leading-tight truncate`}>{group.category}</h3>
+                            <p className={`text-xs font-bold ${theme.textMuted} mt-1 uppercase tracking-wider`}>{group.skills.length} sub-topics • {selectedInGroup} selected</p>
                           </div>
                         </div>
-                        <div className={`${theme.textMuted} shrink-0 bg-white/50 p-2 rounded-full`}>
-                          {isExpanded ? <ChevronUp className="w-5 h-5 stroke-[3]" /> : <ChevronDown className="w-5 h-5 stroke-[3]" />}
+
+                        <div className="flex items-center gap-2 shrink-0">
+                          <button 
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setInlineSubTopicCategory(prev => prev === group.category ? null : group.category);
+                              setExpandedCategories(prev => ({ ...prev, [group.category]: true }));
+                            }}
+                            className="px-2.5 py-1 bg-white/80 hover:bg-white text-xs font-black text-slate-700 rounded-lg border border-slate-200 shadow-xs flex items-center gap-1 transition-all"
+                            title="Add sub-topic directly to this Main Topic"
+                          >
+                            <Plus className="w-3.5 h-3.5" />
+                            <span className="hidden sm:inline">Add Sub-topic</span>
+                          </button>
+                          <div className={`${theme.textMuted} shrink-0 bg-white/50 p-2 rounded-full`}>
+                            {isExpanded ? <ChevronUp className="w-5 h-5 stroke-[3]" /> : <ChevronDown className="w-5 h-5 stroke-[3]" />}
+                          </div>
                         </div>
                       </div>
 
+                      {/* Inline Sub-topic Add Box */}
+                      <AnimatePresence>
+                        {isAddingInline && (
+                          <motion.div 
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="p-3 bg-amber-50/80 border-b border-amber-200"
+                          >
+                            <div className="flex gap-2">
+                              <input 
+                                type="text"
+                                placeholder={`Add sub-topic(s) to "${group.category}"...`}
+                                value={inlineSubTopicInput}
+                                onChange={e => setInlineSubTopicInput(e.target.value)}
+                                onKeyDown={e => {
+                                  if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    handleSaveInlineSubTopic(group.category);
+                                  }
+                                }}
+                                className="flex-1 bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 focus:outline-none focus:border-rose-400"
+                                autoFocus
+                              />
+                              <button 
+                                type="button"
+                                onClick={() => handleSaveInlineSubTopic(group.category)}
+                                className="px-3 py-2 bg-rose-500 text-white font-bold text-xs rounded-xl hover:bg-rose-600 shadow-xs shrink-0"
+                              >
+                                Save
+                              </button>
+                              <button 
+                                type="button"
+                                onClick={() => setInlineSubTopicCategory(null)}
+                                className="p-2 text-slate-400 hover:text-slate-600 shrink-0"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
+                      {/* Sub-topics List */}
                       <AnimatePresence>
                         {isExpanded && (
                           <motion.div 
@@ -337,7 +428,7 @@ export default function CurriculumModal({
                                         <span className={`text-base font-bold ${isSelected ? theme.text : 'text-slate-500'}`}>{skill.title}</span>
                                         {skill.isCustom && (
                                           <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-md border border-amber-200">
-                                            ✨ Custom
+                                            ✨ Custom Sub-topic
                                           </span>
                                         )}
                                       </div>
@@ -352,7 +443,7 @@ export default function CurriculumModal({
                                           setSelectedSkills(prev => prev.filter(s => s.id !== skill.id));
                                         }}
                                         className="p-1.5 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors shrink-0"
-                                        title="Delete Custom Topic"
+                                        title="Delete Custom Sub-topic"
                                       >
                                         <Trash2 className="w-4 h-4" />
                                       </button>
@@ -377,7 +468,7 @@ export default function CurriculumModal({
               <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center">
                 <span className="text-2xl font-black text-emerald-600">{selectedSkills.length}</span>
               </div>
-              <span className="text-lg font-bold text-slate-400">skills ready!</span>
+              <span className="text-lg font-bold text-slate-400">sub-topics ready!</span>
             </div>
             <div className="flex gap-4">
               <button onClick={() => setSelectedSkills([])} className="px-6 py-4 rounded-2xl text-base font-bold text-rose-400 bg-rose-50 hover:bg-rose-100 transition-colors">Clear All</button>
