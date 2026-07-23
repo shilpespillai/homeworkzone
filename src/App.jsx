@@ -104,6 +104,7 @@ import ForceAndMotionHub from './components/ForceAndMotionHub';
 import MaterialsAndPropertiesHub from './components/MaterialsAndPropertiesHub';
 import EcosystemsHub from './components/EcosystemsHub';
 import HeatAndThermalEnergyHub from './components/HeatAndThermalEnergyHub';
+import ConservationHub from './components/ConservationHub';
 import TuitionPayment from './pages/TuitionPayment';
 import PlatformDocumentation from './pages/PlatformDocumentation';
 
@@ -3030,7 +3031,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                                     { name: 'Force & Motion', emoji: '🚴' },
                                     { name: 'Materials & Properties', emoji: '🪵' },
                                     { name: 'Ecosystems & Food Chains', emoji: '🌾' },
-                                    { name: 'Heat & Thermal Energy', emoji: '🌡️' }
+                                    { name: 'Heat & Thermal Energy', emoji: '🌡️' },
+                                    { name: 'Conservation & Sea Turtles', emoji: '🐢' }
                                  ].map((topic) => (
                                     <button
                                        key={topic.name}
@@ -3766,6 +3768,10 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                <HeatAndThermalEnergyHub />
             )}
 
+            {activeNav === 'Learning: Conservation & Sea Turtles' && (
+               <ConservationHub />
+            )}
+
             {activeNav.startsWith('Learning: ') && 
              activeNav !== 'Learning: Body and Functions' && 
              activeNav !== 'Learning: Types of Teeth & Functions' && 
@@ -3779,7 +3785,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
              activeNav !== 'Learning: Force & Motion' && 
              activeNav !== 'Learning: Materials & Properties' && 
              activeNav !== 'Learning: Ecosystems & Food Chains' && 
-             activeNav !== 'Learning: Heat & Thermal Energy' && (
+             activeNav !== 'Learning: Heat & Thermal Energy' && 
+             activeNav !== 'Learning: Conservation & Sea Turtles' && (
                <MathsLearningHub
                   activeConcept={activeMathConcept}
                   onConceptSelect={(concept) => {
