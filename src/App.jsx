@@ -3788,6 +3788,26 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                <FossilsHub />
             )}
 
+            {activeNav === 'Learning: Magnets & Magnetic Forces' && (
+               <MagnetsHub />
+            )}
+
+            {activeNav === 'Learning: Light & Optics' && (
+               <LightHub />
+            )}
+
+            {activeNav === 'Learning: Traits & Heredity' && (
+               <HeredityHub />
+            )}
+
+            {activeNav === 'Learning: Rocks & Minerals' && (
+               <RocksHub />
+            )}
+
+            {activeNav === 'Learning: Units of Measurement' && (
+               <UnitsOfMeasurementHub />
+            )}
+
             {activeNav.startsWith('Learning: ') && 
              activeNav !== 'Learning: Body and Functions' && 
              activeNav !== 'Learning: Types of Teeth & Functions' && 
