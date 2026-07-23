@@ -1,3 +1,4 @@
+import { checkIsCorrect } from './utils/checkIsCorrect';
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Lottie from "lottie-react";
 import { BrowserRouter as Router, Routes, Route, useNavigate, Link, Navigate } from 'react-router-dom';
@@ -1445,7 +1446,7 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
 const MissionReportModal = ({ submission, homework, onClose }) => {
    if (!submission || !homework) return null;
 
-   const incorrectQuestions = homework.questions.filter((q) => submission.answers && submission.answers[q.id] !== q.answer);
+   const incorrectQuestions = homework.questions.filter((q) => submission.answers && !checkIsCorrect(q, submission.answers[q.id]));
 
    const formatExplanation = (text) => {
       if (!text) return null;

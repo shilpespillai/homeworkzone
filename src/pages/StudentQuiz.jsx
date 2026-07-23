@@ -1,3 +1,4 @@
+import { checkIsCorrect } from '../utils/checkIsCorrect';
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   CheckCircle2, 
@@ -297,7 +298,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         if (!q) return false;
         let isWrong = false;
         if (Object.keys(answers).length > 0) {
-          isWrong = answers[q.id] !== q.answer;
+          isWrong = !checkIsCorrect(q, answers[q.id]);
         } else {
           isWrong = wrongAnswersExplanations && !!wrongAnswersExplanations[q.id];
         }
@@ -616,7 +617,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                    const isMarked = markedForReview[q.id];
                    
                    if (isReviewing) {
-                       const isCorrect = q.answer === answers[q.id];
+                       const isCorrect = checkIsCorrect(q, answers[q.id]);
                        if (isCorrect) dotStatus = 'bg-emerald-400 border-emerald-500';
                        else if (hasAnswer) dotStatus = 'bg-rose-400 border-rose-500';
                        else dotStatus = 'bg-slate-300 border-slate-400';
@@ -669,8 +670,8 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                  let { text: cleanText, clockTime, inlineSvg } = parseQuestionText(q?.text || '');
                  const effectiveSvgCode = inlineSvg || q?.svgCode;
                  const hasAnswer = answers[q?.id] !== undefined;
-                 const isCorrect = isReviewing ? q?.answer === answers[q?.id] : null;
-                 const isWrong = isReviewing ? q?.answer !== answers[q?.id] : null;
+                 const isCorrect = isReviewing ? checkIsCorrect(q, answers[q?.id]) : null;
+                 const isWrong = isReviewing ? !isCorrect : null;
                  
                  return (
                    <div key={q.id} className={`bg-white/95 backdrop-blur-md rounded-[32px] p-8 shadow-[0_8px_0_0_rgba(255,255,255,0.6)] flex flex-col transition-all ${isReviewing && isWrong ? 'border-4 border-rose-100' : ''}`}>
@@ -1202,7 +1203,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                         <p className="text-xl font-black text-slate-700">{answers[currentQuestion.id] || "No answer provided"}</p>
                       </div>
                     )}
-                    {isReviewing && answers[currentQuestion.id] !== currentQuestion.answer && (
+                    {isReviewing && !checkIsCorrect(currentQuestion, answers[currentQuestion.id]) && (
                       <div className="p-6 bg-emerald-50 border-4 border-emerald-200 rounded-[24px]">
                         <h3 className="text-emerald-600 font-bold uppercase tracking-wider text-sm mb-2">Correct Answer</h3>
                         <p className="text-xl font-black text-emerald-800">{currentQuestion.answer}</p>
@@ -1211,7 +1212,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                   </div>
                 )}
 
-                {isReviewing && (Object.keys(answers).length > 0 ? answers[currentQuestion.id] !== currentQuestion.answer : !!wrongAnswersExplanations[currentQuestion.id]) && (
+                {isReviewing && (Object.keys(answers).length > 0 ? !checkIsCorrect(currentQuestion, answers[currentQuestion.id]) : !!wrongAnswersExplanations[currentQuestion.id]) && (
                   <motion.div 
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -1366,7 +1367,7 @@ const QuizResults = ({ type, score, total, percentage, feedback, questions, answ
     
     let isWrong = false;
     if (answers && Object.keys(answers).length > 0) {
-      isWrong = answers[q.id] !== q.answer;
+      isWrong = !checkIsCorrect(q, answers[q.id]);
     } else {
       isWrong = wrongAnswersExplanations && !!wrongAnswersExplanations[q.id];
     }
