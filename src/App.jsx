@@ -98,6 +98,9 @@ import WaterCycleHub from './components/WaterCycleHub';
 import StatesOfMatterHub from './components/StatesOfMatterHub';
 import ClassificationOfLivingThingsHub from './components/ClassificationOfLivingThingsHub';
 import AstronomyHub from './components/AstronomyHub';
+import PlantsHub from './components/PlantsHub';
+import ElectricityHub from './components/ElectricityHub';
+import ForceAndMotionHub from './components/ForceAndMotionHub';
 import TuitionPayment from './pages/TuitionPayment';
 import PlatformDocumentation from './pages/PlatformDocumentation';
 
@@ -3018,7 +3021,10 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                                     { name: 'The Water Cycle', emoji: '💧' },
                                     { name: 'States of Matter', emoji: '🧊' },
                                     { name: 'Classification of Living Things', emoji: '🦁' },
-                                    { name: 'Astronomy & Space', emoji: '🚀' }
+                                    { name: 'Astronomy & Space', emoji: '🚀' },
+                                    { name: 'Plants & Botany', emoji: '🌻' },
+                                    { name: 'Electricity & Circuits', emoji: '⚡' },
+                                    { name: 'Force & Motion', emoji: '🚴' }
                                  ].map((topic) => (
                                     <button
                                        key={topic.name}
@@ -3730,6 +3736,18 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                <AstronomyHub />
             )}
 
+            {activeNav === 'Learning: Plants & Botany' && (
+               <PlantsHub />
+            )}
+
+            {activeNav === 'Learning: Electricity & Circuits' && (
+               <ElectricityHub />
+            )}
+
+            {activeNav === 'Learning: Force & Motion' && (
+               <ForceAndMotionHub />
+            )}
+
             {activeNav.startsWith('Learning: ') && 
              activeNav !== 'Learning: Body and Functions' && 
              activeNav !== 'Learning: Types of Teeth & Functions' && 
@@ -3737,7 +3755,10 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
              activeNav !== 'Learning: The Water Cycle' && 
              activeNav !== 'Learning: States of Matter' && 
              activeNav !== 'Learning: Classification of Living Things' && 
-             activeNav !== 'Learning: Astronomy & Space' && (
+             activeNav !== 'Learning: Astronomy & Space' && 
+             activeNav !== 'Learning: Plants & Botany' && 
+             activeNav !== 'Learning: Electricity & Circuits' && 
+             activeNav !== 'Learning: Force & Motion' && (
                <MathsLearningHub
                   activeConcept={activeMathConcept}
                   onConceptSelect={(concept) => {
