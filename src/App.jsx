@@ -102,6 +102,7 @@ import PlantsHub from './components/PlantsHub';
 import ElectricityHub from './components/ElectricityHub';
 import ForceAndMotionHub from './components/ForceAndMotionHub';
 import MaterialsAndPropertiesHub from './components/MaterialsAndPropertiesHub';
+import EcosystemsHub from './components/EcosystemsHub';
 import TuitionPayment from './pages/TuitionPayment';
 import PlatformDocumentation from './pages/PlatformDocumentation';
 
@@ -3026,7 +3027,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                                     { name: 'Plants & Botany', emoji: '🌻' },
                                     { name: 'Electricity & Circuits', emoji: '⚡' },
                                     { name: 'Force & Motion', emoji: '🚴' },
-                                    { name: 'Materials & Properties', emoji: '🪵' }
+                                    { name: 'Materials & Properties', emoji: '🪵' },
+                                    { name: 'Ecosystems & Food Chains', emoji: '🌾' }
                                  ].map((topic) => (
                                     <button
                                        key={topic.name}
@@ -3754,6 +3756,10 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                <MaterialsAndPropertiesHub />
             )}
 
+            {activeNav === 'Learning: Ecosystems & Food Chains' && (
+               <EcosystemsHub />
+            )}
+
             {activeNav.startsWith('Learning: ') && 
              activeNav !== 'Learning: Body and Functions' && 
              activeNav !== 'Learning: Types of Teeth & Functions' && 
@@ -3765,7 +3771,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
              activeNav !== 'Learning: Plants & Botany' && 
              activeNav !== 'Learning: Electricity & Circuits' && 
              activeNav !== 'Learning: Force & Motion' && 
-             activeNav !== 'Learning: Materials & Properties' && (
+             activeNav !== 'Learning: Materials & Properties' && 
+             activeNav !== 'Learning: Ecosystems & Food Chains' && (
                <MathsLearningHub
                   activeConcept={activeMathConcept}
                   onConceptSelect={(concept) => {
