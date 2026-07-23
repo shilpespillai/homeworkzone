@@ -3736,211 +3736,6 @@ Include a balanced combination of question types such as:
                        </div>
                     )}
 
-                    {/* Collaborative Goal Row */}
-                    {activeClassroom && (
-                       <div className="grid grid-cols-12 gap-6 mt-6">
-                          {/* Left: Dino Pizza Party Collaborative Goal (col-span-5) */}
-                          <div className="col-span-12 max-w-4xl mx-auto w-full bg-white rounded-[32px] border border-[#E9E4FF] shadow-sm p-6 flex flex-col justify-between space-y-4">
-                          <div className="space-y-3">
-                          <div className="flex justify-between items-start">
-                          <div className="space-y-0.5">
-                          <span className="text-[9px] font-black uppercase text-[#FFAB91] tracking-wider block">Collaborative Goal</span>
-                          <h3 className="text-lg font-black text-[#3C2E75] leading-snug">{targetTitle}</h3>
-                          </div>
-                          <button
-                          onClick={() => {
-                          setNewGoalTitle(targetTitle);
-                          setNewGoalTarget(targetGoal);
-                          setNewGoalTrack(activeClassroom?.activeTrack || 'auto');
-                          setIsEditingGoal(true);
-                          }}
-                          className="px-3 py-1.5 border border-[#FFE0D6] hover:border-[#FFAB91] text-[#C64F33] rounded-xl text-[10px] font-black transition-all bg-white hover:bg-orange-50/20 shrink-0"
-                          >
-                          Change Goal <Pencil className="w-3.5 h-3.5 inline-block ml-1" />
-                          </button>
-                          </div>
-                          
-                          <div className="flex items-center justify-between text-xs font-black text-[#3C2E75] pt-1">
-                          <span className="text-[#8C83B5]">Combined Points</span>
-                          <span className="text-[#FF7043] bg-[#FFF0EB] px-2.5 py-1 rounded-lg border border-[#FFD2C4]">{currentClassPoints} / {targetGoal} pts</span>
-                          </div>
-                          </div>
-                          
-                          {/* Premium Round Pizza Progress Visual */}
-                          <div className="flex-1 py-6 flex flex-col items-center justify-center min-h-[360px]">
-                          <div className="relative w-72 h-72 md:w-80 md:h-80 flex items-center justify-center bg-gradient-to-br from-slate-200 via-slate-100 to-slate-300 border-8 border-slate-400 rounded-full shadow-2xl p-2 select-none">
-                          {/* Steel tray details */}
-                          <div className="absolute inset-4 rounded-full border-2 border-slate-400/25" />
-                          <div className="absolute inset-8 rounded-full border border-slate-400/15" />
-                          <div className="absolute inset-16 rounded-full border border-slate-400/10" />
-                          <span className="absolute text-5xl opacity-15 select-none font-black text-slate-800">ðŸ½ï¸</span>
-                          
-                          {/* Crumbs & Grease marks on empty tray */}
-                          <div className="absolute top-1/4 left-1/3 w-2 h-2 rounded-full bg-amber-800/10" />
-                          <div className="absolute bottom-1/3 right-1/4 w-3 h-1.5 rounded-full bg-amber-800/15" />
-                          <div className="absolute bottom-1/4 left-1/4 w-1.5 h-1.5 rounded-full bg-amber-800/10" />
-                          
-                          {/* The Pizza Itself (Clipped/Masked by conic progress) */}
-                          <div
-                          className="absolute inset-2 rounded-full overflow-hidden transition-all duration-1000 shadow-md"
-                          style={{
-                          WebkitMaskImage: `conic-gradient(black 0% ${progressPercent}%, transparent ${progressPercent}% 100%)`,
-                          maskImage: `conic-gradient(black 0% ${progressPercent}%, transparent ${progressPercent}% 100%)`
-                          }}
-                          >
-                          {/* Pizza Outer Crust (Deep Golden Woodfired) */}
-                          <div className="absolute inset-0 rounded-full bg-[#E65100] border-[16px] border-[#8D6E63] shadow-[inset_0_4px_16px_rgba(0,0,0,0.3)] flex items-center justify-center">
-                          {/* Outer golden-brown ring */}
-                          <div className="absolute inset-0.5 rounded-full border-[10px] border-[#FFE0B2]/10" />
-                          </div>
-                          
-                          {/* Rich Marinara Tomato Sauce Base */}
-                          <div className="absolute inset-4 rounded-full bg-gradient-to-br from-[#D32F2F] via-[#C62828] to-[#B71C1C] shadow-[inset_0_4px_10px_rgba(0,0,0,0.4)] flex items-center justify-center">
-                          {/* Melty Cheese layer */}
-                          <div className="absolute inset-1 rounded-full bg-gradient-to-br from-[#FFF59D] via-[#FFD54F] to-[#FFB300] shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)] flex items-center justify-center overflow-hidden">
-                          {/* Toasted cheese spots */}
-                          <div className="absolute top-8 left-12 w-6 h-4 rounded-full bg-[#E58F12]/15 blur-[1px]" />
-                          <div className="absolute bottom-12 right-16 w-8 h-5 rounded-full bg-[#E58F12]/20 blur-[1px]" />
-                          <div className="absolute bottom-20 left-16 w-5 h-3 rounded-full bg-[#E58F12]/15 blur-[1px]" />
-                          <div className="absolute top-16 right-10 w-7 h-4 rounded-full bg-[#E58F12]/15 blur-[1px]" />
-                          
-                          {/* Scattered Toppings (Rich variety) */}
-                          {[
-                          // Pepperonis (Rich red circles with crispy edges & grease highlight)
-                          { type: 'pepperoni', top: '15%', left: '48%', scale: 1.0 },
-                          { type: 'pepperoni', top: '28%', left: '68%', scale: 0.95 },
-                          { type: 'pepperoni', top: '45%', left: '58%', scale: 1.05 },
-                          { type: 'pepperoni', top: '72%', left: '46%', scale: 1.0 },
-                          { type: 'pepperoni', top: '65%', left: '22%', scale: 0.9 },
-                          { type: 'pepperoni', top: '28%', left: '26%', scale: 1.05 },
-                          { type: 'pepperoni', top: '40%', left: '40%', scale: 1.0 },
-                          { type: 'pepperoni', top: '50%', left: '72%', scale: 0.95 },
-                          
-                          // Basil Leaves (Vibrant green leaf shapes)
-                          { type: 'basil', top: '22%', left: '38%', rotate: '45deg' },
-                          { type: 'basil', top: '42%', left: '78%', rotate: '115deg' },
-                          { type: 'basil', top: '68%', left: '60%', rotate: '180deg' },
-                          { type: 'basil', top: '52%', left: '15%', rotate: '-45deg' },
-                          { type: 'basil', top: '18%', left: '28%', rotate: '15deg' },
-                          { type: 'basil', top: '60%', left: '38%', rotate: '95deg' },
-                          
-                          // Mushrooms (Grey-brown caps with stems)
-                          { type: 'mushroom', top: '28%', left: '55%', rotate: '-15deg' },
-                          { type: 'mushroom', top: '55%', left: '72%', rotate: '60deg' },
-                          { type: 'mushroom', top: '62%', left: '22%', rotate: '135deg' },
-                          { type: 'mushroom', top: '42%', left: '25%', rotate: '-90deg' },
-                          { type: 'mushroom', top: '45%', left: '48%', rotate: '10deg' }
-                          ].map((top, i) => {
-                          if (top.type === 'pepperoni') {
-                          return (
-                          <div
-                          key={i}
-                          className="absolute rounded-full bg-gradient-to-br from-[#EF5350] to-[#C62828] border-2 border-[#800F0F] shadow-[0_2px_4px_rgba(0,0,0,0.25)] flex items-center justify-center animate-in zoom-in duration-300"
-                          style={{
-                          width: '38px',
-                          height: '38px',
-                          top: top.top,
-                          left: top.left,
-                          transform: `scale(${top.scale || 1})`,
-                          zIndex: 5
-                          }}
-                          >
-                          {/* Crispy edge rim */}
-                          <div className="absolute inset-0.5 rounded-full border border-[#D32F2F] opacity-40" />
-                          {/* Grease shine */}
-                          <div className="absolute top-1 left-1.5 w-2.5 h-2.5 rounded-full bg-white/35" />
-                          {/* Toasted spots */}
-                          <div className="absolute bottom-1 right-2 w-1.5 h-1.5 rounded-full bg-black/15" />
-                          </div>
-                          );
-                          } else if (top.type === 'basil') {
-                          return (
-                          <div
-                          key={i}
-                          className="absolute bg-gradient-to-br from-[#4CAF50] to-[#2E7D32] border border-[#1B5E20] shadow-[0_1px_2px_rgba(0,0,0,0.15)] animate-in zoom-in duration-300"
-                          style={{
-                          width: '20px',
-                          height: '11px',
-                          top: top.top,
-                          left: top.left,
-                          borderRadius: '50% 0 50% 0',
-                          transform: `rotate(${top.rotate || '0deg'})`,
-                          zIndex: 4
-                          }}
-                          />
-                          );
-                          } else if (top.type === 'mushroom') {
-                          return (
-                          <div
-                          key={i}
-                          className="absolute flex flex-col items-center animate-in zoom-in duration-300"
-                          style={{
-                          top: top.top,
-                          left: top.left,
-                          transform: `rotate(${top.rotate || '0deg'})`,
-                          zIndex: 3
-                          }}
-                          >
-                          {/* Mushroom Cap */}
-                          <div className="w-7 h-4.5 bg-gradient-to-br from-[#E0D8D5] to-[#BCAAA4] border border-[#5D4037] rounded-t-full shadow-[0_1.5px_2px_rgba(0,0,0,0.15)]" />
-                          {/* Mushroom Stem */}
-                          <div className="w-3 h-3 bg-[#E0D8D5] border-x border-b border-[#5D4037] -mt-0.5" />
-                          </div>
-                          );
-                          }
-                          return null;
-                          })}
-                          
-                          {/* Slice cut lines on active pizza */}
-                          <div className="absolute inset-0 opacity-15 pointer-events-none z-10">
-                          <div className="absolute inset-y-0 left-1/2 w-0.5 bg-amber-950" />
-                          <div className="absolute inset-x-0 top-1/2 h-0.5 bg-amber-955" />
-                          <div className="absolute inset-0 rotate-45 flex items-center justify-center">
-                          <div className="w-full h-0.5 bg-amber-955" />
-                          </div>
-                          <div className="absolute inset-0 -rotate-45 flex items-center justify-center">
-                          <div className="w-full h-0.5 bg-amber-955" />
-                          </div>
-                          </div>
-                          </div>
-                          </div>
-                          </div>
-                          
-                          {/* Slice lines to represent 8 pre-cut slices on tray background */}
-                          <div className="absolute inset-0 opacity-10 pointer-events-none z-0">
-                          <div className="absolute inset-y-0 left-1/2 w-px bg-slate-400" />
-                          <div className="absolute inset-x-0 top-1/2 h-px bg-slate-400" />
-                          <div className="absolute inset-0 rotate-45 flex items-center justify-center">
-                          <div className="w-full h-px bg-slate-400" />
-                          </div>
-                          <div className="absolute inset-0 -rotate-45 flex items-center justify-center">
-                          <div className="w-full h-px bg-slate-400" />
-                          </div>
-                          </div>
-                          
-                          {/* Center floating baked status badge */}
-                          <div className="absolute z-20 bg-white/95 backdrop-blur-sm border-2 border-amber-500 px-3.5 py-1.5 rounded-2xl shadow-xl flex flex-col items-center">
-                          <span className="text-sm font-black text-[#3C2E75] leading-none">{progressPercent}%</span>
-                          <span className="text-[7px] font-black text-rose-500 uppercase tracking-widest mt-0.5">BAKED!</span>
-                          </div>
-                          </div>
-                          </div>
-                          
-                          {/* Compact Reward Message */}
-                          <div className="bg-[#FAF2FF] rounded-2xl p-4 border border-[#E8C6FF]/35 flex items-center gap-3">
-                          <span className="text-2xl">🦖</span>
-                          <div className="min-w-0 flex-1">
-                          <p className="text-[10px] font-black text-[#3C2E75] uppercase tracking-wider mb-0.5">Mascot Party Reward</p>
-                          <p className="text-[11px] font-bold text-[#5C4D9F] leading-snug">
-                          {progressPercent >= 100
-                          ? `Fantastic! Dino Pizza Party is unlocked! 🎈ðŸ•`
-                          : `Need ${targetGoal - currentClassPoints} more points to bake the pizza party!`}
-                          </p>
-                          </div>
-                          </div>
-                          </div>
-                       </div>
-                    )}
                 </div>
              );
           }
@@ -7429,7 +7224,8 @@ Include a balanced combination of question types such as:
                  </div>
                  
                   {activeTab !== 'Scheduler' && activeTab !== 'Billing & Licenses' && activeTab !== 'Admin Reports' && activeTab !== 'My Prompts' && (
-                 <div className="relative">
+                 <div className="flex items-center gap-3">
+                     <div className="relative">
                     <button 
                       onClick={() => setShowClassDropdown(!showClassDropdown)}
                       className="flex items-center gap-3 px-5 py-2.5 bg-slate-50 rounded-2xl border border-slate-100 hover:bg-slate-100 transition-all group"
@@ -7465,6 +7261,21 @@ Include a balanced combination of question types such as:
                        )}
                     </AnimatePresence>
                  </div>
+                  {/* Change Adventure Maze Goal Button near Grade/Class selector */}
+                  <button
+                     onClick={() => {
+                        setNewGoalTitle(activeClassroom?.goalTitle || 'Class Adventure Goal 🏆');
+                        setNewGoalTarget(activeClassroom?.goalTarget || 1500);
+                        setNewGoalTrack(activeClassroom?.activeTrack || 'auto');
+                        setIsEditingGoal(true);
+                     }}
+                     className="flex items-center gap-2 px-4 py-2.5 bg-orange-50 hover:bg-orange-100 text-[#EA580C] rounded-2xl border border-orange-200/60 text-xs font-black transition-all shadow-sm active:scale-95 cursor-pointer shrink-0 ml-2"
+                     title="Change Class Adventure Maze Goal & Theme"
+                  >
+                     <Pencil className="w-3.5 h-3.5" />
+                     <span>Change Goal</span>
+                  </button>
+                  </div>
                   )}
               </div>
 
