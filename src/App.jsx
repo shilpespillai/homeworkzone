@@ -106,6 +106,7 @@ import EcosystemsHub from './components/EcosystemsHub';
 import HeatAndThermalEnergyHub from './components/HeatAndThermalEnergyHub';
 import ConservationHub from './components/ConservationHub';
 import FossilsHub from './components/FossilsHub';
+import MagnetsHub from './components/MagnetsHub';
 import TuitionPayment from './pages/TuitionPayment';
 import PlatformDocumentation from './pages/PlatformDocumentation';
 
@@ -3034,7 +3035,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                                     { name: 'Ecosystems & Food Chains', emoji: '🌾' },
                                     { name: 'Heat & Thermal Energy', emoji: '🌡️' },
                                     { name: 'Conservation & Sea Turtles', emoji: '🐢' },
-                                    { name: 'Fossils & Ancient Life', emoji: '🦴' }
+                                    { name: 'Fossils & Ancient Life', emoji: '🦴' },
+                                     { name: 'Magnets & Magnetic Forces', emoji: '🧲' }
                                  ].map((topic) => (
                                     <button
                                        key={topic.name}
@@ -3793,7 +3795,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
              activeNav !== 'Learning: Ecosystems & Food Chains' && 
              activeNav !== 'Learning: Heat & Thermal Energy' && 
              activeNav !== 'Learning: Conservation & Sea Turtles' && 
-             activeNav !== 'Learning: Fossils & Ancient Life' && (
+             activeNav !== 'Learning: Fossils & Ancient Life' && 
+             activeNav !== 'Learning: Magnets & Magnetic Forces' && (
                <MathsLearningHub
                   activeConcept={activeMathConcept}
                   onConceptSelect={(concept) => {
