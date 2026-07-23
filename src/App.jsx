@@ -97,6 +97,7 @@ import NutritionAndDietHub from './components/NutritionAndDietHub';
 import WaterCycleHub from './components/WaterCycleHub';
 import StatesOfMatterHub from './components/StatesOfMatterHub';
 import ClassificationOfLivingThingsHub from './components/ClassificationOfLivingThingsHub';
+import AstronomyHub from './components/AstronomyHub';
 import TuitionPayment from './pages/TuitionPayment';
 import PlatformDocumentation from './pages/PlatformDocumentation';
 
@@ -3016,7 +3017,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                                     { name: 'Nutrition & Balanced Diet', emoji: '🥗' },
                                     { name: 'The Water Cycle', emoji: '💧' },
                                     { name: 'States of Matter', emoji: '🧊' },
-                                    { name: 'Classification of Living Things', emoji: '🦁' }
+                                    { name: 'Classification of Living Things', emoji: '🦁' },
+                                    { name: 'Astronomy & Space', emoji: '🚀' }
                                  ].map((topic) => (
                                     <button
                                        key={topic.name}
@@ -3724,13 +3726,18 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                <ClassificationOfLivingThingsHub />
             )}
 
+            {activeNav === 'Learning: Astronomy & Space' && (
+               <AstronomyHub />
+            )}
+
             {activeNav.startsWith('Learning: ') && 
              activeNav !== 'Learning: Body and Functions' && 
              activeNav !== 'Learning: Types of Teeth & Functions' && 
              activeNav !== 'Learning: Nutrition & Balanced Diet' && 
              activeNav !== 'Learning: The Water Cycle' && 
              activeNav !== 'Learning: States of Matter' && 
-             activeNav !== 'Learning: Classification of Living Things' && (
+             activeNav !== 'Learning: Classification of Living Things' && 
+             activeNav !== 'Learning: Astronomy & Space' && (
                <MathsLearningHub
                   activeConcept={activeMathConcept}
                   onConceptSelect={(concept) => {
