@@ -35,6 +35,7 @@ export default function BodyAndFunctionsHub() {
   const [panPosition, setPanPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [viewerMode, setViewerMode] = useState('vector'); // 'vector' or 'photo'
 
   const openImageModal = () => {
     setZoomScale(1);
@@ -598,8 +599,31 @@ export default function BodyAndFunctionsHub() {
               </div>
             </div>
 
-            {/* Zoom Controls */}
-            <div className="flex items-center gap-2">
+            {/* View Mode Toggle & Zoom Controls */}
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="flex bg-slate-800 p-1 rounded-xl border border-slate-700 mr-2">
+                <button
+                  onClick={() => setViewerMode('vector')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
+                    viewerMode === 'vector'
+                      ? 'bg-emerald-600 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  ✨ Crisp Vector Chart
+                </button>
+                <button
+                  onClick={() => setViewerMode('photo')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
+                    viewerMode === 'photo'
+                      ? 'bg-emerald-600 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  🖼️ Photo Chart
+                </button>
+              </div>
+
               <button 
                 onClick={handleZoomOut}
                 disabled={zoomScale <= 0.75}
@@ -653,20 +677,97 @@ export default function BodyAndFunctionsHub() {
             <div 
               className="transition-transform duration-75 ease-out select-none"
               style={{
-                transform: `translate(${panPosition.x}px, ${panPosition.y}px) scale(${zoomScale})`,
-                transformOrigin: 'center center'
+                transform: `translate3d(${panPosition.x}px, ${panPosition.y}px, 0) scale(${zoomScale})`,
+                transformOrigin: 'center center',
+                willChange: 'transform'
               }}
             >
-              <img 
-                src="/digestive_system_infographic.jpg" 
-                alt="High-Res Digestive System Infographic" 
-                className="max-w-none max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 pointer-events-none"
-                draggable={false}
-              />
+              {viewerMode === 'vector' ? (
+                /* Crisp Vector Chart (Infinite Sharp Resolution) */
+                <div className="bg-white rounded-3xl p-8 border-4 border-slate-200 shadow-2xl max-w-4xl space-y-6 text-slate-800 pointer-events-none select-none min-w-[750px]">
+                  <div className="text-center pb-4 border-b-2 border-emerald-500 space-y-1">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">
+                      100% Vector Ultra-Sharp High-Definition Chart
+                    </span>
+                    <h2 className="text-3xl font-black text-slate-900">The Human Digestive System</h2>
+                    <p className="text-emerald-700 font-extrabold text-sm">Digestion and Absorption of Food</p>
+                  </div>
+
+                  <div className="grid grid-cols-12 gap-6">
+                    {/* 7 Stages Column */}
+                    <div className="col-span-4 bg-emerald-50/80 p-4 rounded-2xl border border-emerald-200 space-y-2">
+                      <h4 className="font-black text-xs text-emerald-900 uppercase tracking-wider mb-2">7 Major Stages</h4>
+                      {majorStages.map(s => (
+                        <div key={s.num} className="p-2 rounded-xl bg-white border border-emerald-100 flex items-center gap-2 text-xs">
+                          <span className="w-5 h-5 rounded-md bg-emerald-600 text-white font-black text-[10px] flex-center">{s.num}</span>
+                          <span className="font-black text-slate-800">{s.title}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* 14 Pathway Column */}
+                    <div className="col-span-8 bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+                      <h4 className="font-black text-xs text-slate-800 uppercase tracking-wider mb-2">Food Pathway (14 Steps)</h4>
+                      <div className="grid grid-cols-2 gap-2 text-[11px]">
+                        {pathwaySteps.map(p => (
+                          <div key={p.step} className="p-2 rounded-xl bg-white border border-slate-200 flex items-center gap-2">
+                            <span className="w-5 h-5 rounded-md bg-blue-600 text-white font-black text-[10px] flex-center">{p.step}</span>
+                            <span className="font-bold text-slate-800">{p.organ}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Enzymes & Absorption Row */}
+                  <div className="grid grid-cols-12 gap-6 pt-2">
+                    <div className="col-span-6 bg-amber-50/80 p-4 rounded-2xl border border-amber-200 space-y-2">
+                      <h4 className="font-black text-xs text-amber-900 uppercase tracking-wider mb-2">Digestive Enzymes</h4>
+                      {enzymesList.map((e, idx) => (
+                        <div key={idx} className="flex justify-between items-center text-[11px] p-2 bg-white rounded-lg border border-amber-100 font-medium">
+                          <span className="font-bold text-slate-800">{e.name}</span>
+                          <span className="text-amber-700 font-extrabold">{e.result}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="col-span-6 bg-rose-50/80 p-4 rounded-2xl border border-rose-200 space-y-2">
+                      <h4 className="font-black text-xs text-rose-900 uppercase tracking-wider mb-2">Nutrient Destination ("What Goes Where")</h4>
+                      <div className="space-y-1.5 text-[11px]">
+                        <div className="p-2 bg-white rounded-lg border border-rose-100 font-semibold flex justify-between">
+                          <span>🍞 Carbohydrates</span> <span className="text-emerald-700 font-bold">→ Glucose → Bloodstream</span>
+                        </div>
+                        <div className="p-2 bg-white rounded-lg border border-rose-100 font-semibold flex justify-between">
+                          <span>🥩 Proteins</span> <span className="text-emerald-700 font-bold">→ Amino Acids → Bloodstream</span>
+                        </div>
+                        <div className="p-2 bg-white rounded-lg border border-rose-100 font-semibold flex justify-between">
+                          <span>🥑 Fats</span> <span className="text-amber-700 font-bold">→ Fatty Acids → Lacteal</span>
+                        </div>
+                        <div className="p-2 bg-white rounded-lg border border-rose-100 font-semibold flex justify-between">
+                          <span>💧 Water & Minerals</span> <span className="text-blue-700 font-bold">→ Large Intestine</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* Photo Chart (High-DPI Anti-Aliased Image) */
+                <img 
+                  src="/digestive_system_infographic.jpg" 
+                  alt="High-Res Digestive System Infographic" 
+                  className="max-w-none max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 pointer-events-none"
+                  style={{
+                    imageRendering: 'high-quality',
+                    WebkitBackfaceVisibility: 'hidden',
+                    backfaceVisibility: 'hidden'
+                  }}
+                  draggable={false}
+                />
+              )}
             </div>
 
-            <div className="absolute bottom-6 left-6 pointer-events-none bg-slate-950/70 border border-slate-800 text-slate-300 px-4 py-2 rounded-2xl backdrop-blur-md text-xs font-semibold flex items-center gap-2">
-              <Move className="w-4 h-4 text-emerald-400" /> Drag to move • Scroll to zoom
+            <div className="absolute bottom-6 left-6 pointer-events-none bg-slate-950/80 border border-slate-800 text-slate-300 px-4 py-2 rounded-2xl backdrop-blur-md text-xs font-semibold flex items-center gap-2 shadow-lg">
+              <Move className="w-4 h-4 text-emerald-400" /> Drag to move • Scroll to zoom • Toggle Crisp Vector for 100% sharp text
             </div>
           </div>
 
