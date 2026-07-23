@@ -110,6 +110,7 @@ import MagnetsHub from './components/MagnetsHub';
 import LightHub from './components/LightHub';
 import HeredityHub from './components/HeredityHub';
 import RocksHub from './components/RocksHub';
+import UnitsOfMeasurementHub from './components/UnitsOfMeasurementHub';
 import TuitionPayment from './pages/TuitionPayment';
 import PlatformDocumentation from './pages/PlatformDocumentation';
 
@@ -3042,7 +3043,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                                      { name: 'Magnets & Magnetic Forces', emoji: '🧲' },
                                      { name: 'Light & Optics', emoji: '💡' },
                                      { name: 'Traits & Heredity', emoji: '🧬' },
-                                     { name: 'Rocks & Minerals', emoji: '🪨' }
+                                     { name: 'Rocks & Minerals', emoji: '🪨' },
+                                     { name: 'Units of Measurement', emoji: '📏' }
                                  ].map((topic) => (
                                     <button
                                        key={topic.name}
@@ -3805,7 +3807,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
              activeNav !== 'Learning: Magnets & Magnetic Forces' && 
              activeNav !== 'Learning: Light & Optics' && 
              activeNav !== 'Learning: Traits & Heredity' && 
-             activeNav !== 'Learning: Rocks & Minerals' && (
+             activeNav !== 'Learning: Rocks & Minerals' && 
+             activeNav !== 'Learning: Units of Measurement' && (
                <MathsLearningHub
                   activeConcept={activeMathConcept}
                   onConceptSelect={(concept) => {
