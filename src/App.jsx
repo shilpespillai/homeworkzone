@@ -93,6 +93,7 @@ import ChildReportView from './components/ChildReportView';
 import MathsLearningHub from './components/MathsLearningHub';
 import BodyAndFunctionsHub from './components/BodyAndFunctionsHub';
 import TeethAndFunctionsHub from './components/TeethAndFunctionsHub';
+import NutritionAndDietHub from './components/NutritionAndDietHub';
 import TuitionPayment from './pages/TuitionPayment';
 import PlatformDocumentation from './pages/PlatformDocumentation';
 
@@ -3008,7 +3009,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                               <div className="pl-2 space-y-0.5 border-l-2 border-emerald-200 ml-2">
                                  {[
                                     { name: 'Body and Functions', emoji: '🫀' },
-                                    { name: 'Types of Teeth & Functions', emoji: '🦷' }
+                                    { name: 'Types of Teeth & Functions', emoji: '🦷' },
+                                    { name: 'Nutrition & Balanced Diet', emoji: '🥗' }
                                  ].map((topic) => (
                                     <button
                                        key={topic.name}
@@ -3700,7 +3702,14 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                <TeethAndFunctionsHub />
             )}
 
-            {activeNav.startsWith('Learning: ') && activeNav !== 'Learning: Body and Functions' && activeNav !== 'Learning: Types of Teeth & Functions' && (
+            {activeNav === 'Learning: Nutrition & Balanced Diet' && (
+               <NutritionAndDietHub />
+            )}
+
+            {activeNav.startsWith('Learning: ') && 
+             activeNav !== 'Learning: Body and Functions' && 
+             activeNav !== 'Learning: Types of Teeth & Functions' && 
+             activeNav !== 'Learning: Nutrition & Balanced Diet' && (
                <MathsLearningHub
                   activeConcept={activeMathConcept}
                   onConceptSelect={(concept) => {
