@@ -103,6 +103,7 @@ import ElectricityHub from './components/ElectricityHub';
 import ForceAndMotionHub from './components/ForceAndMotionHub';
 import MaterialsAndPropertiesHub from './components/MaterialsAndPropertiesHub';
 import EcosystemsHub from './components/EcosystemsHub';
+import HeatAndThermalEnergyHub from './components/HeatAndThermalEnergyHub';
 import TuitionPayment from './pages/TuitionPayment';
 import PlatformDocumentation from './pages/PlatformDocumentation';
 
@@ -3028,7 +3029,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                                     { name: 'Electricity & Circuits', emoji: '⚡' },
                                     { name: 'Force & Motion', emoji: '🚴' },
                                     { name: 'Materials & Properties', emoji: '🪵' },
-                                    { name: 'Ecosystems & Food Chains', emoji: '🌾' }
+                                    { name: 'Ecosystems & Food Chains', emoji: '🌾' },
+                                    { name: 'Heat & Thermal Energy', emoji: '🌡️' }
                                  ].map((topic) => (
                                     <button
                                        key={topic.name}
@@ -3760,6 +3762,10 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                <EcosystemsHub />
             )}
 
+            {activeNav === 'Learning: Heat & Thermal Energy' && (
+               <HeatAndThermalEnergyHub />
+            )}
+
             {activeNav.startsWith('Learning: ') && 
              activeNav !== 'Learning: Body and Functions' && 
              activeNav !== 'Learning: Types of Teeth & Functions' && 
@@ -3772,7 +3778,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
              activeNav !== 'Learning: Electricity & Circuits' && 
              activeNav !== 'Learning: Force & Motion' && 
              activeNav !== 'Learning: Materials & Properties' && 
-             activeNav !== 'Learning: Ecosystems & Food Chains' && (
+             activeNav !== 'Learning: Ecosystems & Food Chains' && 
+             activeNav !== 'Learning: Heat & Thermal Energy' && (
                <MathsLearningHub
                   activeConcept={activeMathConcept}
                   onConceptSelect={(concept) => {
