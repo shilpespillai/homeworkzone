@@ -29,50 +29,8 @@ export default function BodyAndFunctionsHub() {
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [activeEnzymeFilter, setActiveEnzymeFilter] = useState('all');
   
-  // Modal & Zoom State
+  // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [zoomScale, setZoomScale] = useState(1);
-  const [panPosition, setPanPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const [viewerMode, setViewerMode] = useState('vector'); // 'vector' or 'photo'
-
-  const openImageModal = () => {
-    setZoomScale(1);
-    setPanPosition({ x: 0, y: 0 });
-    setIsModalOpen(true);
-  };
-
-  const handleZoomIn = () => setZoomScale(prev => Math.min(prev + 0.5, 4));
-  const handleZoomOut = () => setZoomScale(prev => Math.max(prev - 0.5, 0.75));
-  const handleResetZoom = () => {
-    setZoomScale(1);
-    setPanPosition({ x: 0, y: 0 });
-  };
-
-  const handleMouseDown = (e) => {
-    setIsDragging(true);
-    setDragStart({ x: e.clientX - panPosition.x, y: e.clientY - panPosition.y });
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDragging) return;
-    setPanPosition({
-      x: e.clientX - dragStart.x,
-      y: e.clientY - dragStart.y
-    });
-  };
-
-  const handleMouseUp = () => setIsDragging(false);
-
-  const handleWheelZoom = (e) => {
-    e.preventDefault();
-    if (e.deltaY < 0) {
-      setZoomScale(prev => Math.min(prev + 0.25, 4));
-    } else {
-      setZoomScale(prev => Math.max(prev - 0.25, 0.75));
-    }
-  };
   
   // Quiz State
   const [quizAnswers, setQuizAnswers] = useState({});
@@ -583,194 +541,46 @@ export default function BodyAndFunctionsHub() {
         </div>
       )}
 
-      {/* ==================================== FULLSCREEN INTERACTIVE ZOOM LIGHTBOX MODAL ==================================== */}
+      {/* ==================================== FULLSCREEN IMAGE VIEW MODAL ==================================== */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex flex-col animate-fade-in select-none">
-          
-          {/* Top Floating Control Bar */}
-          <div className="bg-slate-900/80 border-b border-slate-800 px-6 py-4 flex flex-wrap items-center justify-between gap-4 shrink-0">
+        <div 
+          onClick={() => setIsModalOpen(false)}
+          className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex flex-col animate-fade-in select-none p-4 md:p-6"
+        >
+          {/* Top Control Bar */}
+          <div 
+            onClick={(e) => e.stopPropagation()} 
+            className="bg-slate-900/90 border border-slate-800 rounded-2xl px-6 py-3.5 flex items-center justify-between gap-4 shrink-0 mb-4 shadow-xl"
+          >
             <div className="flex items-center gap-3">
               <span className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 font-bold text-xs">
-                🖼️ Interactive Viewer
+                🖼️ Full Chart View
               </span>
               <div>
                 <h3 className="font-extrabold text-white text-sm">The Human Digestive System Infographic</h3>
-                <p className="text-slate-400 text-[11px]">Use buttons or scroll wheel to zoom • Click & drag to pan</p>
+                <p className="text-slate-400 text-[11px]">Digestion and Absorption of Food • Official Curriculum Chart</p>
               </div>
             </div>
 
-            {/* View Mode Toggle & Zoom Controls */}
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="flex bg-slate-800 p-1 rounded-xl border border-slate-700 mr-2">
-                <button
-                  onClick={() => setViewerMode('vector')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
-                    viewerMode === 'vector'
-                      ? 'bg-emerald-600 text-white shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  ✨ Crisp Vector Chart
-                </button>
-                <button
-                  onClick={() => setViewerMode('photo')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
-                    viewerMode === 'photo'
-                      ? 'bg-emerald-600 text-white shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  🖼️ Photo Chart
-                </button>
-              </div>
-
-              <button 
-                onClick={handleZoomOut}
-                disabled={zoomScale <= 0.75}
-                className="p-2.5 rounded-xl bg-slate-800 text-slate-200 hover:bg-slate-700 disabled:opacity-30 transition-all cursor-pointer flex items-center gap-1 font-bold text-xs"
-                title="Zoom Out (-)"
-              >
-                <ZoomOut className="w-4 h-4" /> Out
-              </button>
-              
-              <span className="px-3 py-1.5 rounded-xl bg-slate-800 text-emerald-400 font-black text-xs min-w-[70px] text-center border border-slate-700">
-                {Math.round(zoomScale * 100)}%
-              </span>
-
-              <button 
-                onClick={handleZoomIn}
-                disabled={zoomScale >= 4}
-                className="p-2.5 rounded-xl bg-slate-800 text-slate-200 hover:bg-slate-700 disabled:opacity-30 transition-all cursor-pointer flex items-center gap-1 font-bold text-xs"
-                title="Zoom In (+)"
-              >
-                <ZoomIn className="w-4 h-4" /> In
-              </button>
-
-              <button 
-                onClick={handleResetZoom}
-                className="px-3 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all cursor-pointer font-extrabold text-xs"
-                title="Reset Zoom"
-              >
-                Reset
-              </button>
-
-              <div className="w-px h-6 bg-slate-800 my-auto mx-1" />
-
-              <button 
-                onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs transition-all shadow-lg shadow-rose-600/30 flex items-center gap-1.5 cursor-pointer"
-              >
-                <X className="w-4 h-4" /> Close
-              </button>
-            </div>
-          </div>
-
-          {/* Interactive Zoomable / Draggable Viewport */}
-          <div 
-            className="flex-1 overflow-hidden relative flex items-center justify-center cursor-grab active:cursor-grabbing p-4"
-            onWheel={handleWheelZoom}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-          >
-            <div 
-              className="transition-transform duration-75 ease-out select-none"
-              style={{
-                transform: `translate3d(${panPosition.x}px, ${panPosition.y}px, 0) scale(${zoomScale})`,
-                transformOrigin: 'center center',
-                willChange: 'transform'
-              }}
+            <button 
+              onClick={() => setIsModalOpen(false)}
+              className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs transition-all shadow-lg shadow-rose-600/30 flex items-center gap-1.5 cursor-pointer"
             >
-              {viewerMode === 'vector' ? (
-                /* Crisp Vector Chart (Infinite Sharp Resolution) */
-                <div className="bg-white rounded-3xl p-8 border-4 border-slate-200 shadow-2xl max-w-4xl space-y-6 text-slate-800 pointer-events-none select-none min-w-[750px]">
-                  <div className="text-center pb-4 border-b-2 border-emerald-500 space-y-1">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">
-                      100% Vector Ultra-Sharp High-Definition Chart
-                    </span>
-                    <h2 className="text-3xl font-black text-slate-900">The Human Digestive System</h2>
-                    <p className="text-emerald-700 font-extrabold text-sm">Digestion and Absorption of Food</p>
-                  </div>
-
-                  <div className="grid grid-cols-12 gap-6">
-                    {/* 7 Stages Column */}
-                    <div className="col-span-4 bg-emerald-50/80 p-4 rounded-2xl border border-emerald-200 space-y-2">
-                      <h4 className="font-black text-xs text-emerald-900 uppercase tracking-wider mb-2">7 Major Stages</h4>
-                      {majorStages.map(s => (
-                        <div key={s.num} className="p-2 rounded-xl bg-white border border-emerald-100 flex items-center gap-2 text-xs">
-                          <span className="w-5 h-5 rounded-md bg-emerald-600 text-white font-black text-[10px] flex-center">{s.num}</span>
-                          <span className="font-black text-slate-800">{s.title}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* 14 Pathway Column */}
-                    <div className="col-span-8 bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
-                      <h4 className="font-black text-xs text-slate-800 uppercase tracking-wider mb-2">Food Pathway (14 Steps)</h4>
-                      <div className="grid grid-cols-2 gap-2 text-[11px]">
-                        {pathwaySteps.map(p => (
-                          <div key={p.step} className="p-2 rounded-xl bg-white border border-slate-200 flex items-center gap-2">
-                            <span className="w-5 h-5 rounded-md bg-blue-600 text-white font-black text-[10px] flex-center">{p.step}</span>
-                            <span className="font-bold text-slate-800">{p.organ}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Enzymes & Absorption Row */}
-                  <div className="grid grid-cols-12 gap-6 pt-2">
-                    <div className="col-span-6 bg-amber-50/80 p-4 rounded-2xl border border-amber-200 space-y-2">
-                      <h4 className="font-black text-xs text-amber-900 uppercase tracking-wider mb-2">Digestive Enzymes</h4>
-                      {enzymesList.map((e, idx) => (
-                        <div key={idx} className="flex justify-between items-center text-[11px] p-2 bg-white rounded-lg border border-amber-100 font-medium">
-                          <span className="font-bold text-slate-800">{e.name}</span>
-                          <span className="text-amber-700 font-extrabold">{e.result}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="col-span-6 bg-rose-50/80 p-4 rounded-2xl border border-rose-200 space-y-2">
-                      <h4 className="font-black text-xs text-rose-900 uppercase tracking-wider mb-2">Nutrient Destination ("What Goes Where")</h4>
-                      <div className="space-y-1.5 text-[11px]">
-                        <div className="p-2 bg-white rounded-lg border border-rose-100 font-semibold flex justify-between">
-                          <span>🍞 Carbohydrates</span> <span className="text-emerald-700 font-bold">→ Glucose → Bloodstream</span>
-                        </div>
-                        <div className="p-2 bg-white rounded-lg border border-rose-100 font-semibold flex justify-between">
-                          <span>🥩 Proteins</span> <span className="text-emerald-700 font-bold">→ Amino Acids → Bloodstream</span>
-                        </div>
-                        <div className="p-2 bg-white rounded-lg border border-rose-100 font-semibold flex justify-between">
-                          <span>🥑 Fats</span> <span className="text-amber-700 font-bold">→ Fatty Acids → Lacteal</span>
-                        </div>
-                        <div className="p-2 bg-white rounded-lg border border-rose-100 font-semibold flex justify-between">
-                          <span>💧 Water & Minerals</span> <span className="text-blue-700 font-bold">→ Large Intestine</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                /* Photo Chart (High-DPI Anti-Aliased Image) */
-                <img 
-                  src="/digestive_system_infographic.jpg" 
-                  alt="High-Res Digestive System Infographic" 
-                  className="max-w-none max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 pointer-events-none"
-                  style={{
-                    imageRendering: 'high-quality',
-                    WebkitBackfaceVisibility: 'hidden',
-                    backfaceVisibility: 'hidden'
-                  }}
-                  draggable={false}
-                />
-              )}
-            </div>
-
-            <div className="absolute bottom-6 left-6 pointer-events-none bg-slate-950/80 border border-slate-800 text-slate-300 px-4 py-2 rounded-2xl backdrop-blur-md text-xs font-semibold flex items-center gap-2 shadow-lg">
-              <Move className="w-4 h-4 text-emerald-400" /> Drag to move • Scroll to zoom • Toggle Crisp Vector for 100% sharp text
-            </div>
+              <X className="w-4 h-4" /> Close
+            </button>
           </div>
 
+          {/* Centered High-Res Image Viewport */}
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="flex-1 flex items-center justify-center overflow-auto"
+          >
+            <img 
+              src="/digestive_system_infographic.jpg" 
+              alt="The Human Digestive System Infographic" 
+              className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 object-contain"
+            />
+          </div>
         </div>
       )}
 
