@@ -108,6 +108,7 @@ import ConservationHub from './components/ConservationHub';
 import FossilsHub from './components/FossilsHub';
 import MagnetsHub from './components/MagnetsHub';
 import LightHub from './components/LightHub';
+import HeredityHub from './components/HeredityHub';
 import TuitionPayment from './pages/TuitionPayment';
 import PlatformDocumentation from './pages/PlatformDocumentation';
 
@@ -3038,7 +3039,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                                     { name: 'Conservation & Sea Turtles', emoji: '🐢' },
                                     { name: 'Fossils & Ancient Life', emoji: '🦴' },
                                      { name: 'Magnets & Magnetic Forces', emoji: '🧲' },
-                                     { name: 'Light & Optics', emoji: '💡' }
+                                     { name: 'Light & Optics', emoji: '💡' },
+                                     { name: 'Traits & Heredity', emoji: '🧬' }
                                  ].map((topic) => (
                                     <button
                                        key={topic.name}
@@ -3799,7 +3801,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
              activeNav !== 'Learning: Conservation & Sea Turtles' && 
              activeNav !== 'Learning: Fossils & Ancient Life' && 
              activeNav !== 'Learning: Magnets & Magnetic Forces' && 
-             activeNav !== 'Learning: Light & Optics' && (
+             activeNav !== 'Learning: Light & Optics' && 
+             activeNav !== 'Learning: Traits & Heredity' && (
                <MathsLearningHub
                   activeConcept={activeMathConcept}
                   onConceptSelect={(concept) => {
