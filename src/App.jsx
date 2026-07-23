@@ -95,6 +95,7 @@ import BodyAndFunctionsHub from './components/BodyAndFunctionsHub';
 import TeethAndFunctionsHub from './components/TeethAndFunctionsHub';
 import NutritionAndDietHub from './components/NutritionAndDietHub';
 import WaterCycleHub from './components/WaterCycleHub';
+import StatesOfMatterHub from './components/StatesOfMatterHub';
 import TuitionPayment from './pages/TuitionPayment';
 import PlatformDocumentation from './pages/PlatformDocumentation';
 
@@ -3012,7 +3013,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                                     { name: 'Body and Functions', emoji: '🫀' },
                                     { name: 'Types of Teeth & Functions', emoji: '🦷' },
                                     { name: 'Nutrition & Balanced Diet', emoji: '🥗' },
-                                    { name: 'The Water Cycle', emoji: '💧' }
+                                    { name: 'The Water Cycle', emoji: '💧' },
+                                    { name: 'States of Matter', emoji: '🧊' }
                                  ].map((topic) => (
                                     <button
                                        key={topic.name}
@@ -3712,11 +3714,16 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                <WaterCycleHub />
             )}
 
+            {activeNav === 'Learning: States of Matter' && (
+               <StatesOfMatterHub />
+            )}
+
             {activeNav.startsWith('Learning: ') && 
              activeNav !== 'Learning: Body and Functions' && 
              activeNav !== 'Learning: Types of Teeth & Functions' && 
              activeNav !== 'Learning: Nutrition & Balanced Diet' && 
-             activeNav !== 'Learning: The Water Cycle' && (
+             activeNav !== 'Learning: The Water Cycle' && 
+             activeNav !== 'Learning: States of Matter' && (
                <MathsLearningHub
                   activeConcept={activeMathConcept}
                   onConceptSelect={(concept) => {
