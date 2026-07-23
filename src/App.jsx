@@ -92,6 +92,7 @@ import ArtsAndFunView from './components/ArtsAndFunView';
 import ChildReportView from './components/ChildReportView';
 import MathsLearningHub from './components/MathsLearningHub';
 import BodyAndFunctionsHub from './components/BodyAndFunctionsHub';
+import TeethAndFunctionsHub from './components/TeethAndFunctionsHub';
 import TuitionPayment from './pages/TuitionPayment';
 import PlatformDocumentation from './pages/PlatformDocumentation';
 
@@ -3006,7 +3007,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                            {scienceExpanded && (
                               <div className="pl-2 space-y-0.5 border-l-2 border-emerald-200 ml-2">
                                  {[
-                                    { name: 'Body and Functions', emoji: '🫀' }
+                                    { name: 'Body and Functions', emoji: '🫀' },
+                                    { name: 'Types of Teeth & Functions', emoji: '🦷' }
                                  ].map((topic) => (
                                     <button
                                        key={topic.name}
@@ -3694,7 +3696,11 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                <BodyAndFunctionsHub />
             )}
 
-            {activeNav.startsWith('Learning: ') && activeNav !== 'Learning: Body and Functions' && (
+            {activeNav === 'Learning: Types of Teeth & Functions' && (
+               <TeethAndFunctionsHub />
+            )}
+
+            {activeNav.startsWith('Learning: ') && activeNav !== 'Learning: Body and Functions' && activeNav !== 'Learning: Types of Teeth & Functions' && (
                <MathsLearningHub
                   activeConcept={activeMathConcept}
                   onConceptSelect={(concept) => {
