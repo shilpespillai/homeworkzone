@@ -31,6 +31,7 @@ export default function BodyAndFunctionsHub() {
   
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const openImageModal = () => setIsModalOpen(true);
   
   // Quiz State
   const [quizAnswers, setQuizAnswers] = useState({});
