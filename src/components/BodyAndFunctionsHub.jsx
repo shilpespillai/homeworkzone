@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   Heart, 
   Activity, 
@@ -14,7 +14,12 @@ import {
   Zap, 
   Award,
   ChevronRight,
-  RotateCcw
+  RotateCcw,
+  ZoomIn,
+  ZoomOut,
+  Maximize2,
+  X,
+  Move
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -23,6 +28,50 @@ export default function BodyAndFunctionsHub() {
   const [selectedOrganStep, setSelectedOrganStep] = useState(1);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [activeEnzymeFilter, setActiveEnzymeFilter] = useState('all');
+  
+  // Modal & Zoom State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [zoomScale, setZoomScale] = useState(1);
+  const [panPosition, setPanPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+
+  const openImageModal = () => {
+    setZoomScale(1);
+    setPanPosition({ x: 0, y: 0 });
+    setIsModalOpen(true);
+  };
+
+  const handleZoomIn = () => setZoomScale(prev => Math.min(prev + 0.5, 4));
+  const handleZoomOut = () => setZoomScale(prev => Math.max(prev - 0.5, 0.75));
+  const handleResetZoom = () => {
+    setZoomScale(1);
+    setPanPosition({ x: 0, y: 0 });
+  };
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setDragStart({ x: e.clientX - panPosition.x, y: e.clientY - panPosition.y });
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    setPanPosition({
+      x: e.clientX - dragStart.x,
+      y: e.clientY - dragStart.y
+    });
+  };
+
+  const handleMouseUp = () => setIsDragging(false);
+
+  const handleWheelZoom = (e) => {
+    e.preventDefault();
+    if (e.deltaY < 0) {
+      setZoomScale(prev => Math.min(prev + 0.25, 4));
+    } else {
+      setZoomScale(prev => Math.max(prev - 0.25, 0.75));
+    }
+  };
   
   // Quiz State
   const [quizAnswers, setQuizAnswers] = useState({});
@@ -206,24 +255,33 @@ export default function BodyAndFunctionsHub() {
                 Official Visual Reference
               </span>
               <h2 className="text-2xl font-black text-slate-800 mt-1">The Human Digestive System Infographic</h2>
-              <p className="text-slate-500 text-xs mt-1">High-resolution diagram detailing Digestion and Absorption of Food.</p>
+              <p className="text-slate-500 text-xs mt-1">High-resolution diagram detailing Digestion and Absorption of Food. Click below to expand and zoom.</p>
             </div>
-            <a 
-              href="/digestive_system_infographic.jpg" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-extrabold text-xs shadow-md shadow-emerald-500/20 hover:bg-emerald-700 transition-all flex items-center gap-2"
-            >
-              🔍 Open Full Size Image
-            </a>
+            <div className="flex items-center gap-2">
+              <button 
+                onClick={openImageModal} 
+                className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-extrabold text-xs shadow-md shadow-emerald-500/20 hover:bg-emerald-700 transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <ZoomIn className="w-4 h-4" /> Open Interactive Zoom Viewer
+              </button>
+            </div>
           </div>
 
-          <div className="flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden">
+          <div 
+            onClick={openImageModal}
+            className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+            title="Click to Open & Zoom"
+          >
             <img 
               src="/digestive_system_infographic.jpg" 
               alt="The Human Digestive System - Digestion and Absorption of Food Infographic" 
-              className="max-w-full h-auto rounded-xl shadow-lg border border-white max-h-[800px] object-contain"
+              className="max-w-full h-auto rounded-xl shadow-lg border border-white max-h-[800px] object-contain group-hover:scale-101 transition-transform"
             />
+            <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+              <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                <Maximize2 className="w-4 h-4 text-emerald-600" /> Click to Expand & Zoom Image
+              </span>
+            </div>
           </div>
         </div>
       )}
@@ -521,6 +579,97 @@ export default function BodyAndFunctionsHub() {
               Submit Answers
             </button>
           </div>
+        </div>
+      )}
+
+      {/* ==================================== FULLSCREEN INTERACTIVE ZOOM LIGHTBOX MODAL ==================================== */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex flex-col animate-fade-in select-none">
+          
+          {/* Top Floating Control Bar */}
+          <div className="bg-slate-900/80 border-b border-slate-800 px-6 py-4 flex flex-wrap items-center justify-between gap-4 shrink-0">
+            <div className="flex items-center gap-3">
+              <span className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 font-bold text-xs">
+                🖼️ Interactive Viewer
+              </span>
+              <div>
+                <h3 className="font-extrabold text-white text-sm">The Human Digestive System Infographic</h3>
+                <p className="text-slate-400 text-[11px]">Use buttons or scroll wheel to zoom • Click & drag to pan</p>
+              </div>
+            </div>
+
+            {/* Zoom Controls */}
+            <div className="flex items-center gap-2">
+              <button 
+                onClick={handleZoomOut}
+                disabled={zoomScale <= 0.75}
+                className="p-2.5 rounded-xl bg-slate-800 text-slate-200 hover:bg-slate-700 disabled:opacity-30 transition-all cursor-pointer flex items-center gap-1 font-bold text-xs"
+                title="Zoom Out (-)"
+              >
+                <ZoomOut className="w-4 h-4" /> Out
+              </button>
+              
+              <span className="px-3 py-1.5 rounded-xl bg-slate-800 text-emerald-400 font-black text-xs min-w-[70px] text-center border border-slate-700">
+                {Math.round(zoomScale * 100)}%
+              </span>
+
+              <button 
+                onClick={handleZoomIn}
+                disabled={zoomScale >= 4}
+                className="p-2.5 rounded-xl bg-slate-800 text-slate-200 hover:bg-slate-700 disabled:opacity-30 transition-all cursor-pointer flex items-center gap-1 font-bold text-xs"
+                title="Zoom In (+)"
+              >
+                <ZoomIn className="w-4 h-4" /> In
+              </button>
+
+              <button 
+                onClick={handleResetZoom}
+                className="px-3 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all cursor-pointer font-extrabold text-xs"
+                title="Reset Zoom"
+              >
+                Reset
+              </button>
+
+              <div className="w-px h-6 bg-slate-800 my-auto mx-1" />
+
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs transition-all shadow-lg shadow-rose-600/30 flex items-center gap-1.5 cursor-pointer"
+              >
+                <X className="w-4 h-4" /> Close
+              </button>
+            </div>
+          </div>
+
+          {/* Interactive Zoomable / Draggable Viewport */}
+          <div 
+            className="flex-1 overflow-hidden relative flex items-center justify-center cursor-grab active:cursor-grabbing p-4"
+            onWheel={handleWheelZoom}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
+            <div 
+              className="transition-transform duration-75 ease-out select-none"
+              style={{
+                transform: `translate(${panPosition.x}px, ${panPosition.y}px) scale(${zoomScale})`,
+                transformOrigin: 'center center'
+              }}
+            >
+              <img 
+                src="/digestive_system_infographic.jpg" 
+                alt="High-Res Digestive System Infographic" 
+                className="max-w-none max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 pointer-events-none"
+                draggable={false}
+              />
+            </div>
+
+            <div className="absolute bottom-6 left-6 pointer-events-none bg-slate-950/70 border border-slate-800 text-slate-300 px-4 py-2 rounded-2xl backdrop-blur-md text-xs font-semibold flex items-center gap-2">
+              <Move className="w-4 h-4 text-emerald-400" /> Drag to move • Scroll to zoom
+            </div>
+          </div>
+
         </div>
       )}
 
