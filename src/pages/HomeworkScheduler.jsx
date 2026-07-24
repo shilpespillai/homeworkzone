@@ -339,6 +339,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
       const updates = {};
       if (editForm.releaseTime) updates.releaseTime = editForm.releaseTime;
       if (editForm.assignmentType) updates.type = editForm.assignmentType;
+      if (editForm.difficulty) updates.difficulty = editForm.difficulty;
       if (editForm.recurrenceDay) updates.recurrenceDay = editForm.recurrenceDay;
       if (editForm.recurrenceDate) updates.recurrenceDate = editForm.recurrenceDate;
       
@@ -1989,6 +1990,19 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                                 <option value="test">🎯 Test / Quiz</option>
                               </select>
                             </div>
+
+                            <div className="space-y-1">
+                              <label className="text-[10px] font-black text-slate-500 uppercase">Complexity Level</label>
+                              <select
+                                value={editForm.difficulty || 'Medium'}
+                                onChange={e => setEditForm(prev => ({ ...prev, difficulty: e.target.value }))}
+                                className="w-full h-8 bg-slate-50 border border-slate-200 rounded-lg px-2 text-xs font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C]"
+                              >
+                                <option value="Easy">🟢 Easy (Foundation)</option>
+                                <option value="Medium">🟡 Medium (Standard)</option>
+                                <option value="Hard">🔴 Hard (Advanced)</option>
+                              </select>
+                            </div>
                             
                             {sched.recurrence === 'weekly' && (
                               <div className="space-y-1">
@@ -2079,7 +2093,16 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                                     : `Weekly on ${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][parseInt(sched.recurrenceDay, 10)]}`}
                               </span>
                               <span className="text-slate-300 text-[10px] font-bold">•</span>
-                              <span className="text-[10px] text-slate-500 font-bold">{sched.grade} ({sched.difficulty})</span>
+                              <span className="text-[10px] text-slate-500 font-bold">{sched.grade}</span>
+                              <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border ${
+                                (sched.difficulty || 'Medium') === 'Easy'
+                                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                  : (sched.difficulty || 'Medium') === 'Hard'
+                                    ? 'bg-rose-50 text-rose-700 border-rose-200'
+                                    : 'bg-amber-50 text-amber-700 border-amber-200'
+                              }`}>
+                                ⚡ {sched.difficulty || 'Medium'} Level
+                              </span>
                             </div>
 
                             <p className="text-[9px] text-[#EA580C] font-black uppercase pt-0.5">
@@ -2094,6 +2117,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                                 setEditForm({
                                   releaseTime: sched.releaseTime || '08:00',
                                   assignmentType: sched.type || 'homework',
+                                  difficulty: sched.difficulty || 'Medium',
                                   recurrenceDay: sched.recurrenceDay || '1',
                                   recurrenceDate: sched.recurrenceDate || '1'
                                 });
