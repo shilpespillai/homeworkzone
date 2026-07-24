@@ -5854,16 +5854,12 @@ export default function App() {
     };
   }, []);
 
-  // Handle toast auto-dismissal
+  // Handle toast auto-dismissal: ALL messages, system popups, chat alerts & toasts disappear after 5 seconds (5000ms)
   useEffect(() => {
     const activeTimers = toasts.map(toast => {
-      // Auto-dismiss successes after 4 seconds. Info/Message alerts remain until closed.
-      if (toast.type === 'success') {
-        return setTimeout(() => {
-          setToasts(prev => prev.filter(t => t.id !== toast.id));
-        }, 4000);
-      }
-      return null;
+      return setTimeout(() => {
+        setToasts(prev => prev.filter(t => t.id !== toast.id));
+      }, 5000);
     });
 
     return () => {
@@ -6035,6 +6031,14 @@ export default function App() {
                 >
                   <X size={18} strokeWidth={4} />
                 </button>
+
+                {/* 5-Second Disappearing Progress Countdown Bar */}
+                <motion.div 
+                  initial={{ scaleX: 1 }}
+                  animate={{ scaleX: 0 }}
+                  transition={{ duration: 5, ease: 'linear' }}
+                  className="absolute bottom-0 left-0 right-0 h-1.5 bg-orange-500/50 origin-left"
+                />
               </motion.div>
             );
           })}
