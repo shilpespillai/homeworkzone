@@ -28,6 +28,7 @@ import { decryptText } from '../utils/crypto';
 import { fetchWithRetry, generateContent, getModelForGrade } from '../utils/aiClient';
 import { generateExplanations } from '../utils/generateExplanations';
 import { cleanFirestorePayload } from '../utils/cleanFirestorePayload';
+import { SUPPORTED_LANGUAGES, getLanguageObj } from '../utils/languages';
 import CurriculumModal from '../components/CurriculumModal';
 import { curriculum } from '../data/curriculum';
 import { sanitizeQuestionData } from './HomeworkGenerator';
@@ -147,6 +148,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
     recurrenceDay: '1', // '1' = Monday, '2' = Tuesday, etc.
     recurrenceDate: '1', // '1' to '28' for monthly
     dueDateOffset: 7,
+    targetLanguage: 'en',
     assignType: 'all',
     assignedStudentIds: [],
     assignmentType: 'homework' // 'homework' or 'test'
@@ -338,6 +340,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
     try {
       const updates = {};
       if (editForm.topic !== undefined) updates.topic = editForm.topic;
+      if (editForm.targetLanguage) updates.targetLanguage = editForm.targetLanguage;
       if (editForm.releaseTime) updates.releaseTime = editForm.releaseTime;
       if (editForm.assignmentType) updates.type = editForm.assignmentType;
       if (editForm.difficulty) updates.difficulty = editForm.difficulty;
@@ -879,6 +882,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           assignType: formData.assignType,
           assignedStudentIds: formData.assignType === 'students' ? formData.assignedStudentIds : [],
           type: formData.assignmentType || 'homework',
+          targetLanguage: formData.targetLanguage || 'en',
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           lastRun: serverTimestamp(), // Initialized to now to prevent retroactively running past occurrences
           createdAt: serverTimestamp(),
@@ -1321,6 +1325,28 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                 >
                   🎯 Test / Quiz
                 </button>
+              </div>
+            </div>
+
+            {/* Quiz Generation Language */}
+            <div className="space-y-2 border-t border-slate-50 pt-5">
+              <label className="text-sm font-black text-emerald-600 uppercase tracking-wider block flex items-center justify-between">
+                <span>Quiz Generation Language</span>
+                <span className="text-[10px] text-slate-400 font-semibold normal-case">100+ Regional Languages</span>
+              </label>
+              <div className="relative">
+                <select
+                  value={formData.targetLanguage || 'en'}
+                  onChange={(e) => setFormData(prev => ({ ...prev, targetLanguage: e.target.value }))}
+                  className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-10 text-xs font-bold text-emerald-800 outline-none focus:border-[#EA580C] transition-all cursor-pointer appearance-none"
+                >
+                  {SUPPORTED_LANGUAGES.map((lang) => (
+                    <option key={lang.code} value={lang.code}>
+                      {lang.flag} {lang.name} ({lang.nativeName})
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
               </div>
             </div>
 
@@ -2115,6 +2141,14 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                               }`}>
                                 ⚡ {sched.difficulty || 'Medium'} Level
                               </span>
+                               {sched.targetLanguage && sched.targetLanguage !== 'en' && (() => {
+                                 const lObj = getLanguageObj(sched.targetLanguage);
+                                 return (
+                                   <span className="px-2.5 py-0.5 rounded-full text-[9px] font-black bg-blue-50 text-blue-700 border border-blue-200">
+                                     {lObj.flag} {lObj.name}
+                                   </span>
+                                 );
+                               })()}
                             </div>
 
                             <p className="text-[9px] text-[#EA580C] font-black uppercase pt-0.5">
@@ -2128,6 +2162,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                                 setEditingAutomationId(sched.id);
                                 setEditForm({
                                   topic: sched.topic || '',
+                                  targetLanguage: sched.targetLanguage || 'en',
                                   releaseTime: sched.releaseTime || '08:00',
                                   assignmentType: sched.type || 'homework',
                                   difficulty: sched.difficulty || 'Medium',

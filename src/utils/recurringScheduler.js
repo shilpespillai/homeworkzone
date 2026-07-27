@@ -14,6 +14,7 @@ import { fetchWithRetry, generateContent } from './aiClient';
 import { generateExplanations } from './generateExplanations';
 import { cleanFirestorePayload } from './cleanFirestorePayload';
 import { DEFAULT_SUBJECT_PROMPTS } from './defaultPrompts';
+import { getLanguageObj } from './languages';
 
 // Local helper to format date
 const getLocalDateString = (date) => {
@@ -181,6 +182,11 @@ CRITICAL VISUAL RULES:
       ${qualityRules}
 
       Return ONLY a JSON object with a single key "questions" containing an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), "subtopic" (string, a specific subtopic or concept under the main topic, e.g. "Adding Fractions", "Identifying Nouns", "Photosynthesis", etc.), and optionally "chartData", "geometryData", or "imagePrompt". Do not include any markdown formatting.`;
+    }
+
+    if (sched.targetLanguage && sched.targetLanguage !== 'en') {
+      const lObj = getLanguageObj(sched.targetLanguage);
+      prompt += `\n\nCRITICAL TARGET LANGUAGE REQUIREMENT: You MUST generate all question text, options, and explanations in ${lObj.name} (${lObj.nativeName}). Ensure accurate mathematical terminology and culturally appropriate context for ${lObj.name} speakers.`;
     }
 
     const pastQuestions = await fetchPastQuestions(sched.selectedClasses);
