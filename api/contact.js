@@ -58,7 +58,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
-      message: `Your query has been sent to ${recipientEmail}.`,
+      message: `Your query has been sent to our support team.`,
       autoReply: autoReplyText
     });
   } catch (err) {

@@ -390,8 +390,7 @@ const ContactUsTab = ({ user, teacherData }) => {
           </div>
           <h2 className="text-3xl font-black tracking-tight">Contact Us</h2>
           <p className="text-sm font-medium text-white/90 max-w-xl">
-            Have questions, feedback, or need help? Send us a message and our team will get back to you at{' '}
-            <span className="font-bold underline text-amber-200">aihealthtec@gmail.com</span>.
+            Have questions, feedback, or need help? Send us a message and our team will get back to you as soon as possible.
           </p>
         </div>
         <div className="absolute -right-6 -bottom-10 opacity-20 pointer-events-none">
@@ -410,7 +409,7 @@ const ContactUsTab = ({ user, teacherData }) => {
             <CheckCircle className="w-6 h-6 text-emerald-500" /> Message Sent Successfully!
           </div>
           <p className="text-xs text-emerald-800 font-bold">
-            Your query has been sent to <span className="underline">aihealthtec@gmail.com</span>.
+            Your query has been sent to our support team.
           </p>
           <div className="bg-white p-4 rounded-2xl border border-emerald-200 text-xs font-bold text-slate-700 leading-relaxed shadow-inner">
             💬 <span className="text-indigo-600 font-black">Auto-Reply Notification:</span> "{autoReplyMessage}"
@@ -494,12 +493,6 @@ const ContactUsTab = ({ user, teacherData }) => {
             />
           </div>
 
-          {/* Destination Email Banner */}
-          <div className="flex items-center justify-between p-4 bg-indigo-50/60 rounded-2xl border border-indigo-100 text-xs font-bold text-indigo-900">
-            <span>Target Recipient:</span>
-            <span className="font-mono text-indigo-700 bg-white px-3 py-1 rounded-xl border border-indigo-200">aihealthtec@gmail.com</span>
-          </div>
-
           {/* Submit Button */}
           <button
             type="submit"
@@ -510,7 +503,7 @@ const ContactUsTab = ({ user, teacherData }) => {
               <>Sending Query...</>
             ) : (
               <>
-                <Send className="w-4 h-4" /> Submit Query to aihealthtec@gmail.com
+                <Send className="w-4 h-4" /> Submit Query
               </>
             )}
           </button>
