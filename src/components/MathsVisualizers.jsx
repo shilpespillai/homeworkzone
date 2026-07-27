@@ -1,5 +1,29 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import InteractiveFractionColoring from './InteractiveFractionColoring';
+import InteractiveClockSetting from './InteractiveClockSetting';
+import InteractivePlaceValueBlocks from './InteractivePlaceValueBlocks';
+import InteractiveNumberLinePlotter from './InteractiveNumberLinePlotter';
+import InteractiveAngleBuilder from './InteractiveAngleBuilder';
+import InteractiveGridAreaPainter from './InteractiveGridAreaPainter';
+import InteractiveBalanceScale from './InteractiveBalanceScale';
+import InteractiveFractionWall from './InteractiveFractionWall';
+import InteractiveCoordinatePlotter from './InteractiveCoordinatePlotter';
+import InteractiveMoneyCounter from './InteractiveMoneyCounter';
+import InteractiveGeometryNet from './InteractiveGeometryNet';
+import InteractiveVennDiagram from './InteractiveVennDiagram';
+import InteractiveProbabilitySpinner from './InteractiveProbabilitySpinner';
+import InteractiveFunctionGrapher from './InteractiveFunctionGrapher';
+import InteractiveChartBuilder from './InteractiveChartBuilder';
+import InteractiveRatioMixer from './InteractiveRatioMixer';
+import InteractiveFactorTree from './InteractiveFactorTree';
+import InteractivePythagorasExplorer from './InteractivePythagorasExplorer';
+import InteractiveTransformationGeometry from './InteractiveTransformationGeometry';
+import InteractiveQuadraticParabola from './InteractiveQuadraticParabola';
+import InteractivePercentageGrid from './InteractivePercentageGrid';
+import InteractiveStemLeafPlot from './InteractiveStemLeafPlot';
+import InteractiveTrigRatios from './InteractiveTrigRatios';
+import InteractiveExponentialCurve from './InteractiveExponentialCurve';
 
 // --- HELPER: SVG Circular Sector Path ---
 const getSectorPath = (x, y, r, startAngle, endAngle) => {
@@ -3409,3 +3433,67 @@ export const ComparingFractionsCrocodile = () => {
     </div>
   );
 };
+
+// ==========================================
+// 29. FRACTION COLORING STUDIO
+// ==========================================
+export const FractionColoringStudio = () => {
+  const [selectedFrac, setSelectedFrac] = useState('1/3');
+  const presetFractions = ['1/2', '1/3', '2/3', '1/4', '3/4', '2/5', '3/5'];
+
+  return (
+    <div className="space-y-4">
+      {/* Preset Selector */}
+      <div className="flex flex-wrap items-center gap-2 bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
+        <span className="text-xs font-black text-slate-500 uppercase tracking-wider mr-2">
+          Choose Fraction:
+        </span>
+        {presetFractions.map((f) => (
+          <button
+            key={f}
+            onClick={() => setSelectedFrac(f)}
+            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all ${
+              selectedFrac === f
+                ? 'bg-orange-500 text-white shadow-md scale-105'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            }`}
+          >
+            {f}
+          </button>
+        ))}
+      </div>
+
+      <InteractiveFractionColoring
+        targetFraction={selectedFrac}
+        instruction={`Color ${selectedFrac} of each shape below!`}
+      />
+    </div>
+  );
+};
+
+export {
+  InteractiveClockSetting,
+  InteractivePlaceValueBlocks,
+  InteractiveNumberLinePlotter,
+  InteractiveAngleBuilder,
+  InteractiveGridAreaPainter,
+  InteractiveBalanceScale,
+  InteractiveFractionWall,
+  InteractiveCoordinatePlotter,
+  InteractiveMoneyCounter,
+  InteractiveGeometryNet,
+  InteractiveVennDiagram,
+  InteractiveProbabilitySpinner,
+  InteractiveFunctionGrapher,
+  InteractiveChartBuilder,
+  InteractiveRatioMixer,
+  InteractiveFactorTree,
+  InteractivePythagorasExplorer,
+  InteractiveTransformationGeometry,
+  InteractiveQuadraticParabola,
+  InteractivePercentageGrid,
+  InteractiveStemLeafPlot,
+  InteractiveTrigRatios,
+  InteractiveExponentialCurve
+};
+

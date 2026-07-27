@@ -577,22 +577,36 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
            - "id" (number)
            - "text" (string, the question)
            - "questionType" (string, either "multiple_choice", "text", or "interactive")
-           - "interactiveType" (string, either "sorting" or "matching". REQUIRED ONLY IF questionType="interactive")
+           - "interactiveType" (string, one of: "sorting", "matching", "fractionColoring", "clockSetting", "placeValueBlocks", "numberLinePlot", "angleMeasuring", "gridAreaPainter", "balanceScale". REQUIRED ONLY IF questionType="interactive")
+           - "targetFraction" (string, e.g. "1/3", "2/3". REQUIRED for "fractionColoring")
+           - "targetTime" (string, e.g. "03:45". REQUIRED for "clockSetting")
+           - "targetNumber" (number, e.g. 342. REQUIRED for "placeValueBlocks")
+           - "targetValue" (number, e.g. 3.5. REQUIRED for "numberLinePlot")
+           - "targetAngle" (number, e.g. 65. REQUIRED for "angleMeasuring")
+           - "targetArea" (number, e.g. 12. REQUIRED for "gridAreaPainter")
+           - "targetX" (number, e.g. 3. REQUIRED for "balanceScale")
            - "options" (array of exactly 4 strings. REQUIRED for "multiple_choice". OMIT for "text" and "interactive")
-           - "interactiveData" (array of strings. REQUIRED for "interactive". For "sorting", list 3-5 items to sort. For "matching", list 3-5 pairs as strings formatted "LeftItem||RightItem")
-           - "answer" (string. For "multiple_choice", must match one option exactly. For "text", provide the exact correct string/spelling. For "interactive", provide a comma-separated list of the correct order or pairs, e.g. "A, B, C" or "A||1, B||2")
-           - "subtopic" (string, a specific subtopic or concept under the main topic)
-           - "imagePrompt" (string, OPTIONAL. ONLY use this for DECORATIVE or REALISTIC REAL-WORLD PHOTOS (e.g. "A beautiful photograph of a rainforest" or "A cute cartoon dog"). CRITICAL: NEVER use this for mathematical diagrams, probability spinners, graphs, charts, geometric shapes, clocks, or data visuals! The image generation AI CANNOT draw accurate math diagrams! For math diagrams, you MUST use "svgCode" or "chartData" instead!)
+           - "interactiveData" (array of strings. REQUIRED for "interactive". For "sorting", list 3-5 items. For "matching", list 3-5 pairs "Left||Right")
+           - "answer" (string/number answer matching target)
+           - "subtopic" (string, concept under main topic)
+           - "imagePrompt" (string, OPTIONAL. ONLY use for decorative photos)
         2. "passage": an optional string. If the quiz requires a reading comprehension passage, story, or shared text that applies to the questions, provide it here. Otherwise, omit this key.
         
         CRITICAL FOR READING COMPREHENSION: DO NOT put the reading passage, story, or article inside the "text" of each question! The passage MUST be placed EXACTLY ONCE inside the root-level "passage" string key. The question "text" should only contain the actual question being asked.
         
         CRITICAL FOR INTERACTIVE QUESTIONS:
-        If you want the student to physically drag and drop items into order, or connect matching pairs, use questionType="interactive". 
-        - For "sorting": Provide a scrambled array of 3-5 items in "interactiveData". The student will drag to reorder them. The "answer" should be the correctly sorted items joined by commas.
-        - For "matching": Provide an array of 3-5 string pairs in "interactiveData" separated by "||" (e.g. ["Apple||Fruit", "Carrot||Vegetable"]). The UI will split them and scramble the right side. The "answer" should be the correct pairs joined by commas.
+        If you want the student to physically interact (drag items, set clock, build place value blocks, plot number lines, measure angles, paint area grids, balance scales, or color fractions), use questionType="interactive". 
+        - "sorting": Provide scrambled items in "interactiveData". Answer = correct sorted order joined by commas.
+        - "matching": Provide pairs "Left||Right" in "interactiveData". Answer = correct pairs.
+        - "fractionColoring": Set "targetFraction"="1/3", answer="1/3".
+        - "clockSetting": Set "targetTime"="03:45", answer="03:45".
+        - "placeValueBlocks": Set "targetNumber"=342, answer="342".
+        - "numberLinePlot": Set "targetValue"=3.5, answer="3.5".
+        - "angleMeasuring": Set "targetAngle"=65, answer="65".
+        - "gridAreaPainter": Set "targetArea"=12, answer="12".
+        - "balanceScale": Set "targetEquation"="2x + 4 = 10", "targetX"=3, answer="3".
         
-        ${assignmentType === 'test' ? 'CRITICAL FOR TESTS: This is a formal NAPLAN-style test paper. Generate a mix of multiple_choice and text input questions. Specifically, ensure that at least 30% of questions require text input (questionType="text" with NO options array), mimicking the actual exam format.' : 'CRITICAL FOR HOMEWORK: You MUST generate a healthy mix of ALL THREE question types ("multiple_choice", "text", and "interactive"). Every homework assignment MUST include at least one "interactive" question (use "sorting" for chronological order/numerical ordering/steps, and "matching" for vocabulary/math facts/definitions). This mix is required to keep the student highly engaged.'}
+        ${assignmentType === 'test' ? 'CRITICAL FOR TESTS: This is a formal NAPLAN-style test paper. Generate a mix of multiple_choice and text input questions. Specifically, ensure that at least 30% of questions require text input (questionType="text" with NO options array), mimicking the actual exam format.' : 'CRITICAL FOR HOMEWORK: You MUST generate a healthy mix of question types ("multiple_choice", "text", and "interactive"). Every homework assignment MUST include at least one "interactive" question from the interactive types suite.'}
         
         IF the question requires a chart, graph, table, or data interpretation, include a "chartData" object property:
         "chartData": {

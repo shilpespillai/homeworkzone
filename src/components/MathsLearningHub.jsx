@@ -47,7 +47,14 @@ import {
   NumberPatternVisualizer,
   ShapeSlicerVisualizer,
   EquivalentFractionBalancer,
-  ComparingFractionsCrocodile
+  ComparingFractionsCrocodile,
+  FractionColoringStudio,
+  InteractiveClockSetting,
+  InteractivePlaceValueBlocks,
+  InteractiveNumberLinePlotter,
+  InteractiveAngleBuilder,
+  InteractiveGridAreaPainter,
+  InteractiveBalanceScale
 } from './MathsVisualizers';
 
 const getVisualizer = (topic) => {
@@ -163,7 +170,21 @@ const getVisualizer = (topic) => {
     return <ProbabilityVisualizer />;
   }
   
-  // 12. Fraction Slicer (Pizza)
+  // 12. Fraction Slicer & Coloring Studio
+  if (
+    title === 'thirds' ||
+    title === 'halves' ||
+    title === 'fourths' ||
+    title === 'coloring fractions' ||
+    title === 'fractions thirds' ||
+    title === 'fraction shapes' ||
+    title === 'recognising fractions' ||
+    title.includes('coloring fraction') ||
+    title.includes('fraction thirds')
+  ) {
+    return <FractionColoringStudio />;
+  }
+
   if (
     title === 'numerator & denominator' ||
     title === 'mixed numbers'

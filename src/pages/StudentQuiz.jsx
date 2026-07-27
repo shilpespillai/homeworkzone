@@ -41,6 +41,30 @@ import EarlyMathVisualizer from '../components/EarlyMathVisualizer';
 import DynamicVennDiagram from '../components/DynamicVennDiagram';
 import InteractiveSorting from '../components/InteractiveSorting';
 import InteractiveMatching from '../components/InteractiveMatching';
+import InteractiveFractionColoring from '../components/InteractiveFractionColoring';
+import InteractiveClockSetting from '../components/InteractiveClockSetting';
+import InteractivePlaceValueBlocks from '../components/InteractivePlaceValueBlocks';
+import InteractiveNumberLinePlotter from '../components/InteractiveNumberLinePlotter';
+import InteractiveAngleBuilder from '../components/InteractiveAngleBuilder';
+import InteractiveGridAreaPainter from '../components/InteractiveGridAreaPainter';
+import InteractiveBalanceScale from '../components/InteractiveBalanceScale';
+import InteractiveFractionWall from '../components/InteractiveFractionWall';
+import InteractiveCoordinatePlotter from '../components/InteractiveCoordinatePlotter';
+import InteractiveMoneyCounter from '../components/InteractiveMoneyCounter';
+import InteractiveGeometryNet from '../components/InteractiveGeometryNet';
+import InteractiveVennDiagram from '../components/InteractiveVennDiagram';
+import InteractiveProbabilitySpinner from '../components/InteractiveProbabilitySpinner';
+import InteractiveFunctionGrapher from '../components/InteractiveFunctionGrapher';
+import InteractiveChartBuilder from '../components/InteractiveChartBuilder';
+import InteractiveRatioMixer from '../components/InteractiveRatioMixer';
+import InteractiveFactorTree from '../components/InteractiveFactorTree';
+import InteractivePythagorasExplorer from '../components/InteractivePythagorasExplorer';
+import InteractiveTransformationGeometry from '../components/InteractiveTransformationGeometry';
+import InteractiveQuadraticParabola from '../components/InteractiveQuadraticParabola';
+import InteractivePercentageGrid from '../components/InteractivePercentageGrid';
+import InteractiveStemLeafPlot from '../components/InteractiveStemLeafPlot';
+import InteractiveTrigRatios from '../components/InteractiveTrigRatios';
+import InteractiveExponentialCurve from '../components/InteractiveExponentialCurve';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
 
 const playTTS = (text) => {
@@ -742,6 +766,170 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                                  disabled={isReviewing} 
                                  onReorder={(newOrder) => { if (!isReviewing) handleSelect(q.id, newOrder.join(', ')); }} 
                                />
+                             ) : q.interactiveType === 'fractionColoring' ? (
+                                <InteractiveFractionColoring 
+                                  targetFraction={q.targetFraction || '1/3'}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  isReviewing={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'clockSetting' ? (
+                                <InteractiveClockSetting 
+                                  targetTime={q.targetTime || q.answer || '03:45'}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'placeValueBlocks' ? (
+                                <InteractivePlaceValueBlocks 
+                                  targetNumber={q.targetNumber || q.answer || 342}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'numberLinePlot' ? (
+                                <InteractiveNumberLinePlotter 
+                                  targetValue={q.targetValue || q.answer || 4}
+                                  min={q.min || -5}
+                                  max={q.max || 10}
+                                  step={q.step || 1}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'angleMeasuring' ? (
+                                <InteractiveAngleBuilder 
+                                  targetAngle={q.targetAngle || q.answer || 65}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'gridAreaPainter' ? (
+                                <InteractiveGridAreaPainter 
+                                  targetArea={q.targetArea || q.answer || 12}
+                                  rows={q.rows || 5}
+                                  cols={q.cols || 6}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'balanceScale' ? (
+                                <InteractiveBalanceScale 
+                                  targetEquation={q.targetEquation || '2x + 4 = 10'}
+                                  targetX={q.targetX || q.answer || 3}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'fractionWall' ? (
+                                <InteractiveFractionWall 
+                                  targetFraction={q.targetFraction || q.answer || '1/2'}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'coordinatePlotter' ? (
+                                <InteractiveCoordinatePlotter 
+                                  targetPoint={q.targetPoint || q.answer || '(3, 4)'}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'moneyCounter' ? (
+                                <InteractiveMoneyCounter 
+                                  targetAmount={q.targetAmount || q.answer || '4.50'}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'geometryNet' ? (
+                                <InteractiveGeometryNet 
+                                  targetShape={q.targetShape || q.answer || 'Cube'}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'vennDiagram' ? (
+                                <InteractiveVennDiagram 
+                                  setALabel={q.setALabel || 'Set A'}
+                                  setBLabel={q.setBLabel || 'Set B'}
+                                  items={q.interactiveData || q.items}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'probabilitySpinner' ? (
+                                <InteractiveProbabilitySpinner 
+                                  targetProbability={q.targetProbability || q.answer || '1/4'}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'functionGrapher' ? (
+                                <InteractiveFunctionGrapher 
+                                  targetSlope={q.targetSlope !== undefined ? q.targetSlope : 2}
+                                  targetIntercept={q.targetIntercept !== undefined ? q.targetIntercept : 1}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'chartBuilder' ? (
+                                <InteractiveChartBuilder 
+                                  categories={q.categories || ['Apples', 'Bananas', 'Oranges']}
+                                  targetData={q.targetData || { Apples: 4, Bananas: 7, Oranges: 3 }}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'ratioMixer' ? (
+                                <InteractiveRatioMixer 
+                                  targetRatio={q.targetRatio || q.answer || '2:3'}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'factorTree' ? (
+                                <InteractiveFactorTree 
+                                  targetNumber={q.targetNumber || q.answer || 24}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'pythagorasExplorer' ? (
+                                <InteractivePythagorasExplorer 
+                                  targetHypotenuse={q.targetHypotenuse || q.answer || 5}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
+                              ) : q.interactiveType === 'transformationGeometry' ? (
+                                <InteractiveTransformationGeometry 
+                                  targetShiftX={q.targetShiftX !== undefined ? q.targetShiftX : 2}
+                                  targetShiftY={q.targetShiftY !== undefined ? q.targetShiftY : 3}
+                                  instruction={cleanText || q.instruction}
+                                  studentAnswer={answers[q.id]}
+                                  disabled={isReviewing}
+                                  onAnswerChange={(val) => { if (!isReviewing) handleSelect(q.id, val); }}
+                                />
                              ) : q.interactiveType === 'matching' ? (
                                <InteractiveMatching 
                                  pairs={q.interactiveData} 
@@ -1111,6 +1299,212 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                         disabled={isReviewing}
                         reviewMatches={isReviewing ? answers[currentQuestion.id] : undefined}
                         onMatch={(arr) => { if (!isReviewing) handleSelect(currentQuestion.id, arr[0] || ''); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'fractionColoring' ? (
+                      <InteractiveFractionColoring 
+                        targetFraction={currentQuestion.targetFraction || '1/3'}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        isReviewing={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'clockSetting' ? (
+                      <InteractiveClockSetting 
+                        targetTime={currentQuestion.targetTime || currentQuestion.answer || '03:45'}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'placeValueBlocks' ? (
+                      <InteractivePlaceValueBlocks 
+                        targetNumber={currentQuestion.targetNumber || currentQuestion.answer || 342}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'numberLinePlot' ? (
+                      <InteractiveNumberLinePlotter 
+                        targetValue={currentQuestion.targetValue || currentQuestion.answer || 4}
+                        min={currentQuestion.min || -5}
+                        max={currentQuestion.max || 10}
+                        step={currentQuestion.step || 1}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'angleMeasuring' ? (
+                      <InteractiveAngleBuilder 
+                        targetAngle={currentQuestion.targetAngle || currentQuestion.answer || 65}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'gridAreaPainter' ? (
+                      <InteractiveGridAreaPainter 
+                        targetArea={currentQuestion.targetArea || currentQuestion.answer || 12}
+                        rows={currentQuestion.rows || 5}
+                        cols={currentQuestion.cols || 6}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'balanceScale' ? (
+                      <InteractiveBalanceScale 
+                        targetEquation={currentQuestion.targetEquation || '2x + 4 = 10'}
+                        targetX={currentQuestion.targetX || currentQuestion.answer || 3}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'fractionWall' ? (
+                      <InteractiveFractionWall 
+                        targetFraction={currentQuestion.targetFraction || currentQuestion.answer || '1/2'}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'coordinatePlotter' ? (
+                      <InteractiveCoordinatePlotter 
+                        targetPoint={currentQuestion.targetPoint || currentQuestion.answer || '(3, 4)'}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'moneyCounter' ? (
+                      <InteractiveMoneyCounter 
+                        targetAmount={currentQuestion.targetAmount || currentQuestion.answer || '4.50'}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'geometryNet' ? (
+                      <InteractiveGeometryNet 
+                        targetShape={currentQuestion.targetShape || currentQuestion.answer || 'Cube'}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'vennDiagram' ? (
+                      <InteractiveVennDiagram 
+                        setALabel={currentQuestion.setALabel || 'Set A'}
+                        setBLabel={currentQuestion.setBLabel || 'Set B'}
+                        items={currentQuestion.interactiveData || currentQuestion.items}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'probabilitySpinner' ? (
+                      <InteractiveProbabilitySpinner 
+                        targetProbability={currentQuestion.targetProbability || currentQuestion.answer || '1/4'}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'functionGrapher' ? (
+                      <InteractiveFunctionGrapher 
+                        targetSlope={currentQuestion.targetSlope !== undefined ? currentQuestion.targetSlope : 2}
+                        targetIntercept={currentQuestion.targetIntercept !== undefined ? currentQuestion.targetIntercept : 1}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'chartBuilder' ? (
+                      <InteractiveChartBuilder 
+                        categories={currentQuestion.categories || ['Apples', 'Bananas', 'Oranges']}
+                        targetData={currentQuestion.targetData || { Apples: 4, Bananas: 7, Oranges: 3 }}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'ratioMixer' ? (
+                      <InteractiveRatioMixer 
+                        targetRatio={currentQuestion.targetRatio || currentQuestion.answer || '2:3'}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'factorTree' ? (
+                      <InteractiveFactorTree 
+                        targetNumber={currentQuestion.targetNumber || currentQuestion.answer || 24}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'pythagorasExplorer' ? (
+                      <InteractivePythagorasExplorer 
+                        targetHypotenuse={currentQuestion.targetHypotenuse || currentQuestion.answer || 5}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'transformationGeometry' ? (
+                      <InteractiveTransformationGeometry 
+                        targetShiftX={currentQuestion.targetShiftX !== undefined ? currentQuestion.targetShiftX : 2}
+                        targetShiftY={currentQuestion.targetShiftY !== undefined ? currentQuestion.targetShiftY : 3}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'quadraticParabola' ? (
+                      <InteractiveQuadraticParabola 
+                        targetH={currentQuestion.targetH !== undefined ? currentQuestion.targetH : 2}
+                        targetK={currentQuestion.targetK !== undefined ? currentQuestion.targetK : -3}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'percentageGrid' ? (
+                      <InteractivePercentageGrid 
+                        targetPercentage={currentQuestion.targetPercentage || currentQuestion.answer || '45%'}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'stemLeafPlot' ? (
+                      <InteractiveStemLeafPlot 
+                        data={currentQuestion.data || [12, 15, 18, 22, 25, 31, 34]}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'trigRatios' ? (
+                      <InteractiveTrigRatios 
+                        targetRatio={currentQuestion.targetRatio || currentQuestion.answer || 'sin'}
+                        targetVal={currentQuestion.targetVal || '3/5'}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
+                      />
+                    ) : currentQuestion.interactiveType === 'exponentialCurve' ? (
+                      <InteractiveExponentialCurve 
+                        targetBase={currentQuestion.targetBase !== undefined ? currentQuestion.targetBase : 2}
+                        instruction={cleanText || currentQuestion.instruction}
+                        studentAnswer={answers[currentQuestion.id]}
+                        disabled={isReviewing}
+                        onAnswerChange={(val) => { if (!isReviewing) handleSelect(currentQuestion.id, val); }}
                       />
                     ) : null}
                   </div>
