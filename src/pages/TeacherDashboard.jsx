@@ -44,7 +44,8 @@ import {
   CheckCircle,
   DollarSign,
   PauseCircle,
-  PlayCircle
+  PlayCircle,
+  Mail
 } from 'lucide-react';
 import EmojiPicker from '../components/EmojiPicker';
 
@@ -314,6 +315,209 @@ const resolveGradeFromClassroomName = (classroomName) => {
     }
   }
   return 'Grade 1';
+};
+
+const ContactUsTab = ({ user, teacherData }) => {
+  const [senderName, setSenderName] = useState(teacherData?.name || user?.displayName || '');
+  const [senderEmail, setSenderEmail] = useState(user?.email || '');
+  const [subject, setSubject] = useState('General Query');
+  const [queryText, setQueryText] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [autoReplyMessage, setAutoReplyMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!senderName.trim() || !senderEmail.trim() || !queryText.trim()) {
+      setErrorMessage('Please fill out your name, email, and query.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrorMessage('');
+
+    try {
+      // 1. Write submission to Firestore 'contacts' collection
+      await addDoc(collection(db, 'contacts'), {
+        senderName: senderName.trim(),
+        senderEmail: senderEmail.trim(),
+        query: queryText.trim(),
+        subject: subject || 'General Query',
+        recipientEmail: 'aihealthtec@gmail.com',
+        teacherUid: user?.uid || null,
+        createdAt: new Date().toISOString(),
+        status: 'unread'
+      });
+
+      // 2. Call serverless API endpoint /api/contact
+      try {
+        await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: senderName.trim(),
+            email: senderEmail.trim(),
+            query: queryText.trim(),
+            subject: subject
+          })
+        });
+      } catch (apiErr) {
+        console.warn('Backend contact API call error:', apiErr);
+      }
+
+      // 3. Set Auto Reply confirmation text exact matching user specification:
+      // "Hello member, We have got your email and will reply back as soon as possible ". Thanks,  HomeworkZone Team
+      const reply = "Hello member, We have got your email and will reply back as soon as possible. Thanks, HomeworkZone Team";
+      setAutoReplyMessage(reply);
+      setSubmitted(true);
+      setQueryText('');
+    } catch (err) {
+      console.error('Contact submission error:', err);
+      setErrorMessage('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto p-6 sm:p-10 space-y-8">
+      {/* Header Banner */}
+      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-[32px] p-8 text-white shadow-xl relative overflow-hidden">
+        <div className="relative z-10 space-y-2">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-black uppercase tracking-wider">
+            <Mail className="w-4 h-4 text-pink-200" /> Direct Support & Support Desk
+          </div>
+          <h2 className="text-3xl font-black tracking-tight">Contact Us</h2>
+          <p className="text-sm font-medium text-white/90 max-w-xl">
+            Have questions, feedback, or need help? Send us a message and our team will get back to you at{' '}
+            <span className="font-bold underline text-amber-200">aihealthtec@gmail.com</span>.
+          </p>
+        </div>
+        <div className="absolute -right-6 -bottom-10 opacity-20 pointer-events-none">
+          <Send className="w-64 h-64 text-white" />
+        </div>
+      </div>
+
+      {/* Confirmation Card if Submitted */}
+      {submitted && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-emerald-50 border-2 border-emerald-200 rounded-[28px] p-6 text-emerald-900 shadow-md space-y-3"
+        >
+          <div className="flex items-center gap-3 text-emerald-700 font-black text-lg">
+            <CheckCircle className="w-6 h-6 text-emerald-500" /> Message Sent Successfully!
+          </div>
+          <p className="text-xs text-emerald-800 font-bold">
+            Your query has been sent to <span className="underline">aihealthtec@gmail.com</span>.
+          </p>
+          <div className="bg-white p-4 rounded-2xl border border-emerald-200 text-xs font-bold text-slate-700 leading-relaxed shadow-inner">
+            💬 <span className="text-indigo-600 font-black">Auto-Reply Notification:</span> "{autoReplyMessage}"
+          </div>
+          <button
+            onClick={() => setSubmitted(false)}
+            className="px-4 py-2 bg-emerald-600 text-white rounded-xl font-black text-xs hover:bg-emerald-700 transition-all shadow-sm"
+          >
+            Send Another Message
+          </button>
+        </motion.div>
+      )}
+
+      {/* Main Form */}
+      <div className="bg-white rounded-[32px] p-8 shadow-sm border border-slate-100 space-y-6">
+        <h3 className="text-xl font-black text-slate-800 flex items-center gap-2">
+          <MessageSquare className="w-5 h-5 text-indigo-500" /> Send Message to HomeworkZone Team
+        </h3>
+
+        {errorMessage && (
+          <div className="p-4 bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold rounded-2xl">
+            {errorMessage}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* Sender Name */}
+            <div className="space-y-2">
+              <label className="text-xs font-black text-slate-600 uppercase tracking-wider block">Your Name</label>
+              <input
+                type="text"
+                required
+                value={senderName}
+                onChange={(e) => setSenderName(e.target.value)}
+                placeholder="Enter your full name"
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 focus:outline-none focus:border-indigo-500 transition-all"
+              />
+            </div>
+
+            {/* Sender Email */}
+            <div className="space-y-2">
+              <label className="text-xs font-black text-slate-600 uppercase tracking-wider block">Your Email Address</label>
+              <input
+                type="email"
+                required
+                value={senderEmail}
+                onChange={(e) => setSenderEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 focus:outline-none focus:border-indigo-500 transition-all"
+              />
+            </div>
+          </div>
+
+          {/* Topic / Subject */}
+          <div className="space-y-2">
+            <label className="text-xs font-black text-slate-600 uppercase tracking-wider block">Topic / Subject</label>
+            <select
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 focus:outline-none focus:border-indigo-500 transition-all"
+            >
+              <option value="General Query">General Query</option>
+              <option value="Technical Support">Technical Support</option>
+              <option value="Billing & License Question">Billing & License Question</option>
+              <option value="Feature Request">Feature Request</option>
+              <option value="Curriculum & Content">Curriculum & Content Inquiry</option>
+            </select>
+          </div>
+
+          {/* Query Message Textarea */}
+          <div className="space-y-2">
+            <label className="text-xs font-black text-slate-600 uppercase tracking-wider block">Your Query / Message</label>
+            <textarea
+              required
+              rows={5}
+              value={queryText}
+              onChange={(e) => setQueryText(e.target.value)}
+              placeholder="Describe your query or feedback in detail..."
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 focus:outline-none focus:border-indigo-500 transition-all resize-none"
+            />
+          </div>
+
+          {/* Destination Email Banner */}
+          <div className="flex items-center justify-between p-4 bg-indigo-50/60 rounded-2xl border border-indigo-100 text-xs font-bold text-indigo-900">
+            <span>Target Recipient:</span>
+            <span className="font-mono text-indigo-700 bg-white px-3 py-1 rounded-xl border border-indigo-200">aihealthtec@gmail.com</span>
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-black text-sm shadow-lg shadow-indigo-200 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
+          >
+            {isSubmitting ? (
+              <>Sending Query...</>
+            ) : (
+              <>
+                <Send className="w-4 h-4" /> Submit Query to aihealthtec@gmail.com
+              </>
+            )}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 const TeacherDashboard = ({ user, onLogout }) => {
@@ -7083,6 +7287,8 @@ Include a balanced combination of question types such as:
             return renderSettingsTab();
          case 'Billing & Licenses':
             return renderBillingTab();
+         case 'Contact Us':
+            return <ContactUsTab user={user} teacherData={teacherData} />;
          case 'Admin Reports':
             return isAdminUser ? renderAdminReportsTab() : null;
          default:
@@ -7170,6 +7376,7 @@ Include a balanced combination of question types such as:
             <SidebarItem id="Revenue" label="Revenue" icon={<TrendingUp className="w-5 h-5 text-emerald-500" />} active={activeTab === 'Revenue'} onClick={setActiveTab} />
             <SidebarItem id="Billing & Licenses" label="Billing & Licenses" icon={<CreditCard className="w-5 h-5 text-blue-500" />} active={activeTab === 'Billing & Licenses'} onClick={setActiveTab} />
             <SidebarItem id="Settings" label="Settings" icon={<Settings className="w-5 h-5 text-slate-500" />} active={activeTab === 'Settings'} onClick={setActiveTab} />
+            <SidebarItem id="Contact Us" label="Contact Us" icon={<Mail className="w-5 h-5 text-indigo-500" />} active={activeTab === 'Contact Us'} onClick={setActiveTab} />
             {isAdminUser && (
               <SidebarItem id="Admin Reports" label="Admin Reports" icon={<Award className="w-5 h-5 text-purple-650 animate-pulse" />} active={activeTab === 'Admin Reports'} onClick={setActiveTab} />
             )}
@@ -7197,7 +7404,7 @@ Include a balanced combination of question types such as:
               return (
                  <div className="bg-amber-50 border border-amber-200 text-amber-800 px-6 py-3 rounded-2xl mb-4 flex items-center justify-between shadow-sm animate-pulse">
                     <div className="flex items-center gap-3">
-                       <span className="text-xl">⚠️ï¸</span>
+                       <span className="text-xl">⚠️ï¸ </span>
                        <p className="text-sm font-bold">
                           You have {lockedCount} {lockedCount === 1 ? 'student' : 'students'} locked due to your current seat limit.
                        </p>
