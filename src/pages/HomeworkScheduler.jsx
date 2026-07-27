@@ -337,6 +337,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
   const handleSaveAutomationEdit = async (id) => {
     try {
       const updates = {};
+      if (editForm.topic !== undefined) updates.topic = editForm.topic;
       if (editForm.releaseTime) updates.releaseTime = editForm.releaseTime;
       if (editForm.assignmentType) updates.type = editForm.assignmentType;
       if (editForm.difficulty) updates.difficulty = editForm.difficulty;
@@ -1969,6 +1970,17 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                           </div>
                           
                           <div className="grid grid-cols-2 gap-3">
+                            <div className="col-span-2 space-y-1">
+                              <label className="text-[10px] font-black text-slate-500 uppercase">Automation Header / Topic Title</label>
+                              <input
+                                type="text"
+                                placeholder="Automation Header Title"
+                                value={editForm.topic || ''}
+                                onChange={e => setEditForm(prev => ({ ...prev, topic: e.target.value }))}
+                                className="w-full h-8 bg-slate-50 border border-slate-200 rounded-lg px-2.5 text-xs font-bold text-emerald-800 focus:outline-none focus:border-[#EA580C]"
+                              />
+                            </div>
+
                             <div className="space-y-1">
                               <label className="text-[10px] font-black text-slate-500 uppercase">Time</label>
                               <input
@@ -2115,6 +2127,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                               onClick={() => {
                                 setEditingAutomationId(sched.id);
                                 setEditForm({
+                                  topic: sched.topic || '',
                                   releaseTime: sched.releaseTime || '08:00',
                                   assignmentType: sched.type || 'homework',
                                   difficulty: sched.difficulty || 'Medium',
