@@ -48,6 +48,7 @@ import EarlyMathVisualizer from '../components/EarlyMathVisualizer';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
 import CurriculumModal from '../components/CurriculumModal';
 import { curriculum } from '../data/curriculum';
+import { SUPPORTED_LANGUAGES, getLanguageObj } from '../utils/languages';
 import { getSmartTopicTitle } from './HomeworkScheduler';
 
 export const sanitizeQuestionData = (q) => {
@@ -221,6 +222,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [isCurriculumMode, setIsCurriculumMode] = useState(true);
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [isCurriculumModalOpen, setIsCurriculumModalOpen] = useState(false);
+  const [targetLanguage, setTargetLanguage] = useState('en');
 
   const [customTopics, setCustomTopics] = useState(() => {
     try {
@@ -538,11 +540,18 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         ? `\n        CRITICAL UNIFORMITY AVOIDANCE RULE: You MUST NOT repeat or use similar templates, wording, or scenarios to these recently generated questions for this subject. Create completely different situations, contexts, numbers, or question types:\n        ${recentlyGenerated.map((q, idx) => `        ${idx + 1}. "${q}"`).join('\n')}\n`
         : '';
 
+      const langObj = getLanguageObj(targetLanguage || 'en');
+      const langRule = targetLanguage && targetLanguage !== 'en'
+        ? `\n        CRITICAL TARGET LANGUAGE REQUIREMENT: You MUST generate all question text, options, and explanations in ${langObj.name} (${langObj.nativeName}). Ensure accurate mathematical terminology and culturally appropriate context for ${langObj.name} speakers.`
+        : '';
+
       let prompt = `You are an expert curriculum designer. 
         Create a ${questionCount}-question multiple-choice quiz for students about the following topic:
         Subject: ${formData.subject}
         Topic: ${topic}
+        Target Language: ${langObj.name} (${langObj.nativeName})
         Specific Content Instructions: ${injectedPrompt}
+        ${langRule}
         ${previousQuestionsBlock}
         
         Ensure the questions test the students' knowledge on the specific content instructions provided. DO NOT generate meta-questions about the instructions themselves.
@@ -1279,6 +1288,28 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
                    <Wand2 className="absolute right-4 bottom-4 w-5 h-5 text-green-400 opacity-50 pointer-events-none" />
                  </div>
                )}
+             </div>
+
+             {/* Target Language Selection */}
+             <div className="space-y-1.5 text-left">
+               <label className="font-bold text-[#14532d] text-xs block ml-1 flex items-center justify-between">
+                 <span>Quiz Generation Language</span>
+                 <span className="text-[10px] text-slate-400 font-semibold">100+ Regional & Global Languages</span>
+               </label>
+               <div className="relative">
+                 <select
+                   value={targetLanguage}
+                   onChange={(e) => setTargetLanguage(e.target.value)}
+                   className="w-full bg-white border-2 border-slate-200 rounded-2xl p-3.5 text-slate-800 font-bold outline-none focus:border-green-400 transition-colors text-xs appearance-none cursor-pointer pr-10"
+                 >
+                   {SUPPORTED_LANGUAGES.map((lang) => (
+                     <option key={lang.code} value={lang.code}>
+                       {lang.flag} {lang.name} ({lang.nativeName})
+                     </option>
+                   ))}
+                 </select>
+                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+               </div>
              </div>
 
              <div className="space-y-1.5 text-left">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Coins, Plus, Minus, RotateCcw, Sparkles } from 'lucide-react';
+import { Coins, Plus, Minus, RotateCcw, Sparkles, Globe } from 'lucide-react';
 
 export default function InteractiveMoneyCounter({
   targetAmount = '4.50',
@@ -9,9 +9,20 @@ export default function InteractiveMoneyCounter({
   studentAnswer,
   disabled = false
 }) {
+  const [currency, setCurrency] = useState('USD'); // 'USD' | 'INR' | 'EUR' | 'GBP'
+
+  const CURRENCIES = {
+    USD: { symbol: '$', name: 'US Dollars' },
+    INR: { symbol: '₹', name: 'Indian Rupees' },
+    EUR: { symbol: '€', name: 'Euros' },
+    GBP: { symbol: '£', name: 'British Pounds' }
+  };
+
+  const activeCurr = CURRENCIES[currency] || CURRENCIES.USD;
+
   const parseAmount = (val) => {
     if (!val) return 4.5;
-    const clean = String(val).replace('$', '').trim();
+    const clean = String(val).replace(/[$₹€£]/g, '').trim();
     const num = parseFloat(clean);
     return isNaN(num) ? 4.5 : num;
   };
@@ -20,13 +31,14 @@ export default function InteractiveMoneyCounter({
 
   // Denominations list
   const DENOMS = [
-    { id: '10', name: '$10 Note', val: 10.0, color: 'bg-blue-500 text-white', label: '$10' },
-    { id: '5', name: '$5 Note', val: 5.0, color: 'bg-pink-500 text-white', label: '$5' },
-    { id: '2', name: '$2 Coin', val: 2.0, color: 'bg-amber-400 text-slate-800 font-black', label: '$2' },
-    { id: '1', name: '$1 Coin', val: 1.0, color: 'bg-amber-300 text-slate-800 font-black', label: '$1' },
-    { id: '0.5', name: '50c Coin', val: 0.5, color: 'bg-slate-300 text-slate-800 font-black', label: '50c' },
-    { id: '0.2', name: '20c Coin', val: 0.2, color: 'bg-slate-300 text-slate-800 font-black', label: '20c' },
-    { id: '0.1', name: '10c Coin', val: 0.1, color: 'bg-slate-300 text-slate-800 font-black', label: '10c' },
+    { id: '500', name: `${activeCurr.symbol}500`, val: 500.0, color: 'bg-indigo-600 text-white', label: `${activeCurr.symbol}500` },
+    { id: '100', name: `${activeCurr.symbol}100`, val: 100.0, color: 'bg-purple-600 text-white', label: `${activeCurr.symbol}100` },
+    { id: '50', name: `${activeCurr.symbol}50`, val: 50.0, color: 'bg-cyan-600 text-white', label: `${activeCurr.symbol}50` },
+    { id: '20', name: `${activeCurr.symbol}20`, val: 20.0, color: 'bg-emerald-600 text-white', label: `${activeCurr.symbol}20` },
+    { id: '10', name: `${activeCurr.symbol}10 Note`, val: 10.0, color: 'bg-blue-500 text-white', label: `${activeCurr.symbol}10` },
+    { id: '5', name: `${activeCurr.symbol}5 Note`, val: 5.0, color: 'bg-pink-500 text-white', label: `${activeCurr.symbol}5` },
+    { id: '2', name: `${activeCurr.symbol}2 Coin`, val: 2.0, color: 'bg-amber-400 text-slate-800 font-black', label: `${activeCurr.symbol}2` },
+    { id: '1', name: `${activeCurr.symbol}1 Coin`, val: 1.0, color: 'bg-amber-300 text-slate-800 font-black', label: `${activeCurr.symbol}1` },
   ];
 
   // Map of denomId -> count
@@ -43,9 +55,9 @@ export default function InteractiveMoneyCounter({
   // Sync to parent
   useEffect(() => {
     if (onAnswerChange) {
-      onAnswerChange(roundedTotal.toFixed(2));
+      onAnswerChange(`${activeCurr.symbol}${roundedTotal.toFixed(2)}`);
     }
-  }, [roundedTotal, onAnswerChange]);
+  }, [roundedTotal, currency, onAnswerChange]);
 
   const handleAdd = (id) => {
     if (disabled) return;
@@ -74,24 +86,42 @@ export default function InteractiveMoneyCounter({
         <div>
           <div className="flex items-center gap-2">
             <span className="bg-emerald-600 text-white font-black px-3 py-1 rounded-xl text-xs uppercase tracking-widest flex items-center gap-1 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5" /> Money & Currency Counter
+              <Sparkles className="w-3.5 h-3.5" /> Multi-Currency Counter
             </span>
             <span className="text-xs font-black text-emerald-700 bg-emerald-100 px-3 py-1 rounded-xl">
-              Target: ${target.toFixed(2)}
+              Target: {activeCurr.symbol}{target.toFixed(2)}
             </span>
           </div>
           <h3 className="text-lg font-black text-slate-800 mt-2">
-            {instruction || `Count out exactly $${target.toFixed(2)} using notes and coins.`}
+            {instruction || `Count out exactly ${activeCurr.symbol}${target.toFixed(2)} using notes and coins.`}
           </h3>
         </div>
 
         {!disabled && (
-          <button
-            onClick={handleReset}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-black text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 transition-all shadow-sm"
-          >
-            <RotateCcw className="w-3.5 h-3.5 text-slate-500" /> Reset Money
-          </button>
+          <div className="flex items-center gap-2">
+            {/* Currency Selector */}
+            <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-slate-200 shadow-sm">
+              <Globe className="w-3.5 h-3.5 text-emerald-600 ml-1" />
+              {Object.keys(CURRENCIES).map((c) => (
+                <button
+                  key={c}
+                  onClick={() => { setCurrency(c); setCounts({}); }}
+                  className={`px-2 py-0.5 rounded-lg text-xs font-black transition-all ${
+                    currency === c ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'
+                  }`}
+                >
+                  {CURRENCIES[c].symbol} {c}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={handleReset}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-black text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 transition-all shadow-sm"
+            >
+              <RotateCcw className="w-3.5 h-3.5 text-slate-500" /> Reset
+            </button>
+          </div>
         )}
       </div>
 
@@ -113,7 +143,7 @@ export default function InteractiveMoneyCounter({
       {/* Selected Items Tray */}
       <div className="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm space-y-3">
         <span className="text-xs font-black text-slate-400 uppercase tracking-widest block">
-          Your Paid Coins & Notes
+          Your Paid Coins & Notes ({activeCurr.name})
         </span>
         <div className="flex flex-wrap gap-3 min-h-[60px] items-center p-2 bg-emerald-50/50 rounded-xl">
           {Object.keys(counts).map((id) => {
@@ -146,7 +176,7 @@ export default function InteractiveMoneyCounter({
       <div className="flex items-center justify-between bg-white px-5 py-3 rounded-2xl border border-emerald-100 shadow-sm text-xs font-bold text-slate-600">
         <span className="text-slate-400 uppercase font-black">Total Paid Amount:</span>
         <span className="text-2xl font-black text-emerald-600 font-mono bg-emerald-50 px-4 py-0.5 rounded-xl border border-emerald-200">
-          ${roundedTotal.toFixed(2)}
+          {activeCurr.symbol}{roundedTotal.toFixed(2)}
         </span>
       </div>
     </div>

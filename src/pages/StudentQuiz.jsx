@@ -66,12 +66,14 @@ import InteractiveStemLeafPlot from '../components/InteractiveStemLeafPlot';
 import InteractiveTrigRatios from '../components/InteractiveTrigRatios';
 import InteractiveExponentialCurve from '../components/InteractiveExponentialCurve';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
+import { SUPPORTED_LANGUAGES, getLanguageObj } from '../utils/languages';
 
-const playTTS = (text) => {
+const playTTS = (text, langTag = 'en-US') => {
   if (!text) return;
+  window.speechSynthesis.cancel(); // Stop any active speech
   const cleanText = text.replace(/<[^>]*>?/gm, ''); // Strip HTML if any
   const utterance = new SpeechSynthesisUtterance(cleanText);
-  // Using a slightly slower, child-friendly rate
+  utterance.lang = langTag;
   utterance.rate = 0.9;
   utterance.pitch = 1.1;
   window.speechSynthesis.speak(utterance);
