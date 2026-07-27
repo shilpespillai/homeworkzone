@@ -38,8 +38,21 @@ export default function CurriculumModal({
     if (!currentSubject) return customTopics || [];
     const lowerSub = currentSubject.toLowerCase();
     return (customTopics || []).filter(ct => {
-      if (!ct.subject) return true;
-      return ct.subject.toLowerCase() === lowerSub;
+      if (ct.subject) {
+        return ct.subject.toLowerCase() === lowerSub;
+      }
+      // Legacy custom topics without an explicit subject property:
+      const catLower = (ct.category || '').toLowerCase();
+      const titleLower = (ct.title || '').toLowerCase();
+      const isScienceLike = catLower.includes('body') || catLower.includes('electricity') || catLower.includes('science') || catLower.includes('plant') || catLower.includes('animal') || titleLower.includes('health') || titleLower.includes('electric') || titleLower.includes('nutrient') || titleLower.includes('excretion') || titleLower.includes('digestion');
+      
+      if (lowerSub === 'hindi') {
+        return !isScienceLike && (catLower.includes('hindi') || titleLower.includes('hindi') || titleLower.includes('वर्णमाला') || titleLower.includes('व्याकरण'));
+      }
+      if (lowerSub === 'science') {
+        return isScienceLike;
+      }
+      return true;
     });
   }, [customTopics, currentSubject]);
 
@@ -385,6 +398,27 @@ export default function CurriculumModal({
                             <Plus className="w-3.5 h-3.5" />
                             <span className="hidden sm:inline">Add Sub-topic</span>
                           </button>
+
+                          {group.skills.some(s => s.isCustom) && (
+                            <button 
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (confirm(`Delete custom topic "${group.category}" and all its sub-topics?`)) {
+                                  group.skills.filter(s => s.isCustom).forEach(s => {
+                                    if (typeof onDeleteCustomTopic === 'function') {
+                                      onDeleteCustomTopic(s.id);
+                                    }
+                                  });
+                                }
+                              }}
+                              className="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg border border-rose-200 shadow-xs transition-all"
+                              title="Delete this custom main topic and all its sub-topics"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          )}
+
                           <div className={`${theme.textMuted} shrink-0 bg-white/50 p-2 rounded-full`}>
                             {isExpanded ? <ChevronUp className="w-5 h-5 stroke-[3]" /> : <ChevronDown className="w-5 h-5 stroke-[3]" />}
                           </div>
