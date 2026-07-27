@@ -1952,6 +1952,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         customTopics={customTopics}
         onAddCustomTopic={handleAddCustomTopic}
         onDeleteCustomTopic={handleDeleteCustomTopic}
+        currentSubject={formData.subject}
       />
     </div>
   );

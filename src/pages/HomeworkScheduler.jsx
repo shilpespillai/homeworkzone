@@ -2269,6 +2269,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           customTopics={customTopics}
           onAddCustomTopic={handleAddCustomTopic}
           onDeleteCustomTopic={handleDeleteCustomTopic}
+          currentSubject={formData.subject}
           setSelectedSkills={(updaterFnOrValue) => {
             const updated = typeof updaterFnOrValue === 'function' ? updaterFnOrValue(selectedSkills) : updaterFnOrValue;
             setSelectedSkills(updated);

@@ -33934,3 +33934,37 @@ if (curriculum) {
   }
 }
 
+export const hindiCurriculum = [
+  { id: "hi_1", title: "स्वर और व्यंजन पहचान (Vowels & Consonants Identification)", category: "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)" },
+  { id: "hi_2", title: "मात्राएँ और शब्द रचना (Matras and Word Formation)", category: "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)" },
+  { id: "hi_3", title: "संयुक्त अक्षर और द्वित्व व्यंजन (Conjunct Characters & Double Consonants)", category: "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)" },
+
+  { id: "hi_4", title: "हिंदी संख्याएँ 1 से 20 (Hindi Numbers 1 to 20)", category: "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)" },
+  { id: "hi_5", title: "हिंदी संख्याएँ 21 से 50 (Hindi Numbers 21 to 50)", category: "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)" },
+  { id: "hi_6", title: "हिंदी संख्याएँ 51 से 100 (Hindi Numbers 51 to 100)", category: "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)" },
+
+  { id: "hi_7", title: "संज्ञा और उसके भेद (Nouns and Types)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
+  { id: "hi_8", title: "सर्वनाम की पहचान (Pronouns Identification)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
+  { id: "hi_9", title: "विशेषण और उसके उदाहरण (Adjectives & Examples)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
+  { id: "hi_10", title: "क्रिया और काल (Verbs and Tenses)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
+  { id: "hi_11", title: "लिंग बदलो - पुल्लिंग और स्त्रीलिंग (Gender - Masculine & Feminine)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
+  { id: "hi_12", title: "वचन बदलो - एकवचन और बहुवचन (Singular and Plural)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
+
+  { id: "hi_13", title: "पर्यायवाची शब्द (Synonyms)", category: "D. शब्द ज्ञान (Vocabulary)" },
+  { id: "hi_14", title: "विलोम शब्द (Antonyms)", category: "D. शब्द ज्ञान (Vocabulary)" },
+  { id: "hi_15", title: "अनेक शब्दों के लिए एक शब्द (One Word Substitution)", category: "D. शब्द ज्ञान (Vocabulary)" },
+  { id: "hi_16", title: "मुहावरे और कहावतें (Idioms and Proverbs)", category: "D. शब्द ज्ञान (Vocabulary)" },
+
+  { id: "hi_17", title: "शुद्ध और अशुद्ध वाक्य (Correct Sentence Formation)", category: "E. वाक्य रचना और समझ (Sentence Building)" },
+  { id: "hi_18", title: "विराम चिह्न (Punctuation Marks)", category: "E. वाक्य रचना और समझ (Sentence Building)" },
+  { id: "hi_19", title: "अपठित गद्यांश (Reading Comprehension)", category: "E. वाक्य रचना और समझ (Sentence Building)" }
+];
+
+if (curriculum) {
+  Object.keys(curriculum).forEach(gradeKey => {
+    if (curriculum[gradeKey]) {
+      curriculum[gradeKey]["Hindi"] = hindiCurriculum;
+    }
+  });
+}
+

@@ -21,7 +21,8 @@ export default function CurriculumModal({
   setSelectedSkills,
   customTopics = [],
   onAddCustomTopic,
-  onDeleteCustomTopic
+  onDeleteCustomTopic,
+  currentSubject = ''
 }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedCategories, setExpandedCategories] = useState({});
@@ -32,6 +33,15 @@ export default function CurriculumModal({
   const [customCategoryInput, setCustomCategoryInput] = useState('');
   const [inlineSubTopicCategory, setInlineSubTopicCategory] = useState(null);
   const [inlineSubTopicInput, setInlineSubTopicInput] = useState('');
+
+  const subjectCustomTopics = useMemo(() => {
+    if (!currentSubject) return customTopics || [];
+    const lowerSub = currentSubject.toLowerCase();
+    return (customTopics || []).filter(ct => {
+      if (!ct.subject) return true;
+      return ct.subject.toLowerCase() === lowerSub;
+    });
+  }, [customTopics, currentSubject]);
 
   const toggleCategory = (category) => {
     setExpandedCategories(prev => ({ ...prev, [category]: !prev[category] }));
@@ -69,13 +79,13 @@ export default function CurriculumModal({
         }
       });
     }
-    if (customTopics && Array.isArray(customTopics)) {
-      customTopics.forEach(ct => {
+    if (subjectCustomTopics && Array.isArray(subjectCustomTopics)) {
+      subjectCustomTopics.forEach(ct => {
         if (ct.category) cats.add(ct.category);
       });
     }
     return Array.from(cats).sort();
-  }, [curriculumData, customTopics]);
+  }, [curriculumData, subjectCustomTopics]);
 
   const handleSaveCustomTopic = (e) => {
     e.preventDefault();
@@ -93,6 +103,7 @@ export default function CurriculumModal({
       id: `custom-${Date.now()}-${idx}-${Math.random().toString(36).substr(2, 4)}`,
       title: subTitle,
       category: mainCat,
+      subject: currentSubject ? currentSubject.toLowerCase() : '',
       isCustom: true
     }));
 
@@ -121,6 +132,7 @@ export default function CurriculumModal({
       id: `custom-${Date.now()}-${idx}-${Math.random().toString(36).substr(2, 4)}`,
       title: subTitle,
       category: categoryName,
+      subject: currentSubject ? currentSubject.toLowerCase() : '',
       isCustom: true
     }));
 
@@ -137,7 +149,7 @@ export default function CurriculumModal({
   const groupedData = useMemo(() => {
     const combinedData = [
       ...(curriculumData || []),
-      ...(customTopics || []).map(ct => ({ ...ct, isCustom: true }))
+      ...(subjectCustomTopics || []).map(ct => ({ ...ct, isCustom: true }))
     ];
 
     if (combinedData.length === 0) return [];
@@ -171,7 +183,7 @@ export default function CurriculumModal({
     } else {
       return [{ category: "All Skills", skills: filtered }];
     }
-  }, [curriculumData, customTopics, searchTerm]);
+  }, [curriculumData, subjectCustomTopics, searchTerm]);
 
   if (!isOpen) return null;
 
