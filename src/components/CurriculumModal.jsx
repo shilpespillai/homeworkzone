@@ -38,21 +38,28 @@ export default function CurriculumModal({
     if (!currentSubject) return customTopics || [];
     const lowerSub = currentSubject.toLowerCase();
     return (customTopics || []).filter(ct => {
+      // 1. If custom topic has an explicit subject tag, match strictly
       if (ct.subject) {
         return ct.subject.toLowerCase() === lowerSub;
       }
-      // Legacy custom topics without an explicit subject property:
+      
+      // 2. For legacy custom topics created without a subject tag:
       const catLower = (ct.category || '').toLowerCase();
       const titleLower = (ct.title || '').toLowerCase();
-      const isScienceLike = catLower.includes('body') || catLower.includes('electricity') || catLower.includes('science') || catLower.includes('plant') || catLower.includes('animal') || titleLower.includes('health') || titleLower.includes('electric') || titleLower.includes('nutrient') || titleLower.includes('excretion') || titleLower.includes('digestion');
       
-      if (lowerSub === 'hindi') {
-        return !isScienceLike && (catLower.includes('hindi') || titleLower.includes('hindi') || titleLower.includes('वर्णमाला') || titleLower.includes('व्याकरण'));
+      const isScienceLike = catLower.includes('body') || catLower.includes('electricity') || catLower.includes('science') || catLower.includes('plant') || catLower.includes('animal') || titleLower.includes('health') || titleLower.includes('electric') || titleLower.includes('nutrient') || titleLower.includes('excretion') || titleLower.includes('digestion') || titleLower.includes('circuit');
+
+      const isHindiLike = catLower.includes('hindi') || titleLower.includes('hindi') || titleLower.includes('वर्णमाला') || titleLower.includes('व्याकरण');
+
+      if (isScienceLike) {
+        return lowerSub === 'science';
       }
-      if (lowerSub === 'science') {
-        return isScienceLike;
+      if (isHindiLike) {
+        return lowerSub === 'hindi';
       }
-      return true;
+
+      // Exclude Science & Hindi legacy topics from History and all non-matching subjects
+      return lowerSub !== 'history';
     });
   }, [customTopics, currentSubject]);
 
