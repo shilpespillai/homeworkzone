@@ -33960,10 +33960,51 @@ export const hindiCurriculum = [
   { id: "hi_19", title: "अपठित गद्यांश (Reading Comprehension)", category: "E. वाक्य रचना और समझ (Sentence Building)" }
 ];
 
+export const historyCurriculum = [
+  { id: "hist_1", title: "Ancient Civilizations (Egypt, Mesopotamia, Indus Valley)", category: "A. Ancient World History" },
+  { id: "hist_2", title: "Ancient Greece and Roman Empire", category: "A. Ancient World History" },
+  { id: "hist_3", title: "Medieval Europe & Feudalism", category: "B. Medieval & Early Modern History" },
+  { id: "hist_4", title: "The Renaissance & Scientific Revolution", category: "B. Medieval & Early Modern History" },
+  { id: "hist_5", title: "Industrial Revolution & Global Expansion", category: "C. Modern World History" },
+  { id: "hist_6", title: "World War I & World War II", category: "C. Modern World History" },
+  { id: "hist_7", title: "Australian & Local Indigenous History", category: "D. Local & Regional History" }
+];
+
+export const geographyCurriculum = [
+  { id: "geo_1", title: "Continents, Oceans & World Map Reading", category: "A. Maps & Spatial Skills" },
+  { id: "geo_2", title: "Latitude, Longitude & Time Zones", category: "A. Maps & Spatial Skills" },
+  { id: "geo_3", title: "Landforms: Mountains, Rivers, Valleys & Volcanoes", category: "B. Physical Geography" },
+  { id: "geo_4", title: "Weather, Climate Zones & Biomes", category: "B. Physical Geography" },
+  { id: "geo_5", title: "Population, Urbanization & Migration", category: "C. Human Geography" },
+  { id: "geo_6", title: "Natural Resources & Sustainability", category: "C. Human Geography" }
+];
+
+export const spanishCurriculum = [
+  { id: "es_1", title: "El Alfabeto y Pronunciación (Alphabet & Sounds)", category: "A. Basicos (Basics)" },
+  { id: "es_2", title: "Números 1 al 100 (Numbers 1 to 100)", category: "A. Basicos (Basics)" },
+  { id: "es_3", title: "Saludos, Despedidas y Presentaciones (Greetings & Intro)", category: "A. Basicos (Basics)" },
+  { id: "es_4", title: "Sustantivos y Artículos - El, La, Los, Las (Nouns & Articles)", category: "B. Gramática (Grammar)" },
+  { id: "es_5", title: "Verbos Comunes - Ser, Estar, Tener, Ir (Common Verbs)", category: "B. Gramática (Grammar)" },
+  { id: "es_6", title: "Vocabulario de la Familia, Comida y Escuela (Vocabulary)", category: "C. Vocabulario (Vocabulary)" }
+];
+
+export const frenchCurriculum = [
+  { id: "fr_1", title: "L'Alphabet et la Prononciation (Alphabet & Sounds)", category: "A. Les Bases (Basics)" },
+  { id: "fr_2", title: "Les Nombres 1 à 100 (Numbers 1 to 100)", category: "A. Les Bases (Basics)" },
+  { id: "fr_3", title: "Salutations et Présentations (Greetings & Intro)", category: "A. Les Bases (Basics)" },
+  { id: "fr_4", title: "Les Articles et Noms - Le, La, Les, Un, Une (Articles & Nouns)", category: "B. Grammaire (Grammar)" },
+  { id: "fr_5", title: "Verbes Essentiels - Être, Avoir, Faire, Aller (Key Verbs)", category: "B. Grammaire (Grammar)" },
+  { id: "fr_6", title: "Vocabulaire de la Famille et de la Maison (Vocabulary)", category: "C. Vocabulaire (Vocabulary)" }
+];
+
 if (curriculum) {
   Object.keys(curriculum).forEach(gradeKey => {
     if (curriculum[gradeKey]) {
       curriculum[gradeKey]["Hindi"] = hindiCurriculum;
+      curriculum[gradeKey]["History"] = historyCurriculum;
+      curriculum[gradeKey]["Geography"] = geographyCurriculum;
+      curriculum[gradeKey]["Spanish"] = spanishCurriculum;
+      curriculum[gradeKey]["French"] = frenchCurriculum;
     }
   });
 }

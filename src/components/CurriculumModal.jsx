@@ -43,7 +43,7 @@ export default function CurriculumModal({
         return ct.subject.toLowerCase() === lowerSub;
       }
       
-      // 2. For legacy custom topics created without a subject tag:
+      // 2. For legacy custom topics created without a subject tag, infer subject by content:
       const catLower = (ct.category || '').toLowerCase();
       const titleLower = (ct.title || '').toLowerCase();
       
@@ -51,15 +51,17 @@ export default function CurriculumModal({
 
       const isHindiLike = catLower.includes('hindi') || titleLower.includes('hindi') || titleLower.includes('वर्णमाला') || titleLower.includes('व्याकरण');
 
-      if (isScienceLike) {
-        return lowerSub === 'science';
-      }
-      if (isHindiLike) {
-        return lowerSub === 'hindi';
-      }
+      const isHistoryLike = catLower.includes('history') || catLower.includes('egypt') || catLower.includes('war') || catLower.includes('revolution') || titleLower.includes('history') || titleLower.includes('empire');
 
-      // Exclude Science & Hindi legacy topics from History and all non-matching subjects
-      return lowerSub !== 'history';
+      const isGeographyLike = catLower.includes('geography') || catLower.includes('map') || catLower.includes('continent') || titleLower.includes('ocean') || titleLower.includes('river');
+
+      if (isScienceLike) return lowerSub === 'science';
+      if (isHindiLike) return lowerSub === 'hindi';
+      if (isHistoryLike) return lowerSub === 'history';
+      if (isGeographyLike) return lowerSub === 'geography';
+
+      // 3. For any other un-tagged legacy topic, strictly restrict to its own matched subject
+      return false;
     });
   }, [customTopics, currentSubject]);
 
