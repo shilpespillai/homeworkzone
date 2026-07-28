@@ -3066,6 +3066,44 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                               </div>
                            )}
                         </div>
+
+                        {/* Umbrella 3: ENGLISH */}
+                        <div className="space-y-1">
+                           <button
+                              onClick={() => setEnglishExpanded(!englishExpanded)}
+                              className="w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-[11px] font-black text-purple-700 bg-purple-50/70 hover:bg-purple-100/60 uppercase tracking-wider cursor-pointer"
+                           >
+                              <span className="flex items-center gap-1.5">📚 ENGLISH</span>
+                              <span className="text-[9px]">{englishExpanded ? '▲' : '▼'}</span>
+                           </button>
+
+                           {englishExpanded && (
+                              <div className="pl-2 space-y-0.5 border-l-2 border-purple-200 ml-2">
+                                 {[
+                                    { name: 'Grammar Guide & Rules', emoji: '📜' },
+                                    { name: 'Parts of Speech & Tenses', emoji: '📝' },
+                                    { name: 'Vocabulary & Word Power', emoji: '🔤' },
+                                    { name: 'Reading Comprehension', emoji: '📖' },
+                                    { name: 'Sentence Types & Punctuation', emoji: '✍️' },
+                                    { name: 'Creative Writing Studio', emoji: '🎨' }
+                                 ].map((topic) => (
+                                    <button
+                                       key={topic.name}
+                                       onClick={() => {
+                                          setActiveNav(`Learning: ${topic.name}`);
+                                       }}
+                                       className={`w-full text-left px-3 py-2 rounded-xl text-[11px] font-black transition-all flex items-center justify-between cursor-pointer ${
+                                          activeNav === `Learning: ${topic.name}`
+                                             ? 'bg-purple-100 text-purple-800 font-extrabold shadow-sm'
+                                             : 'text-[#166534] hover:text-[#14532d] hover:bg-slate-50/60'
+                                       }`}
+                                    >
+                                       <span>{topic.emoji} {topic.name}</span>
+                                    </button>
+                                 ))}
+                              </div>
+                           )}
+                        </div>
                      </motion.div>
                   )}
                </AnimatePresence>
