@@ -33949,15 +33949,37 @@ export const hindiCurriculum = [
   { id: "hi_10", title: "क्रिया और काल (Verbs and Tenses)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
   { id: "hi_11", title: "लिंग बदलो - पुल्लिंग और स्त्रीलिंग (Gender - Masculine & Feminine)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
   { id: "hi_12", title: "वचन बदलो - एकवचन और बहुवचन (Singular and Plural)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
+  { id: "hi_20", title: "कारक और परसर्ग (Case Endings & Postpositions - ने, को, से)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
+  { id: "hi_21", title: "सकर्मक और अकर्मक क्रिया (Transitive & Intransitive Verbs & 'Ne' Rule)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
+  { id: "hi_22", title: "उपसर्ग और प्रत्यय (Prefixes & Suffixes)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
+  { id: "hi_23", title: "संधि और समास (Word Compounding & Joining)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
 
   { id: "hi_13", title: "पर्यायवाची शब्द (Synonyms)", category: "D. शब्द ज्ञान (Vocabulary)" },
   { id: "hi_14", title: "विलोम शब्द (Antonyms)", category: "D. शब्द ज्ञान (Vocabulary)" },
   { id: "hi_15", title: "अनेक शब्दों के लिए एक शब्द (One Word Substitution)", category: "D. शब्द ज्ञान (Vocabulary)" },
   { id: "hi_16", title: "मुहावरे और कहावतें (Idioms and Proverbs)", category: "D. शब्द ज्ञान (Vocabulary)" },
+  { id: "hi_24", title: "दिन, महीने और ऋतुएँ (Days, Months & Seasons)", category: "D. शब्द ज्ञान (Vocabulary)" },
+  { id: "hi_25", title: "रंग और आकृतियाँ (Colors & Shapes)", category: "D. शब्द ज्ञान (Vocabulary)" },
+  { id: "hi_26", title: "रिश्ते-नाते (Family Relations Vocabulary)", category: "D. शब्द ज्ञान (Vocabulary)" },
+  { id: "hi_27", title: "शरीर के अंग और स्वास्थ्य (Body Parts & Health)", category: "D. शब्द ज्ञान (Vocabulary)" },
+  { id: "hi_28", title: "फल, सब्जियाँ और मसाले (Fruits, Vegetables & Spices)", category: "D. शब्द ज्ञान (Vocabulary)" },
+  { id: "hi_29", title: "पशु-पक्षी और उनकी बोलियाँ (Animals, Birds & Their Sounds)", category: "D. शब्द ज्ञान (Vocabulary)" },
+  { id: "hi_30", title: "श्रुतिसम भिन्नार्थक शब्द (Homophones & Similar Sounds)", category: "D. शब्द ज्ञान (Vocabulary)" },
 
   { id: "hi_17", title: "शुद्ध और अशुद्ध वाक्य (Correct Sentence Formation)", category: "E. वाक्य रचना और समझ (Sentence Building)" },
   { id: "hi_18", title: "विराम चिह्न (Punctuation Marks)", category: "E. वाक्य रचना और समझ (Sentence Building)" },
-  { id: "hi_19", title: "अपठित गद्यांश (Reading Comprehension)", category: "E. वाक्य रचना और समझ (Sentence Building)" }
+  { id: "hi_19", title: "अपठित गद्यांश (Reading Comprehension)", category: "E. वाक्य रचना और समझ (Sentence Building)" },
+
+  { id: "hi_31", title: "शिष्टाचार और अभिवादन (Greetings & Politeness - आप/तुम)", category: "F. व्यावहारिक बातचीत (Conversational Hindi)" },
+  { id: "hi_32", title: "दिशाएँ और स्थान (Directions & Positioning)", category: "F. व्यावहारिक बातचीत (Conversational Hindi)" },
+  { id: "hi_33", title: "बाजार और खरीदारी (Shopping, Weights & Bargaining)", category: "F. व्यावहारिक बातचीत (Conversational Hindi)" },
+  { id: "hi_34", title: "यात्रा और परिवहन (Travel & Transportation)", category: "F. व्यावहारिक बातचीत (Conversational Hindi)" },
+
+  { id: "hi_35", title: "चित्र वर्णन (Picture Description & Writing)", category: "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)" },
+  { id: "hi_36", title: "अनुच्छेद एवं निबंध लेखन (Paragraph & Essay Writing)", category: "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)" },
+  { id: "hi_37", title: "पत्र लेखन (Formal & Informal Letter Writing)", category: "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)" },
+  { id: "hi_38", title: "कहानी लेखन और नीति कथाएँ (Fables & Story Completion - Panchatantra)", category: "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)" },
+  { id: "hi_39", title: "बालगीत और कविताएँ (Nursery Rhymes & Poetry)", category: "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)" }
 ];
 
 export const historyCurriculum = [
