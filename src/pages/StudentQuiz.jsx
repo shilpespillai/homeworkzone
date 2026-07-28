@@ -1637,8 +1637,8 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         )}
       </main>
 
-      {/* Footer Actions - Only show in non-test mode */}
-      {homework.type !== 'test' && (
+      {/* Footer Actions - Only show in non-test mode and when not viewing summary */}
+      {homework.type !== 'test' && !showSummary && (
         <footer className={`max-w-${homework.passage ? '7xl' : '4xl'} mx-auto w-full py-12 flex items-center justify-between shrink-0 relative z-10`}>
           <div className="flex items-center gap-4">
             <button 
@@ -1707,30 +1707,27 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                  next <ChevronRight className="w-5 h-5 shrink-0" />
                </button>
              )
+          ) : currentIdx < displayQuestions.length - 1 ? (
+            <button 
+              onClick={() => setCurrentIdx(prev => Math.min(displayQuestions.length - 1, prev + 1))}
+              className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
+            >
+              NEXT QUEST! <ChevronRight className="w-5 h-5 shrink-0" />
+            </button>
           ) : (
-            <div className="flex items-center gap-4">
-              {currentIdx < displayQuestions.length - 1 && (
-                <button 
-                  onClick={() => setCurrentIdx(prev => Math.min(displayQuestions.length - 1, prev + 1))}
-                  className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#EA580C]"
-                >
-                  NEXT QUEST! <ChevronRight className="w-5 h-5 shrink-0" />
-                </button>
+            <button 
+              onClick={() => setShowSummary(true)}
+              disabled={isSubmitting}
+              className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#10B981] text-white shadow-[0_6px_0_0_#047857] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#059669] disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-[0_6px_0_0_#047857] disabled:active:translate-y-0"
+            >
+              {isSubmitting ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <>
+                  submit mission! <Star className="w-5 h-5 text-yellow-300 fill-yellow-300 shrink-0" />
+                </>
               )}
-              <button 
-                onClick={() => setShowSummary(true)}
-                disabled={isSubmitting}
-                className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-10 bg-[#10B981] text-white shadow-[0_6px_0_0_#047857] text-lg font-black active:translate-y-[6px] active:shadow-none transition-all select-none cursor-pointer hover:bg-[#059669] disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-[0_6px_0_0_#047857] disabled:active:translate-y-0"
-              >
-                {isSubmitting ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                ) : (
-                  <>
-                    submit mission! <Star className="w-5 h-5 text-yellow-300 fill-yellow-300 shrink-0" />
-                  </>
-                )}
-              </button>
-            </div>
+            </button>
           )}
         </footer>
       )}
