@@ -93,6 +93,7 @@ import ArtsAndFunView from './components/ArtsAndFunView';
 import ChildReportView from './components/ChildReportView';
 import MathsLearningHub from './components/MathsLearningHub';
 import BodyAndFunctionsHub from './components/BodyAndFunctionsHub';
+import EnglishHub from './components/EnglishHub';
 import TeethAndFunctionsHub from './components/TeethAndFunctionsHub';
 import NutritionAndDietHub from './components/NutritionAndDietHub';
 import WaterCycleHub from './components/WaterCycleHub';
@@ -2244,6 +2245,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
   const [learningExpanded, setLearningExpanded] = useState(true);
   const [mathsExpanded, setMathsExpanded] = useState(true);
   const [scienceExpanded, setScienceExpanded] = useState(true);
+  const [englishExpanded, setEnglishExpanded] = useState(true);
   const [activeMathGrade, setActiveMathGrade] = useState(1);
   const [activeMathConcept, setActiveMathConcept] = useState('Numbers & Place Value');
 
@@ -3809,7 +3811,24 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                <UnitsOfMeasurementHub />
             )}
 
+            {(activeNav === 'Learning: Grammar Guide & Rules' ||
+              activeNav === 'Learning: Parts of Speech & Tenses' ||
+              activeNav === 'Learning: Vocabulary & Word Power' ||
+              activeNav === 'Learning: Reading Comprehension' ||
+              activeNav === 'Learning: Sentence Types & Punctuation' ||
+              activeNav === 'Learning: Creative Writing Studio' ||
+              activeNav === 'Learning: English') && (
+               <EnglishHub topicName={activeNav.replace('Learning: ', '')} />
+            )}
+
             {activeNav.startsWith('Learning: ') && 
+             activeNav !== 'Learning: Grammar Guide & Rules' &&
+             activeNav !== 'Learning: Parts of Speech & Tenses' &&
+             activeNav !== 'Learning: Vocabulary & Word Power' &&
+             activeNav !== 'Learning: Reading Comprehension' &&
+             activeNav !== 'Learning: Sentence Types & Punctuation' &&
+             activeNav !== 'Learning: Creative Writing Studio' &&
+             activeNav !== 'Learning: English' &&
              activeNav !== 'Learning: Body and Functions' && 
              activeNav !== 'Learning: Types of Teeth & Functions' && 
              activeNav !== 'Learning: Nutrition & Balanced Diet' && 
