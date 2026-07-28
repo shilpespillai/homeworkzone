@@ -20,7 +20,11 @@ import {
   Star,
   ZoomIn,
   Maximize2,
-  X
+  X,
+  Eye,
+  FileText,
+  Lightbulb,
+  Target
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -29,7 +33,7 @@ export default function EnglishHub({ topicName }) {
     topicName ? getTabFromTopic(topicName) : 'grammar'
   );
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeModalImage, setActiveModalImage] = useState(null); // stores { src, title, subtitle }
   
   // Interactive tool states
   const [selectedPartOfSpeech, setSelectedPartOfSpeech] = useState('nouns');
@@ -50,7 +54,11 @@ export default function EnglishHub({ topicName }) {
     return 'grammar';
   }
 
-  const openImageModal = () => setIsModalOpen(true);
+  const openImageModal = (src, title, subtitle) => {
+    setActiveModalImage({ src, title, subtitle });
+  };
+
+  const closeModal = () => setActiveModalImage(null);
 
   // Speech Handler
   const speakText = (text) => {
@@ -243,18 +251,18 @@ export default function EnglishHub({ topicName }) {
             English Grammar & Literature Hub
           </h1>
           <p className="text-purple-100 text-sm md:text-base max-w-2xl font-medium">
-            Explore the complete Grammar Guide chart, Parts of Speech, Tenses, Vocabulary, Punctuation rules, and Creative Writing!
+            Master Reading Comprehension, Grammar Rules, Vocabulary Power, Sentence Structure, and Creative Writing with official infographic posters and interactive practice!
           </p>
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button 
-              onClick={() => speakText("Welcome to the English Academy Grammar Guide! Explore Parts of Speech, Sentence Types, Tenses, Punctuation, and Vocabulary.")}
+              onClick={() => speakText("Welcome to the English Academy! Explore Reading Comprehension, Grammar Rules, Vocabulary, and Creative Writing.")}
               className="px-4 py-2 rounded-xl bg-white text-indigo-900 font-extrabold text-xs flex items-center gap-2 hover:bg-purple-50 transition-all shadow-md cursor-pointer"
             >
               {isPlayingAudio ? <VolumeX className="w-4 h-4 text-rose-500" /> : <Volume2 className="w-4 h-4 text-indigo-600" />}
               {isPlayingAudio ? 'Stop Audio' : 'Listen to Introduction'}
             </button>
             <span className="text-xs font-bold bg-indigo-900/50 px-3 py-1.5 rounded-lg border border-purple-400/20">
-              Grammar Poster • Parts of Speech • Tenses • Vocabulary
+              Grammar Poster • Reading Infographic • 6 Reading Strategies
             </span>
           </div>
         </div>
@@ -266,10 +274,10 @@ export default function EnglishHub({ topicName }) {
       {/* Navigation Tabs */}
       <div className="flex gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
         {[
-          { id: 'grammar', label: 'Grammar Guide & Poster', icon: '📜' },
+          { id: 'grammar', label: 'Grammar Guide Poster', icon: '📜' },
+          { id: 'reading', label: 'Reading Comprehension Masterclass', icon: '📖' },
           { id: 'parts', label: 'Parts of Speech & Tenses', icon: '📝' },
           { id: 'vocab', label: 'Vocabulary & Word Power', icon: '🔤' },
-          { id: 'reading', label: 'Reading Comprehension', icon: '📖' },
           { id: 'punctuation', label: 'Sentence Types & Punctuation', icon: '✍️' },
           { id: 'writing', label: 'Creative Writing Studio', icon: '🎨' },
           { id: 'quiz', label: 'English Master Quiz', icon: '🏆' }
@@ -288,7 +296,7 @@ export default function EnglishHub({ topicName }) {
         ))}
       </div>
 
-      {/* ==================================== TAB 1: GRAMMAR GUIDE POSTER (FIRST PAGE OF TOPIC) ==================================== */}
+      {/* ==================================== TAB 1: GRAMMAR GUIDE POSTER ==================================== */}
       {activeTab === 'grammar' && (
         <div className="space-y-6">
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
@@ -305,7 +313,11 @@ export default function EnglishHub({ topicName }) {
                 </p>
               </div>
               <button 
-                onClick={openImageModal}
+                onClick={() => openImageModal(
+                  "/english_grammar_guide_infographic.jpg",
+                  "Grammar Guide - The Rules Behind Great Writing",
+                  "Official English Curriculum Chart & Reference Poster"
+                )}
                 className="px-4 py-2 rounded-xl bg-indigo-600 text-white font-extrabold text-xs shadow-md shadow-indigo-500/20 hover:bg-indigo-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
               >
                 <ZoomIn className="w-4 h-4" /> Expand Poster
@@ -314,7 +326,11 @@ export default function EnglishHub({ topicName }) {
 
             {/* Poster Image Container */}
             <div 
-              onClick={openImageModal}
+              onClick={() => openImageModal(
+                "/english_grammar_guide_infographic.jpg",
+                "Grammar Guide - The Rules Behind Great Writing",
+                "Official English Curriculum Chart & Reference Poster"
+              )}
               className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
               title="Click to Open & Zoom"
             >
@@ -330,28 +346,220 @@ export default function EnglishHub({ topicName }) {
               </div>
             </div>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-indigo-50 border border-indigo-200 rounded-2xl p-5 space-y-2">
-              <span className="text-2xl">✨</span>
-              <h4 className="font-black text-indigo-950 text-sm">Clear Ideas</h4>
-              <p className="text-slate-600 text-xs leading-relaxed">Good grammar helps you share your thoughts clearly so others understand your message instantly.</p>
-            </div>
-            <div className="bg-purple-50 border border-purple-200 rounded-2xl p-5 space-y-2">
-              <span className="text-2xl">🗣️</span>
-              <h4 className="font-black text-purple-950 text-sm">Sound Confident</h4>
-              <p className="text-slate-600 text-xs leading-relaxed">Mastering proper sentence structures and word choices builds confidence in speaking and writing.</p>
-            </div>
-            <div className="bg-blue-50 border border-blue-200 rounded-2xl p-5 space-y-2">
-              <span className="text-2xl">📚</span>
-              <h4 className="font-black text-blue-950 text-sm">Better Stories & Essays</h4>
-              <p className="text-slate-600 text-xs leading-relaxed">Apply punctuation, tenses, and strong vocabulary to craft captivating stories and top-grade essays.</p>
-            </div>
-          </div>
         </div>
       )}
 
-      {/* ==================================== TAB 2: PARTS OF SPEECH & TENSES ==================================== */}
+      {/* ==================================== TAB 2: READING COMPREHENSION & INFOGRAPHIC ANALYSIS ==================================== */}
+      {activeTab === 'reading' && (
+        <div className="space-y-8">
+          
+          {/* Top Featured Infographic Poster */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-100 px-3 py-1 rounded-md">
+                  Reading Masterclass • Official Reading Guide
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>📖</span> Reading Comprehension - Read it. Understand it. Remember it!
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  Master the 6 core reading strategies, pre-reading steps, active annotation, and question-answering taxonomies. Click to zoom.
+                </p>
+              </div>
+              <button 
+                onClick={() => openImageModal(
+                  "/reading_comprehension_infographic.jpg",
+                  "Reading Comprehension - Read it. Understand it. Remember it!",
+                  "Official Reading Strategies & Practice Infographic Chart"
+                )}
+                className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-extrabold text-xs shadow-md shadow-emerald-500/20 hover:bg-emerald-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Poster
+              </button>
+            </div>
+
+            <div 
+              onClick={() => openImageModal(
+                "/reading_comprehension_infographic.jpg",
+                "Reading Comprehension - Read it. Understand it. Remember it!",
+                "Official Reading Strategies & Practice Infographic Chart"
+              )}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img 
+                src="/reading_comprehension_infographic.jpg" 
+                alt="Reading Comprehension - Read it. Understand it. Remember it! Infographic Chart" 
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-emerald-600" /> Click to Expand & Zoom Reading Chart
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Deep Comprehensive Analysis Section (100+ Words per Section Analysis) */}
+          <div className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-slate-100 p-6 md:p-8 rounded-3xl space-y-8 shadow-xl">
+            <div className="border-b border-indigo-800/60 pb-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase tracking-wider">
+                <Brain className="w-4 h-4 text-emerald-400" /> Expert Reading Analysis Guide
+              </div>
+              <h2 className="text-2xl md:text-3xl font-black text-white mt-2">
+                How to Crack Reading Comprehension Effectively
+              </h2>
+              <p className="text-slate-300 text-xs md:text-sm mt-1">
+                A step-by-step masterclass analyzing all six key sections of the Reading Comprehension framework.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
+              {/* Section 1 Analysis */}
+              <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-black text-sm">1</span>
+                  <h4 className="font-black text-blue-300 text-base">Before You Read (Pre-Reading & Schema Activation)</h4>
+                </div>
+                <p className="text-slate-300 text-xs leading-relaxed font-normal">
+                  Cracking reading comprehension begins before your eyes read the very first sentence. Pre-reading is a crucial cognitive warm-up that activates your prior knowledge (schema) and prepares your brain to absorb information faster. Start by previewing the title and asking yourself what topic the passage will cover. Next, inspect any accompanying illustrations, diagrams, or bold section headings—these visual anchors reveal vital clues about the author's focus. Skim through bold or highlighted words so your mind recognizes key terms in advance. By establishing a clear expectation and activating what you already know about the subject, you create a mental roadmap that dramatically enhances your focus, reading speed, and overall text retention.
+                </p>
+              </div>
+
+              {/* Section 2 Analysis */}
+              <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black text-sm">2</span>
+                  <h4 className="font-black text-emerald-300 text-base">Read the Text (Active Reading & Passage Engagement)</h4>
+                </div>
+                <p className="text-slate-300 text-xs leading-relaxed font-normal">
+                  Active reading requires far more than passive word decoding; it demands continuous interaction with the text. As demonstrated in the sample passage ("The Amazing Honeybee"), skilled readers track main ideas while mentally highlighting essential facts such as roles (worker bees vs. queen bee vs. drones) and processes (nectar collection and pollination). While reading, pay close attention to transitional signals and key nouns. If you encounter a complex sentence, slow down your pace and chunk the information into smaller thought units. Never rush through the passage—reading carefully on your first pass prevents repetitive rereading later and ensures you grasp the logical flow, main theme, and supporting evidence presented by the author.
+                </p>
+              </div>
+
+              {/* Section 3 Analysis */}
+              <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-black text-sm">3</span>
+                  <h4 className="font-black text-purple-300 text-base">After You Read (Post-Reading Reflection & Synthesis)</h4>
+                </div>
+                <p className="text-slate-300 text-xs leading-relaxed font-normal">
+                  Immediately after finishing a passage, pause to consolidate your understanding before jumping straight to the questions. Ask yourself five critical reflection questions: Who are the main characters or subjects? What is the overarching main idea? What key supporting details expand on this main idea? What unstated conclusions can be inferred? How does the author feel about the topic? Conducting this 30-second post-reading audit seals the passage into your short-term memory. It allows you to organize facts logically, distinguish central themes from secondary details, and pinpoint the author's tone and perspective, equipping you to answer questions with precision.
+                </p>
+              </div>
+
+              {/* Section 4 Analysis */}
+              <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-black text-sm">4</span>
+                  <h4 className="font-black text-rose-300 text-base">Important Vocabulary (Contextual Word Mastery)</h4>
+                </div>
+                <p className="text-slate-300 text-xs leading-relaxed font-normal">
+                  Vocabulary is the engine of reading comprehension. Unfamiliar words can disrupt your reading momentum if you do not have an effective strategy. To master vocabulary, use context clues—the surrounding words, phrases, and sentences—to deduce the definition of unfamiliar words before consulting a dictionary. In the honeybee text, terms like "pollination" and "nectar" are defined within their context. Building your personal word bank of root words, prefixes, and suffixes enables you to break down challenging academic vocabulary effortless. When you understand word nuances and specialized terminology, passage comprehension becomes seamless and effortless.
+                </p>
+              </div>
+
+              {/* Section 5 Analysis */}
+              <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-black text-sm">5</span>
+                  <h4 className="font-black text-amber-300 text-base">Question Starters & Taxonomies (Right There vs. Think & Search)</h4>
+                </div>
+                <p className="text-slate-300 text-xs leading-relaxed font-normal">
+                  Cracking comprehension tests requires categorizing question types so you know exactly where to look for answers. First are "Right There" questions (Who, What, Where, When), which have literal answers explicitly stated in the text; locate key keywords and match them directly. Second are "Think & Search" questions (Why do you think, How did, What does X mean), which require combining multiple facts from different sentences. Third are "Author & You" questions, which demand evaluative thinking and inferential reasoning. Recognizing the question category prevents foolish mistakes and guides you directly to the correct evidence in the text.
+                </p>
+              </div>
+
+              {/* Section 6 Analysis */}
+              <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="w-8 h-8 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-black text-sm">6</span>
+                  <h4 className="font-black text-teal-300 text-base">The 6 Core Reading Strategies (Visualize, Infer, Summarize)</h4>
+                </div>
+                <p className="text-slate-300 text-xs leading-relaxed font-normal">
+                  Top readers employ six active mental strategies while navigating any text. 1) **Visualize**: Create vivid mental movies of events and concepts described. 2) **Connect**: Relate text details to personal experiences, world knowledge, or other books. 3) **Question**: Ask inquiring questions before, during, and after reading. 4) **Infer**: Combine text clues with background knowledge to deduce implicit meanings. 5) **Summarize**: Synthesize the passage into concise main points using your own words. 6) **Evaluate**: Critically judge the author's arguments and perspective. Mastering these six strategies transforms passive reading into a superpower for acing any comprehension test!
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Interactive Passage Practice */}
+          <div className="space-y-6 pt-4">
+            <h3 className="text-2xl font-black text-slate-800 flex items-center gap-2">
+              <span>✍️</span> Practice Your Skills on Real Passages
+            </h3>
+            
+            <div className="flex gap-2">
+              {readingPassages.map(p => (
+                <button
+                  key={p.id}
+                  onClick={() => setSelectedPassage(p.id)}
+                  className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                    selectedPassage === p.id
+                      ? 'bg-indigo-600 text-white shadow-md'
+                      : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+                  }`}
+                >
+                  Passage {p.id}: {p.title}
+                </button>
+              ))}
+            </div>
+
+            {readingPassages.find(p => p.id === selectedPassage) && (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                {/* Passage Body */}
+                <div className="lg:col-span-7 bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <div>
+                      <span className="text-[10px] font-black uppercase text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                        {readingPassages.find(p => p.id === selectedPassage).genre}
+                      </span>
+                      <h3 className="text-xl font-black text-slate-800 mt-1">
+                        {readingPassages.find(p => p.id === selectedPassage).title}
+                      </h3>
+                    </div>
+                    <button 
+                      onClick={() => speakText(readingPassages.find(p => p.id === selectedPassage).content)}
+                      className="p-2.5 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-100 cursor-pointer"
+                    >
+                      <Volume2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                  
+                  <p className="text-slate-700 text-sm md:text-base leading-relaxed font-serif">
+                    {readingPassages.find(p => p.id === selectedPassage).content}
+                  </p>
+                </div>
+
+                {/* Passage Questions */}
+                <div className="lg:col-span-5 bg-indigo-50/60 p-6 rounded-3xl border border-indigo-100 space-y-4">
+                  <h4 className="font-black text-indigo-950 text-base flex items-center gap-2">
+                    <span>🧠</span> Comprehension Check
+                  </h4>
+                  {readingPassages.find(p => p.id === selectedPassage).questions.map((q, qIdx) => (
+                    <div key={qIdx} className="bg-white p-4 rounded-2xl border border-indigo-100 space-y-3">
+                      <p className="font-extrabold text-xs text-slate-800">{qIdx+1}. {q.q}</p>
+                      <div className="space-y-1.5">
+                        {q.options.map(opt => (
+                          <div key={opt} className={`p-2.5 rounded-xl text-xs font-bold border ${opt === q.ans ? 'bg-emerald-50 border-emerald-300 text-emerald-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
+                            {opt} {opt === q.ans && '✓'}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+        </div>
+      )}
+
+      {/* ==================================== TAB 3: PARTS OF SPEECH & TENSES ==================================== */}
       {activeTab === 'parts' && (
         <div className="space-y-6">
           <div className="bg-indigo-50 border border-indigo-200 rounded-2xl p-6 flex items-start gap-4">
@@ -421,7 +629,7 @@ export default function EnglishHub({ topicName }) {
         </div>
       )}
 
-      {/* ==================================== TAB 3: VOCABULARY & WORD POWER ==================================== */}
+      {/* ==================================== TAB 4: VOCABULARY & WORD POWER ==================================== */}
       {activeTab === 'vocab' && (
         <div className="space-y-6">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
@@ -479,74 +687,6 @@ export default function EnglishHub({ topicName }) {
               </div>
             ))}
           </div>
-        </div>
-      )}
-
-      {/* ==================================== TAB 4: READING COMPREHENSION ==================================== */}
-      {activeTab === 'reading' && (
-        <div className="space-y-6">
-          <div className="flex gap-2">
-            {readingPassages.map(p => (
-              <button
-                key={p.id}
-                onClick={() => setSelectedPassage(p.id)}
-                className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
-                  selectedPassage === p.id
-                    ? 'bg-indigo-600 text-white shadow-md'
-                    : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
-                }`}
-              >
-                Passage {p.id}: {p.title}
-              </button>
-            ))}
-          </div>
-
-          {readingPassages.find(p => p.id === selectedPassage) && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              {/* Passage Body */}
-              <div className="lg:col-span-7 bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                  <div>
-                    <span className="text-[10px] font-black uppercase text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
-                      {readingPassages.find(p => p.id === selectedPassage).genre}
-                    </span>
-                    <h3 className="text-xl font-black text-slate-800 mt-1">
-                      {readingPassages.find(p => p.id === selectedPassage).title}
-                    </h3>
-                  </div>
-                  <button 
-                    onClick={() => speakText(readingPassages.find(p => p.id === selectedPassage).content)}
-                    className="p-2.5 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-100 cursor-pointer"
-                  >
-                    <Volume2 className="w-4 h-4" />
-                  </button>
-                </div>
-                
-                <p className="text-slate-700 text-sm md:text-base leading-relaxed font-serif">
-                  {readingPassages.find(p => p.id === selectedPassage).content}
-                </p>
-              </div>
-
-              {/* Passage Questions */}
-              <div className="lg:col-span-5 bg-indigo-50/60 p-6 rounded-3xl border border-indigo-100 space-y-4">
-                <h4 className="font-black text-indigo-950 text-base flex items-center gap-2">
-                  <span>🧠</span> Comprehension Check
-                </h4>
-                {readingPassages.find(p => p.id === selectedPassage).questions.map((q, qIdx) => (
-                  <div key={qIdx} className="bg-white p-4 rounded-2xl border border-indigo-100 space-y-3">
-                    <p className="font-extrabold text-xs text-slate-800">{qIdx+1}. {q.q}</p>
-                    <div className="space-y-1.5">
-                      {q.options.map(opt => (
-                        <div key={opt} className={`p-2.5 rounded-xl text-xs font-bold border ${opt === q.ans ? 'bg-emerald-50 border-emerald-300 text-emerald-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
-                          {opt} {opt === q.ans && '✓'}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       )}
 
@@ -701,9 +841,9 @@ export default function EnglishHub({ topicName }) {
       )}
 
       {/* ==================================== FULLSCREEN IMAGE VIEW MODAL ==================================== */}
-      {isModalOpen && (
+      {activeModalImage && (
         <div 
-          onClick={() => setIsModalOpen(false)}
+          onClick={closeModal}
           className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex flex-col animate-fade-in select-none p-4 md:p-6"
         >
           {/* Top Control Bar */}
@@ -713,16 +853,16 @@ export default function EnglishHub({ topicName }) {
           >
             <div className="flex items-center gap-3">
               <span className="p-2 rounded-xl bg-indigo-500/20 text-indigo-400 font-bold text-xs">
-                📜 Full Poster View
+                📜 Full Chart View
               </span>
               <div>
-                <h3 className="font-extrabold text-white text-sm">Grammar Guide - The Rules Behind Great Writing</h3>
-                <p className="text-slate-400 text-[11px]">Official English Curriculum Chart & Reference Poster</p>
+                <h3 className="font-extrabold text-white text-sm">{activeModalImage.title}</h3>
+                <p className="text-slate-400 text-[11px]">{activeModalImage.subtitle}</p>
               </div>
             </div>
 
             <button 
-              onClick={() => setIsModalOpen(false)}
+              onClick={closeModal}
               className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs transition-all shadow-lg shadow-rose-600/30 flex items-center gap-1.5 cursor-pointer"
             >
               <X className="w-4 h-4" /> Close
@@ -735,8 +875,8 @@ export default function EnglishHub({ topicName }) {
             className="flex-1 flex items-center justify-center overflow-auto"
           >
             <img 
-              src="/english_grammar_guide_infographic.jpg" 
-              alt="Grammar Guide Infographic Poster" 
+              src={activeModalImage.src} 
+              alt={activeModalImage.title} 
               className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 object-contain"
             />
           </div>
