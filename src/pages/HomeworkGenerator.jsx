@@ -403,40 +403,49 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [customPromptOverride, setCustomPromptOverride] = useState('');
   const [showPromptModal, setShowPromptModal] = useState(false);
 
-  // Pre-render image to base64 data URL on teacher side with 429 retry backoff
-  const fetchImageAsBase64 = async (url, retries = 3) => {
-    if (!url) return '';
-    for (let attempt = 0; attempt <= retries; attempt++) {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 14000);
-        const res = await fetch(url, { signal: controller.signal });
-        clearTimeout(timeoutId);
+  // Multi-Engine Cascade pre-rendering to handle high concurrency and rate-limits seamlessly
+  const fetchImageAsBase64 = async (promptText) => {
+    if (!promptText) return '';
 
-        if (res.status === 429) {
-          console.warn(`Pollinations 429 rate limit hit, backing off (attempt ${attempt + 1}/${retries})...`);
-          await new Promise((r) => setTimeout(r, (attempt + 1) * 2000));
-          continue;
-        }
+    const encoded = encodeURIComponent(promptText);
+    const engines = [
+      `https://image.pollinations.ai/prompt/${encoded}?width=640&height=640&nologo=true&model=flux`,
+      `https://image.pollinations.ai/prompt/${encoded}?width=640&height=640&nologo=true&model=turbo`,
+      `https://image.pollinations.ai/prompt/${encoded}?width=512&height=512&nologo=true`
+    ];
 
-        if (!res.ok) return url;
-        const blob = await res.blob();
-        return new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result || url);
-          reader.onerror = () => resolve(url);
-          reader.readAsDataURL(blob);
-        });
-      } catch (e) {
-        console.warn(`Image pre-render attempt ${attempt + 1} fallback:`, e);
-        if (attempt < retries) {
-          await new Promise((r) => setTimeout(r, (attempt + 1) * 1500));
-        } else {
-          return url;
+    for (let engineUrl of engines) {
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 12000);
+          const res = await fetch(engineUrl, { signal: controller.signal });
+          clearTimeout(timeoutId);
+
+          if (res.status === 429) {
+            console.warn(`Engine 429 rate limit hit, failing over to alternative model...`);
+            await new Promise((r) => setTimeout(r, 1000));
+            break; // Failover to next engine in cascade
+          }
+
+          if (!res.ok) break;
+
+          const blob = await res.blob();
+          if (blob.size < 100) break;
+
+          return await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result || engineUrl);
+            reader.onerror = () => resolve(engineUrl);
+            reader.readAsDataURL(blob);
+          });
+        } catch (e) {
+          console.warn(`Engine attempt fallback:`, e);
+          await new Promise((r) => setTimeout(r, 800));
         }
       }
     }
-    return url;
+    return `https://image.pollinations.ai/prompt/${encoded}?width=640&height=640&nologo=true`;
   };
 
   const getConstructedPixarPrompt = () => {
@@ -633,8 +642,7 @@ EXPECTED JSON SCHEMA:
       if (parsedBook.coverImagePrompt) {
         setBookGenStatus('Pre-rendering book cover illustration...');
         const coverStylePrompt = `${parsedBook.coverImagePrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, book cover, vibrant pastel colors, 8k, highly detailed, no text`;
-        const pollCoverUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(coverStylePrompt)}?width=640&height=640&nologo=true`;
-        parsedBook.coverImageUrl = await fetchImageAsBase64(pollCoverUrl);
+        parsedBook.coverImageUrl = await fetchImageAsBase64(coverStylePrompt);
         await new Promise((r) => setTimeout(r, 600)); // Small delay between requests to avoid rate limits
       }
 
@@ -645,8 +653,7 @@ EXPECTED JSON SCHEMA:
           if (p.imagePrompt) {
             setBookGenStatus(`Pre-rendering 8K illustration ${i + 1} of ${parsedBook.pages.length}...`);
             const stylePrompt = `${p.imagePrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, vibrant pastel colors, clean background, 8k, highly detailed, children's book illustration, no text`;
-            const pollPageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(stylePrompt)}?width=640&height=640&nologo=true`;
-            p.imageUrl = await fetchImageAsBase64(pollPageUrl);
+            p.imageUrl = await fetchImageAsBase64(stylePrompt);
             await new Promise((r) => setTimeout(r, 800)); // 800ms request spacing
           }
         }
