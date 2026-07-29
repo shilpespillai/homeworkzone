@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { db } from '../firebase';
+import { doc, getDoc, collection, getDocs, onSnapshot } from 'firebase/firestore';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
 import { getLanguageObj } from '../utils/languages';
 
@@ -461,9 +462,9 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   const [teacherAssignedBooks, setTeacherAssignedBooks] = useState([]);
 
   useEffect(() => {
-    const fetchTeacherBooks = async () => {
-      try {
-        const snap = await getDocs(collection(db, 'custom_library_books'));
+    try {
+      const booksCol = collection(db, 'custom_library_books');
+      const unsubscribe = onSnapshot(booksCol, (snap) => {
         const list = snap.docs.map(d => ({
           id: d.id,
           ...d.data(),
@@ -472,17 +473,25 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
         })).filter(b => b.isPublished !== false);
 
         const filtered = list.filter(b => {
-          if (classroom?.id && b.classId && b.classId !== classroom.id) return false;
+          if (!b.isPublished) return false;
+          // Flexible classroom ID matching (support string vs number vs all)
+          if (classroom?.id && b.classId) {
+            const classMatch = String(b.classId) === String(classroom.id) || b.classId === 'all';
+            if (!classMatch && teacher?.uid && b.teacherId !== teacher.uid) return false;
+          }
           return true;
         });
 
         setTeacherAssignedBooks(filtered);
-      } catch (err) {
-        console.warn("Could not load teacher assigned books:", err);
-      }
-    };
-    fetchTeacherBooks();
-  }, [classroom?.id]);
+      }, (err) => {
+        console.warn("Could not load teacher assigned books in realtime:", err);
+      });
+
+      return () => unsubscribe();
+    } catch (err) {
+      console.warn("Error setting up books listener:", err);
+    }
+  }, [classroom?.id, teacher?.uid]);
 
   const allStories = [...teacherAssignedBooks, ...getBaseStories(), ...customStories];
   const allPuzzles = [...getBasePuzzles(), ...customPuzzles];
@@ -494,19 +503,19 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
 
   // Load custom stories & puzzles from LocalStorage
   useEffect(() => {
-    if (studentName) {
-      try {
-        const savedStories = localStorage.getItem(`hwz_custom_stories_${studentName}`);
-        if (savedStories) {
-          setCustomStories(JSON.parse(savedStories));
-        }
-        const savedPuzzles = localStorage.getItem(`hwz_custom_puzzles_${studentName}`);
-        if (savedPuzzles) {
-          setCustomPuzzles(JSON.parse(savedPuzzles));
-        }
-      } catch (e) {
-        console.error("Error loading local storage custom assets:", e);
+    try {
+      const key = studentName ? `hwz_custom_stories_${studentName}` : 'hwz_custom_stories';
+      const savedStories = localStorage.getItem(key) || localStorage.getItem('hwz_custom_stories');
+      if (savedStories) {
+        setCustomStories(JSON.parse(savedStories));
       }
+      const pKey = studentName ? `hwz_custom_puzzles_${studentName}` : 'hwz_custom_puzzles';
+      const savedPuzzles = localStorage.getItem(pKey) || localStorage.getItem('hwz_custom_puzzles');
+      if (savedPuzzles) {
+        setCustomPuzzles(JSON.parse(savedPuzzles));
+      }
+    } catch (e) {
+      console.error("Error loading local storage custom assets:", e);
     }
   }, [studentName]);
 
