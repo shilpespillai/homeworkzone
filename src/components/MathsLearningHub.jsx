@@ -686,31 +686,57 @@ export default function MathsLearningHub({ activeConcept = 'Numbers & Place Valu
 
         {/* Concept Infographic Images for Geometry & Shapes */}
         {activeConcept === 'Geometry & Shapes' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 w-full max-w-6xl mx-auto">
-            <div className="bg-white p-4 rounded-[32px] border border-orange-100 shadow-sm flex flex-col items-center">
-              <span className="text-xs font-black text-orange-600 uppercase tracking-widest mb-3 block">📐 Explore Geometry: Lines & Shapes!</span>
+          <div className="space-y-6 mb-8 w-full max-w-6xl mx-auto">
+            {/* Top Featured Complete Geometry Board Poster */}
+            <div className="bg-white p-5 rounded-[32px] border border-blue-200 shadow-md flex flex-col items-center">
+              <div className="w-full flex justify-between items-center mb-3 px-2">
+                <span className="text-xs font-black text-blue-700 uppercase tracking-widest block">📐 Geometry Board: The Complete Visual Guide to Geometry</span>
+                <span className="text-[10px] font-black uppercase bg-blue-100 text-blue-800 px-3 py-1 rounded-full">Interactive Reference Guide</span>
+              </div>
               <div 
-                onClick={() => setZoomedImage('/geometry-concept-1.jpg')}
-                className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.02] transition-transform duration-300 cursor-zoom-in"
+                onClick={() => setZoomedImage('/geometry_infographic.jpg')}
+                className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in group relative"
               >
                 <img 
-                  src="/geometry-concept-1.jpg" 
-                  alt="Geometry Concept Infographic" 
-                  className="w-full h-auto object-contain"
+                  src="/geometry_infographic.jpg" 
+                  alt="Geometry Board Complete Visual Guide Poster" 
+                  className="w-full h-auto max-h-[650px] object-contain mx-auto"
                 />
+                <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                  <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                    🔍 Click to Expand & Zoom Complete Geometry Board
+                  </span>
+                </div>
               </div>
             </div>
-            <div className="bg-white p-4 rounded-[32px] border border-green-200 shadow-sm flex flex-col items-center">
-              <span className="text-xs font-black text-green-700 uppercase tracking-widest mb-3 block">📐 Let's Learn Angles & Protractors!</span>
-              <div 
-                onClick={() => setZoomedImage('/geometry-concept-2.jpg')}
-                className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.02] transition-transform duration-300 cursor-zoom-in"
-              >
-                <img 
-                  src="/geometry-concept-2.jpg" 
-                  alt="Angles and Protractors Infographic" 
-                  className="w-full h-auto object-contain"
-                />
+
+            {/* Sub-Concept Infographics Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="bg-white p-4 rounded-[32px] border border-orange-100 shadow-sm flex flex-col items-center">
+                <span className="text-xs font-black text-orange-600 uppercase tracking-widest mb-3 block">📐 Explore Geometry: Lines & Shapes!</span>
+                <div 
+                  onClick={() => setZoomedImage('/geometry-concept-1.jpg')}
+                  className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.02] transition-transform duration-300 cursor-zoom-in"
+                >
+                  <img 
+                    src="/geometry-concept-1.jpg" 
+                    alt="Geometry Concept Infographic" 
+                    className="w-full h-auto object-contain"
+                  />
+                </div>
+              </div>
+              <div className="bg-white p-4 rounded-[32px] border border-green-200 shadow-sm flex flex-col items-center">
+                <span className="text-xs font-black text-green-700 uppercase tracking-widest mb-3 block">📐 Let's Learn Angles & Protractors!</span>
+                <div 
+                  onClick={() => setZoomedImage('/geometry-concept-2.jpg')}
+                  className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.02] transition-transform duration-300 cursor-zoom-in"
+                >
+                  <img 
+                    src="/geometry-concept-2.jpg" 
+                    alt="Angles and Protractors Infographic" 
+                    className="w-full h-auto object-contain"
+                  />
+                </div>
               </div>
             </div>
           </div>
