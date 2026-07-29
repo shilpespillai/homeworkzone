@@ -495,7 +495,7 @@ For every page generate: Page Number, Narration (150–250 rich, descriptive, an
 STEP 6 & 7 — ILLUSTRATION STYLE & IMAGE PROMPTS
 =========================================================
 Selected Illustration Style: ${bookIllustrationStyle}.
-For EVERY page generate a professional AI illustration prompt including: Character consistency, clothing, colours, expressions, pose, lighting, composition, camera angle, background, objects, weather, time of day, environment, depth of field, ultra detailed, 8K, children's book quality, no text inside illustration.
+For EVERY page, generate a professional AI illustration prompt that DIRECTLY DEPICTS the exact scene, character action, and setting taking place in that specific page's text narration. Include character consistency (same hero appearance, clothing, species, colors on every page), visual pose, expressions, lighting, composition, camera angle, background objects, environment, depth of field, ultra detailed, 8K, children's book quality, no text inside illustration.
 
 =========================================================
 STEP 8 — VOCABULARY
@@ -541,7 +541,7 @@ EXPECTED JSON SCHEMA:
     {
       "pageNumber": 1,
       "text": "Substantial, rich, descriptive story narration (150-250 words per page suited for ${resolvedGrade}) with character dialogue...",
-      "imagePrompt": "Ultra-detailed AI illustration prompt specifying character consistency, clothing, colours, expressions, pose, camera angle, lighting, background in ${bookIllustrationStyle} style, no text",
+      "imagePrompt": "Ultra-detailed AI illustration prompt directly depicting the exact key scene, hero actions, emotions, and setting taking place in this page's text. Must specify character consistency, clothing, colours, expressions, pose, camera angle, lighting, background in ${bookIllustrationStyle} style, no text",
       "cameraAngle": "Wide Angle / Medium Shot / Close-up",
       "mood": "Enchanted / Adventurous / Mysterious",
       "vocabHighlights": [
