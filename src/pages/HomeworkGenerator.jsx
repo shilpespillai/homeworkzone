@@ -431,6 +431,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
     }
 
     const resolvedGrade = resolveGradeFromClassroomName(activeClassroom?.name);
+    const selectedLangObj = getLanguageObj(targetLanguage || 'en');
+    const isNonEnglish = targetLanguage && targetLanguage !== 'en';
 
     return `You are an award-winning children's author, illustrator, curriculum designer, storyteller, and Pixar-level creative director.
 
@@ -450,13 +452,22 @@ INPUT SPECIFICATIONS
 • Target Grade / Reading Level: ${resolvedGrade}
 • Illustration Style: ${bookIllustrationStyle}
 • Number of Pages: ${bookPageCount} (Maximum 5 pages)
+• Target Language: ${selectedLangObj.name} (${selectedLangObj.nativeName})
+
+${isNonEnglish ? `=========================================================
+CRITICAL MULTI-LANGUAGE DIRECTIVE
+=========================================================
+You MUST write the ENTIRE storybook — including Title, Subtitle, Back Cover Summary, Story Page Narration Text, Character Dialogue, Vocabulary word definitions, Pronunciations, Fun Facts, Comprehension Questions, and Parent Reflection Section — in ${selectedLangObj.name} (${selectedLangObj.nativeName}).
+
+IMPORTANT EXCEPTION FOR IMAGE PROMPTS:
+Keep all "coverImagePrompt" and page "imagePrompt" strings in ENGLISH so that AI text-to-image engines can accurately render the 8K illustrations.` : ''}
 
 =========================================================
 STEP 1 — RANDOMLY GENERATE THE STORY WORLD
 =========================================================
 Randomly generate ALL of the following:
-• Story title
-• Subtitle
+• Story title (written in ${selectedLangObj.name})
+• Subtitle (written in ${selectedLangObj.name})
 • Genre
 • Age group / Reading level (Suitable for ${resolvedGrade})
 • Theme & Moral
@@ -489,28 +500,28 @@ Naturally teach one or more concepts (Kindness, Friendship, Honesty, Sharing, Re
 =========================================================
 STEP 5 — PAGE LAYOUT (${bookPageCount} PAGES - MAX 5 PAGES)
 =========================================================
-For every page generate: Page Number, Narration (150–250 rich, descriptive, and engaging words per page suited for ${resolvedGrade}), Dialogue (if required), Illustration Description, Camera Angle, Mood, Colour Palette, Lighting, Facial Expressions, Important Objects, Background Details, Visual Focus, Illustration Style (${bookIllustrationStyle}).
+For every page generate: Page Number, Narration (150–250 rich, descriptive, and engaging words per page written in ${selectedLangObj.name} suited for ${resolvedGrade}), Dialogue (if required), Illustration Description, Camera Angle, Mood, Colour Palette, Lighting, Facial Expressions, Important Objects, Background Details, Visual Focus, Illustration Style (${bookIllustrationStyle}).
 
 =========================================================
 STEP 6 & 7 — ILLUSTRATION STYLE & IMAGE PROMPTS
 =========================================================
 Selected Illustration Style: ${bookIllustrationStyle}.
-For EVERY page, generate a professional AI illustration prompt that DIRECTLY DEPICTS the exact scene, character action, and setting taking place in that specific page's text narration. Include character consistency (same hero appearance, clothing, species, colors on every page), visual pose, expressions, lighting, composition, camera angle, background objects, environment, depth of field, ultra detailed, 8K, children's book quality, no text inside illustration.
+For EVERY page, generate a professional AI illustration prompt that DIRECTLY DEPICTS the exact scene, character action, and setting taking place in that specific page's text narration. Include character consistency (same hero appearance, clothing, species, colors on every page), visual pose, expressions, lighting, composition, camera angle, background objects, environment, depth of field, ultra detailed, 8K, children's book quality, no text inside illustration. Must be in English.
 
 =========================================================
 STEP 8 — VOCABULARY
 =========================================================
-After every page include: New Words, Meaning, Pronunciation, Interesting Fact.
+After every page include: New Words, Meaning (in ${selectedLangObj.name}), Pronunciation, Interesting Fact (in ${selectedLangObj.name}).
 
 =========================================================
 STEP 9 — PARENT SECTION
 =========================================================
-At the end generate: Discussion Questions, Activities (Drawing Activity, Science Activity, Craft), Vocabulary Quiz, Life Lesson.
+At the end generate (in ${selectedLangObj.name}): Discussion Questions, Activities (Drawing Activity, Science Activity, Craft), Vocabulary Quiz, Life Lesson.
 
 =========================================================
 STEP 10 — COVER PAGE
 =========================================================
-Generate: Book Cover Title, Subtitle, Back Cover Summary, Front Cover Illustration Prompt (in ${bookIllustrationStyle} style, no text).
+Generate: Book Cover Title (in ${selectedLangObj.name}), Subtitle, Back Cover Summary, Front Cover Illustration Prompt (in ${bookIllustrationStyle} style, in English, no text).
 
 =========================================================
 STEP 11 — CONSISTENCY
@@ -529,27 +540,27 @@ You MUST return ONLY a valid JSON object matching the exact schema below. Do not
 
 EXPECTED JSON SCHEMA:
 {
-  "title": "Book Cover Title",
-  "subtitle": "Catchy Subtitle",
+  "title": "Book Cover Title in ${selectedLangObj.name}",
+  "subtitle": "Catchy Subtitle in ${selectedLangObj.name}",
   "genre": "Randomly Generated Genre",
   "emoji": "Single representative emoji (e.g. 🚀, 🐉, 🐢, 🧭, 🌲)",
   "targetGrade": "${resolvedGrade}",
-  "summary": "Back Cover Summary (2-3 sentences)",
+  "summary": "Back Cover Summary (2-3 sentences in ${selectedLangObj.name})",
   "illustrationStyle": "${bookIllustrationStyle}",
-  "coverImagePrompt": "Detailed front cover illustration prompt in ${bookIllustrationStyle} style, 8k, children's book quality, no text",
+  "coverImagePrompt": "Detailed front cover illustration prompt in English, in ${bookIllustrationStyle} style, 8k, children's book quality, no text",
   "pages": [
     {
       "pageNumber": 1,
-      "text": "Substantial, rich, descriptive story narration (150-250 words per page suited for ${resolvedGrade}) with character dialogue...",
-      "imagePrompt": "Ultra-detailed AI illustration prompt directly depicting the exact key scene, hero actions, emotions, and setting taking place in this page's text. Must specify character consistency, clothing, colours, expressions, pose, camera angle, lighting, background in ${bookIllustrationStyle} style, no text",
+      "text": "Substantial, rich, descriptive story narration (150-250 words per page in ${selectedLangObj.name} suited for ${resolvedGrade}) with character dialogue...",
+      "imagePrompt": "Ultra-detailed AI illustration prompt in English directly depicting the exact key scene, hero actions, emotions, and setting taking place in this page's text. Must specify character consistency, clothing, colours, expressions, pose, camera angle, lighting, background in ${bookIllustrationStyle} style, no text",
       "cameraAngle": "Wide Angle / Medium Shot / Close-up",
       "mood": "Enchanted / Adventurous / Mysterious",
       "vocabHighlights": [
         {
           "word": "challengingWord",
-          "definition": "Child-friendly 1-sentence definition",
+          "definition": "Child-friendly 1-sentence definition in ${selectedLangObj.name}",
           "pronunciation": "pro-nun-ci-a-tion",
-          "fact": "Interesting fun fact about the word or concept"
+          "fact": "Interesting fun fact in ${selectedLangObj.name} about the word or concept"
         }
       ]
     }
@@ -557,10 +568,10 @@ EXPECTED JSON SCHEMA:
   "comprehensionQuestions": [
     {
       "id": 1,
-      "question": "Comprehension question testing story understanding?",
-      "options": ["Correct Answer", "Option B", "Option C", "Option D"],
-      "answer": "Correct Answer",
-      "explanation": "Why this answer is correct based on the story."
+      "question": "Comprehension question in ${selectedLangObj.name} testing story understanding?",
+      "options": ["Correct Answer in ${selectedLangObj.name}", "Option B", "Option C", "Option D"],
+      "answer": "Correct Answer in ${selectedLangObj.name}",
+      "explanation": "Why this answer is correct in ${selectedLangObj.name} based on the story."
     }
   ],
   "parentSection": {
@@ -568,8 +579,8 @@ EXPECTED JSON SCHEMA:
       "What would you have done if you were the main hero?",
       "What was your favorite part of the adventure and why?"
     ],
-    "activity": "Fun hands-on drawing, craft, or science activity related to the story topic",
-    "lifeLesson": "Core moral and emotional takeaway for children"
+    "activity": "Fun hands-on drawing, craft, or science activity related to the story topic in ${selectedLangObj.name}",
+    "lifeLesson": "Core moral and emotional takeaway in ${selectedLangObj.name} for children"
   }
 }`;
   };
@@ -625,6 +636,7 @@ EXPECTED JSON SCHEMA:
         }
       }
 
+      parsedBook.targetLanguage = targetLanguage || 'en';
       setGeneratedBook(parsedBook);
       if (!formData.title) {
         setFormData(prev => ({ ...prev, title: parsedBook.title || topic }));
@@ -669,6 +681,7 @@ EXPECTED JSON SCHEMA:
         genre: generatedBook.genre || bookGenre || 'Adventure',
         emoji: generatedBook.emoji || '📖',
         targetGrade: draftGrade,
+        targetLanguage: generatedBook.targetLanguage || targetLanguage || 'en',
         summary: generatedBook.summary || '',
         illustrationStyle: generatedBook.illustrationStyle || bookIllustrationStyle,
         coverImagePrompt: generatedBook.coverImagePrompt || '',
@@ -1499,6 +1512,28 @@ EXPECTED JSON SCHEMA:
                   <div>
                     <h4 className="font-black text-indigo-950 text-sm">Pixar-Level AI Storybook Generator</h4>
                     <p className="text-[10px] font-bold text-indigo-600">AI automatically creates an original story, 8K illustrations, vocab tooltips, & comprehension quiz!</p>
+                  </div>
+                </div>
+
+                {/* Target Language Selection */}
+                <div className="space-y-1.5">
+                  <label className="font-bold text-indigo-950 text-xs flex items-center justify-between">
+                    <span>Storybook Language</span>
+                    <span className="text-[10px] text-indigo-600 font-semibold">17+ Regional & Global Languages</span>
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={targetLanguage}
+                      onChange={(e) => setTargetLanguage(e.target.value)}
+                      className="w-full bg-white border-2 border-slate-200 rounded-2xl p-3.5 text-slate-800 font-bold outline-none focus:border-indigo-500 text-xs appearance-none cursor-pointer pr-10"
+                    >
+                      {SUPPORTED_LANGUAGES.map((lang) => (
+                        <option key={lang.code} value={lang.code}>
+                          {lang.flag} {lang.name} ({lang.nativeName})
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                   </div>
                 </div>
 

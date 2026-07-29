@@ -23,8 +23,8 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { db } from '../firebase';
-import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
+import { getLanguageObj } from '../utils/languages';
 
 // ═══════════════════════════════════════════════════════════════
 //  ILLUSTRATED MULTI-PAGE STORIES DATABASE
@@ -730,11 +730,16 @@ Schema:
   };
 
   // Handle TTS Play/Pause
-  const startSpeech = (text) => {
+  const startSpeech = (text, storyLangCode) => {
     if (!synthRef.current) return;
     synthRef.current.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
+    const langCode = storyLangCode || selectedStory?.targetLanguage || 'en';
+    const langObj = getLanguageObj(langCode);
+    if (langObj && langObj.ttsLang) {
+      utterance.lang = langObj.ttsLang;
+    }
     utterance.rate = readSpeed;
     utterance.pitch = 1.1; // Kid friendly slightly higher pitch
 
