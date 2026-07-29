@@ -3752,6 +3752,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                  totalPoints={currentStudentScore}
                  teacher={teacher}
                  classroom={classroom}
+                 currentStudentProfile={currentStudentProfile}
               />
            )}
 

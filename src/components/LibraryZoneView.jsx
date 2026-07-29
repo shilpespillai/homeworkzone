@@ -401,7 +401,7 @@ const MATH_PUZZLES_HARD = [
 ];
 
 
-export default function LibraryZoneView({ studentName, totalPoints, teacher, classroom }) {
+export default function LibraryZoneView({ studentName, totalPoints, teacher, classroom, currentStudentProfile }) {
   const [activeTab, setActiveTab] = useState('Read Books');
 
   // --- Story State ---
@@ -472,7 +472,34 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
           badge: d.data().badge || '🌟 Teacher Assigned'
         })).filter(b => b.isPublished !== false);
 
-        setTeacherAssignedBooks(list);
+        const filtered = list.filter(b => {
+          if (b.isPublished === false) return false;
+
+          // 1. If teacher who created it is viewing, show all books created by this teacher
+          if (teacher?.uid && b.teacherId === teacher.uid) return true;
+
+          // 2. Class-scoped filtering:
+          // Match if book is assigned to all ('all' or empty), or matches student's classroom ID/name, or created by student's teacher
+          const currentClassId = classroom?.id;
+          const currentClassName = classroom?.name;
+          
+          const classMatch = !b.classId || b.classId === 'all' || 
+            (currentClassId && String(b.classId) === String(currentClassId)) ||
+            (currentClassName && String(b.classId) === String(currentClassName));
+            
+          const teacherMatch = teacher?.uid && b.teacherId === teacher.uid;
+
+          // 3. Individual student targeting (if teacher selected specific students)
+          let studentMatch = true;
+          if (b.targetStudentIds && Array.isArray(b.targetStudentIds) && b.targetStudentIds.length > 0) {
+            const sid = currentStudentProfile?.id || currentStudentProfile?.studentId;
+            studentMatch = sid ? b.targetStudentIds.includes(sid) : true;
+          }
+
+          return (classMatch || teacherMatch) && studentMatch;
+        });
+
+        setTeacherAssignedBooks(filtered);
       }, (err) => {
         console.warn("Could not load teacher assigned books in realtime:", err);
       });
@@ -481,7 +508,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     } catch (err) {
       console.warn("Error setting up books listener:", err);
     }
-  }, []);
+  }, [classroom?.id, classroom?.name, teacher?.uid, currentStudentProfile?.id]);
 
   const allStories = [...teacherAssignedBooks, ...getBaseStories(), ...customStories];
   const allPuzzles = [...getBasePuzzles(), ...customPuzzles];
