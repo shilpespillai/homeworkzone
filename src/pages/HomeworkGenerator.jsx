@@ -407,31 +407,72 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       return customPromptOverride;
     }
 
-    const topic = bookTopic || formData.title || 'A magical adventure of discovery';
     const resolvedGrade = resolveGradeFromClassroomName(activeClassroom?.name);
 
     return `You are an award-winning children's author, illustrator, curriculum designer, storyteller, and Pixar-level creative director.
 
-Your task is to generate a completely NEW and ORIGINAL children's storybook based on these specifications.
+Your task is to generate a completely NEW and ORIGINAL children's storybook every single time this prompt is executed.
 
+IMPORTANT:
+• Never repeat previous stories.
+• Never reuse the same characters.
+• Never reuse the same locations.
+• Never reuse the same storyline.
+• Never reuse the same ending.
+• Every execution must feel like discovering an entirely new book.
+
+=========================================================
 INPUT PARAMETERS:
-- Story Topic / Core Concept: ${topic}
 - Target Grade Level / Reading Level: ${resolvedGrade}
-- Desired Genre: ${bookGenre}
-- Main Characters / Heroes: ${bookCharacters || 'Original memorable heroes'}
-- Tone / Moral Lesson: ${bookTone}
 - Illustration Style: ${bookIllustrationStyle}
 - Number of Pages: ${bookPageCount} (Range: 3 to 10 pages)
 
-STORY CREATION DIRECTIVES:
-1. STEP 1 (Story World): Create a vivid, rich, original world appropriate for ${resolvedGrade}.
-2. STEP 2 (Characters): Design unique, memorable characters with distinct personalities, strengths, and goals.
-3. STEP 3 (Story Structure): Complete story arc spanning exactly ${bookPageCount} pages (Beginning, Inciting Incident, Adventure, Problem Solving, Climax, Happy Resolution & Life Lesson).
-4. STEP 4 (Educational Value & Vocabulary): Naturally embed lessons in kindness, teamwork, curiosity, or science. Highlight 1-2 new vocabulary words per page with simple definitions and pronunciations.
-5. STEP 5 & 7 (Pixar-level AI Illustration Prompts): For every page, generate an ultra-detailed AI image prompt specifying camera angle, lighting, colors, mood, visual focus, and strict character appearance consistency.
-6. STEP 9 (Parent & Discussion Section): Provide 2 discussion questions, 1 fun hands-on activity/craft idea, and a key moral takeaway.
-7. STEP 10 (Comprehension Questions): Provide 3-5 multiple-choice comprehension questions that test recall and inference.
+=========================================================
+STEP 1 — RANDOMLY GENERATE THE STORY WORLD
+Randomly generate ALL of the following:
+- Story title & Subtitle
+- Genre (e.g. Fantasy, Space, Jungle, Ocean, Dinosaur Age, Robot City, Dragon Valley, Cloud Kingdom, Toy World, Magical Forest, etc.)
+- Theme & Moral lesson
+- World setting, time period & world type
 
+=========================================================
+STEP 2 — CREATE ORIGINAL CHARACTERS
+Generate unique memorable characters:
+- Main Hero (Name, Age, Personality, Weakness, Strength, Goal)
+- Supporting Friends, Mentor, or Funny Sidekick
+- Each character must have distinct appearance, colors, speech style, and catchphrase
+
+=========================================================
+STEP 3 — STORY STRUCTURE
+Write a complete professionally structured story spanning exactly ${bookPageCount} pages:
+- Beginning: Introduce world, hero, goal, inciting incident
+- Middle: Adventure, challenges, puzzles, friendship, funny moments, learning moments
+- Ending: Final challenge, emotional climax, resolution, celebration, life lesson
+
+=========================================================
+STEP 4 — EDUCATIONAL VALUE & VOCABULARY
+Naturally teach concepts like kindness, teamwork, courage, science, nature, math, or growth mindset.
+Highlight 1-2 new vocabulary words per page with child-friendly definitions, pronunciations, and interesting fun facts.
+
+=========================================================
+STEP 5 & 7 — PIXAR-LEVEL AI ILLUSTRATION PROMPTS
+For EVERY page generate a professional AI illustration prompt specifying:
+- Character consistency, clothing, colors, expressions, pose
+- Camera angle (Wide angle / Medium / Close-up), mood, color palette, visual focus
+- Style: ${bookIllustrationStyle}, 8k, children's book quality, no text inside illustration
+
+=========================================================
+STEP 9 — PARENT SECTION
+Generate:
+- Discussion Questions (2 questions)
+- Activity (drawing, craft, or science activity)
+- Core Life Lesson
+
+=========================================================
+STEP 10 — COMPREHENSION QUIZ
+Generate 3 to 5 multiple-choice comprehension questions testing story recall and inference.
+
+=========================================================
 CRITICAL FORMAT REQUIREMENT:
 You MUST return ONLY a valid JSON object matching the exact schema below. Do not include markdown code block backticks, intro text, or conversational response.
 
@@ -439,7 +480,7 @@ EXPECTED JSON SCHEMA:
 {
   "title": "Book Cover Title",
   "subtitle": "Catchy Subtitle",
-  "genre": "${bookGenre}",
+  "genre": "Randomly Generated Genre Name",
   "emoji": "Single representative emoji (e.g. 🚀, 🐉, 🐢, 🧭, 🌲)",
   "targetGrade": "${resolvedGrade}",
   "summary": "Back Cover Summary (2-3 sentences)",
@@ -1457,75 +1498,7 @@ EXPECTED JSON SCHEMA:
                 </div>
               </div>
 
-              {/* Story Title & Topic */}
-              <div className="space-y-2">
-                <label className="font-bold text-indigo-950 text-xs">Story Topic / Core Concept <span className="text-rose-500">*</span></label>
-                <input 
-                  type="text"
-                  placeholder="e.g. A mystery about a lost puppy in a space station..."
-                  value={bookTopic}
-                  onChange={(e) => setBookTopic(e.target.value)}
-                  className="w-full bg-white border-2 border-slate-200 rounded-2xl p-3.5 text-slate-800 font-bold outline-none focus:border-indigo-500 text-xs"
-                />
-                <div className="flex flex-wrap gap-1.5 pt-1">
-                  {['🚀 Space Station Mystery', '🍃 Photosynthesis Adventure', '🐉 Dragon Valley', '🤖 Robot City', '🦖 Dinosaur Discovery', '🤝 Friendship & Kindness'].map(preset => (
-                    <button
-                      key={preset}
-                      type="button"
-                      onClick={() => {
-                        const cleanTopic = preset.replace(/^[^\s]+\s/, '');
-                        setBookTopic(cleanTopic);
-                        if (!formData.title) setFormData(prev => ({ ...prev, title: cleanTopic }));
-                      }}
-                      className="px-2.5 py-1 rounded-xl bg-white border border-indigo-200 text-indigo-800 text-[10px] font-extrabold hover:bg-indigo-100 transition-all cursor-pointer"
-                    >
-                      {preset}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Genre Selector */}
-              <div className="space-y-1.5">
-                <label className="font-bold text-indigo-950 text-xs">Genre</label>
-                <select
-                  value={bookGenre}
-                  onChange={(e) => setBookGenre(e.target.value)}
-                  className="w-full bg-white border-2 border-slate-200 rounded-2xl p-3.5 text-slate-800 font-bold outline-none focus:border-indigo-500 text-xs appearance-none cursor-pointer"
-                >
-                  {['Fantasy & Magic', 'Science Fiction & Space', 'Jungle & Nature', 'Ocean Mystery', 'Dinosaur Age', 'Robot & Steampunk', 'Moral & Social Skills', 'Historical Adventure'].map(g => (
-                    <option key={g} value={g}>{g}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Characters & Tone */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <label className="font-bold text-indigo-950 text-xs">Main Characters</label>
-                  <input 
-                    type="text"
-                    placeholder="e.g. Alex, Maya & Timmy"
-                    value={bookCharacters}
-                    onChange={(e) => setBookCharacters(e.target.value)}
-                    className="w-full bg-white border-2 border-slate-200 rounded-2xl p-3 text-slate-800 font-bold outline-none focus:border-indigo-500 text-xs"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="font-bold text-indigo-950 text-xs">Story Tone</label>
-                  <select
-                    value={bookTone}
-                    onChange={(e) => setBookTone(e.target.value)}
-                    className="w-full bg-white border-2 border-slate-200 rounded-2xl p-3 text-slate-800 font-bold outline-none focus:border-indigo-500 text-xs"
-                  >
-                    {['Inspiring & Fun', 'Humorous & Silly', 'Adventurous', 'Calm & Wise', 'Suspenseful'].map(t => (
-                      <option key={t} value={t}>{t}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Illustration Style */}
+              {/* AI Illustration Style */}
               <div className="space-y-1.5">
                 <label className="font-bold text-indigo-950 text-xs">AI Illustration Style</label>
                 <select
