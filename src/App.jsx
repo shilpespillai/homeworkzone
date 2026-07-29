@@ -92,6 +92,7 @@ import LibraryZoneView from './components/LibraryZoneView';
 import ArtsAndFunView from './components/ArtsAndFunView';
 import ChildReportView from './components/ChildReportView';
 import MathsLearningHub from './components/MathsLearningHub';
+import MathFormulaSheetHub from './components/MathFormulaSheetHub';
 import BodyAndFunctionsHub from './components/BodyAndFunctionsHub';
 import EnglishHub from './components/EnglishHub';
 import TeethAndFunctionsHub from './components/TeethAndFunctionsHub';
@@ -2986,6 +2987,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                            {mathsExpanded && (
                               <div className="pl-2 space-y-0.5 border-l-2 border-blue-200 ml-2">
                                  {[
+                                    { name: 'Formula Sheet', emoji: '📐' },
                                     { name: 'Numbers & Place Value', emoji: '🔢' },
                                     { name: 'Arithmetic & Operations', emoji: '🧮' },
                                     { name: 'Fractions & Decimals', emoji: '🍕' },
@@ -3849,6 +3851,10 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                <UnitsOfMeasurementHub />
             )}
 
+            {activeNav === 'Learning: Formula Sheet' && (
+               <MathFormulaSheetHub />
+            )}
+
             {(activeNav === 'Learning: Grammar Guide & Rules' ||
               activeNav === 'Learning: Parts of Speech & Tenses' ||
               activeNav === 'Learning: Vocabulary & Word Power' ||
@@ -3860,6 +3866,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
             )}
 
             {activeNav.startsWith('Learning: ') && 
+             activeNav !== 'Learning: Formula Sheet' &&
              activeNav !== 'Learning: Grammar Guide & Rules' &&
              activeNav !== 'Learning: Parts of Speech & Tenses' &&
              activeNav !== 'Learning: Vocabulary & Word Power' &&
