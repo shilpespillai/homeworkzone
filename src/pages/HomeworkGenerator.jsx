@@ -1445,472 +1445,481 @@ EXPECTED JSON SCHEMA:
       {/* Main Form Area */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         
-        {/* Left Col: Details */}
+        {/* Left Col: Details / Storybook Setup */}
         <div className="space-y-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-black">2</div>
-            <h2 className="text-2xl font-black text-[#14532d]">Homework Details</h2>
-          </div>
-
-          <div className="space-y-2">
-            <label className="font-bold text-[#14532d]">Title <span className="text-rose-500">*</span></label>
-            <div className="relative">
-              <input 
-                type="text"
-                placeholder="Enter homework title..."
-                value={formData.title}
-                onChange={(e) => setFormData({...formData, title: e.target.value})}
-                className="w-full h-14 bg-white border-2 border-slate-200 rounded-2xl px-4 text-slate-700 font-bold outline-none focus:border-green-400 transition-colors"
-              />
-              <Pencil className="absolute right-4 top-4 w-5 h-5 text-slate-400" />
-            </div>
-          </div>
-
-          <div className="space-y-2 mb-6">
-            <div className="flex items-center justify-between mb-2">
-               <label className="font-bold text-[#14532d]">Number of Questions</label>
-               <span className="font-black text-green-600 bg-green-50 px-3 py-1 rounded-xl text-sm">{questionCount}</span>
-            </div>
-            <input 
-               type="range" 
-               min="1" 
-               max="50" 
-               value={questionCount} 
-               onChange={(e) => setQuestionCount(Number(e.target.value))}
-               className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-green-600"
-            />
-            <div className="flex justify-between text-[10px] font-bold text-slate-400 mt-1">
-               <span>1 (Quick check)</span>
-               <span>50 (Full exam)</span>
-            </div>
-          </div>
-
-          {formData.subject !== 'olympiad' ? (
-            <div className="space-y-2 mb-6">
-              <label className="font-bold text-[#14532d] block text-sm">Complexity Level</label>
-              <div className="grid grid-cols-3 gap-2 bg-slate-50 p-1.5 border border-slate-200 rounded-2xl">
-                {['Easy', 'Medium', 'Hard'].map(diff => (
-                  <button
-                    key={diff}
-                    type="button"
-                    onClick={() => setFormData(prev => ({ ...prev, difficulty: diff }))}
-                    className={`py-2.5 rounded-xl text-sm font-black transition-all ${
-                      formData.difficulty === diff 
-                        ? 'bg-green-600 text-white shadow-sm' 
-                        : 'text-slate-500 hover:text-slate-700'
-                    }`}
-                  >
-                    {diff}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-2 mb-6">
-              <label className="font-bold text-[#14532d] block text-sm">Complexity Level</label>
-              <div className="w-full py-2.5 bg-slate-50 border border-slate-200 rounded-2xl px-4 flex items-center text-sm font-bold text-green-700">
-                <span>Olympiad (Inherently Hard)</span>
-              </div>
-            </div>
-          )}
-
           {formData.subject === 'library_book' ? (
-            <div className="bg-indigo-50/60 p-6 rounded-3xl border-2 border-indigo-200 flex flex-col space-y-5 text-left shadow-sm">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-indigo-600 text-white rounded-xl flex items-center justify-center shadow-md shrink-0">
-                  <Sparkles className="w-5 h-5 text-yellow-300" />
-                </div>
-                <div>
-                  <h4 className="font-black text-indigo-950 text-sm">Pixar-Level AI Storybook Generator</h4>
-                  <p className="text-[10px] font-bold text-indigo-600">Creates an original multi-page story with AI illustrations, vocab tooltips, & comprehension questions!</p>
-                </div>
+            <>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-black">2</div>
+                <h2 className="text-2xl font-black text-indigo-950">Storybook Setup</h2>
               </div>
 
-              {/* AI Illustration Style */}
-              <div className="space-y-1.5">
-                <label className="font-bold text-indigo-950 text-xs">AI Illustration Style</label>
-                <select
-                  value={bookIllustrationStyle}
-                  onChange={(e) => setBookIllustrationStyle(e.target.value)}
-                  className="w-full bg-white border-2 border-slate-200 rounded-2xl p-3.5 text-slate-800 font-bold outline-none focus:border-indigo-500 text-xs"
-                >
-                  {['Pixar 3D CGI', 'Disney Storybook', 'DreamWorks 3D Animation', 'Storybook Watercolor', 'Anime Ghibli Style', 'Soft Pastels & Clay', 'Paper Cut Art'].map(s => (
-                    <option key={s} value={s}>{s}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Page Count Slider */}
-              <div className="space-y-1.5">
-                <div className="flex justify-between items-center text-xs font-bold text-indigo-950">
-                  <span>Number of Pages</span>
-                  <span className="font-black text-indigo-600 bg-white px-2.5 py-0.5 rounded-lg border border-indigo-200">{bookPageCount} Pages</span>
+              <div className="bg-indigo-50/60 p-6 rounded-3xl border-2 border-indigo-200 flex flex-col space-y-5 text-left shadow-sm">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-indigo-600 text-white rounded-xl flex items-center justify-center shadow-md shrink-0">
+                    <Sparkles className="w-5 h-5 text-yellow-300" />
+                  </div>
+                  <div>
+                    <h4 className="font-black text-indigo-950 text-sm">Pixar-Level AI Storybook Generator</h4>
+                    <p className="text-[10px] font-bold text-indigo-600">AI automatically creates an original story, 8K illustrations, vocab tooltips, & comprehension quiz!</p>
+                  </div>
                 </div>
-                <input 
-                  type="range"
-                  min="3"
-                  max="10"
-                  value={bookPageCount}
-                  onChange={(e) => setBookPageCount(Number(e.target.value))}
-                  className="w-full h-2 bg-indigo-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
-                />
-              </div>
 
-              {/* AI Master Prompt Inspector Toggle */}
-              <div className="space-y-2 pt-2 border-t border-indigo-200/60">
+                {/* AI Illustration Style */}
+                <div className="space-y-1.5">
+                  <label className="font-bold text-indigo-950 text-xs">AI Illustration Style</label>
+                  <select
+                    value={bookIllustrationStyle}
+                    onChange={(e) => setBookIllustrationStyle(e.target.value)}
+                    className="w-full bg-white border-2 border-slate-200 rounded-2xl p-3.5 text-slate-800 font-bold outline-none focus:border-indigo-500 text-xs cursor-pointer"
+                  >
+                    {['Pixar 3D CGI', 'Disney Storybook', 'DreamWorks 3D Animation', 'Storybook Watercolor', 'Anime Ghibli Style', 'Soft Pastels & Clay', 'Paper Cut Art'].map(s => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Page Count Slider */}
+                <div className="space-y-1.5">
+                  <div className="flex justify-between items-center text-xs font-bold text-indigo-950">
+                    <span>Number of Pages</span>
+                    <span className="font-black text-indigo-600 bg-white px-2.5 py-0.5 rounded-lg border border-indigo-200">{bookPageCount} Pages</span>
+                  </div>
+                  <input 
+                    type="range"
+                    min="3"
+                    max="10"
+                    value={bookPageCount}
+                    onChange={(e) => setBookPageCount(Number(e.target.value))}
+                    className="w-full h-2 bg-indigo-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                  />
+                </div>
+
+                {/* AI Master Prompt Inspector Toggle */}
+                <div className="space-y-2 pt-2 border-t border-indigo-200/60">
+                  <button
+                    type="button"
+                    onClick={() => setShowPromptInspector(prev => !prev)}
+                    className="w-full py-2.5 px-4 bg-white border border-indigo-200 hover:bg-indigo-100 rounded-xl text-indigo-900 font-extrabold text-xs flex items-center justify-between transition-all cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Book className="w-4 h-4 text-indigo-600" />
+                      {showPromptInspector ? 'Hide Master AI Prompt' : '📜 View / Edit Master AI Prompt'}
+                    </span>
+                    <span className="text-[10px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-md font-black">
+                      {showPromptInspector ? 'Collapse' : 'Inspect Prompt'}
+                    </span>
+                  </button>
+
+                  {showPromptInspector && (
+                    <div className="bg-slate-900 text-slate-100 p-4 rounded-2xl border border-slate-800 space-y-3 animate-in fade-in duration-200">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-black uppercase text-indigo-400 tracking-wider">
+                          Pixar 12-Step Master Prompt Template
+                        </span>
+                        {customPromptOverride && (
+                          <button
+                            type="button"
+                            onClick={() => setCustomPromptOverride('')}
+                            className="text-[10px] text-amber-400 hover:underline font-bold"
+                          >
+                            Reset to Template
+                          </button>
+                        )}
+                      </div>
+                      <textarea
+                        value={getConstructedPixarPrompt()}
+                        onChange={(e) => setCustomPromptOverride(e.target.value)}
+                        className="w-full h-56 bg-slate-950 border border-slate-800 rounded-xl p-3 text-[11px] font-mono text-indigo-200 outline-none focus:border-indigo-500 custom-scrollbar leading-relaxed"
+                      />
+                      <p className="text-[10px] text-slate-400 font-bold">
+                        💡 Tip: The AI will generate a completely original story world, characters, and plot automatically! You can edit this prompt to add custom instructions.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Magic Generate Button */}
                 <button
                   type="button"
-                  onClick={() => setShowPromptInspector(prev => !prev)}
-                  className="w-full py-2.5 px-4 bg-white border border-indigo-200 hover:bg-indigo-100 rounded-xl text-indigo-900 font-extrabold text-xs flex items-center justify-between transition-all cursor-pointer"
+                  onClick={handleGenerateBook}
+                  disabled={isGeneratingBook}
+                  className="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-indigo-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                 >
-                  <span className="flex items-center gap-2">
-                    <Book className="w-4 h-4 text-indigo-600" />
-                    {showPromptInspector ? 'Hide Master AI Prompt' : '📜 View / Edit Master AI Prompt'}
-                  </span>
-                  <span className="text-[10px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-md font-black">
-                    {showPromptInspector ? 'Collapse' : 'Inspect Prompt'}
-                  </span>
+                  {isGeneratingBook ? <Loader2 className="w-5 h-5 animate-spin" /> : <Wand2 className="w-5 h-5 text-yellow-300" />}
+                  {isGeneratingBook ? 'Crafting Pixar Storybook...' : 'Magic Generate Storybook 🪄'}
                 </button>
-
-                {showPromptInspector && (
-                  <div className="bg-slate-900 text-slate-100 p-4 rounded-2xl border border-slate-800 space-y-3 animate-in fade-in duration-200">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-black uppercase text-indigo-400 tracking-wider">
-                        Pixar 12-Step Master Prompt Template
-                      </span>
-                      {customPromptOverride && (
-                        <button
-                          type="button"
-                          onClick={() => setCustomPromptOverride('')}
-                          className="text-[10px] text-amber-400 hover:underline font-bold"
-                        >
-                          Reset to Template
-                        </button>
-                      )}
-                    </div>
-                    <textarea
-                      value={getConstructedPixarPrompt()}
-                      onChange={(e) => setCustomPromptOverride(e.target.value)}
-                      className="w-full h-56 bg-slate-950 border border-slate-800 rounded-xl p-3 text-[11px] font-mono text-indigo-200 outline-none focus:border-indigo-500 custom-scrollbar leading-relaxed"
-                    />
-                    <p className="text-[10px] text-slate-400 font-bold">
-                      💡 Tip: You can view or edit the exact prompt template above before clicking generate!
-                    </p>
-                  </div>
-                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-black">2</div>
+                <h2 className="text-2xl font-black text-[#14532d]">Homework Details</h2>
               </div>
 
-              {/* Magic Generate Button */}
-              <button
-                type="button"
-                onClick={handleGenerateBook}
-                disabled={isGeneratingBook}
-                className="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-indigo-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-              >
-                {isGeneratingBook ? <Loader2 className="w-5 h-5 animate-spin" /> : <Wand2 className="w-5 h-5 text-yellow-300" />}
-                {isGeneratingBook ? 'Crafting Pixar Storybook...' : 'Magic Generate Storybook 🪄'}
-              </button>
-            </div>
-          ) : (
-            <div className="space-y-6">
-              {/* Unified Magic Quiz Builder Panel */}
-              <div className="bg-green-50/50 p-6 rounded-3xl border-2 border-green-200/80 flex flex-col space-y-5">
-                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm text-[#EA580C] shrink-0 border border-green-200">
-                      <Wand2 className="w-5 h-5" />
-                    </div>
-                    <div className="text-left">
-                       <h4 className="font-black text-green-900 text-sm">Magic Quiz Builder</h4>
-                       <p className="text-[10px] font-bold text-green-600/70">Automatically generate {questionCount} multiple-choice questions based on your title & AI prompt.</p>
-                    </div>
-                 </div>
+              <div className="space-y-2">
+                <label className="font-bold text-[#14532d]">Title <span className="text-rose-500">*</span></label>
+                <div className="relative">
+                  <input 
+                    type="text"
+                    placeholder="Enter homework title..."
+                    value={formData.title}
+                    onChange={(e) => setFormData({...formData, title: e.target.value})}
+                    className="w-full h-14 bg-white border-2 border-slate-200 rounded-2xl px-4 text-slate-700 font-bold outline-none focus:border-green-400 transition-colors"
+                  />
+                  <Pencil className="absolute right-4 top-4 w-5 h-5 text-slate-400" />
+                </div>
+              </div>
 
-             <div className="space-y-3 text-left">
-               <div className="flex items-center justify-between ml-1">
-                 <label className="font-bold text-[#14532d] text-xs">Curriculum Mode</label>
-                 <div className="flex bg-green-100 rounded-xl p-1">
-                   <button
-                     onClick={() => setIsCurriculumMode(true)}
-                     className={`px-3 py-1 rounded-lg text-[10px] font-bold transition-all ${isCurriculumMode ? 'bg-white shadow-sm text-green-700' : 'text-green-600/70 hover:text-green-700'}`}
-                   >
-                     Browse Curriculum
-                   </button>
-                   <button
-                     onClick={() => setIsCurriculumMode(false)}
-                     className={`px-3 py-1 rounded-lg text-[10px] font-bold transition-all ${!isCurriculumMode ? 'bg-white shadow-sm text-green-700' : 'text-green-600/70 hover:text-green-700'}`}
-                   >
-                     Custom Prompt
-                   </button>
-                 </div>
-               </div>
+              <div className="space-y-2 mb-6">
+                <div className="flex items-center justify-between mb-2">
+                   <label className="font-bold text-[#14532d]">Number of Questions</label>
+                   <span className="font-black text-green-600 bg-green-50 px-3 py-1 rounded-xl text-sm">{questionCount}</span>
+                </div>
+                <input 
+                   type="range" 
+                   min="1" 
+                   max="50" 
+                   value={questionCount} 
+                   onChange={(e) => setQuestionCount(Number(e.target.value))}
+                   className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-green-600"
+                />
+                <div className="flex justify-between text-[10px] font-bold text-slate-400 mt-1">
+                   <span>1 (Quick check)</span>
+                   <span>50 (Full exam)</span>
+                </div>
+              </div>
 
-               {isCurriculumMode ? (
-                 <div className="bg-white border-2 border-slate-200 rounded-2xl p-4 space-y-4">
-                   <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                     <p className="text-xs font-bold text-slate-500 mb-1">Target Grade</p>
-                     <p className="text-sm font-black text-slate-800">{resolveGradeFromClassroomName(activeClassroom?.name)}</p>
-                     <p className="text-[10px] text-slate-400 mt-0.5">Automatically selected based on your class.</p>
-                   </div>
-                   
-                   <div>
-                      <label className="font-bold text-[#14532d] text-xs block mb-1">Select Topics & Skills <span className="text-rose-500">*</span></label>
-                      <button 
-                        onClick={() => setIsCurriculumModalOpen(true)}
-                        className="w-full h-12 bg-slate-50 border-2 border-slate-200 rounded-xl px-4 text-slate-700 font-bold hover:border-green-400 hover:bg-white transition-all flex items-center justify-between"
+              {formData.subject !== 'olympiad' ? (
+                <div className="space-y-2 mb-6">
+                  <label className="font-bold text-[#14532d] block text-sm">Complexity Level</label>
+                  <div className="grid grid-cols-3 gap-2 bg-slate-50 p-1.5 border border-slate-200 rounded-2xl">
+                    {['Easy', 'Medium', 'Hard'].map(diff => (
+                      <button
+                        key={diff}
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, difficulty: diff }))}
+                        className={`py-2.5 rounded-xl text-sm font-black transition-all ${
+                          formData.difficulty === diff 
+                            ? 'bg-green-600 text-white shadow-sm' 
+                            : 'text-slate-500 hover:text-slate-700'
+                        }`}
                       >
-                        <span className={selectedSkills.length > 0 ? "text-green-700" : "text-slate-400"}>
-                          {selectedSkills.length > 0 ? `${selectedSkills.length} skills selected` : "Browse Topics & Skills"}
-                        </span>
-                        <ChevronRight className="w-5 h-5 text-slate-400" />
+                        {diff}
                       </button>
-                      
-                      {selectedSkills.length > 0 && (
-                        <div>
-                          <div className="mt-3 flex items-center justify-between">
-                            <span className="text-[10px] text-slate-500 font-bold">Selected Skills</span>
-                            <button 
-                              onClick={() => setSelectedSkills([])}
-                              className="text-[10px] text-rose-500 font-bold hover:underline"
-                            >
-                              Clear All
-                            </button>
-                          </div>
-                          <div className="mt-2 flex flex-wrap gap-2">
-                            {selectedSkills.map(skill => (
-                              <div key={skill.id} className="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1">
-                                {skill.title.length > 20 ? skill.title.substring(0, 20) + '...' : skill.title}
-                                <X 
-                                  className="w-3 h-3 cursor-pointer hover:text-green-600" 
-                                  onClick={() => setSelectedSkills(prev => prev.filter(s => s.id !== skill.id))}
-                                />
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-2 mb-6">
+                  <label className="font-bold text-[#14532d] block text-sm">Complexity Level</label>
+                  <div className="w-full py-2.5 bg-slate-50 border border-slate-200 rounded-2xl px-4 flex items-center text-sm font-bold text-green-700">
+                    <span>Olympiad (Inherently Hard)</span>
+                  </div>
+                </div>
+              )}
+
+              <div className="space-y-6">
+                {/* Unified Magic Quiz Builder Panel */}
+                <div className="bg-green-50/50 p-6 rounded-3xl border-2 border-green-200/80 flex flex-col space-y-5">
+                   <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm text-[#EA580C] shrink-0 border border-green-200">
+                        <Wand2 className="w-5 h-5" />
+                      </div>
+                      <div className="text-left">
+                         <h4 className="font-black text-green-900 text-sm">Magic Quiz Builder</h4>
+                         <p className="text-[10px] font-bold text-green-600/70">Automatically generate {questionCount} multiple-choice questions based on your title & AI prompt.</p>
+                      </div>
+                   </div>
+
+                <div className="space-y-3 text-left">
+                  <div className="flex items-center justify-between ml-1">
+                    <label className="font-bold text-[#14532d] text-xs">Curriculum Mode</label>
+                    <div className="flex bg-green-100 rounded-xl p-1">
+                      <button
+                        onClick={() => setIsCurriculumMode(true)}
+                        className={`px-3 py-1 rounded-lg text-[10px] font-bold transition-all ${isCurriculumMode ? 'bg-white shadow-sm text-green-700' : 'text-green-600/70 hover:text-green-700'}`}
+                      >
+                        Browse Curriculum
+                      </button>
+                      <button
+                        onClick={() => setIsCurriculumMode(false)}
+                        className={`px-3 py-1 rounded-lg text-[10px] font-bold transition-all ${!isCurriculumMode ? 'bg-white shadow-sm text-green-700' : 'text-green-600/70 hover:text-green-700'}`}
+                      >
+                        Custom Prompt
+                      </button>
                     </div>
-                 </div>
-               ) : (
-                 <div className="relative">
-                   <textarea 
-                     placeholder={getPlaceholder()}
-                     value={formData.aiPrompt}
-                     onChange={(e) => setFormData({...formData, aiPrompt: e.target.value})}
-                     className="w-full h-64 bg-white border-2 border-slate-200 rounded-2xl p-4 text-slate-700 font-bold outline-none focus:border-green-400 transition-colors resize-y text-xs font-sans"
-                   />
-                   <Wand2 className="absolute right-4 bottom-4 w-5 h-5 text-green-400 opacity-50 pointer-events-none" />
+                  </div>
+
+                  {isCurriculumMode ? (
+                    <div className="bg-white border-2 border-slate-200 rounded-2xl p-4 space-y-4">
+                      <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <p className="text-xs font-bold text-slate-500 mb-1">Target Grade</p>
+                        <p className="text-sm font-black text-slate-800">{resolveGradeFromClassroomName(activeClassroom?.name)}</p>
+                        <p className="text-[10px] text-slate-400 mt-0.5">Automatically selected based on your class.</p>
+                      </div>
+                      
+                      <div>
+                         <label className="font-bold text-[#14532d] text-xs block mb-1">Select Topics & Skills <span className="text-rose-500">*</span></label>
+                         <button 
+                           onClick={() => setIsCurriculumModalOpen(true)}
+                           className="w-full h-12 bg-slate-50 border-2 border-slate-200 rounded-xl px-4 text-slate-700 font-bold hover:border-green-400 hover:bg-white transition-all flex items-center justify-between"
+                         >
+                           <span className={selectedSkills.length > 0 ? "text-green-700" : "text-slate-400"}>
+                             {selectedSkills.length > 0 ? `${selectedSkills.length} skills selected` : "Browse Topics & Skills"}
+                           </span>
+                           <ChevronRight className="w-5 h-5 text-slate-400" />
+                         </button>
+                         
+                         {selectedSkills.length > 0 && (
+                           <div>
+                             <div className="mt-3 flex items-center justify-between">
+                               <span className="text-[10px] text-slate-500 font-bold">Selected Skills</span>
+                               <button 
+                                 onClick={() => setSelectedSkills([])}
+                                 className="text-[10px] text-rose-500 font-bold hover:underline"
+                               >
+                                 Clear All
+                               </button>
+                             </div>
+                             <div className="mt-2 flex flex-wrap gap-2">
+                               {selectedSkills.map(skill => (
+                                 <div key={skill.id} className="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1">
+                                   {skill.title.length > 20 ? skill.title.substring(0, 20) + '...' : skill.title}
+                                   <X 
+                                     className="w-3 h-3 cursor-pointer hover:text-green-600" 
+                                     onClick={() => setSelectedSkills(prev => prev.filter(s => s.id !== skill.id))}
+                                   />
+                                 </div>
+                               ))}
+                             </div>
+                           </div>
+                         )}
+                       </div>
+                    </div>
+                  ) : (
+                    <div className="relative">
+                      <textarea 
+                        placeholder={getPlaceholder()}
+                        value={formData.aiPrompt}
+                        onChange={(e) => setFormData({...formData, aiPrompt: e.target.value})}
+                        className="w-full h-64 bg-white border-2 border-slate-200 rounded-2xl p-4 text-slate-700 font-bold outline-none focus:border-green-400 transition-colors resize-y text-xs font-sans"
+                      />
+                      <Wand2 className="absolute right-4 bottom-4 w-5 h-5 text-green-400 opacity-50 pointer-events-none" />
+                    </div>
+                  )}
+                </div>
+
+                {/* Target Language Selection */}
+                <div className="space-y-1.5 text-left">
+                  <label className="font-bold text-[#14532d] text-xs block ml-1 flex items-center justify-between">
+                    <span>Quiz Generation Language</span>
+                    <span className="text-[10px] text-slate-400 font-semibold">100+ Regional & Global Languages</span>
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={targetLanguage}
+                      onChange={(e) => setTargetLanguage(e.target.value)}
+                      className="w-full bg-white border-2 border-slate-200 rounded-2xl p-3.5 text-slate-800 font-bold outline-none focus:border-green-400 transition-colors text-xs appearance-none cursor-pointer pr-10"
+                    >
+                      {SUPPORTED_LANGUAGES.map((lang) => (
+                        <option key={lang.code} value={lang.code}>
+                          {lang.flag} {lang.name} ({lang.nativeName})
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5 text-left">
+                  <label className="font-bold text-[#14532d] text-xs block ml-1">Instructions for Students (shown on student dashboard)</label>
+                  <div className="relative">
+                    <input 
+                      type="text"
+                      placeholder="e.g. Read each question carefully and select the best answer!"
+                      value={formData.instructions}
+                      onChange={(e) => setFormData({...formData, instructions: e.target.value})}
+                      className="w-full bg-white border-2 border-slate-200 rounded-2xl p-4 text-slate-700 font-bold outline-none focus:border-green-400 transition-colors text-xs"
+                    />
+                    <Book className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-green-400 opacity-50" />
+                  </div>
+                </div>
+
+                {generatedQuestions ? (
+                   isAiAccepted ? (
+                     <div className="w-full bg-emerald-50 p-4 rounded-xl border border-emerald-200 flex items-center justify-between animate-in zoom-in duration-300">
+                       <div className="flex items-center gap-3 text-emerald-700 font-bold text-xs">
+                         <CheckCircle2 className="w-5 h-5" />
+                         {generatedQuestions.length} Questions Saved to Draft! Scroll down to publish.
+                       </div>
+                       <button onClick={() => setIsAiAccepted(false)} className="text-xs text-emerald-600 font-bold hover:underline px-4 py-2 bg-white rounded-lg border border-emerald-200">View Questions</button>
+                     </div>
+                   ) : (
+                     <div className="w-full text-left bg-white p-6 rounded-2xl border border-green-200 space-y-6">
+                       <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+                         <div className="flex items-center gap-2 text-emerald-600 font-black text-sm">
+                           <CheckCircle2 className="w-5 h-5" /> {generatedQuestions.length} Questions Ready!
+                         </div>
+                         <div className="flex gap-2">
+                           <button onClick={() => setIsAiAccepted(true)} className="text-xs text-white font-bold px-4 py-2 bg-emerald-500 hover:bg-emerald-600 rounded-lg shadow-sm transition-colors">Accept & Continue</button>
+                         </div>
+                       </div>
+                       <div className="space-y-4 max-h-96 overflow-y-auto custom-scrollbar pr-2">
+                         {generatedQuestions.map((q, idx) => (
+                             <div key={idx} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                               {(() => {
+                                 const { text: cleanText, clockTime, inlineSvg } = parseQuestionText(q.text);
+                                 return (
+                                   <>
+                                     <p className="font-bold text-slate-800 text-xs mb-3 whitespace-pre-wrap">
+                                       <span className="text-green-600 mr-1 font-black">Q{idx + 1}.</span> {cleanText}
+                                     </p>
+                                     {clockTime && (
+                                       <div className="mb-4 transform scale-75 origin-top-left">
+                                         <ClockFace timeStr={clockTime} />
+                                       </div>
+                                     )}
+                                     {inlineSvg && (
+                                       <div className="flex justify-center mb-4 bg-white rounded-lg p-2 border border-slate-100 shadow-sm mx-auto">
+                                         <div dangerouslySetInnerHTML={{ __html: inlineSvg }} className="w-full h-auto flex justify-center" />
+                                       </div>
+                                     )}
+                                   </>
+                                 );
+                               })()}
+                               {q.chartData && (
+                                 <div className="mb-4">
+                                   <DynamicChart data={q.chartData} />
+                                 </div>
+                               )}
+                               {q.geometryData && (
+                                 <div className="mb-4">
+                                   <DynamicGeometry data={q.geometryData} />
+                                 </div>
+                               )}
+                               {q.gridMapData && (
+                                 <div className="mb-4">
+                                   <DynamicGridMap data={q.gridMapData} />
+                                 </div>
+                               )}
+                               {q.numberLineData && (
+                                 <div className="mb-4">
+                                   <DynamicNumberLine data={q.numberLineData} />
+                                 </div>
+                               )}
+                               {q.pathData && (
+                                 <div className="mb-4 max-w-[300px] mx-auto">
+                                   <DynamicPathMap data={q.pathData} />
+                                 </div>
+                               )}
+                               {q.instrumentData && (
+                                 <div className="mb-4">
+                                   <DynamicInstrument data={q.instrumentData} />
+                                 </div>
+                               )}
+                               {q.blockData && (
+                                 <div className="mb-4">
+                                   <DynamicBlockStructure data={q.blockData} />
+                                 </div>
+                               )}
+                               {q.earlyMathData && (
+                                 <div className="mb-4 transform scale-75 origin-top-left">
+                                   <EarlyMathVisualizer data={q.earlyMathData} />
+                                 </div>
+                               )}
+                               {q.vennDiagramData && (
+                                 <div className="mb-4">
+                                   <DynamicVennDiagram data={q.vennDiagramData} />
+                                 </div>
+                               )}
+                               {q.svgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.earlyMathData && (
+                                 <div className="flex justify-center mb-4 bg-white rounded-lg p-2 border border-slate-100 shadow-sm max-w-[200px] mx-auto">
+                                   <div dangerouslySetInnerHTML={{ __html: q.svgCode }} className="w-full h-auto" />
+                                 </div>
+                               )}
+                               <div className="grid grid-cols-2 gap-2">
+                                 {q.options && q.options.map((opt, i) => (
+                                   <div key={i} className={`px-3 py-2 rounded-lg text-[10px] font-bold border ${opt === q.answer ? 'bg-emerald-100 border-emerald-300 text-emerald-800' : 'bg-white border-slate-200 text-slate-600'}`}>
+                                     {typeof opt === 'string' && opt.trim().startsWith('<svg') ? (
+                                       <div dangerouslySetInnerHTML={{ __html: opt }} className="w-full flex justify-center overflow-hidden" />
+                                     ) : (
+                                       opt
+                                     )}
+                                   </div>
+                                 ))}
+                               </div>
+                             </div>
+                           ))}
+                       </div>
+                       <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+                         <button onClick={handleGenerateAI} className="text-xs text-green-600 font-bold hover:underline px-4 py-2 bg-green-50 rounded-lg">Regenerate</button>
+                         <button onClick={() => {setGeneratedQuestions(null); setIsAiAccepted(false);}} className="text-xs text-rose-500 font-bold hover:underline px-4 py-2 bg-rose-50 rounded-lg">Clear Questions</button>
+                       </div>
+                     </div>
+                   )
+                ) : (
+                   <button 
+                     onClick={handleGenerateAI}
+                     disabled={isGenerating}
+                     className="w-full bg-[#EA580C] hover:bg-[#C2410C] text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg shadow-orange-100/50 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                   >
+                     {isGenerating ? (
+                       <>
+                         <Loader2 className="w-4 h-4 animate-spin" />
+                         Generating Questions...
+                       </>
+                     ) : (
+                       <>
+                         <Sparkles className="w-4 h-4" />
+                         Auto-Generate Questions
+                       </>
+                     )}
+                   </button>
+                )}
+             </div>
+
+             <div className="space-y-2">
+               <label className="font-bold text-[#14532d] flex items-center gap-2">
+                 Attach Resources <span className="text-slate-400 font-normal">(optional)</span>
+               </label>
+               <div 
+                 onClick={() => fileInputRef.current?.click()}
+                 className="border-2 border-dashed border-green-200 bg-green-50/50 rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer hover:bg-green-50 transition-colors text-center"
+               >
+                 <Upload className="w-6 h-6 text-green-400 mb-2" />
+                 <p className="font-bold text-green-600 text-sm">Upload worksheets, images or videos</p>
+                 <p className="text-xs font-bold text-slate-400">Drag & drop or click to upload</p>
+                 <input 
+                   type="file" 
+                   multiple 
+                   className="hidden" 
+                   ref={fileInputRef} 
+                   onChange={handleFileSelect} 
+                 />
+               </div>
+               
+               {attachments.length > 0 && (
+                 <div className="flex flex-wrap gap-2 mt-4">
+                   {attachments.map((file, idx) => (
+                     <div key={idx} className="flex items-center gap-2 bg-green-100 text-green-800 px-3 py-1.5 rounded-xl text-sm">
+                       <span className="truncate max-w-[150px] font-medium">{file.name}</span>
+                       <button 
+                         onClick={() => removeAttachment(idx)}
+                         className="p-1 hover:bg-green-200 rounded-full transition-colors"
+                       >
+                         <X className="w-4 h-4 text-green-600" />
+                       </button>
+                     </div>
+                   ))}
                  </div>
                )}
              </div>
-
-             {/* Target Language Selection */}
-             <div className="space-y-1.5 text-left">
-               <label className="font-bold text-[#14532d] text-xs block ml-1 flex items-center justify-between">
-                 <span>Quiz Generation Language</span>
-                 <span className="text-[10px] text-slate-400 font-semibold">100+ Regional & Global Languages</span>
-               </label>
-               <div className="relative">
-                 <select
-                   value={targetLanguage}
-                   onChange={(e) => setTargetLanguage(e.target.value)}
-                   className="w-full bg-white border-2 border-slate-200 rounded-2xl p-3.5 text-slate-800 font-bold outline-none focus:border-green-400 transition-colors text-xs appearance-none cursor-pointer pr-10"
-                 >
-                   {SUPPORTED_LANGUAGES.map((lang) => (
-                     <option key={lang.code} value={lang.code}>
-                       {lang.flag} {lang.name} ({lang.nativeName})
-                     </option>
-                   ))}
-                 </select>
-                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-               </div>
-             </div>
-
-             <div className="space-y-1.5 text-left">
-               <label className="font-bold text-[#14532d] text-xs block ml-1">Instructions for Students (shown on student dashboard)</label>
-               <div className="relative">
-                 <input 
-                   type="text"
-                   placeholder="e.g. Read each question carefully and select the best answer!"
-                   value={formData.instructions}
-                   onChange={(e) => setFormData({...formData, instructions: e.target.value})}
-                   className="w-full bg-white border-2 border-slate-200 rounded-2xl p-4 text-slate-700 font-bold outline-none focus:border-green-400 transition-colors text-xs"
-                 />
-                 <Book className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-green-400 opacity-50" />
-               </div>
-             </div>
-
-             {generatedQuestions ? (
-                isAiAccepted ? (
-                  <div className="w-full bg-emerald-50 p-4 rounded-xl border border-emerald-200 flex items-center justify-between animate-in zoom-in duration-300">
-                    <div className="flex items-center gap-3 text-emerald-700 font-bold text-xs">
-                      <CheckCircle2 className="w-5 h-5" />
-                      {generatedQuestions.length} Questions Saved to Draft! Scroll down to publish.
-                    </div>
-                    <button onClick={() => setIsAiAccepted(false)} className="text-xs text-emerald-600 font-bold hover:underline px-4 py-2 bg-white rounded-lg border border-emerald-200">View Questions</button>
-                  </div>
-                ) : (
-                  <div className="w-full text-left bg-white p-6 rounded-2xl border border-green-200 space-y-6">
-                    <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-                      <div className="flex items-center gap-2 text-emerald-600 font-black text-sm">
-                        <CheckCircle2 className="w-5 h-5" /> {generatedQuestions.length} Questions Ready!
-                      </div>
-                      <div className="flex gap-2">
-                        <button onClick={() => setIsAiAccepted(true)} className="text-xs text-white font-bold px-4 py-2 bg-emerald-500 hover:bg-emerald-600 rounded-lg shadow-sm transition-colors">Accept & Continue</button>
-                      </div>
-                    </div>
-                    <div className="space-y-4 max-h-96 overflow-y-auto custom-scrollbar pr-2">
-                      {generatedQuestions.map((q, idx) => (
-                          <div key={idx} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                            {(() => {
-                              const { text: cleanText, clockTime, inlineSvg } = parseQuestionText(q.text);
-                              return (
-                                <>
-                                  <p className="font-bold text-slate-800 text-xs mb-3 whitespace-pre-wrap">
-                                    <span className="text-green-600 mr-1 font-black">Q{idx + 1}.</span> {cleanText}
-                                  </p>
-                                  {clockTime && (
-                                    <div className="mb-4 transform scale-75 origin-top-left">
-                                      <ClockFace timeStr={clockTime} />
-                                    </div>
-                                  )}
-                                  {inlineSvg && (
-                                    <div className="flex justify-center mb-4 bg-white rounded-lg p-2 border border-slate-100 shadow-sm mx-auto">
-                                      <div dangerouslySetInnerHTML={{ __html: inlineSvg }} className="w-full h-auto flex justify-center" />
-                                    </div>
-                                  )}
-                                </>
-                              );
-                            })()}
-                            {q.chartData && (
-                              <div className="mb-4">
-                                <DynamicChart data={q.chartData} />
-                              </div>
-                            )}
-                            {q.geometryData && (
-                              <div className="mb-4">
-                                <DynamicGeometry data={q.geometryData} />
-                              </div>
-                            )}
-                            {q.gridMapData && (
-                              <div className="mb-4">
-                                <DynamicGridMap data={q.gridMapData} />
-                              </div>
-                            )}
-                            {q.numberLineData && (
-                              <div className="mb-4">
-                                <DynamicNumberLine data={q.numberLineData} />
-                              </div>
-                            )}
-                            {q.pathData && (
-                              <div className="mb-4 max-w-[300px] mx-auto">
-                                <DynamicPathMap data={q.pathData} />
-                              </div>
-                            )}
-                            {q.instrumentData && (
-                              <div className="mb-4">
-                                <DynamicInstrument data={q.instrumentData} />
-                              </div>
-                            )}
-                            {q.blockData && (
-                              <div className="mb-4">
-                                <DynamicBlockStructure data={q.blockData} />
-                              </div>
-                            )}
-                            {q.earlyMathData && (
-                              <div className="mb-4 transform scale-75 origin-top-left">
-                                <EarlyMathVisualizer data={q.earlyMathData} />
-                              </div>
-                            )}
-                            {q.vennDiagramData && (
-                              <div className="mb-4">
-                                <DynamicVennDiagram data={q.vennDiagramData} />
-                              </div>
-                            )}
-                            {q.svgCode && !q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.earlyMathData && (
-                              <div className="flex justify-center mb-4 bg-white rounded-lg p-2 border border-slate-100 shadow-sm max-w-[200px] mx-auto">
-                                <div dangerouslySetInnerHTML={{ __html: q.svgCode }} className="w-full h-auto" />
-                              </div>
-                            )}
-                            <div className="grid grid-cols-2 gap-2">
-                              {q.options && q.options.map((opt, i) => (
-                                <div key={i} className={`px-3 py-2 rounded-lg text-[10px] font-bold border ${opt === q.answer ? 'bg-emerald-100 border-emerald-300 text-emerald-800' : 'bg-white border-slate-200 text-slate-600'}`}>
-                                  {typeof opt === 'string' && opt.trim().startsWith('<svg') ? (
-                                    <div dangerouslySetInnerHTML={{ __html: opt }} className="w-full flex justify-center overflow-hidden" />
-                                  ) : (
-                                    opt
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        ))}
-                    </div>
-                    <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
-                      <button onClick={handleGenerateAI} className="text-xs text-green-600 font-bold hover:underline px-4 py-2 bg-green-50 rounded-lg">Regenerate</button>
-                      <button onClick={() => {setGeneratedQuestions(null); setIsAiAccepted(false);}} className="text-xs text-rose-500 font-bold hover:underline px-4 py-2 bg-rose-50 rounded-lg">Clear Questions</button>
-                    </div>
-                  </div>
-                )
-             ) : (
-                <button 
-                  onClick={handleGenerateAI}
-                  disabled={isGenerating}
-                  className="w-full bg-[#EA580C] hover:bg-[#C2410C] text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg shadow-orange-100/50 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                >
-                  {isGenerating ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Generating Questions...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-4 h-4" />
-                      Auto-Generate Questions
-                    </>
-                  )}
-                </button>
-             )}
-          </div>
-
-          <div className="space-y-2">
-            <label className="font-bold text-[#14532d] flex items-center gap-2">
-              Attach Resources <span className="text-slate-400 font-normal">(optional)</span>
-            </label>
-            <div 
-              onClick={() => fileInputRef.current?.click()}
-              className="border-2 border-dashed border-green-200 bg-green-50/50 rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer hover:bg-green-50 transition-colors text-center"
-            >
-              <Upload className="w-6 h-6 text-green-400 mb-2" />
-              <p className="font-bold text-green-600 text-sm">Upload worksheets, images or videos</p>
-              <p className="text-xs font-bold text-slate-400">Drag & drop or click to upload</p>
-              <input 
-                type="file" 
-                multiple 
-                className="hidden" 
-                ref={fileInputRef} 
-                onChange={handleFileSelect} 
-              />
             </div>
-            
-            {attachments.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-4">
-                {attachments.map((file, idx) => (
-                  <div key={idx} className="flex items-center gap-2 bg-green-100 text-green-800 px-3 py-1.5 rounded-xl text-sm">
-                    <span className="truncate max-w-[150px] font-medium">{file.name}</span>
-                    <button 
-                      onClick={() => removeAttachment(idx)}
-                      className="p-1 hover:bg-green-200 rounded-full transition-colors"
-                    >
-                      <X className="w-4 h-4 text-green-600" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
+          </>
+        )}
+      </div>
 
         {/* Right Col: Assign To / Book Preview */}
         <div className="space-y-8 relative">
