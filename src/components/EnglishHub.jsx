@@ -85,65 +85,290 @@ export default function EnglishHub({ topicName }) {
     }
   };
 
-  // Parts of Speech Data
+  // Parts of Speech Data — all 9 types
   const partsOfSpeech = {
     nouns: {
       title: 'Nouns (Naming Words)',
       icon: '🏛️',
-      definition: 'A noun names a person, place, thing, or idea.',
+      color: 'blue',
+      bgColor: 'bg-blue-50',
+      borderColor: 'border-blue-200',
+      textColor: 'text-blue-800',
+      badgeColor: 'bg-blue-600',
+      definition: 'A noun names a person, place, thing, or idea. Every word that you can put "the" in front of is usually a noun!',
+      tip: 'Try the "person, place, thing, or idea" test. If a word fits into one of those four boxes — it\'s a noun! 🎯',
       types: [
-        { name: 'Proper Noun', desc: 'Specific names (always capitalized)', eg: 'London, Emma, Jupiter, Tuesday' },
-        { name: 'Common Noun', desc: 'General names for people, places, or things', eg: 'city, girl, planet, day' },
-        { name: 'Abstract Noun', desc: 'Ideas, emotions, or qualities', eg: 'courage, happiness, freedom, wisdom' },
-        { name: 'Collective Noun', desc: 'Names for groups of people or items', eg: 'flock of birds, team of players, herd of cattle' }
+        { name: 'Proper Noun', desc: 'Specific names of people, places, or things. Always start with a CAPITAL letter!', eg: 'London, Emma, Jupiter, Monday, Amazon' },
+        { name: 'Common Noun', desc: 'General, everyday names for people, places, or things. No capital needed.', eg: 'city, girl, planet, day, river' },
+        { name: 'Abstract Noun', desc: 'Names for ideas, feelings, and qualities that you cannot touch or see.', eg: 'courage, happiness, freedom, wisdom, love' },
+        { name: 'Collective Noun', desc: 'One word that names a whole group of people, animals, or things.', eg: 'flock of birds, team of players, herd of cattle, bunch of grapes' }
       ],
       examples: ['The **dragon** soared high above the **mountains**.', '**Sophia** felt immense **joy** after winning the **trophy**.']
+    },
+    pronouns: {
+      title: 'Pronouns (Replacing Words)',
+      icon: '🪄',
+      color: 'purple',
+      bgColor: 'bg-purple-50',
+      borderColor: 'border-purple-200',
+      textColor: 'text-purple-800',
+      badgeColor: 'bg-purple-600',
+      definition: 'A pronoun is used instead of a noun to avoid repeating the same word again and again.',
+      tip: 'Without pronouns, we would say: "Emma said Emma was going to Emma\'s house." Pronouns save the day! 🦸',
+      types: [
+        { name: 'Personal Pronouns', desc: 'Refer to specific people or things based on perspective.', eg: 'I, you, he, she, it, we, they, me, him, her, us, them' },
+        { name: 'Possessive Pronouns', desc: 'Show who something belongs to.', eg: 'mine, yours, his, hers, its, ours, theirs' },
+        { name: 'Reflexive Pronouns', desc: 'Refer back to the subject of the sentence.', eg: 'myself, yourself, himself, herself, themselves' },
+        { name: 'Relative Pronouns', desc: 'Link clauses by referring to a noun already mentioned.', eg: 'who, whom, whose, which, that' }
+      ],
+      examples: ['**She** climbed the old oak tree and **herself** reached the very top.', '**They** promised **their** team **they** would return by nightfall.']
     },
     verbs: {
       title: 'Verbs (Action & State Words)',
       icon: '🏃',
-      definition: 'A verb describes an action, state of being, or occurrence.',
+      color: 'green',
+      bgColor: 'bg-green-50',
+      borderColor: 'border-green-200',
+      textColor: 'text-green-800',
+      badgeColor: 'bg-green-600',
+      definition: 'A verb describes an action, state of being, or occurrence. Every sentence MUST have a verb — it is the engine of the sentence!',
+      tip: 'Ask yourself: "What is happening?" The answer is always a verb! 🚀',
       types: [
-        { name: 'Action Verbs', desc: 'Physical or mental actions', eg: 'run, jump, think, create' },
-        { name: 'Linking Verbs', desc: 'Connect subject to a description', eg: 'is, am, are, was, seem' },
-        { name: 'Helping Verbs', desc: 'Assist the main verb with tense', eg: 'will, have, should, can' }
+        { name: 'Action Verbs', desc: 'Describe physical or mental actions that someone does.', eg: 'run, jump, think, create, shout, whisper, explore' },
+        { name: 'Linking Verbs', desc: 'Connect the subject to more information about it. They don\'t show action!', eg: 'is, am, are, was, were, seem, become, appear' },
+        { name: 'Helping (Auxiliary) Verbs', desc: 'Work alongside the main verb to show tense, possibility, or obligation.', eg: 'will, have, had, should, can, could, may, might, must' },
+        { name: 'Transitive Verbs', desc: 'Action verbs that need an object (someone receiving the action).', eg: 'She **kicked** the ball. He **ate** the apple.' }
       ],
       examples: ['The lightning **flashed** across the midnight sky.', 'They **will explore** the ancient cavern tomorrow.']
     },
     adjectives: {
       title: 'Adjectives (Describing Words)',
       icon: '🎨',
-      definition: 'An adjective modifies or describes a noun or pronoun.',
+      color: 'orange',
+      bgColor: 'bg-orange-50',
+      borderColor: 'border-orange-200',
+      textColor: 'text-orange-800',
+      badgeColor: 'bg-orange-600',
+      definition: 'An adjective modifies (describes) a noun or pronoun. They make writing more vivid and interesting by adding detail!',
+      tip: 'Ask "What kind? How many? Which one?" about any noun. The answer is an adjective! 🌟',
       types: [
-        { name: 'Descriptive', desc: 'tells quality or state', eg: 'sparkling, gigantic, mysterious' },
-        { name: 'Quantitative', desc: 'tells quantity or number', eg: 'many, several, three, double' },
-        { name: 'Demonstrative', desc: 'points out specific items', eg: 'this, that, these, those' }
+        { name: 'Descriptive Adjectives', desc: 'Describe the quality or characteristic of a noun.', eg: 'sparkling, gigantic, mysterious, fluffy, ancient, brave' },
+        { name: 'Quantitative Adjectives', desc: 'Tell the quantity or amount of something.', eg: 'many, several, three, double, half, all, some' },
+        { name: 'Demonstrative Adjectives', desc: 'Point out which specific person or thing is being described.', eg: 'this book, that cat, these flowers, those mountains' },
+        { name: 'Comparative & Superlative', desc: 'Compare two or more nouns with each other.', eg: 'bigger, fastest, more beautiful, the tallest, the most exciting' }
       ],
-      examples: ['The **courageous** knight held a **glowing** shield.', 'She found **three** **rare** gemstones in the stream.']
+      examples: ['The **courageous** knight held a **glowing** shield.', 'She found **three** **rare** gemstones in the **crystal-clear** stream.']
     },
     adverbs: {
       title: 'Adverbs (Modifying Words)',
       icon: '⚡',
-      definition: 'An adverb modifies a verb, adjective, or another adverb (answers how, when, where, why).',
+      color: 'yellow',
+      bgColor: 'bg-yellow-50',
+      borderColor: 'border-yellow-200',
+      textColor: 'text-yellow-800',
+      badgeColor: 'bg-yellow-600',
+      definition: 'An adverb modifies a verb, adjective, or another adverb. It answers the questions: HOW? WHEN? WHERE? HOW OFTEN? TO WHAT EXTENT?',
+      tip: 'Many adverbs end in -LY! (quickly, softly, beautifully) — but not all! (fast, very, never, always) ⚡',
       types: [
-        { name: 'Adverb of Manner', desc: 'How something is done', eg: 'swiftly, gracefully, quietly' },
-        { name: 'Adverb of Time', desc: 'When something happens', eg: 'yesterday, soon, now, later' },
-        { name: 'Adverb of Place', desc: 'Where something happens', eg: 'everywhere, nearby, outside' }
+        { name: 'Adverb of Manner', desc: 'Tells HOW something is done. Often ends in -ly.', eg: 'swiftly, gracefully, quietly, boldly, carefully' },
+        { name: 'Adverb of Time', desc: 'Tells WHEN something happens.', eg: 'yesterday, soon, now, later, already, still, tonight' },
+        { name: 'Adverb of Place', desc: 'Tells WHERE something happens.', eg: 'everywhere, nearby, outside, upstairs, here, there, away' },
+        { name: 'Adverb of Frequency', desc: 'Tells HOW OFTEN something happens.', eg: 'always, never, sometimes, usually, rarely, often, daily' }
       ],
-      examples: ['The cheetah sprinted **swiftly** through the grass.', 'The wizard will arrive **soon**.']
+      examples: ['The cheetah sprinted **swiftly** through the **tall** grass.', 'She **never** arrived **late** — she was **always** the first one there.']
     },
     prepositions: {
       title: 'Prepositions (Position & Relationship Words)',
       icon: '🗺️',
-      definition: 'A preposition shows the relationship between a noun and other words in a sentence.',
+      color: 'teal',
+      bgColor: 'bg-teal-50',
+      borderColor: 'border-teal-200',
+      textColor: 'text-teal-800',
+      badgeColor: 'bg-teal-600',
+      definition: 'A preposition shows the relationship between a noun (or pronoun) and other words in a sentence — usually showing position, time, or direction.',
+      tip: 'Remember: prepositions are anything a squirrel can do to a tree! (on it, under it, through it, beside it, around it…) 🐿️',
       types: [
-        { name: 'Place/Location', desc: 'Indicates position', eg: 'under, above, inside, between' },
-        { name: 'Time', desc: 'Indicates timing', eg: 'before, after, during, until' },
-        { name: 'Direction', desc: 'Indicates movement', eg: 'towards, into, across, through' }
+        { name: 'Prepositions of Place', desc: 'Show WHERE something is located.', eg: 'under, above, inside, between, beside, behind, in front of, near' },
+        { name: 'Prepositions of Time', desc: 'Show WHEN something happens.', eg: 'before, after, during, until, since, at, in, on' },
+        { name: 'Prepositions of Direction', desc: 'Show which way something moves.', eg: 'towards, into, across, through, over, past, along, up' },
+        { name: 'Prepositions of Manner', desc: 'Explain HOW something is done.', eg: 'by, with, without, like, unlike, by means of' }
       ],
-      examples: ['The secret key was hidden **under** the marble statue.', 'We walked **through** the enchanting forest.']
+      examples: ['The secret key was hidden **under** the marble statue **beside** the fountain.', 'We walked **through** the enchanting forest **towards** the glowing castle.']
+    },
+    conjunctions: {
+      title: 'Conjunctions (Joining Words)',
+      icon: '🔗',
+      color: 'pink',
+      bgColor: 'bg-pink-50',
+      borderColor: 'border-pink-200',
+      textColor: 'text-pink-800',
+      badgeColor: 'bg-pink-600',
+      definition: 'A conjunction joins words, phrases, or clauses together. They act like glue for sentences!',
+      tip: 'Remember FANBOYS for coordinating conjunctions: For, And, Nor, But, Or, Yet, So! 🎵',
+      types: [
+        { name: 'Coordinating Conjunctions', desc: 'Join two equal parts (words, phrases, or independent clauses).', eg: 'for, and, nor, but, or, yet, so (FANBOYS)' },
+        { name: 'Subordinating Conjunctions', desc: 'Join a main clause with a dependent (subordinate) clause.', eg: 'because, although, when, while, if, unless, since, until, though' },
+        { name: 'Correlative Conjunctions', desc: 'Come in pairs to link balanced parts of a sentence.', eg: 'either...or, neither...nor, both...and, not only...but also' }
+      ],
+      examples: ['I love chocolate **and** strawberry ice cream **but** not vanilla.', '**Although** it was raining heavily, she ran **because** she was late.']
+    },
+    interjections: {
+      title: 'Interjections (Emotion Words)',
+      icon: '😲',
+      color: 'red',
+      bgColor: 'bg-red-50',
+      borderColor: 'border-red-200',
+      textColor: 'text-red-800',
+      badgeColor: 'bg-red-600',
+      definition: 'An interjection expresses a sudden strong feeling or emotion. They stand alone and are usually followed by an exclamation mark!',
+      tip: 'Interjections have no grammatical connection to the rest of the sentence — they just burst out with feeling! 🎉',
+      types: [
+        { name: 'Strong Interjections', desc: 'Express very powerful emotions — always use an exclamation mark.', eg: 'Wow! Ouch! Yikes! Hooray! No! Stop! Help! Bravo!' },
+        { name: 'Mild Interjections', desc: 'Express mild or moderate feelings — can use a comma instead.', eg: 'Oh, well... Hmm, let me think. Ah, I see. Well, that\'s interesting.' },
+        { name: 'Greetings & Responses', desc: 'Short words used in conversation or to respond to something.', eg: 'Hi! Hello! Goodbye! Yes! No! Sure! Okay! Thanks!' }
+      ],
+      examples: ['**Wow!** That was the most spectacular firework show ever!', '**Ouch!** I stubbed my toe on that gigantic rock. **Yikes!**']
+    },
+    articles: {
+      title: 'Articles & Determiners',
+      icon: '📌',
+      color: 'indigo',
+      bgColor: 'bg-indigo-50',
+      borderColor: 'border-indigo-200',
+      textColor: 'text-indigo-800',
+      badgeColor: 'bg-indigo-600',
+      definition: 'Articles come before nouns to tell us if something is specific or general. Determiners are words that limit or specify which noun we mean.',
+      tip: 'Use "a" before consonant sounds (a cat, a university) and "an" before vowel sounds (an apple, an hour) 📚',
+      types: [
+        { name: 'Definite Article (the)', desc: 'Refers to a specific noun that both the speaker and listener know about.', eg: 'Pass me **the** salt. Have you seen **the** new movie? I saw **the** queen.' },
+        { name: 'Indefinite Articles (a / an)', desc: 'Refer to any non-specific noun — something general or being mentioned for the first time.', eg: 'I saw **a** dog. She ate **an** apple. There is **a** unicorn in the garden!' },
+        { name: 'Demonstrative Determiners', desc: 'Point out specific people or things.', eg: '**This** book, **that** mountain, **these** cookies, **those** stars' },
+        { name: 'Possessive Determiners', desc: 'Show who something belongs to.', eg: '**my** bag, **your** turn, **his** hat, **her** house, **our** team, **their** plan' }
+      ],
+      examples: ['I saw **a** dragon flying over **the** old castle.', '**An** enormous wave crashed over **the** tiny boat.']
     }
   };
+
+  // Tenses Data
+  const tensesData = [
+    {
+      tense: 'Past Simple',
+      timeGroup: 'PAST',
+      groupColor: 'bg-rose-500',
+      cardColor: 'bg-rose-50 border-rose-200',
+      textColor: 'text-rose-800',
+      icon: '⏮️',
+      rule: 'Completed action at a specific time in the past.',
+      signal: 'yesterday, last week, ago, in 2020, once',
+      formula: 'Subject + Verb (past form)',
+      example: 'I **played** football yesterday.',
+      negation: 'I did not play football.'
+    },
+    {
+      tense: 'Past Continuous',
+      timeGroup: 'PAST',
+      groupColor: 'bg-rose-500',
+      cardColor: 'bg-rose-50 border-rose-200',
+      textColor: 'text-rose-800',
+      icon: '🔁',
+      rule: 'An action that was ongoing at a specific time in the past.',
+      signal: 'at 5pm yesterday, while, when, all morning',
+      formula: 'Subject + was/were + Verb-ing',
+      example: 'I **was playing** football at 5pm yesterday.',
+      negation: 'I was not playing football.'
+    },
+    {
+      tense: 'Past Perfect',
+      timeGroup: 'PAST',
+      groupColor: 'bg-rose-500',
+      cardColor: 'bg-rose-50 border-rose-200',
+      textColor: 'text-rose-800',
+      icon: '✅',
+      rule: 'An action completed BEFORE another past action.',
+      signal: 'before, after, already, by the time, had',
+      formula: 'Subject + had + past participle',
+      example: 'I **had finished** my homework before dinner.',
+      negation: 'I had not finished my homework.'
+    },
+    {
+      tense: 'Present Simple',
+      timeGroup: 'PRESENT',
+      groupColor: 'bg-emerald-500',
+      cardColor: 'bg-emerald-50 border-emerald-200',
+      textColor: 'text-emerald-800',
+      icon: '📅',
+      rule: 'Habitual actions, facts, general truths, and routines.',
+      signal: 'always, every day, usually, often, never, on Saturdays',
+      formula: 'Subject + Verb (base form) / Verb + s/es (he/she/it)',
+      example: 'I **play** football every Saturday.',
+      negation: 'I do not play football.'
+    },
+    {
+      tense: 'Present Continuous',
+      timeGroup: 'PRESENT',
+      groupColor: 'bg-emerald-500',
+      cardColor: 'bg-emerald-50 border-emerald-200',
+      textColor: 'text-emerald-800',
+      icon: '▶️',
+      rule: 'An action happening RIGHT NOW at the moment of speaking.',
+      signal: 'now, at the moment, right now, currently, look!, listen!',
+      formula: 'Subject + am/is/are + Verb-ing',
+      example: 'I **am playing** football now.',
+      negation: 'I am not playing football.'
+    },
+    {
+      tense: 'Present Perfect',
+      timeGroup: 'PRESENT',
+      groupColor: 'bg-emerald-500',
+      cardColor: 'bg-emerald-50 border-emerald-200',
+      textColor: 'text-emerald-800',
+      icon: '🏆',
+      rule: 'An action that started in the past and is connected to the present — the result matters NOW.',
+      signal: 'for 3 years, since Monday, already, yet, just, ever, never',
+      formula: 'Subject + have/has + past participle',
+      example: 'I **have played** football for 3 years.',
+      negation: 'I have not played football.'
+    },
+    {
+      tense: 'Future Simple',
+      timeGroup: 'FUTURE',
+      groupColor: 'bg-violet-500',
+      cardColor: 'bg-violet-50 border-violet-200',
+      textColor: 'text-violet-800',
+      icon: '🔮',
+      rule: 'A decision made at the moment of speaking, a prediction, or a promise.',
+      signal: 'tomorrow, next week, soon, in the future, one day',
+      formula: 'Subject + will + base verb',
+      example: 'I **will play** football tomorrow.',
+      negation: 'I will not play football.'
+    },
+    {
+      tense: 'Future Continuous',
+      timeGroup: 'FUTURE',
+      groupColor: 'bg-violet-500',
+      cardColor: 'bg-violet-50 border-violet-200',
+      textColor: 'text-violet-800',
+      icon: '🌀',
+      rule: 'An action that will be happening at a specific time in the future.',
+      signal: 'at 5pm tomorrow, this time next week, all day on Saturday',
+      formula: 'Subject + will be + Verb-ing',
+      example: 'I **will be playing** football at 5pm tomorrow.',
+      negation: 'I will not be playing football.'
+    },
+    {
+      tense: 'Future Perfect',
+      timeGroup: 'FUTURE',
+      groupColor: 'bg-violet-500',
+      cardColor: 'bg-violet-50 border-violet-200',
+      textColor: 'text-violet-800',
+      icon: '🎯',
+      rule: 'An action that will be COMPLETED before another future time or event.',
+      signal: 'by tomorrow, by the time, by next year, before, by then',
+      formula: 'Subject + will have + past participle',
+      example: 'I **will have finished** my homework before we go out.',
+      negation: 'I will not have finished my homework.'
+    }
+  ];
 
   // Vocabulary Data
   const vocabCards = [
@@ -912,71 +1137,228 @@ export default function EnglishHub({ topicName }) {
 
       {/* ==================================== TAB 4: PARTS OF SPEECH & TENSES ==================================== */}
       {activeTab === 'parts' && (
-        <div className="space-y-6">
-          <div className="bg-indigo-50 border border-indigo-200 rounded-2xl p-6 flex items-start gap-4">
-            <div className="p-3 bg-indigo-600 text-white rounded-xl font-bold">📝</div>
-            <div>
-              <h3 className="font-extrabold text-indigo-950 text-lg">Parts of Speech Masterclass</h3>
-              <p className="text-slate-600 text-xs mt-1">Select a category below to explore definitions, types, and real sentence examples.</p>
+        <div className="space-y-8">
+
+          {/* ===== TOP INFOGRAPHIC POSTER ===== */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider text-indigo-700 bg-indigo-100 px-3 py-1 rounded-md">
+                  📝 Official Visual Reference Chart
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>📝</span> Parts of Speech &amp; Tenses — The Building Blocks of Language
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  Your complete visual reference for all 9 parts of speech and all 9 verb tenses. Click to expand and zoom!
+                </p>
+              </div>
+              <button
+                onClick={() => openImageModal(
+                  '/parts_of_speech_and_tenses_infographic.jpg',
+                  'Parts of Speech & Tenses',
+                  'The Building Blocks of Language — Official Reference Chart'
+                )}
+                className="px-4 py-2 rounded-xl bg-indigo-600 text-white font-extrabold text-xs shadow-md shadow-indigo-500/20 hover:bg-indigo-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Poster
+              </button>
+            </div>
+            <div
+              onClick={() => openImageModal(
+                '/parts_of_speech_and_tenses_infographic.jpg',
+                'Parts of Speech & Tenses',
+                'The Building Blocks of Language — Official Reference Chart'
+              )}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img
+                src="/parts_of_speech_and_tenses_infographic.jpg"
+                alt="Parts of Speech and Tenses Infographic Chart"
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-indigo-600" /> Click to Expand &amp; Zoom Chart
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Selector Pills */}
-          <div className="flex flex-wrap gap-2">
-            {Object.keys(partsOfSpeech).map((key) => (
-              <button
-                key={key}
-                onClick={() => setSelectedPartOfSpeech(key)}
-                className={`px-4 py-2.5 rounded-xl font-extrabold text-xs flex items-center gap-2 cursor-pointer transition-all ${
-                  selectedPartOfSpeech === key
-                    ? 'bg-indigo-600 text-white shadow-md'
-                    : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-100'
-                }`}
-              >
-                <span>{partsOfSpeech[key].icon}</span> {partsOfSpeech[key].title}
-              </button>
-            ))}
-          </div>
+          {/* ===== PARTS OF SPEECH SECTION ===== */}
+          <div className="bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-900 text-white p-6 md:p-8 rounded-3xl shadow-xl space-y-6">
+            <div className="border-b border-indigo-700/60 pb-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-400/20 text-yellow-300 text-xs font-bold uppercase tracking-wider">
+                <Layers className="w-4 h-4" /> Parts of Speech — The 9 Building Blocks
+              </div>
+              <h2 className="text-2xl md:text-3xl font-black text-white mt-2">Every word has a job to do! 🌟</h2>
+              <p className="text-indigo-200 text-sm mt-1">Select a part of speech below to explore its definition, types, memory tip, and real sentence examples.</p>
+            </div>
 
-          {/* Active Card Content */}
-          {partsOfSpeech[selectedPartOfSpeech] && (
-            <div className="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-md space-y-6 animate-fade-in">
-              <div className="flex items-center gap-3">
-                <span className="text-4xl">{partsOfSpeech[selectedPartOfSpeech].icon}</span>
+            {/* Selector Pills */}
+            <div className="flex flex-wrap gap-2">
+              {Object.keys(partsOfSpeech).map((key) => (
+                <button
+                  key={key}
+                  onClick={() => setSelectedPartOfSpeech(key)}
+                  className={`px-4 py-2.5 rounded-xl font-extrabold text-xs flex items-center gap-2 cursor-pointer transition-all ${
+                    selectedPartOfSpeech === key
+                      ? 'bg-yellow-400 text-slate-900 shadow-lg shadow-yellow-400/20 scale-105'
+                      : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
+                  }`}
+                >
+                  <span>{partsOfSpeech[key].icon}</span>
+                  <span className="hidden sm:inline">{partsOfSpeech[key].title.split('(')[0].trim()}</span>
+                  <span className="sm:hidden">{partsOfSpeech[key].icon}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Active Card Content */}
+            {partsOfSpeech[selectedPartOfSpeech] && (
+              <div className={`${partsOfSpeech[selectedPartOfSpeech].bgColor} ${partsOfSpeech[selectedPartOfSpeech].borderColor} rounded-3xl p-6 md:p-8 border space-y-6`}>
+                {/* Header */}
+                <div className="flex items-center gap-4">
+                  <span className="text-5xl">{partsOfSpeech[selectedPartOfSpeech].icon}</span>
+                  <div>
+                    <h3 className={`text-2xl font-black ${partsOfSpeech[selectedPartOfSpeech].textColor}`}>
+                      {partsOfSpeech[selectedPartOfSpeech].title}
+                    </h3>
+                    <p className="text-slate-700 font-semibold text-sm mt-1">
+                      {partsOfSpeech[selectedPartOfSpeech].definition}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Memory Tip */}
+                <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 flex items-start gap-3">
+                  <span className="text-2xl">💡</span>
+                  <div>
+                    <div className="font-black text-yellow-800 text-xs uppercase tracking-wider mb-1">Memory Tip</div>
+                    <p className="text-yellow-900 text-sm font-medium">{partsOfSpeech[selectedPartOfSpeech].tip}</p>
+                  </div>
+                </div>
+
+                {/* Types Breakdown Grid */}
                 <div>
-                  <h3 className="text-2xl font-black text-slate-800">{partsOfSpeech[selectedPartOfSpeech].title}</h3>
-                  <p className="text-indigo-600 font-bold text-sm mt-0.5">{partsOfSpeech[selectedPartOfSpeech].definition}</p>
+                  <h4 className="font-black text-slate-800 text-sm uppercase tracking-wider mb-3">Types &amp; Subtypes:</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {partsOfSpeech[selectedPartOfSpeech].types.map((t, idx) => (
+                      <div key={idx} className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
+                        <div className={`font-black text-sm flex items-center gap-2 ${partsOfSpeech[selectedPartOfSpeech].textColor}`}>
+                          <span className={`w-6 h-6 rounded-full ${partsOfSpeech[selectedPartOfSpeech].badgeColor} text-white text-[10px] flex items-center justify-center font-bold shrink-0`}>{idx + 1}</span>
+                          {t.name}
+                        </div>
+                        <p className="text-slate-600 text-xs leading-relaxed">{t.desc}</p>
+                        <div className="text-xs font-semibold text-slate-700 bg-slate-50 px-3 py-2 rounded-xl border border-slate-200">
+                          <strong className={partsOfSpeech[selectedPartOfSpeech].textColor}>Examples:</strong> {t.eg}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Example Sentences */}
+                <div className="bg-slate-900 text-slate-100 p-5 rounded-2xl space-y-3">
+                  <div className="text-xs font-black uppercase text-yellow-400 tracking-wider flex items-center gap-2">
+                    <Sparkles className="w-4 h-4" /> Example Sentences in Action:
+                  </div>
+                  {partsOfSpeech[selectedPartOfSpeech].examples.map((ex, i) => (
+                    <div key={i} className="text-sm font-medium flex items-start gap-2">
+                      <ChevronRight className="w-4 h-4 text-yellow-400 mt-0.5 shrink-0" />
+                      <span dangerouslySetInnerHTML={{ __html: ex.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#fde047;font-weight:800">$1</strong>') }} />
+                    </div>
+                  ))}
                 </div>
               </div>
+            )}
+          </div>
 
-              {/* Types Breakdown Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                {partsOfSpeech[selectedPartOfSpeech].types.map((t, idx) => (
-                  <div key={idx} className="p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100 space-y-2">
-                    <div className="font-black text-indigo-900 text-sm flex items-center gap-2">
-                      <span className="w-5 h-5 rounded-full bg-indigo-600 text-white text-[10px] flex items-center justify-center font-bold">{idx+1}</span>
-                      {t.name}
-                    </div>
-                    <p className="text-slate-600 text-xs">{t.desc}</p>
-                    <div className="text-xs font-semibold text-indigo-700 bg-white px-3 py-1.5 rounded-lg border border-indigo-100 inline-block">
-                      <strong>Examples:</strong> {t.eg}
-                    </div>
-                  </div>
-                ))}
+          {/* ===== TENSES SECTION ===== */}
+          <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-6 md:p-8 rounded-3xl shadow-xl space-y-6">
+            <div className="border-b border-slate-700 pb-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-400/20 text-cyan-300 text-xs font-bold uppercase tracking-wider">
+                <Zap className="w-4 h-4" /> Verb Tenses — When Does the Action Happen?
               </div>
-
-              {/* Example Sentences */}
-              <div className="bg-slate-900 text-slate-100 p-5 rounded-2xl space-y-2">
-                <div className="text-xs font-black uppercase text-indigo-400 tracking-wider">Example Sentences in Action:</div>
-                {partsOfSpeech[selectedPartOfSpeech].examples.map((ex, i) => (
-                  <div key={i} className="text-sm font-medium flex items-center gap-2">
-                    <ChevronRight className="w-4 h-4 text-indigo-400" />
-                    <span dangerouslySetInnerHTML={{ __html: ex.replace(/\*\*(.*?)\*\*/g, '<strong className="text-yellow-300 font-bold">$1</strong>') }} />
-                  </div>
-                ))}
-              </div>
+              <h2 className="text-2xl md:text-3xl font-black text-white mt-2">🕐 Tenses tell us WHEN an action happens!</h2>
+              <p className="text-slate-300 text-sm mt-1">There are 3 main time groups — PAST, PRESENT, and FUTURE — and each has 3 forms. That makes 9 tenses in total!</p>
             </div>
-          )}
+
+            {/* Time Markers Quick Reference */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {[
+                { group: 'PAST', icon: '⏮️', color: 'bg-rose-500/20 border-rose-500/40 text-rose-300', markers: 'yesterday, last week, ago, in 2020, before, after, already' },
+                { group: 'PRESENT', icon: '▶️', color: 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300', markers: 'now, today, every day, always, usually, at the moment, still' },
+                { group: 'FUTURE', icon: '⏭️', color: 'bg-violet-500/20 border-violet-500/40 text-violet-300', markers: 'tomorrow, next week, soon, by then, in the future, one day' }
+              ].map((g) => (
+                <div key={g.group} className={`${g.color} border rounded-2xl p-4 space-y-2`}>
+                  <div className={`font-black text-sm flex items-center gap-2`}>
+                    <span className="text-xl">{g.icon}</span> ⏰ {g.group} Time Markers
+                  </div>
+                  <p className="text-slate-300 text-xs leading-relaxed">{g.markers}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Tenses Grid */}
+            {['PAST', 'PRESENT', 'FUTURE'].map((group) => (
+              <div key={group} className="space-y-3">
+                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl font-black text-sm text-white ${
+                  group === 'PAST' ? 'bg-rose-600' : group === 'PRESENT' ? 'bg-emerald-600' : 'bg-violet-600'
+                }`}>
+                  {group === 'PAST' ? '⏮️' : group === 'PRESENT' ? '▶️' : '⏭️'} {group} TENSES
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {tensesData.filter(t => t.timeGroup === group).map((tense, idx) => (
+                    <div key={idx} className={`${tense.cardColor} border rounded-2xl p-5 space-y-3`}>
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl">{tense.icon}</span>
+                        <div>
+                          <div className={`font-black text-sm ${tense.textColor}`}>{tense.tense}</div>
+                          <div className="text-slate-500 text-[10px] font-bold uppercase tracking-wider">{tense.timeGroup}</div>
+                        </div>
+                      </div>
+                      <p className="text-slate-700 text-xs leading-relaxed">{tense.rule}</p>
+                      <div className="bg-white rounded-xl p-3 space-y-2 border border-slate-200">
+                        <div className="text-[10px] font-black uppercase text-slate-500 tracking-wider">Formula</div>
+                        <div className={`font-black text-xs ${tense.textColor} font-mono bg-slate-50 px-2 py-1 rounded-lg`}>{tense.formula}</div>
+                        <div className="text-[10px] font-black uppercase text-slate-500 tracking-wider pt-1">Example ✅</div>
+                        <div className="text-slate-800 text-xs font-semibold" dangerouslySetInnerHTML={{ __html: tense.example.replace(/\*\*(.*?)\*\*/g, `<strong class="text-slate-900 font-black underline">$1</strong>`) }} />
+                        <div className="text-[10px] font-black uppercase text-slate-500 tracking-wider pt-1">Negative ❌</div>
+                        <div className="text-slate-600 text-xs italic">{tense.negation}</div>
+                      </div>
+                      <div className="bg-slate-100 rounded-xl px-3 py-2">
+                        <span className="text-[10px] font-black uppercase text-slate-500">Signal Words: </span>
+                        <span className="text-xs text-slate-700 font-semibold">{tense.signal}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* Helpful Hints */}
+            <div className="bg-yellow-400/10 border border-yellow-400/30 rounded-2xl p-5 space-y-3">
+              <div className="font-black text-yellow-300 text-sm flex items-center gap-2">
+                <Star className="w-4 h-4" /> ⭐ HELPFUL HINTS — Remember These!
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {[
+                  { icon: '📚', hint: 'Read a lot — good readers make great writers! Notice what tense authors use.' },
+                  { icon: '⏰', hint: 'Use TIME MARKER words to choose the right tense (yesterday → past, now → present).' },
+                  { icon: '✏️', hint: 'Check your spelling and punctuation — especially for irregular past tenses (go → went, eat → ate).' },
+                  { icon: '😊', hint: 'Practice writing every day — even one sentence using a new tense builds your skills fast!' }
+                ].map((h, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <span className="text-xl shrink-0">{h.icon}</span>
+                    <p className="text-slate-300 text-xs leading-relaxed">{h.hint}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="text-center mt-2 text-yellow-300 font-black text-sm">✨ Practice + Patience = Progress! 💪</div>
+            </div>
+          </div>
         </div>
       )}
 
