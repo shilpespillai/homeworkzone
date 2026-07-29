@@ -32,6 +32,7 @@ export default function BodyAndFunctionsHub() {
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openImageModal = () => setIsModalOpen(true);
+  const [isBodySystemsModalOpen, setIsBodySystemsModalOpen] = useState(false);
   
   // Quiz State
   const [quizAnswers, setQuizAnswers] = useState({});
@@ -243,6 +244,46 @@ export default function BodyAndFunctionsHub() {
               <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
                 <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
                   <Maximize2 className="w-4 h-4 text-emerald-600" /> Click to Expand & Zoom Image
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Second Poster: The Human Body — Parts, Functions & Systems */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider text-violet-700 bg-violet-100 px-3 py-1 rounded-md">
+                  Visual Learning Guide • Body Parts, Functions &amp; Systems
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>🧠</span> The Human Body — How It Works
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  All 9 body systems, major organ functions, anatomy overview, daily care tips, and fun body facts. Click to expand!
+                </p>
+              </div>
+              <button
+                onClick={() => setIsBodySystemsModalOpen(true)}
+                className="px-4 py-2 rounded-xl bg-violet-600 text-white font-extrabold text-xs shadow-md shadow-violet-500/20 hover:bg-violet-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Chart
+              </button>
+            </div>
+
+            <div
+              onClick={() => setIsBodySystemsModalOpen(true)}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img
+                src="/human_body_systems_infographic.jpg"
+                alt="The Human Body — Parts, Functions & Systems Infographic"
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-violet-600" /> Click to Expand &amp; Zoom Image
                 </span>
               </div>
             </div>
@@ -561,6 +602,44 @@ export default function BodyAndFunctionsHub() {
             <img 
               src="/digestive_system_infographic.jpg" 
               alt="The Human Digestive System Infographic" 
+              className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 object-contain"
+            />
+          </div>
+        </div>
+      )}
+      {/* ====== MODAL: Human Body Systems ====== */}
+      {isBodySystemsModalOpen && (
+        <div
+          onClick={() => setIsBodySystemsModalOpen(false)}
+          className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex flex-col animate-fade-in select-none p-4 md:p-6"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-slate-900/90 border border-slate-800 rounded-2xl px-6 py-3.5 flex items-center justify-between gap-4 shrink-0 mb-4 shadow-xl"
+          >
+            <div className="flex items-center gap-3">
+              <span className="p-2 rounded-xl bg-violet-500/20 text-violet-400 font-bold text-xs">
+                🧠 Full Chart View
+              </span>
+              <div>
+                <h3 className="font-extrabold text-white text-sm">The Human Body — Parts, Functions &amp; Systems</h3>
+                <p className="text-slate-400 text-[11px]">All 9 Body Systems • Organ Functions • Body in Numbers</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setIsBodySystemsModalOpen(false)}
+              className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs transition-all shadow-lg shadow-rose-600/30 flex items-center gap-1.5 cursor-pointer"
+            >
+              <X className="w-4 h-4" /> Close
+            </button>
+          </div>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="flex-1 flex items-center justify-center overflow-auto"
+          >
+            <img
+              src="/human_body_systems_infographic.jpg"
+              alt="The Human Body — Parts, Functions & Systems Infographic"
               className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 object-contain"
             />
           </div>
