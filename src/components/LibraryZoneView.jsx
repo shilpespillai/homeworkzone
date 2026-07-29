@@ -472,17 +472,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
           badge: d.data().badge || '🌟 Teacher Assigned'
         })).filter(b => b.isPublished !== false);
 
-        const filtered = list.filter(b => {
-          if (!b.isPublished) return false;
-          // Flexible classroom ID matching (support string vs number vs all)
-          if (classroom?.id && b.classId) {
-            const classMatch = String(b.classId) === String(classroom.id) || b.classId === 'all';
-            if (!classMatch && teacher?.uid && b.teacherId !== teacher.uid) return false;
-          }
-          return true;
-        });
-
-        setTeacherAssignedBooks(filtered);
+        setTeacherAssignedBooks(list);
       }, (err) => {
         console.warn("Could not load teacher assigned books in realtime:", err);
       });
@@ -491,7 +481,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     } catch (err) {
       console.warn("Error setting up books listener:", err);
     }
-  }, [classroom?.id, teacher?.uid]);
+  }, []);
 
   const allStories = [...teacherAssignedBooks, ...getBaseStories(), ...customStories];
   const allPuzzles = [...getBasePuzzles(), ...customPuzzles];

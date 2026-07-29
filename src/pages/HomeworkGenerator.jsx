@@ -665,6 +665,34 @@ EXPECTED JSON SCHEMA:
         setFormData(prev => ({ ...prev, title: parsedBook.title || topic }));
       }
       setActivePreviewPage(0);
+
+      // Auto-save & publish to Firestore immediately so it's instantly live and persistent on refresh
+      if (user?.uid) {
+        setBookGenStatus('Auto-publishing to Library Zone...');
+        const draftGrade = resolveGradeFromClassroomName(activeClassroom?.name);
+        const autoPayload = {
+          teacherId: user.uid,
+          classId: formData.classId || 'all',
+          targetStudentIds: formData.assignType === 'students' ? (formData.assignedStudentIds || []) : [],
+          title: formData.title || parsedBook.title || topic || 'Untitled Story',
+          subtitle: parsedBook.subtitle || '',
+          genre: parsedBook.genre || bookGenre || 'Adventure',
+          emoji: parsedBook.emoji || '📖',
+          targetGrade: draftGrade,
+          targetLanguage: targetLanguage || 'en',
+          summary: parsedBook.summary || '',
+          illustrationStyle: parsedBook.illustrationStyle || bookIllustrationStyle,
+          coverImagePrompt: parsedBook.coverImagePrompt || '',
+          coverImageUrl: parsedBook.coverImageUrl || '',
+          pages: parsedBook.pages || [],
+          comprehensionQuestions: parsedBook.comprehensionQuestions || [],
+          parentSection: parsedBook.parentSection || null,
+          isPublished: true,
+          badge: '🌟 Teacher Assigned',
+          createdAt: serverTimestamp()
+        };
+        await addDoc(collection(db, 'custom_library_books'), autoPayload);
+      }
     } catch (err) {
       console.error("Book Gen Error:", err);
       alert("Failed to generate storybook. Please try again! ❌");
