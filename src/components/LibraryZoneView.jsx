@@ -926,8 +926,15 @@ Schema:
                         setSelectedStory(story);
                         setStoryPage(0);
                       }}
-                      className="bg-white border border-slate-100 rounded-[32px] overflow-hidden hover:shadow-lg hover:scale-102 transition-all cursor-pointer flex flex-col group relative"
+                      className="bg-white border-2 border-indigo-100 rounded-[32px] overflow-hidden hover:shadow-xl hover:scale-102 transition-all cursor-pointer flex flex-col group relative"
                     >
+                      {/* Teacher Assigned Badge */}
+                      {story.badge && (
+                        <div className="absolute top-3 right-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-[10px] font-black uppercase px-3 py-1 rounded-full shadow-md z-10 flex items-center gap-1 border border-indigo-300 animate-pulse">
+                          {story.badge}
+                        </div>
+                      )}
+                      
                       {/* Delete button for custom stories */}
                       {typeof story.id === 'string' && story.id.startsWith('custom_') && (
                         <button
