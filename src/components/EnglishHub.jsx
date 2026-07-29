@@ -24,7 +24,14 @@ import {
   Eye,
   FileText,
   Lightbulb,
-  Target
+  Target,
+  Smile,
+  Compass,
+  CheckSquare,
+  Feather,
+  Flame,
+  Palette,
+  Heart
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -50,7 +57,7 @@ export default function EnglishHub({ topicName }) {
     if (topic?.includes('Vocabulary') || topic?.includes('Spelling')) return 'vocab';
     if (topic?.includes('Reading') || topic?.includes('Comprehension')) return 'reading';
     if (topic?.includes('Sentence') || topic?.includes('Punctuation')) return 'punctuation';
-    if (topic?.includes('Writing') || topic?.includes('Creative')) return 'writing';
+    if (topic?.includes('Writing') || topic?.includes('Creative') || topic?.includes('Narrative')) return 'writing';
     return 'grammar';
   }
 
@@ -251,18 +258,18 @@ export default function EnglishHub({ topicName }) {
             English Grammar & Literature Hub
           </h1>
           <p className="text-purple-100 text-sm md:text-base max-w-2xl font-medium">
-            Master Reading Comprehension, Grammar Rules, Vocabulary Power, Sentence Structure, and Creative Writing with official infographic posters and interactive practice!
+            Master Narrative Story Writing, Reading Comprehension, Grammar Rules, Vocabulary Power, and Creative Storytelling with official visual infographics!
           </p>
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button 
-              onClick={() => speakText("Welcome to the English Academy! Explore Reading Comprehension, Grammar Rules, Vocabulary, and Creative Writing.")}
+              onClick={() => speakText("Welcome to the English Academy! Explore Narrative Writing, Reading Comprehension, Grammar Rules, and Creative Storytelling.")}
               className="px-4 py-2 rounded-xl bg-white text-indigo-900 font-extrabold text-xs flex items-center gap-2 hover:bg-purple-50 transition-all shadow-md cursor-pointer"
             >
               {isPlayingAudio ? <VolumeX className="w-4 h-4 text-rose-500" /> : <Volume2 className="w-4 h-4 text-indigo-600" />}
               {isPlayingAudio ? 'Stop Audio' : 'Listen to Introduction'}
             </button>
             <span className="text-xs font-bold bg-indigo-900/50 px-3 py-1.5 rounded-lg border border-purple-400/20">
-              Grammar Poster • Reading Infographic • 6 Reading Strategies
+              Grammar Poster • Reading Infographic • Narrative Writing Framework
             </span>
           </div>
         </div>
@@ -275,11 +282,11 @@ export default function EnglishHub({ topicName }) {
       <div className="flex gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
         {[
           { id: 'grammar', label: 'Grammar Guide Poster', icon: '📜' },
-          { id: 'reading', label: 'Reading Comprehension Masterclass', icon: '📖' },
+          { id: 'reading', label: 'Reading Comprehension', icon: '📖' },
+          { id: 'writing', label: 'Creative Narrative Writing Studio', icon: '🎨' },
           { id: 'parts', label: 'Parts of Speech & Tenses', icon: '📝' },
           { id: 'vocab', label: 'Vocabulary & Word Power', icon: '🔤' },
           { id: 'punctuation', label: 'Sentence Types & Punctuation', icon: '✍️' },
-          { id: 'writing', label: 'Creative Writing Studio', icon: '🎨' },
           { id: 'quiz', label: 'English Master Quiz', icon: '🏆' }
         ].map(tab => (
           <button
@@ -287,7 +294,7 @@ export default function EnglishHub({ topicName }) {
             onClick={() => setActiveTab(tab.id)}
             className={`px-5 py-3 rounded-2xl font-black text-xs flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
               activeTab === tab.id
-                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20 scale-102'
+                ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/20 scale-102'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
@@ -349,7 +356,7 @@ export default function EnglishHub({ topicName }) {
         </div>
       )}
 
-      {/* ==================================== TAB 2: READING COMPREHENSION & INFOGRAPHIC ANALYSIS ==================================== */}
+      {/* ==================================== TAB 2: READING COMPREHENSION ==================================== */}
       {activeTab === 'reading' && (
         <div className="space-y-8">
           
@@ -401,7 +408,7 @@ export default function EnglishHub({ topicName }) {
             </div>
           </div>
 
-          {/* Deep Comprehensive Analysis Section (100+ Words per Section Analysis) */}
+          {/* Deep Comprehensive Analysis Section */}
           <div className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-slate-100 p-6 md:p-8 rounded-3xl space-y-8 shadow-xl">
             <div className="border-b border-indigo-800/60 pb-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase tracking-wider">
@@ -410,14 +417,9 @@ export default function EnglishHub({ topicName }) {
               <h2 className="text-2xl md:text-3xl font-black text-white mt-2">
                 How to Crack Reading Comprehension Effectively
               </h2>
-              <p className="text-slate-300 text-xs md:text-sm mt-1">
-                A step-by-step masterclass analyzing all six key sections of the Reading Comprehension framework.
-              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              
-              {/* Section 1 Analysis */}
               <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 space-y-3">
                 <div className="flex items-center gap-3">
                   <span className="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-black text-sm">1</span>
@@ -428,7 +430,6 @@ export default function EnglishHub({ topicName }) {
                 </p>
               </div>
 
-              {/* Section 2 Analysis */}
               <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 space-y-3">
                 <div className="flex items-center gap-3">
                   <span className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black text-sm">2</span>
@@ -439,7 +440,6 @@ export default function EnglishHub({ topicName }) {
                 </p>
               </div>
 
-              {/* Section 3 Analysis */}
               <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 space-y-3">
                 <div className="flex items-center gap-3">
                   <span className="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-black text-sm">3</span>
@@ -450,7 +450,6 @@ export default function EnglishHub({ topicName }) {
                 </p>
               </div>
 
-              {/* Section 4 Analysis */}
               <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 space-y-3">
                 <div className="flex items-center gap-3">
                   <span className="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-black text-sm">4</span>
@@ -461,7 +460,6 @@ export default function EnglishHub({ topicName }) {
                 </p>
               </div>
 
-              {/* Section 5 Analysis */}
               <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 space-y-3">
                 <div className="flex items-center gap-3">
                   <span className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-black text-sm">5</span>
@@ -472,7 +470,6 @@ export default function EnglishHub({ topicName }) {
                 </p>
               </div>
 
-              {/* Section 6 Analysis */}
               <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 space-y-3">
                 <div className="flex items-center gap-3">
                   <span className="w-8 h-8 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-black text-sm">6</span>
@@ -482,84 +479,438 @@ export default function EnglishHub({ topicName }) {
                   Top readers employ six active mental strategies while navigating any text. 1) **Visualize**: Create vivid mental movies of events and concepts described. 2) **Connect**: Relate text details to personal experiences, world knowledge, or other books. 3) **Question**: Ask inquiring questions before, during, and after reading. 4) **Infer**: Combine text clues with background knowledge to deduce implicit meanings. 5) **Summarize**: Synthesize the passage into concise main points using your own words. 6) **Evaluate**: Critically judge the author's arguments and perspective. Mastering these six strategies transforms passive reading into a superpower for acing any comprehension test!
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
 
+      {/* ==================================== TAB 3: CREATIVE NARRATIVE WRITING STUDIO (KID FRIENDLY DESIGN) ==================================== */}
+      {activeTab === 'writing' && (
+        <div className="space-y-8">
+
+          {/* Top Featured Narrative Writing Infographic Poster */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider text-purple-700 bg-purple-100 px-3 py-1 rounded-md">
+                  Official Australian Curriculum Framework (ACELY1702, ACELY1711, ACELY1712)
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>🎨</span> Narrative Writing Framework Poster
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  Tell an engaging story that entertains your reader! Click the visual poster below to expand into full zoom view.
+                </p>
+              </div>
+              <button 
+                onClick={() => openImageModal(
+                  "/narrative_writing_framework_infographic.jpg",
+                  "Narrative Writing Framework - Tell an engaging story!",
+                  "Official Australian Curriculum English Writing Infographic"
+                )}
+                className="px-4 py-2 rounded-xl bg-purple-600 text-white font-extrabold text-xs shadow-md shadow-purple-500/20 hover:bg-purple-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Framework Poster
+              </button>
+            </div>
+
+            <div 
+              onClick={() => openImageModal(
+                "/narrative_writing_framework_infographic.jpg",
+                "Narrative Writing Framework - Tell an engaging story!",
+                "Official Australian Curriculum English Writing Infographic"
+              )}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img 
+                src="/narrative_writing_framework_infographic.jpg" 
+                alt="Narrative Writing Framework Infographic Poster" 
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-purple-600" /> Click to Expand & Zoom Writing Poster
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Interactive Passage Practice */}
-          <div className="space-y-6 pt-4">
-            <h3 className="text-2xl font-black text-slate-800 flex items-center gap-2">
-              <span>✍️</span> Practice Your Skills on Real Passages
-            </h3>
+          {/* KID-FRIENDLY VIBRANT ELABORATION DASHBOARD */}
+          <div className="space-y-8 bg-gradient-to-b from-purple-50 via-pink-50 to-indigo-50 p-6 md:p-8 rounded-3xl border border-purple-200/60 shadow-lg">
             
-            <div className="flex gap-2">
-              {readingPassages.map(p => (
-                <button
-                  key={p.id}
-                  onClick={() => setSelectedPassage(p.id)}
-                  className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
-                    selectedPassage === p.id
-                      ? 'bg-indigo-600 text-white shadow-md'
-                      : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
-                  }`}
-                >
-                  Passage {p.id}: {p.title}
-                </button>
-              ))}
-            </div>
-
-            {readingPassages.find(p => p.id === selectedPassage) && (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                {/* Passage Body */}
-                <div className="lg:col-span-7 bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
-                  <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <div>
-                      <span className="text-[10px] font-black uppercase text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
-                        {readingPassages.find(p => p.id === selectedPassage).genre}
-                      </span>
-                      <h3 className="text-xl font-black text-slate-800 mt-1">
-                        {readingPassages.find(p => p.id === selectedPassage).title}
-                      </h3>
-                    </div>
-                    <button 
-                      onClick={() => speakText(readingPassages.find(p => p.id === selectedPassage).content)}
-                      className="p-2.5 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-100 cursor-pointer"
-                    >
-                      <Volume2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                  
-                  <p className="text-slate-700 text-sm md:text-base leading-relaxed font-serif">
-                    {readingPassages.find(p => p.id === selectedPassage).content}
-                  </p>
-                </div>
-
-                {/* Passage Questions */}
-                <div className="lg:col-span-5 bg-indigo-50/60 p-6 rounded-3xl border border-indigo-100 space-y-4">
-                  <h4 className="font-black text-indigo-950 text-base flex items-center gap-2">
-                    <span>🧠</span> Comprehension Check
-                  </h4>
-                  {readingPassages.find(p => p.id === selectedPassage).questions.map((q, qIdx) => (
-                    <div key={qIdx} className="bg-white p-4 rounded-2xl border border-indigo-100 space-y-3">
-                      <p className="font-extrabold text-xs text-slate-800">{qIdx+1}. {q.q}</p>
-                      <div className="space-y-1.5">
-                        {q.options.map(opt => (
-                          <div key={opt} className={`p-2.5 rounded-xl text-xs font-bold border ${opt === q.ans ? 'bg-emerald-50 border-emerald-300 text-emerald-900' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
-                            {opt} {opt === q.ans && '✓'}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
+            {/* Super Writer Welcome Banner */}
+            <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-amber-500 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="space-y-2 text-center md:text-left">
+                <span className="px-3 py-1 rounded-full bg-white/20 text-xs font-black uppercase tracking-wider">
+                  🌟 The Ultimate Kid's Guide to Storytelling
+                </span>
+                <h2 className="text-2xl md:text-4xl font-black tracking-tight">
+                  How to Write Magical Narrative Stories!
+                </h2>
+                <p className="text-purple-100 text-xs md:text-sm max-w-2xl font-medium">
+                  A narrative is a wonderful story that entertains your reader! Explore the 5 key story parts, climb the Story Mountain, use secret language tools, and become an awesome author!
+                </p>
+              </div>
+              <div className="shrink-0 flex items-center gap-2 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20">
+                <span className="text-4xl">🚀</span>
+                <div className="text-left">
+                  <div className="text-xs font-black uppercase text-amber-300">Target Goal</div>
+                  <div className="text-sm font-extrabold text-white">Entertain & Inspire!</div>
                 </div>
               </div>
-            )}
+            </div>
+
+            {/* PART 1: THE 5 KEY PARTS OF A NARRATIVE */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <span className="w-10 h-10 rounded-2xl bg-purple-600 text-white flex items-center justify-center font-black text-xl shadow-md">1</span>
+                <div>
+                  <h3 className="text-xl md:text-2xl font-black text-purple-950">
+                    The 5 Key Building Blocks of Every Great Story
+                  </h3>
+                  <p className="text-purple-700 text-xs font-semibold">Every exciting story follows these 5 magical steps from start to finish!</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                {/* Orientation */}
+                <div className="bg-white rounded-2xl p-5 border-2 border-pink-200 shadow-sm hover:shadow-md transition-all space-y-3">
+                  <div className="w-8 h-8 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center font-black text-sm">
+                    🗺️
+                  </div>
+                  <h4 className="font-black text-pink-900 text-base">1. Orientation</h4>
+                  <span className="text-[10px] font-black uppercase bg-pink-50 text-pink-700 px-2 py-0.5 rounded-md inline-block">Set the Scene!</span>
+                  <p className="text-slate-600 text-xs leading-relaxed font-medium">
+                    This is your opening! Introduce your main characters, describe the setting (where & when), and hook your reader’s curiosity right away!
+                  </p>
+                  <div className="bg-pink-50/70 p-2.5 rounded-xl text-[11px] text-pink-900 italic font-semibold">
+                    "Sam was running late for school on a chilly autumn morning in the city..."
+                  </div>
+                </div>
+
+                {/* Complication */}
+                <div className="bg-white rounded-2xl p-5 border-2 border-amber-200 shadow-sm hover:shadow-md transition-all space-y-3">
+                  <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-black text-sm">
+                    🌪️
+                  </div>
+                  <h4 className="font-black text-amber-900 text-base">2. Complication</h4>
+                  <span className="text-[10px] font-black uppercase bg-amber-50 text-amber-700 px-2 py-0.5 rounded-md inline-block">Here's the Problem!</span>
+                  <p className="text-slate-600 text-xs leading-relaxed font-medium">
+                    Uh oh! Something unexpected happens that creates a big challenge or trouble for your hero. This builds tension and makes readers turn the page!
+                  </p>
+                  <div className="bg-amber-50/70 p-2.5 rounded-xl text-[11px] text-amber-900 italic font-semibold">
+                    "Suddenly, Sam realized his backpack was missing from the bus seat!"
+                  </div>
+                </div>
+
+                {/* Rising Action */}
+                <div className="bg-white rounded-2xl p-5 border-2 border-emerald-200 shadow-sm hover:shadow-md transition-all space-y-3">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-sm">
+                    🧗
+                  </div>
+                  <h4 className="font-black text-emerald-900 text-base">3. Rising Action</h4>
+                  <span className="text-[10px] font-black uppercase bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md inline-block">Things Get Exciting!</span>
+                  <p className="text-slate-600 text-xs leading-relaxed font-medium">
+                    A series of 3 exciting events or challenges that make the problem bigger and bigger as your hero searches for answers!
+                  </p>
+                  <div className="bg-emerald-50/70 p-2.5 rounded-xl text-[11px] text-emerald-900 italic font-semibold">
+                    "1. Search bus station → 2. Ask café owner → 3. Find a secret clue inside a note!"
+                  </div>
+                </div>
+
+                {/* Climax */}
+                <div className="bg-white rounded-2xl p-5 border-2 border-purple-200 shadow-sm hover:shadow-md transition-all space-y-3">
+                  <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-black text-sm">
+                    💥
+                  </div>
+                  <h4 className="font-black text-purple-900 text-base">4. Climax</h4>
+                  <span className="text-[10px] font-black uppercase bg-purple-50 text-purple-700 px-2 py-0.5 rounded-md inline-block">The Turning Point!</span>
+                  <p className="text-slate-600 text-xs leading-relaxed font-medium">
+                    The peak star moment! The most intense, thrilling, or shocking part of the entire story where the main challenge is faced head-on!
+                  </p>
+                  <div className="bg-purple-50/70 p-2.5 rounded-xl text-[11px] text-purple-900 italic font-semibold">
+                    "Sam follows the clue to a mysterious treehouse and discovers the lost backpack!"
+                  </div>
+                </div>
+
+                {/* Resolution */}
+                <div className="bg-white rounded-2xl p-5 border-2 border-blue-200 shadow-sm hover:shadow-md transition-all space-y-3">
+                  <div className="w-8 h-8 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-black text-sm">
+                    🎁
+                  </div>
+                  <h4 className="font-black text-blue-900 text-base">5. Resolution</h4>
+                  <span className="text-[10px] font-black uppercase bg-blue-50 text-blue-700 px-2 py-0.5 rounded-md inline-block">Wrap It Up!</span>
+                  <p className="text-slate-600 text-xs leading-relaxed font-medium">
+                    The problem gets solved! Your story ends with a happy feeling, a learned lesson, or a fun surprise twist for the reader.
+                  </p>
+                  <div className="bg-blue-50/70 p-2.5 rounded-xl text-[11px] text-blue-900 italic font-semibold">
+                    "Sam returns the backpack, gets his homework back, and makes a fantastic new friend!"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* PART 2: PLAN YOUR STORY (THE 5 Ws & H) */}
+            <div className="bg-white rounded-3xl p-6 md:p-8 border border-purple-200 shadow-md space-y-6">
+              <div className="flex items-center gap-3">
+                <span className="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-black text-xl shadow-md">2</span>
+                <div>
+                  <h3 className="text-xl md:text-2xl font-black text-indigo-950">
+                    Plan Your Story Ideas (The 5 Ws & H)
+                  </h3>
+                  <p className="text-slate-500 text-xs font-semibold">Great authors always plan before writing! Ask yourself these 5 questions:</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div className="p-4 rounded-2xl bg-purple-50 border border-purple-100 space-y-2">
+                  <div className="text-2xl">👤</div>
+                  <h4 className="font-black text-purple-900 text-sm">WHO?</h4>
+                  <p className="text-xs text-slate-600">Who is your main hero? Who are the sidekicks or villains?</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-blue-50 border border-blue-100 space-y-2">
+                  <div className="text-2xl">⏰</div>
+                  <h4 className="font-black text-blue-900 text-sm">WHERE & WHEN?</h4>
+                  <p className="text-xs text-slate-600">Where does your adventure happen? What time or era?</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-amber-50 border border-amber-100 space-y-2">
+                  <div className="text-2xl">❓</div>
+                  <h4 className="font-black text-amber-900 text-sm">WHAT?</h4>
+                  <p className="text-xs text-slate-600">What is the big problem, mystery, or quest in the story?</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-rose-50 border border-rose-100 space-y-2">
+                  <div className="text-2xl">🛡️</div>
+                  <h4 className="font-black text-rose-900 text-sm">WHY?</h4>
+                  <p className="text-xs text-slate-600">Why does solving this problem matter deeply to your character?</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-100 space-y-2">
+                  <div className="text-2xl">⚡</div>
+                  <h4 className="font-black text-emerald-900 text-sm">HOW?</h4>
+                  <p className="text-xs text-slate-600">How will your hero solve the problem using courage or cleverness?</p>
+                </div>
+              </div>
+            </div>
+
+            {/* PART 3: THE STORY MOUNTAIN PLOT EXPLORER */}
+            <div className="bg-gradient-to-r from-indigo-900 via-purple-900 to-slate-900 text-white rounded-3xl p-6 md:p-8 space-y-6 shadow-xl">
+              <div className="flex items-center gap-3">
+                <span className="w-10 h-10 rounded-2xl bg-amber-400 text-slate-900 flex items-center justify-center font-black text-xl shadow-md">3</span>
+                <div>
+                  <h3 className="text-xl md:text-2xl font-black text-amber-300">
+                    The Story Mountain (Visual Plot Escalation)
+                  </h3>
+                  <p className="text-indigo-200 text-xs font-semibold">Think of your story plot like climbing a giant mountain!</p>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/80 p-5 rounded-2xl border border-indigo-700/60 space-y-4">
+                <div className="text-xs font-black uppercase text-amber-400 tracking-wider">Example Story Plot Walkthrough:</div>
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-3 text-xs">
+                  <div className="p-3 bg-pink-900/40 rounded-xl border border-pink-500/30 space-y-1">
+                    <strong className="text-pink-300 block">1. Orientation</strong>
+                    <p className="text-slate-300 text-[11px]">Sam is running late for school in the busy city.</p>
+                  </div>
+                  <div className="p-3 bg-amber-900/40 rounded-xl border border-amber-500/30 space-y-1">
+                    <strong className="text-amber-300 block">2. Complication</strong>
+                    <p className="text-slate-300 text-[11px]">Sam loses their backpack on the morning bus!</p>
+                  </div>
+                  <div className="p-3 bg-emerald-900/40 rounded-xl border border-emerald-500/30 space-y-1">
+                    <strong className="text-emerald-300 block">3. Rising Action</strong>
+                    <p className="text-slate-300 text-[11px]">1. Searches bus station. 2. Asks café owner. 3. Finds a clue!</p>
+                  </div>
+                  <div className="p-3 bg-purple-900/40 rounded-xl border border-purple-500/30 space-y-1">
+                    <strong className="text-purple-300 block">4. Climax (Peak ⭐)</strong>
+                    <p className="text-slate-300 text-[11px]">Follows clue to secret spot and finds something amazing!</p>
+                  </div>
+                  <div className="p-3 bg-blue-900/40 rounded-xl border border-blue-500/30 space-y-1">
+                    <strong className="text-blue-300 block">5. Resolution</strong>
+                    <p className="text-slate-300 text-[11px]">Returns backpack and makes an awesome new friend!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* PART 4 & 5: WRITING TIPS & MAGICAL LANGUAGE TOOLS */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              
+              {/* Writing Tips */}
+              <div className="lg:col-span-6 bg-white p-6 md:p-8 rounded-3xl border border-purple-200 shadow-md space-y-6">
+                <div className="flex items-center gap-3">
+                  <span className="w-10 h-10 rounded-2xl bg-pink-500 text-white flex items-center justify-center font-black text-xl shadow-md">4</span>
+                  <div>
+                    <h3 className="text-xl font-black text-slate-800">Super Author Writing Tips</h3>
+                    <p className="text-slate-500 text-xs font-semibold">Secrets that turn simple ideas into bestselling stories!</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4 text-xs">
+                  <div className="p-4 rounded-2xl bg-purple-50 border border-purple-100 space-y-1">
+                    <h4 className="font-black text-purple-950 text-sm flex items-center gap-1.5">
+                      <span>🎨</span> Show, Don't Tell!
+                    </h4>
+                    <p className="text-slate-600">Use senses and descriptive words instead of boring statements.</p>
+                    <div className="text-[11px] font-bold text-purple-900 pt-1">
+                      ❌ Boring: "It was cold." <br/>
+                      ✅ Super Writer: "A chilly wind nipped at my cheeks and frost sparkled on the grass."
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-blue-50 border border-blue-100 space-y-1">
+                    <h4 className="font-black text-blue-950 text-sm flex items-center gap-1.5">
+                      <span>💬</span> Use Dialogue!
+                    </h4>
+                    <p className="text-slate-600">Use quotation marks (" ") to let your characters speak!</p>
+                    <div className="text-[11px] font-bold text-blue-900 italic pt-1">
+                      "Are you lost in the forest?" asked Mia in a quiet whisper.
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-100 space-y-1">
+                    <h4 className="font-black text-emerald-950 text-sm flex items-center gap-1.5">
+                      <span>🧩</span> Vary Your Sentences!
+                    </h4>
+                    <p className="text-slate-600">Mix short punchy sentences with longer descriptive sentences to create rhythm.</p>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-amber-50 border border-amber-100 space-y-1">
+                    <h4 className="font-black text-amber-950 text-sm flex items-center gap-1.5">
+                      <span>🌟</span> Powerful Vocabulary & Time Connectives
+                    </h4>
+                    <p className="text-slate-600">Use strong verbs (whispered, dashed, soared) and transition words (First, Next, Suddenly, Finally...).</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Language Tools */}
+              <div className="lg:col-span-6 bg-white p-6 md:p-8 rounded-3xl border border-purple-200 shadow-md space-y-6">
+                <div className="flex items-center gap-3">
+                  <span className="w-10 h-10 rounded-2xl bg-indigo-500 text-white flex items-center justify-center font-black text-xl shadow-md">5</span>
+                  <div>
+                    <h3 className="text-xl font-black text-slate-800">Magical Language Tools</h3>
+                    <p className="text-slate-500 text-xs font-semibold">Special literary tools that make your writing pop!</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3 text-xs">
+                  <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-100 flex items-start gap-3">
+                    <span className="text-2xl">🌈</span>
+                    <div>
+                      <h4 className="font-black text-rose-900 text-sm">Descriptive Words</h4>
+                      <p className="text-slate-600 text-[11px]">bright, gloomy, enormous, glistening, ancient, shimmering</p>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-100 flex items-start gap-3">
+                    <span className="text-2xl">👂</span>
+                    <div>
+                      <h4 className="font-black text-amber-900 text-sm">5 Sensory Details</h4>
+                      <p className="text-slate-600 text-[11px]">Sight, sound, smell, taste, touch (e.g. crackling fire, sweet vanilla)</p>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-start gap-3">
+                    <span className="text-2xl">☁️</span>
+                    <div>
+                      <h4 className="font-black text-emerald-900 text-sm">Figurative Language</h4>
+                      <p className="text-slate-600 text-[11px]">Similes ("swift as a cheetah"), Metaphors, Personification ("the wind howled")</p>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-start gap-3">
+                    <span className="text-2xl">🔗</span>
+                    <div>
+                      <h4 className="font-black text-indigo-900 text-sm">Connectives</h4>
+                      <p className="text-slate-600 text-[11px]">because, however, although, suddenly, meanwhile</p>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-purple-50 border border-purple-100 flex items-start gap-3">
+                    <span className="text-2xl">💖</span>
+                    <div>
+                      <h4 className="font-black text-purple-900 text-sm">Emotive Words</h4>
+                      <p className="text-slate-600 text-[11px]">brave, terrified, excited, nervous, proud, astonished</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            {/* PART 6: CHECK YOUR WRITING (SUPER WRITER'S SELF-EDITING CHECKLIST) */}
+            <div className="bg-white p-6 md:p-8 rounded-3xl border border-purple-200 shadow-md space-y-6">
+              <div className="flex justify-between items-start md:items-center flex-col md:flex-row gap-4">
+                <div className="flex items-center gap-3">
+                  <span className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black text-xl shadow-md">6</span>
+                  <div>
+                    <h3 className="text-xl font-black text-slate-800">Check Your Writing Checklist</h3>
+                    <p className="text-slate-500 text-xs font-semibold">Good writers always edit and polish their stories before sharing!</p>
+                  </div>
+                </div>
+                <div className="px-4 py-2 bg-emerald-100 text-emerald-800 font-extrabold text-xs rounded-xl flex items-center gap-1.5">
+                  <CheckSquare className="w-4 h-4 text-emerald-600" /> Self-Editing Audit
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-bold text-slate-700">
+                {[
+                  "I followed the 5-part narrative structure (Orientation to Resolution).",
+                  "My main characters and setting are clear and vivid.",
+                  "The problem and events are exciting for the reader.",
+                  "I used descriptive words and sensory details.",
+                  "I included speech dialogue with quotation marks (\" \").",
+                  "I checked my spelling, punctuation, and capital letters.",
+                  "I read my story out loud to make sure it sounds awesome!"
+                ].map((checkItem, idx) => (
+                  <div key={idx} className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                    <input type="checkbox" className="w-4 h-4 accent-emerald-600 rounded cursor-pointer" />
+                    <span>{checkItem}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Story Generator Prompt Box */}
+            <div className="bg-white p-6 md:p-8 rounded-3xl border border-purple-200 shadow-md space-y-6">
+              <div className="flex justify-between items-start md:items-center flex-col md:flex-row gap-4">
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md">
+                    Story Generator Engine
+                  </span>
+                  <h3 className="text-2xl font-black text-slate-800 mt-1">Ready to Write Your Story?</h3>
+                  <p className="text-slate-500 text-xs">Need a spark of inspiration? Click below to generate a story idea!</p>
+                </div>
+                <button
+                  onClick={() => setWritingPromptIndex((prev) => (prev + 1) % writingPrompts.length)}
+                  className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs shadow-md flex items-center gap-2 cursor-pointer shrink-0"
+                >
+                  <RefreshCw className="w-4 h-4" /> Next Prompt
+                </button>
+              </div>
+
+              <div className="bg-gradient-to-r from-purple-50 to-indigo-50 p-6 rounded-2xl border border-purple-200">
+                <span className="text-xs font-black uppercase text-purple-700 tracking-wider">Your Story Prompt:</span>
+                <p className="text-lg font-black text-purple-950 mt-2 italic">
+                  "{writingPrompts[writingPromptIndex]}"
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <label className="text-xs font-black uppercase text-slate-500">Draft Your Masterpiece Story Below:</label>
+                <textarea
+                  rows={6}
+                  placeholder="Once upon a time..."
+                  className="w-full p-4 rounded-2xl border border-slate-200 text-sm focus:outline-none focus:border-purple-500"
+                />
+              </div>
+            </div>
+
           </div>
 
         </div>
       )}
 
-      {/* ==================================== TAB 3: PARTS OF SPEECH & TENSES ==================================== */}
+      {/* ==================================== TAB 4: PARTS OF SPEECH & TENSES ==================================== */}
       {activeTab === 'parts' && (
         <div className="space-y-6">
           <div className="bg-indigo-50 border border-indigo-200 rounded-2xl p-6 flex items-start gap-4">
@@ -629,7 +980,7 @@ export default function EnglishHub({ topicName }) {
         </div>
       )}
 
-      {/* ==================================== TAB 4: VOCABULARY & WORD POWER ==================================== */}
+      {/* ==================================== TAB 5: VOCABULARY & WORD POWER ==================================== */}
       {activeTab === 'vocab' && (
         <div className="space-y-6">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
@@ -690,7 +1041,7 @@ export default function EnglishHub({ topicName }) {
         </div>
       )}
 
-      {/* ==================================== TAB 5: SENTENCE STRUCTURE & PUNCTUATION ==================================== */}
+      {/* ==================================== TAB 6: SENTENCE STRUCTURE & PUNCTUATION ==================================== */}
       {activeTab === 'punctuation' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-md space-y-4">
@@ -741,43 +1092,6 @@ export default function EnglishHub({ topicName }) {
                 <span className="text-xs font-bold text-teal-800 block mt-1">We bought apples, oranges, grapes, and berries.</span>
               </div>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* ==================================== TAB 6: CREATIVE WRITING STUDIO ==================================== */}
-      {activeTab === 'writing' && (
-        <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-6">
-          <div className="flex justify-between items-start md:items-center flex-col md:flex-row gap-4">
-            <div>
-              <span className="text-[10px] font-black uppercase tracking-wider text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md">
-                Story Engine & Writing Prompts
-              </span>
-              <h3 className="text-2xl font-black text-slate-800 mt-1">Creative Story Generator</h3>
-              <p className="text-slate-500 text-xs">Need inspiration for your story? Click to generate a brand new story prompt!</p>
-            </div>
-            <button
-              onClick={() => setWritingPromptIndex((prev) => (prev + 1) % writingPrompts.length)}
-              className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs shadow-md flex items-center gap-2 cursor-pointer shrink-0"
-            >
-              <RefreshCw className="w-4 h-4" /> Next Prompt
-            </button>
-          </div>
-
-          <div className="bg-gradient-to-r from-purple-50 to-indigo-50 p-6 rounded-2xl border border-purple-200">
-            <span className="text-xs font-black uppercase text-purple-700 tracking-wider">Your Story Prompt:</span>
-            <p className="text-lg font-black text-purple-950 mt-2 italic">
-              "{writingPrompts[writingPromptIndex]}"
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            <label className="text-xs font-black uppercase text-slate-500">Draft Your Story Below:</label>
-            <textarea
-              rows={6}
-              placeholder="Once upon a time..."
-              className="w-full p-4 rounded-2xl border border-slate-200 text-sm focus:outline-none focus:border-purple-500"
-            />
           </div>
         </div>
       )}
