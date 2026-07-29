@@ -532,9 +532,14 @@ Selected Illustration Style: ${bookIllustrationStyle}.
 For EVERY page, generate a professional AI illustration prompt that DIRECTLY DEPICTS the exact scene, character action, and setting taking place in that specific page's text narration. Include character consistency (same hero appearance, clothing, species, colors on every page), visual pose, expressions, lighting, composition, camera angle, background objects, environment, depth of field, ultra detailed, 8K, children's book quality, no text inside illustration. Must be in English.
 
 =========================================================
-STEP 8 — VOCABULARY
+STEP 8 — VOCABULARY & GRAMMAR (PARTS OF SPEECH)
 =========================================================
-After every page include: New Words, Meaning (in ${selectedLangObj.name}), Pronunciation, Interesting Fact (in ${selectedLangObj.name}).
+After every page include 2-4 challenging vocabulary words used in that page's text:
+- Word (exact word used in the narration text)
+- Part of Speech (Noun, Verb, Adjective, Adverb, Preposition, Conjunction, Pronoun, Interjection)
+- Meaning (in ${selectedLangObj.name})
+- Pronunciation
+- Interesting Fact (in ${selectedLangObj.name})
 
 =========================================================
 STEP 9 — PARENT SECTION
@@ -547,14 +552,9 @@ STEP 10 — COVER PAGE
 Generate: Book Cover Title (in ${selectedLangObj.name}), Subtitle, Back Cover Summary, Front Cover Illustration Prompt (in ${bookIllustrationStyle} style, in English, no text).
 
 =========================================================
-STEP 11 — CONSISTENCY
+STEP 11 — CONSISTENCY & QUALITY
 =========================================================
-Maintain character consistency throughout the book. Characters must never change clothing unexpectedly unless explained. Objects must remain consistent. Locations should evolve logically.
-
-=========================================================
-STEP 12 — QUALITY
-=========================================================
-The finished book should feel professionally published by companies like Disney, Pixar, DreamWorks, Scholastic, Penguin Kids, HarperCollins Children, Walker Books. The illustrations should be cinematic, vibrant, emotionally expressive, highly detailed, and visually unforgettable.
+The finished book should feel professionally published by companies like Disney, Pixar, DreamWorks, Scholastic, Penguin Kids, HarperCollins Children, Walker Books. The text narration should be rich, cinematic, emotionally expressive, and beautifully structured.
 
 =========================================================
 CRITICAL OUTPUT FORMAT REQUIREMENT:
@@ -574,15 +574,15 @@ EXPECTED JSON SCHEMA:
   "pages": [
     {
       "pageNumber": 1,
-      "text": "Substantial, rich, descriptive story narration (150-250 words per page in ${selectedLangObj.name} suited for ${resolvedGrade}) with character dialogue...",
-      "imagePrompt": "Ultra-detailed AI illustration prompt in English directly depicting the exact key scene, hero actions, emotions, and setting taking place in this page's text. Must specify character consistency, clothing, colours, expressions, pose, camera angle, lighting, background in ${bookIllustrationStyle} style, no text",
+      "text": "Substantial, rich, descriptive story narration (150-250 words per page in ${selectedLangObj.name} suited for ${resolvedGrade}) split into 2-3 clean, engaging paragraphs with character dialogue...",
       "cameraAngle": "Wide Angle / Medium Shot / Close-up",
       "mood": "Enchanted / Adventurous / Mysterious",
       "vocabHighlights": [
         {
-          "word": "challengingWord",
-          "definition": "Child-friendly 1-sentence definition in ${selectedLangObj.name}",
-          "pronunciation": "pro-nun-ci-a-tion",
+          "word": "courageous",
+          "partOfSpeech": "Adjective",
+          "definition": "Brave and ready to face danger or pain.",
+          "pronunciation": "kuh-rey-juhs",
           "fact": "Interesting fun fact in ${selectedLangObj.name} about the word or concept"
         }
       ]
@@ -616,7 +616,7 @@ EXPECTED JSON SCHEMA:
     }
     const topic = bookTopic || formData.title || 'A magical adventure of discovery';
     setIsGeneratingBook(true);
-    setBookGenStatus('Crafting Pixar story & vocabulary...');
+    setBookGenStatus('Crafting Pixar story, vocabulary & grammar...');
     try {
       const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
       const resolvedGrade = resolveGradeFromClassroomName(activeClassroom?.name);
@@ -638,25 +638,11 @@ EXPECTED JSON SCHEMA:
         parsedBook.pages = parsedBook.pages.slice(0, 5);
       }
 
-      // Pre-render Cover Image to Base64
+      // Pre-render Cover Image ONLY to Base64 (Single cover image per book!)
       if (parsedBook.coverImagePrompt) {
-        setBookGenStatus('Pre-rendering book cover illustration...');
+        setBookGenStatus('Rendering 8K Cover Illustration...');
         const coverStylePrompt = `${parsedBook.coverImagePrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, book cover, vibrant pastel colors, 8k, highly detailed, no text`;
         parsedBook.coverImageUrl = await fetchImageAsBase64(coverStylePrompt);
-        await new Promise((r) => setTimeout(r, 600)); // Small delay between requests to avoid rate limits
-      }
-
-      // Pre-render Page Images to Base64
-      if (parsedBook.pages && Array.isArray(parsedBook.pages)) {
-        for (let i = 0; i < parsedBook.pages.length; i++) {
-          const p = parsedBook.pages[i];
-          if (p.imagePrompt) {
-            setBookGenStatus(`Pre-rendering 8K illustration ${i + 1} of ${parsedBook.pages.length}...`);
-            const stylePrompt = `${p.imagePrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, vibrant pastel colors, clean background, 8k, highly detailed, children's book illustration, no text`;
-            p.imageUrl = await fetchImageAsBase64(stylePrompt);
-            await new Promise((r) => setTimeout(r, 800)); // 800ms request spacing
-          }
-        }
       }
 
       parsedBook.targetLanguage = targetLanguage || 'en';

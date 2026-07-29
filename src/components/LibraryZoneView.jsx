@@ -407,6 +407,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   // --- Story State ---
   const [selectedStory, setSelectedStory] = useState(null);
   const [storyPage, setStoryPage] = useState(0);
+  const [highlightedVocabWord, setHighlightedVocabWord] = useState(null);
+
+  useEffect(() => {
+    setHighlightedVocabWord(null);
+  }, [storyPage, selectedStory]);
 
   // --- Read Along (TTS) State ---
   const [isReading, setIsReading] = useState(false);
@@ -888,6 +893,48 @@ Schema:
     setEarnedStars(0);
   };
 
+  // Helper to render unclustered, beautifully spaced paragraphs with interactive Vocab highlighting
+  const renderStoryTextWithHighlights = (rawText) => {
+    if (!rawText) return null;
+    const paragraphs = rawText.split(/\n+/).filter(Boolean);
+
+    return (
+      <div className="space-y-5 md:space-y-6 text-slate-800 text-base md:text-xl leading-relaxed md:leading-loose font-medium text-justify">
+        {paragraphs.map((paragraph, pIdx) => {
+          if (!highlightedVocabWord) {
+            return (
+              <p key={pIdx} className="bg-indigo-50/30 p-5 md:p-6 rounded-3xl border-l-4 border-indigo-400 shadow-2xs">
+                "{paragraph}"
+              </p>
+            );
+          }
+
+          const escapedWord = highlightedVocabWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const regex = new RegExp(`(${escapedWord})`, 'gi');
+          const parts = paragraph.split(regex);
+
+          return (
+            <p key={pIdx} className="bg-amber-50/60 p-5 md:p-6 rounded-3xl border-l-4 border-amber-400 shadow-xs transition-all">
+              "{parts.map((part, idx) => {
+                if (part.toLowerCase() === highlightedVocabWord.toLowerCase()) {
+                  return (
+                    <mark
+                      key={idx}
+                      className="bg-amber-300 text-amber-950 font-black px-2 py-0.5 rounded-lg shadow-xs border border-amber-400 animate-pulse inline-block"
+                    >
+                      {part}
+                    </mark>
+                  );
+                }
+                return part;
+              })}"
+            </p>
+          );
+        })}
+      </div>
+    );
+  };
+
   return (
     <div className="flex flex-col h-full bg-[#FCFBF7] font-sans">
       {/* Header Banner */}
@@ -1004,150 +1051,187 @@ Schema:
                 </div>
               </div>
             ) : (
-              <div className="bg-white border border-slate-100 rounded-[40px] shadow-sm overflow-hidden flex flex-col lg:flex-row min-h-[500px]">
-                {/* Visual Graphic Panel */}
-                <div className="lg:w-2/5 bg-[#F4F2FF] flex items-center justify-center relative overflow-hidden min-h-[280px]">
-                  {imageLoading && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-50/80 backdrop-blur-sm z-10 space-y-3">
-                      <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
-                      <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest animate-pulse">Drawing page... 🎨</span>
-                    </div>
-                  )}
-                  <img 
-                    key={`${selectedStory?.id || 'story'}-${storyPage}`}
-                    src={imageSrcError ? (selectedStory?.image || "/assets/library_bookshelf.png") : getPageImage(selectedStory, storyPage)} 
-                    className="w-full h-full object-cover" 
-                    alt={selectedStory.title} 
-                    onLoad={(e) => {
-                      const expectedUrl = getPageImage(selectedStory, storyPage);
-                      if (e.target.src.endsWith(expectedUrl) || e.target.src === expectedUrl) {
-                        setImageLoading(false);
-                      }
-                    }}
-                    onError={(e) => {
-                      const expectedUrl = getPageImage(selectedStory, storyPage);
-                      if (e.target.src.endsWith(expectedUrl) || e.target.src === expectedUrl) {
-                        setImageSrcError(true);
-                        setImageLoading(false);
-                      }
-                    }}
-                  />
-                  <div className="absolute top-6 left-6 bg-white/95 backdrop-blur-sm px-4 py-1.5 rounded-full shadow-sm border border-orange-200 flex items-center gap-2">
-                    <span className="text-sm font-black text-orange-600 uppercase tracking-widest">{selectedStory.genre}</span>
+              <div className="bg-white border-2 border-indigo-100 rounded-[40px] shadow-xl overflow-hidden flex flex-col max-w-4xl mx-auto min-h-[500px] animate-in fade-in duration-300">
+                {/* Header Banner with Single 8K Cover Image */}
+                <div className="relative bg-gradient-to-r from-indigo-950 via-slate-900 to-purple-950 text-white p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 overflow-hidden">
+                  <div className="w-28 h-36 md:w-36 md:h-44 rounded-2xl overflow-hidden shadow-2xl border-2 border-white/20 shrink-0 relative bg-slate-800">
+                    <img 
+                      src={getStoryCover(selectedStory)} 
+                      className="w-full h-full object-cover" 
+                      alt={selectedStory.title} 
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
+                    <span className="absolute bottom-2 right-2 text-2xl drop-shadow">{selectedStory.emoji}</span>
                   </div>
+                  <div className="flex-1 space-y-2 text-center md:text-left">
+                    <div className="flex items-center justify-center md:justify-start gap-2 flex-wrap">
+                      <span className="bg-indigo-500/30 text-indigo-200 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full border border-indigo-400/30">
+                        {selectedStory.genre}
+                      </span>
+                      {selectedStory.targetGrade && (
+                        <span className="bg-purple-500/30 text-purple-200 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full border border-purple-400/30">
+                          Grade {selectedStory.targetGrade}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-black text-white leading-tight">
+                      {selectedStory.title}
+                    </h3>
+                    {selectedStory.subtitle && (
+                      <p className="text-xs text-indigo-200 font-semibold">{selectedStory.subtitle}</p>
+                    )}
+                  </div>
+                  <button 
+                    onClick={() => setSelectedStory(null)}
+                    className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer backdrop-blur-sm flex items-center gap-1 border border-white/20"
+                  >
+                    ✕ Close
+                  </button>
                 </div>
 
-                {/* Reading Board Panel */}
-                <div className="lg:w-3/5 p-8 flex flex-col justify-between">
-                  <div className="space-y-6">
-                    <div className="flex items-center justify-between border-b border-slate-50 pb-4">
-                      <button 
-                        onClick={() => setSelectedStory(null)}
-                        className="text-xs font-black text-slate-400 hover:text-slate-600 flex items-center gap-1.5 transition-colors cursor-pointer"
-                      >
-                        <ChevronLeft className="w-4 h-4" /> Close Book
-                      </button>
-                      <span className="text-[10px] font-black text-slate-400 uppercase bg-slate-50 px-3 py-1 rounded-full">
-                        Page {storyPage + 1} of {selectedStory.pages.length}
-                      </span>
-                    </div>
+                {/* Page Navigation & Interactive Header Bar */}
+                <div className="px-6 md:px-8 py-3 bg-slate-50 border-b border-slate-100 flex items-center justify-between text-xs font-bold text-slate-600">
+                  <span className="flex items-center gap-2">
+                    📖 <span className="font-black text-indigo-600">Page {storyPage + 1}</span> of {selectedStory.pages.length}
+                  </span>
+                  {highlightedVocabWord && (
+                    <button
+                      onClick={() => setHighlightedVocabWord(null)}
+                      className="text-[10px] font-black text-amber-800 bg-amber-200 hover:bg-amber-300 px-3 py-1 rounded-full transition-colors flex items-center gap-1 border border-amber-300"
+                    >
+                      Clear Highlight ({highlightedVocabWord}) ✕
+                    </button>
+                  )}
+                </div>
 
-                    <div className="space-y-4">
-                      <h3 className="text-2xl font-black text-slate-800 flex items-center gap-2">
-                        {selectedStory.emoji} {selectedStory.title}
-                      </h3>
-                      {/* Interactive text block */}
-                      <p className="text-slate-600 text-base md:text-lg leading-relaxed font-semibold italic text-justify select-none pt-2 border-l-4 border-blue-400 pl-4 bg-blue-50/20 py-2 rounded-r-2xl">
-                        "{getPageText(selectedStory, storyPage)}"
-                      </p>
+                {/* Main Story Content & Vocabulary Section */}
+                <div className="p-6 md:p-10 space-y-8 flex-1">
+                  {/* Unclustered Paragraph Narration with Interactive Highlights */}
+                  {renderStoryTextWithHighlights(getPageText(selectedStory, storyPage))}
 
-                      {/* Vocabulary & Word Meanings Section */}
-                      {(() => {
-                        const pageObj = selectedStory.pages?.[storyPage];
-                        const vocabs = typeof pageObj === 'object' ? pageObj?.vocabHighlights : null;
-                        if (!vocabs || !Array.isArray(vocabs) || vocabs.length === 0) return null;
-                        return (
-                          <div className="bg-amber-50/80 border border-amber-200/80 rounded-2xl p-4 space-y-3 text-left animate-in fade-in duration-300">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-2">
-                                <span className="text-base">📖</span>
-                                <h4 className="text-xs font-black text-amber-950 uppercase tracking-wider">
-                                  Vocabulary & Word Explorer
-                                </h4>
-                              </div>
-                              <span className="text-[10px] font-extrabold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">
-                                {vocabs.length} Key Word{vocabs.length > 1 ? 's' : ''}
-                              </span>
+                  {/* Vocabulary & Grammar Explorer */}
+                  {(() => {
+                    const pageObj = selectedStory.pages?.[storyPage];
+                    const vocabs = typeof pageObj === 'object' ? pageObj?.vocabHighlights : null;
+                    if (!vocabs || !Array.isArray(vocabs) || vocabs.length === 0) return null;
+                    return (
+                      <div className="bg-amber-50/90 border-2 border-amber-200 rounded-3xl p-5 md:p-6 space-y-4 text-left shadow-sm animate-in fade-in duration-300">
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xl">📖</span>
+                            <div>
+                              <h4 className="text-xs font-black text-amber-950 uppercase tracking-wider">
+                                Vocabulary & Grammar Explorer
+                              </h4>
+                              <p className="text-[10px] font-bold text-amber-700">Click any word card to highlight where it appears in the story!</p>
                             </div>
-                            <div className="grid grid-cols-1 gap-2.5">
-                              {vocabs.map((item, vIdx) => (
-                                <div key={vIdx} className="bg-white rounded-xl p-3 border border-amber-200/60 shadow-2xs space-y-1">
-                                  <div className="flex items-center justify-between">
-                                    <div className="flex items-baseline gap-2">
-                                      <span className="text-xs font-black text-amber-950 capitalize">{item.word}</span>
-                                      {item.pronunciation && (
-                                        <span className="text-[10px] font-mono text-amber-600 font-bold">[{item.pronunciation}]</span>
-                                      )}
-                                    </div>
+                          </div>
+                          <span className="text-[10px] font-black text-amber-800 bg-amber-200/80 px-3 py-1 rounded-full border border-amber-300">
+                            {vocabs.length} Key Word{vocabs.length > 1 ? 's' : ''}
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-1 gap-3">
+                          {vocabs.map((item, vIdx) => {
+                            const isHighlighted = highlightedVocabWord?.toLowerCase() === item.word?.toLowerCase();
+                            return (
+                              <div
+                                key={vIdx}
+                                onClick={() => setHighlightedVocabWord(prev => prev?.toLowerCase() === item.word?.toLowerCase() ? null : item.word)}
+                                className={`rounded-2xl p-4 transition-all cursor-pointer border ${
+                                  isHighlighted
+                                    ? 'bg-amber-100 border-amber-400 shadow-md ring-2 ring-amber-300 scale-[1.01]'
+                                    : 'bg-white border-amber-200/70 hover:border-amber-400 hover:bg-amber-50/50'
+                                }`}
+                              >
+                                <div className="flex items-center justify-between gap-2 mb-1.5">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <span className="text-sm font-black text-slate-900 capitalize">{item.word}</span>
+                                    {item.partOfSpeech && (
+                                      <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-700 border border-indigo-200">
+                                        {item.partOfSpeech}
+                                      </span>
+                                    )}
+                                    {item.pronunciation && (
+                                      <span className="text-[10px] font-mono text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/50">
+                                        [{item.pronunciation}]
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="flex items-center gap-1.5 shrink-0">
                                     <button
-                                      onClick={() => startSpeech(`${item.word}. ${item.definition}`)}
-                                      className="text-[10px] font-bold text-amber-700 bg-amber-100 hover:bg-amber-200 px-2.5 py-1 rounded-lg flex items-center gap-1 transition-colors cursor-pointer"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setHighlightedVocabWord(prev => prev?.toLowerCase() === item.word?.toLowerCase() ? null : item.word);
+                                      }}
+                                      className={`text-[10px] font-black px-2.5 py-1 rounded-xl flex items-center gap-1 transition-all cursor-pointer ${
+                                        isHighlighted ? 'bg-amber-500 text-white shadow-sm' : 'bg-amber-100 text-amber-800 hover:bg-amber-200'
+                                      }`}
                                     >
-                                      <Volume2 className="w-3 h-3" /> Listen
+                                      📍 {isHighlighted ? 'Highlighted' : 'Highlight'}
+                                    </button>
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        startSpeech(`${item.word}. ${item.definition}`);
+                                      }}
+                                      className="text-[10px] font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-xl flex items-center gap-1 transition-colors cursor-pointer"
+                                    >
+                                      <Volume2 className="w-3 h-3 text-slate-600" /> Listen
                                     </button>
                                   </div>
-                                  <p className="text-xs text-slate-700 font-semibold">{item.definition}</p>
-                                  {item.fact && (
-                                    <p className="text-[10px] font-bold text-amber-800/90 italic bg-amber-50/80 p-1.5 rounded-lg border border-amber-100">
-                                      💡 Fun Fact: {item.fact}
-                                    </p>
-                                  )}
                                 </div>
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      })()}
+                                <p className="text-xs text-slate-700 font-semibold leading-relaxed">{item.definition}</p>
+                                {item.fact && (
+                                  <p className="text-[10px] font-bold text-amber-900/90 italic bg-amber-50/90 p-2 rounded-xl border border-amber-200/60 mt-2">
+                                    💡 Fun Fact: {item.fact}
+                                  </p>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })()}
 
-                      {/* Parent & Story Reflection Section (Shown on last page or if parentSection exists) */}
-                      {selectedStory.parentSection && storyPage === selectedStory.pages.length - 1 && (
-                        <div className="bg-indigo-50/80 border border-indigo-200/80 rounded-2xl p-4 space-y-3 text-left animate-in fade-in duration-300">
-                          <div className="flex items-center gap-2">
-                            <span className="text-base">💡</span>
-                            <div>
-                              <h4 className="text-xs font-black text-indigo-950 uppercase tracking-wider">Story Reflection & Learning</h4>
-                              <p className="text-[10px] font-bold text-indigo-600">Great for parents & teachers to discuss together!</p>
-                            </div>
-                          </div>
+                  {/* Parent Reflection Section */}
+                  {selectedStory.parentSection && storyPage === selectedStory.pages.length - 1 && (
+                    <div className="bg-indigo-50/90 border-2 border-indigo-200 rounded-3xl p-5 md:p-6 space-y-3 text-left animate-in fade-in duration-300">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl">💡</span>
+                        <div>
+                          <h4 className="text-xs font-black text-indigo-950 uppercase tracking-wider">Story Reflection & Learning</h4>
+                          <p className="text-[10px] font-bold text-indigo-600">Great for parents & teachers to discuss together!</p>
+                        </div>
+                      </div>
 
-                          {selectedStory.parentSection.lifeLesson && (
-                            <div className="bg-white p-3 rounded-xl border border-indigo-100 shadow-2xs">
-                              <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider mb-0.5">🌟 Core Moral & Life Lesson</p>
-                              <p className="text-xs font-bold text-indigo-900">{selectedStory.parentSection.lifeLesson}</p>
-                            </div>
-                          )}
+                      {selectedStory.parentSection.lifeLesson && (
+                        <div className="bg-white p-4 rounded-2xl border border-indigo-100 shadow-2xs">
+                          <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider mb-0.5">🌟 Core Moral & Life Lesson</p>
+                          <p className="text-xs font-bold text-indigo-900">{selectedStory.parentSection.lifeLesson}</p>
+                        </div>
+                      )}
 
-                          {selectedStory.parentSection.discussionQuestions && selectedStory.parentSection.discussionQuestions.length > 0 && (
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider">❓ Reflection Questions</p>
-                              <ul className="list-disc list-inside text-xs font-bold text-slate-700 space-y-1 bg-white p-3 rounded-xl border border-indigo-100">
-                                {selectedStory.parentSection.discussionQuestions.map((q, qIdx) => (
-                                  <li key={qIdx}>{q}</li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
+                      {selectedStory.parentSection.discussionQuestions && selectedStory.parentSection.discussionQuestions.length > 0 && (
+                        <div className="space-y-1">
+                          <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider">❓ Reflection Questions</p>
+                          <ul className="list-disc list-inside text-xs font-bold text-slate-700 space-y-1.5 bg-white p-4 rounded-2xl border border-indigo-100">
+                            {selectedStory.parentSection.discussionQuestions.map((q, qIdx) => (
+                              <li key={qIdx}>{q}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
 
-                          {selectedStory.parentSection.activity && (
-                            <div className="bg-white p-3 rounded-xl border border-indigo-100 shadow-2xs">
-                              <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider mb-0.5">🎨 Creative Activity</p>
-                              <p className="text-xs font-bold text-slate-700">{selectedStory.parentSection.activity}</p>
-                            </div>
-                          )}
+                      {selectedStory.parentSection.activity && (
+                        <div className="bg-white p-4 rounded-2xl border border-indigo-100 shadow-2xs">
+                          <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider mb-0.5">🎨 Creative Activity</p>
+                          <p className="text-xs font-bold text-slate-700">{selectedStory.parentSection.activity}</p>
                         </div>
                       )}
                     </div>
-                  </div>
+                  )}
+                </div>
 
                   {/* Navigation controls */}
                   <div className="flex items-center justify-between border-t border-slate-50 pt-6 mt-6">
@@ -1184,7 +1268,6 @@ Schema:
                     )}
                   </div>
                 </div>
-              </div>
             )}
           </div>
         )}
@@ -1239,199 +1322,227 @@ Schema:
                 </div>
               </div>
             ) : (
-              <div className="bg-white border border-slate-100 rounded-[40px] shadow-sm overflow-hidden flex flex-col lg:flex-row min-h-[500px]">
-                {/* Visual Panel */}
-                <div className="lg:w-2/5 bg-[#F4F2FF] flex items-center justify-center relative overflow-hidden min-h-[280px]">
-                  {imageLoading && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-50/80 backdrop-blur-sm z-10 space-y-3">
-                      <Loader2 className="w-8 h-8 text-orange-600 animate-spin" />
-                      <span className="text-[10px] font-black text-orange-600 uppercase tracking-widest animate-pulse">Drawing page... 🎨</span>
-                    </div>
-                  )}
-                  <img 
-                    key={`${selectedStory?.id || 'story'}-${storyPage}`}
-                    src={imageSrcError ? (selectedStory?.image || "/assets/library_bookshelf.png") : getPageImage(selectedStory, storyPage)} 
-                    className="w-full h-full object-cover" 
-                    alt={selectedStory.title} 
-                    onLoad={(e) => {
-                      const expectedUrl = getPageImage(selectedStory, storyPage);
-                      if (e.target.src.endsWith(expectedUrl) || e.target.src === expectedUrl) {
-                        setImageLoading(false);
-                      }
-                    }}
-                    onError={(e) => {
-                      const expectedUrl = getPageImage(selectedStory, storyPage);
-                      if (e.target.src.endsWith(expectedUrl) || e.target.src === expectedUrl) {
-                        setImageSrcError(true);
-                        setImageLoading(false);
-                      }
-                    }}
-                  />
-                  <div className="absolute top-6 left-6 bg-white/95 backdrop-blur-sm px-4 py-1.5 rounded-full shadow-sm border border-orange-200 flex items-center gap-2">
-                    <span className="text-sm font-black text-orange-600 uppercase tracking-widest">{selectedStory.genre}</span>
+              <div className="bg-white border-2 border-orange-100 rounded-[40px] shadow-xl overflow-hidden flex flex-col max-w-4xl mx-auto min-h-[500px] animate-in fade-in duration-300">
+                {/* Header Banner with Single 8K Cover Image & TTS Audio Bar */}
+                <div className="relative bg-gradient-to-r from-orange-950 via-slate-900 to-amber-950 text-white p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 overflow-hidden">
+                  <div className="w-28 h-36 md:w-36 md:h-44 rounded-2xl overflow-hidden shadow-2xl border-2 border-white/20 shrink-0 relative bg-slate-800">
+                    <img 
+                      src={getStoryCover(selectedStory)} 
+                      className="w-full h-full object-cover" 
+                      alt={selectedStory.title} 
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
+                    <span className="absolute bottom-2 right-2 text-2xl drop-shadow">{selectedStory.emoji}</span>
                   </div>
-                  <div className="absolute inset-0 bg-green-900/5 pointer-events-none" />
-                </div>
-
-                {/* Read Along Board */}
-                <div className="lg:w-3/5 p-8 flex flex-col justify-between">
-                  <div className="space-y-6">
-                    <div className="flex items-center justify-between border-b border-slate-50 pb-4">
-                      <button 
-                        onClick={() => {
-                          setSelectedStory(null);
-                          stopSpeech();
-                        }}
-                        className="text-xs font-black text-slate-400 hover:text-slate-600 flex items-center gap-1.5 transition-colors cursor-pointer"
-                      >
-                        <ChevronLeft className="w-4 h-4" /> Exit Reader
-                      </button>
-                      <span className="text-[10px] font-black text-slate-400 uppercase bg-slate-50 px-3 py-1 rounded-full">
-                        Narrator Room
+                  <div className="flex-1 space-y-3 text-center md:text-left">
+                    <div className="flex items-center justify-center md:justify-start gap-2 flex-wrap">
+                      <span className="bg-orange-500/30 text-orange-200 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full border border-orange-400/30">
+                        {selectedStory.genre}
+                      </span>
+                      <span className="bg-amber-500/30 text-amber-200 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full border border-amber-400/30">
+                        🎧 Narrator Room
                       </span>
                     </div>
+                    <h3 className="text-2xl md:text-3xl font-black text-white leading-tight">
+                      {selectedStory.title}
+                    </h3>
+                    
+                    {/* TTS Voice Controls Bar */}
+                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 flex flex-wrap items-center justify-center md:justify-start gap-3 border border-white/20">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => startSpeech(getPageText(selectedStory, storyPage))}
+                          className="bg-orange-500 hover:bg-orange-400 text-white w-10 h-10 rounded-full flex items-center justify-center shadow transition-all active:scale-95 cursor-pointer"
+                          title="Play Narration"
+                        >
+                          <Play className="w-5 h-5 fill-white" />
+                        </button>
+                        <button
+                          onClick={pauseSpeech}
+                          className="bg-white/20 hover:bg-white/30 text-white w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer"
+                          title="Pause / Resume"
+                        >
+                          <Pause className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={stopSpeech}
+                          className="bg-white/20 hover:bg-red-500/80 text-white w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer"
+                          title="Stop"
+                        >
+                          <RotateCcw className="w-4 h-4" />
+                        </button>
+                      </div>
+                      <div className="flex items-center gap-1.5 bg-black/20 px-3 py-1 rounded-xl">
+                        <span className="text-[10px] font-black text-orange-200 uppercase">Speed:</span>
+                        <button 
+                          onClick={() => setReadSpeed(0.8)} 
+                          className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold ${readSpeed === 0.8 ? 'bg-orange-500 text-white' : 'text-slate-300'}`}
+                        >
+                          Slow
+                        </button>
+                        <button 
+                          onClick={() => setReadSpeed(1)} 
+                          className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold ${readSpeed === 1 ? 'bg-orange-500 text-white' : 'text-slate-300'}`}
+                        >
+                          Normal
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => {
+                      setSelectedStory(null);
+                      stopSpeech();
+                    }}
+                    className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer backdrop-blur-sm flex items-center gap-1 border border-white/20"
+                  >
+                    ✕ Exit Reader
+                  </button>
+                </div>
 
-                    <div className="space-y-4">
-                      <h3 className="text-2xl font-black text-slate-800 flex items-center gap-2">
-                        {selectedStory.emoji} {selectedStory.title}
-                      </h3>
-                      
-                      {/* Speech Synthesis Controls */}
-                      <div className="bg-orange-50/50 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4 border border-orange-100/50">
-                        <div className="flex items-center gap-3">
-                          <button
-                            onClick={() => startSpeech(getPageText(selectedStory, storyPage))}
-                            className="bg-orange-600 hover:bg-orange-500 text-white w-12 h-12 rounded-full flex items-center justify-center shadow transition-all active:scale-95"
-                            title="Play"
-                          >
-                            <Play className="w-5 h-5 fill-white" />
-                          </button>
-                          <button
-                            onClick={pauseSpeech}
-                            className="bg-white border border-orange-200 text-orange-600 hover:bg-orange-50 w-10 h-10 rounded-full flex items-center justify-center shadow-sm transition-all"
-                            title="Pause/Resume"
-                          >
-                            <Pause className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={stopSpeech}
-                            className="bg-white border border-red-200 text-red-600 hover:bg-red-50 w-10 h-10 rounded-full flex items-center justify-center shadow-sm transition-all"
-                            title="Stop"
-                          >
-                            <RotateCcw className="w-4 h-4" />
-                          </button>
+                {/* Page Progress Indicator */}
+                <div className="px-6 md:px-8 py-3 bg-slate-50 border-b border-slate-100 flex items-center justify-between text-xs font-bold text-slate-600">
+                  <span className="flex items-center gap-2">
+                    📖 <span className="font-black text-orange-600">Page {storyPage + 1}</span> of {selectedStory.pages.length}
+                  </span>
+                  {highlightedVocabWord && (
+                    <button
+                      onClick={() => setHighlightedVocabWord(null)}
+                      className="text-[10px] font-black text-amber-800 bg-amber-200 hover:bg-amber-300 px-3 py-1 rounded-full transition-colors flex items-center gap-1 border border-amber-300"
+                    >
+                      Clear Highlight ({highlightedVocabWord}) ✕
+                    </button>
+                  )}
+                </div>
+
+                {/* Main Story Content & Vocabulary Section */}
+                <div className="p-6 md:p-10 space-y-8 flex-1">
+                  {/* Unclustered Paragraph Narration with Interactive Highlights */}
+                  {renderStoryTextWithHighlights(getPageText(selectedStory, storyPage))}
+
+                  {/* Vocabulary & Grammar Explorer */}
+                  {(() => {
+                    const pageObj = selectedStory.pages?.[storyPage];
+                    const vocabs = typeof pageObj === 'object' ? pageObj?.vocabHighlights : null;
+                    if (!vocabs || !Array.isArray(vocabs) || vocabs.length === 0) return null;
+                    return (
+                      <div className="bg-amber-50/90 border-2 border-amber-200 rounded-3xl p-5 md:p-6 space-y-4 text-left shadow-sm animate-in fade-in duration-300">
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xl">📖</span>
+                            <div>
+                              <h4 className="text-xs font-black text-amber-950 uppercase tracking-wider">
+                                Vocabulary & Grammar Explorer
+                              </h4>
+                              <p className="text-[10px] font-bold text-amber-700">Click any word card to highlight where it appears in the story!</p>
+                            </div>
+                          </div>
+                          <span className="text-[10px] font-black text-amber-800 bg-amber-200/80 px-3 py-1 rounded-full border border-amber-300">
+                            {vocabs.length} Key Word{vocabs.length > 1 ? 's' : ''}
+                          </span>
                         </div>
+                        <div className="grid grid-cols-1 gap-3">
+                          {vocabs.map((item, vIdx) => {
+                            const isHighlighted = highlightedVocabWord?.toLowerCase() === item.word?.toLowerCase();
+                            return (
+                              <div
+                                key={vIdx}
+                                onClick={() => setHighlightedVocabWord(prev => prev?.toLowerCase() === item.word?.toLowerCase() ? null : item.word)}
+                                className={`rounded-2xl p-4 transition-all cursor-pointer border ${
+                                  isHighlighted
+                                    ? 'bg-amber-100 border-amber-400 shadow-md ring-2 ring-amber-300 scale-[1.01]'
+                                    : 'bg-white border-amber-200/70 hover:border-amber-400 hover:bg-amber-50/50'
+                                }`}
+                              >
+                                <div className="flex items-center justify-between gap-2 mb-1.5">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <span className="text-sm font-black text-slate-900 capitalize">{item.word}</span>
+                                    {item.partOfSpeech && (
+                                      <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-700 border border-indigo-200">
+                                        {item.partOfSpeech}
+                                      </span>
+                                    )}
+                                    {item.pronunciation && (
+                                      <span className="text-[10px] font-mono text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/50">
+                                        [{item.pronunciation}]
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="flex items-center gap-1.5 shrink-0">
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setHighlightedVocabWord(prev => prev?.toLowerCase() === item.word?.toLowerCase() ? null : item.word);
+                                      }}
+                                      className={`text-[10px] font-black px-2.5 py-1 rounded-xl flex items-center gap-1 transition-all cursor-pointer ${
+                                        isHighlighted ? 'bg-amber-500 text-white shadow-sm' : 'bg-amber-100 text-amber-800 hover:bg-amber-200'
+                                      }`}
+                                    >
+                                      📍 {isHighlighted ? 'Highlighted' : 'Highlight'}
+                                    </button>
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        startSpeech(`${item.word}. ${item.definition}`);
+                                      }}
+                                      className="text-[10px] font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-xl flex items-center gap-1 transition-colors cursor-pointer"
+                                    >
+                                      <Volume2 className="w-3 h-3 text-slate-600" /> Listen
+                                    </button>
+                                  </div>
+                                </div>
+                                <p className="text-xs text-slate-700 font-semibold leading-relaxed">{item.definition}</p>
+                                {item.fact && (
+                                  <p className="text-[10px] font-bold text-amber-900/90 italic bg-amber-50/90 p-2 rounded-xl border border-amber-200/60 mt-2">
+                                    💡 Fun Fact: {item.fact}
+                                  </p>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })()}
 
-                        {/* Speed controller */}
-                        <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl border border-orange-200">
-                          <span className="text-[10px] font-black text-slate-400 uppercase">Voice Speed:</span>
-                          <button 
-                            onClick={() => setReadSpeed(0.8)} 
-                            className={`px-2 py-0.5 rounded-lg text-[9px] font-bold ${readSpeed === 0.8 ? 'bg-orange-100 text-orange-700' : 'text-slate-500'}`}
-                          >
-                            Slow
-                          </button>
-                          <button 
-                            onClick={() => setReadSpeed(1)} 
-                            className={`px-2 py-0.5 rounded-lg text-[9px] font-bold ${readSpeed === 1 ? 'bg-orange-100 text-orange-700' : 'text-slate-500'}`}
-                          >
-                            Normal
-                          </button>
+                  {/* Parent Reflection Section */}
+                  {selectedStory.parentSection && storyPage === selectedStory.pages.length - 1 && (
+                    <div className="bg-indigo-50/90 border-2 border-indigo-200 rounded-3xl p-5 md:p-6 space-y-3 text-left animate-in fade-in duration-300">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl">💡</span>
+                        <div>
+                          <h4 className="text-xs font-black text-indigo-950 uppercase tracking-wider">Story Reflection & Learning</h4>
+                          <p className="text-[10px] font-bold text-indigo-600">Great for parents & teachers to discuss together!</p>
                         </div>
                       </div>
 
-                      {/* Narrative page content */}
-                      <p className="text-slate-700 text-base md:text-lg leading-relaxed font-semibold italic text-justify select-none pt-4 border-l-4 border-orange-400 pl-4 bg-orange-50/20 py-2 rounded-r-2xl">
-                        "{getPageText(selectedStory, storyPage)}"
-                      </p>
+                      {selectedStory.parentSection.lifeLesson && (
+                        <div className="bg-white p-4 rounded-2xl border border-indigo-100 shadow-2xs">
+                          <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider mb-0.5">🌟 Core Moral & Life Lesson</p>
+                          <p className="text-xs font-bold text-indigo-900">{selectedStory.parentSection.lifeLesson}</p>
+                        </div>
+                      )}
 
-                      {/* Vocabulary & Word Meanings Section */}
-                      {(() => {
-                        const pageObj = selectedStory.pages?.[storyPage];
-                        const vocabs = typeof pageObj === 'object' ? pageObj?.vocabHighlights : null;
-                        if (!vocabs || !Array.isArray(vocabs) || vocabs.length === 0) return null;
-                        return (
-                          <div className="bg-amber-50/80 border border-amber-200/80 rounded-2xl p-4 space-y-3 text-left animate-in fade-in duration-300">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-2">
-                                <span className="text-base">📖</span>
-                                <h4 className="text-xs font-black text-amber-950 uppercase tracking-wider">
-                                  Vocabulary & Word Explorer
-                                </h4>
-                              </div>
-                              <span className="text-[10px] font-extrabold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">
-                                {vocabs.length} Key Word{vocabs.length > 1 ? 's' : ''}
-                              </span>
-                            </div>
-                            <div className="grid grid-cols-1 gap-2.5">
-                              {vocabs.map((item, vIdx) => (
-                                <div key={vIdx} className="bg-white rounded-xl p-3 border border-amber-200/60 shadow-2xs space-y-1">
-                                  <div className="flex items-center justify-between">
-                                    <div className="flex items-baseline gap-2">
-                                      <span className="text-xs font-black text-amber-950 capitalize">{item.word}</span>
-                                      {item.pronunciation && (
-                                        <span className="text-[10px] font-mono text-amber-600 font-bold">[{item.pronunciation}]</span>
-                                      )}
-                                    </div>
-                                    <button
-                                      onClick={() => startSpeech(`${item.word}. ${item.definition}`)}
-                                      className="text-[10px] font-bold text-amber-700 bg-amber-100 hover:bg-amber-200 px-2.5 py-1 rounded-lg flex items-center gap-1 transition-colors cursor-pointer"
-                                    >
-                                      <Volume2 className="w-3 h-3" /> Listen
-                                    </button>
-                                  </div>
-                                  <p className="text-xs text-slate-700 font-semibold">{item.definition}</p>
-                                  {item.fact && (
-                                    <p className="text-[10px] font-bold text-amber-800/90 italic bg-amber-50/80 p-1.5 rounded-lg border border-amber-100">
-                                      💡 Fun Fact: {item.fact}
-                                    </p>
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      })()}
+                      {selectedStory.parentSection.discussionQuestions && selectedStory.parentSection.discussionQuestions.length > 0 && (
+                        <div className="space-y-1">
+                          <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider">❓ Reflection Questions</p>
+                          <ul className="list-disc list-inside text-xs font-bold text-slate-700 space-y-1.5 bg-white p-4 rounded-2xl border border-indigo-100">
+                            {selectedStory.parentSection.discussionQuestions.map((q, qIdx) => (
+                              <li key={qIdx}>{q}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
 
-                      {/* Parent & Story Reflection Section (Shown on last page or if parentSection exists) */}
-                      {selectedStory.parentSection && storyPage === selectedStory.pages.length - 1 && (
-                        <div className="bg-indigo-50/80 border border-indigo-200/80 rounded-2xl p-4 space-y-3 text-left animate-in fade-in duration-300">
-                          <div className="flex items-center gap-2">
-                            <span className="text-base">💡</span>
-                            <div>
-                              <h4 className="text-xs font-black text-indigo-950 uppercase tracking-wider">Story Reflection & Learning</h4>
-                              <p className="text-[10px] font-bold text-indigo-600">Great for parents & teachers to discuss together!</p>
-                            </div>
-                          </div>
-
-                          {selectedStory.parentSection.lifeLesson && (
-                            <div className="bg-white p-3 rounded-xl border border-indigo-100 shadow-2xs">
-                              <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider mb-0.5">🌟 Core Moral & Life Lesson</p>
-                              <p className="text-xs font-bold text-indigo-900">{selectedStory.parentSection.lifeLesson}</p>
-                            </div>
-                          )}
-
-                          {selectedStory.parentSection.discussionQuestions && selectedStory.parentSection.discussionQuestions.length > 0 && (
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider">❓ Reflection Questions</p>
-                              <ul className="list-disc list-inside text-xs font-bold text-slate-700 space-y-1 bg-white p-3 rounded-xl border border-indigo-100">
-                                {selectedStory.parentSection.discussionQuestions.map((q, qIdx) => (
-                                  <li key={qIdx}>{q}</li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-
-                          {selectedStory.parentSection.activity && (
-                            <div className="bg-white p-3 rounded-xl border border-indigo-100 shadow-2xs">
-                              <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider mb-0.5">🎨 Creative Activity</p>
-                              <p className="text-xs font-bold text-slate-700">{selectedStory.parentSection.activity}</p>
-                            </div>
-                          )}
+                      {selectedStory.parentSection.activity && (
+                        <div className="bg-white p-4 rounded-2xl border border-indigo-100 shadow-2xs">
+                          <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider mb-0.5">🎨 Creative Activity</p>
+                          <p className="text-xs font-bold text-slate-700">{selectedStory.parentSection.activity}</p>
                         </div>
                       )}
                     </div>
-                  </div>
+                  )}
+                </div>
 
                   {/* Navigation controls */}
                   <div className="flex items-center justify-between border-t border-slate-50 pt-6 mt-6">
@@ -1468,7 +1579,6 @@ Schema:
                     )}
                   </div>
                 </div>
-              </div>
             )}
           </div>
         )}
