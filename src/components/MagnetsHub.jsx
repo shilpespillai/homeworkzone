@@ -98,59 +98,50 @@ export default function MagnetsHub() {
   const magnetShapes = [
     { shape: 'Horseshoe Magnet 🧲', desc: 'U-shaped magnet that brings North and South poles close together for maximum concentrated pull.' },
     { shape: 'Bar Magnet 🧱', desc: 'Rectangular bar magnet with North at one end and South at the opposite end.' },
-    { shape: 'Disc & Ring Magnets ⭕', desc: 'Flat circular magnets used in speakers, fridge doors, and magnetic toys.' },
-    { shape: 'Compass Needle 🧭', desc: 'A lightweight magnetized needle mounted on a pivot that aligns with Earth\'s magnetic field.' }
-  ];
-
-  // Everyday Uses of Magnets
-  const everydayUses = [
-    { item: 'Compass Navigation 🧭', desc: 'The magnetized needle points toward Earth\'s Magnetic North Pole to guide travelers and ships.' },
-    { item: 'Scrapyard Cranes (Electromagnets) 🏗️', desc: 'Giant electromagnets switched ON to lift tons of scrap metal, then switched OFF to drop it.' },
-    { item: 'Loudspeakers & Headphones 🎧', desc: 'Permanent magnets and electromagnets vibrate a membrane to produce audible sound waves.' },
-    { item: 'Refrigerator Door Seals 🚪', desc: 'Flexible magnetic strips inside rubber door gaskets keep fridge doors sealed tight.' }
+    { shape: 'Disc & Ring Magnets ⭕', desc: 'Flat circular magnets used in speakers, fridge doors, and magnetic toys.' }
   ];
 
   // Quiz Questions
   const quizQuestions = [
     {
       id: 1,
-      q: 'What happens when a North Pole (N) of one magnet faces a South Pole (S) of another magnet?',
-      options: ['They ATTRACT (pull together)', 'They REPEL (push apart)', 'They explode', 'Nothing happens'],
-      ans: 'They ATTRACT (pull together)'
+      q: 'What fundamental law describes what happens when a North Pole and a South Pole face each other?',
+      options: ['Opposite Poles ATTRACT', 'Like Poles REPEL', 'Magnets cancel out', 'Magnets melt'],
+      ans: 'Opposite Poles ATTRACT'
     },
     {
       id: 2,
-      q: 'Which of the following metals is MAGNETIC and will be pulled by a magnet?',
-      options: ['Iron / Steel nail', 'Aluminium drink can', 'Copper wire', 'Gold ring'],
-      ans: 'Iron / Steel nail'
+      q: 'Which of the following metals is FERRO-MAGNETIC and attracted to magnets?',
+      options: ['Iron, Nickel, and Cobalt', 'Gold and Silver', 'Aluminum and Copper', 'Wood and Plastic'],
+      ans: 'Iron, Nickel, and Cobalt'
     },
     {
       id: 3,
-      q: 'Where is the magnetic field of a bar magnet at its STRONGEST intensity?',
-      options: ['Near the North and South Poles', 'In the exact center', 'Underneath the floor', '10 meters away'],
-      ans: 'Near the North and South Poles'
+      q: 'Where on a bar magnet is the invisible magnetic field force strongest?',
+      options: ['At both the North and South Poles', 'In the exact middle', 'Only on the sides', 'Inside a wooden box'],
+      ans: 'At both the North and South Poles'
     },
     {
       id: 4,
-      q: 'What is the main advantage of an Electromagnet over a regular permanent magnet?',
+      q: 'How does a navigational compass needle work?',
       options: [
-        'An electromagnet can be switched ON and OFF using electricity',
-        'An electromagnet works underwater without wires',
-        'An electromagnet does not have poles',
-        'An electromagnet is made of glass'
+        'The magnetic needle aligns itself with Earth\'s global magnetic field pointing toward Magnetic North',
+        'The needle floats in water',
+        'The needle turns toward sunlight',
+        'Wind turns the needle'
       ],
-      ans: 'An electromagnet can be switched ON and OFF using electricity'
+      ans: 'The magnetic needle aligns itself with Earth\'s global magnetic field pointing toward Magnetic North'
     },
     {
       id: 5,
-      q: 'Why does a compass needle always point toward the North direction on Earth?',
+      q: 'How can an Electromagnet be turned ON and OFF on demand?',
       options: [
-        'Because Earth itself acts like a giant magnet with its own magnetic poles',
-        'Because the Sun pulls the needle',
-        'Because of wind pushing the needle',
-        'Because the needle is made of wood'
+        'By switching electric current flowing through a copper coil wrapped around an iron nail ON or OFF',
+        'By heating it with fire',
+        'By putting it in ice',
+        'By painting it red'
       ],
-      ans: 'Because Earth itself acts like a giant magnet with its own magnetic poles'
+      ans: 'By switching electric current flowing through a copper coil wrapped around an iron nail ON or OFF'
     }
   ];
 
@@ -171,7 +162,7 @@ export default function MagnetsHub() {
     <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-8 font-sans">
       
       {/* Top Banner Header */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-red-600 via-rose-600 to-blue-700 p-8 text-white shadow-xl shadow-red-500/10">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-rose-600 via-pink-600 to-blue-700 p-8 text-white shadow-xl shadow-rose-500/10">
         <div className="relative z-10 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold tracking-wider uppercase">
             <Sparkles className="w-4 h-4 text-yellow-300" /> Science Academy • Grade 4 Physics & Magnetism
@@ -204,7 +195,6 @@ export default function MagnetsHub() {
       <div className="flex gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
         {[
           { id: 'overview', label: 'Laws of Magnetism', icon: '🧲' },
-          { id: 'infographic', label: 'Full Infographic Chart', icon: '🖼️' },
           { id: 'materials', label: 'Magnetic vs Non-Magnetic', icon: '📎' },
           { id: 'field', label: 'Magnetic Fields & Strength', icon: '🌐' },
           { id: 'electromagnets', label: 'Electromagnets & Uses', icon: '⚡' },
@@ -229,21 +219,44 @@ export default function MagnetsHub() {
       {activeTab === 'overview' && (
         <div className="space-y-6">
           
-          {/* Quick Banner */}
-          <div className="bg-gradient-to-r from-rose-600 to-blue-700 rounded-2xl p-4 text-white flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">🧲</span>
+          {/* Top Featured Infographic Poster */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
               <div>
-                <h4 className="font-extrabold text-sm">Official Magnets Infographic Included</h4>
-                <p className="text-rose-100 text-xs">View the high-resolution infographic chart detailing magnet poles, magnetic fields, electromagnets, and attraction/repulsion rules.</p>
+                <span className="text-[10px] font-black uppercase tracking-wider text-rose-700 bg-rose-100 px-3 py-1 rounded-md">
+                  Visual Learning Guide • Magnetism Chart
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>🖼️</span> Magnets & Magnetic Forces Infographic Chart
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  Click the poster below to expand into full high-resolution view with poles, magnetic fields, and electromagnets.
+                </p>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 rounded-xl bg-rose-600 text-white font-extrabold text-xs shadow-md shadow-rose-500/20 hover:bg-rose-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Chart
+              </button>
+            </div>
+
+            <div 
+              onClick={() => setIsModalOpen(true)}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img 
+                src="/magnets_infographic.jpg" 
+                alt="Magnets and Magnetic Forces Infographic Poster" 
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-rose-600" /> Click to Expand & Zoom Image
+                </span>
               </div>
             </div>
-            <button 
-              onClick={() => setActiveTab('infographic')}
-              className="px-4 py-2 rounded-xl bg-white text-rose-950 font-black text-xs hover:bg-rose-50 transition-all shrink-0 cursor-pointer shadow-sm"
-            >
-              View Infographic Chart →
-            </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">

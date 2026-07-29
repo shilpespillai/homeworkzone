@@ -13,8 +13,8 @@ import {
   Clock,
   Thermometer,
   Box,
-  Maximize2,
-  Calculator
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -50,95 +50,75 @@ export default function UnitsOfMeasurementHub() {
   const metricCategories = [
     {
       id: 'length',
-      name: '1. Length & Distance 📏',
-      units: 'mm, cm, m, km',
-      tool: 'Ruler, Tape Measure, Trundle Wheel',
-      conversions: '10 mm = 1 cm | 100 cm = 1 m | 1000 m = 1 km',
-      color: 'bg-blue-50 border-blue-200 text-blue-950',
+      num: '1',
+      name: 'Length & Distance',
+      icon: '📏',
+      baseUnit: 'Meter (m)',
+      ladder: '1 km = 1,000 m | 1 m = 100 cm | 1 cm = 10 mm',
+      color: 'bg-blue-50 border-blue-200 text-blue-900',
       badgeBg: 'bg-blue-600 text-white',
-      summary: 'Length measures the distance between two points, height, or width of an object.',
-      examples: [
-        'Millimetres (mm): Tiny items like a coin thickness (2 mm) or paperclip (30 mm).',
-        'Centimetres (cm): Small items like a pencil (18 cm) or textbook (25 cm).',
-        'Metres (m): Larger distances like a doorway (2 m) or classroom (10 m).',
-        'Kilometres (km): Long distances like a running highway (5 km) or travel between towns.'
-      ]
+      tools: 'Ruler, Tape Measure, Trundle Wheel, Odometer',
+      examples: 'Millimeter (ant length), Centimeter (pencil length), Meter (door height), Kilometer (driving distance between cities).'
     },
     {
       id: 'mass',
-      name: '2. Mass & Weight ⚖️',
-      units: 'g, kg, t',
-      tool: 'Digital Scale, Balance Scale, Kitchen Scale',
-      conversions: '1000 g = 1 kg | 1000 kg = 1 Tonne (t)',
-      color: 'bg-emerald-50 border-emerald-200 text-emerald-950',
-      badgeBg: 'bg-emerald-600 text-white',
-      summary: 'Mass measures the amount of matter in an object, telling us how light or heavy it is.',
-      examples: [
-        'Grams (g): Light objects like an apple (150 g) or a slice of bread (40 g).',
-        'Kilograms (kg): Heavier items like a student backpack (5 kg) or dog (20 kg).',
-        'Tonnes (t): Extremely heavy objects like a motorcar (1.5 t) or elephant (5 t).'
-      ]
+      num: '2',
+      name: 'Mass & Weight',
+      icon: '⚖️',
+      baseUnit: 'Gram (g) / Kilogram (kg)',
+      ladder: '1 Tonne (t) = 1,000 kg | 1 kg = 1,000 g | 1 g = 1,000 mg',
+      color: 'bg-indigo-50 border-indigo-200 text-indigo-900',
+      badgeBg: 'bg-indigo-600 text-white',
+      tools: 'Digital Kitchen Scale, Balance Scale, Bathroom Scale',
+      examples: 'Milligram (feather), Gram (paperclip), Kilogram (school bag), Tonne (car or elephant weight).'
     },
     {
       id: 'capacity',
-      name: '3. Capacity & Liquid Volume 🧪',
-      units: 'mL, L',
-      tool: 'Measuring Jug, Graduated Cylinder, Beaker',
-      conversions: '1000 mL = 1 Litre (L)',
-      color: 'bg-cyan-50 border-cyan-200 text-cyan-950',
+      num: '3',
+      name: 'Capacity & Liquid Volume',
+      icon: '🧪',
+      baseUnit: 'Liter (L)',
+      ladder: '1 Liter (L) = 1,000 Milliliters (mL)',
+      color: 'bg-cyan-50 border-cyan-200 text-cyan-900',
       badgeBg: 'bg-cyan-600 text-white',
-      summary: 'Capacity measures the maximum amount of liquid a container can hold.',
-      examples: [
-        'Millilitres (mL): Small liquid volumes like medicine (5 mL) or juice box (250 mL).',
-        'Litres (L): Larger liquid volumes like a milk carton (2 L) or swimming pool (50,000 L).'
-      ]
+      tools: 'Measuring Jug, Beaker, Pipette, Syringe',
+      examples: 'Milliliter (teaspoon of medicine), Liter (milk bottle / juice carton).'
     },
     {
       id: 'time',
-      name: '4. Time & Duration ⏱️',
-      units: 's, min, h, days, weeks, years',
-      tool: 'Clock, Stopwatch, Calendar, Hourglass',
-      conversions: '60 s = 1 min | 60 min = 1 h | 24 h = 1 day | 7 days = 1 week | 365 days = 1 year',
-      color: 'bg-purple-50 border-purple-200 text-purple-950',
+      num: '4',
+      name: 'Time',
+      icon: '⏱️',
+      baseUnit: 'Second (s)',
+      ladder: '1 Year = 365 Days | 1 Day = 24 Hours | 1 Hour = 60 Mins | 1 Min = 60 Secs',
+      color: 'bg-purple-50 border-purple-200 text-purple-900',
       badgeBg: 'bg-purple-600 text-white',
-      summary: 'Time measures the duration of events, intervals, and schedules.',
-      examples: [
-        'Seconds (s): Brief events like a 100 m sprint race (12 s).',
-        'Minutes (min): Classroom lesson (45 min) or cooking a meal.',
-        'Hours (h): School day duration (6 hours).',
-        'Years: Age, birthdays, and historical timelines.'
-      ]
+      tools: 'Analogue Clock, Digital Stopwatch, Calendar',
+      examples: 'Seconds (hand clap duration), Minutes (recess duration), Hours (school day length).'
     },
     {
       id: 'temperature',
-      name: '5. Temperature 🌡️',
-      units: 'Degrees Celsius (°C)',
-      tool: 'Thermometer (Digital / Alcohol)',
-      conversions: '0°C = Freezing Point of Water | 100°C = Boiling Point of Water',
-      color: 'bg-rose-50 border-rose-200 text-rose-950',
+      num: '5',
+      name: 'Temperature',
+      icon: '🌡️',
+      baseUnit: 'Degrees Celsius (°C)',
+      ladder: 'Freezing = 0°C | Room Temp = 20°C | Body = 37°C | Boiling = 100°C',
+      color: 'bg-rose-50 border-rose-200 text-rose-900',
       badgeBg: 'bg-rose-600 text-white',
-      summary: 'Temperature measures how hot or cold an object or environment is in Degrees Celsius.',
-      examples: [
-        '100°C: Water boils to steam at sea level.',
-        '37°C: Healthy human body temperature.',
-        '20°C: Comfortable indoor room temperature.',
-        '0°C: Water freezes into solid ice.'
-      ]
+      tools: 'Thermometer, Infrared Thermal Sensor',
+      examples: 'Water freezes to solid ice at 0°C; pure liquid water boils into steam at 100°C.'
     },
     {
-      id: 'geometry',
-      name: '6. Perimeter, Area & Volume 📐',
-      units: 'm, cm², m³, mL',
-      tool: 'Ruler, Grid Squares, Formula Calculations',
-      conversions: 'Perimeter = Sum of sides | Area = L × W | Volume = L × W × H',
-      color: 'bg-amber-50 border-amber-200 text-amber-950',
-      badgeBg: 'bg-amber-700 text-white',
-      summary: 'Geometric measurement calculates outer boundaries (Perimeter), flat surface space (Area), and 3D internal capacity (Volume).',
-      examples: [
-        'Perimeter: Distance around a garden (8m + 6m + 8m + 6m = 28 m).',
-        'Area: Space inside a rectangle (4 m × 6 m = 24 m²).',
-        'Volume: Space inside a 3D box or aquarium (Length × Width × Height).'
-      ]
+      id: 'area',
+      num: '6',
+      name: 'Area & Volume Geometry',
+      icon: '📐',
+      baseUnit: 'cm², m² / cm³, m³',
+      ladder: 'Area = Length × Width | Volume = Length × Width × Height',
+      color: 'bg-teal-50 border-teal-200 text-teal-900',
+      badgeBg: 'bg-teal-600 text-white',
+      tools: 'Grid Paper, Cubic Centimeter Blocks (cm³)',
+      examples: 'Perimeter: Boundary fence length; Area: Floor carpet space; Volume: Box storage capacity.'
     }
   ];
 
@@ -146,33 +126,33 @@ export default function UnitsOfMeasurementHub() {
   const quizQuestions = [
     {
       id: 1,
-      q: 'How many centimetres (cm) are in 1 metre (m)?',
-      options: ['10 cm', '100 cm', '1000 cm', '60 cm'],
-      ans: '100 cm'
+      q: 'How many Millimeters (mm) are there in exactly 1 Centimeter (cm)?',
+      options: ['10 mm', '100 mm', '1,000 mm', '5 mm'],
+      ans: '10 mm'
     },
     {
       id: 2,
-      q: 'Which metric unit is most suitable to measure the weight of an apple?',
-      options: ['Grams (g)', 'Tonnes (t)', 'Kilometres (km)', 'Litres (L)'],
-      ans: 'Grams (g)'
+      q: 'How many Grams (g) equal 1 Kilogram (kg)?',
+      options: ['1,000 g', '100 g', '10 g', '500 g'],
+      ans: '1,000 g'
     },
     {
       id: 3,
-      q: 'What is the formula to calculate the Area of a flat rectangle?',
-      options: ['Area = Length × Width', 'Area = Add all 4 sides', 'Area = Length ÷ 100', 'Area = Volume × 2'],
-      ans: 'Area = Length × Width'
+      q: 'What is the exact temperature benchmark at which pure liquid water boils into steam?',
+      options: ['100°C', '0°C', '37°C', '50°C'],
+      ans: '100°C'
     },
     {
       id: 4,
-      q: 'What is the normal healthy human body temperature in Degrees Celsius?',
-      options: ['37°C', '100°C', '0°C', '20°C'],
-      ans: '37°C'
+      q: 'What mathematical formula calculates the AREA (cm²) of a rectangle?',
+      options: ['Area = Length × Width', 'Area = Length + Width', 'Area = Length ÷ Width', 'Area = 2 × (Length + Width)'],
+      ans: 'Area = Length × Width'
     },
     {
       id: 5,
-      q: 'How many millilitres (mL) equal 1 Litre (L) of liquid capacity?',
-      options: ['1000 mL', '100 mL', '10 mL', '60 mL'],
-      ans: '1000 mL'
+      q: 'Which standard metric unit would a doctor use to prescribe a small liquid dose of cough medicine?',
+      options: ['Milliliters (mL)', 'KiloLiters (kL)', 'Meters (m)', 'Kilograms (kg)'],
+      ans: 'Milliliters (mL)'
     }
   ];
 
@@ -250,21 +230,44 @@ export default function UnitsOfMeasurementHub() {
       {activeTab === 'overview' && (
         <div className="space-y-6">
           
-          {/* Quick Banner */}
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-4 text-white flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">📏</span>
+          {/* Top Featured Infographic Poster */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
               <div>
-                <h4 className="font-extrabold text-sm">Official Measurement Infographic Included</h4>
-                <p className="text-blue-100 text-xs">View the high-resolution infographic chart detailing length, mass, liquid capacity, time, temperature benchmarks, and geometric formulas.</p>
+                <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 bg-blue-100 px-3 py-1 rounded-md">
+                  Visual Learning Guide • Units of Measurement Chart
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>🖼️</span> Units of Measurement Infographic Chart
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  Click the poster below to expand into full high-resolution view with metric ladders, mass, volume, and geometry.
+                </p>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 rounded-xl bg-blue-600 text-white font-extrabold text-xs shadow-md shadow-blue-500/20 hover:bg-blue-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Chart
+              </button>
+            </div>
+
+            <div 
+              onClick={() => setIsModalOpen(true)}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img 
+                src="/units_of_measurement_infographic.jpg" 
+                alt="Units of Measurement Infographic Poster" 
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-blue-600" /> Click to Expand & Zoom Image
+                </span>
               </div>
             </div>
-            <button 
-              onClick={() => setActiveTab('infographic')}
-              className="px-4 py-2 rounded-xl bg-white text-blue-950 font-black text-xs hover:bg-blue-50 transition-all shrink-0 cursor-pointer shadow-sm"
-            >
-              View Infographic Chart →
-            </button>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">

@@ -12,7 +12,9 @@ import {
   ShieldCheck,
   Search,
   Check,
-  HelpCircle
+  HelpCircle,
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -204,48 +206,48 @@ export default function MaterialsAndPropertiesHub() {
   const quizQuestions = [
     {
       id: 1,
-      q: 'What is the scientific difference between an Object and a Material?',
-      options: [
-        'An Object is the thing itself (e.g. Chair), while a Material is what it is made from (e.g. Wood)',
-        'An Object is always made of glass, while a material is made of metal',
-        'Objects are living things, while materials are non-living',
-        'There is no difference between them'
-      ],
-      ans: 'An Object is the thing itself (e.g. Chair), while a Material is what it is made from (e.g. Wood)'
+      q: 'Which property describes a material that allows light to pass straight through so you can see objects clearly?',
+      options: ['Opaque', 'Transparent', 'Absorbent', 'Conductor'],
+      ans: 'Transparent'
     },
     {
       id: 2,
-      q: 'Which property describes a material that DOES NOT let water pass through it?',
-      options: ['Absorbent', 'Waterproof', 'Transparent', 'Flexible'],
-      ans: 'Waterproof'
+      q: 'Why is Rubber chosen to manufacture vehicle tyres and electrical wire coatings?',
+      options: [
+        'Because rubber is flexible, elastic, waterproof, and an electrical insulator',
+        'Because rubber melts easily in rain',
+        'Because rubber conducts electricity',
+        'Because rubber is magnetic'
+      ],
+      ans: 'Because rubber is flexible, elastic, waterproof, and an electrical insulator'
     },
     {
       id: 3,
-      q: 'Why is Metal used to make cooking saucepans instead of Plastic or Wood?',
+      q: 'Why are cooking frying pans made of Metal while their handles are covered in Plastic or Wood?',
       options: [
-        'Metal conducts thermal heat quickly to cook food and withstands high temperatures',
-        'Metal is transparent so you can see inside',
-        'Metal is soft and easy to squash',
-        'Metal floats on water'
+        'Metal conducts thermal heat quickly to cook food; Plastic/Wood insulated handles protect hands from burns',
+        'Metal is cheaper than wood',
+        'Wood melts faster than metal',
+        'Plastic makes food taste better'
       ],
-      ans: 'Metal conducts thermal heat quickly to cook food and withstands high temperatures'
+      ans: 'Metal conducts thermal heat quickly to cook food; Plastic/Wood insulated handles protect hands from burns'
     },
     {
       id: 4,
-      q: 'Which of the following is a Natural material harvested from living plants?',
-      options: ['Plastic', 'Nylon', 'Cotton', 'Concrete'],
+      q: 'Which material is a NATURAL resource harvested from plants?',
+      options: ['Plastic', 'Nylon', 'Cotton', 'Synthetic Rubber'],
       ans: 'Cotton'
     },
     {
       id: 5,
-      q: 'Why is Glass chosen for building house windows?',
+      q: 'What makes Glass suitable for making greenhouse and house windows?',
       options: [
-        'Because glass is Transparent, letting light through while blocking wind and rain',
-        'Because glass is magnetic',
-        'Because glass is soft and stretchy',
-        'Because glass is an electrical conductor'
+        'Glass is transparent (lets light through) and waterproof',
+        'Glass is magnetic',
+        'Glass stretches like rubber',
+        'Glass conducts high voltage electricity'
       ],
-      ans: 'Because glass is Transparent, letting light through while blocking wind and rain'
+      ans: 'Glass is transparent (lets light through) and waterproof'
     }
   ];
 
@@ -269,27 +271,21 @@ export default function MaterialsAndPropertiesHub() {
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-600 via-yellow-600 to-orange-600 p-8 text-white shadow-xl shadow-amber-500/10">
         <div className="relative z-10 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold tracking-wider uppercase">
-            <Sparkles className="w-4 h-4 text-yellow-200" /> Science Academy • Grade 4 Material Science
+            <Sparkles className="w-4 h-4 text-yellow-200" /> Science Academy • Grade 4 Chemistry & Material Science
           </div>
           <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-            Materials & Their Properties 🪵🪟🥄
+            Materials & Their Properties 🪵⚙️
           </h1>
-          <p className="text-amber-100 text-sm md:text-base max-w-2xl font-medium leading-relaxed">
-            Everything around us is made from materials! Learn how scientists test and compare physical properties like hardness, flexibility, waterproofing, and transparency to choose the perfect material for every job.
+          <p className="text-amber-100 text-sm md:text-base max-w-2xl font-medium">
+            Everything around us is made from materials chosen for their specific physical properties! Explore Wood, Metals, Glass, Plastics, Rubber, and Fabrics.
           </p>
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button 
-              onClick={() => speakText("Materials and Their Properties. A material is what an object is made from. Different materials have different physical properties such as being hard or soft, flexible or rigid, waterproof or absorbent, transparent or opaque.")}
-              className="px-4 py-2 rounded-xl bg-white text-amber-950 font-extrabold text-xs flex items-center gap-2 hover:bg-amber-50 transition-all shadow-md cursor-pointer"
+              onClick={() => speakText("Materials and Their Properties. Materials are used to make objects based on their properties like hardness, flexibility, transparency, thermal and electrical conductivity, and absorbency.")}
+              className="px-4 py-2 rounded-xl bg-white text-amber-900 font-extrabold text-xs flex items-center gap-2 hover:bg-amber-50 transition-all shadow-md cursor-pointer"
             >
               {isPlayingAudio ? <VolumeX className="w-4 h-4 text-red-500" /> : <Volume2 className="w-4 h-4 text-amber-600" />}
               {isPlayingAudio ? 'Stop Audio' : 'Listen to Overview'}
-            </button>
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2 rounded-xl bg-amber-900/60 hover:bg-amber-900/80 text-white font-extrabold text-xs flex items-center gap-2 border border-amber-400/30 transition-all cursor-pointer"
-            >
-              🖼️ View Full Infographic Chart
             </button>
           </div>
         </div>
@@ -323,22 +319,44 @@ export default function MaterialsAndPropertiesHub() {
       {/* ==================================== TAB 1: MATERIAL COMPARATOR ==================================== */}
       {activeTab === 'overview' && (
         <div className="space-y-6">
-          
-          {/* Quick Banner */}
-          <div className="bg-gradient-to-r from-amber-500 to-orange-600 rounded-2xl p-4 text-white flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">🧪</span>
+          {/* Top Featured Infographic Poster */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
               <div>
-                <h4 className="font-extrabold text-sm">Official Materials Infographic Included</h4>
-                <p className="text-amber-100 text-xs">View the high-resolution infographic chart comparing wood, metal, plastic, glass, rubber, fabric, and stone properties.</p>
+                <span className="text-[10px] font-black uppercase tracking-wider text-amber-700 bg-amber-100 px-3 py-1 rounded-md">
+                  Visual Learning Guide • Materials & Properties Chart
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>🖼️</span> Materials & Their Properties Infographic Chart
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  Click the poster below to expand into full high-resolution view with natural/manufactured materials and properties.
+                </p>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 rounded-xl bg-amber-600 text-white font-extrabold text-xs shadow-md shadow-amber-500/20 hover:bg-amber-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Chart
+              </button>
+            </div>
+
+            <div 
+              onClick={() => setIsModalOpen(true)}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img 
+                src="/materials_and_properties_infographic.jpg" 
+                alt="Materials and Their Properties Infographic Poster" 
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-amber-600" /> Click to Expand & Zoom Image
+                </span>
               </div>
             </div>
-            <button 
-              onClick={() => setActiveTab('infographic')}
-              className="px-4 py-2 rounded-xl bg-white text-amber-950 font-black text-xs hover:bg-amber-50 transition-all shrink-0 cursor-pointer shadow-sm"
-            >
-              View Infographic Chart →
-            </button>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">

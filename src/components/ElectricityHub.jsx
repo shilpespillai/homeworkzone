@@ -12,7 +12,9 @@ import {
   Battery,
   ShieldAlert,
   Sun,
-  Wind
+  Wind,
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -44,55 +46,62 @@ export default function ElectricityHub() {
     }
   };
 
-  // Circuit Components Data
+  // 4 Circuit Components Data
   const circuitComponents = [
     {
       id: 'battery',
-      name: 'Battery / Cell',
+      num: '1',
+      name: 'Battery (Power Cell)',
       icon: '🔋',
-      symbol: '+|i-',
-      role: 'Energy Source & Voltage Push',
-      summary: 'Stores chemical energy and transforms it into electrical energy, pushing electric current around the circuit from positive (+) to negative (-) terminals.',
+      symbol: '[ + | - ]',
+      role: 'Voltage & Energy Source',
+      summary: 'Provides pushing force (voltage) that drives electric charge (electrons) through the circuit wires.',
       details: [
-        'Acts as the chemical power generator of a simple circuit.',
-        'Provides voltage (electrical pressure) that pushes electrons along wires.',
-        'Single cell vs Multi-cell battery.'
+        'Chemical energy stored inside the battery converts into electrical energy.',
+        'Direct Current (DC) flows from the positive (+) terminal toward the negative (-) terminal.',
+        'Higher voltage batteries push more electrons per second.'
       ]
     },
     {
       id: 'wires',
-      name: 'Connecting Wires',
+      num: '2',
+      name: 'Conducting Wires',
       icon: '🧵',
       symbol: '————',
-      role: 'Electrical Conductor Pathway',
-      summary: 'Copper metal wires wrapped in protective plastic insulation that carry electric current between components to complete the circuit loop.',
+      role: 'Conductor Path',
+      summary: 'Copper metal wires coated in plastic insulation that allow free electrons to travel easily.',
       details: [
-        'Copper is an excellent electrical conductor with low resistance.',
-        'Plastic outer coating acts as an electrical insulator to prevent short circuits and electrical shocks.'
-      ]
-    },
-    {
-      id: 'switch',
-      name: 'Switch (Open / Closed)',
-      icon: '🎛️',
-      symbol: '-o  o-',
-      role: 'Circuit Controller',
-      summary: 'Opens or closes the electrical pathway to control whether electric current can flow.',
-      details: [
-        'Closed Switch: Completes the electrical circuit $\\rightarrow$ Current flows $\\rightarrow$ Bulb lights up.',
-        'Open Switch: Breaks the electrical circuit $\\rightarrow$ Current stops $\\rightarrow$ Bulb goes OFF.'
+        'Made of highly conductive metals like Copper (Cu) or Aluminium (Al).',
+        'Plastic or rubber outer casing acts as an electrical insulator for safety.',
+        'Complete closed loops allow continuous current flow.'
       ]
     },
     {
       id: 'bulb',
-      name: 'Lamp / Light Bulb',
+      num: '3',
+      name: 'Lightbulb / Load',
       icon: '💡',
       symbol: '(X)',
-      role: 'Electrical Output Transducer',
-      summary: 'Transforms electrical energy into light and thermal heat energy as current passes through its thin filament.',
+      role: 'Energy Converter',
+      summary: 'Transforms electrical energy into heat and radiant light energy.',
       details: [
-        'Contains a thin tungsten wire filament.',
-        'When electric current forces its way through high resistance filament, it glows brightly!'
+        'Thin tungsten filament inside incandescent bulbs resists electron flow and glows hot white.',
+        'Modern LED bulbs use semiconductor diodes to glow with high efficiency.',
+        'Acts as the electrical load consuming circuit power.'
+      ]
+    },
+    {
+      id: 'switch',
+      num: '4',
+      name: 'Switch Control',
+      icon: '🎛️',
+      symbol: '—/ —',
+      role: 'Circuit Gate Keeper',
+      summary: 'Opens or closes the loop to start or safely stop electrical current flow.',
+      details: [
+        'CLOSED SWITCH: Creates a continuous closed circuit (Current Flows $\rightarrow$ Bulb Lights Up).',
+        'OPEN SWITCH: Creates a gap or break in the circuit (Current Stops $\rightarrow$ Bulb Turns Off).',
+        'Fuses and circuit breakers automatically open when current exceeds safe limits.'
       ]
     }
   ];
@@ -113,43 +122,48 @@ export default function ElectricityHub() {
   const quizQuestions = [
     {
       id: 1,
-      q: 'Which component provides the electrical energy and pushes electric current around a simple circuit?',
-      options: ['Light Bulb', 'Battery / Cell', 'Open Switch', 'Plastic Insulator'],
-      ans: 'Battery / Cell'
+      q: 'Which device acts as the power source that pushes electrons through an electrical circuit?',
+      options: ['Lightbulb', 'Battery', 'Switch', 'Resistor'],
+      ans: 'Battery'
     },
     {
       id: 2,
-      q: 'What happens when a switch in an electric circuit is OPEN?',
+      q: 'What happens when a switch in a simple electrical circuit is OPENED?',
       options: [
-        'The circuit is broken and electricity CANNOT flow (Bulb OFF)',
-        'The circuit is complete and electricity flows faster',
-        'The battery charges automatically',
-        'The wires melt'
+        'The circuit is broken and electric current stops flowing',
+        'The lightbulb glows twice as bright',
+        'Electrons flow faster',
+        'The battery recharges'
       ],
-      ans: 'The circuit is broken and electricity CANNOT flow (Bulb OFF)'
+      ans: 'The circuit is broken and electric current stops flowing'
     },
     {
       id: 3,
-      q: 'Which of the following materials is a good Electrical Conductor?',
-      options: ['Rubber eraser', 'Copper metal wire', 'Wooden stick', 'Plastic bottle'],
-      ans: 'Copper metal wire'
+      q: 'Why is Copper widely used to manufacture electric conducting wires?',
+      options: [
+        'Because Copper is an electrical insulator',
+        'Because Copper is a good conductor that allows electricity to flow easily',
+        'Because Copper glows in the dark',
+        'Because Copper is magnetic'
+      ],
+      ans: 'Because Copper is a good conductor that allows electricity to flow easily'
     },
     {
       id: 4,
-      q: 'Why are Parallel Circuits used in household lighting instead of Series Circuits?',
+      q: 'What is the main difference between Series and Parallel circuits?',
       options: [
-        'If one light bulb breaks in a parallel circuit, other lights stay ON',
-        'Parallel circuits require no wires',
-        'Series circuits are too cheap',
-        'Parallel circuits do not use electricity'
+        'In Series, electricity has 1 path; in Parallel, electricity has multiple branch paths',
+        'Series circuits operate without batteries',
+        'Parallel circuits use rubber wires',
+        'Series circuits are only used in computers'
       ],
-      ans: 'If one light bulb breaks in a parallel circuit, other lights stay ON'
+      ans: 'In Series, electricity has 1 path; in Parallel, electricity has multiple branch paths'
     },
     {
       id: 5,
-      q: 'Which energy source generates clean, renewable electricity that will never run out?',
-      options: ['Coal Power Station', 'Solar Panels & Wind Turbines', 'Petroleum Oil', 'Natural Gas'],
-      ans: 'Solar Panels & Wind Turbines'
+      q: 'Which material is a safe electrical INSULATOR used to coat wire handles?',
+      options: ['Aluminum', 'Rubber / Plastic', 'Copper', 'Iron'],
+      ans: 'Rubber / Plastic'
     }
   ];
 
@@ -170,20 +184,20 @@ export default function ElectricityHub() {
     <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-8 font-sans">
       
       {/* Top Banner Header */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-600 p-8 text-white shadow-xl shadow-amber-500/10">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-600 p-8 text-white shadow-xl shadow-amber-500/10">
         <div className="relative z-10 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold tracking-wider uppercase">
-            <Sparkles className="w-4 h-4 text-yellow-200" /> Science Academy • Grade 4 Physical Science
+            <Sparkles className="w-4 h-4 text-yellow-200" /> Science Academy • Grade 4 Physics & Energy
           </div>
           <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-            Electricity & Simple Circuits ⚡
+            Electricity & Simple Circuits ⚡🔋
           </h1>
-          <p className="text-amber-100 text-sm md:text-base max-w-2xl font-medium leading-relaxed">
-            Electricity is a form of energy that powers lights, appliances, and devices. Learn how electric current flows through complete circuits, conductors, insulators, and safety rules!
+          <p className="text-amber-100 text-sm md:text-base max-w-2xl font-medium">
+            Electricity powers our modern world! Explore circuit components, conductors, insulators, series vs parallel connections, and electrical safety.
           </p>
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button 
-              onClick={() => speakText("Electricity in Our Lives. Simple Electric Circuits. Electricity is a form of energy that flows in a complete loop from a battery through wires to light bulbs or motors.")}
+              onClick={() => speakText("Electricity and Simple Circuits. Electricity is the flow of tiny charged particles called electrons. A circuit must be a complete closed loop for current to flow.")}
               className="px-4 py-2 rounded-xl bg-white text-amber-900 font-extrabold text-xs flex items-center gap-2 hover:bg-amber-50 transition-all shadow-md cursor-pointer"
             >
               {isPlayingAudio ? <VolumeX className="w-4 h-4 text-red-500" /> : <Volume2 className="w-4 h-4 text-amber-600" />}
@@ -226,6 +240,46 @@ export default function ElectricityHub() {
       {/* ==================================== TAB 1: COMPONENTS ==================================== */}
       {activeTab === 'overview' && (
         <div className="space-y-6">
+          
+          {/* Top Featured Infographic Poster */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider text-amber-700 bg-amber-100 px-3 py-1 rounded-md">
+                  Visual Learning Guide • Circuit Diagram Chart
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>🖼️</span> Electricity & Circuits Infographic Chart
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  Click the poster below to expand into full high-resolution view with conductors, series/parallel circuits, and safety.
+                </p>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 rounded-xl bg-amber-600 text-white font-extrabold text-xs shadow-md shadow-amber-500/20 hover:bg-amber-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Chart
+              </button>
+            </div>
+
+            <div 
+              onClick={() => setIsModalOpen(true)}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img 
+                src="/electricity_infographic.jpg" 
+                alt="Electricity and Circuits Infographic Poster" 
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-amber-600" /> Click to Expand & Zoom Image
+                </span>
+              </div>
+            </div>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {circuitComponents.map((c) => (
               <div 

@@ -161,20 +161,25 @@ export default function ConservationHub() {
     },
     {
       id: 4,
-      q: 'What extraordinary navigation feat do adult female sea turtles perform when ready to lay eggs?',
+      q: 'Why are floating plastic bags in the ocean extremely dangerous to sea turtles?',
       options: [
-        'They return thousands of kilometers to the exact beach where they were born (Philopatry)',
-        'They lay eggs on floating iceberg ice',
-        'They lay eggs in deep underwater caves',
-        'They lay eggs in river mud'
+        'Turtles mistake floating plastic bags for jellyfish and swallow them, causing internal blockages',
+        'Plastic bags dissolve into acid',
+        'Plastic bags sink turtles',
+        'Plastic bags block sunlight'
       ],
-      ans: 'They return thousands of kilometers to the exact beach where they were born (Philopatry)'
+      ans: 'Turtles mistake floating plastic bags for jellyfish and swallow them, causing internal blockages'
     },
     {
       id: 5,
-      q: 'How many of the world\'s 7 sea turtle species are found in Australian waters?',
-      options: ['6 out of 7 species', '1 out of 7 species', 'All 15 species', 'None'],
-      ans: '6 out of 7 species'
+      q: 'What community action helps protect sea turtle nesting dunes on local beaches?',
+      options: [
+        'Turning off beachside lights during nesting season and avoiding single-use plastics',
+        'Driving quad bikes over dunes',
+        'Leaving plastic trash on sand',
+        'Digging up turtle eggs'
+      ],
+      ans: 'Turning off beachside lights during nesting season and avoiding single-use plastics'
     }
   ];
 
@@ -229,8 +234,6 @@ export default function ConservationHub() {
         {[
           { id: 'overview', label: 'Meet the 5 Species', icon: '🐢' },
           { id: 'infographic', label: 'Full Infographic Chart', icon: '🖼️' },
-          { id: 'lifecycle', label: 'Nesting Life Cycle', icon: '🪺' },
-          { id: 'importance', label: 'Why Turtles Matter', icon: '🌿' },
           { id: 'threats', label: 'Threats & Community Solutions', icon: '🛡️' },
           { id: 'action', label: 'What You Can Do', icon: '♻️' },
           { id: 'quiz', label: 'Knowledge Check Quiz', icon: '🏆' }
@@ -253,21 +256,44 @@ export default function ConservationHub() {
       {activeTab === 'overview' && (
         <div className="space-y-6">
           
-          {/* Quick Banner */}
-          <div className="bg-gradient-to-r from-teal-600 to-cyan-700 rounded-2xl p-4 text-white flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">🐢</span>
+          {/* Top Featured Infographic Poster */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
               <div>
-                <h4 className="font-extrabold text-sm">Official Sea Turtle Conservation Infographic Included</h4>
-                <p className="text-teal-100 text-xs">View the high-resolution infographic chart detailing sea turtle species, nesting life cycle, threats, turtle-friendly beaches, and science fieldwork.</p>
+                <span className="text-[10px] font-black uppercase tracking-wider text-teal-700 bg-teal-100 px-3 py-1 rounded-md">
+                  Visual Learning Guide • Sea Turtle Conservation Chart
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>🖼️</span> Sea Turtle Conservation Infographic Chart
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  Click the poster below to expand into full high-resolution view with species, life cycle, and plastic threats.
+                </p>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 rounded-xl bg-teal-600 text-white font-extrabold text-xs shadow-md shadow-teal-500/20 hover:bg-teal-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Chart
+              </button>
+            </div>
+
+            <div 
+              onClick={() => setIsModalOpen(true)}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img 
+                src="/sea_turtle_conservation_infographic.jpg" 
+                alt="Sea Turtle Conservation Infographic Poster" 
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-teal-600" /> Click to Expand & Zoom Image
+                </span>
               </div>
             </div>
-            <button 
-              onClick={() => setActiveTab('infographic')}
-              className="px-4 py-2 rounded-xl bg-white text-teal-950 font-black text-xs hover:bg-teal-50 transition-all shrink-0 cursor-pointer shadow-sm"
-            >
-              View Infographic Chart →
-            </button>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-2">

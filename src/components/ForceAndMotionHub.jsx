@@ -10,7 +10,9 @@ import {
   Compass,
   Zap,
   ShieldCheck,
-  Scale
+  Scale,
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -42,56 +44,61 @@ export default function ForceAndMotionHub() {
     }
   };
 
-  // Effects of a Force
+  // 5 Main Effects of a Force Data
   const forceEffects = [
     {
       id: 'start',
+      num: '1',
       name: 'Start Motion',
-      icon: '⚾',
-      summary: 'A force causes a stationary (still) object to start moving in the direction of the force.',
+      icon: '⚽',
+      summary: 'A push or pull can make a stationary object begin to move.',
       details: [
-        'Example: Hitting a stationary baseball with a bat or kicking a soccer ball on the field.',
-        'An unbalanced force breaks the state of rest.'
+        'Kicking a stationary soccer ball sitting on grass causes it to accelerate forward.',
+        'Pulling open a heavy closed door from a resting state.'
       ]
     },
     {
       id: 'stop',
+      num: '2',
       name: 'Stop Motion',
-      icon: '⚾',
-      summary: 'An opposing force slows down and stops a moving object.',
+      icon: '🛑',
+      summary: 'An opposing force can bring a moving object to a complete halt.',
       details: [
-        'Example: Catching a baseball with a glove or pulling the brakes on a bicycle.',
-        'Friction and air resistance act as stopping forces.'
+        'A goalkeeper catching a flying football in mid-air.',
+        'Squeezing bicycle brake pads against rotating wheels to stop.'
       ]
     },
     {
       id: 'speed',
+      num: '3',
       name: 'Change Speed',
-      icon: '🚗',
-      summary: 'Pushes or pulls make an object move faster (accelerate) or slower (decelerate).',
+      icon: '🚀',
+      summary: 'Force can accelerate an object (go faster) or decelerate it (slow down).',
       details: [
-        'Pushing gas pedal applies forward engine force $\\rightarrow$ Speeds up car.',
-        'Slamming brakes creates friction $\\rightarrow$ Slows down car.'
+        'Pushing a child on a swing harder speeds them up.',
+        'Air resistance and friction slow down a rolling skateboard.'
       ]
     },
     {
       id: 'direction',
+      num: '4',
       name: 'Change Direction',
-      icon: '🏒',
-      summary: 'A sideways force alters the path or trajectory of a moving object.',
+      icon: '🎾',
+      summary: 'Applying force at an angle alters the vector path of a moving object.',
       details: [
-        'Example: A hockey stick deflecting a sliding puck around a curve.',
-        'Steering wheel turning car wheels.'
+        'Hitting a moving tennis ball with a racket sends it returning across the court.',
+        'Steering a bicycle handlebar changes the direction of motion.'
       ]
     },
     {
       id: 'shape',
+      num: '5',
       name: 'Change Shape',
-      icon: '🩴',
-      summary: 'Forces can stretch, squash, bend, or twist physical materials.',
+      icon: '🧩',
+      summary: 'Compressing, stretching, or twisting alters physical dimensions.',
       details: [
-        'Example: Stretching slime, squashing a rubber ball, or twisting a sponge.',
-        'Deforms the physical structure.'
+        'Squeezing a soft foam sponge or modeling clay.',
+        'Stretching an elastic rubber band or bending a metal spring.'
       ]
     }
   ];
@@ -114,43 +121,38 @@ export default function ForceAndMotionHub() {
   const quizQuestions = [
     {
       id: 1,
-      q: 'What is the definition of a Force in physics?',
-      options: ['A push or a pull', 'A type of liquid', 'Light energy from the Sun', 'Sound vibration'],
-      ans: 'A push or a pull'
+      q: 'What is the scientific definition of a Force?',
+      options: ['A push or a pull acting upon an object', 'Speed divided by time', 'Heat energy from the sun', 'Electrical voltage'],
+      ans: 'A push or a pull acting upon an object'
     },
     {
       id: 2,
-      q: 'What happens to a moving car when BALANCED forces act on it?',
+      q: 'What happens when BALANCED forces act upon an object?',
       options: [
-        'The car continues moving at the exact same speed and direction',
-        'The car immediately stops',
-        'The car flies into the air',
-        'The car turns upside down'
+        'The forces are equal and opposite, so the object remains at rest or constant speed',
+        'The object speeds up rapidly',
+        'The object changes shape immediately',
+        'Gravity disappears'
       ],
-      ans: 'The car continues moving at the exact same speed and direction'
+      ans: 'The forces are equal and opposite, so the object remains at rest or constant speed'
     },
     {
       id: 3,
-      q: 'Which force pulls falling apples down to Earth and keeps our feet on the ground?',
-      options: ['Magnetism', 'Gravity', 'Air Resistance', 'Sound'],
+      q: 'Which non-contact invisible force pulls all objects down toward Earth\'s center?',
+      options: ['Friction', 'Air Resistance', 'Gravity', 'Magnetism'],
       ans: 'Gravity'
     },
     {
       id: 4,
-      q: 'Which contact force resists sliding motion between shoes and ground to stop us from slipping?',
-      options: ['Friction', 'Light', 'Electricity', 'Heat'],
+      q: 'Which contact force opposes motion whenever two surfaces rub against each other?',
+      options: ['Friction', 'Gravity', 'Electrostatics', 'Tension'],
       ans: 'Friction'
     },
     {
       id: 5,
-      q: 'What happens when two people pull a rope in a Tug-of-War with UNBALANCED forces (15 N left vs 5 N right)?',
-      options: [
-        'The rope moves towards the left (stronger 15 N force)',
-        'The rope stays perfectly still',
-        'The rope disappears',
-        'Nothing changes'
-      ],
-      ans: 'The rope moves towards the left (stronger 15 N force)'
+      q: 'When you squeeze a piece of soft modeling clay in your hands, which effect of force are you demonstrating?',
+      options: ['Changing the shape of the object', 'Changing the color of the object', 'Stopping light', 'Generating electricity'],
+      ans: 'Changing the shape of the object'
     }
   ];
 
@@ -171,20 +173,20 @@ export default function ForceAndMotionHub() {
     <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-8 font-sans">
       
       {/* Top Banner Header */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-700 p-8 text-white shadow-xl shadow-blue-500/10">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-700 p-8 text-white shadow-xl shadow-blue-500/10">
         <div className="relative z-10 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold tracking-wider uppercase">
-            <Sparkles className="w-4 h-4 text-yellow-300" /> Science Academy • Grade 4 Physical Science
+            <Sparkles className="w-4 h-4 text-yellow-300" /> Science Academy • Grade 4 Physics & Mechanics
           </div>
           <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-            Force & Motion 🚴💨
+            Force & Motion 🏃‍♂️⚽
           </h1>
-          <p className="text-blue-100 text-sm md:text-base max-w-2xl font-medium leading-relaxed">
-            Forces are pushes or pulls that make things move, stop, start, change speed, or change direction! Understand balanced forces, friction, and gravity.
+          <p className="text-blue-100 text-sm md:text-base max-w-2xl font-medium">
+            Forces shape how everything moves in our universe! Explore pushes, pulls, gravity, friction, balanced vs unbalanced forces, and the 5 key effects of force.
           </p>
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button 
-              onClick={() => speakText("Force and Motion. Forces make things move, stop, start or change direction. A force is a push or a pull. Balanced forces cause no change in motion, while unbalanced forces cause motion to change.")}
+              onClick={() => speakText("Force and Motion. A force is a push or a pull that can make objects start moving, stop, change speed, change direction, or change shape.")}
               className="px-4 py-2 rounded-xl bg-white text-blue-900 font-extrabold text-xs flex items-center gap-2 hover:bg-blue-50 transition-all shadow-md cursor-pointer"
             >
               {isPlayingAudio ? <VolumeX className="w-4 h-4 text-red-500" /> : <Volume2 className="w-4 h-4 text-blue-600" />}
@@ -226,6 +228,47 @@ export default function ForceAndMotionHub() {
       {/* ==================================== TAB 1: 5 EFFECTS ==================================== */}
       {activeTab === 'overview' && (
         <div className="space-y-6">
+          
+          {/* Top Featured Infographic Poster */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 bg-blue-100 px-3 py-1 rounded-md">
+                  Visual Learning Guide • Mechanics & Physics Chart
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>🖼️</span> Force & Motion Infographic Chart
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  Click the poster below to expand into full high-resolution view with gravity, friction, and force effects.
+                </p>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 rounded-xl bg-blue-600 text-white font-extrabold text-xs shadow-md shadow-blue-500/20 hover:bg-blue-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Chart
+              </button>
+            </div>
+
+            <div 
+              onClick={() => setIsModalOpen(true)}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img 
+                src="/force_and_motion_infographic.jpg" 
+                alt="Force and Motion Infographic Poster" 
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-blue-600" /> Click to Expand & Zoom Image
+                </span>
+              </div>
+            </div>
+          </div>
+          
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
             {forceEffects.map((e) => (
               <div 

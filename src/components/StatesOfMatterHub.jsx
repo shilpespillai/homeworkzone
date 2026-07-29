@@ -12,7 +12,9 @@ import {
   Zap,
   Box,
   Droplets,
-  Wind
+  Wind,
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -44,78 +46,69 @@ export default function StatesOfMatterHub() {
     }
   };
 
-  // 3 Primary States of Matter
+  // 3 Primary States of Matter Data
   const statesData = [
     {
       id: 'solid',
       num: '1',
-      name: 'Solid',
+      name: 'Solids',
       icon: '🧊',
+      rule: 'Definite Shape & Fixed Volume',
       color: 'bg-blue-50 border-blue-200 text-blue-900',
       badgeBg: 'bg-blue-600 text-white',
-      rule: 'Solids keep their own fixed shape and volume.',
-      particleArrangement: 'Tightly packed in a fixed, regular lattice pattern.',
-      particleMovement: 'Particles vibrate back and forth in fixed positions.',
-      compressibility: 'Cannot be compressed easily.',
-      flowability: 'Does not flow.',
-      examples: 'Ice cubes, rocks, wooden blocks, pencils, metal spoons, solid chocolate bars.',
-      keyCharacteristics: [
-        'Has a definite, fixed shape that does not change on its own.',
-        'Has a definite volume (takes up a specific amount of space).',
-        'Strong attractive forces hold particles tightly together in place.',
-        'Requires strong force or thermal heating to change form.'
+      particleArrangement: 'Tightly packed in a regular, fixed pattern.',
+      particleMovement: 'Vibrate back and forth in fixed positions; cannot move freely.',
+      examples: 'Ice cubes, rocks, wooden desks, diamond, metal coins.',
+      keyFacts: [
+        'Particles attract each other with very strong forces.',
+        'Solids cannot be easily compressed because particles are already touching.',
+        'Keep their shape regardless of the container they are placed in.'
       ]
     },
     {
       id: 'liquid',
       num: '2',
-      name: 'Liquid',
+      name: 'Liquids',
       icon: '💧',
+      rule: 'No Definite Shape, Fixed Volume',
       color: 'bg-emerald-50 border-emerald-200 text-emerald-900',
       badgeBg: 'bg-emerald-600 text-white',
-      rule: 'Liquids flow and take the shape of their container.',
-      particleArrangement: 'Close together in a random, loose arrangement.',
-      particleMovement: 'Particles move, slide, and roll past each other.',
-      compressibility: 'Hardly compressible.',
-      flowability: 'Flows easily.',
-      examples: 'Water, milk, fruit juice, cooking oil, honey, melted chocolate.',
-      keyCharacteristics: [
-        'Has no fixed shape—takes the exact shape of whatever container it is poured into.',
-        'Has a definite fixed volume (1 Liter of water remains 1 Liter in any jar).',
-        'Attractive forces are weaker than solids, allowing particles to slide.',
-        'Forms a flat horizontal surface when left still under gravity.'
+      particleArrangement: 'Close together with no fixed pattern.',
+      particleMovement: 'Flow and slide past one another smoothly.',
+      examples: 'Liquid water, milk, fruit juice, oil, honey.',
+      keyFacts: [
+        'Particles have enough thermal energy to break rigid structures.',
+        'Takes the shape of whichever container it is poured into.',
+        'Has a fixed volume that does not change when poured into different containers.'
       ]
     },
     {
       id: 'gas',
       num: '3',
-      name: 'Gas',
+      name: 'Gases',
       icon: '💨',
+      rule: 'No Definite Shape, No Fixed Volume',
       color: 'bg-purple-50 border-purple-200 text-purple-900',
       badgeBg: 'bg-purple-600 text-white',
-      rule: 'Gases spread out to fill their entire container.',
-      particleArrangement: 'Far apart with large empty spaces between particles.',
-      particleMovement: 'Particles move very rapidly and freely in all directions.',
-      compressibility: 'Can be compressed easily.',
-      flowability: 'Flows and diffuses rapidly.',
-      examples: 'Air, Oxygen (O₂), Water vapour, Helium (He), Carbon dioxide (CO₂).',
-      keyCharacteristics: [
-        'Has no fixed shape and no fixed volume.',
-        'Expands completely to fill any sealed space or container.',
-        'Attractive forces between particles are extremely weak.',
-        'Can be squeezed into a smaller volume (compressed) because of empty space between particles.'
+      particleArrangement: 'Far apart with massive empty spaces between particles.',
+      particleMovement: 'Move rapidly in all directions at high speeds.',
+      examples: 'Water vapour, oxygen gas, helium in balloons, air.',
+      keyFacts: [
+        'Particles have high kinetic energy and very weak attractive forces.',
+        'Spreads out to completely fill any container or space available (diffusion).',
+        'Can be easily compressed into smaller spaces under pressure.'
       ]
     }
   ];
 
-  // Changes of State (Phase Transitions)
+  // Phase Changes Data
   const phaseChanges = [
-    { name: 'Melting ☀️', process: 'Solid → Liquid', detail: 'Solid gains heat energy; particles vibrate faster and break out of fixed positions (e.g. Ice cube melting to water, solid chocolate melting).' },
-    { name: 'Evaporation / Boiling ♨️', process: 'Liquid → Gas', detail: 'Liquid gains heat energy; surface particles gain enough energy to escape into invisible gas (e.g. Water boiling into steam).' },
-    { name: 'Freezing ❄️', process: 'Liquid → Solid', detail: 'Liquid loses heat energy; particles slow down and lock into a fixed lattice structure (e.g. Water freezing into ice).' },
-    { name: 'Condensation ☁️', process: 'Gas → Liquid', detail: 'Gas cools down and loses heat energy; fast particles slow down and cluster into liquid droplets (e.g. Steam forming water drops on cold glass).' },
-    { name: 'Sublimation ⚡', process: 'Solid → Gas (Direct)', detail: 'Solid gains rapid heat energy and transforms directly into gas without becoming liquid first (e.g. Dry ice / solid CO₂).' },
-    { name: 'Deposition 🌫️', process: 'Gas → Solid (Direct)', detail: 'Gas loses rapid heat energy and turns directly into solid without becoming liquid first (e.g. Frost forming on car windows in winter).' }
+    { name: 'Melting', transition: 'Solid → Liquid', trigger: 'Heat Added (+ Temp)', eg: 'Ice melting into liquid water at 0°C', icon: '🔥' },
+    { name: 'Freezing (Solidification)', transition: 'Liquid → Solid', trigger: 'Heat Removed (- Temp)', eg: 'Water freezing into solid ice at 0°C', icon: '❄️' },
+    { name: 'Evaporation / Boiling', transition: 'Liquid → Gas', trigger: 'Heat Added (+ Temp)', eg: 'Water boiling into steam vapour at 100°C', icon: '♨️' },
+    { name: 'Condensation', transition: 'Gas → Liquid', trigger: 'Heat Removed (- Temp)', eg: 'Steam cooling into water droplets on glass', icon: '🌧️' },
+    { name: 'Sublimation', transition: 'Solid → Gas (Direct)', trigger: 'Heat Added (+ Temp)', eg: 'Dry ice (solid CO₂) turning directly into gas', icon: '💨' },
+    { name: 'Deposition', transition: 'Gas → Solid (Direct)', trigger: 'Heat Removed (- Temp)', eg: 'Water vapour turning into frost on winter windows', icon: '🌨️' }
   ];
 
   // Key Science Vocabulary
@@ -132,48 +125,43 @@ export default function StatesOfMatterHub() {
   const quizQuestions = [
     {
       id: 1,
-      q: 'Which state of matter has a fixed shape and a fixed volume, with particles vibrating in fixed positions?',
+      q: 'Which state of matter has a definite shape and a fixed volume where particles vibrate in place?',
       options: ['Gas', 'Liquid', 'Solid', 'Plasma'],
       ans: 'Solid'
     },
     {
       id: 2,
-      q: 'What happens to the movement of particles when heat energy is added to matter?',
+      q: 'What occurs during Evaporation or Boiling?',
       options: [
-        'Particles move faster and gain energy',
-        'Particles stop moving completely',
-        'Particles turn into water',
-        'Particles move slower'
+        'Liquid turns into a gas when heated',
+        'Gas turns into a liquid when cooled',
+        'Solid turns into a liquid',
+        'Gas turns into a solid'
       ],
-      ans: 'Particles move faster and gain energy'
+      ans: 'Liquid turns into a gas when heated'
     },
     {
       id: 3,
-      q: 'Which process describes a Liquid losing heat energy and changing into a Solid?',
-      options: ['Melting', 'Freezing', 'Evaporation', 'Sublimation'],
-      ans: 'Freezing'
+      q: 'Which state of matter has no definite shape and no fixed volume, spreading out to fill its container?',
+      options: ['Solid', 'Liquid', 'Gas', 'Ice'],
+      ans: 'Gas'
     },
     {
       id: 4,
-      q: 'Why can Gases be compressed easily into smaller spaces?',
+      q: 'What is Sublimation?',
       options: [
-        'Gas particles are very heavy',
-        'Gas particles have large empty spaces between them',
-        'Gas particles are locked in place',
-        'Gases are always cold'
+        'Solid turning directly into a gas without becoming a liquid',
+        'Liquid turning into solid ice',
+        'Gas turning into water drops',
+        'Water boiling on a stove'
       ],
-      ans: 'Gas particles have large empty spaces between them'
+      ans: 'Solid turning directly into a gas without becoming a liquid'
     },
     {
       id: 5,
-      q: 'What is Plasma, the fourth state of matter?',
-      options: [
-        'A very cold frozen liquid',
-        'A very hot, electrically charged state of matter found in stars and lightning',
-        'Pure drinking water',
-        'A type of solid rock'
-      ],
-      ans: 'A very hot, electrically charged state of matter found in stars and lightning'
+      q: 'At what temperature does pure liquid water freeze into solid ice?',
+      options: ['100°C', '0°C', '50°C', '-50°C'],
+      ans: '0°C'
     }
   ];
 
@@ -194,7 +182,7 @@ export default function StatesOfMatterHub() {
     <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-8 font-sans">
       
       {/* Top Banner Header */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 p-8 text-white shadow-xl shadow-blue-500/10">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 p-8 text-white shadow-xl shadow-indigo-500/10">
         <div className="relative z-10 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold tracking-wider uppercase">
             <Sparkles className="w-4 h-4 text-yellow-300" /> Science Academy • Grade 4 Physical Science
@@ -202,20 +190,20 @@ export default function StatesOfMatterHub() {
           <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
             States of Matter 🧊💧💨
           </h1>
-          <p className="text-blue-100 text-sm md:text-base max-w-2xl font-medium">
-            Everything around us is made of matter! Explore Solids, Liquids, Gases, Plasma, particle arrangements, and thermal phase changes.
+          <p className="text-indigo-100 text-sm md:text-base max-w-2xl font-medium">
+            Everything in the universe is made of matter! Explore Solids, Liquids, and Gases, particle behavior, and thermal phase changes.
           </p>
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button 
-              onClick={() => speakText("States of Matter. Everything around us is made of matter. The three main states of matter are Solid, Liquid, and Gas. Matter can change state when heated or cooled.")}
-              className="px-4 py-2 rounded-xl bg-white text-blue-900 font-extrabold text-xs flex items-center gap-2 hover:bg-blue-50 transition-all shadow-md cursor-pointer"
+              onClick={() => speakText("States of Matter. Matter exists in three primary states on Earth: Solids, Liquids, and Gases. Heating or cooling causes thermal phase changes like melting, freezing, evaporation, and condensation.")}
+              className="px-4 py-2 rounded-xl bg-white text-indigo-900 font-extrabold text-xs flex items-center gap-2 hover:bg-indigo-50 transition-all shadow-md cursor-pointer"
             >
-              {isPlayingAudio ? <VolumeX className="w-4 h-4 text-red-500" /> : <Volume2 className="w-4 h-4 text-blue-600" />}
+              {isPlayingAudio ? <VolumeX className="w-4 h-4 text-red-500" /> : <Volume2 className="w-4 h-4 text-indigo-600" />}
               {isPlayingAudio ? 'Stop Audio' : 'Listen to Overview'}
             </button>
             <button
               onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2 rounded-xl bg-blue-800/60 hover:bg-blue-800/80 text-white font-extrabold text-xs flex items-center gap-2 border border-blue-400/30 transition-all cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-indigo-800/60 hover:bg-indigo-800/80 text-white font-extrabold text-xs flex items-center gap-2 border border-indigo-400/30 transition-all cursor-pointer"
             >
               🖼️ View Full Infographic Chart
             </button>
@@ -226,11 +214,10 @@ export default function StatesOfMatterHub() {
       {/* Navigation Tabs */}
       <div className="flex gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
         {[
-          { id: 'overview', label: 'Solid, Liquid & Gas', icon: '🧊' },
+          { id: 'overview', label: '3 States of Matter', icon: '🧊' },
           { id: 'infographic', label: 'Full Infographic Chart', icon: '🖼️' },
-          { id: 'changes', label: 'Changes of State', icon: '🔄' },
-          { id: 'particles', label: 'Particle Behavior & Heat', icon: '⚡' },
-          { id: 'plasma', label: 'Plasma & Science Vocab', icon: '🌩️' },
+          { id: 'phase', label: 'Phase Changes & Heat', icon: '🔥' },
+          { id: 'particles', label: 'Particle Theory', icon: '⚛️' },
           { id: 'quiz', label: 'Knowledge Check Quiz', icon: '🏆' }
         ].map(tab => (
           <button
@@ -238,7 +225,7 @@ export default function StatesOfMatterHub() {
             onClick={() => setActiveTab(tab.id)}
             className={`px-5 py-3 rounded-2xl font-black text-xs flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
               activeTab === tab.id
-                ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20 scale-102'
+                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20 scale-102'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
@@ -251,21 +238,44 @@ export default function StatesOfMatterHub() {
       {activeTab === 'overview' && (
         <div className="space-y-6">
           
-          {/* Quick Banner */}
-          <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-4 text-white flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">🧊</span>
+          {/* Top Featured Infographic Poster */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
               <div>
-                <h4 className="font-extrabold text-sm">Official States of Matter Chart Included</h4>
-                <p className="text-indigo-100 text-xs">View the high-resolution infographic chart detailing solids, liquids, gases, particles, and phase changes.</p>
+                <span className="text-[10px] font-black uppercase tracking-wider text-indigo-700 bg-indigo-100 px-3 py-1 rounded-md">
+                  Visual Learning Guide • States of Matter Chart
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>🖼️</span> States of Matter Infographic Chart
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  Click the poster below to expand into full high-resolution view with Solids, Liquids, Gases, and Phase Changes.
+                </p>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 rounded-xl bg-indigo-600 text-white font-extrabold text-xs shadow-md shadow-indigo-500/20 hover:bg-indigo-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Chart
+              </button>
+            </div>
+
+            <div 
+              onClick={() => setIsModalOpen(true)}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img 
+                src="/states_of_matter_infographic.jpg" 
+                alt="States of Matter Infographic Poster" 
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-indigo-600" /> Click to Expand & Zoom Image
+                </span>
               </div>
             </div>
-            <button 
-              onClick={() => setActiveTab('infographic')}
-              className="px-4 py-2 rounded-xl bg-white text-indigo-900 font-black text-xs hover:bg-indigo-50 transition-all shrink-0 cursor-pointer shadow-sm"
-            >
-              View Infographic Chart →
-            </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

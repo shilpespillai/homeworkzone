@@ -12,7 +12,9 @@ import {
   Droplets,
   TreeDeciduous,
   Wind,
-  ShieldAlert
+  ShieldAlert,
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -99,46 +101,44 @@ export default function WaterCycleHub() {
       num: '4',
       name: 'Precipitation',
       icon: '🌧️',
-      stateChange: 'Atmospheric Water → Earth Surface',
+      stateChange: 'Water / Ice Falling from Sky',
       color: 'bg-blue-50 border-blue-200 text-blue-900',
       badgeBg: 'bg-blue-600 text-white',
-      summary: 'When cloud droplets become too large and heavy for rising air to support, gravity pulls them down to Earth as rain, snow, sleet, or hail.',
+      summary: 'When cloud water droplets become too heavy to remain suspended in the air, gravity pulls them down to Earth as rain, snow, sleet, or hail.',
       detailedExplanation: [
-        'As cloud droplets collide, they grow into heavy raindrops.',
-        'Rain: Liquid water droplets falling when atmospheric temperatures remain above freezing (0°C).',
-        'Snow: Hexagonal ice crystals forming when temperatures are below freezing.',
-        'Sleet: Frozen raindrops or slushy ice pellets.',
-        'Hail: Hard balls of ice formed by strong thunderstorm updrafts repeatedly lifting ice frozen layers.'
+        'Cloud droplets collide and coalesce into larger drops.',
+        'When droplets reach 0.5mm or larger, gravity overcomes atmospheric updrafts.',
+        'Falls as rain (above 0°C), snow (freezing crystals), sleet (freezing rain), or hail (layered ice pellets).'
       ]
     },
     {
       id: 'collection',
       num: '5',
-      name: 'Collection',
+      name: 'Collection (Accumulation)',
       icon: '🌊',
-      stateChange: 'Surface Water Accumulation',
-      color: 'bg-cyan-50 border-cyan-200 text-cyan-900',
-      badgeBg: 'bg-cyan-600 text-white',
-      summary: 'Precipitation gathers in natural reservoirs across Earth—such as oceans, lakes, rivers, streams, and ice sheets.',
+      stateChange: 'Water Gathering in Earth Reservoirs',
+      color: 'bg-indigo-50 border-indigo-200 text-indigo-900',
+      badgeBg: 'bg-indigo-600 text-white',
+      summary: 'Precipitation gathers in Earth\'s major water bodies including oceans, seas, lakes, rivers, and ice caps.',
       detailedExplanation: [
-        'Oceans hold approximately 97% of Earth\'s total water supply.',
-        'Freshwater lakes, rivers, and glaciers collect the remaining 3%.',
-        'Collection provides the vast water reserves required for solar evaporation to restart.'
+        'Over 97% of Earth\'s total water is stored in salty oceans.',
+        'Freshwater is collected in rivers, freshwater lakes, and polar ice sheets.',
+        'Provides liquid water available for evaporation to restart the endless cycle.'
       ]
     },
     {
       id: 'runoff',
       num: '6',
-      name: 'Runoff',
+      name: 'Surface Runoff',
       icon: '🏔️',
-      stateChange: 'Surface Flow via Gravity',
-      color: 'bg-indigo-50 border-indigo-200 text-indigo-900',
-      badgeBg: 'bg-indigo-600 text-white',
-      summary: 'Excess rain or melting snow flows over land surfaces downhill into creeks, streams, rivers, and eventually oceans.',
+      stateChange: 'Liquid Flowing Across Land Surface',
+      color: 'bg-teal-50 border-teal-200 text-teal-900',
+      badgeBg: 'bg-teal-600 text-white',
+      summary: 'Precipitation that does not soak into soil flows over land, mountains, and roads under gravity toward streams, rivers, and oceans.',
       detailedExplanation: [
-        'Occurs when soil is fully saturated or when rain falls on impermeable surfaces (rocks, concrete, roads).',
-        'Surface runoff carves valleys, shapes landscapes, and carries minerals into freshwater bodies.',
-        'Melting mountain snowpacks produce spring snowmelt runoff vital for river systems.'
+        'Occurs when soil is fully saturated or land consists of hard rock/impermeable concrete.',
+        'Gravity pulls surface water downhill through creeks, streams, and major river systems.',
+        'Carries rich minerals and sediment back into lakes and oceans.'
       ]
     },
     {
@@ -146,39 +146,39 @@ export default function WaterCycleHub() {
       num: '7',
       name: 'Infiltration',
       icon: '🌱',
-      stateChange: 'Surface Water → Soil Moisture',
-      color: 'bg-stone-50 border-stone-200 text-stone-900',
-      badgeBg: 'bg-stone-600 text-white',
-      summary: 'Precipitation soaks deep into the ground through porous soil, sand, and rock layers, nourishing plant roots and recharging groundwater.',
+      stateChange: 'Water Soaking into Soil & Rocks',
+      color: 'bg-lime-50 border-lime-200 text-lime-900',
+      badgeBg: 'bg-lime-600 text-white',
+      summary: 'Precipitation soaks into topsoil, providing vital moisture for plant roots and soil organisms.',
       detailedExplanation: [
-        'Soil acts like a natural sponge and water filter.',
-        'Infiltrating water cleanses pollutants as it trickles through sand and gravel layers.',
-        'Provides essential soil moisture required by agricultural crops and natural vegetation.'
+        'Water enters topsoil layers through porous earth, sand, and root channels.',
+        'Provides essential water and dissolved nutrients directly to plant roots.',
+        'Excess water filters deeper down under gravity through percolation.'
       ]
     },
     {
       id: 'groundwater',
       num: '8',
-      name: 'Groundwater Flow',
+      name: 'Percolation & Groundwater Flow',
       icon: '🕳️',
-      stateChange: 'Subsurface Movement',
-      color: 'bg-teal-50 border-teal-200 text-teal-900',
-      badgeBg: 'bg-teal-600 text-white',
-      summary: 'Water stored in underground rock layers (aquifers) flows slowly beneath Earth\'s surface, eventually seeping back into rivers, springs, or oceans.',
+      stateChange: 'Underground Aquifer Storage & Flow',
+      color: 'bg-purple-50 border-purple-200 text-purple-900',
+      badgeBg: 'bg-purple-600 text-white',
+      summary: 'Water seeps deep underground into rock layers (percolation) to form aquifers and underground water streams.',
       detailedExplanation: [
-        'Underground aquifers store vast quantities of fresh drinking water.',
-        'Groundwater moves very slowly—sometimes taking decades or centuries to travel to a spring or ocean.',
-        'Feeds natural freshwater springs and provides well water for human communities.'
+        'Slowly recharges deep underground water reservoirs called aquifers.',
+        'Acts as a natural filtration system, purifying drinking water for wells and natural springs.',
+        'Eventually discharges back into rivers, lakes, and oceans underground.'
       ]
     }
   ];
 
   // Forms of Precipitation
   const precipitationTypes = [
-    { type: 'Rain 🌧️', desc: 'Liquid water droplets falling when air temperatures are above freezing (0°C).' },
-    { type: 'Snow ❄️', desc: 'Intricate 6-sided ice crystals falling when atmospheric temperatures are below freezing.' },
-    { type: 'Sleet 🌨️', desc: 'Frozen raindrops or slushy ice pellets created when rain passes through a cold freezing layer near the ground.' },
-    { type: 'Hail 🧊', desc: 'Solid chunks of ice produced inside severe thunderstorm clouds with strong rising air currents.' }
+    { type: 'Rain', icon: '🌧️', desc: 'Liquid water drops falling when temperatures are above freezing (0°C).', temp: '> 0°C' },
+    { type: 'Snow', icon: '❄️', desc: 'Six-sided ice crystals that form when water vapour freezes high in clouds below 0°C.', temp: '< 0°C' },
+    { type: 'Sleet', icon: '🌨️', desc: 'Frozen raindrops or translucent ice pellets that bounce when hitting the ground.', temp: 'Freezing Layer' },
+    { type: 'Hail', icon: '🧊', desc: 'Hard balls or irregular lumps of ice created by strong thunderstorm updrafts.', temp: 'Severe Storms' }
   ];
 
   // Why the Water Cycle Matters (6 Reasons)
@@ -195,8 +195,8 @@ export default function WaterCycleHub() {
   const quizQuestions = [
     {
       id: 1,
-      q: 'What provides the primary heat energy that drives the entire water cycle on Earth?',
-      options: ['The Moon', 'The Sun', 'Underground Volcanoes', 'Wind Currents'],
+      q: 'What acts as the primary energy engine that drives the entire Water Cycle on Earth?',
+      options: ['The Ocean Currents', 'The Sun', 'Wind Gusts', 'Volcanoes'],
       ans: 'The Sun'
     },
     {
@@ -309,21 +309,44 @@ export default function WaterCycleHub() {
       {activeTab === 'overview' && (
         <div className="space-y-6">
           
-          {/* Quick Banner */}
-          <div className="bg-gradient-to-r from-sky-500 to-blue-600 rounded-2xl p-4 text-white flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">🌧️</span>
+          {/* Top Featured Infographic Poster */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
               <div>
-                <h4 className="font-extrabold text-sm">Official Water Cycle Chart Included</h4>
-                <p className="text-sky-100 text-xs">View the high-resolution infographic chart detailing Evaporation, Transpiration, Condensation, Precipitation, Runoff, and Infiltration.</p>
+                <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 bg-blue-100 px-3 py-1 rounded-md">
+                  Visual Learning Guide • Water Cycle Diagram
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>🖼️</span> The Water Cycle Infographic Chart
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  Click the poster below to expand into full high-resolution view with Evaporation, Condensation, and Precipitation.
+                </p>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 rounded-xl bg-blue-600 text-white font-extrabold text-xs shadow-md shadow-blue-500/20 hover:bg-blue-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Chart
+              </button>
+            </div>
+
+            <div 
+              onClick={() => setIsModalOpen(true)}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img 
+                src="/water_cycle_infographic.jpg" 
+                alt="The Water Cycle Infographic Poster" 
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-blue-600" /> Click to Expand & Zoom Image
+                </span>
               </div>
             </div>
-            <button 
-              onClick={() => setActiveTab('infographic')}
-              className="px-4 py-2 rounded-xl bg-white text-blue-900 font-black text-xs hover:bg-sky-50 transition-all shrink-0 cursor-pointer shadow-sm"
-            >
-              View Infographic Chart →
-            </button>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

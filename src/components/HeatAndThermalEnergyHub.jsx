@@ -116,43 +116,49 @@ export default function HeatAndThermalEnergyHub() {
         'Heat ALWAYS moves from warmer objects to cooler objects',
         'Cold moves into warm objects',
         'Heat moves randomly in all directions equally',
-        'Heat stays inside cold objects'
+        'Cold moves into cold objects'
       ],
       ans: 'Heat ALWAYS moves from warmer objects to cooler objects'
     },
     {
       id: 2,
-      q: 'Which mode of heat transfer occurs when a metal spoon sitting in hot soup gets hot through direct particle contact?',
-      options: ['Convection', 'Radiation', 'Conduction', 'Evaporation'],
+      q: 'Which mode of heat transfer occurs when heat travels through direct contact between solids (e.g. metal spoon in hot soup)?',
+      options: ['Convection', 'Conduction', 'Radiation', 'Evaporation'],
       ans: 'Conduction'
     },
     {
       id: 3,
-      q: 'How does solar heat energy travel through the empty vacuum of space from the Sun to Earth?',
-      options: ['Conduction', 'Convection', 'Radiation', 'Friction'],
-      ans: 'Radiation'
+      q: 'How does solar heat energy travel across 150 million kilometers of empty vacuum space to warm Earth?',
+      options: ['Radiation (Infrared Waves)', 'Conduction', 'Convection', 'Sublimation'],
+      ans: 'Radiation (Infrared Waves)'
     },
     {
       id: 4,
-      q: 'Why are saucepan handles made of Wood or Plastic instead of Metal?',
+      q: 'What causes Convection currents in fluids (boiling water or warm air currents)?',
       options: [
-        'Wood and plastic are Thermal Insulators that prevent heat from burning your hand',
-        'Metal is too soft to hold',
-        'Wood and plastic make food cook faster',
-        'Metal handles melt in water'
+        'Warm fluid expands, becomes less dense, and rises while cool denser fluid sinks',
+        'Cold fluid rises and warm fluid evaporates',
+        'Heat stops moving',
+        'Gravity disappears in hot liquids'
       ],
-      ans: 'Wood and plastic are Thermal Insulators that prevent heat from burning your hand'
+      ans: 'Warm fluid expands, becomes less dense, and rises while cool denser fluid sinks'
     },
     {
       id: 5,
-      q: 'What happens to the particles inside a solid object when it is HEATED?',
+      q: 'Why are wooden or plastic handles attached to metal cooking pots?',
       options: [
-        'Particles move faster, vibrate rapidly, and spread further apart (Expand)',
-        'Particles stop moving completely',
-        'Particles shrink and get heavier',
-        'Particles disappear'
+        'Because wood and plastic are thermal insulators that block heat from burning your hands',
+        'Because wood makes food taste better',
+        'Because plastic conducts heat faster',
+        'Because metal is too soft'
       ],
-      ans: 'Particles move faster, vibrate rapidly, and spread further apart (Expand)'
+      ans: 'Because wood and plastic are thermal insulators that block heat from burning your hands'
+    },
+    {
+      id: 5,
+      q: 'What happens to most solid metals when they are heated?',
+      options: ['They Expand (get slightly larger)', 'They Contract (shrink)', 'They turn into gold', 'They freeze'],
+      ans: 'They Expand (get slightly larger)'
     }
   ];
 
@@ -173,20 +179,20 @@ export default function HeatAndThermalEnergyHub() {
     <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-8 font-sans">
       
       {/* Top Banner Header */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-orange-600 via-rose-600 to-amber-700 p-8 text-white shadow-xl shadow-orange-500/10">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-orange-600 via-amber-600 to-rose-600 p-8 text-white shadow-xl shadow-orange-500/10">
         <div className="relative z-10 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold tracking-wider uppercase">
-            <Sparkles className="w-4 h-4 text-yellow-200" /> Science Academy • Grade 4 Physical Science
+            <Sparkles className="w-4 h-4 text-yellow-200" /> Science Academy • Grade 4 Thermodynamics & Physics
           </div>
           <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-            Heat & Thermal Energy 🌡️🔥
+            Heat & Thermal Energy 🔥🌡️
           </h1>
-          <p className="text-orange-100 text-sm md:text-base max-w-3xl font-medium leading-relaxed">
-            Heat is thermal energy transferred from warmer objects to cooler objects. Discover how conduction, convection, and radiation move heat, change state, and cause thermal expansion!
+          <p className="text-orange-100 text-sm md:text-base max-w-2xl font-medium">
+            Heat is thermal energy in transit from warmer objects to cooler objects. Explore Conduction, Convection, Radiation, thermal expansion, and insulation!
           </p>
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button 
-              onClick={() => speakText("Heat and Thermal Energy. How heat moves and changes materials. Heat is thermal energy transferred from a warmer object to a cooler object. Heat transfers in three ways: Conduction through direct contact, Convection through liquids and gases, and Radiation through electromagnetic waves.")}
+              onClick={() => speakText("Heat and Thermal Energy. Heat always flows from hotter objects to colder objects. The three main ways heat transfers are Conduction in solids, Convection in fluids, and Radiation through waves.")}
               className="px-4 py-2 rounded-xl bg-white text-orange-950 font-extrabold text-xs flex items-center gap-2 hover:bg-orange-50 transition-all shadow-md cursor-pointer"
             >
               {isPlayingAudio ? <VolumeX className="w-4 h-4 text-red-500" /> : <Volume2 className="w-4 h-4 text-orange-600" />}
@@ -230,21 +236,44 @@ export default function HeatAndThermalEnergyHub() {
       {activeTab === 'overview' && (
         <div className="space-y-6">
           
-          {/* Quick Banner */}
-          <div className="bg-gradient-to-r from-orange-500 to-rose-600 rounded-2xl p-4 text-white flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">🔥</span>
+          {/* Top Featured Infographic Poster */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
               <div>
-                <h4 className="font-extrabold text-sm">Official Heat & Thermal Energy Infographic Included</h4>
-                <p className="text-orange-100 text-xs">View the high-resolution infographic chart detailing conduction, convection, radiation, state changes, and thermal equilibrium.</p>
+                <span className="text-[10px] font-black uppercase tracking-wider text-orange-700 bg-orange-100 px-3 py-1 rounded-md">
+                  Visual Learning Guide • Heat Transfer Chart
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>🖼️</span> Heat & Thermal Energy Infographic Chart
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  Click the poster below to expand into full high-resolution view with conduction, convection, and radiation.
+                </p>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 rounded-xl bg-orange-600 text-white font-extrabold text-xs shadow-md shadow-orange-500/20 hover:bg-orange-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Chart
+              </button>
+            </div>
+
+            <div 
+              onClick={() => setIsModalOpen(true)}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img 
+                src="/heat_and_thermal_energy_infographic.jpg" 
+                alt="Heat and Thermal Energy Infographic Poster" 
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-orange-600" /> Click to Expand & Zoom Image
+                </span>
               </div>
             </div>
-            <button 
-              onClick={() => setActiveTab('infographic')}
-              className="px-4 py-2 rounded-xl bg-white text-orange-950 font-black text-xs hover:bg-orange-50 transition-all shrink-0 cursor-pointer shadow-sm"
-            >
-              View Infographic Chart →
-            </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">

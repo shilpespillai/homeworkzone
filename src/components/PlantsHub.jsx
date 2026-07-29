@@ -138,56 +138,49 @@ export default function PlantsHub() {
     { step: '9. New Plant Cycle 🔄', desc: 'Seed lands in fertile soil $\rightarrow$ Cycle repeats!' }
   ];
 
-  // Plant Adaptations
-  const plantAdaptations = [
-    { plant: 'Cactus 🌵', habitat: 'Hot Desert', adaptation: 'Thick fleshy stem stores water; sharp spines reduce transpiration water loss and deter herbivores.' },
-    { plant: 'Water Lily 🪷', habitat: 'Aquatic Ponds', adaptation: 'Broad floating leaves with stomata on top to absorb sunlight and air on water surface.' },
-    { plant: 'Climbing Vine / Ivy 🌿', habitat: 'Dense Forests', adaptation: 'Coiling tendrils anchor to tree trunks to climb high into sunny canopy layers.' },
-    { plant: 'Mangrove 🪵', habitat: 'Muddy Salty Swamps', adaptation: 'Specialized breathing roots (pneumatophores) grow upward out of mud to absorb atmospheric oxygen.' },
-    { plant: 'Conifer (Pine) 🌲', habitat: 'Cold Snowy Regions', adaptation: 'Needle-like leaves with thick waxy cuticles withstand freezing temperatures and prevent snow breakage.' }
+  const flowerParts = [
+    { part: 'Petals 🌸', role: 'Brightly colored, scented leaves that attract insects and bird pollinators.' },
+    { part: 'Sepals 🍃', role: 'Green leaf-like structures that protect the developing flower bud before it opens.' },
+    { part: 'Stamen (Male Organ) 🌾', role: 'Consists of Anther (produces pollen grains) and Filament (stalk holding anther).' },
+    { part: 'Carpel / Pistil (Female Organ) 🏺', role: 'Consists of Stigma (sticky top to catch pollen), Style (tube), and Ovary (contains ovules/eggs).' }
   ];
 
   // Quiz Questions
   const quizQuestions = [
     {
       id: 1,
-      q: 'Which process describes plants using sunlight, water, and carbon dioxide to make glucose food in their leaves?',
-      options: ['Germination', 'Photosynthesis', 'Pollination', 'Transpiration'],
-      ans: 'Photosynthesis'
+      q: 'Which plant organ absorbs water and minerals from the soil and anchors the plant firmly in the ground?',
+      options: ['Leaves', 'Roots', 'Flowers', 'Stems'],
+      ans: 'Roots'
     },
     {
       id: 2,
-      q: 'Which flower part is sticky and catches pollen grains brought by insects or wind?',
-      options: ['Anther', 'Sepal', 'Stigma', 'Filament'],
-      ans: 'Stigma'
+      q: 'What green pigment inside leaves captures sunlight energy to power Photosynthesis?',
+      options: ['Chlorophyll', 'Xylem', 'Stomata', 'Petals'],
+      ans: 'Chlorophyll'
     },
     {
       id: 3,
-      q: 'After successful fertilisation in a flower, what does the Ovary develop into?',
-      options: ['A Seed', 'A Fruit', 'A Root', 'A Sepal'],
-      ans: 'A Fruit'
+      q: 'Which part of a flower is sticky at the top to catch pollen grains transferred by bees?',
+      options: ['Anther', 'Stigma', 'Sepal', 'Filament'],
+      ans: 'Stigma'
     },
     {
       id: 4,
-      q: 'What three essential conditions are required for a seed to Germinate (WOW)?',
+      q: 'What dual role do Xylem and Phloem vessels inside the stem perform?',
       options: [
-        'Water, Oxygen, and Suitable Warmth',
-        'Fertilizer, Sugar, and Darkness',
-        'Ice, Carbon Dioxide, and Salt',
-        'Wind, Soil, and Insects'
+        'Xylem carries water up; Phloem carries sugars to all plant cells',
+        'Xylem catches pollen; Phloem absorbs sunlight',
+        'Xylem produces seeds; Phloem opens stomata',
+        'Xylem grows roots; Phloem drops leaves'
       ],
-      ans: 'Water, Oxygen, and Suitable Warmth'
+      ans: 'Xylem carries water up; Phloem carries sugars to all plant cells'
     },
     {
       id: 5,
-      q: 'How do Non-flowering Conifer plants (like pine trees) reproduce instead of using flowers?',
-      options: [
-        'They produce seeds inside fleshy apples',
-        'They produce pollen and seeds on Cone scales',
-        'They do not produce seeds at all',
-        'They grow underwater'
-      ],
-      ans: 'They produce pollen and seeds on Cone scales'
+      q: 'What gas do plants absorb from the air during Photosynthesis to produce glucose sugar?',
+      options: ['Oxygen', 'Carbon Dioxide', 'Nitrogen', 'Helium'],
+      ans: 'Carbon Dioxide'
     }
   ];
 
@@ -208,20 +201,20 @@ export default function PlantsHub() {
     <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-8 font-sans">
       
       {/* Top Banner Header */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-600 via-green-600 to-teal-700 p-8 text-white shadow-xl shadow-emerald-500/10">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-600 via-teal-600 to-green-700 p-8 text-white shadow-xl shadow-emerald-500/10">
         <div className="relative z-10 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold tracking-wider uppercase">
             <Sparkles className="w-4 h-4 text-yellow-300" /> Science Academy • Grade 4 Plant Biology & Botany
           </div>
           <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-            Plants: Parts, Functions & Life Cycles 🌻🌱
+            Plants, Photosynthesis & Life Cycles 🌿🌸
           </h1>
-          <p className="text-emerald-100 text-sm md:text-base max-w-2xl font-medium leading-relaxed">
-            Plants are living things that grow, manufacture food via photosynthesis, reproduce through flowers or cones, and generate oxygen to keep Earth healthy!
+          <p className="text-emerald-100 text-sm md:text-base max-w-2xl font-medium">
+            Plants are Earth's primary producers! Explore plant organs, flower anatomy, pollination, seed germination, and photosynthesis.
           </p>
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button 
-              onClick={() => speakText("Plants: Parts, Functions and Life Cycles. Plants are living things. Roots absorb water, stems transport nutrients, leaves make food through photosynthesis, and flowers produce seeds for reproduction.")}
+              onClick={() => speakText("Plants, Photosynthesis and Life Cycles. Plants are living organisms that make their own food through photosynthesis using sunlight, carbon dioxide, and water. The four main parts are Roots, Stems, Leaves, and Flowers.")}
               className="px-4 py-2 rounded-xl bg-white text-emerald-900 font-extrabold text-xs flex items-center gap-2 hover:bg-emerald-50 transition-all shadow-md cursor-pointer"
             >
               {isPlayingAudio ? <VolumeX className="w-4 h-4 text-red-500" /> : <Volume2 className="w-4 h-4 text-emerald-600" />}
@@ -241,11 +234,9 @@ export default function PlantsHub() {
       <div className="flex gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
         {[
           { id: 'overview', label: 'Plant Parts & Roles', icon: '🌿' },
-          { id: 'infographic', label: 'Full Infographic Chart', icon: '🖼️' },
-          { id: 'flower_anatomy', label: 'Flower Anatomy & Pollination', icon: '🌸' },
-          { id: 'lifecycles', label: 'Life Cycles (Flowering vs Conifer)', icon: '🔄' },
-          { id: 'photosynthesis', label: 'Photosynthesis & Adaptations', icon: '☀️' },
-          { id: 'quiz', label: 'Knowledge Check Quiz', icon: '🏆' }
+          { id: 'flower_anatomy', label: 'Flower Anatomy', icon: '🌸' },
+          { id: 'photosynthesis', label: 'Photosynthesis', icon: '☀️' },
+          { id: 'quiz', label: 'Knowledge Quiz', icon: '🏆' }
         ].map(tab => (
           <button
             key={tab.id}
@@ -265,23 +256,6 @@ export default function PlantsHub() {
       {activeTab === 'overview' && (
         <div className="space-y-6">
           
-          {/* Quick Banner */}
-          <div className="bg-gradient-to-r from-teal-500 to-emerald-600 rounded-2xl p-4 text-white flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">🌿</span>
-              <div>
-                <h4 className="font-extrabold text-sm">Official Plants Infographic Chart Included</h4>
-                <p className="text-teal-100 text-xs">View the high-resolution infographic chart detailing flower parts, pollination, germination, photosynthesis, and conifer life cycles.</p>
-              </div>
-            </div>
-            <button 
-              onClick={() => setActiveTab('infographic')}
-              className="px-4 py-2 rounded-xl bg-white text-emerald-900 font-black text-xs hover:bg-teal-50 transition-all shrink-0 cursor-pointer shadow-sm"
-            >
-              View Infographic Chart →
-            </button>
-          </div>
-
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3">
             {plantParts.map((p) => (
               <div 

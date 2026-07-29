@@ -8,7 +8,9 @@ import {
   Award, 
   X,
   ChevronRight,
-  ShieldCheck
+  ShieldCheck,
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -98,54 +100,54 @@ export default function TeethAndFunctionsHub() {
       name: 'Molars (Back Teeth)',
       num: '4',
       count: '8 to 12 total (including wisdom teeth)',
-      shape: 'Large, broad, flat surface with deep grooves',
-      icon: '🍞',
+      shape: 'Broad, flat surface with 4-5 cusps and deep grooves',
+      icon: '🌾',
       bg: 'bg-purple-50 border-purple-200 text-purple-900',
       badgeBg: 'bg-purple-600 text-white',
-      mainFunction: 'Grinding Food into Fine Pieces',
-      example: 'Grinding bread, nuts, grains, and rice before swallowing.',
+      mainFunction: 'Grinding and Chewing Food',
+      example: 'Grinding tough grains, meat, and vegetables into fine paste.',
       details: [
-        'Located at the very back of the mouth (largest and strongest teeth).',
-        'Have wide, flat surfaces with deep grooves to grind food into a soft paste so it is safe to swallow.',
-        'Includes the 4 "wisdom teeth" which appear in late teenage years or early adulthood.'
+        'Located in the very back of your mouth on both sides.',
+        'Largest and strongest teeth with broad flat tops to grind food fine before swallowing.',
+        'Wisdom teeth are the 4 backmost molars that appear in early adulthood.'
       ]
     }
   ];
 
   // Tooth Anatomy Parts
   const toothParts = [
-    { part: 'Crown', icon: '👑', color: 'bg-indigo-50 border-indigo-200 text-indigo-900', desc: 'The visible white part of the tooth that sits above the gum line.' },
-    { part: 'Enamel', icon: '🛡️', color: 'bg-cyan-50 border-cyan-200 text-cyan-900', desc: 'The hard, outer protective shell. It is the hardest tissue in the human body—even harder than bone!' },
-    { part: 'Dentin', icon: '🦴', color: 'bg-amber-50 border-amber-200 text-amber-900', desc: 'The hard, yellow calcified layer beneath enamel that protects the inner nerve chamber.' },
-    { part: 'Pulp', icon: '🩸', color: 'bg-rose-50 border-rose-200 text-rose-900', desc: 'The soft living center of the tooth containing blood vessels and sensitive nerve fibers.' },
-    { part: 'Root', icon: '🌱', color: 'bg-stone-50 border-stone-200 text-stone-900', desc: 'The lower two-thirds of the tooth anchored beneath the gums into the jawbone.' }
+    { part: 'Crown', desc: 'The visible portion of the tooth above the gum line.', icon: '👑', bg: 'bg-blue-50 text-blue-900' },
+    { part: 'Enamel', desc: 'The hard, white outer protective layer (hardest substance in human body!).', icon: '🛡️', bg: 'bg-indigo-50 text-indigo-900' },
+    { part: 'Dentin', desc: 'The yellowish bone-like layer beneath enamel supporting the tooth structure.', icon: '🟡', bg: 'bg-amber-50 text-amber-900' },
+    { part: 'Pulp Chamber', desc: 'The living inner core containing blood vessels and sensitive nerve endings.', icon: '❤️', bg: 'bg-rose-50 text-rose-900' },
+    { part: 'Root & Cementum', desc: 'Anchors the tooth firmly into the jawbone beneath the gums.', icon: '⚓', bg: 'bg-emerald-50 text-emerald-900' }
   ];
 
   // Quiz Questions
   const quizQuestions = [
     {
       id: 1,
-      q: 'Which type of teeth are located right in the front and are used for cutting and biting food?',
+      q: 'Which teeth are chisel-shaped and used for cutting and biting food at the front of your mouth?',
       options: ['Molars', 'Incisors', 'Canines', 'Premolars'],
       ans: 'Incisors'
     },
     {
       id: 2,
-      q: 'What is the primary function of pointed Canine teeth?',
-      options: ['Grinding grains', 'Tearing food apart', 'Crushing vegetables', 'Absorbing water'],
-      ans: 'Tearing food apart'
+      q: 'Which pointed teeth are designed for holding and tearing tough foods?',
+      options: ['Canines', 'Incisors', 'Molars', 'Wisdom Teeth'],
+      ans: 'Canines'
     },
     {
       id: 3,
-      q: 'Which layer of the tooth is the hardest substance in the entire human body?',
-      options: ['Pulp', 'Dentin', 'Enamel', 'Gum'],
+      q: 'What is the hardest substance in the human body that protects the outside of a tooth?',
+      options: ['Dentin', 'Enamel', 'Pulp', 'Bone'],
       ans: 'Enamel'
     },
     {
       id: 4,
-      q: 'Which broad back teeth are designed specifically for grinding food into a soft paste before swallowing?',
-      options: ['Incissors', 'Canines', 'Molars', 'Front teeth'],
-      ans: 'Molars'
+      q: 'How many total incisors are in a complete human mouth?',
+      options: ['4 teeth', '8 teeth', '12 teeth', '2 teeth'],
+      ans: '8 teeth'
     },
     {
       id: 5,
@@ -228,21 +230,44 @@ export default function TeethAndFunctionsHub() {
       {activeTab === 'overview' && (
         <div className="space-y-6">
           
-          {/* Infographic Quick Banner */}
-          <div className="bg-gradient-to-r from-sky-500 to-blue-600 rounded-2xl p-4 text-white flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">🦷</span>
+          {/* Top Featured Infographic Poster */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
               <div>
-                <h4 className="font-extrabold text-sm">Official Types of Teeth Chart Included</h4>
-                <p className="text-sky-100 text-xs">View the high-resolution infographic chart detailing incisors, canines, premolars, and molars.</p>
+                <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 bg-blue-100 px-3 py-1 rounded-md">
+                  Visual Learning Guide • Types of Teeth Chart
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>🖼️</span> Types of Teeth and Their Functions Chart
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  Click the poster below to expand into full high-resolution view with tooth shapes and functions.
+                </p>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 rounded-xl bg-blue-600 text-white font-extrabold text-xs shadow-md shadow-blue-500/20 hover:bg-blue-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Chart
+              </button>
+            </div>
+
+            <div 
+              onClick={() => setIsModalOpen(true)}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img 
+                src="/types_of_teeth_infographic.jpg" 
+                alt="Types of Teeth and Their Functions Infographic Poster" 
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-blue-600" /> Click to Expand & Zoom Image
+                </span>
               </div>
             </div>
-            <button 
-              onClick={() => setActiveTab('infographic')}
-              className="px-4 py-2 rounded-xl bg-white text-blue-900 font-black text-xs hover:bg-sky-50 transition-all shrink-0 cursor-pointer shadow-sm"
-            >
-              View Infographic Chart →
-            </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

@@ -12,7 +12,9 @@ import {
   Sun,
   ShieldCheck,
   Search,
-  UserCheck
+  UserCheck,
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -44,108 +46,83 @@ export default function HeredityHub() {
     }
   };
 
-  // Trait Categories: Inherited vs Environmental
+  // Trait Categories Data
   const traitCategories = [
     {
       id: 'inherited',
-      name: 'Inherited Traits 🧬',
-      description: 'Characteristics passed down genetically from parents to offspring from birth.',
-      color: 'bg-emerald-50 border-emerald-200 text-emerald-950',
+      name: 'Inherited Traits (Genetic DNA)',
+      description: 'Characteristics passed directly from biological parents to offspring via DNA genes.',
+      color: 'bg-emerald-50 border-emerald-200 text-emerald-900',
       badgeBg: 'bg-emerald-600 text-white',
-      summary: 'Inherited traits are present from birth or early development and are controlled by genetic DNA passed down from biological parents.',
       examples: [
-        'Eye colour (Brown, Blue, Green)',
-        'Hair texture & colour (Curly, Straight, Brown, Blonde)',
-        'Natural presence of freckles and cheek dimples',
-        'Attached vs unattached earlobes',
-        'Plant flower color & leaf shape',
-        'Dog fur coat color & beak shape in birds'
+        'Eye color (brown, blue, green)',
+        'Natural hair texture (curly, straight, wavy)',
+        'Facial dimples & cheek structure',
+        'Blood type & freckles pattern',
+        'Flower color & leaf shape in plants'
       ]
     },
     {
       id: 'environmental',
-      name: 'Environmental / Acquired Traits 🪴',
-      description: 'Characteristics affected by nutrition, sunlight, exercise, and learning.',
-      color: 'bg-amber-50 border-amber-200 text-amber-950',
-      badgeBg: 'bg-amber-700 text-white',
-      summary: 'Environmental traits develop over a lifetime through diet, sunlight exposure, physical exercise, injury, or learned skills.',
+      name: 'Environmental / Acquired Traits',
+      description: 'Characteristics shaped by lifestyle, environment, learning, or physical influence.',
+      color: 'bg-teal-50 border-teal-200 text-teal-900',
+      badgeBg: 'bg-teal-600 text-white',
       examples: [
-        'Plant height (More sunlight = Taller plant; Less sun = Stunted growth)',
-        'Muscle strength built through physical exercise',
-        'Scars from cuts or injuries',
-        'Learned skills (Playing piano, speaking English, swimming)',
-        'Healthy body growth shaped by nutritious food and clean water'
+        'Suntanned skin from sunlight exposure',
+        'Scars from past injuries or cuts',
+        'Languages spoken & learned skills (playing guitar)',
+        'Plant height variations due to soil fertilizer and water availability'
       ]
     }
-  ];
-
-  // Parent-Offspring Pairs
-  const parentOffspringPairs = [
-    { parent: 'Cow 🐄', offspring: 'Calf 🐮' },
-    { parent: 'Dog 🐕', offspring: 'Puppy 🐶' },
-    { parent: 'Cat 🐈', offspring: 'Kitten 🐱' },
-    { parent: 'Horse 🐎', offspring: 'Foal 🐴' },
-    { parent: 'Duck 🦆', offspring: 'Duckling 🐥' },
-    { parent: 'Chicken 🐓', offspring: 'Chick 🐣' },
-    { parent: 'Frog 🐸', offspring: 'Tadpole 🐸' },
-    { parent: 'Butterfly 🦋', offspring: 'Caterpillar 🐛' },
-    { parent: 'Kangaroo 🦘', offspring: 'Joey 🦘' },
-    { parent: 'Penguin 🐧', offspring: 'Chick 🐥' }
-  ];
-
-  // Scientific Hypothesis Testing Example
-  const hypothesisData = [
-    { sun: 'Lots of Sun ☀️', height: '15 cm', leaf: 'Healthy Dark Green', growth: 'Thriving & Tall' },
-    { sun: 'Partial Sun ⛅', height: '7 cm', leaf: 'Pale Green', growth: 'Moderate' },
-    { sun: 'Shade / Little Sun ☁️', height: '2 cm', leaf: 'Yellowish Thin', growth: 'Stunted' }
   ];
 
   // Quiz Questions
   const quizQuestions = [
     {
       id: 1,
-      q: 'Which of the following is an INHERITED trait passed from parents to offspring?',
-      options: ['Natural eye color', 'Ability to play the piano', 'A scar on your knee', 'Speaking two languages'],
-      ans: 'Natural eye color'
+      q: 'Which of the following is an INHERITED trait passed from biological parents via DNA genes?',
+      options: ['Natural eye color and freckles', 'Language spoken', 'A scar on a knee', 'Riding a bicycle'],
+      ans: 'Natural eye color and freckles'
     },
     {
       id: 2,
-      q: 'How does sunlight affect plant growth as an environmental factor?',
+      q: 'Which of the following is an ENVIRONMENTAL or acquired characteristic?',
       options: [
-        'Plants with more sunlight grow taller and healthier than shaded plants',
-        'Sunlight turns plants into dogs',
-        'Sunlight makes plants shrink to 0 cm',
-        'Sunlight changes a plant into a animal'
+        'Skin suntan gained from spending a summer at the beach',
+        'Natural blood type',
+        'Facial dimples when smiling',
+        'Plant flower petal color'
       ],
-      ans: 'Plants with more sunlight grow taller and healthier than shaded plants'
+      ans: 'Skin suntan gained from spending a summer at the beach'
     },
     {
       id: 3,
-      q: 'What is the correct scientific term for a baby cow?',
-      options: ['Calf', 'Puppy', 'Foal', 'Joey'],
-      ans: 'Calf'
+      q: 'If two identical potted green plants receive different amounts of sunlight (one in full sun, one in dark shade), what will happen?',
+      options: [
+        'The plant in sunlight grows tall and green; the plant in shade grows pale and stunted (Environmental effect)',
+        'Both plants turn blue',
+        'Their DNA changes into rose DNA',
+        'Nothing happens'
+      ],
+      ans: 'The plant in sunlight grows tall and green; the plant in shade grows pale and stunted (Environmental effect)'
     },
     {
       id: 4,
-      q: 'Why is variation within a species important for survival?',
+      q: 'Why do offspring resemble their biological parents?',
       options: [
-        'Variation helps populations adapt and survive when environments change',
-        'Variation makes all animals look identical',
-        'Variation stops plants from growing',
-        'Variation removes DNA'
+        'Because they inherit genetic information (DNA) passed down from both parents',
+        'Because they wear the same clothes',
+        'Because they drink the same water',
+        'Because of wind'
       ],
-      ans: 'Variation helps populations adapt and survive when environments change'
+      ans: 'Because they inherit genetic information (DNA) passed down from both parents'
     },
     {
       id: 5,
-      q: 'Are skills like swimming, riding a bicycle, or speaking a language inherited at birth?',
-      options: [
-        'No, these are acquired/learned skills influenced by environment and practice',
-        'Yes, babies are born knowing how to ride bicycles',
-        'Yes, language is encoded in eye color',
-        'No, swimming is impossible'
-      ],
-      ans: 'No, these are acquired/learned skills influenced by environment and practice'
+      q: 'Are learned behaviors (such as speaking French or playing piano) passed down to children through DNA genes?',
+      options: ['No, learned behaviors are acquired through practice and environment', 'Yes, learned behaviors are stored in DNA', 'Only in birds', 'Only in winter'],
+      ans: 'No, learned behaviors are acquired through practice and environment'
     }
   ];
 
@@ -166,16 +143,16 @@ export default function HeredityHub() {
     <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-8 font-sans">
       
       {/* Top Banner Header */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-600 via-teal-700 to-green-800 p-8 text-white shadow-xl shadow-emerald-600/10">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-600 via-teal-600 to-green-700 p-8 text-white shadow-xl shadow-emerald-500/10">
         <div className="relative z-10 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold tracking-wider uppercase">
-            <Sparkles className="w-4 h-4 text-yellow-300" /> Science Academy • Grade 4 Biology & Genetics
+            <Sparkles className="w-4 h-4 text-yellow-300" /> Science Academy • Grade 4 Genetics & Heredity
           </div>
           <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-            Traits & Heredity: How Living Things Inherit Characteristics 🧬🌿
+            Traits & Heredity: Inherited vs Environmental 🧬🌱
           </h1>
           <p className="text-emerald-100 text-sm md:text-base max-w-3xl font-medium leading-relaxed">
-            Living things have unique traits! Discover how genetic characteristics are passed down from parents to offspring, how environmental factors shape growth, and why variation makes every living organism unique.
+            Living things inherit physical traits from their biological parents, while other features are shaped by environmental conditions!
           </p>
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button 
@@ -199,10 +176,6 @@ export default function HeredityHub() {
       <div className="flex gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
         {[
           { id: 'overview', label: 'Inherited vs Environmental', icon: '🧬' },
-          { id: 'infographic', label: 'Full Infographic Chart', icon: '🖼️' },
-          { id: 'parents', label: 'Parent & Offspring Pairs', icon: '🐣' },
-          { id: 'hypothesis', label: 'Testing Environmental Effects', icon: '☀️' },
-          { id: 'variation', label: 'Species Variation', icon: '👥' },
           { id: 'quiz', label: 'Knowledge Check Quiz', icon: '🏆' }
         ].map(tab => (
           <button
@@ -223,21 +196,44 @@ export default function HeredityHub() {
       {activeTab === 'overview' && (
         <div className="space-y-6">
           
-          {/* Quick Banner */}
-          <div className="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-2xl p-4 text-white flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">🧬</span>
+          {/* Top Featured Infographic Poster */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
               <div>
-                <h4 className="font-extrabold text-sm">Official Heredity & Traits Infographic Included</h4>
-                <p className="text-emerald-100 text-xs">View the high-resolution infographic chart detailing inherited factors, environmental influences, parent-offspring matching, and species variation.</p>
+                <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-100 px-3 py-1 rounded-md">
+                  Visual Learning Guide • Heredity & Genetics Chart
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>🖼️</span> Heredity & Traits Infographic Chart
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  Click the poster below to expand into full high-resolution view with inherited traits, DNA, and environmental influences.
+                </p>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-extrabold text-xs shadow-md shadow-emerald-500/20 hover:bg-emerald-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Chart
+              </button>
+            </div>
+
+            <div 
+              onClick={() => setIsModalOpen(true)}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img 
+                src="/heredity_and_traits_infographic.jpg" 
+                alt="Heredity and Traits Infographic Poster" 
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-emerald-600" /> Click to Expand & Zoom Image
+                </span>
               </div>
             </div>
-            <button 
-              onClick={() => setActiveTab('infographic')}
-              className="px-4 py-2 rounded-xl bg-white text-emerald-950 font-black text-xs hover:bg-emerald-50 transition-all shrink-0 cursor-pointer shadow-sm"
-            >
-              View Infographic Chart →
-            </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

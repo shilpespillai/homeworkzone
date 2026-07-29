@@ -170,14 +170,14 @@ export default function EcosystemsHub() {
     },
     {
       id: 5,
-      q: 'What is the difference between a Food Chain and a Food Web?',
+      q: 'What happens if all Primary Consumer herbivores are removed from a food web?',
       options: [
-        'A food chain is a single pathway; a food web is a network of many connected food chains',
-        'A food chain is underwater; a food web is on land',
-        'Food webs only contain plants',
-        'There is no difference'
+        'Predators starve and plant populations overgrow, disrupting the ecosystem balance',
+        'The ecosystem becomes healthier',
+        'Rainfall stops completely',
+        'Nothing changes'
       ],
-      ans: 'A food chain is a single pathway; a food web is a network of many connected food chains'
+      ans: 'Predators starve and plant populations overgrow, disrupting the ecosystem balance'
     }
   ];
 
@@ -192,29 +192,29 @@ export default function EcosystemsHub() {
     }
   };
 
-  const currentRoleData = rolesInEcosystem.find(r => r.id === selectedRole) || rolesInEcosystem[0];
+  const currentRoleData = ecosystemRoles.find(r => r.id === selectedRole) || ecosystemRoles[0];
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-8 font-sans">
       
       {/* Top Banner Header */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-700 via-teal-700 to-green-800 p-8 text-white shadow-xl shadow-emerald-600/10">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-600 via-teal-600 to-green-700 p-8 text-white shadow-xl shadow-emerald-500/10">
         <div className="relative z-10 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold tracking-wider uppercase">
-            <Sparkles className="w-4 h-4 text-yellow-300" /> Science Academy • Grade 4 Environmental Science
+            <Sparkles className="w-4 h-4 text-yellow-300" /> Science Academy • Grade 4 Ecology & Life Sciences
           </div>
           <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-            Ecosystems & Energy Flow 🌾🌲🌊
+            Ecosystems & Food Webs 🌿🌾
           </h1>
-          <p className="text-emerald-100 text-sm md:text-base max-w-3xl font-medium leading-relaxed">
-            An ecosystem is a community of living things (biotic) interacting with each other and their non-living environment (abiotic). Energy flows in one direction, while matter is continuously recycled!
+          <p className="text-emerald-100 text-sm md:text-base max-w-2xl font-medium">
+            An ecosystem is a community of living organisms interacting with non-living elements. Explore Producers, Consumers, Decomposers, and Food Webs!
           </p>
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button 
-              onClick={() => speakText("Ecosystems: Living Things, Food Chains and the Flow of Matter. Everything in an ecosystem is connected. Producers make food, consumers eat other organisms, and decomposers recycle nutrients back into the soil.")}
+              onClick={() => speakText("Ecosystems and Food Webs. An ecosystem consists of living biotic organisms and non-living abiotic factors. Food chains show how energy flows from producers to consumers and decomposers.")}
               className="px-4 py-2 rounded-xl bg-white text-emerald-950 font-extrabold text-xs flex items-center gap-2 hover:bg-emerald-50 transition-all shadow-md cursor-pointer"
             >
-              {isPlayingAudio ? <VolumeX className="w-4 h-4 text-red-500" /> : <Volume2 className="w-4 h-4 text-emerald-700" />}
+              {isPlayingAudio ? <VolumeX className="w-4 h-4 text-red-500" /> : <Volume2 className="w-4 h-4 text-emerald-600" />}
               {isPlayingAudio ? 'Stop Audio' : 'Listen to Overview'}
             </button>
             <button
@@ -231,11 +231,9 @@ export default function EcosystemsHub() {
       <div className="flex gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
         {[
           { id: 'overview', label: 'Roles in Food Chains', icon: '🌱' },
-          { id: 'infographic', label: 'Full Infographic Chart', icon: '🖼️' },
           { id: 'types', label: '4 Major Ecosystem Types', icon: '🌊' },
           { id: 'biotic_abiotic', label: 'Biotic vs Abiotic Factors', icon: '☀️' },
           { id: 'foodwebs', label: 'Food Chains vs Food Webs', icon: '🕸️' },
-          { id: 'matter_energy', label: 'Energy Flow & Matter Recycling', icon: '♻️' },
           { id: 'quiz', label: 'Knowledge Check Quiz', icon: '🏆' }
         ].map(tab => (
           <button
@@ -256,24 +254,47 @@ export default function EcosystemsHub() {
       {activeTab === 'overview' && (
         <div className="space-y-6">
           
-          {/* Quick Banner */}
-          <div className="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-2xl p-4 text-white flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">🌾</span>
+          {/* Top Featured Infographic Poster */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
               <div>
-                <h4 className="font-extrabold text-sm">Official Ecosystems Infographic Included</h4>
-                <p className="text-emerald-100 text-xs">View the high-resolution infographic chart detailing food chains, food webs, energy flow, and nutrient cycling.</p>
+                <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-100 px-3 py-1 rounded-md">
+                  Visual Learning Guide • Ecological Food Web Chart
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>🖼️</span> Ecosystems & Food Webs Infographic Chart
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  Click the poster below to expand into full high-resolution view with energy flow, producers, and decomposers.
+                </p>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-extrabold text-xs shadow-md shadow-emerald-500/20 hover:bg-emerald-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Chart
+              </button>
+            </div>
+
+            <div 
+              onClick={() => setIsModalOpen(true)}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img 
+                src="/ecosystems_infographic.jpg" 
+                alt="Ecosystems and Food Webs Infographic Poster" 
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-emerald-600" /> Click to Expand & Zoom Image
+                </span>
               </div>
             </div>
-            <button 
-              onClick={() => setActiveTab('infographic')}
-              className="px-4 py-2 rounded-xl bg-white text-emerald-950 font-black text-xs hover:bg-emerald-50 transition-all shrink-0 cursor-pointer shadow-sm"
-            >
-              View Infographic Chart →
-            </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
             {rolesInEcosystem.map((r) => (
               <div 
                 key={r.id} 

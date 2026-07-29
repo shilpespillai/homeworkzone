@@ -12,7 +12,9 @@ import {
   Search,
   Magnet,
   Zap,
-  Globe
+  Globe,
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -44,25 +46,23 @@ export default function ClassificationOfLivingThingsHub() {
     }
   };
 
-  // 5 Main Vertebrate Animal Groups
+  // 5 Main Vertebrate Groups Data
   const vertebrateGroups = [
     {
       id: 'mammals',
       num: '1',
       name: 'Mammals',
-      icon: '🦘',
-      bloodType: 'Warm-blooded (Endothermic)',
-      covering: 'Hair or Fur',
-      reproduction: 'Give birth to live young (monotremes lay eggs)',
-      feeding: 'Produce milk to feed their babies',
-      examples: 'Humans, Kangaroos, Elephants, Koalas, Whales, Dolphins, Bats',
+      icon: '🦁',
+      blood: 'Warm-Blooded (Endothermic)',
+      skin: 'Hair or Fur covering body',
+      reproduction: 'Give birth to live young & produce milk',
       color: 'bg-amber-50 border-amber-200 text-amber-900',
       badgeBg: 'bg-amber-600 text-white',
-      traits: [
-        'Maintain a constant internal body temperature regardless of environment.',
-        'Female mammals have mammary glands that produce milk for offspring.',
-        'Whales and dolphins are marine mammals that breathe air through blowholes!',
-        'Bats are the only mammals capable of true sustained flight.'
+      examples: 'Lions, humans, kangaroos, blue whales, dogs, bats.',
+      keyCharacteristics: [
+        'Breathe air through lungs.',
+        'Mothers produce milk from mammary glands to feed babies.',
+        'Regulate internal body temperature constantly regardless of weather.'
       ]
     },
     {
@@ -70,135 +70,111 @@ export default function ClassificationOfLivingThingsHub() {
       num: '2',
       name: 'Birds',
       icon: '🦅',
-      bloodType: 'Warm-blooded (Endothermic)',
-      covering: 'Feathers & Wings',
-      reproduction: 'Lay hard-shelled eggs in nests',
-      feeding: 'Beaks (no teeth)',
-      examples: 'Eagles, Parrots, Owls, Penguins, Ostriches, Hummingbirds',
-      color: 'bg-rose-50 border-rose-200 text-rose-900',
-      badgeBg: 'bg-rose-600 text-white',
-      traits: [
-        'Bodies covered in lightweight, insulated feathers.',
-        'Hollow, lightweight bones designed to facilitate flying.',
-        'All birds have wings and beaks, though some (like penguins and ostriches) are flightless.',
-        'Penguins are specialized diving birds that swim with flipper-like wings!'
-      ]
-    },
-    {
-      id: 'fish',
-      num: '3',
-      name: 'Fish',
-      icon: '🐟',
-      bloodType: 'Cold-blooded (Ectothermic)',
-      covering: 'Scales & Mucus Coating',
-      reproduction: 'Lay soft, jelly-coated eggs in water',
-      feeding: 'Gills for underwater oxygen extraction',
-      examples: 'Salmon, Clownfish, Sharks, Tuna, Goldfish, Eels',
-      color: 'bg-blue-50 border-blue-200 text-blue-900',
-      badgeBg: 'bg-blue-600 text-white',
-      traits: [
-        'Live exclusively in aquatic habitats (freshwater or saltwater).',
-        'Extract dissolved oxygen from water using specialized gills.',
-        'Fins provide stability, steering, and propulsion through water.',
-        'Body temperature changes with the temperature of surrounding water.'
+      blood: 'Warm-Blooded (Endothermic)',
+      skin: 'Feathers and light, hollow bones',
+      reproduction: 'Lay hard-shelled eggs',
+      color: 'bg-sky-50 border-sky-200 text-sky-900',
+      badgeBg: 'bg-sky-600 text-white',
+      examples: 'Eagles, penguins, parrots, ostriches, owls.',
+      keyCharacteristics: [
+        'Have wings and beak (no teeth).',
+        'Lightweight hollow bones designed for flight.',
+        'Lay hard, waterproof calcium eggs in nests.'
       ]
     },
     {
       id: 'reptiles',
-      num: '4',
+      num: '3',
       name: 'Reptiles',
-      icon: '🐢',
-      bloodType: 'Cold-blooded (Ectothermic)',
-      covering: 'Dry, Waterproof Scales or Scutes',
-      reproduction: 'Lay leathery-shelled eggs on land',
-      feeding: 'Breathe air using lungs',
-      examples: 'Turtles, Snakes, Lizards, Crocodiles, Alligators',
+      icon: '🐊',
+      blood: 'Cold-Blooded (Ectothermic)',
+      skin: 'Dry, scaly waterproof skin',
+      reproduction: 'Lay leathery soft-shelled eggs on land',
       color: 'bg-emerald-50 border-emerald-200 text-emerald-900',
       badgeBg: 'bg-emerald-600 text-white',
-      traits: [
-        'Dry, tough scales protect against water loss in warm climates.',
-        'Rely on external sun heat (basking) to warm their body temperature.',
-        'Breathe air through lungs throughout their entire lifespan.',
-        'Turtles have hard bony carapaces (shells) fused to their spine.'
+      examples: 'Crocodiles, snakes, lizards, turtles, tortoises.',
+      keyCharacteristics: [
+        'Breathe air using lungs.',
+        'Body temperature relies on sun and shade environment.',
+        'Scales prevent moisture loss in dry environments.'
       ]
     },
     {
       id: 'amphibians',
-      num: '5',
+      num: '4',
       name: 'Amphibians',
       icon: '🐸',
-      bloodType: 'Cold-blooded (Ectothermic)',
-      covering: 'Smooth, Moist Permeable Skin',
-      reproduction: 'Lay soft jelly-like eggs in water',
-      feeding: 'Metamorphosis: Gills (young) → Lungs/Skin (adults)',
-      examples: 'Frogs, Toads, Salamanders, Newts',
-      color: 'bg-teal-50 border-teal-200 text-teal-900',
-      badgeBg: 'bg-teal-600 text-white',
-      traits: [
-        'Undergo metamorphosis: hatch as aquatic tadpoles with gills, then grow lungs and legs.',
-        'Adults live on land and in water, absorbing oxygen directly through moist skin.',
-        'Must stay in damp environments to prevent their thin skin from drying out.',
-        'Lack scales, claws, or feathers.'
+      blood: 'Cold-Blooded (Ectothermic)',
+      skin: 'Moist, permeable skin (no scales)',
+      reproduction: 'Lay jelly-like eggs in water',
+      color: 'bg-lime-50 border-lime-200 text-lime-900',
+      badgeBg: 'bg-lime-600 text-white',
+      examples: 'Frogs, toads, salamanders, newts.',
+      keyCharacteristics: [
+        'Undergo metamorphosis: tadpoles hatch with gills in water; adults develop lungs on land.',
+        'Can absorb oxygen directly through moist skin.',
+        'Must remain near moist habitats to prevent drying out.'
+      ]
+    },
+    {
+      id: 'fish',
+      num: '5',
+      name: 'Fish',
+      icon: '🐟',
+      blood: 'Cold-Blooded (Ectothermic)',
+      skin: 'Scales and slimy mucus layer',
+      reproduction: 'Lay soft eggs in water',
+      color: 'bg-blue-50 border-blue-200 text-blue-900',
+      badgeBg: 'bg-blue-600 text-white',
+      examples: 'Sharks, salmon, clownfish, goldfish, tuna.',
+      keyCharacteristics: [
+        'Live entirely in water.',
+        'Breathe dissolved oxygen from water using gills.',
+        'Use fins and streamlined bodies for swimming.'
       ]
     }
   ];
 
-  // The 5 Kingdoms of Living Things
-  const fiveKingdoms = [
-    { name: 'Animal Kingdom 🦁', desc: 'Multicellular organisms that eat other living things for food (heterotrophs) and move around freely.', ex: 'Lions, birds, fish, insects, humans' },
-    { name: 'Plant Kingdom 🌿', desc: 'Multicellular organisms containing green chlorophyll that make their own food via photosynthesis.', ex: 'Trees, flowers, ferns, mosses' },
-    { name: 'Fungi Kingdom 🍄', desc: 'Organisms that absorb nutrients by breaking down dead organic matter (decomposers).', ex: 'Mushrooms, moulds, yeast' },
-    { name: 'Protist Kingdom 🔬', desc: 'Mostly microscopic single-celled or simple multicellular aquatic organisms.', ex: 'Amoeba, algae, paramecium' },
-    { name: 'Bacteria Kingdom 🧫', desc: 'Microscopic single-celled prokaryotic organisms found almost everywhere on Earth.', ex: 'E. coli, Lactobacillus, soil bacteria' }
-  ];
-
-  // Vertebrates vs Invertebrates
-  const backboneComparison = [
-    { title: 'Vertebrates (Have a Backbone) 🦴', count: '5 Main Classes', desc: 'Animals with an internal bony or cartilaginous skeleton and spinal cord.', ex: 'Mammals, Birds, Fish, Reptiles, Amphibians (e.g. Dog, Eagle, Shark, Snake, Frog)' },
-    { title: 'Invertebrates (NO Backbone) 🐙', count: 'Over 95% of All Animal Species!', desc: 'Animals that lack a spinal column or internal skeleton. Many have hard outer shells (exoskeletons) or soft bodies.', ex: 'Insects (ants, butterflies), Spiders, Octopuses, Jellyfish, Worms, Snails, Crabs' }
+  // 5 Kingdoms Data
+  const kingdoms = [
+    { name: 'Animal Kingdom (Animalia)', icon: '🐘', desc: 'Multicellular organisms that ingest food and move actively.' },
+    { name: 'Plant Kingdom (Plantae)', icon: '🌻', desc: 'Multicellular plants that produce food via photosynthesis.' },
+    { name: 'Fungi Kingdom', icon: '🍄', desc: 'Mushrooms, yeast, and moulds that absorb nutrients from decaying organic matter.' },
+    { name: 'Protist Kingdom (Protista)', icon: '🔬', desc: 'Single-celled microscopic organisms like amoeba and algae.' },
+    { name: 'Monera / Bacteria Kingdom', icon: '🧫', desc: 'Microscopic single-celled prokaryotes with no membrane-bound nucleus.' }
   ];
 
   // Quiz Questions
   const quizQuestions = [
     {
       id: 1,
-      q: 'Which main animal group is warm-blooded, has hair or fur, and feeds its babies milk?',
-      options: ['Reptiles', 'Mammals', 'Amphibians', 'Fish'],
+      q: 'Which group of vertebrates are warm-blooded, covered in fur/hair, and feed live young with milk?',
+      options: ['Reptiles', 'Amphibians', 'Mammals', 'Fish'],
       ans: 'Mammals'
     },
     {
       id: 2,
-      q: 'What is the key difference between Vertebrates and Invertebrates?',
-      options: [
-        'Vertebrates have a backbone, while Invertebrates DO NOT have a backbone',
-        'Vertebrates live in water, while Invertebrates live on land',
-        'Vertebrates lay eggs, while Invertebrates give live birth',
-        'Vertebrates have wings, while Invertebrates have fins'
-      ],
-      ans: 'Vertebrates have a backbone, while Invertebrates DO NOT have a backbone'
-    },
-    {
-      id: 3,
-      q: 'Which vertebrate class undergoes metamorphosis, starting life as a tadpole with gills in water and growing lungs as an adult?',
-      options: ['Birds', 'Reptiles', 'Amphibians', 'Fish'],
+      q: 'Which animals undergo metamorphosis—hatching as aquatic tadpoles with gills before developing lungs as adults?',
+      options: ['Birds', 'Amphibians', 'Reptiles', 'Mammals'],
       ans: 'Amphibians'
     },
     {
+      id: 3,
+      q: 'What main body feature distinguishes Vertebrates from Invertebrates?',
+      options: ['Scales', 'Wings', 'Backbone (Spine)', 'Legs'],
+      ans: 'Backbone (Spine)'
+    },
+    {
       id: 4,
-      q: 'Which kingdom of living things contains green organisms that make their own food through photosynthesis?',
-      options: ['Animal Kingdom', 'Plant Kingdom', 'Fungi Kingdom', 'Bacteria Kingdom'],
-      ans: 'Plant Kingdom'
+      q: 'Which kingdom of living things contains green plants that produce their own food using sunlight?',
+      options: ['Animalia', 'Plantae', 'Fungi', 'Monera'],
+      ans: 'Plantae'
     },
     {
       id: 5,
-      q: 'Why are Bats classified as Mammals even though they can fly like birds?',
-      options: [
-        'Because they have feathers and beaks',
-        'Because they have fur, warm blood, give live birth, and feed babies milk',
-        'Because they lay hard eggs',
-        'Because they breathe underwater with gills'
-      ],
-      ans: 'Because they have fur, warm blood, give live birth, and feed babies milk'
+      q: 'Are Crocodiles and Turtles warm-blooded or cold-blooded reptiles?',
+      options: ['Warm-blooded', 'Cold-blooded', 'Both', 'Neither'],
+      ans: 'Cold-blooded'
     }
   ];
 
@@ -276,21 +252,44 @@ export default function ClassificationOfLivingThingsHub() {
       {activeTab === 'overview' && (
         <div className="space-y-6">
           
-          {/* Quick Banner */}
-          <div className="bg-gradient-to-r from-teal-500 to-emerald-600 rounded-2xl p-4 text-white flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">🐾</span>
+          {/* Top Featured Infographic Poster */}
+          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
               <div>
-                <h4 className="font-extrabold text-sm">Official Classification Chart Included</h4>
-                <p className="text-teal-100 text-xs">View the high-resolution infographic chart detailing Mammals, Birds, Fish, Reptiles, Amphibians, and the 5 Kingdoms.</p>
+                <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-100 px-3 py-1 rounded-md">
+                  Visual Learning Guide • Animal Taxonomy Chart
+                </span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2 flex items-center gap-2">
+                  <span>🖼️</span> Classification of Living Things Infographic Chart
+                </h3>
+                <p className="text-slate-500 text-xs mt-1">
+                  Click the poster below to expand into full high-resolution view with Mammals, Birds, Reptiles, Amphibians, and Fish.
+                </p>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-extrabold text-xs shadow-md shadow-emerald-500/20 hover:bg-emerald-700 transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <ZoomIn className="w-4 h-4" /> Expand Chart
+              </button>
+            </div>
+
+            <div 
+              onClick={() => setIsModalOpen(true)}
+              className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
+              title="Click to Open & Zoom"
+            >
+              <img 
+                src="/classification_of_living_things_infographic.jpg" 
+                alt="Classification of Living Things Infographic Poster" 
+                className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
+              />
+              <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-emerald-600" /> Click to Expand & Zoom Image
+                </span>
               </div>
             </div>
-            <button 
-              onClick={() => setActiveTab('infographic')}
-              className="px-4 py-2 rounded-xl bg-white text-emerald-900 font-black text-xs hover:bg-teal-50 transition-all shrink-0 cursor-pointer shadow-sm"
-            >
-              View Infographic Chart →
-            </button>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
