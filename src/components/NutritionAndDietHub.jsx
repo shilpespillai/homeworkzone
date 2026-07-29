@@ -241,7 +241,6 @@ export default function NutritionAndDietHub() {
       <div className="flex gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
         {[
           { id: 'overview', label: '5 Food Groups', icon: '🥗' },
-          { id: 'infographic', label: 'Full Infographic Chart', icon: '🖼️' },
           { id: 'nutrients', label: 'Essential Nutrients & Jobs', icon: '⚡' },
           { id: 'why', label: 'Why We Need Food', icon: '🎯' },
           { id: 'lunchbox', label: 'Healthy Lunchbox & Habits', icon: '🍱' },
@@ -294,7 +293,7 @@ export default function NutritionAndDietHub() {
               title="Click to Open & Zoom"
             >
               <img 
-                src="/nutrition_and_diet_infographic.jpg" 
+                src="/nutrition_and_balanced_diet_infographic.jpg" 
                 alt="Nutrition and a Balanced Diet Infographic Poster" 
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -335,7 +334,7 @@ export default function NutritionAndDietHub() {
                 </div>
               </div>
               <button
-                onClick={() => speakText(`${currentGroupData.name}. Main role: ${currentGroupData.mainRole}. Examples: ${currentGroupData.examples}. ${currentGroupData.benefits.join(' ')}`)}
+                onClick={() => speakText(`${currentGroupData?.name}. Main role: ${currentGroupData?.mainRole}. Examples: ${currentGroupData?.examples}. ${(currentGroupData?.benefits || []).join(' ')}`)}
                 className="p-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-emerald-100 hover:text-emerald-800 transition-all cursor-pointer"
                 title="Read aloud"
               >
@@ -346,17 +345,17 @@ export default function NutritionAndDietHub() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-100 space-y-1">
                 <div className="text-[10px] font-black uppercase tracking-wider text-emerald-700">Primary Role</div>
-                <div className="font-extrabold text-emerald-950 text-base">{currentGroupData.mainRole}</div>
+                <div className="font-extrabold text-emerald-950 text-base">{currentGroupData?.mainRole}</div>
               </div>
               <div className="p-4 rounded-2xl bg-amber-50 border border-amber-100 space-y-1">
                 <div className="text-[10px] font-black uppercase tracking-wider text-amber-700">Healthy Examples</div>
-                <div className="font-extrabold text-amber-950 text-base">{currentGroupData.examples}</div>
+                <div className="font-extrabold text-amber-950 text-base">{currentGroupData?.examples}</div>
               </div>
             </div>
 
             <div className="space-y-3">
               <h4 className="text-xs font-black text-slate-400 uppercase tracking-wider">Health & Nutritional Benefits</h4>
-              {currentGroupData.benefits.map((benefit, idx) => (
+              {(currentGroupData?.benefits || []).map((benefit, idx) => (
                 <div key={idx} className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-100 text-slate-700 text-xs font-medium leading-relaxed">
                   <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                   <span>{benefit}</span>
@@ -365,39 +364,6 @@ export default function NutritionAndDietHub() {
             </div>
           </div>
 
-        </div>
-      )}
-
-      {/* ==================================== TAB: INFOGRAPHIC CHART ==================================== */}
-      {activeTab === 'infographic' && (
-        <div className="space-y-6 bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-100">
-            <div>
-              <span className="text-[10px] font-black uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">
-                Official Visual Reference
-              </span>
-              <h2 className="text-2xl font-black text-slate-800 mt-1">Nutrition and a Balanced Diet Infographic</h2>
-              <p className="text-slate-500 text-xs mt-1">Official high-resolution diagram detailing food groups, nutrients, lunchbox guide, and nutrition habits.</p>
-            </div>
-            <button 
-              onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-extrabold text-xs shadow-md shadow-emerald-500/20 hover:bg-emerald-700 transition-all flex items-center gap-2 cursor-pointer"
-            >
-              🖼️ Open Fullscreen View
-            </button>
-          </div>
-
-          <div 
-            onClick={() => setIsModalOpen(true)}
-            className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
-            title="Click to Open Full Chart"
-          >
-            <img 
-              src="/nutrition_and_balanced_diet_infographic.jpg" 
-              alt="Nutrition and a Balanced Diet Infographic Chart" 
-              className="max-w-full h-auto rounded-xl shadow-lg border border-white max-h-[800px] object-contain group-hover:scale-101 transition-transform"
-            />
-          </div>
         </div>
       )}
 

@@ -215,7 +215,6 @@ export default function StatesOfMatterHub() {
       <div className="flex gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
         {[
           { id: 'overview', label: '3 States of Matter', icon: '🧊' },
-          { id: 'infographic', label: 'Full Infographic Chart', icon: '🖼️' },
           { id: 'phase', label: 'Phase Changes & Heat', icon: '🔥' },
           { id: 'particles', label: 'Particle Theory', icon: '⚛️' },
           { id: 'quiz', label: 'Knowledge Check Quiz', icon: '🏆' }
@@ -350,39 +349,6 @@ export default function StatesOfMatterHub() {
             </div>
           </div>
 
-        </div>
-      )}
-
-      {/* ==================================== TAB: INFOGRAPHIC CHART ==================================== */}
-      {activeTab === 'infographic' && (
-        <div className="space-y-6 bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-100">
-            <div>
-              <span className="text-[10px] font-black uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md">
-                Official Visual Reference
-              </span>
-              <h2 className="text-2xl font-black text-slate-800 mt-1">States of Matter Infographic Chart</h2>
-              <p className="text-slate-500 text-xs mt-1">Official high-resolution diagram detailing solids, liquids, gases, plasma, particle model, and state changes.</p>
-            </div>
-            <button 
-              onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2 rounded-xl bg-blue-600 text-white font-extrabold text-xs shadow-md shadow-blue-500/20 hover:bg-blue-700 transition-all flex items-center gap-2 cursor-pointer"
-            >
-              🖼️ Open Fullscreen View
-            </button>
-          </div>
-
-          <div 
-            onClick={() => setIsModalOpen(true)}
-            className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
-            title="Click to Open Full Chart"
-          >
-            <img 
-              src="/states_of_matter_infographic.jpg" 
-              alt="States of Matter Infographic Chart" 
-              className="max-w-full h-auto rounded-xl shadow-lg border border-white max-h-[800px] object-contain group-hover:scale-101 transition-transform"
-            />
-          </div>
         </div>
       )}
 

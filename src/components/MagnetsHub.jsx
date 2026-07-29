@@ -296,12 +296,12 @@ export default function MagnetsHub() {
 
             <div className="p-4 rounded-2xl bg-rose-50 border border-rose-100 space-y-1">
               <div className="text-[10px] font-black uppercase tracking-wider text-rose-700">Scientific Explanation</div>
-              <div className="font-bold text-rose-950 text-xs md:text-sm leading-relaxed">{currentPoleData.summary}</div>
+              <div className="font-bold text-rose-950 text-xs md:text-sm leading-relaxed">{currentPoleData?.summary}</div>
             </div>
 
             <div className="space-y-3">
               <h4 className="text-xs font-black text-slate-400 uppercase tracking-wider">Key Physics Rules</h4>
-              {currentPoleData.details.map((d, idx) => (
+              {(currentPoleData?.details || []).map((d, idx) => (
                 <div key={idx} className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-100 text-slate-700 text-xs font-medium leading-relaxed">
                   <CheckCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
                   <span>{d}</span>
@@ -310,39 +310,6 @@ export default function MagnetsHub() {
             </div>
           </div>
 
-        </div>
-      )}
-
-      {/* ==================================== TAB: INFOGRAPHIC CHART ==================================== */}
-      {activeTab === 'infographic' && (
-        <div className="space-y-6 bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-100">
-            <div>
-              <span className="text-[10px] font-black uppercase tracking-wider text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md">
-                Official Visual Reference
-              </span>
-              <h2 className="text-2xl font-black text-slate-800 mt-1">Magnets and Magnetic Forces Infographic</h2>
-              <p className="text-slate-500 text-xs mt-1">Official high-resolution diagram detailing magnet poles, field lines, magnetic vs non-magnetic sorting, electromagnets, and compasses.</p>
-            </div>
-            <button 
-              onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2 rounded-xl bg-rose-600 text-white font-extrabold text-xs shadow-md shadow-rose-500/20 hover:bg-rose-700 transition-all flex items-center gap-2 cursor-pointer"
-            >
-              🖼️ Open Fullscreen View
-            </button>
-          </div>
-
-          <div 
-            onClick={() => setIsModalOpen(true)}
-            className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
-            title="Click to Open Full Chart"
-          >
-            <img 
-              src="/magnets_infographic.jpg" 
-              alt="Magnets Infographic Chart" 
-              className="max-w-full h-auto rounded-xl shadow-lg border border-white max-h-[800px] object-contain group-hover:scale-101 transition-transform"
-            />
-          </div>
         </div>
       )}
 

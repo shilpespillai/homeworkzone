@@ -217,7 +217,6 @@ export default function ElectricityHub() {
       <div className="flex gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
         {[
           { id: 'overview', label: 'Circuit Components', icon: '🔋' },
-          { id: 'infographic', label: 'Full Infographic Chart', icon: '🖼️' },
           { id: 'conductors', label: 'Conductors vs Insulators', icon: '⚡' },
           { id: 'circuits', label: 'Series vs Parallel', icon: '🔀' },
           { id: 'safety', label: 'Safety & Energy Sources', icon: '🛡️' },
@@ -323,46 +322,13 @@ export default function ElectricityHub() {
 
             <div className="space-y-3">
               <h4 className="text-xs font-black text-slate-400 uppercase tracking-wider">Electrical Principles</h4>
-              {currentComponentData.details.map((d, idx) => (
+              {(currentComponentData?.details || []).map((d, idx) => (
                 <div key={idx} className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-100 text-slate-700 text-xs font-medium leading-relaxed">
                   <CheckCircle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
                   <span>{d}</span>
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* ==================================== TAB: INFOGRAPHIC CHART ==================================== */}
-      {activeTab === 'infographic' && (
-        <div className="space-y-6 bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-100">
-            <div>
-              <span className="text-[10px] font-black uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">
-                Official Visual Reference
-              </span>
-              <h2 className="text-2xl font-black text-slate-800 mt-1">Electricity in Our Lives Infographic</h2>
-              <p className="text-slate-500 text-xs mt-1">Official diagram detailing electric circuits, components, conductors/insulators, and renewable energy.</p>
-            </div>
-            <button 
-              onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2 rounded-xl bg-amber-600 text-white font-extrabold text-xs shadow-md shadow-amber-500/20 hover:bg-amber-700 transition-all flex items-center gap-2 cursor-pointer"
-            >
-              🖼️ Open Fullscreen View
-            </button>
-          </div>
-
-          <div 
-            onClick={() => setIsModalOpen(true)}
-            className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
-            title="Click to Open Full Chart"
-          >
-            <img 
-              src="/electricity_infographic.jpg" 
-              alt="Electricity Infographic Chart" 
-              className="max-w-full h-auto rounded-xl shadow-lg border border-white max-h-[800px] object-contain group-hover:scale-101 transition-transform"
-            />
           </div>
         </div>
       )}

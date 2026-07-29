@@ -357,39 +357,6 @@ export default function EcosystemsHub() {
         </div>
       )}
 
-      {/* ==================================== TAB: INFOGRAPHIC CHART ==================================== */}
-      {activeTab === 'infographic' && (
-        <div className="space-y-6 bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-100">
-            <div>
-              <span className="text-[10px] font-black uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">
-                Official Visual Reference
-              </span>
-              <h2 className="text-2xl font-black text-slate-800 mt-1">Ecosystems: Living Things & Food Chains Infographic</h2>
-              <p className="text-slate-500 text-xs mt-1">Official high-resolution diagram detailing biotic/abiotic factors, food chains, food webs, energy flow, and decomposers.</p>
-            </div>
-            <button 
-              onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-extrabold text-xs shadow-md shadow-emerald-500/20 hover:bg-emerald-700 transition-all flex items-center gap-2 cursor-pointer"
-            >
-              🖼️ Open Fullscreen View
-            </button>
-          </div>
-
-          <div 
-            onClick={() => setIsModalOpen(true)}
-            className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
-            title="Click to Open Full Chart"
-          >
-            <img 
-              src="/ecosystems_infographic.jpg" 
-              alt="Ecosystems Infographic Chart" 
-              className="max-w-full h-auto rounded-xl shadow-lg border border-white max-h-[800px] object-contain group-hover:scale-101 transition-transform"
-            />
-          </div>
-        </div>
-      )}
-
       {/* ==================================== TAB: TYPES OF ECOSYSTEMS ==================================== */}
       {activeTab === 'types' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

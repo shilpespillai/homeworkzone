@@ -214,7 +214,6 @@ export default function HeatAndThermalEnergyHub() {
       <div className="flex gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
         {[
           { id: 'overview', label: '3 Ways Heat Transfers', icon: '🔥' },
-          { id: 'infographic', label: 'Full Infographic Chart', icon: '🖼️' },
           { id: 'conductors', label: 'Conductors & Insulators', icon: '🍳' },
           { id: 'expansion', label: 'Expansion & Contraction', icon: '🎈' },
           { id: 'measuring', label: 'Temperature & Benchmarks', icon: '🌡️' },
@@ -322,7 +321,7 @@ export default function HeatAndThermalEnergyHub() {
 
             <div className="space-y-3">
               <h4 className="text-xs font-black text-slate-400 uppercase tracking-wider">Key Physical Characteristics</h4>
-              {currentTransferData.details.map((d, idx) => (
+              {(currentTransferData?.details || []).map((d, idx) => (
                 <div key={idx} className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-100 text-slate-700 text-xs font-medium leading-relaxed">
                   <CheckCircle className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
                   <span>{d}</span>
@@ -331,39 +330,6 @@ export default function HeatAndThermalEnergyHub() {
             </div>
           </div>
 
-        </div>
-      )}
-
-      {/* ==================================== TAB: INFOGRAPHIC CHART ==================================== */}
-      {activeTab === 'infographic' && (
-        <div className="space-y-6 bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-100">
-            <div>
-              <span className="text-[10px] font-black uppercase tracking-wider text-orange-600 bg-orange-50 px-2.5 py-1 rounded-md">
-                Official Visual Reference
-              </span>
-              <h2 className="text-2xl font-black text-slate-800 mt-1">Heat and Thermal Energy Infographic</h2>
-              <p className="text-slate-500 text-xs mt-1">Official high-resolution diagram detailing heat vs temperature, conduction, convection, radiation, state changes, and expansion.</p>
-            </div>
-            <button 
-              onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2 rounded-xl bg-orange-600 text-white font-extrabold text-xs shadow-md shadow-orange-500/20 hover:bg-orange-700 transition-all flex items-center gap-2 cursor-pointer"
-            >
-              🖼️ Open Fullscreen View
-            </button>
-          </div>
-
-          <div 
-            onClick={() => setIsModalOpen(true)}
-            className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
-            title="Click to Open Full Chart"
-          >
-            <img 
-              src="/heat_and_thermal_energy_infographic.jpg" 
-              alt="Heat and Thermal Energy Infographic Chart" 
-              className="max-w-full h-auto rounded-xl shadow-lg border border-white max-h-[800px] object-contain group-hover:scale-101 transition-transform"
-            />
-          </div>
         </div>
       )}
 

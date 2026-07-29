@@ -224,7 +224,7 @@ export default function HeredityHub() {
               title="Click to Open & Zoom"
             >
               <img 
-                src="/heredity_and_traits_infographic.jpg" 
+                src="/heredity_infographic.jpg" 
                 alt="Heredity and Traits Infographic Poster" 
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -271,12 +271,12 @@ export default function HeredityHub() {
 
             <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-100 space-y-1">
               <div className="text-[10px] font-black uppercase tracking-wider text-emerald-700">Scientific Explanation</div>
-              <div className="font-bold text-emerald-950 text-xs md:text-sm leading-relaxed">{currentTraitData.summary}</div>
+              <div className="font-bold text-emerald-950 text-xs md:text-sm leading-relaxed">{currentTraitData?.summary}</div>
             </div>
 
             <div className="space-y-3">
               <h4 className="text-xs font-black text-slate-400 uppercase tracking-wider">Key Examples & Features</h4>
-              {currentTraitData.examples.map((ex, idx) => (
+              {(currentTraitData?.examples || []).map((ex, idx) => (
                 <div key={idx} className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-100 text-slate-700 text-xs font-medium leading-relaxed">
                   <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                   <span>{ex}</span>
@@ -285,39 +285,6 @@ export default function HeredityHub() {
             </div>
           </div>
 
-        </div>
-      )}
-
-      {/* ==================================== TAB: INFOGRAPHIC CHART ==================================== */}
-      {activeTab === 'infographic' && (
-        <div className="space-y-6 bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-md">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-100">
-            <div>
-              <span className="text-[10px] font-black uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">
-                Official Visual Reference
-              </span>
-              <h2 className="text-2xl font-black text-slate-800 mt-1">Traits and Heredity Infographic</h2>
-              <p className="text-slate-500 text-xs mt-1">Official high-resolution diagram detailing inherited traits, environmental factors, parent-offspring pairs, and plant/animal traits comparison.</p>
-            </div>
-            <button 
-              onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-extrabold text-xs shadow-md shadow-emerald-500/20 hover:bg-emerald-700 transition-all flex items-center gap-2 cursor-pointer"
-            >
-              🖼️ Open Fullscreen View
-            </button>
-          </div>
-
-          <div 
-            onClick={() => setIsModalOpen(true)}
-            className="relative flex justify-center bg-slate-900/5 p-4 rounded-2xl border border-slate-200 overflow-hidden cursor-pointer group hover:bg-slate-900/10 transition-all"
-            title="Click to Open Full Chart"
-          >
-            <img 
-              src="/heredity_infographic.jpg" 
-              alt="Heredity Infographic Chart" 
-              className="max-w-full h-auto rounded-xl shadow-lg border border-white max-h-[800px] object-contain group-hover:scale-101 transition-transform"
-            />
-          </div>
         </div>
       )}
 
