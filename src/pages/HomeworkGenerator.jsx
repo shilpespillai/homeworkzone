@@ -852,6 +852,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         timeLimit: formData.timeLimit || '30',
         marksPerQuestion: formData.marksPerQuestion || '5',
         difficulty: formData.difficulty || 'Medium',
+        targetLanguage: targetLanguage || 'en',
         createdAt: serverTimestamp()
       });
 

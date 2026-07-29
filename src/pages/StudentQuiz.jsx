@@ -339,6 +339,9 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
   const currentQuestion = displayQuestions[currentIdx] || displayQuestions[0];
   const progress = displayQuestions.length > 0 ? ((currentIdx + 1) / displayQuestions.length) * 100 : 0;
 
+  // Derive TTS language from homework's targetLanguage field
+  const ttsLang = getLanguageObj(homework?.targetLanguage || 'en').ttsLang || 'en-US';
+
   const handleSelect = (qId, option) => {
     if (isSubmitted) return;
     setAnswers({ ...answers, [qId]: option });
@@ -726,7 +729,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                        <div className="flex-1 flex flex-col">
                          <div className="text-xl font-bold text-slate-800 mb-8 whitespace-pre-wrap leading-relaxed flex items-start gap-3">
                             <button 
-                              onClick={() => playTTS(cleanText)}
+                              onClick={() => playTTS(cleanText, ttsLang)}
                               className="mt-1 p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full transition-colors shrink-0"
                               title="Read Aloud"
                             >
@@ -1000,7 +1003,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                                       {isReviewing && isSelected && !isCorrectOption && <XCircle className="w-5 h-5 text-rose-500" />}
                                    </div>
                                    <button 
-                                      onClick={(e) => { e.preventDefault(); playTTS(opt); }}
+                                      onClick={(e) => { e.preventDefault(); playTTS(opt, ttsLang); }}
                                       className="p-1.5 bg-blue-50 hover:bg-blue-100 text-blue-500 rounded-full transition-colors shrink-0"
                                       title="Read Option Aloud"
                                     >
@@ -1190,7 +1193,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                              <div className="text-lg md:text-xl font-medium text-slate-700 leading-relaxed space-y-4">
                                <div className="flex justify-start mb-2">
                                  <button 
-                                   onClick={(e) => { e.preventDefault(); playTTS(cleanText); }}
+                                   onClick={(e) => { e.preventDefault(); playTTS(cleanText, ttsLang); }}
                                    className="flex items-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full transition-colors font-bold text-sm"
                                  >
                                    <Volume2 className="w-4 h-4" /> Listen to Question
@@ -1203,7 +1206,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                            ) : (
                              <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start gap-4">
                                <button 
-                                 onClick={(e) => { e.preventDefault(); playTTS(cleanText); }}
+                                 onClick={(e) => { e.preventDefault(); playTTS(cleanText, ttsLang); }}
                                  className="mt-1 p-3 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full transition-colors shrink-0"
                                  title="Read Aloud"
                                >
@@ -1573,7 +1576,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                             )}
                           </button>
                           <button 
-                            onClick={(e) => { e.preventDefault(); playTTS(cleanOptText); }}
+                            onClick={(e) => { e.preventDefault(); playTTS(cleanOptText, ttsLang); }}
                             className="w-16 flex items-center justify-center bg-blue-50 hover:bg-blue-100 text-blue-500 rounded-[24px] transition-colors border-2 border-transparent hover:border-blue-200"
                             title="Read Option Aloud"
                           >
