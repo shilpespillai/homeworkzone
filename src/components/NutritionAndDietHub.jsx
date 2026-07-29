@@ -12,7 +12,9 @@ import {
   Flame,
   Dumbbell,
   Brain,
-  ShieldAlert
+  ShieldAlert,
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 

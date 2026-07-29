@@ -12,7 +12,9 @@ import {
   Flame,
   ShieldCheck,
   Search,
-  Hammer
+  Hammer,
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 

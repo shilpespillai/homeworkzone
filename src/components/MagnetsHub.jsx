@@ -11,7 +11,9 @@ import {
   Compass,
   Zap,
   ShieldCheck,
-  Globe
+  Globe,
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 

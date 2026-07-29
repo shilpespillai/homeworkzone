@@ -13,7 +13,9 @@ import {
   Globe,
   Compass,
   Lightbulb,
-  Search
+  Search,
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 

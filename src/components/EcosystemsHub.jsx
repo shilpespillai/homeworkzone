@@ -14,7 +14,9 @@ import {
   ShieldAlert,
   Globe,
   Recycle,
-  Sprout
+  Sprout,
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 

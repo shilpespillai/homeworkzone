@@ -12,7 +12,9 @@ import {
   Thermometer,
   Zap,
   ShieldCheck,
-  Waves
+  Waves,
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 

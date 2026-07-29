@@ -14,7 +14,9 @@ import {
   Flame,
   Search,
   Compass,
-  Rainbow
+  Rainbow,
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 

@@ -13,7 +13,9 @@ import {
   ShieldCheck,
   Footprints,
   Flame,
-  Compass
+  Compass,
+  ZoomIn,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
