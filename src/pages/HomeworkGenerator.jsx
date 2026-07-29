@@ -422,75 +422,103 @@ IMPORTANT:
 • Every execution must feel like discovering an entirely new book.
 
 =========================================================
-INPUT PARAMETERS:
-- Target Grade Level / Reading Level: ${resolvedGrade}
-- Illustration Style: ${bookIllustrationStyle}
-- Number of Pages: ${bookPageCount} (Range: 3 to 10 pages)
+INPUT SPECIFICATIONS
+=========================================================
+• Target Grade / Reading Level: ${resolvedGrade}
+• Illustration Style: ${bookIllustrationStyle}
+• Number of Pages: ${bookPageCount}
 
 =========================================================
 STEP 1 — RANDOMLY GENERATE THE STORY WORLD
+=========================================================
 Randomly generate ALL of the following:
-- Story title & Subtitle
-- Genre (e.g. Fantasy, Space, Jungle, Ocean, Dinosaur Age, Robot City, Dragon Valley, Cloud Kingdom, Toy World, Magical Forest, etc.)
-- Theme & Moral lesson
-- World setting, time period & world type
+• Story title
+• Subtitle
+• Genre
+• Age group / Reading level (Suitable for ${resolvedGrade})
+• Theme & Moral
+• Setting, Time period & World type
+
+Possible worlds include (do not limit yourself):
+Fantasy, Jungle, Ocean, Outer Space, Dinosaur Age, Fairy Kingdom, Robot City, Candy Land, Pirate Island, Dragon Valley, Underwater Kingdom, Cloud Kingdom, Ancient Egypt, Ancient India, Haunted (friendly) Castle, Safari, Farm, Arctic, Volcano Island, Toy World, Magical Forest, Minecraft-inspired world, Steampunk City, Future Earth, Galaxy Adventure, Dream World, Animal Kingdom, Rainbow World, Monster School, Magic Academy, or invent something completely new.
 
 =========================================================
 STEP 2 — CREATE ORIGINAL CHARACTERS
-Generate unique memorable characters:
-- Main Hero (Name, Age, Personality, Weakness, Strength, Goal)
-- Supporting Friends, Mentor, or Funny Sidekick
-- Each character must have distinct appearance, colors, speech style, and catchphrase
+=========================================================
+Generate unique memorable characters.
+Main Hero: Name, Age, Personality, Weakness, Strength, Goal.
+Supporting Characters: Friends, Mentor, Funny Sidekick, Optional Villain, Animals, Magical Creatures.
+Every character should have: Appearance, Colours, Personality, Speech style, Unique behaviour, Signature catchphrase.
 
 =========================================================
 STEP 3 — STORY STRUCTURE
-Write a complete professionally structured story spanning exactly ${bookPageCount} pages:
-- Beginning: Introduce world, hero, goal, inciting incident
-- Middle: Adventure, challenges, puzzles, friendship, funny moments, learning moments
-- Ending: Final challenge, emotional climax, resolution, celebration, life lesson
+=========================================================
+Write a complete professionally structured story spanning exactly ${bookPageCount} pages.
+Beginning: Introduce world, hero, goal, inciting incident.
+Middle: Adventure, challenges, puzzles, friendship, problem solving, funny moments, twists, learning moments.
+Ending: Final challenge, emotional climax, resolution, celebration, happy ending, life lesson.
 
 =========================================================
-STEP 4 — EDUCATIONAL VALUE & VOCABULARY
-Naturally teach concepts like kindness, teamwork, courage, science, nature, math, or growth mindset.
-Highlight 1-2 new vocabulary words per page with child-friendly definitions, pronunciations, and interesting fun facts.
+STEP 4 — EDUCATIONAL VALUE
+=========================================================
+Naturally teach one or more concepts (Kindness, Friendship, Honesty, Sharing, Respect, Teamwork, Courage, Creativity, Problem Solving, Science, Nature, Animals, Space, Geography, Math, Reading, Healthy eating, Exercise, Environment, Recycling, Growth mindset, Resilience, Empathy). The lesson should never feel forced.
 
 =========================================================
-STEP 5 & 7 — PIXAR-LEVEL AI ILLUSTRATION PROMPTS
-For EVERY page generate a professional AI illustration prompt specifying:
-- Character consistency, clothing, colors, expressions, pose
-- Camera angle (Wide angle / Medium / Close-up), mood, color palette, visual focus
-- Style: ${bookIllustrationStyle}, 8k, children's book quality, no text inside illustration
+STEP 5 — PAGE LAYOUT (${bookPageCount} PAGES)
+=========================================================
+For every page generate: Page Number, Narration (80–150 words), Dialogue (if required), Illustration Description, Camera Angle, Mood, Colour Palette, Lighting, Facial Expressions, Important Objects, Background Details, Visual Focus, Illustration Style (${bookIllustrationStyle}).
+
+=========================================================
+STEP 6 & 7 — ILLUSTRATION STYLE & IMAGE PROMPTS
+=========================================================
+Selected Illustration Style: ${bookIllustrationStyle}.
+For EVERY page generate a professional AI illustration prompt including: Character consistency, clothing, colours, expressions, pose, lighting, composition, camera angle, background, objects, weather, time of day, environment, depth of field, ultra detailed, 8K, children's book quality, no text inside illustration.
+
+=========================================================
+STEP 8 — VOCABULARY
+=========================================================
+After every page include: New Words, Meaning, Pronunciation, Interesting Fact.
 
 =========================================================
 STEP 9 — PARENT SECTION
-Generate:
-- Discussion Questions (2 questions)
-- Activity (drawing, craft, or science activity)
-- Core Life Lesson
+=========================================================
+At the end generate: Discussion Questions, Activities (Drawing Activity, Science Activity, Craft), Vocabulary Quiz, Life Lesson.
 
 =========================================================
-STEP 10 — COMPREHENSION QUIZ
-Generate 3 to 5 multiple-choice comprehension questions testing story recall and inference.
+STEP 10 — COVER PAGE
+=========================================================
+Generate: Book Cover Title, Subtitle, Back Cover Summary, Front Cover Illustration Prompt (in ${bookIllustrationStyle} style, no text).
 
 =========================================================
-CRITICAL FORMAT REQUIREMENT:
+STEP 11 — CONSISTENCY
+=========================================================
+Maintain character consistency throughout the book. Characters must never change clothing unexpectedly unless explained. Objects must remain consistent. Locations should evolve logically.
+
+=========================================================
+STEP 12 — QUALITY
+=========================================================
+The finished book should feel professionally published by companies like Disney, Pixar, DreamWorks, Scholastic, Penguin Kids, HarperCollins Children, Walker Books. The illustrations should be cinematic, vibrant, emotionally expressive, highly detailed, and visually unforgettable.
+
+=========================================================
+CRITICAL OUTPUT FORMAT REQUIREMENT:
+=========================================================
 You MUST return ONLY a valid JSON object matching the exact schema below. Do not include markdown code block backticks, intro text, or conversational response.
 
 EXPECTED JSON SCHEMA:
 {
   "title": "Book Cover Title",
   "subtitle": "Catchy Subtitle",
-  "genre": "Randomly Generated Genre Name",
+  "genre": "Randomly Generated Genre",
   "emoji": "Single representative emoji (e.g. 🚀, 🐉, 🐢, 🧭, 🌲)",
   "targetGrade": "${resolvedGrade}",
   "summary": "Back Cover Summary (2-3 sentences)",
   "illustrationStyle": "${bookIllustrationStyle}",
-  "coverImagePrompt": "Detailed prompt for front cover illustration in ${bookIllustrationStyle} style, 8k, children's book quality, no text",
+  "coverImagePrompt": "Detailed front cover illustration prompt in ${bookIllustrationStyle} style, 8k, children's book quality, no text",
   "pages": [
     {
       "pageNumber": 1,
-      "text": "Story narration and dialogue for page 1 (80-120 words appropriate for ${resolvedGrade})...",
-      "imagePrompt": "Detailed AI illustration prompt specifying characters, clothing, expression, background, camera angle, lighting, in ${bookIllustrationStyle} style, no text",
+      "text": "Story narration (80-150 words suitable for ${resolvedGrade}) with character dialogue...",
+      "imagePrompt": "Ultra-detailed AI illustration prompt specifying character consistency, clothing, colours, expressions, pose, camera angle, lighting, background in ${bookIllustrationStyle} style, no text",
       "cameraAngle": "Wide Angle / Medium Shot / Close-up",
       "mood": "Enchanted / Adventurous / Mysterious",
       "vocabHighlights": [
