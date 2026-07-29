@@ -392,15 +392,38 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [bookCharacters, setBookCharacters] = useState('');
   const [bookTone, setBookTone] = useState('Inspiring & Fun');
   const [bookIllustrationStyle, setBookIllustrationStyle] = useState('Pixar 3D CGI');
-  const [bookPageCount, setBookPageCount] = useState(4);
+  const [bookPageCount, setBookPageCount] = useState(5);
   const [generatedBook, setGeneratedBook] = useState(null);
   const [isGeneratingBook, setIsGeneratingBook] = useState(false);
+  const [bookGenStatus, setBookGenStatus] = useState('');
   const [activePreviewPage, setActivePreviewPage] = useState(0);
 
   // Prompt Inspector State
   const [showPromptInspector, setShowPromptInspector] = useState(false);
   const [customPromptOverride, setCustomPromptOverride] = useState('');
   const [showPromptModal, setShowPromptModal] = useState(false);
+
+  // Pre-render image to base64 data URL on teacher side for instant, zero-delay student reading
+  const fetchImageAsBase64 = async (url) => {
+    if (!url) return '';
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 12000);
+      const res = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      if (!res.ok) return url;
+      const blob = await res.blob();
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result || url);
+        reader.onerror = () => resolve(url);
+        reader.readAsDataURL(blob);
+      });
+    } catch (e) {
+      console.warn("Image pre-render fallback:", e);
+      return url;
+    }
+  };
 
   const getConstructedPixarPrompt = () => {
     if (customPromptOverride && customPromptOverride.trim()) {
@@ -426,7 +449,7 @@ INPUT SPECIFICATIONS
 =========================================================
 • Target Grade / Reading Level: ${resolvedGrade}
 • Illustration Style: ${bookIllustrationStyle}
-• Number of Pages: ${bookPageCount}
+• Number of Pages: ${bookPageCount} (Maximum 5 pages)
 
 =========================================================
 STEP 1 — RANDOMLY GENERATE THE STORY WORLD
@@ -453,7 +476,7 @@ Every character should have: Appearance, Colours, Personality, Speech style, Uni
 =========================================================
 STEP 3 — STORY STRUCTURE
 =========================================================
-Write a complete professionally structured story spanning exactly ${bookPageCount} pages.
+Write a complete professionally structured story spanning exactly ${bookPageCount} pages (Maximum 5 pages).
 Beginning: Introduce world, hero, goal, inciting incident.
 Middle: Adventure, challenges, puzzles, friendship, problem solving, funny moments, twists, learning moments.
 Ending: Final challenge, emotional climax, resolution, celebration, happy ending, life lesson.
@@ -464,9 +487,9 @@ STEP 4 — EDUCATIONAL VALUE
 Naturally teach one or more concepts (Kindness, Friendship, Honesty, Sharing, Respect, Teamwork, Courage, Creativity, Problem Solving, Science, Nature, Animals, Space, Geography, Math, Reading, Healthy eating, Exercise, Environment, Recycling, Growth mindset, Resilience, Empathy). The lesson should never feel forced.
 
 =========================================================
-STEP 5 — PAGE LAYOUT (${bookPageCount} PAGES)
+STEP 5 — PAGE LAYOUT (${bookPageCount} PAGES - MAX 5 PAGES)
 =========================================================
-For every page generate: Page Number, Narration (80–150 words), Dialogue (if required), Illustration Description, Camera Angle, Mood, Colour Palette, Lighting, Facial Expressions, Important Objects, Background Details, Visual Focus, Illustration Style (${bookIllustrationStyle}).
+For every page generate: Page Number, Narration (150–250 rich, descriptive, and engaging words per page suited for ${resolvedGrade}), Dialogue (if required), Illustration Description, Camera Angle, Mood, Colour Palette, Lighting, Facial Expressions, Important Objects, Background Details, Visual Focus, Illustration Style (${bookIllustrationStyle}).
 
 =========================================================
 STEP 6 & 7 — ILLUSTRATION STYLE & IMAGE PROMPTS
@@ -517,7 +540,7 @@ EXPECTED JSON SCHEMA:
   "pages": [
     {
       "pageNumber": 1,
-      "text": "Story narration (80-150 words suitable for ${resolvedGrade}) with character dialogue...",
+      "text": "Substantial, rich, descriptive story narration (150-250 words per page suited for ${resolvedGrade}) with character dialogue...",
       "imagePrompt": "Ultra-detailed AI illustration prompt specifying character consistency, clothing, colours, expressions, pose, camera angle, lighting, background in ${bookIllustrationStyle} style, no text",
       "cameraAngle": "Wide Angle / Medium Shot / Close-up",
       "mood": "Enchanted / Adventurous / Mysterious",
@@ -559,6 +582,7 @@ EXPECTED JSON SCHEMA:
     }
     const topic = bookTopic || formData.title || 'A magical adventure of discovery';
     setIsGeneratingBook(true);
+    setBookGenStatus('Crafting Pixar story & vocabulary...');
     try {
       const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
       const resolvedGrade = resolveGradeFromClassroomName(activeClassroom?.name);
@@ -575,18 +599,30 @@ EXPECTED JSON SCHEMA:
       const parsedBook = JSON.parse(textResponse);
       parsedBook.promptUsed = masterPixarPrompt;
 
-      // Generate image URLs via Pollinations AI
-      if (parsedBook.pages && Array.isArray(parsedBook.pages)) {
-        parsedBook.pages.forEach(p => {
-          if (p.imagePrompt) {
-            const stylePrompt = `${p.imagePrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, vibrant pastel colors, clean background, 8k, highly detailed, children's book illustration, no text`;
-            p.imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(stylePrompt)}?width=800&height=800&nologo=true`;
-          }
-        });
+      // Cap at maximum 5 pages
+      if (parsedBook.pages && parsedBook.pages.length > 5) {
+        parsedBook.pages = parsedBook.pages.slice(0, 5);
       }
+
+      // Pre-render Cover Image to Base64
       if (parsedBook.coverImagePrompt) {
-        const stylePrompt = `${parsedBook.coverImagePrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, book cover, vibrant pastel colors, 8k, highly detailed, no text`;
-        parsedBook.coverImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(stylePrompt)}?width=800&height=800&nologo=true`;
+        setBookGenStatus('Pre-rendering book cover illustration...');
+        const coverStylePrompt = `${parsedBook.coverImagePrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, book cover, vibrant pastel colors, 8k, highly detailed, no text`;
+        const pollCoverUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(coverStylePrompt)}?width=800&height=800&nologo=true`;
+        parsedBook.coverImageUrl = await fetchImageAsBase64(pollCoverUrl);
+      }
+
+      // Pre-render Page Images to Base64
+      if (parsedBook.pages && Array.isArray(parsedBook.pages)) {
+        for (let i = 0; i < parsedBook.pages.length; i++) {
+          const p = parsedBook.pages[i];
+          if (p.imagePrompt) {
+            setBookGenStatus(`Pre-rendering 8K illustration ${i + 1} of ${parsedBook.pages.length}...`);
+            const stylePrompt = `${p.imagePrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, vibrant pastel colors, clean background, 8k, highly detailed, children's book illustration, no text`;
+            const pollPageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(stylePrompt)}?width=800&height=800&nologo=true`;
+            p.imageUrl = await fetchImageAsBase64(pollPageUrl);
+          }
+        }
       }
 
       setGeneratedBook(parsedBook);
@@ -599,6 +635,7 @@ EXPECTED JSON SCHEMA:
       alert("Failed to generate storybook. Please try again! ❌");
     } finally {
       setIsGeneratingBook(false);
+      setBookGenStatus('');
     }
   };
 
@@ -1482,13 +1519,13 @@ EXPECTED JSON SCHEMA:
                 {/* Page Count Slider */}
                 <div className="space-y-1.5">
                   <div className="flex justify-between items-center text-xs font-bold text-indigo-950">
-                    <span>Number of Pages</span>
+                    <span>Number of Pages (Max 5)</span>
                     <span className="font-black text-indigo-600 bg-white px-2.5 py-0.5 rounded-lg border border-indigo-200">{bookPageCount} Pages</span>
                   </div>
                   <input 
                     type="range"
                     min="3"
-                    max="10"
+                    max="5"
                     value={bookPageCount}
                     onChange={(e) => setBookPageCount(Number(e.target.value))}
                     className="w-full h-2 bg-indigo-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
@@ -1547,7 +1584,7 @@ EXPECTED JSON SCHEMA:
                   className="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-indigo-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                 >
                   {isGeneratingBook ? <Loader2 className="w-5 h-5 animate-spin" /> : <Wand2 className="w-5 h-5 text-yellow-300" />}
-                  {isGeneratingBook ? 'Crafting Pixar Storybook...' : 'Magic Generate Storybook 🪄'}
+                  {isGeneratingBook ? (bookGenStatus || 'Crafting Pixar Storybook...') : 'Magic Generate Storybook 🪄'}
                 </button>
               </div>
             </>

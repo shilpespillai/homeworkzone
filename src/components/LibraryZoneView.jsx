@@ -531,18 +531,20 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
 
   const getPageImage = (story, pageIdx) => {
     const page = story.pages?.[pageIdx];
-    if (!page) return story.image || '';
-    if (typeof page === 'string') return story.image || '';
+    if (!page) return story.coverImageUrl || story.image || '';
+    if (typeof page === 'string') return story.coverImageUrl || story.image || '';
+    if (page.imageUrl) return page.imageUrl;
     if (page.image) return page.image;
     const promptText = page.imagePrompt || page.image_prompt || page.text || story.title;
     if (promptText) {
       const stableSeed = (story.id ? (typeof story.id === 'string' ? story.id.charCodeAt(story.id.length - 1) : story.id) : 1) * 100 + pageIdx;
       return `https://image.pollinations.ai/prompt/${encodeURIComponent(promptText + ", cute cartoon style, child book illustration, vibrant colors")}?width=512&height=512&nologo=true&seed=${stableSeed}`;
     }
-    return story.image || '';
+    return story.coverImageUrl || story.image || '';
   };
 
   const getStoryCover = (story) => {
+    if (story.coverImageUrl) return story.coverImageUrl;
     if (story.image) return story.image;
     const stableSeed = (story.id ? (typeof story.id === 'string' ? story.id.charCodeAt(story.id.length - 1) : story.id) : 1) * 1000;
     return `https://image.pollinations.ai/prompt/${encodeURIComponent(story.title + ", cute cartoon cover page, child illustration, vibrant colors")}?width=512&height=512&nologo=true&seed=${stableSeed}`;
@@ -1027,6 +1029,92 @@ Schema:
                       <p className="text-slate-600 text-base md:text-lg leading-relaxed font-semibold italic text-justify select-none pt-2 border-l-4 border-blue-400 pl-4 bg-blue-50/20 py-2 rounded-r-2xl">
                         "{getPageText(selectedStory, storyPage)}"
                       </p>
+
+                      {/* Vocabulary & Word Meanings Section */}
+                      {(() => {
+                        const pageObj = selectedStory.pages?.[storyPage];
+                        const vocabs = typeof pageObj === 'object' ? pageObj?.vocabHighlights : null;
+                        if (!vocabs || !Array.isArray(vocabs) || vocabs.length === 0) return null;
+                        return (
+                          <div className="bg-amber-50/80 border border-amber-200/80 rounded-2xl p-4 space-y-3 text-left animate-in fade-in duration-300">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <span className="text-base">📖</span>
+                                <h4 className="text-xs font-black text-amber-950 uppercase tracking-wider">
+                                  Vocabulary & Word Explorer
+                                </h4>
+                              </div>
+                              <span className="text-[10px] font-extrabold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">
+                                {vocabs.length} Key Word{vocabs.length > 1 ? 's' : ''}
+                              </span>
+                            </div>
+                            <div className="grid grid-cols-1 gap-2.5">
+                              {vocabs.map((item, vIdx) => (
+                                <div key={vIdx} className="bg-white rounded-xl p-3 border border-amber-200/60 shadow-2xs space-y-1">
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-baseline gap-2">
+                                      <span className="text-xs font-black text-amber-950 capitalize">{item.word}</span>
+                                      {item.pronunciation && (
+                                        <span className="text-[10px] font-mono text-amber-600 font-bold">[{item.pronunciation}]</span>
+                                      )}
+                                    </div>
+                                    <button
+                                      onClick={() => startSpeech(`${item.word}. ${item.definition}`)}
+                                      className="text-[10px] font-bold text-amber-700 bg-amber-100 hover:bg-amber-200 px-2.5 py-1 rounded-lg flex items-center gap-1 transition-colors cursor-pointer"
+                                    >
+                                      <Volume2 className="w-3 h-3" /> Listen
+                                    </button>
+                                  </div>
+                                  <p className="text-xs text-slate-700 font-semibold">{item.definition}</p>
+                                  {item.fact && (
+                                    <p className="text-[10px] font-bold text-amber-800/90 italic bg-amber-50/80 p-1.5 rounded-lg border border-amber-100">
+                                      💡 Fun Fact: {item.fact}
+                                    </p>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })()}
+
+                      {/* Parent & Story Reflection Section (Shown on last page or if parentSection exists) */}
+                      {selectedStory.parentSection && storyPage === selectedStory.pages.length - 1 && (
+                        <div className="bg-indigo-50/80 border border-indigo-200/80 rounded-2xl p-4 space-y-3 text-left animate-in fade-in duration-300">
+                          <div className="flex items-center gap-2">
+                            <span className="text-base">💡</span>
+                            <div>
+                              <h4 className="text-xs font-black text-indigo-950 uppercase tracking-wider">Story Reflection & Learning</h4>
+                              <p className="text-[10px] font-bold text-indigo-600">Great for parents & teachers to discuss together!</p>
+                            </div>
+                          </div>
+
+                          {selectedStory.parentSection.lifeLesson && (
+                            <div className="bg-white p-3 rounded-xl border border-indigo-100 shadow-2xs">
+                              <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider mb-0.5">🌟 Core Moral & Life Lesson</p>
+                              <p className="text-xs font-bold text-indigo-900">{selectedStory.parentSection.lifeLesson}</p>
+                            </div>
+                          )}
+
+                          {selectedStory.parentSection.discussionQuestions && selectedStory.parentSection.discussionQuestions.length > 0 && (
+                            <div className="space-y-1">
+                              <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider">❓ Reflection Questions</p>
+                              <ul className="list-disc list-inside text-xs font-bold text-slate-700 space-y-1 bg-white p-3 rounded-xl border border-indigo-100">
+                                {selectedStory.parentSection.discussionQuestions.map((q, qIdx) => (
+                                  <li key={qIdx}>{q}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+
+                          {selectedStory.parentSection.activity && (
+                            <div className="bg-white p-3 rounded-xl border border-indigo-100 shadow-2xs">
+                              <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider mb-0.5">🎨 Creative Activity</p>
+                              <p className="text-xs font-bold text-slate-700">{selectedStory.parentSection.activity}</p>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -1225,6 +1313,92 @@ Schema:
                       <p className="text-slate-700 text-base md:text-lg leading-relaxed font-semibold italic text-justify select-none pt-4 border-l-4 border-orange-400 pl-4 bg-orange-50/20 py-2 rounded-r-2xl">
                         "{getPageText(selectedStory, storyPage)}"
                       </p>
+
+                      {/* Vocabulary & Word Meanings Section */}
+                      {(() => {
+                        const pageObj = selectedStory.pages?.[storyPage];
+                        const vocabs = typeof pageObj === 'object' ? pageObj?.vocabHighlights : null;
+                        if (!vocabs || !Array.isArray(vocabs) || vocabs.length === 0) return null;
+                        return (
+                          <div className="bg-amber-50/80 border border-amber-200/80 rounded-2xl p-4 space-y-3 text-left animate-in fade-in duration-300">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <span className="text-base">📖</span>
+                                <h4 className="text-xs font-black text-amber-950 uppercase tracking-wider">
+                                  Vocabulary & Word Explorer
+                                </h4>
+                              </div>
+                              <span className="text-[10px] font-extrabold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">
+                                {vocabs.length} Key Word{vocabs.length > 1 ? 's' : ''}
+                              </span>
+                            </div>
+                            <div className="grid grid-cols-1 gap-2.5">
+                              {vocabs.map((item, vIdx) => (
+                                <div key={vIdx} className="bg-white rounded-xl p-3 border border-amber-200/60 shadow-2xs space-y-1">
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-baseline gap-2">
+                                      <span className="text-xs font-black text-amber-950 capitalize">{item.word}</span>
+                                      {item.pronunciation && (
+                                        <span className="text-[10px] font-mono text-amber-600 font-bold">[{item.pronunciation}]</span>
+                                      )}
+                                    </div>
+                                    <button
+                                      onClick={() => startSpeech(`${item.word}. ${item.definition}`)}
+                                      className="text-[10px] font-bold text-amber-700 bg-amber-100 hover:bg-amber-200 px-2.5 py-1 rounded-lg flex items-center gap-1 transition-colors cursor-pointer"
+                                    >
+                                      <Volume2 className="w-3 h-3" /> Listen
+                                    </button>
+                                  </div>
+                                  <p className="text-xs text-slate-700 font-semibold">{item.definition}</p>
+                                  {item.fact && (
+                                    <p className="text-[10px] font-bold text-amber-800/90 italic bg-amber-50/80 p-1.5 rounded-lg border border-amber-100">
+                                      💡 Fun Fact: {item.fact}
+                                    </p>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })()}
+
+                      {/* Parent & Story Reflection Section (Shown on last page or if parentSection exists) */}
+                      {selectedStory.parentSection && storyPage === selectedStory.pages.length - 1 && (
+                        <div className="bg-indigo-50/80 border border-indigo-200/80 rounded-2xl p-4 space-y-3 text-left animate-in fade-in duration-300">
+                          <div className="flex items-center gap-2">
+                            <span className="text-base">💡</span>
+                            <div>
+                              <h4 className="text-xs font-black text-indigo-950 uppercase tracking-wider">Story Reflection & Learning</h4>
+                              <p className="text-[10px] font-bold text-indigo-600">Great for parents & teachers to discuss together!</p>
+                            </div>
+                          </div>
+
+                          {selectedStory.parentSection.lifeLesson && (
+                            <div className="bg-white p-3 rounded-xl border border-indigo-100 shadow-2xs">
+                              <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider mb-0.5">🌟 Core Moral & Life Lesson</p>
+                              <p className="text-xs font-bold text-indigo-900">{selectedStory.parentSection.lifeLesson}</p>
+                            </div>
+                          )}
+
+                          {selectedStory.parentSection.discussionQuestions && selectedStory.parentSection.discussionQuestions.length > 0 && (
+                            <div className="space-y-1">
+                              <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider">❓ Reflection Questions</p>
+                              <ul className="list-disc list-inside text-xs font-bold text-slate-700 space-y-1 bg-white p-3 rounded-xl border border-indigo-100">
+                                {selectedStory.parentSection.discussionQuestions.map((q, qIdx) => (
+                                  <li key={qIdx}>{q}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+
+                          {selectedStory.parentSection.activity && (
+                            <div className="bg-white p-3 rounded-xl border border-indigo-100 shadow-2xs">
+                              <p className="text-[10px] font-black uppercase text-indigo-500 tracking-wider mb-0.5">🎨 Creative Activity</p>
+                              <p className="text-xs font-bold text-slate-700">{selectedStory.parentSection.activity}</p>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
 
