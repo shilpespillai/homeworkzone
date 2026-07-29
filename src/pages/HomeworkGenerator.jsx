@@ -397,19 +397,20 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [isGeneratingBook, setIsGeneratingBook] = useState(false);
   const [activePreviewPage, setActivePreviewPage] = useState(0);
 
-  const handleGenerateBook = async () => {
-    if (checkLimitAndTrigger()) return;
-    if (!formData.classId) {
-      alert("Please select a target classroom! 🏫");
-      return;
-    }
-    const topic = bookTopic || formData.title || 'A magical adventure of discovery';
-    setIsGeneratingBook(true);
-    try {
-      const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
-      const resolvedGrade = resolveGradeFromClassroomName(activeClassroom?.name);
+  // Prompt Inspector State
+  const [showPromptInspector, setShowPromptInspector] = useState(false);
+  const [customPromptOverride, setCustomPromptOverride] = useState('');
+  const [showPromptModal, setShowPromptModal] = useState(false);
 
-      const masterPixarPrompt = `You are an award-winning children's author, illustrator, curriculum designer, storyteller, and Pixar-level creative director.
+  const getConstructedPixarPrompt = () => {
+    if (customPromptOverride && customPromptOverride.trim()) {
+      return customPromptOverride;
+    }
+
+    const topic = bookTopic || formData.title || 'A magical adventure of discovery';
+    const resolvedGrade = resolveGradeFromClassroomName(activeClassroom?.name);
+
+    return `You are an award-winning children's author, illustrator, curriculum designer, storyteller, and Pixar-level creative director.
 
 Your task is to generate a completely NEW and ORIGINAL children's storybook based on these specifications.
 
@@ -479,6 +480,21 @@ EXPECTED JSON SCHEMA:
     "lifeLesson": "Core moral and emotional takeaway for children"
   }
 }`;
+  };
+
+  const handleGenerateBook = async () => {
+    if (checkLimitAndTrigger()) return;
+    if (!formData.classId) {
+      alert("Please select a target classroom! 🏫");
+      return;
+    }
+    const topic = bookTopic || formData.title || 'A magical adventure of discovery';
+    setIsGeneratingBook(true);
+    try {
+      const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
+      const resolvedGrade = resolveGradeFromClassroomName(activeClassroom?.name);
+
+      const masterPixarPrompt = getConstructedPixarPrompt();
 
       const tieredModel = getModelForGrade(resolvedGrade, 'english', activeModel);
       const textResponse = await generateContent({
@@ -488,6 +504,7 @@ EXPECTED JSON SCHEMA:
       });
 
       const parsedBook = JSON.parse(textResponse);
+      parsedBook.promptUsed = masterPixarPrompt;
 
       // Generate image URLs via Pollinations AI
       if (parsedBook.pages && Array.isArray(parsedBook.pages)) {
@@ -1538,6 +1555,50 @@ EXPECTED JSON SCHEMA:
                 />
               </div>
 
+              {/* AI Master Prompt Inspector Toggle */}
+              <div className="space-y-2 pt-2 border-t border-indigo-200/60">
+                <button
+                  type="button"
+                  onClick={() => setShowPromptInspector(prev => !prev)}
+                  className="w-full py-2.5 px-4 bg-white border border-indigo-200 hover:bg-indigo-100 rounded-xl text-indigo-900 font-extrabold text-xs flex items-center justify-between transition-all cursor-pointer"
+                >
+                  <span className="flex items-center gap-2">
+                    <Book className="w-4 h-4 text-indigo-600" />
+                    {showPromptInspector ? 'Hide Master AI Prompt' : '📜 View / Edit Master AI Prompt'}
+                  </span>
+                  <span className="text-[10px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-md font-black">
+                    {showPromptInspector ? 'Collapse' : 'Inspect Prompt'}
+                  </span>
+                </button>
+
+                {showPromptInspector && (
+                  <div className="bg-slate-900 text-slate-100 p-4 rounded-2xl border border-slate-800 space-y-3 animate-in fade-in duration-200">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-black uppercase text-indigo-400 tracking-wider">
+                        Pixar 12-Step Master Prompt Template
+                      </span>
+                      {customPromptOverride && (
+                        <button
+                          type="button"
+                          onClick={() => setCustomPromptOverride('')}
+                          className="text-[10px] text-amber-400 hover:underline font-bold"
+                        >
+                          Reset to Template
+                        </button>
+                      )}
+                    </div>
+                    <textarea
+                      value={getConstructedPixarPrompt()}
+                      onChange={(e) => setCustomPromptOverride(e.target.value)}
+                      className="w-full h-56 bg-slate-950 border border-slate-800 rounded-xl p-3 text-[11px] font-mono text-indigo-200 outline-none focus:border-indigo-500 custom-scrollbar leading-relaxed"
+                    />
+                    <p className="text-[10px] text-slate-400 font-bold">
+                      💡 Tip: You can view or edit the exact prompt template above before clicking generate!
+                    </p>
+                  </div>
+                )}
+              </div>
+
               {/* Magic Generate Button */}
               <button
                 type="button"
@@ -1860,14 +1921,23 @@ EXPECTED JSON SCHEMA:
                   <h2 className="text-2xl font-black text-indigo-950">Book Preview & Publish</h2>
                 </div>
                 {generatedBook && (
-                  <button
-                    onClick={handlePublishBook}
-                    disabled={isPublishing}
-                    className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-black text-xs uppercase tracking-wider rounded-2xl shadow-lg shadow-indigo-500/20 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
-                  >
-                    {isPublishing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4 text-yellow-300" />}
-                    Publish to Library 🚀
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setShowPromptModal(true)}
+                      className="px-4 py-3 bg-indigo-100 hover:bg-indigo-200 text-indigo-900 font-black text-xs rounded-2xl transition-all flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <Book className="w-4 h-4 text-indigo-600" />
+                      View AI Prompt 📜
+                    </button>
+                    <button
+                      onClick={handlePublishBook}
+                      disabled={isPublishing}
+                      className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-black text-xs uppercase tracking-wider rounded-2xl shadow-lg shadow-indigo-500/20 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                    >
+                      {isPublishing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4 text-yellow-300" />}
+                      Publish to Library 🚀
+                    </button>
+                  </div>
                 )}
               </div>
 
@@ -2460,6 +2530,44 @@ EXPECTED JSON SCHEMA:
         onDeleteCustomTopic={handleDeleteCustomTopic}
         currentSubject={formData.subject}
       />
+
+      {/* AI Prompt Inspector Modal */}
+      {showPromptModal && generatedBook?.promptUsed && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-200 font-sans">
+          <div className="bg-white rounded-3xl max-w-3xl w-full max-h-[85vh] flex flex-col overflow-hidden shadow-2xl border border-indigo-200 text-left">
+            <div className="bg-indigo-900 text-white p-6 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-indigo-700 rounded-xl flex items-center justify-center text-yellow-300">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-black text-lg text-white">AI Master Prompt Inspection</h3>
+                  <p className="text-xs text-indigo-200 font-semibold">Exact 12-Step Pixar prompt executed for "{generatedBook.title}"</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowPromptModal(false)}
+                className="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto flex-1 bg-slate-900 custom-scrollbar">
+              <pre className="text-xs font-mono text-indigo-200 whitespace-pre-wrap leading-relaxed bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                {generatedBook.promptUsed}
+              </pre>
+            </div>
+            <div className="p-4 bg-slate-100 border-t border-slate-200 flex justify-end">
+              <button
+                onClick={() => setShowPromptModal(false)}
+                className="px-6 py-2.5 bg-indigo-600 text-white font-bold text-xs rounded-xl hover:bg-indigo-700 transition-colors cursor-pointer"
+              >
+                Close Inspector
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
