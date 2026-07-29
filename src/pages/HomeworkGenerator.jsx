@@ -403,26 +403,40 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [customPromptOverride, setCustomPromptOverride] = useState('');
   const [showPromptModal, setShowPromptModal] = useState(false);
 
-  // Pre-render image to base64 data URL on teacher side for instant, zero-delay student reading
-  const fetchImageAsBase64 = async (url) => {
+  // Pre-render image to base64 data URL on teacher side with 429 retry backoff
+  const fetchImageAsBase64 = async (url, retries = 3) => {
     if (!url) return '';
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 12000);
-      const res = await fetch(url, { signal: controller.signal });
-      clearTimeout(timeoutId);
-      if (!res.ok) return url;
-      const blob = await res.blob();
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result || url);
-        reader.onerror = () => resolve(url);
-        reader.readAsDataURL(blob);
-      });
-    } catch (e) {
-      console.warn("Image pre-render fallback:", e);
-      return url;
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 14000);
+        const res = await fetch(url, { signal: controller.signal });
+        clearTimeout(timeoutId);
+
+        if (res.status === 429) {
+          console.warn(`Pollinations 429 rate limit hit, backing off (attempt ${attempt + 1}/${retries})...`);
+          await new Promise((r) => setTimeout(r, (attempt + 1) * 2000));
+          continue;
+        }
+
+        if (!res.ok) return url;
+        const blob = await res.blob();
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result || url);
+          reader.onerror = () => resolve(url);
+          reader.readAsDataURL(blob);
+        });
+      } catch (e) {
+        console.warn(`Image pre-render attempt ${attempt + 1} fallback:`, e);
+        if (attempt < retries) {
+          await new Promise((r) => setTimeout(r, (attempt + 1) * 1500));
+        } else {
+          return url;
+        }
+      }
     }
+    return url;
   };
 
   const getConstructedPixarPrompt = () => {
@@ -619,8 +633,9 @@ EXPECTED JSON SCHEMA:
       if (parsedBook.coverImagePrompt) {
         setBookGenStatus('Pre-rendering book cover illustration...');
         const coverStylePrompt = `${parsedBook.coverImagePrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, book cover, vibrant pastel colors, 8k, highly detailed, no text`;
-        const pollCoverUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(coverStylePrompt)}?width=800&height=800&nologo=true`;
+        const pollCoverUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(coverStylePrompt)}?width=640&height=640&nologo=true`;
         parsedBook.coverImageUrl = await fetchImageAsBase64(pollCoverUrl);
+        await new Promise((r) => setTimeout(r, 600)); // Small delay between requests to avoid rate limits
       }
 
       // Pre-render Page Images to Base64
@@ -630,8 +645,9 @@ EXPECTED JSON SCHEMA:
           if (p.imagePrompt) {
             setBookGenStatus(`Pre-rendering 8K illustration ${i + 1} of ${parsedBook.pages.length}...`);
             const stylePrompt = `${p.imagePrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, vibrant pastel colors, clean background, 8k, highly detailed, children's book illustration, no text`;
-            const pollPageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(stylePrompt)}?width=800&height=800&nologo=true`;
+            const pollPageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(stylePrompt)}?width=640&height=640&nologo=true`;
             p.imageUrl = await fetchImageAsBase64(pollPageUrl);
+            await new Promise((r) => setTimeout(r, 800)); // 800ms request spacing
           }
         }
       }
