@@ -58,7 +58,12 @@ export default function UnitsOfMeasurementHub() {
       color: 'bg-blue-50 border-blue-200 text-blue-900',
       badgeBg: 'bg-blue-600 text-white',
       tools: 'Ruler, Tape Measure, Trundle Wheel, Odometer',
-      examples: 'Millimeter (ant length), Centimeter (pencil length), Meter (door height), Kilometer (driving distance between cities).'
+      examples: [
+        'Millimeter (mm): ant length or coin thickness.',
+        'Centimeter (cm): pencil or book width.',
+        'Meter (m): classroom length or door height.',
+        'Kilometer (km): driving distance between cities.'
+      ]
     },
     {
       id: 'mass',
@@ -70,7 +75,12 @@ export default function UnitsOfMeasurementHub() {
       color: 'bg-indigo-50 border-indigo-200 text-indigo-900',
       badgeBg: 'bg-indigo-600 text-white',
       tools: 'Digital Kitchen Scale, Balance Scale, Bathroom Scale',
-      examples: 'Milligram (feather), Gram (paperclip), Kilogram (school bag), Tonne (car or elephant weight).'
+      examples: [
+        'Milligram (mg): feather or grain of salt.',
+        'Gram (g): paperclip or dollar bill.',
+        'Kilogram (kg): school bag or textbook.',
+        'Tonne (t): car or elephant weight.'
+      ]
     },
     {
       id: 'capacity',
@@ -82,7 +92,10 @@ export default function UnitsOfMeasurementHub() {
       color: 'bg-cyan-50 border-cyan-200 text-cyan-900',
       badgeBg: 'bg-cyan-600 text-white',
       tools: 'Measuring Jug, Beaker, Pipette, Syringe',
-      examples: 'Milliliter (teaspoon of medicine), Liter (milk bottle / juice carton).'
+      examples: [
+        'Milliliter (mL): teaspoon of medicine or liquid drop.',
+        'Liter (L): milk bottle, juice carton, or water jug.'
+      ]
     },
     {
       id: 'time',
@@ -94,7 +107,11 @@ export default function UnitsOfMeasurementHub() {
       color: 'bg-purple-50 border-purple-200 text-purple-900',
       badgeBg: 'bg-purple-600 text-white',
       tools: 'Analogue Clock, Digital Stopwatch, Calendar',
-      examples: 'Seconds (hand clap duration), Minutes (recess duration), Hours (school day length).'
+      examples: [
+        'Seconds (s): hand clap duration or heartbeat.',
+        'Minutes (min): recess duration or short walk.',
+        'Hours (h): school day length or sleep.'
+      ]
     },
     {
       id: 'temperature',
@@ -106,7 +123,11 @@ export default function UnitsOfMeasurementHub() {
       color: 'bg-rose-50 border-rose-200 text-rose-900',
       badgeBg: 'bg-rose-600 text-white',
       tools: 'Thermometer, Infrared Thermal Sensor',
-      examples: 'Water freezes to solid ice at 0°C; pure liquid water boils into steam at 100°C.'
+      examples: [
+        'Freezing Point: Pure liquid water freezes into ice at 0°C.',
+        'Body Temperature: Healthy human body averages 37°C.',
+        'Boiling Point: Liquid water boils into steam at 100°C.'
+      ]
     },
     {
       id: 'area',
@@ -118,7 +139,11 @@ export default function UnitsOfMeasurementHub() {
       color: 'bg-teal-50 border-teal-200 text-teal-900',
       badgeBg: 'bg-teal-600 text-white',
       tools: 'Grid Paper, Cubic Centimeter Blocks (cm³)',
-      examples: 'Perimeter: Boundary fence length; Area: Floor carpet space; Volume: Box storage capacity.'
+      examples: [
+        'Perimeter: Total length around boundary fence.',
+        'Area (m²): Total carpet floor surface space.',
+        'Volume (m³): Total 3D storage space inside box.'
+      ]
     }
   ];
 
@@ -279,7 +304,7 @@ export default function UnitsOfMeasurementHub() {
                 }`}
               >
                 <div className="font-black text-xs">{m.name}</div>
-                <div className={`text-[10px] font-bold ${selectedMetric === m.id ? 'text-blue-100' : 'text-blue-600'}`}>{m.units}</div>
+                <div className={`text-[10px] font-bold ${selectedMetric === m.id ? 'text-blue-100' : 'text-blue-600'}`}>{m.baseUnit}</div>
               </div>
             ))}
           </div>
@@ -289,12 +314,12 @@ export default function UnitsOfMeasurementHub() {
             <div className="flex items-center justify-between pb-4 border-b border-slate-100">
               <div>
                 <span className="text-[10px] font-black uppercase tracking-widest text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200">
-                  Standard Metric Unit • {currentMetricData.units}
+                  Standard Metric Unit • {currentMetricData?.baseUnit}
                 </span>
-                <h2 className="text-2xl font-black text-slate-800 mt-1">{currentMetricData.name}</h2>
+                <h2 className="text-2xl font-black text-slate-800 mt-1">{currentMetricData?.name}</h2>
               </div>
               <button
-                onClick={() => speakText(`${currentMetricData.name}. Standard units: ${currentMetricData.units}. Measurement tool: ${currentMetricData.tool}. Conversions: ${currentMetricData.conversions}. ${currentMetricData.summary}. ${currentMetricData.examples.join(' ')}`)}
+                onClick={() => speakText(`${currentMetricData?.name}. Base unit: ${currentMetricData?.baseUnit}. Measurement tool: ${currentMetricData?.tools}. Conversions: ${currentMetricData?.ladder}. ${(currentMetricData?.examples || []).join(' ')}`)}
                 className="p-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-blue-100 hover:text-blue-800 transition-all cursor-pointer"
                 title="Read aloud"
               >
@@ -305,14 +330,14 @@ export default function UnitsOfMeasurementHub() {
             <div className="p-4 rounded-2xl bg-blue-50 border border-blue-100 space-y-1">
               <div className="text-[10px] font-black uppercase tracking-wider text-blue-700">Conversion Rule & Tools</div>
               <div className="font-bold text-blue-950 text-xs md:text-sm leading-relaxed">
-                <strong>Tool Used: </strong>{currentMetricData.tool} <br />
-                <strong>Conversion Ladder: </strong>{currentMetricData.conversions}
+                <strong>Tool Used: </strong>{currentMetricData?.tools} <br />
+                <strong>Conversion Ladder: </strong>{currentMetricData?.ladder}
               </div>
             </div>
 
             <div className="space-y-3">
               <h4 className="text-xs font-black text-slate-400 uppercase tracking-wider">Real-World Unit Examples</h4>
-              {currentMetricData.examples.map((ex, idx) => (
+              {(currentMetricData?.examples || []).map((ex, idx) => (
                 <div key={idx} className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-100 text-slate-700 text-xs font-medium leading-relaxed">
                   <CheckCircle className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
                   <span>{ex}</span>

@@ -329,18 +329,18 @@ export default function StatesOfMatterHub() {
                 <div className="text-indigo-950 font-bold">{currentStateData.particleMovement}</div>
               </div>
               <div className="p-4 rounded-2xl bg-purple-50 border border-purple-100 space-y-1">
-                <div className="text-[10px] font-black uppercase tracking-wider text-purple-700">Compressibility</div>
-                <div className="text-purple-950 font-bold">{currentStateData.compressibility}</div>
+                <div className="text-[10px] font-black uppercase tracking-wider text-purple-700">Shape & Volume Rule</div>
+                <div className="text-purple-950 font-bold">{currentStateData?.rule}</div>
               </div>
               <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-100 space-y-1">
                 <div className="text-[10px] font-black uppercase tracking-wider text-emerald-700">Everyday Examples</div>
-                <div className="text-emerald-950 font-bold">{currentStateData.examples}</div>
+                <div className="text-emerald-950 font-bold">{currentStateData?.examples}</div>
               </div>
             </div>
 
             <div className="space-y-3">
               <h4 className="text-xs font-black text-slate-400 uppercase tracking-wider">Key Physical Characteristics</h4>
-              {currentStateData.keyCharacteristics.map((kc, idx) => (
+              {(currentStateData?.keyFacts || []).map((kc, idx) => (
                 <div key={idx} className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-100 text-slate-700 text-xs font-medium leading-relaxed">
                   <CheckCircle className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
                   <span>{kc}</span>

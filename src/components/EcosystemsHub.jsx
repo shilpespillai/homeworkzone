@@ -194,7 +194,7 @@ export default function EcosystemsHub() {
     }
   };
 
-  const currentRoleData = ecosystemRoles.find(r => r.id === selectedRole) || ecosystemRoles[0];
+  const currentRoleData = rolesInEcosystem.find(r => r.id === selectedRole) || rolesInEcosystem[0];
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-8 font-sans">
@@ -335,12 +335,12 @@ export default function EcosystemsHub() {
 
             <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-100 space-y-1">
               <div className="text-[10px] font-black uppercase tracking-wider text-emerald-700">Scientific Summary</div>
-              <div className="font-bold text-emerald-950 text-xs md:text-sm leading-relaxed">{currentRoleData.summary}</div>
+              <div className="font-bold text-emerald-950 text-xs md:text-sm leading-relaxed">{currentRoleData?.summary}</div>
             </div>
 
             <div className="space-y-3">
               <h4 className="text-xs font-black text-slate-400 uppercase tracking-wider">Key Biological Functions</h4>
-              {currentRoleData.details.map((d, idx) => (
+              {(currentRoleData?.details || []).map((d, idx) => (
                 <div key={idx} className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-100 text-slate-700 text-xs font-medium leading-relaxed">
                   <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                   <span>{d}</span>
