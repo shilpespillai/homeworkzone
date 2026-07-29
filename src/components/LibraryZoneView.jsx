@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { db } from '../firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
 
 // ═══════════════════════════════════════════════════════════════
@@ -458,7 +458,33 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     return MATH_PUZZLES; // Grade 3-5 (standard puzzles)
   };
 
-  const allStories = [...getBaseStories(), ...customStories];
+  const [teacherAssignedBooks, setTeacherAssignedBooks] = useState([]);
+
+  useEffect(() => {
+    const fetchTeacherBooks = async () => {
+      try {
+        const snap = await getDocs(collection(db, 'custom_library_books'));
+        const list = snap.docs.map(d => ({
+          id: d.id,
+          ...d.data(),
+          isCustom: true,
+          badge: d.data().badge || '🌟 Teacher Assigned'
+        })).filter(b => b.isPublished !== false);
+
+        const filtered = list.filter(b => {
+          if (classroom?.id && b.classId && b.classId !== classroom.id) return false;
+          return true;
+        });
+
+        setTeacherAssignedBooks(filtered);
+      } catch (err) {
+        console.warn("Could not load teacher assigned books:", err);
+      }
+    };
+    fetchTeacherBooks();
+  }, [classroom?.id]);
+
+  const allStories = [...teacherAssignedBooks, ...getBaseStories(), ...customStories];
   const allPuzzles = [...getBasePuzzles(), ...customPuzzles];
 
   useEffect(() => {

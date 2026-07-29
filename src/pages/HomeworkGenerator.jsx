@@ -162,6 +162,20 @@ const SUBJECTS = [
       </div>
     )
   },
+  { 
+    id: 'library_book', 
+    name: 'Library Book', 
+    titleColor: 'text-indigo-600',
+    bgColor: 'bg-[#f5f3ff]', 
+    borderColor: 'border-indigo-200',
+    selectedBorder: 'border-indigo-500 ring-4 ring-indigo-100',
+    desc: 'Generate Pixar-level multi-page storybooks!',
+    renderGraphic: () => (
+      <div className="w-16 h-20 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 shadow-inner overflow-hidden border-4 border-indigo-200">
+        <BookOpen className="w-10 h-10 text-indigo-600" />
+      </div>
+    )
+  },
 ];
 
 export default function HomeworkGenerator({ user, classrooms = [], activeClassroom, initialDraft, subjectPrompts, onHomeworkCreated, teacherBilling, allHomeworks = [], setDashboardTab, isAdmin }) {
@@ -371,6 +385,194 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [generatedQuestions, setGeneratedQuestions] = useState(null);
   const [generatedPassage, setGeneratedPassage] = useState(null);
   const [isAiAccepted, setIsAiAccepted] = useState(false);
+
+  // Book Generator State (Pixar 12-Step Master Prompt)
+  const [bookGenre, setBookGenre] = useState('Fantasy & Magic');
+  const [bookTopic, setBookTopic] = useState('');
+  const [bookCharacters, setBookCharacters] = useState('');
+  const [bookTone, setBookTone] = useState('Inspiring & Fun');
+  const [bookIllustrationStyle, setBookIllustrationStyle] = useState('Pixar 3D CGI');
+  const [bookPageCount, setBookPageCount] = useState(4);
+  const [generatedBook, setGeneratedBook] = useState(null);
+  const [isGeneratingBook, setIsGeneratingBook] = useState(false);
+  const [activePreviewPage, setActivePreviewPage] = useState(0);
+
+  const handleGenerateBook = async () => {
+    if (checkLimitAndTrigger()) return;
+    if (!formData.classId) {
+      alert("Please select a target classroom! 🏫");
+      return;
+    }
+    const topic = bookTopic || formData.title || 'A magical adventure of discovery';
+    setIsGeneratingBook(true);
+    try {
+      const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
+      const resolvedGrade = resolveGradeFromClassroomName(activeClassroom?.name);
+
+      const masterPixarPrompt = `You are an award-winning children's author, illustrator, curriculum designer, storyteller, and Pixar-level creative director.
+
+Your task is to generate a completely NEW and ORIGINAL children's storybook based on these specifications.
+
+INPUT PARAMETERS:
+- Story Topic / Core Concept: ${topic}
+- Target Grade Level / Reading Level: ${resolvedGrade}
+- Desired Genre: ${bookGenre}
+- Main Characters / Heroes: ${bookCharacters || 'Original memorable heroes'}
+- Tone / Moral Lesson: ${bookTone}
+- Illustration Style: ${bookIllustrationStyle}
+- Number of Pages: ${bookPageCount} (Range: 3 to 10 pages)
+
+STORY CREATION DIRECTIVES:
+1. STEP 1 (Story World): Create a vivid, rich, original world appropriate for ${resolvedGrade}.
+2. STEP 2 (Characters): Design unique, memorable characters with distinct personalities, strengths, and goals.
+3. STEP 3 (Story Structure): Complete story arc spanning exactly ${bookPageCount} pages (Beginning, Inciting Incident, Adventure, Problem Solving, Climax, Happy Resolution & Life Lesson).
+4. STEP 4 (Educational Value & Vocabulary): Naturally embed lessons in kindness, teamwork, curiosity, or science. Highlight 1-2 new vocabulary words per page with simple definitions and pronunciations.
+5. STEP 5 & 7 (Pixar-level AI Illustration Prompts): For every page, generate an ultra-detailed AI image prompt specifying camera angle, lighting, colors, mood, visual focus, and strict character appearance consistency.
+6. STEP 9 (Parent & Discussion Section): Provide 2 discussion questions, 1 fun hands-on activity/craft idea, and a key moral takeaway.
+7. STEP 10 (Comprehension Questions): Provide 3-5 multiple-choice comprehension questions that test recall and inference.
+
+CRITICAL FORMAT REQUIREMENT:
+You MUST return ONLY a valid JSON object matching the exact schema below. Do not include markdown code block backticks, intro text, or conversational response.
+
+EXPECTED JSON SCHEMA:
+{
+  "title": "Book Cover Title",
+  "subtitle": "Catchy Subtitle",
+  "genre": "${bookGenre}",
+  "emoji": "Single representative emoji (e.g. 🚀, 🐉, 🐢, 🧭, 🌲)",
+  "targetGrade": "${resolvedGrade}",
+  "summary": "Back Cover Summary (2-3 sentences)",
+  "illustrationStyle": "${bookIllustrationStyle}",
+  "coverImagePrompt": "Detailed prompt for front cover illustration in ${bookIllustrationStyle} style, 8k, children's book quality, no text",
+  "pages": [
+    {
+      "pageNumber": 1,
+      "text": "Story narration and dialogue for page 1 (80-120 words appropriate for ${resolvedGrade})...",
+      "imagePrompt": "Detailed AI illustration prompt specifying characters, clothing, expression, background, camera angle, lighting, in ${bookIllustrationStyle} style, no text",
+      "cameraAngle": "Wide Angle / Medium Shot / Close-up",
+      "mood": "Enchanted / Adventurous / Mysterious",
+      "vocabHighlights": [
+        {
+          "word": "challengingWord",
+          "definition": "Child-friendly 1-sentence definition",
+          "pronunciation": "pro-nun-ci-a-tion",
+          "fact": "Interesting fun fact about the word or concept"
+        }
+      ]
+    }
+  ],
+  "comprehensionQuestions": [
+    {
+      "id": 1,
+      "question": "Comprehension question testing story understanding?",
+      "options": ["Correct Answer", "Option B", "Option C", "Option D"],
+      "answer": "Correct Answer",
+      "explanation": "Why this answer is correct based on the story."
+    }
+  ],
+  "parentSection": {
+    "discussionQuestions": [
+      "What would you have done if you were the main hero?",
+      "What was your favorite part of the adventure and why?"
+    ],
+    "activity": "Fun hands-on drawing, craft, or science activity related to the story topic",
+    "lifeLesson": "Core moral and emotional takeaway for children"
+  }
+}`;
+
+      const tieredModel = getModelForGrade(resolvedGrade, 'english', activeModel);
+      const textResponse = await generateContent({
+        prompt: masterPixarPrompt,
+        responseMimeType: 'application/json',
+        provider: tieredModel
+      });
+
+      const parsedBook = JSON.parse(textResponse);
+
+      // Generate image URLs via Pollinations AI
+      if (parsedBook.pages && Array.isArray(parsedBook.pages)) {
+        parsedBook.pages.forEach(p => {
+          if (p.imagePrompt) {
+            const stylePrompt = `${p.imagePrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, vibrant pastel colors, clean background, 8k, highly detailed, children's book illustration, no text`;
+            p.imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(stylePrompt)}?width=800&height=800&nologo=true`;
+          }
+        });
+      }
+      if (parsedBook.coverImagePrompt) {
+        const stylePrompt = `${parsedBook.coverImagePrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, book cover, vibrant pastel colors, 8k, highly detailed, no text`;
+        parsedBook.coverImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(stylePrompt)}?width=800&height=800&nologo=true`;
+      }
+
+      setGeneratedBook(parsedBook);
+      if (!formData.title) {
+        setFormData(prev => ({ ...prev, title: parsedBook.title || topic }));
+      }
+      setActivePreviewPage(0);
+    } catch (err) {
+      console.error("Book Gen Error:", err);
+      alert("Failed to generate storybook. Please try again! ❌");
+    } finally {
+      setIsGeneratingBook(false);
+    }
+  };
+
+  const handlePublishBook = async () => {
+    if (!user?.uid) {
+      alert("Please log in as a teacher to publish books! 🔒");
+      return;
+    }
+    if (!formData.classId) {
+      alert("Please select a target classroom! 🏫");
+      return;
+    }
+    if (!generatedBook) {
+      alert("Please generate a storybook first! 🪄");
+      return;
+    }
+    if (formData.assignType === 'students' && (!formData.assignedStudentIds || formData.assignedStudentIds.length === 0)) {
+      alert("Please select at least one student! 👤");
+      return;
+    }
+
+    setIsPublishing(true);
+    try {
+      const draftGrade = resolveGradeFromClassroomName(activeClassroom?.name);
+      const bookPayload = {
+        teacherId: user.uid,
+        classId: formData.classId,
+        targetStudentIds: formData.assignType === 'students' ? formData.assignedStudentIds : [],
+        title: formData.title || generatedBook.title || 'Untitled Story',
+        subtitle: generatedBook.subtitle || '',
+        genre: generatedBook.genre || bookGenre || 'Adventure',
+        emoji: generatedBook.emoji || '📖',
+        targetGrade: draftGrade,
+        summary: generatedBook.summary || '',
+        illustrationStyle: generatedBook.illustrationStyle || bookIllustrationStyle,
+        coverImagePrompt: generatedBook.coverImagePrompt || '',
+        coverImageUrl: generatedBook.coverImageUrl || '',
+        pages: generatedBook.pages || [],
+        comprehensionQuestions: generatedBook.comprehensionQuestions || [],
+        parentSection: generatedBook.parentSection || null,
+        isPublished: true,
+        badge: '🌟 Teacher Assigned',
+        createdAt: serverTimestamp()
+      };
+
+      await addDoc(collection(db, 'custom_library_books'), bookPayload);
+      alert("Library Storybook Published Successfully! 🚀 Available for students in Library Zone!");
+
+      // Reset book state
+      setGeneratedBook(null);
+      setBookTopic('');
+      if (typeof onHomeworkCreated === 'function') {
+        onHomeworkCreated();
+      }
+    } catch (err) {
+      console.error("Book Publish Error:", err);
+      alert("Failed to publish library book. ❌");
+    }
+    setIsPublishing(false);
+  };
 
   const [activeTab, setActiveTab] = useState('create');
   const [pastHomeworks, setPastHomeworks] = useState([]);
@@ -1201,17 +1403,140 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
             </div>
           )}
 
-          {/* Unified Magic Quiz Builder Panel */}
-          <div className="bg-green-50/50 p-6 rounded-3xl border-2 border-green-200/80 flex flex-col space-y-5">
-             <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm text-[#EA580C] shrink-0 border border-green-200">
-                  <Wand2 className="w-5 h-5" />
+          {formData.subject === 'library_book' ? (
+            <div className="bg-indigo-50/60 p-6 rounded-3xl border-2 border-indigo-200 flex flex-col space-y-5 text-left shadow-sm">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-indigo-600 text-white rounded-xl flex items-center justify-center shadow-md shrink-0">
+                  <Sparkles className="w-5 h-5 text-yellow-300" />
                 </div>
-                <div className="text-left">
-                   <h4 className="font-black text-green-900 text-sm">Magic Quiz Builder</h4>
-                   <p className="text-[10px] font-bold text-green-600/70">Automatically generate {questionCount} multiple-choice questions based on your title & AI prompt.</p>
+                <div>
+                  <h4 className="font-black text-indigo-950 text-sm">Pixar-Level AI Storybook Generator</h4>
+                  <p className="text-[10px] font-bold text-indigo-600">Creates an original multi-page story with AI illustrations, vocab tooltips, & comprehension questions!</p>
                 </div>
-             </div>
+              </div>
+
+              {/* Story Title & Topic */}
+              <div className="space-y-2">
+                <label className="font-bold text-indigo-950 text-xs">Story Topic / Core Concept <span className="text-rose-500">*</span></label>
+                <input 
+                  type="text"
+                  placeholder="e.g. A mystery about a lost puppy in a space station..."
+                  value={bookTopic}
+                  onChange={(e) => setBookTopic(e.target.value)}
+                  className="w-full bg-white border-2 border-slate-200 rounded-2xl p-3.5 text-slate-800 font-bold outline-none focus:border-indigo-500 text-xs"
+                />
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {['🚀 Space Station Mystery', '🍃 Photosynthesis Adventure', '🐉 Dragon Valley', '🤖 Robot City', '🦖 Dinosaur Discovery', '🤝 Friendship & Kindness'].map(preset => (
+                    <button
+                      key={preset}
+                      type="button"
+                      onClick={() => {
+                        const cleanTopic = preset.replace(/^[^\s]+\s/, '');
+                        setBookTopic(cleanTopic);
+                        if (!formData.title) setFormData(prev => ({ ...prev, title: cleanTopic }));
+                      }}
+                      className="px-2.5 py-1 rounded-xl bg-white border border-indigo-200 text-indigo-800 text-[10px] font-extrabold hover:bg-indigo-100 transition-all cursor-pointer"
+                    >
+                      {preset}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Genre Selector */}
+              <div className="space-y-1.5">
+                <label className="font-bold text-indigo-950 text-xs">Genre</label>
+                <select
+                  value={bookGenre}
+                  onChange={(e) => setBookGenre(e.target.value)}
+                  className="w-full bg-white border-2 border-slate-200 rounded-2xl p-3.5 text-slate-800 font-bold outline-none focus:border-indigo-500 text-xs appearance-none cursor-pointer"
+                >
+                  {['Fantasy & Magic', 'Science Fiction & Space', 'Jungle & Nature', 'Ocean Mystery', 'Dinosaur Age', 'Robot & Steampunk', 'Moral & Social Skills', 'Historical Adventure'].map(g => (
+                    <option key={g} value={g}>{g}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Characters & Tone */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <label className="font-bold text-indigo-950 text-xs">Main Characters</label>
+                  <input 
+                    type="text"
+                    placeholder="e.g. Alex, Maya & Timmy"
+                    value={bookCharacters}
+                    onChange={(e) => setBookCharacters(e.target.value)}
+                    className="w-full bg-white border-2 border-slate-200 rounded-2xl p-3 text-slate-800 font-bold outline-none focus:border-indigo-500 text-xs"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="font-bold text-indigo-950 text-xs">Story Tone</label>
+                  <select
+                    value={bookTone}
+                    onChange={(e) => setBookTone(e.target.value)}
+                    className="w-full bg-white border-2 border-slate-200 rounded-2xl p-3 text-slate-800 font-bold outline-none focus:border-indigo-500 text-xs"
+                  >
+                    {['Inspiring & Fun', 'Humorous & Silly', 'Adventurous', 'Calm & Wise', 'Suspenseful'].map(t => (
+                      <option key={t} value={t}>{t}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Illustration Style */}
+              <div className="space-y-1.5">
+                <label className="font-bold text-indigo-950 text-xs">AI Illustration Style</label>
+                <select
+                  value={bookIllustrationStyle}
+                  onChange={(e) => setBookIllustrationStyle(e.target.value)}
+                  className="w-full bg-white border-2 border-slate-200 rounded-2xl p-3.5 text-slate-800 font-bold outline-none focus:border-indigo-500 text-xs"
+                >
+                  {['Pixar 3D CGI', 'Disney Storybook', 'DreamWorks 3D Animation', 'Storybook Watercolor', 'Anime Ghibli Style', 'Soft Pastels & Clay', 'Paper Cut Art'].map(s => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Page Count Slider */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between items-center text-xs font-bold text-indigo-950">
+                  <span>Number of Pages</span>
+                  <span className="font-black text-indigo-600 bg-white px-2.5 py-0.5 rounded-lg border border-indigo-200">{bookPageCount} Pages</span>
+                </div>
+                <input 
+                  type="range"
+                  min="3"
+                  max="10"
+                  value={bookPageCount}
+                  onChange={(e) => setBookPageCount(Number(e.target.value))}
+                  className="w-full h-2 bg-indigo-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                />
+              </div>
+
+              {/* Magic Generate Button */}
+              <button
+                type="button"
+                onClick={handleGenerateBook}
+                disabled={isGeneratingBook}
+                className="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-indigo-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              >
+                {isGeneratingBook ? <Loader2 className="w-5 h-5 animate-spin" /> : <Wand2 className="w-5 h-5 text-yellow-300" />}
+                {isGeneratingBook ? 'Crafting Pixar Storybook...' : 'Magic Generate Storybook 🪄'}
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {/* Unified Magic Quiz Builder Panel */}
+              <div className="bg-green-50/50 p-6 rounded-3xl border-2 border-green-200/80 flex flex-col space-y-5">
+                 <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm text-[#EA580C] shrink-0 border border-green-200">
+                      <Wand2 className="w-5 h-5" />
+                    </div>
+                    <div className="text-left">
+                       <h4 className="font-black text-green-900 text-sm">Magic Quiz Builder</h4>
+                       <p className="text-[10px] font-bold text-green-600/70">Automatically generate {questionCount} multiple-choice questions based on your title & AI prompt.</p>
+                    </div>
+                 </div>
 
              <div className="space-y-3 text-left">
                <div className="flex items-center justify-between ml-1">
@@ -1497,15 +1822,169 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
             )}
           </div>
         </div>
+      )}
+    </div>
 
-        {/* Right Col: Assign To */}
+        {/* Right Col: Assign To / Book Preview */}
         <div className="space-y-8 relative">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-black">3</div>
-            <h2 className="text-2xl font-black text-[#14532d]">Assign To</h2>
-          </div>
+          {formData.subject === 'library_book' ? (
+            <div className="space-y-6 text-left">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-black">3</div>
+                  <h2 className="text-2xl font-black text-indigo-950">Book Preview & Publish</h2>
+                </div>
+                {generatedBook && (
+                  <button
+                    onClick={handlePublishBook}
+                    disabled={isPublishing}
+                    className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-black text-xs uppercase tracking-wider rounded-2xl shadow-lg shadow-indigo-500/20 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                  >
+                    {isPublishing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4 text-yellow-300" />}
+                    Publish to Library 🚀
+                  </button>
+                )}
+              </div>
 
-          <div className="space-y-6">
+              {!generatedBook ? (
+                <div className="bg-white rounded-3xl border-2 border-dashed border-indigo-200 p-12 text-center flex flex-col items-center justify-center min-h-[400px]">
+                  <div className="w-20 h-20 bg-indigo-50 rounded-3xl flex items-center justify-center text-indigo-500 mb-4 animate-pulse">
+                    <BookOpen className="w-10 h-10" />
+                  </div>
+                  <h3 className="text-xl font-black text-indigo-950 mb-2">No Storybook Generated Yet</h3>
+                  <p className="text-xs font-bold text-slate-500 max-w-sm">Fill in the story parameters on the left and click "Magic Generate Storybook" to craft a Pixar-quality illustrated book!</p>
+                </div>
+              ) : (
+                <div className="bg-white rounded-3xl border-2 border-indigo-200 p-6 shadow-xl space-y-6">
+                  {/* Book Title & Cover Banner */}
+                  <div className="bg-gradient-to-r from-indigo-900 via-purple-900 to-slate-900 text-white p-6 rounded-2xl shadow-lg relative overflow-hidden">
+                    <div className="flex items-start justify-between relative z-10">
+                      <div>
+                        <span className="px-3 py-1 bg-white/20 rounded-full text-[10px] font-black uppercase tracking-wider text-indigo-200">
+                          {generatedBook.genre || 'Adventure'} • {generatedBook.targetGrade || 'Grade 1'}
+                        </span>
+                        <h3 className="text-2xl font-black mt-2 text-yellow-300">{generatedBook.emoji} {generatedBook.title}</h3>
+                        {generatedBook.subtitle && <p className="text-xs font-bold text-indigo-200 mt-0.5">{generatedBook.subtitle}</p>}
+                        <p className="text-xs font-semibold text-slate-300 mt-2 max-w-lg">{generatedBook.summary}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Interactive Page Reader */}
+                  {generatedBook.pages && generatedBook.pages.length > 0 && (
+                    <div className="space-y-4">
+                      {/* Page Navigation Header */}
+                      <div className="flex items-center justify-between bg-indigo-50 p-3 rounded-2xl border border-indigo-100">
+                        <button
+                          onClick={() => setActivePreviewPage(prev => Math.max(0, prev - 1))}
+                          disabled={activePreviewPage === 0}
+                          className="px-4 py-2 bg-white rounded-xl text-xs font-black text-indigo-900 shadow-sm border border-indigo-200 disabled:opacity-40 cursor-pointer"
+                        >
+                          ‹ Previous Page
+                        </button>
+                        <span className="text-xs font-black text-indigo-950">
+                          Page {activePreviewPage + 1} of {generatedBook.pages.length}
+                        </span>
+                        <button
+                          onClick={() => setActivePreviewPage(prev => Math.min(generatedBook.pages.length - 1, prev + 1))}
+                          disabled={activePreviewPage === generatedBook.pages.length - 1}
+                          className="px-4 py-2 bg-white rounded-xl text-xs font-black text-indigo-900 shadow-sm border border-indigo-200 disabled:opacity-40 cursor-pointer"
+                        >
+                          Next Page ›
+                        </button>
+                      </div>
+
+                      {/* Active Page Card */}
+                      {(() => {
+                        const currentPage = generatedBook.pages[activePreviewPage];
+                        if (!currentPage) return null;
+                        return (
+                          <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 space-y-4">
+                            {/* Pollinations AI Image Preview */}
+                            {currentPage.imageUrl && (
+                              <div className="relative rounded-2xl overflow-hidden shadow-md max-h-72 flex justify-center bg-black/5">
+                                <img 
+                                  src={currentPage.imageUrl} 
+                                  alt={`Page ${activePreviewPage + 1} Illustration`} 
+                                  className="w-full h-72 object-cover rounded-2xl"
+                                  onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format&fit=crop";
+                                  }}
+                                />
+                                <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full flex gap-2">
+                                  <span>🎥 {currentPage.cameraAngle || 'Wide Angle'}</span>
+                                  <span>✨ {currentPage.mood || 'Magical'}</span>
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Page Text */}
+                            <p className="text-sm font-bold text-slate-800 leading-relaxed bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                              {currentPage.text}
+                            </p>
+
+                            {/* Vocab Highlights */}
+                            {currentPage.vocabHighlights && currentPage.vocabHighlights.length > 0 && (
+                              <div className="bg-yellow-50/80 border border-yellow-200 rounded-xl p-3 space-y-2">
+                                <h5 className="text-[10px] font-black uppercase tracking-wider text-yellow-800 flex items-center gap-1">
+                                  💡 Vocabulary Spotlight
+                                </h5>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                  {currentPage.vocabHighlights.map((v, vIdx) => (
+                                    <div key={vIdx} className="bg-white p-2.5 rounded-lg border border-yellow-100 shadow-2xs">
+                                      <p className="text-xs font-black text-indigo-950">{v.word} <span className="text-[10px] text-slate-400 font-bold">[{v.pronunciation}]</span></p>
+                                      <p className="text-[11px] font-semibold text-slate-600">{v.definition}</p>
+                                      {v.fact && <p className="text-[10px] font-bold text-yellow-700 mt-1">✨ {v.fact}</p>}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })()}
+                    </div>
+                  )}
+
+                  {/* Parent Section & Comprehension Quiz Preview */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+                    {generatedBook.parentSection && (
+                      <div className="bg-purple-50 p-4 rounded-2xl border border-purple-100 space-y-2">
+                        <h4 className="text-xs font-black text-purple-950 uppercase tracking-wider">👨‍👩‍👧 Parent & Discussion</h4>
+                        {generatedBook.parentSection.lifeLesson && (
+                          <p className="text-xs font-bold text-purple-800 bg-white p-2.5 rounded-xl border border-purple-100">
+                            🌟 Lesson: {generatedBook.parentSection.lifeLesson}
+                          </p>
+                        )}
+                        {generatedBook.parentSection.activity && (
+                          <p className="text-[11px] font-semibold text-purple-900">
+                            🎨 Activity: {generatedBook.parentSection.activity}
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    {generatedBook.comprehensionQuestions && (
+                      <div className="bg-green-50 p-4 rounded-2xl border border-green-100 space-y-2">
+                        <h4 className="text-xs font-black text-green-950 uppercase tracking-wider">❓ Comprehension Quiz</h4>
+                        <p className="text-xs font-bold text-green-800">
+                          {generatedBook.comprehensionQuestions.length} Quiz questions included for student verification!
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-black">3</div>
+                <h2 className="text-2xl font-black text-[#14532d]">Assign To</h2>
+              </div>
+
+              <div className="space-y-6">
             <div className="space-y-2">
               <label className="font-bold text-[#14532d]">Class <span className="text-rose-500">*</span></label>
               <div className="w-full h-14 bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 flex items-center gap-3">
@@ -1657,9 +2136,10 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
              {/* Simple drawing if mascot image doesn't exist */}
              <div className="w-48 h-48 bg-contain bg-bottom bg-no-repeat opacity-90" style={{ backgroundImage: "url('/dino-reading.png')" }}></div>
           </div>
-
-        </div>
-      </div>
+        </>
+      )}
+    </div>
+  </div>
       
       {/* Bottom Footer Bar */}
       <div className="mt-12 border-t border-slate-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
