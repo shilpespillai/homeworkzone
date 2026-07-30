@@ -502,17 +502,64 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
     const selectedLangObj = getLanguageObj(targetLanguage || 'en');
     const isNonEnglish = targetLanguage && targetLanguage !== 'en';
 
+    // Dynamic seed arrays to guarantee 100% unique character & story generation every single time!
+    const HERO_SEEDS = [
+      "Brix the adventurous robot with a heart of gold",
+      "Barnaby the brave badger who loves star-gazing",
+      "Zari the curious dragon who cannot breathe fire yet",
+      "Kiko the tiny seahorse who dreams of finding sunken treasure",
+      "Toby the speed-racing turtle with rocket boots",
+      "Maya the cloud-riding squirrel who collects fallen stars",
+      "Ollie the gadget-building otter who invents submarine goggles",
+      "Nala the starlight fox who paints the evening sky",
+      "Ziggy the glowing lightning bug who guides lost wanderers",
+      "Cleo the detective kitten who solves forest mysteries",
+      "Milo the beaver architect who builds floating island bridges",
+      "Skye the soaring eagle chick afraid of high winds",
+      "Finn the friendly sea-turtle who talks to coral reefs",
+      "Penny the penguin explorer in warm colorful earmuffs"
+    ];
+
+    const SETTING_SEEDS = [
+      "The Whispering Crystal Caves beneath the Rainbow River",
+      "The Clockwork Sky Kingdom floating above the clouds",
+      "The Sunken Coral Castle deep inside the Bioluminescent Bay",
+      "The Neon Galaxy Nebula filled with floating stardust islands",
+      "The Enchanted Marshmallow Mountains & Candy Creek",
+      "The Hidden Dinosaur Valley of Giant Singing Ferns",
+      "The Ancient Baobab Treehouse Observatory",
+      "The Great Toy Workshop inside a Hollow Sequoia Tree",
+      "The Flying Steam Train Station across the Sahara Dunes",
+      "The Magic Academy Library where books fly like butterflies"
+    ];
+
+    const QUEST_SEEDS = [
+      "repairing the broken Starlight Compass before the midnight eclipse",
+      "discovering the secret of the Glowing Sunpetal Flower",
+      "helping a lost baby comet find its way home to the Milky Way",
+      "winning the Great Forest Flying Relay with unexpected teamwork",
+      "solving the mystery of the vanishing Rainbow Music Notes",
+      "rescuing the Sleeping Tree King with kindness and courage",
+      "building a giant telescope to capture the first green flash of summer"
+    ];
+
+    const randomHero = HERO_SEEDS[Math.floor(Math.random() * HERO_SEEDS.length)];
+    const randomSetting = SETTING_SEEDS[Math.floor(Math.random() * SETTING_SEEDS.length)];
+    const randomQuest = QUEST_SEEDS[Math.floor(Math.random() * QUEST_SEEDS.length)];
+    const uniqueNonce = `${Date.now()}_${Math.floor(Math.random() * 999999)}`;
+
     return `You are an award-winning children's author, illustrator, curriculum designer, storyteller, and Pixar-level creative director.
 
 Your task is to generate a completely NEW and ORIGINAL children's storybook every single time this prompt is executed.
 
-IMPORTANT:
-• Never repeat previous stories.
-• Never reuse the same characters.
-• Never reuse the same locations.
-• Never reuse the same storyline.
-• Never reuse the same ending.
-• Every execution must feel like discovering an entirely new book.
+MANDATORY CREATIVE SEED (UNIQUE GENERATION MANDATE #${uniqueNonce}):
+You MUST invent a completely UNIQUE main character and story world for this execution.
+DO NOT USE "Pip the glow-worm" or "Glimmerstone Caves".
+
+REQUIRED CREATIVE INSPIRATION FOR THIS SEED:
+• Hero Archetype: ${randomHero}
+• Unique Setting: ${randomSetting}
+• Core Quest: ${randomQuest}
 
 =========================================================
 INPUT SPECIFICATIONS
@@ -568,7 +615,7 @@ Naturally teach one or more concepts (Kindness, Friendship, Honesty, Sharing, Re
 =========================================================
 STEP 5 — PAGE LAYOUT (${bookPageCount} PAGES - MAX 5 PAGES)
 =========================================================
-For every page generate: Page Number, Narration (150–250 rich, descriptive, and engaging words per page written in ${selectedLangObj.name} suited for ${resolvedGrade}), Dialogue (if required), Illustration Description, Camera Angle, Mood, Colour Palette, Lighting, Facial Expressions, Important Objects, Background Details, Visual Focus, Illustration Style (${bookIllustrationStyle}).
+For every page generate: Page Number, Narration (35–60 concise, child-friendly, engaging words per page written in ${selectedLangObj.name} suited for ${resolvedGrade}), Dialogue (if required), Illustration Description, Camera Angle, Mood, Colour Palette, Lighting, Facial Expressions, Important Objects, Background Details, Visual Focus, Illustration Style (${bookIllustrationStyle}).
 
 =========================================================
 STEP 6 & 7 — ILLUSTRATION STYLE & IMAGE PROMPTS
@@ -599,7 +646,7 @@ Generate: Book Cover Title (in ${selectedLangObj.name}), Subtitle, Back Cover Su
 =========================================================
 STEP 11 — CONSISTENCY & QUALITY
 =========================================================
-The finished book should feel professionally published by companies like Disney, Pixar, DreamWorks, Scholastic, Penguin Kids, HarperCollins Children, Walker Books. The text narration should be rich, cinematic, emotionally expressive, and beautifully structured.
+The finished book should feel professionally published by companies like Disney, Pixar, DreamWorks, Scholastic, Penguin Kids, HarperCollins Children, Walker Books. The text narration should be rich, cinematic, emotionally expressive, concise, and beautifully structured.
 
 =========================================================
 CRITICAL OUTPUT FORMAT REQUIREMENT:
@@ -619,7 +666,7 @@ EXPECTED JSON SCHEMA:
   "pages": [
     {
       "pageNumber": 1,
-      "text": "Substantial, rich, descriptive story narration (150-250 words per page in ${selectedLangObj.name} suited for ${resolvedGrade}) split into 2-3 clean, engaging paragraphs with character dialogue...",
+      "text": "Concise, rich, descriptive story narration (35-60 words per page in ${selectedLangObj.name} suited for ${resolvedGrade}) with character dialogue...",
       "cameraAngle": "Wide Angle / Medium Shot / Close-up",
       "mood": "Enchanted / Adventurous / Mysterious",
       "vocabHighlights": [
