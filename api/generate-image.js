@@ -1,5 +1,5 @@
 export const config = {
-  maxDuration: 60, // Allow up to 60s for OpenAI DALL-E 3 generation
+  maxDuration: 60, // Allow up to 60s for OpenAI DALL-E generation
 };
 
 export default async function handler(req, res) {
@@ -20,9 +20,10 @@ export default async function handler(req, res) {
     }
 
     const openaiKey = String(rawKey).trim().replace(/^["']|["']$/g, '');
-    const cleanPrompt = String(prompt).trim().slice(0, 950);
+    const cleanPrompt = String(prompt).trim().slice(0, 900);
 
-    const response = await fetch('https://api.openai.com/v1/images/generations', {
+    // Attempt 1: DALL-E 3
+    let response = await fetch('https://api.openai.com/v1/images/generations', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -37,21 +38,41 @@ export default async function handler(req, res) {
       })
     });
 
+    // Attempt 2: Fallback to DALL-E 2 if DALL-E 3 fails (e.g. model restrictions or prompt length)
     if (!response.ok) {
-      const errText = await response.text();
-      console.error(`[DALL-E 3 API Error] ${response.status}: ${errText}`);
-      let parsedMessage = errText;
-      try {
-        const parsedJson = JSON.parse(errText);
-        parsedMessage = parsedJson.error?.message || errText;
-      } catch (e) {}
-      return res.status(response.status).json({ error: parsedMessage });
+      const err3Text = await response.text();
+      console.warn(`[DALL-E 3 failed (${response.status})]: ${err3Text}. Trying DALL-E 2 fallback...`);
+
+      response = await fetch('https://api.openai.com/v1/images/generations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${openaiKey}`
+        },
+        body: JSON.stringify({
+          model: 'dall-e-2',
+          prompt: cleanPrompt.slice(0, 400),
+          n: 1,
+          size: '1024x1024'
+        })
+      });
+
+      if (!response.ok) {
+        const err2Text = await response.text();
+        console.error(`[DALL-E 2 API Error] ${response.status}: ${err2Text}`);
+        let parsedMessage = err2Text;
+        try {
+          const parsedJson = JSON.parse(err2Text);
+          parsedMessage = parsedJson.error?.message || err2Text;
+        } catch (e) {}
+        return res.status(400).json({ error: `OpenAI Image API Error: ${parsedMessage}` });
+      }
     }
 
     const data = await response.json();
     const imageUrl = data.data?.[0]?.url;
     if (!imageUrl) {
-      return res.status(500).json({ error: 'No image URL returned from DALL-E 3' });
+      return res.status(500).json({ error: 'No image URL returned from OpenAI' });
     }
 
     return res.status(200).json({ url: imageUrl });
