@@ -389,6 +389,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   // Book Generator State (Pixar 12-Step Master Prompt)
   const [bookGenre, setBookGenre] = useState('Fantasy & Magic');
   const [storyThemeCategory, setStoryThemeCategory] = useState('random');
+  const [selectedAiModel, setSelectedAiModel] = useState(() => localStorage.getItem('hwz_active_ai') || 'gemini');
   const [openAiKey, setOpenAiKey] = useState(() => localStorage.getItem('hwz_openai_key') || '');
   const [bookTopic, setBookTopic] = useState('');
   const [bookCharacters, setBookCharacters] = useState('');
@@ -1774,6 +1775,40 @@ EXPECTED JSON SCHEMA:
                       >
                         <span className="text-base">{cat.icon}</span>
                         <span className="leading-tight">{cat.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* AI Homework & Text Engine Selector */}
+                <div className="space-y-1.5 text-left">
+                  <label className="font-bold text-indigo-950 text-xs flex items-center justify-between">
+                    <span>AI Homework & Text Engine</span>
+                    <span className="text-[10px] text-indigo-600 font-semibold">Grade-Tiered Auto Routing</span>
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { id: 'gemini', label: 'Google Gemini', badge: 'Fast & Smart' },
+                      { id: 'anthropic', label: 'Anthropic Claude', badge: 'Haiku / Sonnet / Opus' },
+                      { id: 'openai', label: 'OpenAI GPT-4o', badge: 'GPT-4o' },
+                    ].map(engine => (
+                      <button
+                        key={engine.id}
+                        type="button"
+                        onClick={() => {
+                          setSelectedAiModel(engine.id);
+                          localStorage.setItem('hwz_active_ai', engine.id);
+                        }}
+                        className={`py-2 px-2.5 rounded-2xl text-xs font-black transition-all cursor-pointer flex flex-col items-center justify-center text-center ${
+                          selectedAiModel === engine.id
+                            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md'
+                            : 'bg-white text-slate-700 hover:bg-indigo-50 border border-slate-200'
+                        }`}
+                      >
+                        <span className="leading-tight">{engine.label}</span>
+                        <span className={`text-[9px] font-bold mt-0.5 ${selectedAiModel === engine.id ? 'text-indigo-200' : 'text-slate-400'}`}>
+                          {engine.badge}
+                        </span>
                       </button>
                     ))}
                   </div>
