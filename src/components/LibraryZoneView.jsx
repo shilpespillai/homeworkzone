@@ -32,6 +32,86 @@ import { getLanguageObj } from '../utils/languages';
 // ═══════════════════════════════════════════════════════════════
 const STORIES = [
   {
+    id: 'two_friends_one_heart',
+    title: "Two Friends, One Heart",
+    subtitle: "A story of friendship, kindness and togetherness",
+    genre: "Human Friends",
+    emoji: "🤝",
+    image: "/two_friends_one_heart.png",
+    moral: "Good friends are like a strong bridge—they support each other and help others. Together, they build a better tomorrow. 🌿",
+    summary: "In a small Indian village, two best friends Raju and Mohan work together to solve a village crisis when the water well dries up, demonstrating the true strength of friendship and teamwork.",
+    pages: [
+      {
+        pageNumber: 1,
+        text: "In a small Indian village, lived two best friends, Raju and Mohan. They did everything together—played, studied and helped everyone in the village. 'Together, we can do anything!'",
+        imageUrl: "/two_friends_one_heart.png",
+        vocabHighlights: [
+          { word: "village", partOfSpeech: "Noun", definition: "A small community of people in a rural area.", pronunciation: "vil-ij", fact: "Villages are close-knit communities where neighbors support each other." },
+          { word: "together", partOfSpeech: "Adverb", definition: "With each other or in proximity to one another.", pronunciation: "tuh-geth-er", fact: "Working together makes big tasks easier and more fun." }
+        ]
+      },
+      {
+        pageNumber: 2,
+        text: "One day, the village faced a problem. The well had dried up, and there was no water for anyone. 'We have to do something!' said Raju.",
+        imageUrl: "/two_friends_one_heart.png",
+        vocabHighlights: [
+          { word: "problem", partOfSpeech: "Noun", definition: "A matter or situation regarded as unwelcome or harmful.", pronunciation: "prob-luhm", fact: "Every problem has a creative solution waiting to be discovered." },
+          { word: "dried", partOfSpeech: "Verb", definition: "Lacking moisture or water.", pronunciation: "drahyd", fact: "Water conservation helps villages stay green and healthy." }
+        ]
+      },
+      {
+        pageNumber: 3,
+        text: "Raju had an idea, and Mohan supported him. They worked hard every day—dug, carried stones and cleared the path for water to flow. Teamwork makes everything possible!",
+        imageUrl: "/two_friends_one_heart.png",
+        vocabHighlights: [
+          { word: "teamwork", partOfSpeech: "Noun", definition: "The combined action of a group of people working effectively together.", pronunciation: "teem-wurk", fact: "Teamwork combines everyone's unique strengths to achieve a shared goal." },
+          { word: "cleared", partOfSpeech: "Verb", definition: "Removed objects or obstructions from a path.", pronunciation: "kleerd", fact: "Clearing pathways allows life-giving water to flow freely." }
+        ]
+      },
+      {
+        pageNumber: 4,
+        text: "After many days of hard work, water finally flowed back to the village! Everyone was happy and thanked the two friends.",
+        imageUrl: "/two_friends_one_heart.png",
+        vocabHighlights: [
+          { word: "flowed", partOfSpeech: "Verb", definition: "Moved steadily and continuously in a stream.", pronunciation: "flohd", fact: "Water is essential for life and brings joy to the whole village." },
+          { word: "thanked", partOfSpeech: "Verb", definition: "Expressed gratitude to someone.", pronunciation: "thangkt", fact: "Saying thank you builds strong community relationships." }
+        ]
+      },
+      {
+        pageNumber: 5,
+        text: "That evening, as the sun set, Raju said, 'I'm glad we did this together.' Mohan smiled, 'Yes, friendship is the greatest strength.'",
+        imageUrl: "/two_friends_one_heart.png",
+        vocabHighlights: [
+          { word: "friendship", partOfSpeech: "Noun", definition: "The emotion or relationship of mutual trust and affection between friends.", pronunciation: "frend-ship", fact: "True friendship is a pillar of strength in hard times." },
+          { word: "strength", partOfSpeech: "Noun", definition: "The quality or state of being strong.", pronunciation: "strengkth", fact: "Inner strength grows when friends unite for a good cause." }
+        ]
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "Who were the two best friends in the small Indian village?",
+        options: ["Raju and Mohan", "Amit and Rahul", "Karan and Vikram", "Deepak and Suresh"],
+        answer: "Raju and Mohan",
+        explanation: "The story introduces Raju and Mohan as two best friends living in the small Indian village."
+      },
+      {
+        id: 2,
+        question: "What major problem did the village face?",
+        options: ["The water well dried up", "A storm destroyed the bridge", "The crops caught fire", "The farm animals escaped"],
+        answer: "The water well dried up",
+        explanation: "One day the village well dried up, leaving everyone without fresh water."
+      },
+      {
+        id: 3,
+        question: "How did Raju and Mohan solve the water crisis?",
+        options: ["By working hard together to clear stones and dig a water path", "By moving to another village", "By waiting for rain", "By doing nothing"],
+        answer: "By working hard together to clear stones and dig a water path",
+        explanation: "Raju had an idea, and together they dug, carried stones, and cleared the path so water flowed back to the village."
+      }
+    ]
+  },
+  {
     id: 1,
     title: "The Brave Little Tortoise",
     genre: "Adventure",
