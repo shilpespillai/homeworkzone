@@ -481,8 +481,12 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
             reader.readAsDataURL(blob);
           });
         } catch (e) {
-          console.warn(`Engine attempt fallback:`, e);
-          await new Promise((r) => setTimeout(r, 800));
+          if (e.name === 'AbortError') {
+            console.log('Engine request timed out, switching to failover model...');
+          } else {
+            console.warn('Engine attempt fallback:', e);
+          }
+          await new Promise((r) => setTimeout(r, 600));
         }
       }
     }
