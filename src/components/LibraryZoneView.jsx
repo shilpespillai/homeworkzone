@@ -408,6 +408,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   const [selectedStory, setSelectedStory] = useState(null);
   const [storyPage, setStoryPage] = useState(0);
   const [highlightedVocabWord, setHighlightedVocabWord] = useState(null);
+  const [readerViewMode, setReaderViewMode] = useState('grid'); // 'grid' | 'single'
 
   useEffect(() => {
     setHighlightedVocabWord(null);
@@ -1050,6 +1051,146 @@ Schema:
                   ))}
                 </div>
               </div>
+            ) : readerViewMode === 'grid' ? (
+              <div className="bg-slate-900 p-4 md:p-8 rounded-[44px] shadow-2xl border-4 border-slate-800 space-y-6 max-w-6xl mx-auto animate-in fade-in duration-300">
+                {/* Top Bar Header with Close & View Switcher */}
+                <div className="flex items-center justify-between border-b border-slate-800 pb-4 flex-wrap gap-3">
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setSelectedStory(null)}
+                      className="text-xs font-black text-slate-400 hover:text-white bg-slate-800 px-3.5 py-1.5 rounded-full flex items-center gap-1 border border-slate-700 transition-colors cursor-pointer"
+                    >
+                      <ChevronLeft className="w-4 h-4" /> Close Book
+                    </button>
+                    <span className="text-[10px] font-black text-amber-400 uppercase bg-amber-950/80 px-3 py-1 rounded-full border border-amber-800/60">
+                      ✨ 5-Panel Picture Book Mode
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1 bg-slate-800 p-1 rounded-2xl border border-slate-700">
+                    <button
+                      onClick={() => setReaderViewMode('grid')}
+                      className={`px-3 py-1 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                        readerViewMode === 'grid'
+                          ? 'bg-amber-400 text-slate-950 shadow-sm'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      🖼️ 5-Panel Grid
+                    </button>
+                    <button
+                      onClick={() => setReaderViewMode('single')}
+                      className={`px-3 py-1 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                        readerViewMode === 'single'
+                          ? 'bg-indigo-600 text-white shadow-sm'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      📖 Single Page
+                    </button>
+                  </div>
+                </div>
+
+                {/* 5-Panel Picture Book Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {/* Panel 1: Title Card */}
+                  <div className="bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 rounded-3xl p-6 border-2 border-indigo-400/40 shadow-xl flex flex-col justify-between relative overflow-hidden group min-h-[360px]">
+                    <div className="absolute inset-0 opacity-40 mix-blend-overlay pointer-events-none">
+                      <img
+                        src={getStoryCover(selectedStory)}
+                        alt={selectedStory.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="relative z-10 space-y-3">
+                      <div className="flex items-center gap-2">
+                        <span className="bg-amber-400 text-slate-950 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full">
+                          {selectedStory.genre}
+                        </span>
+                        <span className="text-2xl">{selectedStory.emoji}</span>
+                      </div>
+                      <h2 className="text-2xl md:text-3xl font-black text-white leading-tight uppercase tracking-tight drop-shadow-md">
+                        {selectedStory.title}
+                      </h2>
+                      {selectedStory.subtitle && (
+                        <p className="text-xs text-indigo-200 font-bold italic">{selectedStory.subtitle}</p>
+                      )}
+                    </div>
+
+                    <div className="relative z-10 flex items-center justify-between pt-6 border-t border-white/10 mt-4">
+                      <span className="text-[10px] font-black uppercase text-indigo-300">By Your Story Studio</span>
+                      {/* Panel 1 Badge */}
+                      <div className="w-10 h-10 rounded-full bg-white text-slate-950 font-black text-lg flex items-center justify-center border-2 border-slate-900 shadow-md">
+                        1
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Panels 2 - 5: Story Scene Panels */}
+                  {selectedStory.pages?.slice(0, 4).map((page, pIdx) => {
+                    const panelNumber = pIdx + 2;
+                    const panelImg = page.imageUrl || getStoryCover(selectedStory);
+                    return (
+                      <div
+                        key={pIdx}
+                        className="bg-white rounded-3xl overflow-hidden border-2 border-slate-200 shadow-lg flex flex-col justify-between relative group hover:border-amber-400 transition-all min-h-[360px]"
+                      >
+                        {/* Panel Artwork */}
+                        <div className="h-44 bg-slate-100 relative overflow-hidden shrink-0">
+                          <img
+                            src={panelImg}
+                            alt={`Panel ${panelNumber}`}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            onError={(e) => {
+                              e.target.src = getStoryCover(selectedStory);
+                            }}
+                          />
+                          <button
+                            onClick={() => startSpeech(getPageText(selectedStory, pIdx))}
+                            className="absolute top-3 right-3 bg-white/90 hover:bg-white text-slate-800 p-2 rounded-full shadow-md text-xs font-bold transition-all cursor-pointer"
+                            title="Listen to panel"
+                          >
+                            <Volume2 className="w-4 h-4 text-orange-600" />
+                          </button>
+                        </div>
+
+                        {/* Panel Narration Text */}
+                        <div className="p-5 flex-1 flex flex-col justify-between space-y-4 text-left">
+                          <div className="space-y-2">
+                            {renderStoryTextWithHighlights(getPageText(selectedStory, pIdx))}
+                          </div>
+
+                          <div className="flex items-center justify-between border-t border-slate-100 pt-3 mt-2">
+                            <span className="text-[10px] font-black uppercase text-slate-400">
+                              Panel {panelNumber} of 5
+                            </span>
+                            {/* Panel Number Badge */}
+                            <div className="w-9 h-9 rounded-full bg-slate-900 text-white font-black text-base flex items-center justify-center border-2 border-amber-400 shadow-md">
+                              {panelNumber}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Bottom Moral Banner */}
+                <div className="bg-gradient-to-r from-amber-200 via-amber-100 to-orange-200 border-2 border-amber-400 rounded-3xl p-5 md:p-6 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+                  <div className="flex items-center gap-3">
+                    <span className="text-4xl animate-bounce shrink-0">💡</span>
+                    <div>
+                      <span className="text-[10px] font-black uppercase text-amber-900 tracking-widest bg-amber-300/80 px-2.5 py-0.5 rounded-full border border-amber-400">
+                        MORAL OF THE STORY
+                      </span>
+                      <p className="text-base md:text-xl font-black text-amber-950 mt-1">
+                        {selectedStory.parentSection?.lifeLesson || "Believe in yourself. Keep trying. Big dreams grow from small beginnings!"}
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-3xl shrink-0">🌱</span>
+                </div>
+              </div>
             ) : (
               <div className="bg-white border-2 border-indigo-100 rounded-[40px] shadow-xl overflow-hidden flex flex-col max-w-4xl mx-auto min-h-[500px] animate-in fade-in duration-300">
                 {/* Header Banner with Single 8K Cover Image */}
@@ -1081,12 +1222,33 @@ Schema:
                       <p className="text-xs text-indigo-200 font-semibold">{selectedStory.subtitle}</p>
                     )}
                   </div>
-                  <button 
-                    onClick={() => setSelectedStory(null)}
-                    className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer backdrop-blur-sm flex items-center gap-1 border border-white/20"
-                  >
-                    ✕ Close
-                  </button>
+                  
+                  <div className="flex flex-col items-end gap-2">
+                    <button 
+                      onClick={() => setSelectedStory(null)}
+                      className="bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer backdrop-blur-sm flex items-center gap-1 border border-white/20"
+                    >
+                      ✕ Close
+                    </button>
+                    <div className="flex items-center gap-1 bg-black/40 p-1 rounded-xl border border-white/20">
+                      <button
+                        onClick={() => setReaderViewMode('grid')}
+                        className={`px-2.5 py-0.5 rounded-lg text-[10px] font-black transition-all cursor-pointer ${
+                          readerViewMode === 'grid' ? 'bg-amber-400 text-slate-950' : 'text-white/80'
+                        }`}
+                      >
+                        🖼️ 5-Panel Grid
+                      </button>
+                      <button
+                        onClick={() => setReaderViewMode('single')}
+                        className={`px-2.5 py-0.5 rounded-lg text-[10px] font-black transition-all cursor-pointer ${
+                          readerViewMode === 'single' ? 'bg-indigo-500 text-white' : 'text-white/80'
+                        }`}
+                      >
+                        📖 Single
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Page Navigation & Interactive Header Bar */}

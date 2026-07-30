@@ -403,10 +403,51 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [customPromptOverride, setCustomPromptOverride] = useState('');
   const [showPromptModal, setShowPromptModal] = useState(false);
 
+  const fetchDallEImage = async (promptText) => {
+    const openaiKey = localStorage.getItem('hwz_openai_key') || import.meta.env.VITE_OPENAI_API_KEY;
+    if (!openaiKey) return null;
+
+    try {
+      const response = await fetch('https://api.openai.com/v1/images/generations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${openaiKey}`
+        },
+        body: JSON.stringify({
+          model: 'dall-e-3',
+          prompt: promptText,
+          n: 1,
+          size: '1024x1024',
+          response_format: 'b64_json'
+        })
+      });
+
+      if (!response.ok) {
+        console.warn('DALL-E 3 request returned non-OK status:', response.status);
+        return null;
+      }
+
+      const data = await response.json();
+      const b64 = data?.data?.[0]?.b64_json;
+      if (b64) return `data:image/png;base64,${b64}`;
+      const url = data?.data?.[0]?.url;
+      if (url) return url;
+    } catch (err) {
+      console.warn('DALL-E 3 fetch failed, falling back to Flux/Turbo:', err);
+    }
+    return null;
+  };
+
   // Multi-Engine Cascade pre-rendering to handle high concurrency and rate-limits seamlessly
   const fetchImageAsBase64 = async (promptText) => {
     if (!promptText) return '';
 
+    // First attempt DALL-E 3 if API key is configured
+    const dallEImg = await fetchDallEImage(promptText);
+    if (dallEImg) return dallEImg;
+
+    // Fallback to Multi-Engine Flux/Turbo Cascade
     const encoded = encodeURIComponent(promptText);
     const engines = [
       `https://image.pollinations.ai/prompt/${encoded}?width=640&height=640&nologo=true&model=flux`,
@@ -638,11 +679,24 @@ EXPECTED JSON SCHEMA:
         parsedBook.pages = parsedBook.pages.slice(0, 5);
       }
 
-      // Pre-render Cover Image ONLY to Base64 (Single cover image per book!)
+      // Pre-render Cover & Panel Illustrations to Base64 (for 5-Panel Picture Book Grid)
       if (parsedBook.coverImagePrompt) {
         setBookGenStatus('Rendering 8K Cover Illustration...');
         const coverStylePrompt = `${parsedBook.coverImagePrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, book cover, vibrant pastel colors, 8k, highly detailed, no text`;
         parsedBook.coverImageUrl = await fetchImageAsBase64(coverStylePrompt);
+      }
+
+      if (parsedBook.pages && Array.isArray(parsedBook.pages)) {
+        for (let i = 0; i < parsedBook.pages.length; i++) {
+          const p = parsedBook.pages[i];
+          const panelPrompt = p.imagePrompt || p.text;
+          if (panelPrompt) {
+            setBookGenStatus(`Rendering 8K Panel Illustration ${i + 1} of ${parsedBook.pages.length}...`);
+            const stylePrompt = `${panelPrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, vibrant pastel colors, clean background, 8k, highly detailed, children's book illustration, no text`;
+            p.imageUrl = await fetchImageAsBase64(stylePrompt);
+            await new Promise((r) => setTimeout(r, 400));
+          }
+        }
       }
 
       parsedBook.targetLanguage = targetLanguage || 'en';
