@@ -909,11 +909,11 @@ Schema:
 
     if (isComicMode) {
       return (
-        <div className="space-y-2 text-slate-800 text-xs md:text-sm leading-relaxed font-semibold text-left">
+        <div className="space-y-2 text-white text-xs md:text-sm leading-snug font-bold text-left">
           {paragraphs.map((paragraph, pIdx) => {
             if (!highlightedVocabWord) {
               return (
-                <p key={pIdx} className="bg-slate-50/90 p-3 rounded-2xl border border-slate-200/80 text-slate-800 font-semibold shadow-2xs">
+                <p key={pIdx} className="bg-black/50 backdrop-blur-md p-3.5 rounded-2xl border border-white/20 text-white font-bold shadow-md drop-shadow-md">
                   "{paragraph}"
                 </p>
               );
@@ -924,13 +924,13 @@ Schema:
             const parts = paragraph.split(regex);
 
             return (
-              <p key={pIdx} className="bg-amber-50/80 p-3 rounded-2xl border border-amber-300 shadow-2xs transition-all font-semibold">
+              <p key={pIdx} className="bg-amber-950/80 backdrop-blur-md p-3.5 rounded-2xl border border-amber-400/80 text-white shadow-md transition-all font-bold">
                 "{parts.map((part, idx) => {
                   if (part.toLowerCase() === highlightedVocabWord.toLowerCase()) {
                     return (
                       <mark
                         key={idx}
-                        className="bg-amber-300 text-amber-950 font-black px-1.5 py-0.5 rounded-md shadow-2xs border border-amber-400 animate-pulse inline-block"
+                        className="bg-amber-400 text-slate-950 font-black px-1.5 py-0.5 rounded-md shadow-md border border-amber-300 animate-pulse inline-block"
                       >
                         {part}
                       </mark>
@@ -1140,71 +1140,79 @@ Schema:
 
                 {/* 5-Panel Picture Book Grid (2 Top / 3 Bottom matching ChatGPT picture book canvas) */}
                 <div className="space-y-5 w-full">
-                  {/* TOP ROW: Panel 1 (Title Card) + Panel 2 */}
+                  {/* TOP ROW: Panel 1 (Title Cover Card) + Panel 2 */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-                    {/* Panel 1: Title Card */}
-                    <div className="bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-900 rounded-3xl p-6 border-2 border-indigo-400/40 shadow-xl flex flex-col justify-between relative overflow-hidden group min-h-[260px] md:min-h-[300px]">
-                      <div className="absolute inset-0 opacity-50 mix-blend-overlay pointer-events-none">
-                        <img
-                          src={getStoryCover(selectedStory)}
-                          alt={selectedStory.title}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="relative z-10 space-y-2 text-left">
+                    {/* Panel 1: Cover & Title Card */}
+                    <div className="relative rounded-3xl overflow-hidden border-2 border-slate-700/80 shadow-2xl min-h-[280px] md:min-h-[320px] flex flex-col justify-between p-6 group">
+                      {/* Full Card Background Image */}
+                      <img
+                        src={getStoryCover(selectedStory)}
+                        alt={selectedStory.title}
+                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      {/* Dark Gradient Overlay for Title Contrast */}
+                      <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/90 via-slate-950/50 to-transparent pointer-events-none" />
+
+                      {/* Title Content */}
+                      <div className="relative z-10 space-y-2 text-left max-w-md">
                         <div className="flex items-center gap-2">
-                          <span className="bg-amber-400 text-slate-950 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full">
+                          <span className="bg-amber-400 text-slate-950 text-[10px] font-black uppercase px-3 py-1 rounded-full shadow-md">
                             {selectedStory.genre}
                           </span>
                           <span className="text-2xl">{selectedStory.emoji}</span>
                         </div>
-                        <h2 className="text-2xl md:text-4xl font-black text-amber-300 leading-tight uppercase tracking-tight drop-shadow-lg">
+                        <h2 className="text-2xl md:text-4xl font-black text-amber-300 leading-tight uppercase tracking-tight drop-shadow-xl">
                           {selectedStory.title}
                         </h2>
                         {selectedStory.subtitle && (
-                          <p className="text-xs md:text-sm text-indigo-100 font-bold italic">{selectedStory.subtitle}</p>
+                          <p className="text-xs md:text-sm text-indigo-100 font-bold italic drop-shadow-md">{selectedStory.subtitle}</p>
                         )}
                       </div>
 
                       <div className="relative z-10 flex items-center justify-between pt-4 border-t border-white/20 mt-4">
-                        <span className="text-[10px] font-black uppercase text-indigo-200">By Your Story Studio</span>
-                        {/* Panel 1 Badge */}
-                        <div className="w-9 h-9 rounded-full bg-white text-slate-950 font-black text-base flex items-center justify-center border-2 border-slate-900 shadow-md">
+                        <span className="text-[10px] font-black uppercase text-slate-200 tracking-wider bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm border border-white/20">
+                          By Your Story Studio
+                        </span>
+                        {/* Panel 1 Number Badge */}
+                        <div className="w-9 h-9 rounded-full bg-white text-slate-950 font-black text-base flex items-center justify-center border-2 border-slate-900 shadow-xl">
                           1
                         </div>
                       </div>
                     </div>
 
-                    {/* Panel 2 */}
+                    {/* Panel 2: Picture Story Panel with Overlay Text */}
                     {(() => {
                       const page = selectedStory.pages?.[0];
                       const panelImg = page?.imageUrl || getStoryCover(selectedStory);
                       return (
-                        <div className="bg-white rounded-3xl p-5 border-2 border-slate-200 shadow-lg flex flex-col justify-between relative min-h-[260px] md:min-h-[300px] text-left">
-                          <div className="flex flex-col sm:flex-row gap-4 items-center flex-1">
-                            <div className="w-full sm:w-1/2 space-y-2">
-                              <div>
-                                {renderStoryTextWithHighlights(getPageText(selectedStory, 0), true)}
+                        <div className="relative rounded-3xl overflow-hidden border-2 border-slate-200 shadow-2xl min-h-[280px] md:min-h-[320px] flex flex-col justify-between group">
+                          {/* Full Card Artwork Background */}
+                          <img
+                            src={panelImg}
+                            alt="Panel 2"
+                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            onError={(e) => { e.target.src = getStoryCover(selectedStory); }}
+                          />
+                          {/* Soft Vignette Overlay on Left Side for Readable Text */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-transparent md:w-3/4 pointer-events-none" />
+
+                          {/* Text Overlay Content */}
+                          <div className="relative z-10 p-5 md:p-6 text-left max-w-sm md:max-w-md space-y-3 flex-1 flex flex-col justify-between">
+                            <div>
+                              {renderStoryTextWithHighlights(getPageText(selectedStory, 0), true)}
+                            </div>
+
+                            <div className="flex items-center justify-between pt-3 border-t border-white/20 mt-auto">
+                              <button
+                                onClick={() => startSpeech(getPageText(selectedStory, 0))}
+                                className="text-[10px] font-black text-amber-950 bg-amber-400/90 hover:bg-amber-300 px-3 py-1.5 rounded-xl flex items-center gap-1 transition-all shadow-md backdrop-blur-sm cursor-pointer"
+                              >
+                                <Volume2 className="w-3.5 h-3.5" /> Listen
+                              </button>
+                              {/* Panel 2 Number Badge */}
+                              <div className="w-8 h-8 rounded-full bg-white text-slate-950 font-black text-sm flex items-center justify-center border-2 border-slate-900 shadow-xl">
+                                2
                               </div>
-                            </div>
-                            <div className="w-full sm:w-1/2 h-44 sm:h-full rounded-2xl overflow-hidden relative shrink-0 border border-slate-200">
-                              <img
-                                src={panelImg}
-                                alt="Panel 2"
-                                className="w-full h-full object-cover"
-                                onError={(e) => { e.target.src = getStoryCover(selectedStory); }}
-                              />
-                            </div>
-                          </div>
-                          <div className="flex items-center justify-between pt-3 border-t border-slate-100 mt-2">
-                            <button
-                              onClick={() => startSpeech(getPageText(selectedStory, 0))}
-                              className="text-[10px] font-black text-amber-800 bg-amber-100 hover:bg-amber-200 px-2.5 py-1 rounded-xl flex items-center gap-1 transition-colors cursor-pointer"
-                            >
-                              <Volume2 className="w-3.5 h-3.5 text-amber-700" /> Listen
-                            </button>
-                            <div className="w-8 h-8 rounded-full bg-slate-900 text-white font-black text-sm flex items-center justify-center border-2 border-amber-400 shadow-md">
-                              2
                             </div>
                           </div>
                         </div>
@@ -1220,31 +1228,34 @@ Schema:
                       return (
                         <div
                           key={pIdx}
-                          className="bg-white rounded-3xl p-5 border-2 border-slate-200 shadow-lg flex flex-col justify-between relative min-h-[260px] md:min-h-[280px] text-left"
+                          className="relative rounded-3xl overflow-hidden border-2 border-slate-200 shadow-2xl min-h-[260px] md:min-h-[300px] flex flex-col justify-between group"
                         >
-                          <div className="space-y-3 flex-1 flex flex-col justify-between">
-                            <div className="h-36 w-full rounded-2xl overflow-hidden relative shrink-0 border border-slate-200">
-                              <img
-                                src={panelImg}
-                                alt={`Panel ${panelNumber}`}
-                                className="w-full h-full object-cover"
-                                onError={(e) => { e.target.src = getStoryCover(selectedStory); }}
-                              />
-                            </div>
+                          {/* Full Card Artwork Background */}
+                          <img
+                            src={panelImg}
+                            alt={`Panel ${panelNumber}`}
+                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            onError={(e) => { e.target.src = getStoryCover(selectedStory); }}
+                          />
+                          {/* Soft Vignette Overlay for Readable Text */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/75 to-slate-950/30 pointer-events-none" />
+
+                          {/* Text Overlay Content */}
+                          <div className="relative z-10 p-5 text-left flex-1 flex flex-col justify-between">
                             <div>
                               {renderStoryTextWithHighlights(getPageText(selectedStory, pIdx + 1), true)}
                             </div>
-                          </div>
 
-                          <div className="flex items-center justify-between border-t border-slate-100 pt-3 mt-2">
-                            <button
-                              onClick={() => startSpeech(getPageText(selectedStory, pIdx + 1))}
-                              className="text-[10px] font-black text-amber-800 bg-amber-100 hover:bg-amber-200 px-2.5 py-1 rounded-xl flex items-center gap-1 transition-colors cursor-pointer"
-                            >
-                              <Volume2 className="w-3.5 h-3.5 text-amber-700" /> Listen
-                            </button>
-                            <div className="w-8 h-8 rounded-full bg-slate-900 text-white font-black text-sm flex items-center justify-center border-2 border-amber-400 shadow-md">
-                              {panelNumber}
+                            <div className="flex items-center justify-between border-t border-white/20 pt-3 mt-auto">
+                              <button
+                                onClick={() => startSpeech(getPageText(selectedStory, pIdx + 1))}
+                                className="text-[10px] font-black text-amber-950 bg-amber-400/90 hover:bg-amber-300 px-3 py-1.5 rounded-xl flex items-center gap-1 transition-all shadow-md backdrop-blur-sm cursor-pointer"
+                              >
+                                <Volume2 className="w-3.5 h-3.5" /> Listen
+                              </button>
+                              <div className="w-8 h-8 rounded-full bg-white text-slate-950 font-black text-sm flex items-center justify-center border-2 border-slate-900 shadow-xl">
+                                {panelNumber}
+                              </div>
                             </div>
                           </div>
                         </div>
