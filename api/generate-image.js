@@ -14,10 +14,13 @@ export default async function handler(req, res) {
     const { prompt } = req.body;
     if (!prompt) return res.status(400).json({ error: 'Prompt is required' });
 
-    const openaiKey = process.env.OPENAI_API_KEY || process.env.VITE_OPENAI_API_KEY;
-    if (!openaiKey) {
+    const rawKey = process.env.OPENAI_API_KEY || process.env.VITE_OPENAI_API_KEY;
+    if (!rawKey) {
       return res.status(500).json({ error: 'OPENAI_API_KEY is not configured on Vercel Environment Variables.' });
     }
+
+    const openaiKey = String(rawKey).trim().replace(/^["']|["']$/g, '');
+    const cleanPrompt = String(prompt).trim().slice(0, 950);
 
     const response = await fetch('https://api.openai.com/v1/images/generations', {
       method: 'POST',
@@ -27,7 +30,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'dall-e-3',
-        prompt: prompt,
+        prompt: cleanPrompt,
         n: 1,
         size: '1024x1024',
         quality: 'standard'
@@ -37,7 +40,12 @@ export default async function handler(req, res) {
     if (!response.ok) {
       const errText = await response.text();
       console.error(`[DALL-E 3 API Error] ${response.status}: ${errText}`);
-      return res.status(response.status).json({ error: `DALL-E 3 Error: ${errText}` });
+      let parsedMessage = errText;
+      try {
+        const parsedJson = JSON.parse(errText);
+        parsedMessage = parsedJson.error?.message || errText;
+      } catch (e) {}
+      return res.status(response.status).json({ error: parsedMessage });
     }
 
     const data = await response.json();
