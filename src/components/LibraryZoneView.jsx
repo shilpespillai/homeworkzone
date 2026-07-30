@@ -37,6 +37,7 @@ const STORIES = [
     subtitle: "A story of friendship, kindness and togetherness",
     genre: "Human Friends",
     emoji: "🤝",
+    isSingleComicSheet: true,
     image: "/two_friends_one_heart.png",
     moral: "Good friends are like a strong bridge—they support each other and help others. Together, they build a better tomorrow. 🌿",
     summary: "In a small Indian village, two best friends Raju and Mohan work together to solve a village crisis when the water well dries up, demonstrating the true strength of friendship and teamwork.",
@@ -1177,6 +1178,44 @@ Schema:
                     </div>
                   ))}
                 </div>
+              </div>
+            ) : selectedStory.isSingleComicSheet || selectedStory.fullCompositeImage ? (
+              <div className="bg-[#111827] p-4 md:p-8 rounded-[36px] shadow-2xl border-4 border-slate-800 space-y-6 w-full animate-in fade-in duration-300">
+                {/* Header with Back Button */}
+                <div className="flex items-center justify-between border-b border-slate-800 pb-4 flex-wrap gap-3">
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setSelectedStory(null)}
+                      className="text-xs font-black text-amber-950 bg-amber-400 hover:bg-amber-300 px-4 py-2 rounded-full flex items-center gap-1 border border-amber-300 transition-all shadow-md cursor-pointer active:scale-95"
+                    >
+                      <ChevronLeft className="w-4 h-4" /> Back to All Books 📚
+                    </button>
+                    <span className="text-xs font-black text-amber-400 uppercase bg-amber-950/80 px-3.5 py-1.5 rounded-full border border-amber-800/60 flex items-center gap-1.5">
+                      <span>🖼️</span> Original Story Canvas
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-lg md:text-xl font-black text-amber-300 drop-shadow-md">{selectedStory.title}</h3>
+                    <span className="text-2xl">{selectedStory.emoji}</span>
+                  </div>
+                </div>
+
+                {/* Display Full Image AS IT IS (Pristine, Full resolution, No subpanel squeezing) */}
+                <div className="w-full bg-slate-900 rounded-3xl overflow-hidden border-2 border-amber-400/40 shadow-2xl flex justify-center items-center p-2 md:p-4">
+                  <img
+                    src={selectedStory.image || selectedStory.pages?.[0]?.imageUrl}
+                    alt={selectedStory.title}
+                    className="w-full h-auto max-h-[85vh] object-contain rounded-2xl shadow-2xl"
+                  />
+                </div>
+
+                {/* Moral Box */}
+                {selectedStory.moral && (
+                  <div className="bg-amber-100/95 border-2 border-amber-300 rounded-2xl p-5 text-amber-950 shadow-lg text-center font-black text-sm md:text-base leading-relaxed">
+                    Moral: {selectedStory.moral}
+                  </div>
+                )}
               </div>
             ) : readerViewMode === 'grid' ? (
               <div className="bg-[#111827] p-4 md:p-6 rounded-[36px] shadow-2xl border-4 border-slate-800 space-y-5 w-full animate-in fade-in duration-300">
