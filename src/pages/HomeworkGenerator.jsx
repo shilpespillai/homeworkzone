@@ -389,6 +389,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   // Book Generator State (Pixar 12-Step Master Prompt)
   const [bookGenre, setBookGenre] = useState('Fantasy & Magic');
   const [storyThemeCategory, setStoryThemeCategory] = useState('random');
+  const [openAiKey, setOpenAiKey] = useState(() => localStorage.getItem('hwz_openai_key') || '');
   const [bookTopic, setBookTopic] = useState('');
   const [bookCharacters, setBookCharacters] = useState('');
   const [bookTone, setBookTone] = useState('Inspiring & Fun');
@@ -1756,6 +1757,62 @@ EXPECTED JSON SCHEMA:
                         <span className="leading-tight">{cat.label}</span>
                       </button>
                     ))}
+                  </div>
+                </div>
+
+                {/* OpenAI DALL-E 3 Engine Settings */}
+                <div className="bg-gradient-to-r from-purple-950 via-indigo-950 to-slate-900 text-white p-4 rounded-2xl border border-purple-400/40 shadow-lg space-y-3 text-left">
+                  <div className="flex items-center justify-between flex-wrap gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">✨</span>
+                      <div>
+                        <h5 className="text-xs font-black text-amber-300 uppercase tracking-wider">
+                          OpenAI DALL-E 3 Image Engine
+                        </h5>
+                        <p className="text-[10px] text-purple-200 font-semibold">
+                          Paste your OpenAI API key below to enable official OpenAI DALL-E 3 8K illustration generation!
+                        </p>
+                      </div>
+                    </div>
+                    {openAiKey ? (
+                      <span className="bg-emerald-500/30 text-emerald-300 border border-emerald-400/50 text-[10px] font-black uppercase px-2.5 py-1 rounded-full shadow-sm">
+                        ✓ DALL-E 3 Active
+                      </span>
+                    ) : (
+                      <span className="bg-slate-800 text-slate-300 border border-slate-700 text-[10px] font-black uppercase px-2.5 py-1 rounded-full">
+                        Free Multi-Engine Cascade
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="password"
+                      placeholder="Paste OpenAI Key (sk-proj-...)"
+                      value={openAiKey}
+                      onChange={(e) => {
+                        const val = e.target.value.trim();
+                        setOpenAiKey(val);
+                        if (val) {
+                          localStorage.setItem('hwz_openai_key', val);
+                        } else {
+                          localStorage.removeItem('hwz_openai_key');
+                        }
+                      }}
+                      className="flex-1 bg-black/50 border border-white/20 rounded-xl px-3 py-2 text-xs font-mono text-white placeholder-slate-400 outline-none focus:border-amber-400 transition-colors"
+                    />
+                    {openAiKey && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setOpenAiKey('');
+                          localStorage.removeItem('hwz_openai_key');
+                        }}
+                        className="px-3 py-2 bg-red-500/20 hover:bg-red-500/40 text-red-300 rounded-xl text-[10px] font-bold border border-red-500/30 transition-colors cursor-pointer"
+                      >
+                        Clear
+                      </button>
+                    )}
                   </div>
                 </div>
 

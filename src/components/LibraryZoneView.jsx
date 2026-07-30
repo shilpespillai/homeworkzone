@@ -909,11 +909,11 @@ Schema:
 
     if (isComicMode) {
       return (
-        <div className="space-y-2 text-white text-xs md:text-sm leading-snug font-bold text-left">
+        <div className="space-y-2 text-slate-800 text-xs md:text-sm leading-relaxed font-semibold text-left">
           {paragraphs.map((paragraph, pIdx) => {
             if (!highlightedVocabWord) {
               return (
-                <p key={pIdx} className="bg-black/50 backdrop-blur-md p-3.5 rounded-2xl border border-white/20 text-white font-bold shadow-md drop-shadow-md">
+                <p key={pIdx} className="bg-slate-50 border border-slate-200/90 p-3 rounded-2xl text-slate-800 font-semibold shadow-2xs">
                   "{paragraph}"
                 </p>
               );
@@ -924,13 +924,13 @@ Schema:
             const parts = paragraph.split(regex);
 
             return (
-              <p key={pIdx} className="bg-amber-950/80 backdrop-blur-md p-3.5 rounded-2xl border border-amber-400/80 text-white shadow-md transition-all font-bold">
+              <p key={pIdx} className="bg-amber-50 border border-amber-300 p-3 rounded-2xl text-slate-900 shadow-2xs transition-all font-semibold">
                 "{parts.map((part, idx) => {
                   if (part.toLowerCase() === highlightedVocabWord.toLowerCase()) {
                     return (
                       <mark
                         key={idx}
-                        className="bg-amber-400 text-slate-950 font-black px-1.5 py-0.5 rounded-md shadow-md border border-amber-300 animate-pulse inline-block"
+                        className="bg-amber-300 text-amber-950 font-black px-1.5 py-0.5 rounded-md shadow-2xs border border-amber-400 animate-pulse inline-block"
                       >
                         {part}
                       </mark>
@@ -1180,40 +1180,40 @@ Schema:
                       </div>
                     </div>
 
-                    {/* Panel 2: Picture Story Panel with Overlay Text */}
+                    {/* Panel 2: Picture Story Panel (Clean 50/50 Split) */}
                     {(() => {
                       const page = selectedStory.pages?.[0];
                       const panelImg = page?.imageUrl || getStoryCover(selectedStory);
                       return (
-                        <div className="relative rounded-3xl overflow-hidden border-2 border-slate-200 shadow-2xl min-h-[280px] md:min-h-[320px] flex flex-col justify-between group">
-                          {/* Full Card Artwork Background */}
-                          <img
-                            src={panelImg}
-                            alt="Panel 2"
-                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                            onError={(e) => { e.target.src = getStoryCover(selectedStory); }}
-                          />
-                          {/* Soft Vignette Overlay on Left Side for Readable Text */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-transparent md:w-3/4 pointer-events-none" />
-
-                          {/* Text Overlay Content */}
-                          <div className="relative z-10 p-5 md:p-6 text-left max-w-sm md:max-w-md space-y-3 flex-1 flex flex-col justify-between">
+                        <div className="bg-white rounded-3xl p-4 md:p-5 border-2 border-slate-200 shadow-xl flex flex-col sm:flex-row gap-4 items-center relative min-h-[280px] md:min-h-[320px] text-left group hover:border-amber-400 transition-all">
+                          {/* Left Half: Clean Narration & Audio Button */}
+                          <div className="w-full sm:w-1/2 space-y-3 flex-1 flex flex-col justify-between h-full">
                             <div>
                               {renderStoryTextWithHighlights(getPageText(selectedStory, 0), true)}
                             </div>
 
-                            <div className="flex items-center justify-between pt-3 border-t border-white/20 mt-auto">
+                            <div className="flex items-center justify-between border-t border-slate-100 pt-3 mt-auto">
                               <button
                                 onClick={() => startSpeech(getPageText(selectedStory, 0))}
-                                className="text-[10px] font-black text-amber-950 bg-amber-400/90 hover:bg-amber-300 px-3 py-1.5 rounded-xl flex items-center gap-1 transition-all shadow-md backdrop-blur-sm cursor-pointer"
+                                className="text-[10px] font-black text-amber-900 bg-amber-100 hover:bg-amber-200 px-3 py-1.5 rounded-xl flex items-center gap-1 transition-all cursor-pointer"
                               >
-                                <Volume2 className="w-3.5 h-3.5" /> Listen
+                                <Volume2 className="w-3.5 h-3.5 text-amber-700" /> Listen
                               </button>
                               {/* Panel 2 Number Badge */}
-                              <div className="w-8 h-8 rounded-full bg-white text-slate-950 font-black text-sm flex items-center justify-center border-2 border-slate-900 shadow-xl">
+                              <div className="w-8 h-8 rounded-full bg-slate-900 text-white font-black text-sm flex items-center justify-center border-2 border-amber-400 shadow-md">
                                 2
                               </div>
                             </div>
+                          </div>
+
+                          {/* Right Half: Full Clear 8K Illustration */}
+                          <div className="w-full sm:w-1/2 h-52 sm:h-full rounded-2xl overflow-hidden relative shrink-0 border border-slate-200 shadow-md">
+                            <img
+                              src={panelImg}
+                              alt="Panel 2"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              onError={(e) => { e.target.src = getStoryCover(selectedStory); }}
+                            />
                           </div>
                         </div>
                       );
@@ -1228,34 +1228,33 @@ Schema:
                       return (
                         <div
                           key={pIdx}
-                          className="relative rounded-3xl overflow-hidden border-2 border-slate-200 shadow-2xl min-h-[260px] md:min-h-[300px] flex flex-col justify-between group"
+                          className="bg-white rounded-3xl p-4 md:p-5 border-2 border-slate-200 shadow-xl flex flex-col justify-between relative min-h-[300px] text-left group hover:border-amber-400 transition-all"
                         >
-                          {/* Full Card Artwork Background */}
-                          <img
-                            src={panelImg}
-                            alt={`Panel ${panelNumber}`}
-                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                            onError={(e) => { e.target.src = getStoryCover(selectedStory); }}
-                          />
-                          {/* Soft Vignette Overlay for Readable Text */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/75 to-slate-950/30 pointer-events-none" />
-
-                          {/* Text Overlay Content */}
-                          <div className="relative z-10 p-5 text-left flex-1 flex flex-col justify-between">
+                          <div className="space-y-3 flex-1 flex flex-col justify-between">
+                            {/* Top Half: Clear 8K Panel Artwork */}
+                            <div className="h-44 w-full rounded-2xl overflow-hidden relative shrink-0 border border-slate-200 shadow-sm">
+                              <img
+                                src={panelImg}
+                                alt={`Panel ${panelNumber}`}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                onError={(e) => { e.target.src = getStoryCover(selectedStory); }}
+                              />
+                            </div>
+                            {/* Bottom Half: Clean Narration Text Box */}
                             <div>
                               {renderStoryTextWithHighlights(getPageText(selectedStory, pIdx + 1), true)}
                             </div>
+                          </div>
 
-                            <div className="flex items-center justify-between border-t border-white/20 pt-3 mt-auto">
-                              <button
-                                onClick={() => startSpeech(getPageText(selectedStory, pIdx + 1))}
-                                className="text-[10px] font-black text-amber-950 bg-amber-400/90 hover:bg-amber-300 px-3 py-1.5 rounded-xl flex items-center gap-1 transition-all shadow-md backdrop-blur-sm cursor-pointer"
-                              >
-                                <Volume2 className="w-3.5 h-3.5" /> Listen
-                              </button>
-                              <div className="w-8 h-8 rounded-full bg-white text-slate-950 font-black text-sm flex items-center justify-center border-2 border-slate-900 shadow-xl">
-                                {panelNumber}
-                              </div>
+                          <div className="flex items-center justify-between border-t border-slate-100 pt-3 mt-3">
+                            <button
+                              onClick={() => startSpeech(getPageText(selectedStory, pIdx + 1))}
+                              className="text-[10px] font-black text-amber-900 bg-amber-100 hover:bg-amber-200 px-3 py-1.5 rounded-xl flex items-center gap-1 transition-all cursor-pointer"
+                            >
+                              <Volume2 className="w-3.5 h-3.5 text-amber-700" /> Listen
+                            </button>
+                            <div className="w-8 h-8 rounded-full bg-slate-900 text-white font-black text-sm flex items-center justify-center border-2 border-amber-400 shadow-md">
+                              {panelNumber}
                             </div>
                           </div>
                         </div>
