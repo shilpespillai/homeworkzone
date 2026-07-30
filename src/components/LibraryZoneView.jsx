@@ -895,16 +895,63 @@ Schema:
   };
 
   // Helper to render unclustered, beautifully spaced paragraphs with interactive Vocab highlighting
-  const renderStoryTextWithHighlights = (rawText) => {
+  const renderStoryTextWithHighlights = (rawText, isComicMode = false) => {
     if (!rawText) return null;
-    const paragraphs = rawText.split(/\n+/).filter(Boolean);
 
+    // For comic mode, keep text concise (max 2 short sentences for clean panel layout)
+    let processedText = rawText;
+    if (isComicMode && rawText.length > 180) {
+      const sentences = rawText.match(/[^.!?]+[.!?]+/g) || [rawText];
+      processedText = sentences.slice(0, 2).join(' ');
+    }
+
+    const paragraphs = processedText.split(/\n+/).filter(Boolean);
+
+    if (isComicMode) {
+      return (
+        <div className="space-y-2 text-slate-800 text-xs md:text-sm leading-relaxed font-semibold text-left">
+          {paragraphs.map((paragraph, pIdx) => {
+            if (!highlightedVocabWord) {
+              return (
+                <p key={pIdx} className="bg-slate-50/90 p-3 rounded-2xl border border-slate-200/80 text-slate-800 font-semibold shadow-2xs">
+                  "{paragraph}"
+                </p>
+              );
+            }
+
+            const escapedWord = highlightedVocabWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${escapedWord})`, 'gi');
+            const parts = paragraph.split(regex);
+
+            return (
+              <p key={pIdx} className="bg-amber-50/80 p-3 rounded-2xl border border-amber-300 shadow-2xs transition-all font-semibold">
+                "{parts.map((part, idx) => {
+                  if (part.toLowerCase() === highlightedVocabWord.toLowerCase()) {
+                    return (
+                      <mark
+                        key={idx}
+                        className="bg-amber-300 text-amber-950 font-black px-1.5 py-0.5 rounded-md shadow-2xs border border-amber-400 animate-pulse inline-block"
+                      >
+                        {part}
+                      </mark>
+                    );
+                  }
+                  return part;
+                })}"
+              </p>
+            );
+          })}
+        </div>
+      );
+    }
+
+    // Default Single Page mode text styling
     return (
-      <div className="space-y-5 md:space-y-6 text-slate-800 text-base md:text-xl leading-relaxed md:leading-loose font-medium text-justify">
+      <div className="space-y-4 text-slate-800 text-base md:text-lg leading-relaxed font-medium text-left">
         {paragraphs.map((paragraph, pIdx) => {
           if (!highlightedVocabWord) {
             return (
-              <p key={pIdx} className="bg-indigo-50/30 p-5 md:p-6 rounded-3xl border-l-4 border-indigo-400 shadow-2xs">
+              <p key={pIdx} className="bg-indigo-50/40 p-4 md:p-5 rounded-2xl border-l-4 border-indigo-400 shadow-2xs">
                 "{paragraph}"
               </p>
             );
@@ -915,13 +962,13 @@ Schema:
           const parts = paragraph.split(regex);
 
           return (
-            <p key={pIdx} className="bg-amber-50/60 p-5 md:p-6 rounded-3xl border-l-4 border-amber-400 shadow-xs transition-all">
+            <p key={pIdx} className="bg-amber-50/60 p-4 md:p-5 rounded-2xl border-l-4 border-amber-400 shadow-2xs transition-all">
               "{parts.map((part, idx) => {
                 if (part.toLowerCase() === highlightedVocabWord.toLowerCase()) {
                   return (
                     <mark
                       key={idx}
-                      className="bg-amber-300 text-amber-950 font-black px-2 py-0.5 rounded-lg shadow-xs border border-amber-400 animate-pulse inline-block"
+                      className="bg-amber-300 text-amber-950 font-black px-2 py-0.5 rounded-lg shadow-2xs border border-amber-400 animate-pulse inline-block"
                     >
                       {part}
                     </mark>
@@ -1136,8 +1183,8 @@ Schema:
                         <div className="bg-white rounded-3xl p-5 border-2 border-slate-200 shadow-lg flex flex-col justify-between relative min-h-[260px] md:min-h-[300px] text-left">
                           <div className="flex flex-col sm:flex-row gap-4 items-center flex-1">
                             <div className="w-full sm:w-1/2 space-y-2">
-                              <div className="text-slate-800 text-xs md:text-sm font-semibold leading-relaxed">
-                                {renderStoryTextWithHighlights(getPageText(selectedStory, 0))}
+                              <div>
+                                {renderStoryTextWithHighlights(getPageText(selectedStory, 0), true)}
                               </div>
                             </div>
                             <div className="w-full sm:w-1/2 h-44 sm:h-full rounded-2xl overflow-hidden relative shrink-0 border border-slate-200">
@@ -1184,8 +1231,8 @@ Schema:
                                 onError={(e) => { e.target.src = getStoryCover(selectedStory); }}
                               />
                             </div>
-                            <div className="text-slate-800 text-xs md:text-sm font-semibold leading-relaxed">
-                              {renderStoryTextWithHighlights(getPageText(selectedStory, pIdx + 1))}
+                            <div>
+                              {renderStoryTextWithHighlights(getPageText(selectedStory, pIdx + 1), true)}
                             </div>
                           </div>
 

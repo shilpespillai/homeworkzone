@@ -683,9 +683,10 @@ STEP 4 — EDUCATIONAL VALUE
 Naturally teach one or more concepts (Kindness, Friendship, Honesty, Sharing, Respect, Teamwork, Courage, Creativity, Problem Solving, Science, Nature, Animals, Space, Geography, Math, Reading, Healthy eating, Exercise, Environment, Recycling, Growth mindset, Resilience, Empathy). The lesson should never feel forced.
 
 =========================================================
-STEP 5 — PAGE LAYOUT (${bookPageCount} PAGES - MAX 5 PAGES)
+STEP 5 — COMIC PICTURE BOOK PAGE LAYOUT (${bookPageCount} PAGES - MAX 5 PAGES)
 =========================================================
-For every page generate: Page Number, Narration (35–60 concise, child-friendly, engaging words per page written in ${selectedLangObj.name} suited for ${resolvedGrade}), Dialogue (if required), Illustration Description, Camera Angle, Mood, Colour Palette, Lighting, Facial Expressions, Important Objects, Background Details, Visual Focus, Illustration Style (${bookIllustrationStyle}).
+CRITICAL PICTURE BOOK NARRATION DIRECTIVE:
+Keep the narration text for EVERY page STRICTLY 15 TO 30 WORDS MAXIMUM (1 to 2 short, punchy comic-book sentences with dialogue, suited for ${resolvedGrade}). Do NOT write long paragraphs. Each panel must fit cleanly like a comic book picture panel!
 
 =========================================================
 STEP 6 & 7 — ILLUSTRATION STYLE & IMAGE PROMPTS
@@ -716,7 +717,7 @@ Generate: Book Cover Title (in ${selectedLangObj.name}), Subtitle, Back Cover Su
 =========================================================
 STEP 11 — CONSISTENCY & QUALITY
 =========================================================
-The finished book should feel professionally published by companies like Disney, Pixar, DreamWorks, Scholastic, Penguin Kids, HarperCollins Children, Walker Books. The text narration should be rich, cinematic, emotionally expressive, concise, and beautifully structured.
+The finished book should feel professionally published by companies like Disney, Pixar, DreamWorks, Scholastic, Penguin Kids, HarperCollins Children, Walker Books. The text narration should be punchy, short, comic-book style, and beautifully structured.
 
 =========================================================
 CRITICAL OUTPUT FORMAT REQUIREMENT:
@@ -736,7 +737,7 @@ EXPECTED JSON SCHEMA:
   "pages": [
     {
       "pageNumber": 1,
-      "text": "Concise, rich, descriptive story narration (35-60 words per page in ${selectedLangObj.name} suited for ${resolvedGrade}) with character dialogue...",
+      "text": "STRICT 15-30 words MAX (1-2 punchy comic sentences in ${selectedLangObj.name} suited for ${resolvedGrade})...",
       "cameraAngle": "Wide Angle / Medium Shot / Close-up",
       "mood": "Enchanted / Adventurous / Mysterious",
       "vocabHighlights": [
