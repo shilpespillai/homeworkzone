@@ -388,6 +388,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
 
   // Book Generator State (Pixar 12-Step Master Prompt)
   const [bookGenre, setBookGenre] = useState('Fantasy & Magic');
+  const [storyThemeCategory, setStoryThemeCategory] = useState('random');
   const [bookTopic, setBookTopic] = useState('');
   const [bookCharacters, setBookCharacters] = useState('');
   const [bookTone, setBookTone] = useState('Inspiring & Fun');
@@ -502,50 +503,119 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
     const selectedLangObj = getLanguageObj(targetLanguage || 'en');
     const isNonEnglish = targetLanguage && targetLanguage !== 'en';
 
-    // Dynamic seed arrays to guarantee 100% unique character & story generation every single time!
-    const HERO_SEEDS = [
-      "Brix the adventurous robot with a heart of gold",
-      "Barnaby the brave badger who loves star-gazing",
-      "Zari the curious dragon who cannot breathe fire yet",
-      "Kiko the tiny seahorse who dreams of finding sunken treasure",
-      "Toby the speed-racing turtle with rocket boots",
-      "Maya the cloud-riding squirrel who collects fallen stars",
-      "Ollie the gadget-building otter who invents submarine goggles",
-      "Nala the starlight fox who paints the evening sky",
-      "Ziggy the glowing lightning bug who guides lost wanderers",
-      "Cleo the detective kitten who solves forest mysteries",
-      "Milo the beaver architect who builds floating island bridges",
-      "Skye the soaring eagle chick afraid of high winds",
-      "Finn the friendly sea-turtle who talks to coral reefs",
-      "Penny the penguin explorer in warm colorful earmuffs"
-    ];
+    // Dynamic seed arrays categorized into Space, Friends/Humans, Animals, Fantasy, Dinosaurs
+    const SEED_CATEGORIES = {
+      space: {
+        name: "Space & Galaxy Exploration",
+        heroes: [
+          "Captain Leo, a 7-year-old human astronaut with a solar-powered jetpack",
+          "Orion, a friendly alien kid from Planet Stardust who loves space-cookies",
+          "Astro-Pug Barnaby, a brave dog piloting the Moon Rover",
+          "Maya, a young star-mapper exploring the glowing rings of Saturn",
+          "Ziggy the cosmic robot who repairs broken satellites with singing lasers",
+          "Eliana, a human space explorer who builds a friendship with a friendly moon-creature"
+        ],
+        settings: [
+          "The Neon Galaxy Nebula filled with floating stardust islands",
+          "The Moon Station Observatory above planet Earth",
+          "The Ringed City of Saturn with zero-gravity playgrounds",
+          "The Meteor Crater Colony on Mars"
+        ],
+        quests: [
+          "repairing the Starlight Compass before the solar eclipse",
+          "rescuing a lost baby comet and guiding it back to the Milky Way",
+          "winning the Intergalactic Jetpack Race through the Asteroid Belt"
+        ]
+      },
+      friends: {
+        name: "Friendship & Human Kids",
+        heroes: [
+          "Mia and Kai, two 8-year-old best friends and backyard inventors",
+          "Aisha and Sam, elementary school classmates solving neighborhood mysteries",
+          "Lucas and his big sister Clara on a weekend camping trip",
+          "Zoe, a creative young girl building a giant cardboard castle with her best friend Noah",
+          "Ethan and Maya, two playground teammates building a solar-powered go-kart"
+        ],
+        settings: [
+          "The Oak Treehouse Workshop in a cozy suburban backyard",
+          "The Elementary School Science Fair & Discovery Hall",
+          "The Whispering Woods Camping Site near Pine Lake",
+          "The Sunny Neighborhood Park & Secret Garden"
+        ],
+        quests: [
+          "building the world's highest treehouse observatory",
+          "solving the mystery of the missing school mascot",
+          "winning the Annual Neighborhood Soapbox Derby with teamwork",
+          "organizing a surprise community garden for their favorite teacher"
+        ]
+      },
+      animals: {
+        name: "Animal & Nature Adventures",
+        heroes: [
+          "Barnaby the brave badger who loves star-gazing and telescopes",
+          "Kiko the adventurous red panda searching for the lost bamboo valley",
+          "Finn the friendly sea-turtle who talks to colorful coral reefs",
+          "Skye the soaring eagle chick learning to ride high mountain winds",
+          "Milo the beaver architect who builds floating island bridges for forest friends",
+          "Penny the penguin explorer wearing a bright yellow raincoat"
+        ],
+        settings: [
+          "The Great Redwood Forest & Crystal Stream",
+          "The Bioluminescent Coral Reef Bay",
+          "The Misty Bamboo Valley of Snow Mountains",
+          "The Emerald Jungle Canopy & Waterfall Lagoon"
+        ],
+        quests: [
+          "saving the Great Coral Reef by planting glowing sea-kelp",
+          "discovering the secret of the Golden Sunpetal Flower",
+          "helping all the forest animals cross the rushing river before winter"
+        ]
+      },
+      fantasy: {
+        name: "Fantasy, Magic & Fairytales",
+        heroes: [
+          "Zari the curious dragon who breathes colorful fireworks instead of fire",
+          "Princess Iris and her magical pegasus soaring over Cloud Kingdom",
+          "Brix the friendly steam-powered robot with a heart of gold",
+          "Pip the glowing forest sprite repairing the Tree of Life"
+        ],
+        settings: [
+          "The Clockwork Sky Kingdom floating above the clouds",
+          "The Enchanted Marshmallow Mountains & Candy Creek",
+          "The Magic Academy Library where books fly like butterflies"
+        ],
+        quests: [
+          "solving the mystery of the vanishing Rainbow Music Notes",
+          "rescuing the Sleeping Tree King with kindness and courage"
+        ]
+      },
+      dinosaurs: {
+        name: "Dinosaurs & Prehistoric Quests",
+        heroes: [
+          "Toby the time-traveling turtle who meets friendly baby Triceratops",
+          "Rexy the gentle herbivore T-Rex who loves planting flowers",
+          "Dara the brave young Pterodactyl chick learning to glide"
+        ],
+        settings: [
+          "The Hidden Dinosaur Valley of Giant Singing Ferns",
+          "The Volcanic Oasis of Crystal Waterfalls"
+        ],
+        quests: [
+          "helping a lost baby Stegosaurus find its herd",
+          "discovering a glowing prehistoric crystal deep inside the Lava Cave"
+        ]
+      }
+    };
 
-    const SETTING_SEEDS = [
-      "The Whispering Crystal Caves beneath the Rainbow River",
-      "The Clockwork Sky Kingdom floating above the clouds",
-      "The Sunken Coral Castle deep inside the Bioluminescent Bay",
-      "The Neon Galaxy Nebula filled with floating stardust islands",
-      "The Enchanted Marshmallow Mountains & Candy Creek",
-      "The Hidden Dinosaur Valley of Giant Singing Ferns",
-      "The Ancient Baobab Treehouse Observatory",
-      "The Great Toy Workshop inside a Hollow Sequoia Tree",
-      "The Flying Steam Train Station across the Sahara Dunes",
-      "The Magic Academy Library where books fly like butterflies"
-    ];
+    const categoryKeys = Object.keys(SEED_CATEGORIES);
+    const chosenCatKey = (storyThemeCategory && storyThemeCategory !== 'random' && SEED_CATEGORIES[storyThemeCategory])
+      ? storyThemeCategory
+      : categoryKeys[Math.floor(Math.random() * categoryKeys.length)];
 
-    const QUEST_SEEDS = [
-      "repairing the broken Starlight Compass before the midnight eclipse",
-      "discovering the secret of the Glowing Sunpetal Flower",
-      "helping a lost baby comet find its way home to the Milky Way",
-      "winning the Great Forest Flying Relay with unexpected teamwork",
-      "solving the mystery of the vanishing Rainbow Music Notes",
-      "rescuing the Sleeping Tree King with kindness and courage",
-      "building a giant telescope to capture the first green flash of summer"
-    ];
-
-    const randomHero = HERO_SEEDS[Math.floor(Math.random() * HERO_SEEDS.length)];
-    const randomSetting = SETTING_SEEDS[Math.floor(Math.random() * SETTING_SEEDS.length)];
-    const randomQuest = QUEST_SEEDS[Math.floor(Math.random() * QUEST_SEEDS.length)];
+    const selectedCategoryObj = SEED_CATEGORIES[chosenCatKey];
+    const randomHero = selectedCategoryObj.heroes[Math.floor(Math.random() * selectedCategoryObj.heroes.length)];
+    const randomSetting = selectedCategoryObj.settings[Math.floor(Math.random() * selectedCategoryObj.settings.length)];
+    const randomQuest = selectedCategoryObj.quests[Math.floor(Math.random() * selectedCategoryObj.quests.length)];
     const uniqueNonce = `${Date.now()}_${Math.floor(Math.random() * 999999)}`;
 
     return `You are an award-winning children's author, illustrator, curriculum designer, storyteller, and Pixar-level creative director.
@@ -554,7 +624,7 @@ Your task is to generate a completely NEW and ORIGINAL children's storybook ever
 
 MANDATORY CREATIVE SEED (UNIQUE GENERATION MANDATE #${uniqueNonce}):
 You MUST invent a completely UNIQUE main character and story world for this execution.
-DO NOT USE "Pip the glow-worm" or "Glimmerstone Caves".
+Category Focus: ${selectedCategoryObj.name}
 
 REQUIRED CREATIVE INSPIRATION FOR THIS SEED:
 • Hero Archetype: ${randomHero}
@@ -1654,6 +1724,37 @@ EXPECTED JSON SCHEMA:
                   <div>
                     <h4 className="font-black text-indigo-950 text-sm">Pixar-Level AI Storybook Generator</h4>
                     <p className="text-[10px] font-bold text-indigo-600">AI automatically creates an original story, 8K illustrations, vocab tooltips, & comprehension quiz!</p>
+                  </div>
+                </div>
+
+                {/* Story Theme / World Category Selection */}
+                <div className="space-y-1.5 text-left">
+                  <label className="font-bold text-indigo-950 text-xs block">
+                    Story Theme & Character World
+                  </label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {[
+                      { id: 'random', label: '🎲 Any Topic', icon: '✨' },
+                      { id: 'space', label: '🚀 Space & Sci-Fi', icon: '🌌' },
+                      { id: 'friends', label: '👭 Human Friends', icon: '🏫' },
+                      { id: 'animals', label: '🐾 Animals & Wildlife', icon: '🦊' },
+                      { id: 'fantasy', label: '🐉 Fantasy & Magic', icon: '🏰' },
+                      { id: 'dinosaurs', label: '🦖 Dinosaurs', icon: '🦕' },
+                    ].map(cat => (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        onClick={() => setStoryThemeCategory(cat.id)}
+                        className={`py-2.5 px-3 rounded-2xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 ${
+                          storyThemeCategory === cat.id
+                            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md'
+                            : 'bg-white text-slate-700 hover:bg-indigo-50 border border-slate-200'
+                        }`}
+                      >
+                        <span className="text-base">{cat.icon}</span>
+                        <span className="leading-tight">{cat.label}</span>
+                      </button>
+                    ))}
                   </div>
                 </div>
 
