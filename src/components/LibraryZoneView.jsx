@@ -597,7 +597,48 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     }
   }, [classroom?.id, classroom?.name, teacher?.uid, currentStudentProfile?.id]);
 
-  const allStories = [...teacherAssignedBooks, ...getBaseStories(), ...customStories];
+  // State for tracked deleted story IDs
+  const [deletedStoryIds, setDeletedStoryIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem('hwz_deleted_stories');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
+  const handleDeleteStory = async (storyId, e) => {
+    if (e) e.stopPropagation();
+    if (!window.confirm("Are you sure you want to delete this story from the Library?")) return;
+
+    if (selectedStory?.id === storyId) {
+      setSelectedStory(null);
+    }
+
+    const updatedDeleted = [...deletedStoryIds, String(storyId)];
+    setDeletedStoryIds(updatedDeleted);
+    try {
+      localStorage.setItem('hwz_deleted_stories', JSON.stringify(updatedDeleted));
+    } catch (err) {}
+
+    setCustomStories(prev => {
+      const filtered = prev.filter(s => String(s.id) !== String(storyId));
+      try {
+        const key = studentName ? `hwz_custom_stories_${studentName}` : 'hwz_custom_stories';
+        localStorage.setItem(key, JSON.stringify(filtered));
+      } catch (err) {}
+      return filtered;
+    });
+
+    try {
+      const { deleteDoc, doc } = await import('firebase/firestore');
+      await deleteDoc(doc(db, 'custom_library_books', String(storyId)));
+    } catch (err) {}
+  };
+
+  const allStories = [...teacherAssignedBooks, ...getBaseStories(), ...customStories].filter(
+    story => !deletedStoryIds.includes(String(story.id))
+  );
   const allPuzzles = [...getBasePuzzles(), ...customPuzzles];
 
   useEffect(() => {
@@ -1144,16 +1185,14 @@ Schema:
                         </div>
                       )}
                       
-                      {/* Delete button for custom stories */}
-                      {typeof story.id === 'string' && story.id.startsWith('custom_') && (
-                        <button
-                          onClick={(e) => handleDeleteCustomStory(story.id, e)}
-                          className="absolute top-4 left-4 bg-white/90 hover:bg-red-50 text-slate-400 hover:text-red-500 p-2 rounded-xl border border-slate-100 z-10 transition-colors shadow-sm"
-                          title="Delete Custom Story"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      )}
+                      {/* Delete button for ALL stories */}
+                      <button
+                        onClick={(e) => handleDeleteStory(story.id, e)}
+                        className="absolute top-3 left-3 bg-white/90 hover:bg-red-50 text-slate-400 hover:text-red-500 p-2 rounded-xl border border-slate-200 z-20 transition-all shadow-md hover:scale-110 cursor-pointer"
+                        title="Delete Story from Library"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
 
                       <div className="h-44 bg-gradient-to-b from-green-50 to-orange-50 flex items-center justify-center relative overflow-hidden">
                         <img 
@@ -1198,6 +1237,13 @@ Schema:
                   <div className="flex items-center gap-2">
                     <h3 className="text-lg md:text-xl font-black text-amber-300 drop-shadow-md">{selectedStory.title}</h3>
                     <span className="text-2xl">{selectedStory.emoji}</span>
+                    <button
+                      onClick={(e) => handleDeleteStory(selectedStory.id, e)}
+                      className="ml-3 bg-red-600/80 hover:bg-red-600 text-white text-xs font-black px-3 py-1.5 rounded-xl border border-red-500 flex items-center gap-1 transition-all cursor-pointer shadow-md"
+                      title="Delete Story from Library"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" /> Delete
+                    </button>
                   </div>
                 </div>
 
