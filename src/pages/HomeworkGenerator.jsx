@@ -406,6 +406,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [showPromptModal, setShowPromptModal] = useState(false);
 
   const fetchDallEImage = async (promptText) => {
+    console.log('[DALL-E 3] Initiating image generation for prompt:', promptText?.substring(0, 60) + '...');
     try {
       // 1. Try Vercel Serverless DALL-E proxy (/api/generate-image) powered by server environment variable OPENAI_API_KEY
       const vercelRes = await fetch('/api/generate-image', {
@@ -416,12 +417,19 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
 
       if (vercelRes.ok) {
         const vercelData = await vercelRes.json();
-        if (vercelData?.url) return vercelData.url;
+        if (vercelData?.url) {
+          console.log('[DALL-E 3] ✅ Success! DALL-E 3 image received from Vercel endpoint.');
+          return vercelData.url;
+        }
+      } else {
+        const errJson = await vercelRes.json().catch(() => ({}));
+        console.warn(`[DALL-E 3] Vercel proxy returned status ${vercelRes.status}:`, errJson.error || 'Unknown error');
       }
 
       // 2. Direct client fallback if VITE_OPENAI_API_KEY is defined in build environment
       const directKey = import.meta.env.VITE_OPENAI_API_KEY;
       if (directKey) {
+        console.log('[DALL-E 3] Retrying via direct client key...');
         const directRes = await fetch('https://api.openai.com/v1/images/generations', {
           method: 'POST',
           headers: {
@@ -438,11 +446,16 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
 
         if (directRes.ok) {
           const directData = await directRes.json();
-          if (directData?.data?.[0]?.url) return directData.data[0].url;
+          if (directData?.data?.[0]?.url) {
+            console.log('[DALL-E 3] ✅ Success! Direct DALL-E 3 image received.');
+            return directData.data[0].url;
+          }
+        } else {
+          console.warn('[DALL-E 3] Direct key attempt failed with status:', directRes.status);
         }
       }
     } catch (err) {
-      console.warn('DALL-E 3 proxy call failed, falling back to Multi-Engine Cascade:', err);
+      console.warn('[DALL-E 3] Proxy call encountered error, falling back to Multi-Engine Cascade:', err);
     }
     return null;
   };

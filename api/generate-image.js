@@ -1,3 +1,7 @@
+export const config = {
+  maxDuration: 60, // Allow up to 60s for OpenAI DALL-E 3 generation
+};
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
