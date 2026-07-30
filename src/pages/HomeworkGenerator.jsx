@@ -683,12 +683,19 @@ Possible worlds include (do not limit yourself):
 Fantasy, Jungle, Ocean, Outer Space, Dinosaur Age, Fairy Kingdom, Robot City, Candy Land, Pirate Island, Dragon Valley, Underwater Kingdom, Cloud Kingdom, Ancient Egypt, Ancient India, Haunted (friendly) Castle, Safari, Farm, Arctic, Volcano Island, Toy World, Magical Forest, Minecraft-inspired world, Steampunk City, Future Earth, Galaxy Adventure, Dream World, Animal Kingdom, Rainbow World, Monster School, Magic Academy, or invent something completely new.
 
 =========================================================
-STEP 2 — CREATE ORIGINAL CHARACTERS
+STEP 2 — CREATE ORIGINAL CHARACTERS & VISUAL ANCHOR
 =========================================================
 Generate unique memorable characters.
 Main Hero: Name, Age, Personality, Weakness, Strength, Goal.
 Supporting Characters: Friends, Mentor, Funny Sidekick, Optional Villain, Animals, Magical Creatures.
 Every character should have: Appearance, Colours, Personality, Speech style, Unique behaviour, Signature catchphrase.
+
+CRITICAL CHARACTER CONSISTENCY DIRECTIVE:
+You MUST create a dedicated "heroVisualAnchor" string that precisely defines the main character's species, body colors, clothing/scales, eye color, and visual features.
+Example: "Dara, a young baby teal-blue pterodactyl with soft yellow wingtips, large expressive amber eyes, smooth scales."
+- The hero MUST remain EXACTLY the same species, body color, and outfit on EVERY single page.
+- NEVER introduce human characters into animal or dinosaur stories (unless the main hero was explicitly defined as a human child).
+- Every page "imagePrompt" MUST start with the main hero's name and exact species.
 
 =========================================================
 STEP 3 — STORY STRUCTURE
@@ -754,6 +761,7 @@ EXPECTED JSON SCHEMA:
   "targetGrade": "${resolvedGrade}",
   "summary": "Back Cover Summary (2-3 sentences in ${selectedLangObj.name})",
   "illustrationStyle": "${bookIllustrationStyle}",
+  "heroVisualAnchor": "Dara, a young baby teal-blue pterodactyl with soft yellow wingtips, large expressive amber eyes, smooth scales",
   "coverImagePrompt": "Detailed front cover illustration prompt in English, in ${bookIllustrationStyle} style, 8k, children's book quality, no text",
   "pages": [
     {
@@ -822,20 +830,29 @@ EXPECTED JSON SCHEMA:
         parsedBook.pages = parsedBook.pages.slice(0, 5);
       }
 
-      // Pre-render Cover & Panel Illustrations to Base64 (for 5-Panel Picture Book Grid)
+      // Character Anchor Enforcement for 100% Visual Consistency
+      const heroAnchor = parsedBook.heroVisualAnchor || parsedBook.heroDescription || (parsedBook.coverImagePrompt ? parsedBook.coverImagePrompt.split('.')[0] : '');
+
       if (parsedBook.coverImagePrompt) {
         setBookGenStatus('Rendering 8K Cover Illustration...');
-        const coverStylePrompt = `${parsedBook.coverImagePrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, book cover, vibrant pastel colors, 8k, highly detailed, no text`;
+        const coverStylePrompt = `${heroAnchor ? heroAnchor + '. ' : ''}${parsedBook.coverImagePrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, book cover, vibrant pastel colors, 8k, highly detailed, no text`;
         parsedBook.coverImageUrl = await fetchImageAsBase64(coverStylePrompt);
       }
 
       if (parsedBook.pages && Array.isArray(parsedBook.pages)) {
         for (let i = 0; i < parsedBook.pages.length; i++) {
           const p = parsedBook.pages[i];
-          const panelPrompt = p.imagePrompt || p.text;
-          if (panelPrompt) {
+          const rawPanelPrompt = p.imagePrompt || p.text;
+          if (rawPanelPrompt) {
             setBookGenStatus(`Rendering 8K Panel Illustration ${i + 1} of ${parsedBook.pages.length}...`);
-            const stylePrompt = `${panelPrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, vibrant pastel colors, clean background, 8k, highly detailed, children's book illustration, no text`;
+
+            // Always prepend heroAnchor and species consistency rule
+            let consistentPrompt = rawPanelPrompt;
+            if (heroAnchor && !rawPanelPrompt.toLowerCase().includes(heroAnchor.toLowerCase().slice(0, 15))) {
+              consistentPrompt = `Same hero character: ${heroAnchor}. Scene action: ${rawPanelPrompt}`;
+            }
+
+            const stylePrompt = `${consistentPrompt}, in ${parsedBook.illustrationStyle || bookIllustrationStyle} style, vibrant pastel colors, consistent character appearance, 8k, highly detailed, children's book illustration, no text`;
             p.imageUrl = await fetchImageAsBase64(stylePrompt);
             await new Promise((r) => setTimeout(r, 400));
           }
