@@ -1058,9 +1058,9 @@ Schema:
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => setSelectedStory(null)}
-                      className="text-xs font-black text-slate-400 hover:text-white bg-slate-800 px-3.5 py-1.5 rounded-full flex items-center gap-1 border border-slate-700 transition-colors cursor-pointer"
+                      className="text-xs font-black text-amber-950 bg-amber-400 hover:bg-amber-300 px-4 py-2 rounded-full flex items-center gap-1 border border-amber-300 transition-all shadow-md cursor-pointer active:scale-95"
                     >
-                      <ChevronLeft className="w-4 h-4" /> Close Book
+                      <ChevronLeft className="w-4 h-4" /> Back to All Books 📚
                     </button>
                     <span className="text-[10px] font-black text-amber-400 uppercase bg-amber-950/80 px-3 py-1 rounded-full border border-amber-800/60">
                       ✨ 5-Panel Picture Book Mode
@@ -1168,6 +1168,94 @@ Schema:
                     })}
                   </div>
 
+                  {/* Vocabulary & Grammar Explorer (Consolidated across all panels!) */}
+                  {(() => {
+                    const allVocabs = (selectedStory.pages || []).flatMap(p => p.vocabHighlights || []).filter(Boolean);
+                    if (!allVocabs || allVocabs.length === 0) return null;
+
+                    // Deduplicate by word name
+                    const uniqueVocabs = Array.from(new Map(allVocabs.map(item => [item.word?.toLowerCase(), item])).values());
+
+                    return (
+                      <div className="bg-amber-50/90 border-2 border-amber-300 rounded-3xl p-5 md:p-6 space-y-4 text-left shadow-lg animate-in fade-in duration-300">
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xl">📖</span>
+                            <div>
+                              <h4 className="text-sm font-black text-amber-950 uppercase tracking-wider">
+                                Vocabulary & Grammar Explorer
+                              </h4>
+                              <p className="text-[10px] font-bold text-amber-700">Click any word card to highlight where it appears across the story panels!</p>
+                            </div>
+                          </div>
+                          <span className="text-[10px] font-black text-amber-800 bg-amber-200/80 px-3 py-1 rounded-full border border-amber-300">
+                            {uniqueVocabs.length} Key Word{uniqueVocabs.length > 1 ? 's' : ''}
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {uniqueVocabs.map((item, vIdx) => {
+                            const isHighlighted = highlightedVocabWord?.toLowerCase() === item.word?.toLowerCase();
+                            return (
+                              <div
+                                key={vIdx}
+                                onClick={() => setHighlightedVocabWord(prev => prev?.toLowerCase() === item.word?.toLowerCase() ? null : item.word)}
+                                className={`rounded-2xl p-4 transition-all cursor-pointer border ${
+                                  isHighlighted
+                                    ? 'bg-amber-100 border-amber-400 shadow-md ring-2 ring-amber-300 scale-[1.01]'
+                                    : 'bg-white border-amber-200/70 hover:border-amber-400 hover:bg-amber-50/50'
+                                }`}
+                              >
+                                <div className="flex items-center justify-between gap-2 mb-1.5">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <span className="text-sm font-black text-slate-900 capitalize">{item.word}</span>
+                                    {item.partOfSpeech && (
+                                      <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-700 border border-indigo-200">
+                                        {item.partOfSpeech}
+                                      </span>
+                                    )}
+                                    {item.pronunciation && (
+                                      <span className="text-[10px] font-mono text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/50">
+                                        [{item.pronunciation}]
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="flex items-center gap-1.5 shrink-0">
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setHighlightedVocabWord(prev => prev?.toLowerCase() === item.word?.toLowerCase() ? null : item.word);
+                                      }}
+                                      className={`text-[10px] font-black px-2.5 py-1 rounded-xl flex items-center gap-1 transition-all cursor-pointer ${
+                                        isHighlighted ? 'bg-amber-500 text-white shadow-sm' : 'bg-amber-100 text-amber-800 hover:bg-amber-200'
+                                      }`}
+                                    >
+                                      📍 {isHighlighted ? 'Highlighted' : 'Highlight'}
+                                    </button>
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        startSpeech(`${item.word}. ${item.definition}`);
+                                      }}
+                                      className="text-[10px] font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-xl flex items-center gap-1 transition-colors cursor-pointer"
+                                    >
+                                      <Volume2 className="w-3 h-3 text-slate-600" /> Listen
+                                    </button>
+                                  </div>
+                                </div>
+                                <p className="text-xs text-slate-700 font-semibold leading-relaxed">{item.definition}</p>
+                                {item.fact && (
+                                  <p className="text-[10px] font-bold text-amber-900/90 italic bg-amber-50/90 p-2 rounded-xl border border-amber-200/60 mt-2">
+                                    💡 Fun Fact: {item.fact}
+                                  </p>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })()}
+
                   {/* Bottom Moral Banner */}
                   <div className="bg-gradient-to-r from-amber-200 via-amber-100 to-orange-200 border-2 border-amber-400 rounded-3xl p-5 md:p-6 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
                     <div className="flex items-center gap-3">
@@ -1220,9 +1308,9 @@ Schema:
                   <div className="flex flex-col items-end gap-2">
                     <button 
                       onClick={() => setSelectedStory(null)}
-                      className="bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer backdrop-blur-sm flex items-center gap-1 border border-white/20"
+                      className="bg-amber-400 hover:bg-amber-300 text-amber-950 font-black px-4 py-2 rounded-full text-xs transition-all cursor-pointer shadow-md flex items-center gap-1 border border-amber-300 active:scale-95"
                     >
-                      ✕ Close
+                      <ChevronLeft className="w-4 h-4" /> Back to All Books 📚
                     </button>
                     <div className="flex items-center gap-1 bg-black/40 p-1 rounded-xl border border-white/20">
                       <button
@@ -1550,9 +1638,9 @@ Schema:
                       setSelectedStory(null);
                       stopSpeech();
                     }}
-                    className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer backdrop-blur-sm flex items-center gap-1 border border-white/20"
+                    className="bg-amber-400 hover:bg-amber-300 text-amber-950 font-black px-4 py-2 rounded-full text-xs transition-all cursor-pointer shadow-md flex items-center gap-1 border border-amber-300 active:scale-95 shrink-0"
                   >
-                    ✕ Exit Reader
+                    <ChevronLeft className="w-4 h-4" /> Back to All Books 📚
                   </button>
                 </div>
 
