@@ -217,8 +217,8 @@ const STORIES = [
     genre: "Adventure & Friendship",
     emoji: "⚡",
     isFeatured: true,
-    isSingleComicSheet: true,
-    image: "/sonic_and_shadow.png",
+    isFlipbook: true,
+    image: "/sonic_page1.png",
     moral: "We may be different, but together we can do anything! True friendship is about understanding, not sameness. ⚡",
     summary: "Sonic loves freedom and helping others, while Shadow is serious and works alone. When Dr. Eggman threatens the world with a giant Chaos Emerald, they must set aside their differences and combine their unique powers to save the day!",
     vocabHighlights: [
@@ -231,8 +231,63 @@ const STORIES = [
     pages: [
       {
         pageNumber: 1,
-        text: "In a world full of speed and adventure, Sonic was the fastest hedgehog who loved freedom and helping others. Shadow was different. He was strong, quiet and serious. He often worked alone and did not trust others easily. One day, Dr. Eggman built a powerful machine to take over the world using a giant Chaos Emerald. Sonic tried to stop him, but the machine was too powerful. Shadow watched from afar but stayed silent. Eggman captured Sonic! Shadow saw that Sonic was not the enemy. He decided to help in his own way. Shadow freed Sonic and warned him about Eggman's next move. Sonic was surprised but thanked Shadow. They teamed up! Sonic's speed and Shadow's power were the perfect combination to defeat Eggman. With teamwork and trust, they destroyed the machine and saved the world! From that day on, Sonic and Shadow became true friends. They may be different, but together they are unstoppable! Whether the road is fast or tough, friends make every journey better. MORAL: We may be different, but together we can do anything!",
-        imageUrl: "/sonic_and_shadow.png"
+        title: "The Fastest Hedgehog",
+        text: "In a world full of speed and adventure, Sonic was the fastest hedgehog who loved freedom and helping others. With golden rings flying past him, nothing could slow him down. He lived by one rule — always keep moving and help those in need!",
+        imageUrl: "/sonic_page1.png"
+      },
+      {
+        pageNumber: 2,
+        title: "The Lone Shadow",
+        text: "Shadow was different. He was strong, quiet and serious. He often worked alone and did not trust others easily. While Sonic raced through meadows, Shadow stood in dark cities — watching, thinking, waiting. He had his own kind of power.",
+        imageUrl: "/sonic_page2.png"
+      },
+      {
+        pageNumber: 3,
+        title: "Eggman's Evil Plan",
+        text: "One day, Dr. Eggman built a powerful machine to take over the world using a giant Chaos Emerald. Green energy crackled from the machine as Eggman laughed. 'With this power, the whole world will obey me!' he cried.",
+        imageUrl: "/sonic_page3.png"
+      },
+      {
+        pageNumber: 4,
+        title: "Too Powerful!",
+        text: "Sonic tried to stop him, but the machine was too powerful. Every time Sonic attacked, an energy shield sent him flying backwards. Shadow watched from afar but stayed silent. 'Why doesn't he help?' Sonic wondered as he struggled.",
+        imageUrl: "/sonic_page4.png"
+      },
+      {
+        pageNumber: 5,
+        title: "Captured!",
+        text: "Eggman captured Sonic inside a glowing energy capsule! Shadow watched from the shadows. He saw that Sonic was not the enemy — they both wanted the same thing. 'I will help,' Shadow decided, 'in my own way.'",
+        imageUrl: "/sonic_page5.png"
+      },
+      {
+        pageNumber: 6,
+        title: "Shadow to the Rescue",
+        text: "Shadow freed Sonic and warned him about Eggman's next move. Sonic was surprised — he never expected help from Shadow. 'Why did you help me?' Sonic asked. Shadow replied, 'Because we are on the same side. Now hurry!'",
+        imageUrl: "/sonic_page6.png"
+      },
+      {
+        pageNumber: 7,
+        title: "The Perfect Team",
+        text: "They teamed up! Sonic's incredible speed and Shadow's raw power were the perfect combination to defeat Eggman. Side by side, with blue and red energy blazing, they charged forward together — unstoppable!",
+        imageUrl: "/sonic_page7.png"
+      },
+      {
+        pageNumber: 8,
+        title: "Saving the World",
+        text: "With teamwork and trust, they destroyed the machine and saved the world! The Chaos Emerald shattered as the machine exploded in a dazzling burst of light. Eggman fled in his egg mobile, shouting 'I'll be back!' But today — the heroes won.",
+        imageUrl: "/sonic_page8.png"
+      },
+      {
+        pageNumber: 9,
+        title: "True Friends",
+        text: "From that day on, Sonic and Shadow became true friends. As they watched the sunset together, Sonic smiled and said, 'We may be different, but together we are unstoppable!' Shadow nodded quietly — and for the first time, he smiled too.",
+        imageUrl: "/sonic_page9.png"
+      },
+      {
+        pageNumber: 10,
+        title: "Every Journey is Better Together",
+        text: "Whether the road is fast or tough, friends make every journey better. Sonic and Shadow ran side by side through golden meadows, rings sparkling around them. Different in every way — but together, they were the greatest team the world had ever seen. MORAL: We may be different, but together we can do anything!",
+        imageUrl: "/sonic_page10.png"
       }
     ]
   },
@@ -1405,7 +1460,170 @@ Schema:
                   ))}
                 </div>
               </div>
-            ) : selectedStory.isSingleComicSheet || selectedStory.fullCompositeImage ? (
+            ) : selectedStory.isFlipbook ? (() => {
+              const currentPage = selectedStory.pages[storyPage] || selectedStory.pages[0];
+              const totalPages = selectedStory.pages.length;
+              return (
+                <div className="w-full animate-in fade-in duration-300">
+                  {/* Flipbook Header */}
+                  <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
+                    <button
+                      onClick={() => { setSelectedStory(null); setStoryPage(0); }}
+                      className="text-xs font-black text-amber-950 bg-amber-400 hover:bg-amber-300 px-4 py-2 rounded-full flex items-center gap-1 border border-amber-300 transition-all shadow-md cursor-pointer active:scale-95"
+                    >
+                      <ChevronLeft className="w-4 h-4" /> Back to All Books 📚
+                    </button>
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg font-black text-white drop-shadow">{selectedStory.emoji}</span>
+                      <h3 className="text-base md:text-lg font-black text-white drop-shadow">{selectedStory.title}</h3>
+                      <span className="text-xs font-black text-blue-300 bg-blue-950/60 px-3 py-1 rounded-full border border-blue-700/50">
+                        Page {storyPage + 1} / {totalPages}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Book Page */}
+                  <div className="relative bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460] rounded-3xl overflow-hidden shadow-2xl border-2 border-blue-500/30"
+                    style={{ minHeight: '520px' }}
+                  >
+                    {/* Page Image — full width top */}
+                    <div className="relative w-full overflow-hidden" style={{ height: '320px' }}>
+                      <img
+                        key={currentPage.imageUrl}
+                        src={`${currentPage.imageUrl}?v=1`}
+                        alt={currentPage.title || `Page ${storyPage + 1}`}
+                        className="w-full h-full object-cover"
+                        style={{ animation: 'fadeIn 0.4s ease-in-out' }}
+                      />
+                      {/* Gradient overlay at bottom of image */}
+                      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#1a1a2e] to-transparent" />
+                      {/* Page number badge */}
+                      <div className="absolute top-3 left-3 bg-black/70 text-white text-xs font-black px-3 py-1.5 rounded-full border border-white/20 backdrop-blur-sm">
+                        📖 Page {storyPage + 1}
+                      </div>
+                    </div>
+
+                    {/* Page Text Content */}
+                    <div className="p-5 md:p-7 space-y-3">
+                      {currentPage.title && (
+                        <h4 className="text-lg md:text-xl font-black text-amber-300 drop-shadow">{currentPage.title}</h4>
+                      )}
+                      <p className="text-sm md:text-base text-slate-200 leading-relaxed font-medium">
+                        {currentPage.text}
+                      </p>
+                    </div>
+
+                    {/* Navigation arrows on sides */}
+                    {storyPage > 0 && (
+                      <button
+                        onClick={() => setStoryPage(p => p - 1)}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-3 rounded-full border border-white/20 backdrop-blur-sm transition-all hover:scale-110 active:scale-95 shadow-xl cursor-pointer z-10"
+                      >
+                        <ChevronLeft className="w-5 h-5" />
+                      </button>
+                    )}
+                    {storyPage < totalPages - 1 && (
+                      <button
+                        onClick={() => setStoryPage(p => p + 1)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-3 rounded-full border border-white/20 backdrop-blur-sm transition-all hover:scale-110 active:scale-95 shadow-xl cursor-pointer z-10"
+                      >
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Page Dot Navigation */}
+                  <div className="flex items-center justify-center gap-2 mt-4 flex-wrap">
+                    {selectedStory.pages.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setStoryPage(i)}
+                        className={`transition-all duration-200 rounded-full cursor-pointer ${
+                          i === storyPage
+                            ? 'w-6 h-3 bg-amber-400 shadow-lg shadow-amber-400/50'
+                            : 'w-3 h-3 bg-slate-600 hover:bg-slate-400'
+                        }`}
+                        title={`Page ${i + 1}`}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Bottom Nav Buttons */}
+                  <div className="flex items-center justify-between mt-4 gap-3">
+                    <button
+                      onClick={() => setStoryPage(p => Math.max(0, p - 1))}
+                      disabled={storyPage === 0}
+                      className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl font-black text-sm transition-all border cursor-pointer ${
+                        storyPage === 0
+                          ? 'bg-slate-700/40 text-slate-500 border-slate-700/30 cursor-not-allowed'
+                          : 'bg-slate-700 hover:bg-slate-600 text-white border-slate-600 hover:scale-105 active:scale-95'
+                      }`}
+                    >
+                      <ChevronLeft className="w-4 h-4" /> Previous
+                    </button>
+
+                    {storyPage === totalPages - 1 ? (
+                      <div className="flex-1 text-center">
+                        <span className="text-amber-400 font-black text-sm">🎉 The End! You finished the story!</span>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setStoryPage(p => Math.min(totalPages - 1, p + 1))}
+                        className="flex items-center gap-2 px-6 py-2.5 rounded-2xl font-black text-sm bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white border border-blue-400/50 transition-all hover:scale-105 active:scale-95 shadow-lg cursor-pointer"
+                      >
+                        Next Page <ChevronRight className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Moral + Vocab — shown on last page */}
+                  {storyPage === totalPages - 1 && (
+                    <div className="mt-6 space-y-4 animate-in fade-in duration-500">
+                      {selectedStory.moral && (
+                        <div className="bg-gradient-to-r from-amber-100 via-yellow-100 to-amber-100 border-2 border-amber-300 rounded-2xl p-5 text-amber-950 shadow-lg text-center font-black text-sm md:text-base leading-relaxed">
+                          🌿 Moral of the Story: {selectedStory.moral}
+                        </div>
+                      )}
+                      {(() => {
+                        const vocabs = selectedStory.vocabHighlights || [];
+                        if (!vocabs.length) return null;
+                        return (
+                          <div className="bg-amber-50/95 border-2 border-amber-300 rounded-3xl p-5 space-y-4 shadow-lg">
+                            <div className="flex items-center gap-2">
+                              <span className="text-xl">📖</span>
+                              <div>
+                                <h4 className="text-sm font-black text-amber-950 uppercase tracking-wider">Vocabulary & Grammar Explorer</h4>
+                                <p className="text-[10px] font-bold text-amber-700">Key words from this story!</p>
+                              </div>
+                              <span className="ml-auto text-[10px] font-black text-amber-800 bg-amber-200/80 px-3 py-1 rounded-full border border-amber-300">{vocabs.length} Key Words</span>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                              {vocabs.map((item, vi) => (
+                                <div key={vi} className="bg-white border border-amber-200/80 rounded-2xl p-4 space-y-1.5 shadow-sm">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <span className="text-sm font-black text-slate-900 capitalize">{item.word}</span>
+                                    {item.partOfSpeech && <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-700 border border-indigo-200">{item.partOfSpeech}</span>}
+                                    {item.pronunciation && <span className="text-[10px] font-mono text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/50">[{item.pronunciation}]</span>}
+                                  </div>
+                                  <p className="text-[11px] text-slate-600 leading-snug">{item.definition}</p>
+                                  {item.fact && <p className="text-[10px] text-amber-700 font-semibold italic border-t border-amber-100 pt-1.5">💡 {item.fact}</p>}
+                                  <button
+                                    onClick={() => startSpeech(`${item.word}. ${item.definition}`)}
+                                    className="flex items-center gap-1 text-[10px] font-black text-blue-600 hover:text-blue-800 transition-colors mt-1 cursor-pointer"
+                                  >
+                                    🔊 Listen
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })()}
+                    </div>
+                  )}
+                </div>
+              );
+            })() : selectedStory.isSingleComicSheet || selectedStory.fullCompositeImage ? (
               <div className="bg-[#111827] p-4 md:p-8 rounded-[36px] shadow-2xl border-4 border-slate-800 space-y-6 w-full animate-in fade-in duration-300">
                 {/* Header with Back Button */}
                 <div className="flex items-center justify-between border-b border-slate-800 pb-4 flex-wrap gap-3">
