@@ -37,6 +37,7 @@ const STORIES = [
     subtitle: "A story of friendship, kindness and togetherness",
     genre: "Human Friends",
     emoji: "🤝",
+    isFeatured: true,
     isSingleComicSheet: true,
     image: "/two_friends_one_heart.png",
     moral: "Good friends are like a strong bridge—they support each other and help others. Together, they build a better tomorrow. 🌿",
@@ -644,6 +645,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
 
   const getStoryTimestamp = (s) => {
+    if (s.isFeatured || s.id === 'two_friends_one_heart') return 9999999999999;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
       if (typeof s.createdAt.toMillis === 'function') return s.createdAt.toMillis();
