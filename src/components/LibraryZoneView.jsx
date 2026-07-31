@@ -133,6 +133,84 @@ const STORIES = [
     ]
   },
   {
+    id: 'boy_who_cried_wolf',
+    title: "The Boy Who Cried Wolf",
+    subtitle: "A story about honesty and trust",
+    genre: "Classic Fable",
+    emoji: "🐺",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/boy_who_cried_wolf.png",
+    moral: "Always speak the truth. If you lie once, no one will believe you when you are telling the truth. 🌿",
+    summary: "A shepherd boy who guards sheep on a hill thinks it is funny to trick the villagers by crying 'Wolf!' When a real wolf finally comes, nobody believes him and the sheep are chased away.",
+    vocabHighlights: [
+      { word: "Deceit", partOfSpeech: "Noun", definition: "The act of causing someone to believe something that is false in order to gain an advantage.", pronunciation: "dih-seet", fact: "The boy's deceit made the villagers lose all trust in him!" },
+      { word: "Trustworthy", partOfSpeech: "Adjective", definition: "Able to be relied on as honest or truthful.", pronunciation: "trust-wur-thee", fact: "From that day on, the boy worked hard to become trustworthy again." },
+      { word: "Consequences", partOfSpeech: "Noun", definition: "A result or effect of an action or condition, often an undesirable one.", pronunciation: "kon-si-kwens-iz", fact: "The boy learned that all lies have serious consequences." },
+      { word: "Regret", partOfSpeech: "Noun", definition: "A feeling of sadness or disappointment over something that has happened.", pronunciation: "rih-gret", fact: "Sitting on the ground watching his sheep run, the boy was full of deep regret." },
+      { word: "Honesty", partOfSpeech: "Noun", definition: "The quality of being truthful, sincere, and free of deceit.", pronunciation: "on-uh-stee", fact: "Honesty is the foundation of every strong friendship and community!" }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        text: "In a green village near the hills, a boy watched over the sheep every day. He often felt bored and one day he had an idea. 'I'll trick the villagers!' he thought. He ran down to the village shouting 'Wolf! Wolf! A wolf is chasing my sheep!' The villagers heard him and came running up the hill with sticks and tools. But when they reached the hill, there was no wolf. The boy laughed and laughed. 'Ha! Ha! You came so quickly!' The villagers said, 'Don't do that again. It's not funny!' The boy did the same thing again a few days later. He shouted, 'Wolf! Wolf! Help! Help!' The villagers came running up the hill once more. But again, there was no wolf. The boy laughed as the villagers shook their heads. 'You are a naughty boy! We will not come again next time.' One evening, a real wolf came out of the forest. It saw the sheep and began to chase them. The boy was very frightened. He ran to the village shouting, 'Wolf! Wolf! Please come quickly! A real wolf!' But the villagers heard him and said, 'He is lying again. We won't go!' They did not come. The wolf chased many sheep away. The boy sat on the ground and cried. He learned a hard lesson that day. From that day on, the boy was honest. He took good care of his sheep and never lied again. The villagers trusted him, and they all lived happily together. MORAL: Always speak the truth.",
+        imageUrl: "/boy_who_cried_wolf.png"
+      }
+    ]
+  },
+  {
+    id: 'crow_and_the_pitcher',
+    title: "The Crow and the Pitcher",
+    subtitle: "A story about thinking smart and never giving up",
+    genre: "Classic Fable",
+    emoji: "🐦",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/crow_and_the_pitcher.png",
+    moral: "Where there is a will, there is a way. Use your mind to solve any problem! 💡",
+    summary: "On a hot summer day, a thirsty crow finds a pitcher with water too low to reach. Instead of giving up, he uses his clever mind — dropping stones one by one into the pitcher until the water rises within reach!",
+    vocabHighlights: [
+      { word: "Thirsty", partOfSpeech: "Adjective", definition: "Feeling a need to drink something due to lack of water.", pronunciation: "thur-stee", fact: "The thirsty crow searched far and wide before finally spotting the pitcher!" },
+      { word: "Pitcher", partOfSpeech: "Noun", definition: "A large container with a handle and a lip, used for holding and pouring liquids.", pronunciation: "pich-er", fact: "The narrow pitcher saved the crow's life by holding just enough water!" },
+      { word: "Patience", partOfSpeech: "Noun", definition: "The ability to accept delay or difficulty without becoming annoyed or anxious.", pronunciation: "pay-shuns", fact: "The crow dropped stone after stone with patience until the water finally rose!" },
+      { word: "Clever", partOfSpeech: "Adjective", definition: "Quick to understand and learn things; showing intelligence and skill.", pronunciation: "klev-er", fact: "Being clever helped the crow solve what seemed like an impossible problem." },
+      { word: "Perseverance", partOfSpeech: "Noun", definition: "Continued effort to do or achieve something despite difficulty.", pronunciation: "pur-suh-veer-uhns", fact: "The crow's perseverance — stone after stone — finally saved his life!" }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        text: "On a hot summer day, a thirsty crow was flying here and there in search of water. At last, he saw a pitcher near a tree. He flew down happily, but when he reached the pitcher, he was sad. There was very little water at the bottom. His beak could not reach it. The crow thought for a while. 'How can I drink this water?' he wondered. He looked around. Then he saw some small stones on the ground. A clever idea came to his mind! He picked up one stone in his beak and dropped it into the pitcher. Plop! He picked up another stone and dropped it in. Plop! Again and again, he did the same. Plop! Plop! Plop! Slowly, the water began to rise. The crow was very patient. The water rose and rose... until it came within reach! The crow was happy. He put his beak into the pitcher and drank the cool, fresh water. He drank and drank until his thirst was gone. The crow flew away happily, thanking his clever idea. He learned that where there is a will, there is a way. MORAL: Where there is a will, there is a way.",
+        imageUrl: "/crow_and_the_pitcher.png"
+      }
+    ]
+  },
+  {
+    id: 'ant_and_the_grasshopper',
+    title: "The Ant and the Grasshopper",
+    subtitle: "A story about hard work, wisdom and planning",
+    genre: "Classic Fable",
+    emoji: "🐜",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/ant_and_the_grasshopper.png",
+    moral: "Work today for a better tomorrow. Good planning brings good results. 🌾",
+    summary: "While a grasshopper sings and plays all summer long, a hardworking ant collects grain and stores food for winter. When the cold season arrives, the grasshopper is left hungry — and learns an important lesson about responsibility and planning.",
+    vocabHighlights: [
+      { word: "Responsibility", partOfSpeech: "Noun", definition: "The state or fact of having a duty to deal with something and being in charge of one's actions.", pronunciation: "rih-spon-suh-bil-uh-tee", fact: "The ant showed great responsibility by preparing all summer for winter!" },
+      { word: "Careless", partOfSpeech: "Adjective", definition: "Not giving sufficient attention or thought to avoiding harm or mistakes.", pronunciation: "kair-lis", fact: "The grasshopper's careless summer of singing led to a very hungry winter." },
+      { word: "Diligent", partOfSpeech: "Adjective", definition: "Having or showing care and conscientiousness in one's work or duties.", pronunciation: "dil-uh-jent", fact: "The diligent ant never skipped a single day of work all summer long!" },
+      { word: "Foresight", partOfSpeech: "Noun", definition: "The ability to predict and prepare for what will happen in the future.", pronunciation: "for-syt", fact: "Foresight — thinking ahead — is what made the ant survive the cold winter!" },
+      { word: "Regret", partOfSpeech: "Noun", definition: "A feeling of sadness or disappointment over something that has happened.", pronunciation: "rih-gret", fact: "Sitting cold and hungry in winter, the grasshopper felt deep regret for not working." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        text: "On a warm summer day, a grasshopper was singing and enjoying the sunshine. He saw an ant working hard and carrying grains of wheat. 'Why do you work so hard, little ant? Come and sing with me!' the grasshopper called out. The ant looked up and said, 'I am working today to have food in the winter. You should do the same instead of wasting time.' 'Winter is far away! There is plenty of food and fun today!' the grasshopper laughed. The grasshopper laughed and danced all day long. He played his song and did not work at all. The ant worked every day. He collected grains of wheat and stored them carefully in his home. Days passed by. The summer turned into autumn. The leaves began to fall. The grasshopper still had nothing stored. Then came the cold winter. There was snow everywhere. The grasshopper had no food and was very hungry. He went to the ant and knocked on his door. 'Dear ant, I am hungry. Please give me some food to eat.' The ant opened the door and said, 'You laughed at me when I worked. Now you want me to share? I cannot do that.' The grasshopper was sad. He understood his mistake. From that day, he promised to work hard and be ready for the future. When the next summer came, the grasshopper worked hard like the ant. He was happy and never careless again. MORAL: Work today for a better tomorrow.",
+        imageUrl: "/ant_and_the_grasshopper.png"
+      }
+    ]
+  },
+  {
     id: 1,
     title: "The Brave Little Tortoise",
     genre: "Adventure",
@@ -554,14 +632,16 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper'];
+
   const getBaseStories = () => {
     let list = STORIES;
     if (studentGrade <= 2) list = STORIES_EASY;
     else if (studentGrade >= 6) list = STORIES_HARD;
 
-    // Always include top 3 featured pristine stories for ALL grades
-    const featuredStories = STORIES.filter(s => ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare'].includes(s.id));
-    const nonFeaturedList = list.filter(s => !['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare'].includes(s.id));
+    // Always include all featured pristine stories for ALL grades
+    const featuredStories = STORIES.filter(s => FEATURED_IDS.includes(s.id));
+    const nonFeaturedList = list.filter(s => !FEATURED_IDS.includes(s.id));
     return [...featuredStories, ...nonFeaturedList];
   };
 
@@ -665,6 +745,9 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'two_friends_one_heart') return 999999999999999;
     if (String(s.id) === 'lion_and_the_mouse') return 999999999999998;
     if (String(s.id) === 'tortoise_and_the_hare') return 999999999999997;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999996;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999995;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999994;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
