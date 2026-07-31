@@ -20,7 +20,37 @@ export default async function handler(req, res) {
     if (rawKey) {
       const openaiKey = String(rawKey).trim().replace(/^["']|["']$/g, '');
 
-      // Attempt 1: OpenAI DALL-E 3 (Primary High-Definition Engine)
+      // Attempt 1: gpt-image-1 (1536x1024, High Quality)
+      try {
+        const responseGpt = await fetch('https://api.openai.com/v1/images/generations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${openaiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-image-1',
+            prompt: cleanPrompt,
+            size: '1536x1024',
+            quality: 'high'
+          })
+        });
+
+        if (responseGpt.ok) {
+          const dataGpt = await responseGpt.json();
+          const imgUrl = dataGpt.data?.[0]?.url;
+          if (imgUrl) {
+            return res.status(200).json({ url: imgUrl, provider: 'gpt-image-1' });
+          }
+        } else {
+          const errGpt = await responseGpt.text();
+          console.warn(`[gpt-image-1 failed ${responseGpt.status}]:`, errGpt);
+        }
+      } catch (eGpt) {
+        console.warn('[gpt-image-1 Exception]:', eGpt.message);
+      }
+
+      // Attempt 2: OpenAI DALL-E 3 (1024x1024, Standard Quality)
       try {
         const response3 = await fetch('https://api.openai.com/v1/images/generations', {
           method: 'POST',
