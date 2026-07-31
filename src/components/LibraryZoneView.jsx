@@ -1281,7 +1281,6 @@ Schema:
                           }}
                           alt={story.title} 
                         />
-                        <span className="absolute bottom-4 right-4 text-3xl bg-white/90 backdrop-blur-sm p-2 rounded-2xl shadow-sm border border-slate-100/50">{story.emoji}</span>
                       </div>
                       <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                         <div className="space-y-1">
