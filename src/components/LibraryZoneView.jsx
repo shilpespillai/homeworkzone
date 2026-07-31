@@ -543,9 +543,15 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   const studentGrade = getGradeLevel();
 
   const getBaseStories = () => {
-    if (studentGrade <= 2) return STORIES_EASY;
-    if (studentGrade >= 6) return STORIES_HARD;
-    return STORIES; // Grade 3-5 (standard stories)
+    let list = STORIES;
+    if (studentGrade <= 2) list = STORIES_EASY;
+    else if (studentGrade >= 6) list = STORIES_HARD;
+
+    // Always include Two Friends, One Heart at top for ALL grades
+    if (!list.some(s => s.id === 'two_friends_one_heart') && STORIES[0]) {
+      return [STORIES[0], ...list];
+    }
+    return list;
   };
 
   const getBasePuzzles = () => {
@@ -645,7 +651,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
 
   const getStoryTimestamp = (s) => {
-    if (s.isFeatured || s.id === 'two_friends_one_heart') return 9999999999999;
+    if (s.isFeatured || String(s.id) === 'two_friends_one_heart') return 999999999999999;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
       if (typeof s.createdAt.toMillis === 'function') return s.createdAt.toMillis();
@@ -666,7 +672,15 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     return 0;
   };
 
-  const allStories = [...customStories, ...teacherAssignedBooks, ...getBaseStories()]
+  const rawStories = [...getBaseStories(), ...customStories, ...teacherAssignedBooks];
+  const uniqueStoriesMap = new Map();
+  rawStories.forEach(s => {
+    if (s && s.id && !uniqueStoriesMap.has(String(s.id))) {
+      uniqueStoriesMap.set(String(s.id), s);
+    }
+  });
+
+  const allStories = Array.from(uniqueStoriesMap.values())
     .filter(story => !deletedStoryIds.includes(String(story.id)))
     .sort((a, b) => getStoryTimestamp(b) - getStoryTimestamp(a));
   const allPuzzles = [...getBasePuzzles(), ...customPuzzles];
