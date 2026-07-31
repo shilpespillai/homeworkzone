@@ -211,6 +211,32 @@ const STORIES = [
     ]
   },
   {
+    id: 'sonic_and_shadow',
+    title: "Sonic and Shadow",
+    subtitle: "A story about friendship, understanding and working together",
+    genre: "Adventure & Friendship",
+    emoji: "⚡",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/sonic_and_shadow.png",
+    moral: "We may be different, but together we can do anything! True friendship is about understanding, not sameness. ⚡",
+    summary: "Sonic loves freedom and helping others, while Shadow is serious and works alone. When Dr. Eggman threatens the world with a giant Chaos Emerald, they must set aside their differences and combine their unique powers to save the day!",
+    vocabHighlights: [
+      { word: "Unstoppable", partOfSpeech: "Adjective", definition: "Impossible to stop or prevent; having power that cannot be blocked or overcome.", pronunciation: "un-stop-uh-bul", fact: "When Sonic's speed and Shadow's power combined, they became truly unstoppable!" },
+      { word: "Rivalry", partOfSpeech: "Noun", definition: "A state of competition or opposition between two people who want the same goal.", pronunciation: "ry-vuhl-ree", fact: "Sonic and Shadow's rivalry turned into a great friendship after working together." },
+      { word: "Teamwork", partOfSpeech: "Noun", definition: "The combined effort of a group working together to achieve a shared goal.", pronunciation: "teem-wurk", fact: "Sonic's speed and Shadow's power showed that real teamwork makes anything possible!" },
+      { word: "Trust", partOfSpeech: "Noun", definition: "A firm belief in the reliability, truth, or ability of someone.", pronunciation: "trust", fact: "Shadow chose to trust Sonic — and that choice helped save the world!" },
+      { word: "Understanding", partOfSpeech: "Noun", definition: "The ability to know and accept someone's feelings or situation with sympathy.", pronunciation: "un-der-stan-ding", fact: "Understanding each other's differences made Sonic and Shadow stronger together." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        text: "In a world full of speed and adventure, Sonic was the fastest hedgehog who loved freedom and helping others. Shadow was different. He was strong, quiet and serious. He often worked alone and did not trust others easily. One day, Dr. Eggman built a powerful machine to take over the world using a giant Chaos Emerald. Sonic tried to stop him, but the machine was too powerful. Shadow watched from afar but stayed silent. Eggman captured Sonic! Shadow saw that Sonic was not the enemy. He decided to help in his own way. Shadow freed Sonic and warned him about Eggman's next move. Sonic was surprised but thanked Shadow. They teamed up! Sonic's speed and Shadow's power were the perfect combination to defeat Eggman. With teamwork and trust, they destroyed the machine and saved the world! From that day on, Sonic and Shadow became true friends. They may be different, but together they are unstoppable! Whether the road is fast or tough, friends make every journey better. MORAL: We may be different, but together we can do anything!",
+        imageUrl: "/sonic_and_shadow.png"
+      }
+    ]
+  },
+  {
     id: 1,
     title: "The Brave Little Tortoise",
     genre: "Adventure",
@@ -632,7 +658,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -748,6 +774,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'boy_who_cried_wolf') return 999999999999996;
     if (String(s.id) === 'crow_and_the_pitcher') return 999999999999995;
     if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999994;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999993;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
