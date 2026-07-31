@@ -757,7 +757,10 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
 
   const getStoryCover = (story) => {
     if (story.coverImageUrl) return story.coverImageUrl;
-    if (story.image) return story.image;
+    if (story.image) {
+      // Cache-bust featured stories so the browser fetches the corrected image files
+      return story.isFeatured ? `${story.image}?v=2` : story.image;
+    }
     const stableSeed = (story.id ? (typeof story.id === 'string' ? story.id.charCodeAt(story.id.length - 1) : story.id) : 1) * 1000;
     return `https://image.pollinations.ai/prompt/${encodeURIComponent(story.title + ", cute cartoon cover page, child illustration, vibrant colors")}?width=512&height=512&nologo=true&seed=${stableSeed}`;
   };
@@ -1325,7 +1328,13 @@ Schema:
                 {/* Display Full Image AS IT IS (Pristine, Full resolution, No subpanel squeezing) */}
                 <div className="w-full bg-slate-900 rounded-3xl overflow-hidden border-2 border-amber-400/40 shadow-2xl flex justify-center items-center p-2 md:p-4">
                   <img
-                    src={selectedStory.image || selectedStory.pages?.[0]?.imageUrl}
+                    src={(() => {
+                      const raw = selectedStory.image || selectedStory.pages?.[0]?.imageUrl;
+                      if (!raw) return raw;
+                      // Cache-bust featured story images so browser always fetches corrected assets
+                      const cacheBust = selectedStory.isFeatured ? '?v=2' : '';
+                      return `${raw}${cacheBust}`;
+                    })()}
                     alt={selectedStory.title}
                     className="w-full h-auto max-h-[85vh] object-contain rounded-2xl shadow-2xl"
                   />
