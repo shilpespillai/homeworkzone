@@ -3113,7 +3113,9 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
            <div className="pt-4 pb-1 px-8 text-[10px] font-black text-[#166534] uppercase tracking-widest flex items-center gap-2 select-none border-t border-slate-50 mt-2">
               <span>🎉</span> Fun Activities
            </div>
-           <SidebarNavItem icon={<Book className="w-5 h-5" />} label="Library Zone" active={activeNav === 'Library Zone'} color="text-blue-500" onClick={() => setActiveNav('Library Zone')} />
+           {(!classroom?.name || (parseInt(classroom.name.match(/\d+/)?.[0] || '3', 10) <= 8)) && (
+             <SidebarNavItem icon={<Book className="w-5 h-5" />} label="Library Zone" active={activeNav === 'Library Zone'} color="text-blue-500" onClick={() => setActiveNav('Library Zone')} />
+           )}
            <SidebarNavItem icon={<Palette className="w-5 h-5" />} label="Arts & Fun" active={activeNav === 'Arts & Fun'} color="text-orange-500" onClick={() => setActiveNav('Arts & Fun')} />
         </nav>
 

@@ -681,7 +681,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   });
 
   const allStories = Array.from(uniqueStoriesMap.values())
-    .filter(story => !deletedStoryIds.includes(String(story.id)))
+    .filter(story => story.isFeatured || String(story.id) === 'two_friends_one_heart' || !deletedStoryIds.includes(String(story.id)))
     .sort((a, b) => getStoryTimestamp(b) - getStoryTimestamp(a));
   const allPuzzles = [...getBasePuzzles(), ...customPuzzles];
 
@@ -1148,6 +1148,23 @@ Schema:
       </div>
     );
   };
+
+  if (studentGrade > 8) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center p-12 text-center space-y-6 animate-in fade-in duration-300 bg-[#FCFBF7] min-h-[70vh]">
+        <div className="w-24 h-24 bg-amber-100 rounded-full flex items-center justify-center text-4xl shadow-md border-2 border-amber-200">
+          🎓
+        </div>
+        <h2 className="text-3xl font-black text-slate-800 tracking-tight">Library Zone (Grades 1–8)</h2>
+        <p className="text-slate-600 font-bold text-base max-w-lg leading-relaxed">
+          Library Zone picture books and math puzzles are designed for Primary & Middle School (Grades 1–8).
+        </p>
+        <p className="text-xs text-slate-500 font-semibold bg-white px-6 py-3 rounded-2xl border border-slate-200 shadow-xs">
+          As a High School student ({classroom?.name || 'Grade 9+'}), your curriculum focuses on advanced STEM, Physics, Chemistry, and Exam preparation modules in your main dashboard. 🚀
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-full bg-[#FCFBF7] font-sans">
