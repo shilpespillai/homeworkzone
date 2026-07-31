@@ -636,9 +636,30 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     } catch (err) {}
   };
 
-  const allStories = [...teacherAssignedBooks, ...getBaseStories(), ...customStories].filter(
-    story => !deletedStoryIds.includes(String(story.id))
-  );
+  const getStoryTimestamp = (s) => {
+    if (s.createdAt) {
+      if (typeof s.createdAt === 'number') return s.createdAt;
+      if (typeof s.createdAt.toMillis === 'function') return s.createdAt.toMillis();
+      if (s.createdAt.seconds) return s.createdAt.seconds * 1000;
+      const parsed = Date.parse(s.createdAt);
+      if (!isNaN(parsed)) return parsed;
+    }
+    if (s.timestamp) {
+      if (typeof s.timestamp === 'number') return s.timestamp;
+      const parsed = Date.parse(s.timestamp);
+      if (!isNaN(parsed)) return parsed;
+    }
+    if (typeof s.id === 'string') {
+      const match = s.id.match(/\d{10,13}/);
+      if (match) return parseInt(match[0], 10);
+    }
+    if (typeof s.id === 'number') return 10000 - s.id;
+    return 0;
+  };
+
+  const allStories = [...customStories, ...teacherAssignedBooks, ...getBaseStories()]
+    .filter(story => !deletedStoryIds.includes(String(story.id)))
+    .sort((a, b) => getStoryTimestamp(b) - getStoryTimestamp(a));
   const allPuzzles = [...getBasePuzzles(), ...customPuzzles];
 
   useEffect(() => {

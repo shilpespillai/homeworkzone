@@ -407,30 +407,30 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [showPromptModal, setShowPromptModal] = useState(false);
 
   const fetchDallEImage = async (promptText) => {
-    console.log('[DALL-E 3] Initiating image generation for prompt:', promptText?.substring(0, 60) + '...');
+    console.log('[GPT-Image-1] Initiating image generation for prompt:', promptText?.substring(0, 60) + '...');
     try {
-      // 1. Try Vercel Serverless DALL-E proxy (/api/generate-image) powered by server environment variable OPENAI_API_KEY
+      // 1. Try Vercel Serverless proxy (/api/generate-image) powered by server environment variable OPENAI_API_KEY
       const vercelRes = await fetch('/api/generate-image', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: promptText })
+        body: JSON.stringify({ prompt: promptText, model: 'gpt-image-1' })
       });
 
       if (vercelRes.ok) {
         const vercelData = await vercelRes.json();
         if (vercelData?.url) {
-          console.log('[DALL-E 3] ✅ Success! DALL-E 3 image received from Vercel endpoint.');
+          console.log('[GPT-Image-1] ✅ Success! gpt-image-1 image received from Vercel endpoint.');
           return vercelData.url;
         }
       } else {
         const errJson = await vercelRes.json().catch(() => ({}));
-        console.warn(`[DALL-E 3] Vercel proxy returned status ${vercelRes.status}:`, errJson.error || 'Unknown error');
+        console.warn(`[GPT-Image-1] Vercel proxy returned status ${vercelRes.status}:`, errJson.error || 'Unknown error');
       }
 
       // 2. Direct client fallback if VITE_OPENAI_API_KEY is defined in build environment
       const directKey = import.meta.env.VITE_OPENAI_API_KEY;
       if (directKey) {
-        console.log('[DALL-E 3] Retrying via direct client key...');
+        console.log('[GPT-Image-1] Retrying via direct client key with gpt-image-1...');
         const directRes = await fetch('https://api.openai.com/v1/images/generations', {
           method: 'POST',
           headers: {
@@ -438,7 +438,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
             'Authorization': `Bearer ${directKey}`
           },
           body: JSON.stringify({
-            model: 'dall-e-3',
+            model: 'gpt-image-1',
             prompt: promptText,
             n: 1,
             size: '1024x1024'
@@ -448,15 +448,15 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         if (directRes.ok) {
           const directData = await directRes.json();
           if (directData?.data?.[0]?.url) {
-            console.log('[DALL-E 3] ✅ Success! Direct DALL-E 3 image received.');
+            console.log('[GPT-Image-1] ✅ Success! Direct gpt-image-1 image received.');
             return directData.data[0].url;
           }
         } else {
-          console.warn('[DALL-E 3] Direct key attempt failed with status:', directRes.status);
+          console.warn('[GPT-Image-1] Direct key attempt failed with status:', directRes.status);
         }
       }
     } catch (err) {
-      console.warn('[DALL-E 3] Proxy call encountered error, falling back to Multi-Engine Cascade:', err);
+      console.warn('[GPT-Image-1] Proxy call encountered error, falling back to Multi-Engine Cascade:', err);
     }
     return null;
   };
