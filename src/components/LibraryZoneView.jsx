@@ -53,47 +53,7 @@ const STORIES = [
       {
         pageNumber: 1,
         text: "In a small Indian village, lived two best friends, Raju and Mohan. They did everything together—played, studied and helped everyone in the village. 'Together, we can do anything!'",
-        imageUrl: "/two_friends_one_heart.png",
-        vocabHighlights: [
-          { word: "village", partOfSpeech: "Noun", definition: "A small community of people in a rural area.", pronunciation: "vil-ij", fact: "Villages are close-knit communities where neighbors support each other." },
-          { word: "together", partOfSpeech: "Adverb", definition: "With each other or in proximity to one another.", pronunciation: "tuh-geth-er", fact: "Working together makes big tasks easier and more fun." }
-        ]
-      },
-      {
-        pageNumber: 2,
-        text: "One day, the village faced a problem. The well had dried up, and there was no water for anyone. 'We have to do something!' said Raju.",
-        imageUrl: "/two_friends_one_heart.png",
-        vocabHighlights: [
-          { word: "problem", partOfSpeech: "Noun", definition: "A matter or situation regarded as unwelcome or harmful.", pronunciation: "prob-luhm", fact: "Every problem has a creative solution waiting to be discovered." },
-          { word: "dried", partOfSpeech: "Verb", definition: "Lacking moisture or water.", pronunciation: "drahyd", fact: "Water conservation helps villages stay green and healthy." }
-        ]
-      },
-      {
-        pageNumber: 3,
-        text: "Raju had an idea, and Mohan supported him. They worked hard every day—dug, carried stones and cleared the path for water to flow. Teamwork makes everything possible!",
-        imageUrl: "/two_friends_one_heart.png",
-        vocabHighlights: [
-          { word: "teamwork", partOfSpeech: "Noun", definition: "The combined action of a group of people working effectively together.", pronunciation: "teem-wurk", fact: "Teamwork combines everyone's unique strengths to achieve a shared goal." },
-          { word: "cleared", partOfSpeech: "Verb", definition: "Removed objects or obstructions from a path.", pronunciation: "kleerd", fact: "Clearing pathways allows life-giving water to flow freely." }
-        ]
-      },
-      {
-        pageNumber: 4,
-        text: "After many days of hard work, water finally flowed back to the village! Everyone was happy and thanked the two friends.",
-        imageUrl: "/two_friends_one_heart.png",
-        vocabHighlights: [
-          { word: "flowed", partOfSpeech: "Verb", definition: "Moved steadily and continuously in a stream.", pronunciation: "flohd", fact: "Water is essential for life and brings joy to the whole village." },
-          { word: "thanked", partOfSpeech: "Verb", definition: "Expressed gratitude to someone.", pronunciation: "thangkt", fact: "Saying thank you builds strong community relationships." }
-        ]
-      },
-      {
-        pageNumber: 5,
-        text: "That evening, as the sun set, Raju said, 'I'm glad we did this together.' Mohan smiled, 'Yes, friendship is the greatest strength.'",
-        imageUrl: "/two_friends_one_heart.png",
-        vocabHighlights: [
-          { word: "friendship", partOfSpeech: "Noun", definition: "The emotion or relationship of mutual trust and affection between friends.", pronunciation: "frend-ship", fact: "True friendship is a pillar of strength in hard times." },
-          { word: "strength", partOfSpeech: "Noun", definition: "The quality or state of being strong.", pronunciation: "strengkth", fact: "Inner strength grows when friends unite for a good cause." }
-        ]
+        imageUrl: "/two_friends_one_heart.png"
       }
     ],
     comprehensionQuestions: [
@@ -117,6 +77,58 @@ const STORIES = [
         options: ["By working hard together to clear stones and dig a water path", "By moving to another village", "By waiting for rain", "By doing nothing"],
         answer: "By working hard together to clear stones and dig a water path",
         explanation: "Raju had an idea, and together they dug, carried stones, and cleared the path so water flowed back to the village."
+      }
+    ]
+  },
+  {
+    id: 'lion_and_the_mouse',
+    title: "The Lion and The Mouse",
+    subtitle: "A classic fable of kindness, mercy and unexpected help",
+    genre: "Fable & Animal",
+    emoji: "🦁",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/lion_and_the_mouse.png",
+    moral: "No act of kindness is ever too small. Even a tiny friend can render great help. 🍃",
+    summary: "When a mighty lion spares a small mouse's life, the mouse promises to return the favor. Days later, when the lion gets trapped in a hunter's net, the tiny mouse keeps his promise and chews through the ropes!",
+    vocabHighlights: [
+      { word: "Mighty", partOfSpeech: "Adjective", definition: "Possessing immense power, size, or physical strength.", pronunciation: "my-tee", fact: "Lions are known as the kings of the jungle because of their mighty roar!" },
+      { word: "Amused", partOfSpeech: "Adjective", definition: "Finding something funny, entertaining, or pleasantly humorous.", pronunciation: "uh-myoozd", fact: "The lion was amused when the tiny mouse offered to help him one day!" },
+      { word: "Struggled", partOfSpeech: "Verb", definition: "Made strenuous or forceful efforts to get free from constraint or difficulty.", pronunciation: "struhg-uld", fact: "When caught in the net, the lion struggled, but sharp teeth were needed, not muscle!" },
+      { word: "Grateful", partOfSpeech: "Adjective", definition: "Feeling or showing appreciation and thankfulness for kindness received.", pronunciation: "grayt-fuhl", fact: "A grateful heart remembers every small act of help." },
+      { word: "Kindness", partOfSpeech: "Noun", definition: "The quality of being friendly, generous, and considerate to others.", pronunciation: "kynd-nis", fact: "Kindness is a universal language that animals and humans both understand!" }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        text: "Once upon a time, in a green forest, a mighty lion was sleeping under a big tree. A little mouse came running across him. The lion woke up angrily and caught the mouse in his huge paw. 'Please don't eat me!' begged the mouse. 'I may be small, but one day I might be able to help you.' The lion laughed, but he felt amused by the mouse and let him go. 'And remember, I have spared your life.' Some days later, the lion was caught in a hunter's net. He roared and struggled, but the net was very strong. Just then, the little mouse arrived! He quickly climbed up the net and began to chew the ropes with his sharp teeth. Soon, the ropes became loose and the lion was free! He thanked the mouse with a grateful heart. From that day on, the lion and the mouse became the best of friends. MORAL: No act of kindness is ever too small.",
+        imageUrl: "/lion_and_the_mouse.png"
+      }
+    ]
+  },
+  {
+    id: 'tortoise_and_the_hare',
+    title: "The Tortoise and the Hare",
+    subtitle: "A story about patience, humility and never giving up",
+    genre: "Classic Fable",
+    emoji: "🐢",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/tortoise_and_the_hare.png",
+    moral: "Slow and steady wins the race. Believe in yourself and never give up! 🏆",
+    summary: "A boastful hare challenges a slow tortoise to a race. Confident of an easy victory, the hare takes a nap under a tree mid-race. Meanwhile, the steady tortoise keeps walking step by step without stopping and crosses the finish line first!",
+    vocabHighlights: [
+      { word: "Bragging", partOfSpeech: "Verb", definition: "Talking with excessive pride and self-satisfaction about one's abilities or speed.", pronunciation: "brag-ing", fact: "Humility is always more respected by friends than bragging!" },
+      { word: "Overconfident", partOfSpeech: "Adjective", definition: "Excessively sure of oneself or one's victory, leading to careless mistakes.", pronunciation: "oh-vur-kon-fi-duhnt", fact: "Overconfidence made the fast hare sleep during the race!" },
+      { word: "Perseverance", partOfSpeech: "Noun", definition: "Persistence in doing something despite difficulty or delay in achieving success.", pronunciation: "pur-suh-veer-uhns", fact: "The tortoise kept moving step by step without stopping until he won!" },
+      { word: "Steady", partOfSpeech: "Adjective", definition: "Firmly fixed, constant, and unhurried in movement or effort.", pronunciation: "sted-ee", fact: "Being steady helps you achieve long and big goals!" },
+      { word: "Victory", partOfSpeech: "Noun", definition: "An act of defeating an opponent or achieving success in a competition or race.", pronunciation: "vik-tuh-ree", fact: "All the forest animals cheered loudly for the tortoise's historic victory!" }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        text: "In a sunny meadow, a hare was bragging about how fast he could run. 'Look at me! Nothing can beat me in a race!' A tortoise nearby smiled and said, 'I may be slow, but I would like to race you.' The hare laughed loudly. 'That will be the easiest race ever!' The hare ran as fast as the wind and soon disappeared in the distance. Thinking he had plenty of time, the hare decided to take a nap under a tree. 'I'll just rest a little,' he said. Meanwhile, the tortoise kept moving. Step by step, slow and steady, he never stopped. He didn't hurry, he didn't stop. He just kept going towards the finish line. The hare woke up suddenly. 'Oh no! I overslept!' He ran as fast as he could, but when he reached the finish line, the tortoise was already there! The animals cheered for the tortoise. The hare bowed his head and said, 'I was too proud. You taught me an important lesson.' From that day on, the hare and the tortoise became good friends. MORAL: Slow and steady wins the race. Never give up!",
+        imageUrl: "/tortoise_and_the_hare.png"
       }
     ]
   },
@@ -547,11 +559,10 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (studentGrade <= 2) list = STORIES_EASY;
     else if (studentGrade >= 6) list = STORIES_HARD;
 
-    // Always include Two Friends, One Heart at top for ALL grades
-    if (!list.some(s => s.id === 'two_friends_one_heart') && STORIES[0]) {
-      return [STORIES[0], ...list];
-    }
-    return list;
+    // Always include top 3 featured pristine stories for ALL grades
+    const featuredStories = STORIES.filter(s => ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare'].includes(s.id));
+    const nonFeaturedList = list.filter(s => !['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare'].includes(s.id));
+    return [...featuredStories, ...nonFeaturedList];
   };
 
   const getBasePuzzles = () => {
@@ -651,7 +662,10 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
 
   const getStoryTimestamp = (s) => {
-    if (s.isFeatured || String(s.id) === 'two_friends_one_heart') return 999999999999999;
+    if (String(s.id) === 'two_friends_one_heart') return 999999999999999;
+    if (String(s.id) === 'lion_and_the_mouse') return 999999999999998;
+    if (String(s.id) === 'tortoise_and_the_hare') return 999999999999997;
+    if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
       if (typeof s.createdAt.toMillis === 'function') return s.createdAt.toMillis();
