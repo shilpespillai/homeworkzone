@@ -406,31 +406,31 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [customPromptOverride, setCustomPromptOverride] = useState('');
   const [showPromptModal, setShowPromptModal] = useState(false);
 
-  const fetchDallEImage = async (promptText) => {
-    console.log('[GPT-Image-1] Initiating image generation for prompt:', promptText?.substring(0, 60) + '...');
+  const fetchGptImage = async (promptText) => {
+    console.log('[OpenAI Image Studio] Initiating image generation for prompt:', promptText?.substring(0, 60) + '...');
     try {
       // 1. Try Vercel Serverless proxy (/api/generate-image) powered by server environment variable OPENAI_API_KEY
       const vercelRes = await fetch('/api/generate-image', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: promptText, model: 'gpt-image-1' })
+        body: JSON.stringify({ prompt: promptText })
       });
 
       if (vercelRes.ok) {
         const vercelData = await vercelRes.json();
         if (vercelData?.url) {
-          console.log('[GPT-Image-1] ✅ Success! gpt-image-1 image received from Vercel endpoint.');
+          console.log(`[OpenAI Image Studio] ✅ Success! Image received via ${vercelData.provider || 'proxy'}.`);
           return vercelData.url;
         }
       } else {
         const errJson = await vercelRes.json().catch(() => ({}));
-        console.warn(`[GPT-Image-1] Vercel proxy returned status ${vercelRes.status}:`, errJson.error || 'Unknown error');
+        console.warn(`[OpenAI Image Studio] Vercel proxy returned status ${vercelRes.status}:`, errJson.error || 'Unknown error');
       }
 
       // 2. Direct client fallback if VITE_OPENAI_API_KEY is defined in build environment
       const directKey = import.meta.env.VITE_OPENAI_API_KEY;
       if (directKey) {
-        console.log('[GPT-Image-1] Retrying via direct client key with gpt-image-1...');
+        console.log('[OpenAI Image Studio] Retrying via direct client key...');
         const directRes = await fetch('https://api.openai.com/v1/images/generations', {
           method: 'POST',
           headers: {
@@ -438,7 +438,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
             'Authorization': `Bearer ${directKey}`
           },
           body: JSON.stringify({
-            model: 'gpt-image-1',
+            model: 'dall-e-3',
             prompt: promptText,
             n: 1,
             size: '1024x1024'
@@ -448,15 +448,15 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         if (directRes.ok) {
           const directData = await directRes.json();
           if (directData?.data?.[0]?.url) {
-            console.log('[GPT-Image-1] ✅ Success! Direct gpt-image-1 image received.');
+            console.log('[OpenAI Image Studio] ✅ Success! Direct image received.');
             return directData.data[0].url;
           }
         } else {
-          console.warn('[GPT-Image-1] Direct key attempt failed with status:', directRes.status);
+          console.warn('[OpenAI Image Studio] Direct key attempt failed with status:', directRes.status);
         }
       }
     } catch (err) {
-      console.warn('[GPT-Image-1] Proxy call encountered error, falling back to Multi-Engine Cascade:', err);
+      console.warn('[OpenAI Image Studio] Proxy call encountered error, falling back to Multi-Engine Cascade:', err);
     }
     return null;
   };
@@ -465,9 +465,9 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const fetchImageAsBase64 = async (promptText) => {
     if (!promptText) return '';
 
-    // First attempt DALL-E 3 if API key is configured
-    const dallEImg = await fetchDallEImage(promptText);
-    if (dallEImg) return dallEImg;
+    // First attempt OpenAI Image Studio if API key is configured
+    const gptImg = await fetchGptImage(promptText);
+    if (gptImg) return gptImg;
 
     // Fallback to Multi-Engine Flux/Turbo Cascade
     const encoded = encodeURIComponent(promptText);
