@@ -38,8 +38,8 @@ const STORIES = [
     genre: "Human Friends",
     emoji: "🤝",
     isFeatured: true,
-    isSingleComicSheet: true,
-    image: "/two_friends_one_heart.png",
+    isFlipbook: true,
+    image: "/tfoh_page1.png",
     moral: "Good friends are like a strong bridge—they support each other and help others. Together, they build a better tomorrow. 🌿",
     summary: "In a small Indian village, two best friends Raju and Mohan work together to solve a village crisis when the water well dries up, demonstrating the true strength of friendship and teamwork.",
     vocabHighlights: [
@@ -52,8 +52,42 @@ const STORIES = [
     pages: [
       {
         pageNumber: 1,
-        text: "In a small Indian village, lived two best friends, Raju and Mohan. They did everything together—played, studied and helped everyone in the village. 'Together, we can do anything!'",
-        imageUrl: "/two_friends_one_heart.png"
+        title: "Best Friends",
+        text: "In a small Indian village, lived two best friends, Raju and Mohan. They did everything together — played, studied and helped everyone in the village. 'Together, we can do anything!' they would always say.",
+        imageUrl: "/tfoh_page1.png"
+      },
+      {
+        pageNumber: 2,
+        title: "A Happy Life",
+        text: "Every day, Raju and Mohan would run through the village, laugh with the elders, and help their neighbours. Whether it was carrying groceries or rolling a bicycle wheel together — they were always side by side, never apart.",
+        imageUrl: "/tfoh_page2.png"
+      },
+      {
+        pageNumber: 3,
+        title: "A Big Problem!",
+        text: "One day, the village faced a terrible problem. The well had dried up, and there was no water for anyone. The villagers were worried. Raju and Mohan looked at the empty, cracked well. 'We have to do something!' said Raju.",
+        imageUrl: "/tfoh_page3.png"
+      },
+      {
+        pageNumber: 4,
+        title: "Working Together",
+        text: "Raju had an idea, and Mohan supported him. They worked hard every day — dug, carried stones and cleared the path for water to flow. It was tiring work, but they never gave up. Teamwork makes everything possible!",
+        imageUrl: "/two_friends_one_heart.png",
+        cropStyle: { objectPosition: '75% 37%', objectFit: 'cover', height: '420px' }
+      },
+      {
+        pageNumber: 5,
+        title: "Water Flows Again!",
+        text: "After many days of hard work, water finally flowed back to the village! Everyone was happy and thanked the two friends. The children splashed in joy, the women filled their pots, and the whole village celebrated Raju and Mohan!",
+        imageUrl: "/two_friends_one_heart.png",
+        cropStyle: { objectPosition: '25% 68%', objectFit: 'cover', height: '420px' }
+      },
+      {
+        pageNumber: 6,
+        title: "Friendship is the Greatest Strength",
+        text: "That evening, as the sun set, Raju said, 'I'm glad we did this together.' Mohan smiled, 'Yes, friendship is the greatest strength.' From that day on, Raju and Mohan became a true example for the whole village — proving that with friendship, kindness and teamwork, even the biggest problems can be solved. MORAL: Good friends are like a strong bridge — they support each other and help others.",
+        imageUrl: "/two_friends_one_heart.png",
+        cropStyle: { objectPosition: '75% 68%', objectFit: 'cover', height: '420px' }
       }
     ],
     comprehensionQuestions: [
@@ -1484,14 +1518,23 @@ Schema:
 
                   {/* Book Page */}
                   <div className="relative bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460] rounded-3xl overflow-hidden shadow-2xl border-2 border-blue-500/30">
-                    {/* Page Image — full natural size, no cropping, no stretching */}
+                    {/* Page Image */}
                     <div className="relative w-full bg-[#0a0a1a]">
                       <img
-                        key={currentPage.imageUrl}
+                        key={currentPage.imageUrl + storyPage}
                         src={`${currentPage.imageUrl}?v=1`}
                         alt={currentPage.title || `Page ${storyPage + 1}`}
-                        className="w-full h-auto block"
-                        style={{ animation: 'fadeIn 0.4s ease-in-out' }}
+                        className="w-full block"
+                        style={{
+                          animation: 'fadeIn 0.4s ease-in-out',
+                          ...(currentPage.cropStyle
+                            ? {
+                                height: currentPage.cropStyle.height || '420px',
+                                objectFit: 'cover',
+                                objectPosition: currentPage.cropStyle.objectPosition || 'center'
+                              }
+                            : { height: 'auto' })
+                        }}
                       />
                       {/* Page number badge */}
                       <div className="absolute top-3 left-3 bg-black/70 text-white text-xs font-black px-3 py-1.5 rounded-full border border-white/20 backdrop-blur-sm">
