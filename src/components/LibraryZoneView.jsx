@@ -1483,20 +1483,16 @@ Schema:
                   </div>
 
                   {/* Book Page */}
-                  <div className="relative bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460] rounded-3xl overflow-hidden shadow-2xl border-2 border-blue-500/30"
-                    style={{ minHeight: '520px' }}
-                  >
-                    {/* Page Image — full width, natural aspect ratio, no stretching */}
-                    <div className="relative w-full bg-[#0a0a1a] flex items-center justify-center">
+                  <div className="relative bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460] rounded-3xl overflow-hidden shadow-2xl border-2 border-blue-500/30">
+                    {/* Page Image — full natural size, no cropping, no stretching */}
+                    <div className="relative w-full bg-[#0a0a1a]">
                       <img
                         key={currentPage.imageUrl}
                         src={`${currentPage.imageUrl}?v=1`}
                         alt={currentPage.title || `Page ${storyPage + 1}`}
-                        className="w-full max-h-[420px] object-contain"
-                        style={{ animation: 'fadeIn 0.4s ease-in-out', display: 'block' }}
+                        className="w-full h-auto block"
+                        style={{ animation: 'fadeIn 0.4s ease-in-out' }}
                       />
-                      {/* Gradient overlay at bottom of image */}
-                      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#1a1a2e] to-transparent pointer-events-none" />
                       {/* Page number badge */}
                       <div className="absolute top-3 left-3 bg-black/70 text-white text-xs font-black px-3 py-1.5 rounded-full border border-white/20 backdrop-blur-sm">
                         📖 Page {storyPage + 1}
