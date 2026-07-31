@@ -2408,14 +2408,34 @@ Schema:
 
             <div className="space-y-4">
               <div className="space-y-1.5">
-                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">Choose Story Topic</label>
-                <input 
-                  type="text"
+                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">Custom Characters & Story Prompt (Free Text)</label>
+                <textarea 
+                  rows={3}
                   value={storyTopic}
                   onChange={(e) => setStoryTopic(e.target.value)}
-                  placeholder="e.g. A tiny puppy that discovers a portal in the garden"
-                  className="w-full bg-slate-50 border border-slate-200 focus:border-orange-400 rounded-2xl px-4 py-3.5 text-sm font-semibold text-slate-700 outline-none transition-colors"
+                  placeholder="Describe your main characters, species, names, setting, or plot... (e.g. Dara the baby teal pterodactyl and Petal the stegosaurus working together to save the dried water well)"
+                  className="w-full bg-slate-50 border border-slate-200 focus:border-orange-400 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-700 outline-none transition-colors leading-relaxed shadow-inner"
                 />
+                
+                {/* Quick Suggestion Chips */}
+                <div className="flex items-center gap-1.5 flex-wrap pt-1">
+                  <span className="text-[10px] font-black text-slate-400 uppercase">Quick Ideas:</span>
+                  {[
+                    { label: '🦕 Pterodactyl & Stegosaurus', text: 'Dara, a baby teal baby pterodactyl with soft yellow wingtips, and Petal, a moss-green baby stegosaurus, working together in giant fern valley.' },
+                    { label: '🤝 Raju & Mohan (Village Water)', text: 'Two best friends Raju and Mohan in a small Indian village working hard together to clear stones and save the dried water well.' },
+                    { label: '🚀 Space Cat Nebula', text: 'Nebula, a fluffy orange space cat in a bubble helmet saving the starship Star-Paws from a glowing space nebula.' },
+                    { label: '🐢 Timmy the Tortoise', text: 'Timmy, a slow and brave little tortoise climbing a big green hill, proving that slow and steady wins the race.' }
+                  ].map((chip, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setStoryTopic(chip.text)}
+                      className="text-[10px] font-bold text-slate-600 hover:text-orange-700 bg-slate-100 hover:bg-orange-50 px-2 py-0.5 rounded-lg border border-slate-200 transition-all cursor-pointer"
+                    >
+                      {chip.label}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="space-y-1.5">

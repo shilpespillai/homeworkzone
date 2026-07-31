@@ -389,6 +389,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   // Book Generator State (Pixar 12-Step Master Prompt)
   const [bookGenre, setBookGenre] = useState('Fantasy & Magic');
   const [storyThemeCategory, setStoryThemeCategory] = useState('random');
+  const [customStoryPrompt, setCustomStoryPrompt] = useState('');
   const [selectedAiModel, setSelectedAiModel] = useState(() => localStorage.getItem('hwz_active_ai') || 'gemini');
   const [openAiKey, setOpenAiKey] = useState(() => localStorage.getItem('hwz_openai_key') || '');
   const [bookTopic, setBookTopic] = useState('');
@@ -659,6 +660,15 @@ INPUT SPECIFICATIONS
 • Illustration Style: ${bookIllustrationStyle}
 • Number of Pages: ${bookPageCount} (Maximum 5 pages)
 • Target Language: ${selectedLangObj.name} (${selectedLangObj.nativeName})
+
+${customStoryPrompt ? `=========================================================
+TEACHER CUSTOM CHARACTER & STORY DIRECTIVE (MANDATORY):
+=========================================================
+The teacher has provided specific custom character details, setting, plot, and story instructions:
+"${customStoryPrompt}"
+
+CRITICAL MANDATE: You MUST build the story around these exact custom characters, visual features, species, plot points, and lesson!
+` : ''}
 
 ${isNonEnglish ? `=========================================================
 CRITICAL MULTI-LANGUAGE DIRECTIVE
@@ -1766,32 +1776,41 @@ EXPECTED JSON SCHEMA:
                   </div>
                 </div>
 
-                {/* Story Theme / World Category Selection */}
-                <div className="space-y-1.5 text-left">
-                  <label className="font-bold text-indigo-950 text-xs block">
-                    Story Theme & Character World
-                  </label>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {/* Custom Free-Text Characters & Story Instructions (Replaces old pill buttons) */}
+                <div className="space-y-2 text-left">
+                  <div className="flex items-center justify-between">
+                    <label className="font-black text-indigo-950 text-xs flex items-center gap-1.5">
+                      <span>✍️</span> Custom Characters & Story Instructions (Free-Text Prompt)
+                    </label>
+                    <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-100">
+                      Type Anything
+                    </span>
+                  </div>
+
+                  <textarea
+                    rows={3}
+                    value={customStoryPrompt}
+                    onChange={(e) => setCustomStoryPrompt(e.target.value)}
+                    placeholder="Type exact characters, species, names, setting, plot points, or lesson... (e.g. 'Dara, a baby teal baby pterodactyl with soft yellow wingtips, and Petal the stegosaurus, exploring the fern valley and solving a water crisis with teamwork')"
+                    className="w-full bg-white border-2 border-slate-200 focus:border-indigo-500 rounded-2xl p-3 text-xs font-bold text-slate-800 outline-none transition-all shadow-inner placeholder:text-slate-400 placeholder:font-normal leading-relaxed"
+                  />
+
+                  {/* Quick Suggestion Chips */}
+                  <div className="flex items-center gap-1.5 flex-wrap pt-1">
+                    <span className="text-[10px] font-black text-slate-400 uppercase">Quick Ideas:</span>
                     {[
-                      { id: 'random', label: '🎲 Any Topic', icon: '✨' },
-                      { id: 'space', label: '🚀 Space & Sci-Fi', icon: '🌌' },
-                      { id: 'friends', label: '👭 Human Friends', icon: '🏫' },
-                      { id: 'animals', label: '🐾 Animals & Wildlife', icon: '🦊' },
-                      { id: 'fantasy', label: '🐉 Fantasy & Magic', icon: '🏰' },
-                      { id: 'dinosaurs', label: '🦖 Dinosaurs', icon: '🦕' },
-                    ].map(cat => (
+                      { label: '🦕 Pterodactyl & Stegosaurus', text: 'Dara, a baby teal baby pterodactyl with soft yellow wingtips, and Petal, a moss-green baby stegosaurus, working together in giant fern valley.' },
+                      { label: '🤝 Raju & Mohan (Village Water)', text: 'Two best friends Raju and Mohan in a small Indian village working hard together to clear stones and save the dried water well.' },
+                      { label: '🚀 Space Cat Nebula', text: 'Nebula, a fluffy orange space cat in a bubble helmet saving the starship Star-Paws from a glowing space nebula.' },
+                      { label: '🐢 Timmy the Tortoise', text: 'Timmy, a slow and brave little tortoise climbing a big green hill, proving that slow and steady wins the race.' }
+                    ].map((chip, idx) => (
                       <button
-                        key={cat.id}
+                        key={idx}
                         type="button"
-                        onClick={() => setStoryThemeCategory(cat.id)}
-                        className={`py-2.5 px-3 rounded-2xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 ${
-                          storyThemeCategory === cat.id
-                            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md'
-                            : 'bg-white text-slate-700 hover:bg-indigo-50 border border-slate-200'
-                        }`}
+                        onClick={() => setCustomStoryPrompt(chip.text)}
+                        className="text-[10px] font-bold text-slate-600 hover:text-indigo-700 bg-slate-100 hover:bg-indigo-50 px-2.5 py-1 rounded-xl border border-slate-200 transition-all cursor-pointer active:scale-95"
                       >
-                        <span className="text-base">{cat.icon}</span>
-                        <span className="leading-tight">{cat.label}</span>
+                        {chip.label}
                       </button>
                     ))}
                   </div>
