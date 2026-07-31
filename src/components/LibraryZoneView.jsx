@@ -41,6 +41,13 @@ const STORIES = [
     image: "/two_friends_one_heart.png",
     moral: "Good friends are like a strong bridge—they support each other and help others. Together, they build a better tomorrow. 🌿",
     summary: "In a small Indian village, two best friends Raju and Mohan work together to solve a village crisis when the water well dries up, demonstrating the true strength of friendship and teamwork.",
+    vocabHighlights: [
+      { word: "Togetherness", partOfSpeech: "Noun", definition: "The state of being close and united with others in friendship and harmony.", pronunciation: "tuh-geth-er-nis", fact: "Togetherness turns individual efforts into powerful community achievements." },
+      { word: "Teamwork", partOfSpeech: "Noun", definition: "The combined effort of a group of people working together to achieve a shared goal.", pronunciation: "teem-wurk", fact: "As Raju and Mohan showed, teamwork makes even the hardest challenges possible!" },
+      { word: "Friendship", partOfSpeech: "Noun", definition: "A close and caring relationship between people built on trust, respect, and kindness.", pronunciation: "frend-ship", fact: "True friendship gives you strength when facing difficult times." },
+      { word: "Perseverance", partOfSpeech: "Noun", definition: "Continuing to try hard and work diligently despite difficulties or obstacles.", pronunciation: "pur-suh-veer-uhns", fact: "Raju and Mohan worked for many days without giving up until the water flowed back." },
+      { word: "Community", partOfSpeech: "Noun", definition: "A group of people living together in a village or town who support each other.", pronunciation: "kuh-myoo-ni-tee", fact: "When one village member succeeds, the whole community celebrates!" }
+    ],
     pages: [
       {
         pageNumber: 1,
@@ -1279,10 +1286,72 @@ Schema:
 
                 {/* Moral Box */}
                 {selectedStory.moral && (
-                  <div className="bg-amber-100/95 border-2 border-amber-300 rounded-2xl p-5 text-amber-950 shadow-lg text-center font-black text-sm md:text-base leading-relaxed">
-                    Moral: {selectedStory.moral}
+                  <div className="bg-gradient-to-r from-amber-100 via-yellow-100 to-amber-100 border-2 border-amber-300 rounded-2xl p-5 text-amber-950 shadow-lg text-center font-black text-sm md:text-base leading-relaxed">
+                    🌿 Moral of the Story: {selectedStory.moral}
                   </div>
                 )}
+
+                {/* Vocabulary & Grammar Explorer for Single Comic Sheet */}
+                {(() => {
+                  const allVocabs = (selectedStory.vocabHighlights || (selectedStory.pages || []).flatMap(p => p.vocabHighlights || [])).filter(Boolean);
+                  if (!allVocabs || allVocabs.length === 0) return null;
+                  const uniqueVocabs = Array.from(new Map(allVocabs.map(item => [item.word?.toLowerCase(), item])).values());
+
+                  return (
+                    <div className="bg-amber-50/95 border-2 border-amber-300 rounded-3xl p-5 md:p-6 space-y-4 text-left shadow-lg animate-in fade-in duration-300">
+                      <div className="flex items-center justify-between flex-wrap gap-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">📖</span>
+                          <div>
+                            <h4 className="text-sm font-black text-amber-950 uppercase tracking-wider">
+                              Vocabulary & Grammar Explorer
+                            </h4>
+                            <p className="text-[10px] font-bold text-amber-700">Explore key vocabulary words and definitions from this story!</p>
+                          </div>
+                        </div>
+                        <span className="text-[10px] font-black text-amber-800 bg-amber-200/80 px-3 py-1 rounded-full border border-amber-300">
+                          {uniqueVocabs.length} Key Words
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {uniqueVocabs.map((item, vIdx) => (
+                          <div
+                            key={vIdx}
+                            className="bg-white border border-amber-200/80 rounded-2xl p-4 space-y-1.5 shadow-xs"
+                          >
+                            <div className="flex items-center justify-between gap-2">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-sm font-black text-slate-900 capitalize">{item.word}</span>
+                                {item.partOfSpeech && (
+                                  <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-700 border border-indigo-200">
+                                    {item.partOfSpeech}
+                                  </span>
+                                )}
+                                {item.pronunciation && (
+                                  <span className="text-[10px] font-mono text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/50">
+                                    [{item.pronunciation}]
+                                  </span>
+                                )}
+                              </div>
+                              <button
+                                onClick={() => startSpeech(`${item.word}. ${item.definition}`)}
+                                className="text-[10px] font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-xl flex items-center gap-1 transition-colors cursor-pointer shrink-0"
+                              >
+                                <Volume2 className="w-3 h-3 text-slate-600" /> Listen
+                              </button>
+                            </div>
+                            <p className="text-xs text-slate-700 font-semibold leading-relaxed">{item.definition}</p>
+                            {item.fact && (
+                              <p className="text-[10px] font-bold text-amber-900/90 italic bg-amber-50/90 p-2 rounded-xl border border-amber-200/60 mt-1">
+                                💡 Fun Fact: {item.fact}
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
             ) : readerViewMode === 'grid' ? (
               <div className="bg-[#111827] p-4 md:p-6 rounded-[36px] shadow-2xl border-4 border-slate-800 space-y-5 w-full animate-in fade-in duration-300">
@@ -2387,118 +2456,6 @@ Schema:
 
       </div>
 
-      {/* AI Story Writer Modal */}
-      {showAiWriter && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-100 rounded-[36px] max-w-lg w-full p-8 space-y-6 shadow-2xl relative animate-in zoom-in-95 duration-200">
-            <button 
-              onClick={() => {
-                setShowAiWriter(false);
-                setAiError('');
-              }}
-              className="absolute top-6 right-6 text-slate-400 hover:text-slate-600 transition-colors w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100 cursor-pointer"
-            >
-              ✕
-            </button>
-            <div className="space-y-2">
-              <span className="bg-orange-50 text-orange-600 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full">AI Writer Room 🪄</span>
-              <h3 className="text-2xl font-black text-slate-800">Create a Magic Storybook</h3>
-              <p className="text-xs font-semibold text-slate-400">Describe what you want the story to be about, and our AI will build a 3-page illustrated book for you!</p>
-            </div>
-
-            <div className="space-y-4">
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">Custom Characters & Story Prompt (Free Text)</label>
-                <textarea 
-                  rows={3}
-                  value={storyTopic}
-                  onChange={(e) => setStoryTopic(e.target.value)}
-                  placeholder="Describe your main characters, species, names, setting, or plot... (e.g. Dara the baby teal pterodactyl and Petal the stegosaurus working together to save the dried water well)"
-                  className="w-full bg-slate-50 border border-slate-200 focus:border-orange-400 rounded-2xl px-4 py-3 text-xs font-semibold text-slate-700 outline-none transition-colors leading-relaxed shadow-inner"
-                />
-                
-                {/* Quick Suggestion Chips */}
-                <div className="flex items-center gap-1.5 flex-wrap pt-1">
-                  <span className="text-[10px] font-black text-slate-400 uppercase">Quick Ideas:</span>
-                  {[
-                    { label: '🦕 Pterodactyl & Stegosaurus', text: 'Dara, a baby teal baby pterodactyl with soft yellow wingtips, and Petal, a moss-green baby stegosaurus, working together in giant fern valley.' },
-                    { label: '🤝 Raju & Mohan (Village Water)', text: 'Two best friends Raju and Mohan in a small Indian village working hard together to clear stones and save the dried water well.' },
-                    { label: '🚀 Space Cat Nebula', text: 'Nebula, a fluffy orange space cat in a bubble helmet saving the starship Star-Paws from a glowing space nebula.' },
-                    { label: '🐢 Timmy the Tortoise', text: 'Timmy, a slow and brave little tortoise climbing a big green hill, proving that slow and steady wins the race.' }
-                  ].map((chip, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => setStoryTopic(chip.text)}
-                      className="text-[10px] font-bold text-slate-600 hover:text-orange-700 bg-slate-100 hover:bg-orange-50 px-2 py-0.5 rounded-lg border border-slate-200 transition-all cursor-pointer"
-                    >
-                      {chip.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">Choose Genre Theme</label>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  {[
-                    { name: 'Adventure', icon: '🧭' },
-                    { name: 'Fantasy', icon: '🦄' },
-                    { name: 'Mystery', icon: '🔍' },
-                    { name: 'Sci-Fi', icon: '🚀' }
-                  ].map((g) => (
-                    <button
-                      key={g.name}
-                      onClick={() => setStoryGenre(g.name)}
-                      className={`py-3 px-2 rounded-xl text-xs font-black border transition-all cursor-pointer flex flex-col items-center gap-1 ${
-                        storyGenre === g.name 
-                          ? 'bg-orange-50 border-orange-300 text-orange-600 scale-102 shadow-sm' 
-                          : 'bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100'
-                      }`}
-                    >
-                      <span className="text-lg">{g.icon}</span>
-                      {g.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {aiError && (
-                <div className="bg-rose-50 border border-rose-100 rounded-2xl p-4 text-xs font-bold text-rose-600 leading-normal">
-                  ⚠️ {aiError}
-                </div>
-              )}
-            </div>
-
-            <div className="flex gap-3">
-              <button
-                onClick={() => {
-                  setShowAiWriter(false);
-                  setAiError('');
-                }}
-                className="flex-1 border border-slate-200 text-slate-500 py-3.5 rounded-2xl text-xs font-black hover:bg-slate-50 transition-colors cursor-pointer"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleGenerateStory}
-                disabled={isGeneratingStory}
-                className="flex-1 bg-gradient-to-r from-green-700 to-orange-650 hover:from-green-600 hover:to-orange-550 text-white py-3.5 rounded-2xl text-xs font-black shadow-md shadow-orange-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
-              >
-                {isGeneratingStory ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" /> Generating...
-                  </>
-                ) : (
-                  <>
-                    Generate Story ✨
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

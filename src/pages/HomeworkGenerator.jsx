@@ -1629,19 +1629,9 @@ EXPECTED JSON SCHEMA:
         <div className="bg-slate-100 p-1.5 rounded-full flex gap-1 border border-slate-200/60 shadow-sm flex-wrap justify-center">
           <button 
             onClick={() => { setActiveTab('create'); setAssignmentType(null); }}
-            className={`px-6 py-3 rounded-full font-black text-sm transition-all flex items-center gap-2 ${activeTab === 'create' && (!assignmentType || formData.subject !== 'library_book') ? 'bg-white text-orange-600 shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
+            className={`px-6 py-3 rounded-full font-black text-sm transition-all flex items-center gap-2 ${activeTab === 'create' ? 'bg-white text-orange-600 shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
           >
             <PlusCircle className="w-4 h-4" /> Create New
-          </button>
-          <button 
-            onClick={() => {
-              setActiveTab('create');
-              setAssignmentType('homework');
-              setFormData(prev => ({ ...prev, subject: 'library_book' }));
-            }}
-            className={`px-6 py-3 rounded-full font-black text-sm transition-all flex items-center gap-2 ${activeTab === 'create' && formData.subject === 'library_book' && assignmentType ? 'bg-indigo-600 text-white shadow-md' : 'text-indigo-600 hover:bg-indigo-50 font-black'}`}
-          >
-            <BookOpen className="w-4 h-4 text-indigo-400" /> 📖 AI Library Book
           </button>
           <button 
             onClick={() => setActiveTab('history')}
@@ -1662,7 +1652,7 @@ EXPECTED JSON SCHEMA:
         !assignmentType ? (
           <div className="flex flex-col items-center justify-center py-16 space-y-10">
             <h2 className="text-4xl font-black text-[#14532d]">What would you like to create?</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl w-full px-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl w-full px-4">
               <button 
                 onClick={() => setAssignmentType('homework')} 
                 className="h-64 bg-white rounded-[40px] border border-slate-200 shadow-xl flex flex-col items-center justify-center gap-6 hover:-translate-y-2 transition-all hover:border-pink-300 group cursor-pointer"
@@ -1680,21 +1670,6 @@ EXPECTED JSON SCHEMA:
                   <BookOpen className="w-12 h-12 text-rose-500" />
                 </div>
                 <span className="text-2xl font-black text-slate-800">Test Builder</span>
-              </button>
-              <button 
-                onClick={() => {
-                  setAssignmentType('homework');
-                  setFormData(prev => ({ ...prev, subject: 'library_book' }));
-                }} 
-                className="h-64 bg-white rounded-[40px] border-2 border-indigo-200 shadow-xl flex flex-col items-center justify-center gap-6 hover:-translate-y-2 transition-all hover:border-indigo-500 group cursor-pointer relative overflow-hidden"
-              >
-                <div className="absolute top-3 right-3 bg-indigo-600 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-full shadow-sm">
-                  ✨ Pixar AI
-                </div>
-                <div className="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform border border-indigo-100">
-                  <BookOpen className="w-12 h-12 text-indigo-600" />
-                </div>
-                <span className="text-2xl font-black text-indigo-950">Library Book</span>
               </button>
             </div>
           </div>
