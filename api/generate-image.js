@@ -20,7 +20,34 @@ export default async function handler(req, res) {
     if (rawKey) {
       const openaiKey = String(rawKey).trim().replace(/^["']|["']$/g, '');
 
-      // Attempt 1: gpt-image-1 (1536x1024, High Quality)
+      // Attempt 1: gpt-image-2 (1536x1024, High Quality)
+      try {
+        const responseGpt2 = await fetch('https://api.openai.com/v1/images/generations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${openaiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-image-2',
+            prompt: cleanPrompt,
+            size: '1536x1024',
+            quality: 'high'
+          })
+        });
+
+        if (responseGpt2.ok) {
+          const dataGpt2 = await responseGpt2.json();
+          const imgUrl2 = dataGpt2.data?.[0]?.url;
+          if (imgUrl2) {
+            return res.status(200).json({ url: imgUrl2, provider: 'gpt-image-2' });
+          }
+        }
+      } catch (eGpt2) {
+        console.warn('[gpt-image-2 Exception]:', eGpt2.message);
+      }
+
+      // Attempt 2: gpt-image-1 (1536x1024, High Quality)
       try {
         const responseGpt = await fetch('https://api.openai.com/v1/images/generations', {
           method: 'POST',
@@ -42,15 +69,12 @@ export default async function handler(req, res) {
           if (imgUrl) {
             return res.status(200).json({ url: imgUrl, provider: 'gpt-image-1' });
           }
-        } else {
-          const errGpt = await responseGpt.text();
-          console.warn(`[gpt-image-1 failed ${responseGpt.status}]:`, errGpt);
         }
       } catch (eGpt) {
         console.warn('[gpt-image-1 Exception]:', eGpt.message);
       }
 
-      // Attempt 2: OpenAI DALL-E 3 (1024x1024, Standard Quality)
+      // Attempt 3: OpenAI DALL-E 3 (1024x1024, Standard Quality)
       try {
         const response3 = await fetch('https://api.openai.com/v1/images/generations', {
           method: 'POST',
@@ -69,19 +93,16 @@ export default async function handler(req, res) {
 
         if (response3.ok) {
           const data3 = await response3.json();
-          const imgUrl = data3.data?.[0]?.url;
-          if (imgUrl) {
-            return res.status(200).json({ url: imgUrl, provider: 'dall-e-3' });
+          const imgUrl3 = data3.data?.[0]?.url;
+          if (imgUrl3) {
+            return res.status(200).json({ url: imgUrl3, provider: 'dall-e-3' });
           }
-        } else {
-          const err3 = await response3.text();
-          console.warn(`[OpenAI DALL-E 3 failed ${response3.status}]:`, err3);
         }
       } catch (e3) {
         console.warn('[DALL-E 3 Exception]:', e3.message);
       }
 
-      // Attempt 2: OpenAI DALL-E 2 (Secondary Fallback)
+      // Attempt 4: DALL-E 2 Fallback
       try {
         const response2 = await fetch('https://api.openai.com/v1/images/generations', {
           method: 'POST',
@@ -109,10 +130,10 @@ export default async function handler(req, res) {
       }
     }
 
-    // Attempt 3: High-Definition Pollinations Flux Engine (Guaranteed 200 OK response)
+    // Attempt 5: High-Definition Pollinations Nano-Banana / Flux Engine Fallback
     const encodedPrompt = encodeURIComponent(cleanPrompt + ", cute 3d pixar style, children book illustration, 8k, highly detailed");
-    const fallbackUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=1024&nologo=true&model=flux`;
-    return res.status(200).json({ url: fallbackUrl, provider: 'pollinations-flux' });
+    const fallbackUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1536&height=1024&nologo=true&model=flux`;
+    return res.status(200).json({ url: fallbackUrl, provider: 'nano-banana-flux' });
 
   } catch (err) {
     console.error('[Image Proxy Error]', err);
