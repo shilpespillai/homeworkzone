@@ -64,7 +64,8 @@ import {
   Compass,
   Map,
   CreditCard,
-  Palette
+  Palette,
+  Globe
 } from 'lucide-react';
 import { 
   BarChart, 
