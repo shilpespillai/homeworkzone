@@ -249,6 +249,26 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
     loadCustomTopics();
   }, [user?.uid]);
 
+  const currentGradeName = resolveGradeFromClassroomName(activeClassroom?.name);
+  const currentSubjectKey = (formData.subject?.toLowerCase().replace('_', ' ') === 'logical reasoning')
+    ? 'Logical Reasoning'
+    : (formData.subject ? formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1) : '');
+
+  const currentSubjectTopics = curriculum[currentGradeName]?.[currentSubjectKey] || [];
+  const matchingCustomTopics = (customTopics || []).filter(ct => {
+    if (ct.subject) return ct.subject.toLowerCase() === formData.subject?.toLowerCase();
+    return true;
+  });
+
+  const hasTopicsForCurrentSubject = (currentSubjectTopics.length + matchingCustomTopics.length) > 0;
+
+  useEffect(() => {
+    if (!hasTopicsForCurrentSubject) {
+      setIsCurriculumMode(false);
+      setSelectedSkills([]);
+    }
+  }, [formData.subject, hasTopicsForCurrentSubject]);
+
   const handleAddCustomTopic = async (newTopic) => {
     const updated = [...customTopics, newTopic];
     setCustomTopics(updated);
@@ -1967,72 +1987,87 @@ EXPECTED JSON SCHEMA:
                       </div>
                    </div>
 
-                <div className="space-y-3 text-left">
-                  <div className="flex items-center justify-between ml-1">
-                    <label className="font-bold text-[#14532d] text-xs">Curriculum Mode</label>
-                    <div className="flex bg-green-100 rounded-xl p-1">
-                      <button
-                        onClick={() => setIsCurriculumMode(true)}
-                        className={`px-3 py-1 rounded-lg text-[10px] font-bold transition-all ${isCurriculumMode ? 'bg-white shadow-sm text-green-700' : 'text-green-600/70 hover:text-green-700'}`}
-                      >
-                        Browse Curriculum
-                      </button>
-                      <button
-                        onClick={() => setIsCurriculumMode(false)}
-                        className={`px-3 py-1 rounded-lg text-[10px] font-bold transition-all ${!isCurriculumMode ? 'bg-white shadow-sm text-green-700' : 'text-green-600/70 hover:text-green-700'}`}
-                      >
-                        Custom Prompt
-                      </button>
-                    </div>
-                  </div>
-
-                  {isCurriculumMode ? (
-                    <div className="bg-white border-2 border-slate-200 rounded-2xl p-4 space-y-4">
-                      <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                        <p className="text-xs font-bold text-slate-500 mb-1">Target Grade</p>
-                        <p className="text-sm font-black text-slate-800">{resolveGradeFromClassroomName(activeClassroom?.name)}</p>
-                        <p className="text-[10px] text-slate-400 mt-0.5">Automatically selected based on your class.</p>
+                {hasTopicsForCurrentSubject ? (
+                  <div className="space-y-3 text-left">
+                    <div className="flex items-center justify-between ml-1">
+                      <label className="font-bold text-[#14532d] text-xs">Curriculum Mode</label>
+                      <div className="flex bg-green-100 rounded-xl p-1">
+                        <button
+                          onClick={() => setIsCurriculumMode(true)}
+                          className={`px-3 py-1 rounded-lg text-[10px] font-bold transition-all ${isCurriculumMode ? 'bg-white shadow-sm text-green-700' : 'text-green-600/70 hover:text-green-700'}`}
+                        >
+                          Browse Curriculum
+                        </button>
+                        <button
+                          onClick={() => setIsCurriculumMode(false)}
+                          className={`px-3 py-1 rounded-lg text-[10px] font-bold transition-all ${!isCurriculumMode ? 'bg-white shadow-sm text-green-700' : 'text-green-600/70 hover:text-green-700'}`}
+                        >
+                          Custom Prompt
+                        </button>
                       </div>
-                      
-                      <div>
-                         <label className="font-bold text-[#14532d] text-xs block mb-1">Select Topics & Skills <span className="text-rose-500">*</span></label>
-                         <button 
-                           onClick={() => setIsCurriculumModalOpen(true)}
-                           className="w-full h-12 bg-slate-50 border-2 border-slate-200 rounded-xl px-4 text-slate-700 font-bold hover:border-green-400 hover:bg-white transition-all flex items-center justify-between"
-                         >
-                           <span className={selectedSkills.length > 0 ? "text-green-700" : "text-slate-400"}>
-                             {selectedSkills.length > 0 ? `${selectedSkills.length} skills selected` : "Browse Topics & Skills"}
-                           </span>
-                           <ChevronRight className="w-5 h-5 text-slate-400" />
-                         </button>
-                         
-                         {selectedSkills.length > 0 && (
-                           <div>
-                             <div className="mt-3 flex items-center justify-between">
-                               <span className="text-[10px] text-slate-500 font-bold">Selected Skills</span>
-                               <button 
-                                 onClick={() => setSelectedSkills([])}
-                                 className="text-[10px] text-rose-500 font-bold hover:underline"
-                               >
-                                 Clear All
-                               </button>
-                             </div>
-                             <div className="mt-2 flex flex-wrap gap-2">
-                               {selectedSkills.map(skill => (
-                                 <div key={skill.id} className="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1">
-                                   {skill.title.length > 20 ? skill.title.substring(0, 20) + '...' : skill.title}
-                                   <X 
-                                     className="w-3 h-3 cursor-pointer hover:text-green-600" 
-                                     onClick={() => setSelectedSkills(prev => prev.filter(s => s.id !== skill.id))}
-                                   />
-                                 </div>
-                               ))}
-                             </div>
-                           </div>
-                         )}
-                       </div>
                     </div>
-                  ) : (
+
+                    {isCurriculumMode ? (
+                      <div className="bg-white border-2 border-slate-200 rounded-2xl p-4 space-y-4">
+                        <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                          <p className="text-xs font-bold text-slate-500 mb-1">Target Grade</p>
+                          <p className="text-sm font-black text-slate-800">{resolveGradeFromClassroomName(activeClassroom?.name)}</p>
+                          <p className="text-[10px] text-slate-400 mt-0.5">Automatically selected based on your class.</p>
+                        </div>
+                        
+                        <div>
+                           <label className="font-bold text-[#14532d] text-xs block mb-1">Select Topics & Skills <span className="text-rose-500">*</span></label>
+                           <button 
+                             onClick={() => setIsCurriculumModalOpen(true)}
+                             className="w-full h-12 bg-slate-50 border-2 border-slate-200 rounded-xl px-4 text-slate-700 font-bold hover:border-green-400 hover:bg-white transition-all flex items-center justify-between cursor-pointer"
+                           >
+                             <span className={selectedSkills.length > 0 ? "text-green-700" : "text-slate-400"}>
+                               {selectedSkills.length > 0 ? `${selectedSkills.length} skills selected` : "Browse Topics & Skills"}
+                             </span>
+                             <ChevronRight className="w-5 h-5 text-slate-400" />
+                           </button>
+                           
+                           {selectedSkills.length > 0 && (
+                             <div>
+                               <div className="mt-3 flex items-center justify-between">
+                                 <span className="text-[10px] text-slate-500 font-bold">Selected Skills</span>
+                                 <button 
+                                   onClick={() => setSelectedSkills([])}
+                                   className="text-[10px] text-rose-500 font-bold hover:underline"
+                                 >
+                                   Clear All
+                                 </button>
+                               </div>
+                               <div className="mt-2 flex flex-wrap gap-2">
+                                 {selectedSkills.map(skill => (
+                                   <div key={skill.id} className="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1">
+                                     {skill.title.length > 20 ? skill.title.substring(0, 20) + '...' : skill.title}
+                                     <X 
+                                       className="w-3 h-3 cursor-pointer hover:text-green-600" 
+                                       onClick={() => setSelectedSkills(prev => prev.filter(s => s.id !== skill.id))}
+                                     />
+                                   </div>
+                                 ))}
+                               </div>
+                             </div>
+                           )}
+                         </div>
+                      </div>
+                    ) : (
+                      <div className="relative">
+                        <textarea 
+                          placeholder={getPlaceholder()}
+                          value={formData.aiPrompt}
+                          onChange={(e) => setFormData({...formData, aiPrompt: e.target.value})}
+                          className="w-full h-64 bg-white border-2 border-slate-200 rounded-2xl p-4 text-slate-700 font-bold outline-none focus:border-green-400 transition-colors resize-y text-xs font-sans"
+                        />
+                        <Wand2 className="absolute right-4 bottom-4 w-5 h-5 text-green-400 opacity-50 pointer-events-none" />
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="space-y-3 text-left">
+                    <label className="font-bold text-[#14532d] text-xs block">AI Prompt / Instructions</label>
                     <div className="relative">
                       <textarea 
                         placeholder={getPlaceholder()}
@@ -2042,8 +2077,8 @@ EXPECTED JSON SCHEMA:
                       />
                       <Wand2 className="absolute right-4 bottom-4 w-5 h-5 text-green-400 opacity-50 pointer-events-none" />
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
 
                 {/* Target Language Selection */}
                 <div className="space-y-1.5 text-left">

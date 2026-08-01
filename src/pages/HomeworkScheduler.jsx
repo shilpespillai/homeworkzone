@@ -220,6 +220,18 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
     loadCustomTopics();
   }, [user?.uid]);
 
+  const currentSubjectKey = (formData.subject?.toLowerCase().replace('_', ' ') === 'logical reasoning')
+    ? 'Logical Reasoning'
+    : (formData.subject ? formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1) : '');
+
+  const currentSubjectTopics = curriculum[formData.grade]?.[currentSubjectKey] || [];
+  const matchingCustomTopics = (customTopics || []).filter(ct => {
+    if (ct.subject) return ct.subject.toLowerCase() === formData.subject?.toLowerCase();
+    return true;
+  });
+
+  const hasTopicsForCurrentSubject = (currentSubjectTopics.length + matchingCustomTopics.length) > 0;
+
   const handleAddCustomTopic = async (newTopic) => {
     const updated = [...customTopics, newTopic];
     setCustomTopics(updated);
@@ -1193,14 +1205,16 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
                   className="flex-1 h-14 bg-slate-50 border border-slate-200 rounded-2xl px-5 text-base md:text-lg font-bold text-emerald-700 focus:outline-none focus:border-[#EA580C] focus:bg-white transition-all"
                   required
                 />
-                <button
-                  type="button"
-                  onClick={() => setIsCurriculumModalOpen(true)}
-                  className="h-14 px-4 bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-2xl flex items-center gap-2 text-sm transition-all shadow-md shrink-0"
-                >
-                  <BookOpen className="w-4 h-4" />
-                  Browse
-                </button>
+                {hasTopicsForCurrentSubject && (
+                  <button
+                    type="button"
+                    onClick={() => setIsCurriculumModalOpen(true)}
+                    className="h-14 px-4 bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-2xl flex items-center gap-2 text-sm transition-all shadow-md shrink-0 cursor-pointer"
+                  >
+                    <BookOpen className="w-4 h-4" />
+                    Browse
+                  </button>
+                )}
               </div>
               {selectedSkills.length > 0 && (
                 <div className="space-y-2 pt-1">
