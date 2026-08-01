@@ -161,21 +161,7 @@ const SUBJECTS = [
         <Trophy className="w-10 h-10 text-purple-500" />
       </div>
     )
-  },
-  { 
-    id: 'library_book', 
-    name: 'Library Book', 
-    titleColor: 'text-indigo-600',
-    bgColor: 'bg-[#f5f3ff]', 
-    borderColor: 'border-indigo-200',
-    selectedBorder: 'border-indigo-500 ring-4 ring-indigo-100',
-    desc: 'Generate Pixar-level multi-page storybooks!',
-    renderGraphic: () => (
-      <div className="w-16 h-20 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 shadow-inner overflow-hidden border-4 border-indigo-200">
-        <BookOpen className="w-10 h-10 text-indigo-600" />
-      </div>
-    )
-  },
+  }
 ];
 
 export default function HomeworkGenerator({ user, classrooms = [], activeClassroom, initialDraft, subjectPrompts, onHomeworkCreated, teacherBilling, allHomeworks = [], setDashboardTab, isAdmin }) {
