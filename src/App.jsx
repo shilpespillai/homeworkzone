@@ -3119,7 +3119,6 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
              <SidebarNavItem icon={<Book className="w-5 h-5" />} label="Library Zone" active={activeNav === 'Library Zone'} color="text-blue-500" onClick={() => setActiveNav('Library Zone')} />
            )}
            <SidebarNavItem icon={<Palette className="w-5 h-5" />} label="Arts & Fun" active={activeNav === 'Arts & Fun'} color="text-orange-500" onClick={() => setActiveNav('Arts & Fun')} />
-           <SidebarNavItem icon={<Globe className="w-5 h-5" />} label="Flag Quiz 🚩" active={activeNav === 'Flag Quiz 🚩'} color="text-indigo-500" onClick={() => setActiveNav('Flag Quiz 🚩')} />
         </nav>
 
         {/* Mascot Bottom */}
