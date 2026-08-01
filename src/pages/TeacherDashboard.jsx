@@ -71,7 +71,7 @@ import {
 } from 'recharts';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { DEFAULT_SUBJECT_PROMPTS, getPremiumPromptTemplate } from '../utils/defaultPrompts';
+import { DEFAULT_SUBJECT_PROMPTS, getPremiumPromptTemplate, getMasterDefaultPrompts, saveMasterDefaultPromptsIfAdmin } from '../utils/defaultPrompts';
 import { db } from '../firebase';
 
 const toTitleCase = (str) => {
@@ -979,10 +979,11 @@ const TeacherDashboard = ({ user, onLogout }) => {
       await updateDoc(doc(db, 'teachers', user.uid), {
         subjectPrompts: subjectPrompts
       });
+      await saveMasterDefaultPromptsIfAdmin(db, user, subjectPrompts);
       alert("Generic Subject Prompts saved successfully! 🚀🪄");
     } catch (err) {
       console.error("Save Prompts Error:", err);
-      alert("Failed to save prompts. âŒ");
+      alert("Failed to save prompts. ❌");
     }
     setIsSavingPrompts(false);
   };
@@ -1172,6 +1173,7 @@ Include a balanced combination of question types such as:
     const loadCloudAiSettings = async () => {
       if (!user?.uid) return;
       try {
+        const masterPrompts = await getMasterDefaultPrompts(db);
         const teacherDoc = await getDoc(doc(db, 'teachers', user.uid));
         if (teacherDoc.exists()) {
           const data = teacherDoc.data();
@@ -1180,7 +1182,9 @@ Include a balanced combination of question types such as:
             localStorage.setItem('hwz_active_ai', data.activeAi);
           }
           if (data.subjectPrompts) {
-            setSubjectPrompts(prev => ({ ...prev, ...data.subjectPrompts }));
+            setSubjectPrompts({ ...masterPrompts, ...data.subjectPrompts });
+          } else {
+            setSubjectPrompts(masterPrompts);
           }
           let loadedRetention = 90;
           let loadedPurgedAt = null;

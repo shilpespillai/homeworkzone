@@ -32,7 +32,7 @@ import { SUPPORTED_LANGUAGES, getLanguageObj } from '../utils/languages';
 import CurriculumModal from '../components/CurriculumModal';
 import { curriculum } from '../data/curriculum';
 import { sanitizeQuestionData } from './HomeworkGenerator';
-import { DEFAULT_SUBJECT_PROMPTS } from '../utils/defaultPrompts';
+import { DEFAULT_SUBJECT_PROMPTS, getMasterDefaultPrompts } from '../utils/defaultPrompts';
 
 // Module-level lock to prevent double-execution (e.g. from React StrictMode double mounts or rapid mount cycles)
 const activeAutomationsLock = typeof window !== 'undefined'
@@ -607,6 +607,9 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
       let activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
       let teacherPrompts = { ...DEFAULT_SUBJECT_PROMPTS };
+
+      const masterPrompts = await getMasterDefaultPrompts(db);
+      teacherPrompts = { ...masterPrompts };
 
       if (user?.uid) {
         const teacherDoc = await getDoc(doc(db, 'teachers', user.uid));

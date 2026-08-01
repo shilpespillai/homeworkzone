@@ -13,7 +13,7 @@ import {
 import { fetchWithRetry, generateContent } from './aiClient';
 import { generateExplanations } from './generateExplanations';
 import { cleanFirestorePayload } from './cleanFirestorePayload';
-import { DEFAULT_SUBJECT_PROMPTS } from './defaultPrompts';
+import { DEFAULT_SUBJECT_PROMPTS, getMasterDefaultPrompts } from './defaultPrompts';
 import { getLanguageObj } from './languages';
 
 // Local helper to format date
@@ -98,8 +98,9 @@ export const executeRecurringGeneration = async (sched, teacherUid, teacherCode)
     await updateDoc(schedRef, { lastRun: serverTimestamp() });
 
     let activeModel = 'gemini';
-    let teacherPrompts = { ...DEFAULT_SUBJECT_PROMPTS };
     let resolvedTeacherName = 'Classroom Teacher';
+    const masterPrompts = await getMasterDefaultPrompts(db);
+    let teacherPrompts = { ...masterPrompts };
 
     const teacherDoc = await getDoc(doc(db, 'teachers', teacherUid));
     if (teacherDoc.exists()) {
