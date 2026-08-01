@@ -40,6 +40,8 @@ export const DEFAULT_SUBJECT_PROMPTS = {
   maths: getPremiumPromptTemplate('Maths'),
   english: getPremiumPromptTemplate('English'),
   science: getPremiumPromptTemplate('Science'),
+  vocabulary: getPremiumPromptTemplate('Vocabulary & Word Power'),
   logical_reasoning: getPremiumPromptTemplate('Logical Reasoning'),
-  olympiad: getPremiumPromptTemplate('Olympiad Maths')
+  olympiad: getPremiumPromptTemplate('Olympiad Maths'),
+  hindi: getPremiumPromptTemplate('Hindi')
 };
