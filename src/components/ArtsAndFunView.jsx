@@ -14,6 +14,7 @@ import {
   Camera
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import FlagQuizView from './FlagQuizView';
 
 // ═══════════════════════════════════════════════════════════════
 //  PIANO KEYS CONFIGURATION
@@ -309,6 +310,7 @@ export default function ArtsAndFunView({ studentName, currentStudentProfile }) {
       <div className="px-8 py-4 bg-white border-b border-slate-100 flex gap-3 shrink-0 overflow-x-auto no-scrollbar">
         {[
           { label: 'Draw & Color', icon: '🎨' },
+          { label: 'Guess the Flag 🚩', icon: '🚩' },
           { label: 'Music Room', icon: '🎵' },
           { label: 'Crafts & DIY', icon: '✂️' },
           { label: 'Dress Up & Play', icon: '🎭' }
@@ -825,6 +827,11 @@ export default function ArtsAndFunView({ studentName, currentStudentProfile }) {
             </div>
 
           </div>
+        )}
+
+        {/* ==================== 5. GUESS THE FLAG QUIZ ==================== */}
+        {activeTab === 'Guess the Flag 🚩' && (
+          <FlagQuizView />
         )}
 
       </div>
