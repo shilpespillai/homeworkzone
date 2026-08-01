@@ -268,7 +268,7 @@ export default function ElectricityHub() {
               title="Click to Open & Zoom"
             >
               <img 
-                src="/electricity_infographic.jpg" 
+                src="/electricity_infographic.jpg?v=10" 
                 alt="Electricity and Circuits Infographic Poster" 
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -473,7 +473,7 @@ export default function ElectricityHub() {
             className="flex-1 flex items-center justify-center overflow-auto"
           >
             <img 
-              src="/electricity_infographic.jpg" 
+              src="/electricity_infographic.jpg?v=10" 
               alt="Electricity Infographic" 
               className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 object-contain"
             />

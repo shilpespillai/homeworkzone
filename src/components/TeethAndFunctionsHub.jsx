@@ -257,7 +257,7 @@ export default function TeethAndFunctionsHub() {
               title="Click to Open & Zoom"
             >
               <img 
-                src="/types_of_teeth_infographic.jpg" 
+                src="/types_of_teeth_infographic.jpg?v=10?v=10" 
                 alt="Types of Teeth and Their Functions Infographic Poster" 
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -497,7 +497,7 @@ export default function TeethAndFunctionsHub() {
             className="flex-1 flex items-center justify-center overflow-auto"
           >
             <img 
-              src="/types_of_teeth_infographic.jpg" 
+              src="/types_of_teeth_infographic.jpg?v=10?v=10" 
               alt="Types of Teeth and Their Functions Infographic" 
               className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 object-contain"
             />

@@ -279,7 +279,7 @@ export default function ClassificationOfLivingThingsHub() {
               title="Click to Open & Zoom"
             >
               <img 
-                src="/classification_of_living_things_infographic.jpg" 
+                src="/classification_of_living_things_infographic.jpg?v=10" 
                 alt="Classification of Living Things Infographic Poster" 
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -540,7 +540,7 @@ export default function ClassificationOfLivingThingsHub() {
             className="flex-1 flex items-center justify-center overflow-auto"
           >
             <img 
-              src="/classification_of_living_things_infographic.jpg" 
+              src="/classification_of_living_things_infographic.jpg?v=10" 
               alt="Classification of Animals and Living Things Infographic" 
               className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 object-contain"
             />

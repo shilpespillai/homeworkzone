@@ -229,7 +229,7 @@ export default function MathFormulaSheetHub() {
               title="Click to Open & Zoom"
             >
               <img 
-                src="/math_formula_sheet_infographic.jpg" 
+                src="/math_formula_sheet_infographic.jpg?v=10" 
                 alt="Math Formula Sheet Foundation - Grade 6 Infographic Poster" 
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -491,7 +491,7 @@ export default function MathFormulaSheetHub() {
             className="flex-1 flex items-center justify-center overflow-auto"
           >
             <img 
-              src="/math_formula_sheet_infographic.jpg" 
+              src="/math_formula_sheet_infographic.jpg?v=10" 
               alt="Math Formula Sheet Infographic Poster" 
               className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 object-contain"
             />

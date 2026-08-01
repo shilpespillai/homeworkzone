@@ -237,7 +237,7 @@ export default function BodyAndFunctionsHub() {
               title="Click to Open & Zoom"
             >
               <img 
-                src="/digestive_system_infographic.jpg" 
+                src="/digestive_system_infographic.jpg?v=10" 
                 alt="The Human Digestive System - Turning Food into Fuel Infographic" 
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -277,7 +277,7 @@ export default function BodyAndFunctionsHub() {
               title="Click to Open & Zoom"
             >
               <img
-                src="/human_body_systems_infographic.jpg"
+                src="/human_body_systems_infographic.jpg?v=10"
                 alt="The Human Body — Parts, Functions & Systems Infographic"
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -600,7 +600,7 @@ export default function BodyAndFunctionsHub() {
             className="flex-1 flex items-center justify-center overflow-auto"
           >
             <img 
-              src="/digestive_system_infographic.jpg" 
+              src="/digestive_system_infographic.jpg?v=10" 
               alt="The Human Digestive System Infographic" 
               className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 object-contain"
             />
@@ -638,7 +638,7 @@ export default function BodyAndFunctionsHub() {
             className="flex-1 flex items-center justify-center overflow-auto"
           >
             <img
-              src="/human_body_systems_infographic.jpg"
+              src="/human_body_systems_infographic.jpg?v=10"
               alt="The Human Body — Parts, Functions & Systems Infographic"
               className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 object-contain"
             />

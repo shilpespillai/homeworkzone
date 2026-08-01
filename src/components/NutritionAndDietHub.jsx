@@ -293,7 +293,7 @@ export default function NutritionAndDietHub() {
               title="Click to Open & Zoom"
             >
               <img 
-                src="/nutrition_and_balanced_diet_infographic.jpg" 
+                src="/nutrition_and_balanced_diet_infographic.jpg?v=10" 
                 alt="Nutrition and a Balanced Diet Infographic Poster" 
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -584,7 +584,7 @@ export default function NutritionAndDietHub() {
             className="flex-1 flex items-center justify-center overflow-auto"
           >
             <img 
-              src="/nutrition_and_balanced_diet_infographic.jpg" 
+              src="/nutrition_and_balanced_diet_infographic.jpg?v=10" 
               alt="Nutrition and a Balanced Diet Infographic" 
               className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 object-contain"
             />

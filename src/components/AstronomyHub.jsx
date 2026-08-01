@@ -31,7 +31,7 @@ export default function AstronomyHub() {
   const [selectedSunLayer, setSelectedSunLayer] = useState('core');
   const [selectedPhase, setSelectedPhase] = useState('new');
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-  const [modalImage, setModalImage] = useState(null); // null | '/solar_system_infographic.jpg' | '/astronomy_infographic.jpg'
+  const [modalImage, setModalImage] = useState(null); // null | '/solar_system_infographic.jpg?v=10' | '/astronomy_infographic.jpg?v=10'
 
   // Quiz State
   const [quizAnswers, setQuizAnswers] = useState({});
@@ -598,13 +598,13 @@ export default function AstronomyHub() {
               {isPlayingAudio ? 'Stop Audio' : 'Listen to Overview'}
             </button>
             <button
-              onClick={() => setModalImage('/solar_system_infographic.jpg')}
+              onClick={() => setModalImage('/solar_system_infographic.jpg?v=10')}
               className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs flex items-center gap-2 shadow-md transition-all cursor-pointer"
             >
               🖼️ Open Solar System Chart
             </button>
             <button
-              onClick={() => setModalImage('/astronomy_infographic.jpg')}
+              onClick={() => setModalImage('/astronomy_infographic.jpg?v=10')}
               className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-extrabold text-xs flex items-center gap-2 border border-slate-700 transition-all cursor-pointer"
             >
               🖼️ Open Astronomy Chart
@@ -693,7 +693,7 @@ export default function AstronomyHub() {
                     : 'Astronomy: Earth, Moon, Sun & Stars Infographic'}
                 </span>
                 <button
-                  onClick={() => setModalImage(selectedInfographic === 'solar_system' ? '/solar_system_infographic.jpg' : '/astronomy_infographic.jpg')}
+                  onClick={() => setModalImage(selectedInfographic === 'solar_system' ? '/solar_system_infographic.jpg?v=10' : '/astronomy_infographic.jpg?v=10')}
                   className="px-3.5 py-1.5 rounded-xl bg-blue-600 text-white font-extrabold text-xs shadow-md hover:bg-blue-700 transition-all flex items-center gap-1.5 cursor-pointer"
                 >
                   <ZoomIn className="w-4 h-4" /> Expand Fullscreen
@@ -701,11 +701,11 @@ export default function AstronomyHub() {
               </div>
 
               <div 
-                onClick={() => setModalImage(selectedInfographic === 'solar_system' ? '/solar_system_infographic.jpg' : '/astronomy_infographic.jpg')}
+                onClick={() => setModalImage(selectedInfographic === 'solar_system' ? '/solar_system_infographic.jpg?v=10' : '/astronomy_infographic.jpg?v=10')}
                 className="relative cursor-pointer group rounded-xl overflow-hidden shadow-lg border border-slate-300"
               >
                 <img 
-                  src={selectedInfographic === 'solar_system' ? '/solar_system_infographic.jpg' : '/astronomy_infographic.jpg'} 
+                  src={selectedInfographic === 'solar_system' ? '/solar_system_infographic.jpg?v=10' : '/astronomy_infographic.jpg?v=10'} 
                   alt="Space Infographic Poster" 
                   className="max-w-full h-auto max-h-[650px] object-contain group-hover:scale-101 transition-transform duration-300"
                 />
@@ -1319,7 +1319,7 @@ export default function AstronomyHub() {
             {/* Toggle chart inside modal */}
             <div className="flex items-center gap-2">
               <button
-                onClick={() => setModalImage(modalImage.includes('solar_system') ? '/astronomy_infographic.jpg' : '/solar_system_infographic.jpg')}
+                onClick={() => setModalImage(modalImage.includes('solar_system') ? '/astronomy_infographic.jpg?v=10' : '/solar_system_infographic.jpg?v=10')}
                 className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-extrabold text-xs border border-slate-700 transition-all cursor-pointer"
               >
                 Switch to {modalImage.includes('solar_system') ? 'Astronomy Chart' : 'Solar System Chart'}

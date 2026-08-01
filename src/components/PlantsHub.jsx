@@ -32,7 +32,7 @@ export default function PlantsHub() {
   const [selectedPart, setSelectedPart] = useState('leaves');
   const [selectedProcessStep, setSelectedProcessStep] = useState(1);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-  const [modalImage, setModalImage] = useState(null); // null | '/photosynthesis_infographic.jpg' | '/plants_infographic.jpg'
+  const [modalImage, setModalImage] = useState(null); // null | '/photosynthesis_infographic.jpg?v=10' | '/plants_infographic.jpg?v=10'
 
   // Quiz State
   const [quizAnswers, setQuizAnswers] = useState({});
@@ -329,13 +329,13 @@ export default function PlantsHub() {
               {isPlayingAudio ? 'Stop Audio' : 'Listen to Overview'}
             </button>
             <button
-              onClick={() => setModalImage('/photosynthesis_infographic.jpg')}
+              onClick={() => setModalImage('/photosynthesis_infographic.jpg?v=10')}
               className="px-4 py-2 rounded-xl bg-emerald-900/80 hover:bg-emerald-900 text-white font-extrabold text-xs flex items-center gap-2 border border-emerald-400/40 shadow-md transition-all cursor-pointer"
             >
               🖼️ Open Photosynthesis Chart
             </button>
             <button
-              onClick={() => setModalImage('/plants_infographic.jpg')}
+              onClick={() => setModalImage('/plants_infographic.jpg?v=10')}
               className="px-4 py-2 rounded-xl bg-teal-900/60 hover:bg-teal-900/80 text-teal-100 font-extrabold text-xs flex items-center gap-2 border border-teal-400/30 transition-all cursor-pointer"
             >
               🖼️ Open Plant Life Cycles Chart
@@ -422,7 +422,7 @@ export default function PlantsHub() {
                     : 'Plants: Parts, Functions and Life Cycles Infographic'}
                 </span>
                 <button
-                  onClick={() => setModalImage(selectedInfographic === 'photosynthesis' ? '/photosynthesis_infographic.jpg' : '/plants_infographic.jpg')}
+                  onClick={() => setModalImage(selectedInfographic === 'photosynthesis' ? '/photosynthesis_infographic.jpg?v=10' : '/plants_infographic.jpg?v=10')}
                   className="px-3.5 py-1.5 rounded-xl bg-emerald-600 text-white font-extrabold text-xs shadow-md hover:bg-emerald-700 transition-all flex items-center gap-1.5 cursor-pointer"
                 >
                   <ZoomIn className="w-4 h-4" /> Expand Fullscreen
@@ -430,11 +430,11 @@ export default function PlantsHub() {
               </div>
 
               <div 
-                onClick={() => setModalImage(selectedInfographic === 'photosynthesis' ? '/photosynthesis_infographic.jpg' : '/plants_infographic.jpg')}
+                onClick={() => setModalImage(selectedInfographic === 'photosynthesis' ? '/photosynthesis_infographic.jpg?v=10' : '/plants_infographic.jpg?v=10')}
                 className="relative cursor-pointer group rounded-xl overflow-hidden shadow-lg border border-slate-300"
               >
                 <img 
-                  src={selectedInfographic === 'photosynthesis' ? '/photosynthesis_infographic.jpg' : '/plants_infographic.jpg'} 
+                  src={selectedInfographic === 'photosynthesis' ? '/photosynthesis_infographic.jpg?v=10' : '/plants_infographic.jpg?v=10'} 
                   alt="Plant Infographic Poster" 
                   className="max-w-full h-auto max-h-[650px] object-contain group-hover:scale-101 transition-transform duration-300"
                 />
@@ -828,7 +828,7 @@ export default function PlantsHub() {
             {/* Toggle chart inside modal */}
             <div className="flex items-center gap-2">
               <button
-                onClick={() => setModalImage(modalImage.includes('photosynthesis') ? '/plants_infographic.jpg' : '/photosynthesis_infographic.jpg')}
+                onClick={() => setModalImage(modalImage.includes('photosynthesis') ? '/plants_infographic.jpg?v=10' : '/photosynthesis_infographic.jpg?v=10')}
                 className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-extrabold text-xs border border-slate-700 transition-all cursor-pointer"
               >
                 Switch to {modalImage.includes('photosynthesis') ? 'Plant Life Cycles Chart' : 'Photosynthesis Chart'}

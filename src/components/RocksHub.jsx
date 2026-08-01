@@ -252,7 +252,7 @@ export default function RocksHub() {
               title="Click to Open & Zoom"
             >
               <img 
-                src="/rocks_infographic.jpg" 
+                src="/rocks_infographic.jpg?v=10" 
                 alt="Rocks and Minerals Infographic Poster" 
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -486,7 +486,7 @@ export default function RocksHub() {
             className="flex-1 flex items-center justify-center overflow-auto"
           >
             <img 
-              src="/rocks_infographic.jpg" 
+              src="/rocks_infographic.jpg?v=10" 
               alt="Rocks Infographic" 
               className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 object-contain"
             />

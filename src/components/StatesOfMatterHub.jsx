@@ -265,7 +265,7 @@ export default function StatesOfMatterHub() {
               title="Click to Open & Zoom"
             >
               <img 
-                src="/states_of_matter_infographic.jpg" 
+                src="/states_of_matter_infographic.jpg?v=10" 
                 alt="States of Matter Infographic Poster" 
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -536,7 +536,7 @@ export default function StatesOfMatterHub() {
             className="flex-1 flex items-center justify-center overflow-auto"
           >
             <img 
-              src="/states_of_matter_infographic.jpg" 
+              src="/states_of_matter_infographic.jpg?v=10" 
               alt="States of Matter Infographic" 
               className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 object-contain"
             />

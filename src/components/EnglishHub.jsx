@@ -546,7 +546,7 @@ export default function EnglishHub({ topicName }) {
               </div>
               <button 
                 onClick={() => openImageModal(
-                  "/english_grammar_guide_infographic.jpg",
+                  "/english_grammar_guide_infographic.jpg?v=10",
                   "Grammar Guide - The Rules Behind Great Writing",
                   "Official English Curriculum Chart & Reference Poster"
                 )}
@@ -559,7 +559,7 @@ export default function EnglishHub({ topicName }) {
             {/* Poster Image Container */}
             <div 
               onClick={() => openImageModal(
-                "/english_grammar_guide_infographic.jpg",
+                "/english_grammar_guide_infographic.jpg?v=10",
                 "Grammar Guide - The Rules Behind Great Writing",
                 "Official English Curriculum Chart & Reference Poster"
               )}
@@ -567,7 +567,7 @@ export default function EnglishHub({ topicName }) {
               title="Click to Open & Zoom"
             >
               <img 
-                src="/english_grammar_guide_infographic.jpg" 
+                src="/english_grammar_guide_infographic.jpg?v=10" 
                 alt="Grammar Guide - The rules behind great writing Infographic Poster" 
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -601,7 +601,7 @@ export default function EnglishHub({ topicName }) {
               </div>
               <button 
                 onClick={() => openImageModal(
-                  "/reading_comprehension_infographic.jpg",
+                  "/reading_comprehension_infographic.jpg?v=10",
                   "Reading Comprehension - Read it. Understand it. Remember it!",
                   "Official Reading Strategies & Practice Infographic Chart"
                 )}
@@ -613,7 +613,7 @@ export default function EnglishHub({ topicName }) {
 
             <div 
               onClick={() => openImageModal(
-                "/reading_comprehension_infographic.jpg",
+                "/reading_comprehension_infographic.jpg?v=10",
                 "Reading Comprehension - Read it. Understand it. Remember it!",
                 "Official Reading Strategies & Practice Infographic Chart"
               )}
@@ -621,7 +621,7 @@ export default function EnglishHub({ topicName }) {
               title="Click to Open & Zoom"
             >
               <img 
-                src="/reading_comprehension_infographic.jpg" 
+                src="/reading_comprehension_infographic.jpg?v=10" 
                 alt="Reading Comprehension - Read it. Understand it. Remember it! Infographic Chart" 
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -729,7 +729,7 @@ export default function EnglishHub({ topicName }) {
               </div>
               <button 
                 onClick={() => openImageModal(
-                  "/narrative_writing_framework_infographic.jpg",
+                  "/narrative_writing_framework_infographic.jpg?v=10",
                   "Narrative Writing Framework - Tell an engaging story!",
                   "Official Australian Curriculum English Writing Infographic"
                 )}
@@ -741,7 +741,7 @@ export default function EnglishHub({ topicName }) {
 
             <div 
               onClick={() => openImageModal(
-                "/narrative_writing_framework_infographic.jpg",
+                "/narrative_writing_framework_infographic.jpg?v=10",
                 "Narrative Writing Framework - Tell an engaging story!",
                 "Official Australian Curriculum English Writing Infographic"
               )}
@@ -749,7 +749,7 @@ export default function EnglishHub({ topicName }) {
               title="Click to Open & Zoom"
             >
               <img 
-                src="/narrative_writing_framework_infographic.jpg" 
+                src="/narrative_writing_framework_infographic.jpg?v=10" 
                 alt="Narrative Writing Framework Infographic Poster" 
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -1155,7 +1155,7 @@ export default function EnglishHub({ topicName }) {
               </div>
               <button
                 onClick={() => openImageModal(
-                  '/parts_of_speech_and_tenses_infographic.jpg',
+                  '/parts_of_speech_and_tenses_infographic.jpg?v=10',
                   'Parts of Speech & Tenses',
                   'The Building Blocks of Language — Official Reference Chart'
                 )}
@@ -1166,7 +1166,7 @@ export default function EnglishHub({ topicName }) {
             </div>
             <div
               onClick={() => openImageModal(
-                '/parts_of_speech_and_tenses_infographic.jpg',
+                '/parts_of_speech_and_tenses_infographic.jpg?v=10',
                 'Parts of Speech & Tenses',
                 'The Building Blocks of Language — Official Reference Chart'
               )}
@@ -1174,7 +1174,7 @@ export default function EnglishHub({ topicName }) {
               title="Click to Open & Zoom"
             >
               <img
-                src="/parts_of_speech_and_tenses_infographic.jpg"
+                src="/parts_of_speech_and_tenses_infographic.jpg?v=10"
                 alt="Parts of Speech and Tenses Infographic Chart"
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />

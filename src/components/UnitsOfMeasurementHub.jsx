@@ -282,7 +282,7 @@ export default function UnitsOfMeasurementHub() {
               title="Click to Open & Zoom"
             >
               <img 
-                src="/units_of_measurement_infographic.jpg" 
+                src="/units_of_measurement_infographic.jpg?v=10" 
                 alt="Units of Measurement Infographic Poster" 
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -498,7 +498,7 @@ export default function UnitsOfMeasurementHub() {
             className="flex-1 flex items-center justify-center overflow-auto"
           >
             <img 
-              src="/units_of_measurement_infographic.jpg" 
+              src="/units_of_measurement_infographic.jpg?v=10" 
               alt="Units of Measurement Infographic" 
               className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 object-contain"
             />

@@ -224,7 +224,7 @@ export default function HeredityHub() {
               title="Click to Open & Zoom"
             >
               <img 
-                src="/heredity_infographic.jpg" 
+                src="/heredity_infographic.jpg?v=10" 
                 alt="Heredity and Traits Infographic Poster" 
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -461,7 +461,7 @@ export default function HeredityHub() {
             className="flex-1 flex items-center justify-center overflow-auto"
           >
             <img 
-              src="/heredity_infographic.jpg" 
+              src="/heredity_infographic.jpg?v=10" 
               alt="Heredity Infographic" 
               className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 object-contain"
             />

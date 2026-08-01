@@ -277,7 +277,7 @@ export default function FossilsHub() {
               title="Click to Open & Zoom"
             >
               <img 
-                src="/fossils_infographic.jpg" 
+                src="/fossils_infographic.jpg?v=10" 
                 alt="Fossils and Ancient Life Infographic Poster" 
                 className="max-w-full h-auto rounded-xl shadow-md border border-white max-h-[650px] object-contain group-hover:scale-101 transition-transform"
               />
@@ -507,7 +507,7 @@ export default function FossilsHub() {
             className="flex-1 flex items-center justify-center overflow-auto"
           >
             <img 
-              src="/fossils_infographic.jpg" 
+              src="/fossils_infographic.jpg?v=10" 
               alt="Fossils Infographic" 
               className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-2 border-slate-700/50 object-contain"
             />

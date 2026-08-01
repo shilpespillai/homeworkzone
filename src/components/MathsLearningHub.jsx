@@ -694,11 +694,11 @@ export default function MathsLearningHub({ activeConcept = 'Numbers & Place Valu
                 <span className="text-[10px] font-black uppercase bg-blue-100 text-blue-800 px-3 py-1 rounded-full">Interactive Reference Guide</span>
               </div>
               <div 
-                onClick={() => setZoomedImage('/geometry_infographic.jpg')}
+                onClick={() => setZoomedImage('/geometry_infographic.jpg?v=10')}
                 className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in group relative"
               >
                 <img 
-                  src="/geometry_infographic.jpg" 
+                  src="/geometry_infographic.jpg?v=10" 
                   alt="Geometry Board Complete Visual Guide Poster" 
                   className="w-full h-auto max-h-[650px] object-contain mx-auto"
                 />
