@@ -14,7 +14,8 @@ import {
   RotateCcw,
   BookOpen,
   Check,
-  X
+  X,
+  LogOut
 } from 'lucide-react';
 
 export default function OfficialExamPaperView({
@@ -28,6 +29,7 @@ export default function OfficialExamPaperView({
   markedForReview = {},
   onToggleReview,
   onFinishExam,
+  onExit,
   isSubmitted = false,
   submissionResult = null
 }) {
@@ -42,18 +44,30 @@ export default function OfficialExamPaperView({
   const currentQ = questions[currentIdx] || {};
 
   // Extract stimulus/passage vs main question statement
-  const getParsedQuestionContent = (questionObj) => {
-    const text = questionObj?.question || '';
+  const getParsedQuestionContent = (q) => {
+    if (!q) return { passage: null, question: 'Select the correct answer from the choices below:' };
+    let text = q.text || q.question || q.questionText || q.prompt || q.title || q.content || '';
+    
+    let cleanStem = text.replace(/<svg[\s\S]*?<\/svg>/gi, '').replace(/\[CLOCK:.*?\]/gi, '').trim();
+
+    if (!cleanStem) {
+      cleanStem = q.subtopic ? `Question ${currentIdx + 1} (${q.subtopic}): Select the correct answer below` : `Question ${currentIdx + 1}: Select the correct answer from the choices below:`;
+    }
+
+    if (q.passage) {
+      return { passage: q.passage, question: cleanStem };
+    }
+
     if (text.includes('---PASSAGE---') || text.includes('---STIMULUS---')) {
       const parts = text.split(/---PASSAGE---|---STIMULUS---/);
-      return { passage: parts[1]?.trim(), question: parts[2]?.trim() || parts[0]?.trim() };
+      return { passage: parts[1]?.trim(), question: parts[2]?.trim() || parts[0]?.trim() || cleanStem };
     }
-    // Check for passage headers like "Passage:" or "Read the text below:"
     const passageMatch = text.match(/^(Passage:|Read the following text:|Read the passage:?)([\s\S]*?\n\n)([\s\S]*)$/i);
     if (passageMatch) {
-      return { passage: passageMatch[2].trim(), question: passageMatch[3].trim() };
+      return { passage: passageMatch[2].trim(), question: passageMatch[3].trim() || cleanStem };
     }
-    return { passage: null, question: text };
+
+    return { passage: null, question: cleanStem };
   };
 
   const { passage, question: cleanQuestionText } = getParsedQuestionContent(currentQ);
@@ -273,6 +287,19 @@ export default function OfficialExamPaperView({
           >
             <FileText className="w-3.5 h-3.5" /> Palette ({answeredCount}/{totalQuestions})
           </button>
+
+          <button
+            onClick={async () => {
+              if (window.confirm("Are you sure you want to exit the exam and return to the dashboard? 🏠")) {
+                if (onExit) onExit();
+                else if (onFinishExam) onFinishExam();
+              }
+            }}
+            className="py-1.5 px-3.5 bg-rose-600 hover:bg-rose-500 active:scale-95 text-white rounded-lg text-xs font-black flex items-center gap-1.5 transition-all shadow-md cursor-pointer ml-1"
+            title="Exit exam and return to dashboard"
+          >
+            <LogOut className="w-3.5 h-3.5" /> Exit Exam
+          </button>
         </div>
       </header>
 
@@ -324,8 +351,8 @@ export default function OfficialExamPaperView({
           )}
 
           {/* Question Text */}
-          <div className="text-base md:text-lg font-bold leading-snug text-slate-950">
-            {cleanQuestionText}
+          <div className="text-base md:text-lg font-extrabold leading-relaxed text-slate-900 bg-slate-50 border-l-4 border-amber-500 p-4 rounded-r-xl shadow-sm my-4">
+            {cleanQuestionText || currentQ?.text || currentQ?.question || currentQ?.questionText || currentQ?.prompt || currentQ?.title || currentQ?.subtopic || `Question ${currentIdx + 1}: Select the correct answer from the options below:`}
           </div>
 
           {/* Options Grid (Formal A/B/C/D) */}

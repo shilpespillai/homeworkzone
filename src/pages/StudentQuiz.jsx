@@ -358,6 +358,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
           setMarkedForReview(prev => ({ ...prev, [qIdx]: !prev[qIdx] }));
         }}
         onFinishExam={handleSubmit}
+        onExit={onComplete}
         isSubmitted={isSubmitted}
         submissionResult={{
           correctCount: score,
