@@ -515,7 +515,7 @@ export default function OfficialExamPaperView({
 
   // Render Examination Results Report if Submitted
   if (isSubmitted) {
-    const correctCount = submissionResult?.correctCount ?? questions.filter((q, idx) => {
+    const correctCount = questions.filter((q, idx) => {
       const ans = getAnswerForQuestion(q, idx);
       return ans !== undefined && checkIsCorrect(q, ans);
     }).length;
@@ -536,9 +536,18 @@ export default function OfficialExamPaperView({
         <div className="max-w-4xl mx-auto bg-[#fcfbf9] border-4 border-slate-900 rounded-xl p-8 md:p-12 shadow-2xl space-y-10">
           
           {/* Header */}
-          <div className="border-b-4 border-slate-900 pb-6 text-center space-y-2">
-            <div className="inline-block border border-slate-900 px-3 py-1 text-xs font-sans font-black uppercase tracking-widest bg-slate-200">
-              Official Examination Score Report
+          <div className="border-b-4 border-slate-900 pb-6 text-center space-y-3">
+            <div className="flex items-center justify-between font-sans">
+              <button
+                onClick={() => onExit && onExit()}
+                className="px-4 py-2 bg-slate-900 text-white font-black text-xs uppercase tracking-wider rounded-lg shadow hover:bg-slate-800 transition flex items-center gap-1.5"
+              >
+                ← Return to Dashboard
+              </button>
+              <div className="border border-slate-900 px-3 py-1 text-xs font-black uppercase tracking-widest bg-slate-200">
+                Official Examination Score Report
+              </div>
+              <div className="w-[150px] hidden sm:block"></div>
             </div>
             <h1 className="text-3xl font-black text-slate-950 uppercase">{homework?.title || 'Standardized Examination'}</h1>
             <p className="text-xs font-sans text-slate-600 font-bold">Candidate: {studentName} • Date: {new Date().toLocaleDateString()}</p>
@@ -630,11 +639,20 @@ export default function OfficialExamPaperView({
                         <span className="font-black uppercase text-[10px] text-slate-500 block">Worked Logic Solution:</span>
                         <p className="text-slate-800 leading-normal">{q.solution || q.explanation}</p>
                       </div>
-                    )}
                   </div>
                 );
               })}
             </div>
+          </div>
+
+          {/* Bottom Action Bar */}
+          <div className="pt-6 border-t-4 border-slate-900 flex justify-center font-sans">
+            <button
+              onClick={() => onExit && onExit()}
+              className="px-8 py-4 bg-emerald-600 text-white font-black text-sm uppercase tracking-wider rounded-xl shadow-xl hover:bg-emerald-700 transition flex items-center gap-2"
+            >
+              ✓ Complete Review & Return to Dashboard
+            </button>
           </div>
 
         </div>

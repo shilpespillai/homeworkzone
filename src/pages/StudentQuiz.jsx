@@ -406,14 +406,10 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
     let correctCount = 0;
     
     if (homework.type !== 'lesson') {
-      homework.questions.forEach(q => {
-        if (q.questionType === 'text') {
-          const studentAns = (answers[q.id] || '').trim().toLowerCase();
-          const correctAns = (q.answer || '').trim().toLowerCase();
-          if (studentAns === correctAns) correctCount++;
-        } else {
-          if (answers[q.id] === q.answer) correctCount++;
-        }
+      homework.questions.forEach((q, idx) => {
+        const qId = q?.id !== undefined && q?.id !== null ? q.id : `idx_${idx}`;
+        const ans = answers[qId] !== undefined ? answers[qId] : answers[`idx_${idx}`];
+        if (checkIsCorrect(q, ans)) correctCount++;
       });
     } else {
       correctCount = homework.questions.length;
@@ -430,13 +426,10 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
           ? "Good effort! A bit more practice and you'll be a pro. 📚" 
           : "Don't give up! Review the core concepts and try again. 🦾";
 
-    const wrongQuestions = homework.type === 'lesson' ? [] : homework.questions.filter(q => {
-      if (q.questionType === 'text') {
-        const studentAns = (answers[q.id] || '').trim().toLowerCase();
-        const correctAns = (q.answer || '').trim().toLowerCase();
-        return studentAns !== correctAns;
-      }
-      return answers[q.id] !== q.answer;
+    const wrongQuestions = homework.type === 'lesson' ? [] : homework.questions.filter((q, idx) => {
+      const qId = q?.id !== undefined && q?.id !== null ? q.id : `idx_${idx}`;
+      const ans = answers[qId] !== undefined ? answers[qId] : answers[`idx_${idx}`];
+      return !checkIsCorrect(q, ans);
     });
     let explanations = {};
 

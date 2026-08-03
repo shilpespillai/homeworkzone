@@ -355,5 +355,29 @@ export const checkIsCorrect = (q, studentAns) => {
   // 27. Default / Multiple Choice
   const normStudent = String(studentAns).trim();
   const normCorrect = String(rawAnswer).trim();
-  return normStudent === normCorrect;
+  if (normStudent.toLowerCase() === normCorrect.toLowerCase()) return true;
+
+  // Check if studentAns is option letter ('A', 'B', 'C', 'D') and matches rawAnswer in options
+  if (Array.isArray(q.options) && q.options.length > 0) {
+    const letterMap = { 'A': 0, 'B': 1, 'C': 2, 'D': 3, 'a': 0, 'b': 1, 'c': 2, 'd': 3 };
+    if (normStudent in letterMap) {
+      const idx = letterMap[normStudent];
+      const optText = String(q.options[idx] || '').trim();
+      if (optText && optText.toLowerCase() === normCorrect.toLowerCase()) return true;
+    }
+    // Check if rawAnswer is option letter ('A', 'B', 'C', 'D') and studentAns is full option text
+    if (normCorrect in letterMap) {
+      const idx = letterMap[normCorrect];
+      const optText = String(q.options[idx] || '').trim();
+      if (optText && optText.toLowerCase() === normStudent.toLowerCase()) return true;
+    }
+    // Check if studentAns is option index ('0', '1', '2', '3')
+    const numIdx = parseInt(normStudent, 10);
+    if (!isNaN(numIdx) && numIdx >= 0 && numIdx < q.options.length) {
+      const optText = String(q.options[numIdx] || '').trim();
+      if (optText && optText.toLowerCase() === normCorrect.toLowerCase()) return true;
+    }
+  }
+
+  return normStudent.toLowerCase() === normCorrect.toLowerCase();
 };
