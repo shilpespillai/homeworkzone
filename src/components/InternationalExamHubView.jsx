@@ -26,16 +26,16 @@ export default function InternationalExamHubView({ onSelectExam, onBack }) {
       )}
       
       {/* Top Banner Header */}
-      <div className="bg-gradient-to-r from-purple-950 via-indigo-950 to-slate-950 rounded-[40px] p-8 md:p-12 text-white shadow-2xl border-4 border-purple-500/30 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-gradient-to-r from-purple-700 via-violet-700 to-indigo-700 rounded-[40px] p-8 md:p-12 text-white shadow-xl border-4 border-purple-300/40 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-4 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-900/80 border border-purple-400/40 text-amber-300 text-xs font-black uppercase tracking-widest">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-900/40 border border-purple-200/40 text-amber-300 text-xs font-black uppercase tracking-widest backdrop-blur-md">
             <Trophy className="w-4 h-4 text-amber-400" /> Authentic Examination Blueprints
           </div>
           <h1 className="text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
             International Exam Builder 🌐
           </h1>
-          <p className="text-slate-300 font-medium text-sm md:text-base leading-relaxed">
+          <p className="text-purple-100 font-medium text-sm md:text-base leading-relaxed">
             Generate official, computer-based practice papers aligned to exact test specifications for NSW Selective, ACER, ICAS, Digital SAT, NAPLAN, and UK 11+.
           </p>
         </div>
@@ -52,7 +52,7 @@ export default function InternationalExamHubView({ onSelectExam, onBack }) {
             <button
               key={tab.id}
               onClick={() => setCountryFilter(tab.id)}
-              className={`px-4 py-2 rounded-xl font-extrabold text-xs transition-all active:scale-95 ${countryFilter === tab.id ? 'bg-amber-400 text-slate-950 shadow-lg font-black' : 'bg-purple-900/60 hover:bg-purple-900 text-purple-200 border border-purple-400/20'}`}
+              className={`px-4 py-2 rounded-xl font-extrabold text-xs transition-all active:scale-95 ${countryFilter === tab.id ? 'bg-amber-400 text-slate-950 shadow-lg font-black' : 'bg-purple-900/40 hover:bg-purple-900/60 text-purple-100 border border-purple-200/30'}`}
             >
               {tab.label}
             </button>

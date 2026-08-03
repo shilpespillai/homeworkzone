@@ -1752,6 +1752,7 @@ EXPECTED JSON SCHEMA:
           <div className="flex flex-col items-center justify-center py-16 space-y-10">
             <h2 className="text-4xl font-black text-[#14532d]">What would you like to create?</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl w-full px-4">
+              {/* Card 1: Homework */}
               <button 
                 onClick={() => {
                   setFormData(prev => ({
@@ -1763,14 +1764,18 @@ EXPECTED JSON SCHEMA:
                   }));
                   setAssignmentType('homework');
                 }} 
-                className="h-64 bg-white rounded-[40px] border border-slate-200 shadow-xl flex flex-col items-center justify-center gap-6 hover:-translate-y-2 transition-all hover:border-pink-300 group cursor-pointer p-6 text-center"
+                className="h-72 bg-gradient-to-br from-white via-pink-50/40 to-rose-100/30 rounded-[40px] border-2 border-pink-200/80 shadow-xl hover:shadow-2xl hover:shadow-pink-200/50 flex flex-col items-center justify-center gap-5 hover:-translate-y-2 transition-all hover:border-pink-400 group cursor-pointer p-6 text-center relative overflow-hidden"
               >
-                <div className="w-24 h-24 bg-pink-50 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <img src="/ic-homework.png" className="w-12 h-12 object-contain mix-blend-multiply" alt="Homework" />
+                <div className="w-24 h-24 bg-gradient-to-tr from-pink-500 via-rose-500 to-amber-400 rounded-full flex items-center justify-center shadow-lg shadow-pink-500/30 group-hover:scale-110 transition-transform ring-4 ring-pink-100">
+                  <Pencil className="w-11 h-11 text-white drop-shadow-md" />
                 </div>
-                <span className="text-2xl font-black text-slate-800">Homework</span>
+                <div className="space-y-1">
+                  <span className="text-2xl font-black text-slate-800 group-hover:text-pink-600 transition-colors block">Homework</span>
+                  <span className="text-xs font-bold text-pink-600/90 block bg-pink-100/60 px-3 py-1 rounded-full">Fun & Engaging Assignments 🎨</span>
+                </div>
               </button>
               
+              {/* Card 2: Test Builder */}
               <button 
                 onClick={() => {
                   setFormData(prev => ({
@@ -1782,24 +1787,28 @@ EXPECTED JSON SCHEMA:
                   }));
                   setAssignmentType('test');
                 }} 
-                className="h-64 bg-white rounded-[40px] border border-slate-200 shadow-xl flex flex-col items-center justify-center gap-6 hover:-translate-y-2 transition-all hover:border-rose-300 group cursor-pointer p-6 text-center"
+                className="h-72 bg-gradient-to-br from-white via-emerald-50/40 to-teal-100/30 rounded-[40px] border-2 border-emerald-200/80 shadow-xl hover:shadow-2xl hover:shadow-emerald-200/50 flex flex-col items-center justify-center gap-5 hover:-translate-y-2 transition-all hover:border-emerald-400 group cursor-pointer p-6 text-center relative overflow-hidden"
               >
-                <div className="w-24 h-24 bg-rose-50 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <BookOpen className="w-12 h-12 text-rose-500" />
-                </div>
-                <span className="text-2xl font-black text-slate-800">Test Builder</span>
-              </button>
-
-              <button 
-                onClick={() => setAssignmentType('exam_hub')} 
-                className="h-64 bg-gradient-to-tr from-purple-950 to-slate-900 text-white rounded-[40px] border-2 border-purple-400/40 shadow-xl flex flex-col items-center justify-center gap-6 hover:-translate-y-2 transition-all hover:border-amber-400 group cursor-pointer p-6 text-center"
-              >
-                <div className="w-24 h-24 bg-purple-900/60 border border-purple-400/40 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Globe className="w-12 h-12 text-amber-400" />
+                <div className="w-24 h-24 bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-400 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:scale-110 transition-transform ring-4 ring-emerald-100">
+                  <BookOpen className="w-11 h-11 text-white drop-shadow-md" />
                 </div>
                 <div className="space-y-1">
-                  <span className="text-xl font-black text-white block">International Exam Builder</span>
-                  <span className="text-[10px] text-purple-200 font-bold block">NSW Selective, ACER, ICAS, SAT, NAPLAN & 11+</span>
+                  <span className="text-2xl font-black text-slate-800 group-hover:text-emerald-700 transition-colors block">Test Builder</span>
+                  <span className="text-xs font-bold text-emerald-700/90 block bg-emerald-100/60 px-3 py-1 rounded-full">Timed Quizzes & Standard Tests ⏳</span>
+                </div>
+              </button>
+
+              {/* Card 3: International Exam Builder */}
+              <button 
+                onClick={() => setAssignmentType('exam_hub')} 
+                className="h-72 bg-gradient-to-br from-white via-purple-50/60 to-amber-50/50 rounded-[40px] border-2 border-purple-200/90 shadow-xl hover:shadow-2xl hover:shadow-purple-200/60 flex flex-col items-center justify-center gap-5 hover:-translate-y-2 transition-all hover:border-purple-400 group cursor-pointer p-6 text-center relative overflow-hidden"
+              >
+                <div className="w-24 h-24 bg-gradient-to-tr from-purple-600 via-violet-600 to-amber-400 rounded-full flex items-center justify-center shadow-lg shadow-purple-500/30 group-hover:scale-110 transition-transform ring-4 ring-purple-100">
+                  <Globe className="w-11 h-11 text-amber-300 drop-shadow-md stroke-[2.2]" />
+                </div>
+                <div className="space-y-1">
+                  <span className="text-xl font-black text-slate-800 group-hover:text-purple-700 transition-colors block">International Exam Builder</span>
+                  <span className="text-[10px] text-purple-800 font-extrabold block bg-purple-100/70 px-3 py-1 rounded-full border border-purple-200/60">NSW Selective, ACER, ICAS, SAT, NAPLAN & 11+ 🌐</span>
                 </div>
               </button>
             </div>
