@@ -57,7 +57,157 @@ import { curriculum } from '../data/curriculum';
 import { SUPPORTED_LANGUAGES, getLanguageObj } from '../utils/languages';
 import { getSmartTopicTitle } from './HomeworkScheduler';
 import InternationalExamHubView from '../components/InternationalExamHubView';
-import { Globe } from 'lucide-react';
+export const resolveCustomSubjectStyle = (name) => {
+  const s = (name || '').toLowerCase();
+
+  // 1. Reading / Comprehension / Literacy / NAPLAN Reading
+  if (s.includes('reading') || s.includes('comprehension') || s.includes('literacy')) {
+    return {
+      titleColor: 'text-rose-600',
+      bgColor: 'bg-[#fff5f7]',
+      borderColor: 'border-rose-200',
+      selectedBorder: 'border-rose-500 ring-4 ring-rose-100',
+      renderIcon: () => (
+        <div className="w-16 h-20 bg-rose-100 rounded-full flex items-center justify-center text-rose-600 shadow-inner border-4 border-rose-200">
+          <BookOpen className="w-10 h-10 text-rose-500" />
+        </div>
+      )
+    };
+  }
+
+  // 2. Writing / Vocabulary / Vocab / Grammar / Conventions / Spelling / NAPLAN Writing
+  if (s.includes('writing') || s.includes('vocab') || s.includes('grammar') || s.includes('convention') || s.includes('spelling')) {
+    return {
+      titleColor: 'text-amber-600',
+      bgColor: 'bg-[#fffbeb]',
+      borderColor: 'border-amber-200',
+      selectedBorder: 'border-amber-500 ring-4 ring-amber-100',
+      renderIcon: () => (
+        <div className="w-16 h-20 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 shadow-inner border-4 border-amber-200">
+          <Pencil className="w-10 h-10 text-amber-500" />
+        </div>
+      )
+    };
+  }
+
+  // 3. Numeracy / Math / Algebra / Geometry / Calculus / NAPLAN Numeracy
+  if (s.includes('numeracy') || s.includes('math') || s.includes('algebra') || s.includes('geometry') || s.includes('calculus') || s.includes('number')) {
+    return {
+      titleColor: 'text-blue-600',
+      bgColor: 'bg-[#eff6ff]',
+      borderColor: 'border-blue-200',
+      selectedBorder: 'border-blue-500 ring-4 ring-blue-100',
+      renderIcon: () => (
+        <div className="w-16 h-20 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 shadow-inner border-4 border-blue-200">
+          <Brain className="w-10 h-10 text-blue-500" />
+        </div>
+      )
+    };
+  }
+
+  // 4. Hindi / Foreign Languages / World Studies
+  if (s.includes('hindi') || s.includes('language') || s.includes('french') || s.includes('spanish') || s.includes('german') || s.includes('chinese') || s.includes('japanese') || s.includes('latin')) {
+    return {
+      titleColor: 'text-indigo-600',
+      bgColor: 'bg-[#eef2ff]',
+      borderColor: 'border-indigo-200',
+      selectedBorder: 'border-indigo-500 ring-4 ring-indigo-100',
+      renderIcon: () => (
+        <div className="w-16 h-20 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 shadow-inner border-4 border-indigo-200">
+          <Globe className="w-10 h-10 text-indigo-500" />
+        </div>
+      )
+    };
+  }
+
+  // 5. History / Social Studies / Civics
+  if (s.includes('history') || s.includes('social') || s.includes('civics') || s.includes('empire') || s.includes('war')) {
+    return {
+      titleColor: 'text-orange-600',
+      bgColor: 'bg-[#fff7ed]',
+      borderColor: 'border-orange-200',
+      selectedBorder: 'border-orange-500 ring-4 ring-orange-100',
+      renderIcon: () => (
+        <div className="w-16 h-20 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 shadow-inner border-4 border-orange-200">
+          <History className="w-10 h-10 text-orange-500" />
+        </div>
+      )
+    };
+  }
+
+  // 6. Logical Reasoning / Logic / Reasoning / Critical Thinking
+  if (s.includes('logic') || s.includes('reasoning') || s.includes('thinking') || s.includes('puzzle')) {
+    return {
+      titleColor: 'text-amber-600',
+      bgColor: 'bg-[#fffbeb]',
+      borderColor: 'border-amber-200',
+      selectedBorder: 'border-amber-500 ring-4 ring-amber-100',
+      renderIcon: () => (
+        <div className="w-16 h-20 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 shadow-inner border-4 border-amber-200">
+          <Lightbulb className="w-10 h-10 text-amber-500" />
+        </div>
+      )
+    };
+  }
+
+  // 7. Environmental Science / Ecology / Nature / Geography
+  if (s.includes('environment') || s.includes('ecology') || s.includes('nature') || s.includes('geography') || s.includes('plant')) {
+    return {
+      titleColor: 'text-teal-600',
+      bgColor: 'bg-[#f0fdf4]',
+      borderColor: 'border-teal-200',
+      selectedBorder: 'border-teal-500 ring-4 ring-teal-100',
+      renderIcon: () => (
+        <div className="w-16 h-20 bg-teal-100 rounded-full flex items-center justify-center text-teal-600 shadow-inner border-4 border-teal-200">
+          <Leaf className="w-10 h-10 text-teal-500" />
+        </div>
+      )
+    };
+  }
+
+  // 8. Science / Physics / Chemistry / Biology
+  if (s.includes('science') || s.includes('physics') || s.includes('chem') || s.includes('bio')) {
+    return {
+      titleColor: 'text-green-600',
+      bgColor: 'bg-[#f0fdf4]',
+      borderColor: 'border-green-200',
+      selectedBorder: 'border-green-500 ring-4 ring-green-100',
+      renderIcon: () => (
+        <div className="w-16 h-20 bg-green-100 rounded-full flex items-center justify-center text-green-600 shadow-inner border-4 border-green-200">
+          <FlaskConical className="w-10 h-10 text-green-500" />
+        </div>
+      )
+    };
+  }
+
+  // 9. Art / Music / Creative
+  if (s.includes('art') || s.includes('music') || s.includes('drama') || s.includes('creative') || s.includes('design')) {
+    return {
+      titleColor: 'text-fuchsia-600',
+      bgColor: 'bg-[#fdf4ff]',
+      borderColor: 'border-fuchsia-200',
+      selectedBorder: 'border-fuchsia-500 ring-4 ring-fuchsia-100',
+      renderIcon: () => (
+        <div className="w-16 h-20 bg-fuchsia-100 rounded-full flex items-center justify-center text-fuchsia-600 shadow-inner border-4 border-fuchsia-200">
+          <Sparkles className="w-10 h-10 text-fuchsia-500" />
+        </div>
+      )
+    };
+  }
+
+  // Fallback for any other custom subject
+  return {
+    titleColor: 'text-purple-600',
+    bgColor: 'bg-[#faf5ff]',
+    borderColor: 'border-purple-200',
+    selectedBorder: 'border-purple-500 ring-4 ring-purple-100',
+    renderIcon: () => (
+      <div className="w-16 h-20 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 shadow-inner border-4 border-purple-200">
+        <Book className="w-10 h-10 text-purple-500" />
+      </div>
+    )
+  };
+};
 
 export const sanitizeQuestionData = (q) => {
   if (!q) return q;
