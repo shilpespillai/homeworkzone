@@ -1,0 +1,469 @@
+import React, { useState } from 'react';
+import { 
+  Timer, 
+  Flag, 
+  CheckCircle2, 
+  XCircle, 
+  ChevronLeft, 
+  ChevronRight, 
+  FileText, 
+  Award, 
+  Pencil, 
+  HelpCircle,
+  AlertTriangle,
+  RotateCcw,
+  BookOpen,
+  Check,
+  X
+} from 'lucide-react';
+
+export default function OfficialExamPaperView({
+  homework,
+  questions = [],
+  studentName = 'Student',
+  timeRemaining,
+  formattedTime,
+  answers = {},
+  onSelectAnswer,
+  markedForReview = {},
+  onToggleReview,
+  onFinishExam,
+  isSubmitted = false,
+  submissionResult = null
+}) {
+  const [hasStarted, setHasStarted] = useState(false);
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [showMatrixModal, setShowMatrixModal] = useState(false);
+  const [showScratchpad, setShowScratchpad] = useState(false);
+  const [scratchNotes, setScratchNotes] = useState('');
+  const [showConfirmSubmit, setShowConfirmSubmit] = useState(false);
+
+  const totalQuestions = questions.length;
+  const currentQ = questions[currentIdx] || {};
+
+  // Extract stimulus/passage vs main question statement
+  const getParsedQuestionContent = (questionObj) => {
+    const text = questionObj?.question || '';
+    if (text.includes('---PASSAGE---') || text.includes('---STIMULUS---')) {
+      const parts = text.split(/---PASSAGE---|---STIMULUS---/);
+      return { passage: parts[1]?.trim(), question: parts[2]?.trim() || parts[0]?.trim() };
+    }
+    // Check for passage headers like "Passage:" or "Read the text below:"
+    const passageMatch = text.match(/^(Passage:|Read the following text:|Read the passage:?)([\s\S]*?\n\n)([\s\S]*)$/i);
+    if (passageMatch) {
+      return { passage: passageMatch[2].trim(), question: passageMatch[3].trim() };
+    }
+    return { passage: null, question: text };
+  };
+
+  const { passage, question: cleanQuestionText } = getParsedQuestionContent(currentQ);
+
+  const answeredCount = Object.keys(answers).length;
+  const flaggedCount = Object.keys(markedForReview).filter(k => markedForReview[k]).length;
+
+  // Render Cover Page if student hasn't started yet
+  if (!hasStarted && !isSubmitted) {
+    return (
+      <div className="min-h-screen bg-[#f4f1ea] py-12 px-4 flex items-center justify-center font-serif text-slate-900">
+        <div className="max-w-3xl w-full bg-[#fcfbf9] border-4 border-slate-900 rounded-xl p-8 md:p-12 shadow-2xl space-y-8 relative">
+          
+          {/* Header Seal */}
+          <div className="text-center border-b-4 border-slate-900 pb-8 space-y-3">
+            <div className="inline-block border-2 border-slate-900 px-4 py-1 text-xs font-sans font-black uppercase tracking-widest bg-slate-100">
+              Official Assessment Paper
+            </div>
+            <h1 className="text-3xl md:text-4xl font-black tracking-tight text-slate-950 uppercase">
+              {homework?.title || 'Standardized Examination Paper'}
+            </h1>
+            <p className="text-sm font-sans font-bold text-slate-600 uppercase tracking-wide">
+              {homework?.examPreset ? `Standardized Exam Preset • ${homework.examPreset}` : 'Competitive Examination Booklet'}
+            </p>
+          </div>
+
+          {/* Metadata Table */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-[#f4f1ea] p-5 rounded-lg border-2 border-slate-900 font-sans text-xs font-bold text-slate-800">
+            <div>
+              <span className="block text-slate-500 uppercase text-[10px]">Time Allowed</span>
+              <span className="text-base text-slate-950">{homework?.timeLimit ? `${homework.timeLimit} Minutes` : '40 Minutes'}</span>
+            </div>
+            <div>
+              <span className="block text-slate-500 uppercase text-[10px]">Total Questions</span>
+              <span className="text-base text-slate-950">{totalQuestions} Questions</span>
+            </div>
+            <div>
+              <span className="block text-slate-500 uppercase text-[10px]">Calculators</span>
+              <span className="text-base text-slate-950">Not Permitted</span>
+            </div>
+            <div>
+              <span className="block text-slate-500 uppercase text-[10px]">Candidate Name</span>
+              <span className="text-base text-slate-950 truncate block">{studentName}</span>
+            </div>
+          </div>
+
+          {/* Candidate Instructions */}
+          <div className="space-y-4 text-xs font-sans leading-relaxed border-2 border-slate-900/40 p-6 rounded-lg bg-amber-50/40">
+            <h3 className="font-black text-slate-950 uppercase tracking-wider flex items-center gap-2 text-sm border-b border-slate-300 pb-2">
+              <FileText className="w-4 h-4 text-slate-900" /> Instructions to Candidates
+            </h3>
+            <ol className="list-decimal list-inside space-y-2 font-medium text-slate-800">
+              <li>Do not turn over this cover page until instructed to begin.</li>
+              <li>This test paper contains <strong>{totalQuestions} multiple-choice questions</strong>.</li>
+              <li>For each question, select the <strong>SINGLE BEST answer</strong> choice (A, B, C, or D).</li>
+              <li>Manage your time carefully. Rough working out can be done using the built-in Scratchpad.</li>
+              <li>Marks are <strong>NOT deducted for incorrect answers</strong>. Attempt all questions.</li>
+            </ol>
+          </div>
+
+          {/* Action Button */}
+          <div className="pt-4 text-center">
+            <button
+              onClick={() => setHasStarted(true)}
+              className="bg-slate-950 hover:bg-slate-800 active:scale-95 text-white font-sans font-black py-4 px-12 rounded-xl text-base shadow-xl transition-all tracking-wider uppercase flex items-center justify-center gap-3 mx-auto"
+            >
+              Begin Examination 📝
+            </button>
+          </div>
+
+        </div>
+      </div>
+    );
+  }
+
+  // Render Examination Results Report if Submitted
+  if (isSubmitted) {
+    const correctCount = submissionResult?.correctCount ?? Object.keys(answers).filter(idx => answers[idx] === questions[idx]?.correctAnswer).length;
+    const percentage = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
+    
+    // Performance Band Estimation
+    const getPerformanceBand = (pct) => {
+      if (pct >= 90) return { band: 'Band 6 (Top 5% — Outstanding Achievement)', color: 'text-emerald-700 bg-emerald-50 border-emerald-300' };
+      if (pct >= 75) return { band: 'Band 5 (Top 15% — High Proficiency)', color: 'text-blue-700 bg-blue-50 border-blue-300' };
+      if (pct >= 60) return { band: 'Band 4 (Proficient Standard)', color: 'text-indigo-700 bg-indigo-50 border-indigo-300' };
+      return { band: 'Developing Competency', color: 'text-amber-700 bg-amber-50 border-amber-300' };
+    };
+
+    const bandInfo = getPerformanceBand(percentage);
+
+    return (
+      <div className="min-h-screen bg-[#f4f1ea] py-12 px-4 font-serif text-slate-900">
+        <div className="max-w-4xl mx-auto bg-[#fcfbf9] border-4 border-slate-900 rounded-xl p-8 md:p-12 shadow-2xl space-y-10">
+          
+          {/* Header */}
+          <div className="border-b-4 border-slate-900 pb-6 text-center space-y-2">
+            <div className="inline-block border border-slate-900 px-3 py-1 text-xs font-sans font-black uppercase tracking-widest bg-slate-200">
+              Official Examination Score Report
+            </div>
+            <h1 className="text-3xl font-black text-slate-950 uppercase">{homework?.title || 'Standardized Examination'}</h1>
+            <p className="text-xs font-sans text-slate-600 font-bold">Candidate: {studentName} • Date: {new Date().toLocaleDateString()}</p>
+          </div>
+
+          {/* Diagnostic Summary Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-sans">
+            <div className="bg-slate-950 text-white p-6 rounded-xl text-center space-y-1 shadow-md">
+              <span className="text-xs uppercase font-bold text-slate-400">Total Raw Score</span>
+              <div className="text-4xl font-black">{correctCount} / {totalQuestions}</div>
+              <span className="text-xs text-slate-300 font-medium">({percentage}%)</span>
+            </div>
+
+            <div className={`p-6 rounded-xl text-center space-y-1 border-2 ${bandInfo.color} col-span-2 flex flex-col justify-center`}>
+              <span className="text-xs uppercase font-bold tracking-wider">Estimated Standardized Performance Band</span>
+              <div className="text-xl font-black">{bandInfo.band}</div>
+            </div>
+          </div>
+
+          {/* Question Review Booklet */}
+          <div className="space-y-6 pt-4 border-t-2 border-slate-900">
+            <h3 className="text-xl font-black uppercase tracking-wide border-b-2 border-slate-300 pb-3 flex items-center gap-2">
+              <BookOpen className="w-5 h-5 text-slate-900" /> Official Solutions & Worked Logic Booklet
+            </h3>
+
+            <div className="space-y-6 font-sans">
+              {questions.map((q, idx) => {
+                const studentAns = answers[idx];
+                const isCorrect = studentAns === q.correctAnswer;
+                const parsed = getParsedQuestionContent(q);
+
+                return (
+                  <div key={idx} className={`p-6 rounded-xl border-2 space-y-4 ${isCorrect ? 'border-emerald-300 bg-emerald-50/30' : 'border-red-200 bg-red-50/20'}`}>
+                    <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                      <span className="font-black text-xs uppercase tracking-wider text-slate-700">Question {idx + 1} of {totalQuestions}</span>
+                      <span className={`text-xs font-black uppercase px-2.5 py-1 rounded-md flex items-center gap-1 ${isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}`}>
+                        {isCorrect ? <Check className="w-3.5 h-3.5" /> : <X className="w-3.5 h-3.5" />}
+                        {isCorrect ? 'Correct (+1)' : 'Incorrect (0)'}
+                      </span>
+                    </div>
+
+                    {/* Passage if present */}
+                    {parsed.passage && (
+                      <div className="p-4 bg-amber-50/60 border border-amber-200 rounded-lg text-xs font-serif text-slate-800 leading-relaxed italic">
+                        {parsed.passage}
+                      </div>
+                    )}
+
+                    <p className="font-bold text-sm text-slate-900">{parsed.question}</p>
+
+                    {/* Options Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-medium">
+                      {(q.options || []).map((opt, oIdx) => {
+                        const optKey = ['A', 'B', 'C', 'D'][oIdx] || String(oIdx);
+                        const isStudentChoice = studentAns === optKey || studentAns === opt;
+                        const isRightChoice = q.correctAnswer === optKey || q.correctAnswer === opt;
+
+                        let optClass = 'bg-white border-slate-200 text-slate-700';
+                        if (isRightChoice) optClass = 'bg-emerald-100 border-emerald-400 font-bold text-emerald-900';
+                        else if (isStudentChoice) optClass = 'bg-red-100 border-red-400 font-bold text-red-900';
+
+                        return (
+                          <div key={oIdx} className={`p-3 rounded-lg border flex items-center gap-2 ${optClass}`}>
+                            <span className="font-black">({optKey})</span> {opt}
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Worked Solution */}
+                    {q.explanation && (
+                      <div className="p-3.5 bg-slate-100 border border-slate-200 rounded-lg text-xs space-y-1">
+                        <span className="font-black uppercase text-[10px] text-slate-500 block">Worked Logic Solution:</span>
+                        <p className="text-slate-800 leading-normal">{q.explanation}</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    );
+  }
+
+  // Active Examination Test Booklet View
+  return (
+    <div className="min-h-screen bg-[#f4f1ea] font-serif text-slate-900 flex flex-col justify-between">
+      
+      {/* Top Test Header Bar */}
+      <header className="bg-slate-950 text-white py-3 px-6 shadow-md border-b-4 border-slate-800 flex items-center justify-between sticky top-0 z-30 font-sans">
+        <div className="flex items-center gap-3">
+          <div className="bg-slate-800 px-2.5 py-1 rounded text-[10px] font-black uppercase tracking-widest text-slate-300">
+            OFFICIAL TEST PAPER
+          </div>
+          <h2 className="text-sm font-extrabold truncate max-w-md hidden md:block text-slate-100">{homework?.title}</h2>
+        </div>
+
+        {/* Center Timer */}
+        <div className="flex items-center gap-2 bg-slate-900 px-4 py-1.5 rounded-lg border border-slate-700 text-amber-400 font-mono font-black text-sm shadow-inner">
+          <Timer className="w-4 h-4 text-amber-400 animate-pulse" />
+          <span>{formattedTime || '40:00'}</span>
+        </div>
+
+        {/* Controls */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setShowScratchpad(prev => !prev)}
+            className={`py-1.5 px-3 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${showScratchpad ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-slate-200 hover:bg-slate-700'}`}
+          >
+            <Pencil className="w-3.5 h-3.5" /> Scratchpad
+          </button>
+          
+          <button
+            onClick={() => setShowMatrixModal(true)}
+            className="py-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-bold flex items-center gap-1.5"
+          >
+            <FileText className="w-3.5 h-3.5" /> Palette ({answeredCount}/{totalQuestions})
+          </button>
+        </div>
+      </header>
+
+      {/* Main Examination Paper Container */}
+      <main className="max-w-4xl w-full mx-auto p-4 md:p-8 flex-1">
+        
+        {/* Scratchpad Drawer if toggled */}
+        {showScratchpad && (
+          <div className="mb-6 bg-slate-900 text-white p-4 rounded-xl border-2 border-slate-700 shadow-xl space-y-2 font-sans animate-in slide-in-from-top-4 duration-200">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+              <span className="text-xs font-black uppercase text-amber-400 tracking-wider">Candidate Rough Working Scratchpad</span>
+              <button onClick={() => setScratchNotes('')} className="text-[10px] text-slate-400 hover:text-white">Clear Working</button>
+            </div>
+            <textarea
+              value={scratchNotes}
+              onChange={(e) => setScratchNotes(e.target.value)}
+              placeholder="Type rough calculations, formulas, or logic eliminations here..."
+              className="w-full h-28 bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs font-mono text-amber-200 outline-none resize-none"
+            />
+          </div>
+        )}
+
+        {/* Paper Sheet */}
+        <div className="bg-[#fcfbf9] border-4 border-slate-900 rounded-xl p-6 md:p-10 shadow-xl space-y-8 relative">
+          
+          {/* Paper Question Header */}
+          <div className="flex items-center justify-between border-b-2 border-slate-900 pb-4 font-sans">
+            <span className="font-black text-xs uppercase tracking-widest text-slate-600">
+              QUESTION {currentIdx + 1} OF {totalQuestions}
+            </span>
+
+            <button
+              onClick={() => onToggleReview && onToggleReview(currentIdx)}
+              className={`flex items-center gap-1.5 text-xs font-black px-3 py-1.5 rounded-lg border transition-all ${markedForReview[currentIdx] ? 'bg-amber-500 text-slate-950 border-amber-600' : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300'}`}
+            >
+              <Flag className="w-3.5 h-3.5" />
+              {markedForReview[currentIdx] ? 'Flagged for Review' : 'Flag for Review'}
+            </button>
+          </div>
+
+          {/* Reading Passage / Stimulus Container if present */}
+          {passage && (
+            <div className="bg-amber-50/50 border-2 border-amber-200/80 p-6 rounded-xl font-serif text-slate-900 leading-relaxed text-sm md:text-base space-y-3 shadow-inner">
+              <span className="font-sans text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-200/60 px-2 py-0.5 rounded border border-amber-300">
+                READING PASSAGE / STIMULUS DATA
+              </span>
+              <p className="whitespace-pre-line">{passage}</p>
+            </div>
+          )}
+
+          {/* Question Text */}
+          <div className="text-base md:text-lg font-bold leading-snug text-slate-950">
+            {cleanQuestionText}
+          </div>
+
+          {/* Options Grid (Formal A/B/C/D) */}
+          <div className="space-y-3 font-sans pt-2">
+            {(currentQ.options || []).map((opt, oIdx) => {
+              const optKey = ['A', 'B', 'C', 'D'][oIdx] || String(oIdx);
+              const isSelected = answers[currentIdx] === optKey || answers[currentIdx] === opt;
+
+              return (
+                <div
+                  key={oIdx}
+                  onClick={() => onSelectAnswer && onSelectAnswer(currentIdx, optKey)}
+                  className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center gap-4 ${isSelected ? 'bg-slate-950 text-white border-slate-950 shadow-md translate-x-1' : 'bg-white hover:bg-slate-50 text-slate-900 border-slate-300 hover:border-slate-400'}`}
+                >
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-xs shrink-0 border ${isSelected ? 'bg-amber-500 text-slate-950 border-amber-400' : 'bg-slate-100 text-slate-700 border-slate-300'}`}>
+                    {optKey}
+                  </div>
+                  <span className="font-semibold text-sm leading-snug">{opt}</span>
+                </div>
+              );
+            })}
+          </div>
+
+        </div>
+      </main>
+
+      {/* Bottom Examination Navigation Bar */}
+      <footer className="bg-slate-950 text-white py-4 px-6 border-t-4 border-slate-800 font-sans sticky bottom-0 z-30 shadow-2xl">
+        <div className="max-w-4xl mx-auto flex items-center justify-between">
+          <button
+            disabled={currentIdx === 0}
+            onClick={() => setCurrentIdx(prev => Math.max(0, prev - 1))}
+            className="py-2.5 px-5 bg-slate-800 hover:bg-slate-700 active:scale-95 disabled:opacity-30 rounded-xl font-extrabold text-xs flex items-center gap-2 text-white transition-all"
+          >
+            <ChevronLeft className="w-4 h-4" /> Previous
+          </button>
+
+          <span className="text-xs font-bold text-slate-400 hidden sm:block">
+            {answeredCount} of {totalQuestions} Answered ({flaggedCount} Flagged)
+          </span>
+
+          {currentIdx < totalQuestions - 1 ? (
+            <button
+              onClick={() => setCurrentIdx(prev => Math.min(totalQuestions - 1, prev + 1))}
+              className="py-2.5 px-6 bg-amber-500 hover:bg-amber-400 active:scale-95 text-slate-950 font-black text-xs rounded-xl flex items-center gap-2 shadow-lg transition-all"
+            >
+              Next Question <ChevronRight className="w-4 h-4" />
+            </button>
+          ) : (
+            <button
+              onClick={() => setShowConfirmSubmit(true)}
+              className="py-2.5 px-8 bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-slate-950 font-black text-xs rounded-xl flex items-center gap-2 shadow-lg transition-all uppercase tracking-wider"
+            >
+              Finish Examination 🏁
+            </button>
+          )}
+        </div>
+      </footer>
+
+      {/* Question Matrix Modal */}
+      {showMatrixModal && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 font-sans">
+          <div className="bg-white rounded-2xl p-6 max-w-lg w-full space-y-6 shadow-2xl border-2 border-slate-900">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <h3 className="font-black text-slate-900 text-sm uppercase">Question Palette Grid</h3>
+              <button onClick={() => setShowMatrixModal(false)} className="text-slate-400 hover:text-slate-700">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-5 gap-3 max-h-72 overflow-y-auto p-1">
+              {questions.map((_, qIdx) => {
+                const isAns = answers[qIdx] !== undefined;
+                const isFlag = markedForReview[qIdx];
+                const isCurr = qIdx === currentIdx;
+
+                let btnClass = 'bg-slate-100 text-slate-700 border-slate-300';
+                if (isCurr) btnClass = 'ring-4 ring-slate-950 font-black';
+                if (isAns) btnClass = 'bg-emerald-600 text-white font-black border-emerald-700';
+                if (isFlag) btnClass = 'bg-amber-500 text-slate-950 font-black border-amber-600';
+
+                return (
+                  <button
+                    key={qIdx}
+                    onClick={() => {
+                      setCurrentIdx(qIdx);
+                      setShowMatrixModal(false);
+                    }}
+                    className={`h-10 rounded-xl border text-xs flex items-center justify-center transition-all ${btnClass}`}
+                  >
+                    {qIdx + 1}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="flex justify-between items-center text-[10px] font-bold text-slate-500 border-t border-slate-200 pt-3">
+              <span className="flex items-center gap-1"><div className="w-3 h-3 bg-emerald-600 rounded" /> Answered</span>
+              <span className="flex items-center gap-1"><div className="w-3 h-3 bg-amber-500 rounded" /> Flagged</span>
+              <span className="flex items-center gap-1"><div className="w-3 h-3 bg-slate-100 border border-slate-300 rounded" /> Unanswered</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Confirm Submission Modal */}
+      {showConfirmSubmit && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 font-sans">
+          <div className="bg-white rounded-2xl p-6 max-w-md w-full text-center space-y-5 shadow-2xl border-2 border-slate-900">
+            <div className="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto">
+              <AlertTriangle className="w-6 h-6" />
+            </div>
+            <h3 className="font-black text-slate-950 text-lg uppercase">Submit Examination?</h3>
+            <p className="text-xs text-slate-600 font-medium">
+              You have answered <strong>{answeredCount} of {totalQuestions}</strong> questions.
+              {totalQuestions - answeredCount > 0 && ` You have ${totalQuestions - answeredCount} unanswered questions.`}
+            </p>
+            <div className="flex gap-3 pt-2">
+              <button
+                onClick={() => setShowConfirmSubmit(false)}
+                className="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-black text-xs rounded-xl"
+              >
+                Return to Exam
+              </button>
+              <button
+                onClick={() => {
+                  setShowConfirmSubmit(false);
+                  onFinishExam && onFinishExam();
+                }}
+                className="flex-1 py-3 bg-slate-950 hover:bg-slate-800 text-white font-black text-xs rounded-xl uppercase tracking-wider"
+              >
+                Confirm & Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
+}

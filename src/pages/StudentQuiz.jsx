@@ -67,6 +67,7 @@ import InteractiveTrigRatios from '../components/InteractiveTrigRatios';
 import InteractiveExponentialCurve from '../components/InteractiveExponentialCurve';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
 import { SUPPORTED_LANGUAGES, getLanguageObj } from '../utils/languages';
+import OfficialExamPaperView from '../components/OfficialExamPaperView';
 
 const playTTS = (text, langTag = 'en-US') => {
   if (!text) return;
@@ -316,6 +317,42 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
           <button onClick={onComplete} className="btn-bubble btn-primary">Go Back</button>
         </div>
       </div>
+    );
+  }
+
+  const isExamPaper = homework?.type === 'test' || !!homework?.examPreset || !!homework?.isExamPaper;
+
+  if (isExamPaper && !isReviewing) {
+    const timeLimitSecs = (homework?.timeLimit ? parseInt(homework.timeLimit) : 40) * 60;
+    const timeRem = Math.max(0, timeLimitSecs - secondsSpent);
+    const mins = Math.floor(timeRem / 60);
+    const secs = timeRem % 60;
+    const fmtTime = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+    return (
+      <OfficialExamPaperView
+        homework={homework}
+        questions={homework.questions || []}
+        studentName={studentName}
+        timeRemaining={timeRem}
+        formattedTime={fmtTime}
+        answers={answers}
+        onSelectAnswer={(qIdx, optionKey) => {
+          const qId = homework.questions[qIdx]?.id || qIdx;
+          setAnswers(prev => ({ ...prev, [qId]: optionKey, [qIdx]: optionKey }));
+        }}
+        markedForReview={markedForReview}
+        onToggleReview={(qIdx) => {
+          setMarkedForReview(prev => ({ ...prev, [qIdx]: !prev[qIdx] }));
+        }}
+        onFinishExam={handleSubmit}
+        isSubmitted={isSubmitted}
+        submissionResult={{
+          correctCount: score,
+          feedback: feedback,
+          wrongAnswersExplanations: wrongAnswersExplanations
+        }}
+      />
     );
   }
 
