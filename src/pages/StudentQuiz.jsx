@@ -771,7 +771,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
       </header>
 
       {/* Content Area */}
-      <main className="max-w-4xl mx-auto w-full flex-1 relative z-10 flex flex-col gap-6">
+      <main className={`w-full ${inStudyMode ? 'max-w-[98vw] px-2 sm:px-4' : 'max-w-4xl'} mx-auto flex-1 relative z-10 flex flex-col gap-6`}>
         {inStudyMode ? (
           <div className="w-full py-4">
             <PassageViewer 

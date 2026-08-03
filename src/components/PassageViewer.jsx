@@ -173,7 +173,7 @@ export default function PassageViewer({
   const isVocab = !!parsedVocab && parsedVocab.words.length > 0;
 
   return (
-    <div className={`w-full max-w-[96vw] xl:max-w-7xl mx-auto space-y-6 ${className}`}>
+    <div className={`w-full max-w-[98vw] mx-auto space-y-6 ${className}`}>
       
       {/* Page Title & Subtitle */}
       <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-2 text-center sm:text-left">
@@ -202,23 +202,23 @@ export default function PassageViewer({
 
       {/* Excel Data Table Grid for Vocab Words */}
       {isVocab ? (
-        <div className="w-full bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden overflow-x-auto font-sans">
-          <table className="w-full text-left border-collapse text-xs sm:text-sm">
+        <div className="w-full bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden font-sans">
+          <table className="w-full text-left border-collapse text-xs sm:text-sm table-auto">
             <thead>
               <tr className="bg-slate-100/80 text-slate-600 border-b border-slate-200 font-normal uppercase tracking-wider text-[11px]">
-                <th className="p-3.5 px-4 font-normal w-12 text-center border-r border-slate-200/60">#</th>
-                <th className="p-3.5 px-4 font-normal min-w-[170px] border-r border-slate-200/60">Word & Details</th>
-                <th className="p-3.5 px-4 font-normal min-w-[200px] border-r border-slate-200/60">Meaning</th>
-                <th className="p-3.5 px-4 font-normal min-w-[220px] border-r border-slate-200/60">Why Writers Love This</th>
-                <th className="p-3.5 px-4 font-normal min-w-[200px] border-r border-slate-200/60">Replace Boring Words</th>
-                <th className="p-3.5 px-4 font-normal min-w-[220px]">Quick Writing Tips</th>
+                <th className="p-3 px-3 font-normal w-10 text-center border-r border-slate-200/60">#</th>
+                <th className="p-3.5 px-4 font-normal w-[18%] border-r border-slate-200/60">Word & Details</th>
+                <th className="p-3.5 px-4 font-normal w-[20%] border-r border-slate-200/60">Meaning</th>
+                <th className="p-3.5 px-4 font-normal w-[22%] border-r border-slate-200/60">Why Writers Love This</th>
+                <th className="p-3.5 px-4 font-normal w-[18%] border-r border-slate-200/60">Replace Boring Words</th>
+                <th className="p-3.5 px-4 font-normal w-[22%]">Quick Writing Tips</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200/80">
               {parsedVocab.words.map((item, idx) => (
                 <tr key={idx} className="hover:bg-amber-50/20 transition-colors even:bg-slate-50/40">
                   {/* Row Number */}
-                  <td className="p-3.5 px-4 text-center font-normal text-slate-400 border-r border-slate-200/60 align-top">
+                  <td className="p-3 px-3 text-center font-normal text-slate-400 border-r border-slate-200/60 align-top">
                     {idx + 1}
                   </td>
 

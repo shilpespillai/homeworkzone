@@ -812,7 +812,7 @@ export default function OfficialExamPaperView({
       </header>
 
       {/* Main Examination Paper Container */}
-      <main className="max-w-4xl w-full mx-auto p-4 md:p-8 flex-1">
+      <main className={`w-full ${passage ? 'max-w-[98vw] p-2 md:p-4' : 'max-w-4xl p-4 md:p-8'} mx-auto flex-1`}>
         
         {/* Scratchpad Drawer if toggled */}
         {showScratchpad && (
