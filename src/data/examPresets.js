@@ -56,6 +56,7 @@ Generate an authentic Mathematical Reasoning examination paper for Year 7 entry.
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • Non-calculator high-order problem solving (NSW Selective Benchmark for Top 5% students).
 • Questions must require strategic shortcuts, consecutive number sum logic, speed-distance-time catch-up rates, and composite area heuristics rather than rote calculation.
+• VISUAL DIAGRAM MANDATE: AT LEAST 40% (4 out of every 10) of questions MUST be visual diagram-based questions containing valid, high-quality inline "svgCode" (such as geometry shapes, angle diagrams, fraction bars, coordinate grids, or tables).
 
 OFFICIAL SYLLABUS & DOMAIN BREAKDOWN (35 Questions / 40 Minutes - NO CALCULATORS PERMITTED):
 1. NUMBER & ALGEBRA (40%):
@@ -126,6 +127,7 @@ Generate an authentic ICAS Mathematics competition paper testing deep problem-so
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • UNSW Global Distinction / High Distinction Competition Rigor.
 • Include non-routine combinatorics, cryptarithms, Pigeonhole Principle, and a 3-5 question Section C Olympiad challenge tier designed to differentiate top 1% students.
+• VISUAL DIAGRAM MANDATE: AT LEAST 40% (4 out of every 10) of questions MUST be visual diagram-based questions containing valid, high-quality inline "svgCode" (such as geometry figures, bar graphs, number lines, or logic tables).
 
 OFFICIAL ICAS SYLLABUS BREAKDOWN:
 1. HIGH-ORDER PROBLEM SOLVING (30%):
@@ -233,6 +235,7 @@ Generate an authentic NAPLAN Numeracy practice examination paper aligned with th
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • ACARA National Benchmark Rigor (Mix of Band 5–8 Progressive Challenge Questions).
 • Feature authentic Australian real-world contexts, non-calculator mental strategy, and multi-step data interpretation.
+• VISUAL DIAGRAM MANDATE (CRITICAL): AT LEAST 40% (4 out of every 10) of questions MUST be VISUAL DIAGRAM-BASED questions containing valid, beautifully rendered inline "svgCode" (such as column graphs, dot plots, pie charts, geometry shapes, angle diagrams, clocks, measurement rulers, or number lines). Never generate a 100% text-only numeracy paper!
 
 OFFICIAL NAPLAN SYLLABUS BREAKDOWN (Part 1 Non-Calculator & Part 2 Calculator Allowed):
 1. NUMBER & ALGEBRA (40%):
@@ -267,6 +270,7 @@ Generate an authentic Digital SAT Math section practice paper (Multistage Adapti
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • US College Board Official Digital SAT Rigor (Includes Section 2 Adaptive Hard-Module Level Challenge Questions).
 • Feature multi-step quadratics, exponential modeling, circle equations (x-h)^2 + (y-k)^2 = r^2, right-triangle trig, and Student-Produced Response (Grid-In) numerical entry.
+• VISUAL DIAGRAM MANDATE: AT LEAST 40% of questions MUST be visual diagram-based questions containing valid, high-quality inline "svgCode" (such as coordinate plane parabolas, circle graphs, right triangles, scatter plots, or data tables).
 
 OFFICIAL DIGITAL SAT MATH DOMAINS (Desmos Graphing Calculator Allowed for All Questions):
 1. ALGEBRA (35%):

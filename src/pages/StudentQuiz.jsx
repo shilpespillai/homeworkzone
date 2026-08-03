@@ -332,7 +332,8 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
     );
   }
 
-  const isExamPaper = homework?.type === 'test' || !!homework?.examPreset || !!homework?.isExamPaper;
+  const isVocab = homework?.subject === 'Vocabulary' || (homework?.subject || '').toLowerCase().includes('vocab') || (homework?.topic || '').toLowerCase().includes('vocab');
+  const isExamPaper = (homework?.type === 'test' || !!homework?.examPreset || !!homework?.isExamPaper) && !isVocab;
 
   if (isExamPaper && !isReviewing) {
     const timeLimitSecs = (homework?.timeLimit ? parseInt(homework.timeLimit) : 40) * 60;

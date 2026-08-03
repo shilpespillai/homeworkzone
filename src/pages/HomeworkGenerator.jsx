@@ -1402,8 +1402,36 @@ EXPECTED JSON SCHEMA:
       const langRule = targetLanguage && targetLanguage !== 'en'
         ? `\n        CRITICAL TARGET LANGUAGE REQUIREMENT: You MUST generate all question text, options, and explanations in ${langObj.name} (${langObj.nativeName}). Ensure accurate mathematical terminology and culturally appropriate context for ${langObj.name} speakers.`
         : '';
+      const isVocab = formData.subject === 'Vocabulary' || (formData.subject || '').toLowerCase().includes('vocab') || (topic || '').toLowerCase().includes('vocab');
 
-      let prompt = `You are an expert curriculum designer. 
+      let prompt = isVocab ? `You are an expert Vocabulary Curriculum Director and Word Learning Coach.
+        Your mission is to teach students 6 to 8 NEW vocabulary words every week through an INFORMATION-FIRST "Weekly Word Spotlight & Learning Guide", followed by direct contextual application exercises.
+        DO NOT generate a standard multiple-choice quiz of random words!
+        
+        Subject: ${formData.subject}
+        Topic: ${topic}
+        Target Language: ${langObj.name} (${langObj.nativeName})
+        Specific Content Instructions: ${injectedPrompt}
+        ${langRule}
+        ${previousQuestionsBlock}
+        
+        YOUR JSON RESPONSE MUST PROVIDE:
+        1. "passage": A comprehensive, beautifully structured "Weekly Word Spotlight & Learning Guide" teaching 6-8 new grade-appropriate vocabulary words.
+           For EVERY word in "passage", you MUST include:
+           - 📌 Word & Part of Speech
+           - 🔊 Phonetics / Pronunciation
+           - 💡 Clear Kid-Friendly Definition
+           - 🔍 Root / Etymology (Where the word comes from)
+           - 👯 Synonyms & Antonyms
+           - 📖 Example Sentence in an authentic real-world context
+           - 💡 Usage Memory Hook / Tip
+        2. "questions": An array of ${questionCount} application exercises that help the student actively PRACTICE and APPLY the exact 6-8 words taught in the guide above.
+           - Ask direct application questions such as:
+             * Fill-in-the-blank sentences: e.g., "Liam took a _______ step onto the icy sidewalk." (Options: cautious, reckless, furious, timid - where cautious is the target word from the guide)
+             * Synonym/Antonym identification: e.g., "Which word from this week's learning guide is an antonym for 'reckless'?"
+             * Definition matching: e.g., "Which word from this week's guide means 'being very careful to avoid danger'?"
+           - DO NOT write self-answering questions or confusing trick questions like "Which sentence effectively uses X".
+        ` : `You are an expert curriculum designer. 
         Create a ${questionCount}-question multiple-choice quiz for students about the following topic:
         Subject: ${formData.subject}
         Topic: ${topic}
@@ -1422,10 +1450,10 @@ EXPECTED JSON SCHEMA:
            - Ensure that the "answer" option is grammatically 100% correct, and the other 3 options are clearly incorrect or represent different parts of speech. No ambiguity.
            - CRITICAL VOCABULARY RULE: You MUST strictly adapt the reading level, vocabulary, and sentence structure to be age-appropriate for the specified grade level. For early learners (Foundation, Grade 1, Grade 2), use extremely simple, short, decodable words and short sentences. Avoid complex phrasing completely.
            - ABSOLUTE SUBJECT BOUNDARY RULE: English, Language Conventions, Spellings, and Literacy subjects must ONLY contain questions about grammar, punctuation, spelling, vocabulary, reading comprehension, sentence structure, or writing. NEVER include maths, arithmetic, geometry, measurement, perimeter, area, angles, fractions, statistics, data, or any other numeracy content — even if framed as a creative word problem or real-world scenario. A perimeter-of-a-whiteboard question is a MATHS question, NOT an English question. DO NOT cross subject boundaries.
-        2. For Mathematics and Olympiad Maths:
+        2. For ALL Mathematics, Numeracy, NAPLAN Numeracy, ICAS Maths, Selective Maths, SAT Math, and Olympiad Maths:
            - Ensure all equations, word problems, and numeric values are mathematically correct. Double-check your own calculations so there is zero arithmetic error.
            - CRITICAL MATH RULE: Never hallucinate mathematical properties! (e.g. 1234 is EVEN, not odd. Do not confidently assert false mathematical facts). The correct answer MUST be logically and mathematically indisputable.
-           - CRITICAL DIAGRAM & INTERACTIVE DISTRIBUTION RULE: For Mathematics and Olympiad Maths, you MUST ensure that exactly 60% of the questions generated are diagram-based or interactive (questions containing "svgCode", "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData", "[CLOCK:]", or questionType="interactive"). The remaining 40% must be plain text-based questions (without visual diagrams or interactive drag-and-drop elements). Design the quiz to strictly follow this 60% diagram/interactive and 40% text-based ratio!
+           - CRITICAL VISUAL DIAGRAM MANDATE (AT LEAST 40% VISUAL QUESTIONS): For ALL Mathematics, Numeracy, NAPLAN Numeracy, and Maths competitions/exams, you MUST ensure that AT LEAST 40% (4 out of every 10) of the questions generated are VISUAL DIAGRAM-BASED questions. Each visual question MUST include clean, beautifully formatted inline SVG code in the "svgCode" property representing graphs (column graphs, dot plots, pie charts), tables, number lines, clocks, measurement rulers, geometry shapes, or angle diagrams. DO NOT generate a 100% text-only numeracy paper! Always include at least 40% visual SVG diagram questions!
         3. For Science & Anatomy / Organ Systems:
            - Ensure all facts, definitions, and concepts are scientifically accurate, standard, and strictly grounded in the target grade's national curriculum (e.g., ACARA for Australia, NGSS for USA, UK National Curriculum).
            - ABSOLUTE EXAM RIGOR & ACADEMIC PHRASING RULE: Write clear, direct, formal exam-style questions suitable for Grade 4 assessments, tests, and exams. DO NOT write childish storybook scenarios, conversational fluff, or narrative filler (e.g., NEVER write "When you take a bite of a yummy sandwich...", "Imagine you ate a healthy apple...", or "Some children think..."). State questions directly and academically: e.g., "What is the primary function of the stomach in the human digestive system?", "Which organ is responsible for the majority of nutrient absorption into the bloodstream?", "What role do salivary enzymes play during digestion?".
@@ -1438,10 +1466,10 @@ EXPECTED JSON SCHEMA:
            - CRITICAL: Do NOT prepend letters (e.g., A., B., C., D.) or numbers (1., 2.) to the strings in your "options" array. The UI automatically renders the A/B/C/D buttons.
            - ABSOLUTE NO UNREQUESTED TRANSLATIONS RULE: For Hindi, foreign languages, or non-English content, DO NOT include English translations in parentheses inside option strings (e.g. NEVER write "लाल (red)" or "हरा (green)"). Option strings MUST contain ONLY the target language text (e.g. "लाल", "हरा"). Appending English translations in option choices ruins language testing and reveals answers to students! DO NOT include full English translation sentences in parentheses inside question text (e.g. NEVER write "(Read this: 'This is a red flower.' What color is the flower?)"). Keep question text purely in the target language unless specifically asked for a translation task.
            - ABSOLUTE NON-TRIVIAL QUESTION RULE: Never write self-answering questions where the prompt sentence states the exact answer being asked (e.g. DO NOT write "This is a red flower. What color is the flower?" where the answer "red" is literally given in the sentence context!). Questions must test genuine comprehension or vocabulary.
-        5. For Vocabulary & Word Power (Mandatory Word Learning Guide & Application):
-           - MANDATORY WORD SPOTLIGHT PASSAGE: You MUST populate the root-level "passage" string key with a structured "Weekly Word Spotlight & Learning Guide" for 3 to 5 target vocabulary words appropriate for the requested grade level.
-           - The "passage" string MUST clearly detail each word: 📌 Word & Part of Speech, 🔊 Phonetic Pronunciation, 💡 Kid-Friendly Definition, 🔍 Root/Etymology, 👯 Synonyms & Antonyms, and 📖 Practical Example Sentence in Context.
-           - MANDATORY APPLICATION QUESTIONS: Questions MUST test active contextual application (in-context scenario matching, fill-in-the-blanks, matching/sorting synonyms and antonyms, and text-input sentence creation). DO NOT generate plain 1-line definition lookup questions.
+        5. For Vocabulary & Word Power (Mandatory Information-First Word Learning Guide & Application):
+           - MANDATORY WEEKLY WORD SPOTLIGHT IN "passage": You MUST populate the root-level "passage" string key with an INFORMATION-FIRST "Weekly Word Spotlight & Learning Guide" for 6 to 8 new vocabulary words appropriate for the requested grade level.
+           - For EVERY word in the learning guide, you MUST detail: 📌 Word & Part of Speech, 🔊 Phonetics / Pronunciation, 💡 Kid-Friendly Definition, 🔍 Root / Etymology, 👯 Synonyms & Antonyms, 📖 Authentic Example Sentence in Context, and 💡 Memory Hook.
+           - APPLICATION OVER TRICK QUIZZES: Questions MUST test direct contextual application (e.g., Fill-in-the-blank sentences: 'Liam took a _______ step' where student picks 'cautious'; or Synonym/Antonym matching). DO NOT write tricky multiple-choice questions like 'Which sentence effectively uses cautious to show a character being very careful?'. The student is learning these words this week—make the questions reinforce word meaning and contextual use!
         
          CRITICAL MANDATORY QUESTION TEXT RULE:
          Every single question object in the "questions" array MUST have an explicit, plain-text question stem in the "text" property (e.g., "Which number represents 8 tens of thousands?", "What is the value of the underlined digit?", "Which fraction is shaded?"). NEVER put SVG code or clock tags as the ONLY content of the "text" property without a plain-text question sentence! Every question MUST have a clear, human-readable text question sentence.

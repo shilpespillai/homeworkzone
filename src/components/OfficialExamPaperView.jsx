@@ -350,6 +350,32 @@ export default function OfficialExamPaperView({
             </div>
           )}
 
+          {/* Visual Diagram / SVG Figure Container if present */}
+          {(currentQ.svgCode || currentQ.diagram || currentQ.imageUrl) && (
+            <div className="my-6 p-6 bg-white border-2 border-slate-200 rounded-xl shadow-inner flex flex-col items-center justify-center overflow-x-auto">
+              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-3 self-start">
+                FIGURE / VISUAL DIAGRAM
+              </span>
+              {currentQ.svgCode ? (
+                <div 
+                  dangerouslySetInnerHTML={{ __html: currentQ.svgCode }} 
+                  className="max-w-full max-h-[350px] flex items-center justify-center my-2" 
+                />
+              ) : currentQ.diagram ? (
+                <div 
+                  dangerouslySetInnerHTML={{ __html: currentQ.diagram }} 
+                  className="max-w-full max-h-[350px] flex items-center justify-center my-2" 
+                />
+              ) : currentQ.imageUrl ? (
+                <img 
+                  src={currentQ.imageUrl} 
+                  alt="Question Diagram" 
+                  className="max-w-full max-h-[350px] object-contain rounded-lg my-2" 
+                />
+              ) : null}
+            </div>
+          )}
+
           {/* Question Text */}
           <div className="text-base md:text-lg font-extrabold leading-relaxed text-slate-900 bg-slate-50 border-l-4 border-amber-500 p-4 rounded-r-xl shadow-sm my-4">
             {cleanQuestionText || currentQ?.text || currentQ?.question || currentQ?.questionText || currentQ?.prompt || currentQ?.title || currentQ?.subtopic || `Question ${currentIdx + 1}: Select the correct answer from the options below:`}
