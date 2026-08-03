@@ -8,33 +8,32 @@ export const INTERNATIONAL_EXAMS = [
     subject: 'critical_thinking',
     defaultQuestions: 40,
     defaultTime: 40,
-    promptInstruction: `You are a senior exam designer for the NSW Selective High School Placement Test (Thinking Skills section).
+    promptInstruction: `You are an official test author for the NSW Selective High School Placement Test (delivered via the Janison digital assessment platform).
 
-Generate an authentic, highly challenging Thinking Skills examination paper for entry into Year 7 Selective High Schools.
+Generate an authentic, computer-based 'Thinking Skills' examination paper for Year 7 entry.
 
-EXAM SPECIFICATION & STRUCTURE:
-1. LOGICAL DEDUCTION (25%):
-   - Knights & Knaves (truth-tellers vs. liars) scenarios
-   - Seating arrangement ordering & multi-variable logic elimination
-   - Conditional logic (If P then Q; contrapositive validity vs. converse fallacies)
+OFFICIAL SYLLABUS & DOMAIN BREAKDOWN (40 Questions / 40 Minutes):
+1. LOGICAL REASONING (30%):
+   - Deductive and inductive reasoning, identifying valid vs. invalid argument structures.
+   - Knights & Knaves (truth-tellers vs. liars) scenarios, seating arrangements, and multi-variable logic elimination.
+   - Conditional logic: Testing converse fallacies (If P then Q != If Q then P) and contrapositives.
 
 2. IDENTIFYING FLAWS & ASSUMPTIONS (25%):
-   - Short 40-60 word debate arguments containing classical fallacies (Correlation vs. Causation, Straw Man, Ad Hominem, Over-generalization)
-   - Implicit assumptions required to make an argument valid
+   - Short 40-70 word debate scenarios containing classical logical fallacies (Correlation vs. Causation, Straw Man, Ad Hominem, Over-generalization, Slippery Slope).
+   - Identifying implicit unstated assumptions necessary for an argument's conclusion to hold true.
 
 3. EVALUATING EVIDENCE & ARGUMENTS (25%):
-   - Passages presenting a claim with 4 candidate supporting/weakening statements
-   - Assessing which statement MOST strengthens or MOST weakens the argument
+   - Passages presenting a central claim with 4 candidate supporting or weakening statements.
+   - Assessing which statement MOST strengthens or MOST weakens the argument.
 
-4. SPATIAL & QUANTITATIVE REASONING (25%):
-   - 3-Set Venn diagram overlap calculations
-   - Binary tree decision paths & network logic
+4. SPATIAL & DATA-BASED LOGIC PUZZLES (20%):
+   - 3-Set Venn diagram overlap calculations, pattern rule extensions, and decision tree networks.
 
-FORMATTING RULES:
-• Every question must present a clear, realistic 30-70 word scenario/stimulus.
-• Provide exactly 4 multiple-choice options (A, B, C, D) with realistic distractor traps.
-• Distractors must represent common logical errors (e.g., assuming the converse, ignoring counter-evidence).
-• Include a clear, step-by-step logical proof in the solution explanation for each question.`
+FORMATTING & DISTRACTOR RULES:
+• Every question MUST present a realistic 30-70 word scenario or logic puzzle.
+• Provide exactly 4 options (A, B, C, D).
+• Distractor traps MUST incorporate common reasoning fallacies (e.g. affirming the consequent, ignoring counter-evidence).
+• Provide a step-by-step logical proof in the solution explanation for each question.`
   },
   {
     id: 'nsw_selective_math',
@@ -45,65 +44,56 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 35,
     defaultTime: 40,
-    promptInstruction: `You are a senior curriculum author creating a NSW Selective High School Placement Test (Mathematical Reasoning) paper.
+    promptInstruction: `You are an official test developer for the NSW Selective High School Placement Test (Mathematical Reasoning section).
 
-Generate an authentic, high-level Mathematical Reasoning examination paper.
+Generate an authentic Mathematical Reasoning examination paper for Year 7 entry.
 
-EXAM SPECIFICATION & STRUCTURE:
-1. NON-ROUTINE WORD PROBLEMS (30%):
-   - Rate, time, and distance problems involving accelerating or meeting vehicles
-   - Work-rate puzzles (cooperative filling pipes, shared jobs)
-   - Chicken and rabbit heuristic problems (excess & deficit equations)
+OFFICIAL SYLLABUS & DOMAIN BREAKDOWN (35 Questions / 40 Minutes - NO CALCULATORS PERMITTED):
+1. NUMBER & ALGEBRA (40%):
+   - Multi-step non-routine word problems, numerical sequences, and pattern rules.
+   - Operations with fractions, decimals, percentages, ratios, and proportion heuristics (e.g. before-and-after ratio transfers).
+   - Consecutive integer sums, Gauss summation methods, divisibility rules (2, 3, 5, 9, 10, 11), LCM/GCD word problems, and finding unit digits of large products.
 
-2. GEOMETRY & SPATIAL MEASUREMENT (25%):
-   - Perimeter and area of compound L-shaped and overlapping figures
-   - Shaded region area calculations involving inscribed circles, squares, and right triangles
-   - Angle geometry involving parallel lines, transversals, and polygon interior/exterior sums
+2. MEASUREMENT & GEOMETRY (35%):
+   - Perimeter and area of compound L-shaped figures, shaded regions of inscribed circles, squares, and right triangles.
+   - Angle geometry involving parallel line transversals, interior/exterior polygon sums, and spatial 3D block net visualisations.
 
-3. RATIO, PERCENTAGE & PROPORTION (25%):
-   - Multi-stage ratio transformations (before and after transfers)
-   - Profit, loss, discount, and percentage mixture problems
+3. STATISTICS & PROBABILITY (25%):
+   - Data-based word problems, multi-bar graphs, pie charts, mean/median/range calculations, and probability combinations.
 
-4. NUMBER THEORY & PATTERNS (20%):
-   - Consecutive integer sums, Gauss summation series
-   - Divisibility rules, LCM/GCD word problems, and finding unit digits of large products
-
-FORMATTING RULES:
-• Questions must be framed in realistic Australian context scenarios.
-• Each question must have 4 multiple-choice options (A, B, C, D).
-• Distractors must include common calculation traps (e.g., forgetting to halve a triangle area, miscalculating a ratio total).
-• Provide step-by-step mathematical working in the answer explanation.`
+FORMATTING & DISTRACTOR RULES:
+• Calculators are STRICTLY PROHIBITED — questions must reward clever mental strategy over tedious calculation.
+• Provide 4 options (A, B, C, D). Distractors must target common student errors (e.g. forgetting to halve a triangle area, miscalculating ratio parts).
+• Include clear step-by-step mathematical working in the solution explanation.`
   },
   {
     id: 'vic_selective_entry',
-    name: 'Victorian Selective Entry (Edutest / ACER)',
+    name: 'Victorian Selective Entry (ACER Pattern)',
     country: '🇦🇺 Australia',
     category: 'Selective Schools',
     gradeRange: 'Grade 8 - Grade 9',
     subject: 'critical_thinking',
     defaultQuestions: 35,
     defaultTime: 30,
-    promptInstruction: `You are an expert test creator for Victorian Selective Entry High School Exams (Melbourne High, Mac.Robertson, Nossal, Suzanne Cory).
+    promptInstruction: `You are an ACER (Australian Council for Educational Research) exam author creating the Victorian Selective Entry High School Exam (Melbourne High, Mac.Robertson, Nossal, Suzanne Cory).
 
-Generate an authentic Edutest / ACER style Verbal & Numerical Reasoning exam paper.
+Generate an authentic ACER-pattern General Ability (Verbal & Quantitative Reasoning) examination paper for Year 9 entry.
 
-EXAM SPECIFICATION & STRUCTURE:
+OFFICIAL SYLLABUS & DOMAIN BREAKDOWN (NO CALCULATORS ALLOWED):
 1. VERBAL REASONING (50%):
-   - Complex Word Analogies (A : B :: C : ?)
-   - Letter-Code Cracking & Alphabet Shift Rules
-   - Word Relationships, Synonyms, Antonyms, & Odd Word Out
-   - Deductive Syllogisms (All X are Y; Some Y are Z)
+   - Complex Word Analogies (A : B :: C : ?), word relationships, and vocabulary in context.
+   - Letter-Code Cracking (alphabetical shift rules & cipher patterns).
+   - Deductive Syllogisms, statement assumptions, and odd-word-out categorization.
 
-2. NUMERICAL REASONING (50%):
-   - Number & Letter Pattern Matrix Completion
-   - Speed, Distance, Time, and Fuel Consumption Rates
-   - Financial profit & percentage change word logic
-   - Symbol math (substituting shapes/symbols for algebraic values)
+2. QUANTITATIVE REASONING (50%):
+   - Numerical series completion, matrix pattern deduction, and shape-symbol equations.
+   - High-speed rate, time, distance, fuel consumption, and financial percentage change calculations.
+   - Geometric spatial logic & visual matrix transformations.
 
 FORMATTING RULES:
-• Questions must test rapid pattern recognition under tight time constraints.
-• Provide 4 distinct options (A, B, C, D) per question.
-• Explanations must clearly state the exact transformation rule or algebraic formula used.`
+• Questions must test rapid pattern recognition under extreme time pressure (< 50 seconds per question).
+• Provide 4 options (A, B, C, D) per question.
+• Explanations must clearly state the exact transformation rule or algebraic formula.`
   },
   {
     id: 'icas_math',
@@ -114,29 +104,23 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 35,
     defaultTime: 45,
-    promptInstruction: `You are an UNSW Educational Assessment Australia (EAA) ICAS Mathematics exam setter.
+    promptInstruction: `You are a UNSW Educational Assessment Australia (EAA) ICAS Mathematics exam setter.
 
-Generate an authentic ICAS Mathematics competition paper testing deep problem-solving and mathematical creativity.
+Generate an authentic ICAS Mathematics competition paper testing deep problem-solving, mathematical creativity, and non-routine logic.
 
-EXAM SPECIFICATION:
+OFFICIAL ICAS SYLLABUS BREAKDOWN:
 1. HIGH-ORDER PROBLEM SOLVING (30%):
-   - Combinatorics: Permutations, combinations, path counting on grid networks
-   - Pigeonhole Principle application in sock/card/color drawing scenarios
-
+   - Combinatorics: Permutations, combinations, path counting on grid networks, and Pigeonhole Principle application.
 2. SPATIAL & GRAPHICAL VISUALIZATION (25%):
-   - Nets of 3D solids, rotational symmetry, visible vs. hidden cube stacks
-   - Grid coordinate geometry & area of shaded segments on grid maps
-
+   - Nets of 3D solids, rotational symmetry, visible vs. hidden cube stacks, and shaded region grid geometry.
 3. NUMBER PATTERNS & ALGEBRA (25%):
-   - Modular arithmetic patterns, repeating sequence cycles
-   - Alphametics (cryptarithm arithmetic addition/multiplication puzzles)
-
+   - Modular arithmetic cycles, sequence patterns, and Alphametic (cryptarithm arithmetic addition/multiplication) puzzles.
 4. DATA & CHANCE (20%):
-   - Probability tree diagrams, Venn diagram 3-set intersections, stem-and-leaf interpretation
+   - Probability tree diagrams, 3-set Venn diagrams, and stem-and-leaf interpretation.
 
 FORMATTING RULES:
-• Questions should range from moderate to highly challenging.
-• 4 multiple-choice options (A, B, C, D) per question.
+• Questions must range from moderate to highly challenging.
+• 4 options (A, B, C, D) per question with plausible distractor traps.
 • Explanations must detail the problem-solving strategy and elegant solution path.`
   },
   {
@@ -148,25 +132,25 @@ FORMATTING RULES:
     subject: 'science',
     defaultQuestions: 30,
     defaultTime: 45,
-    promptInstruction: `You are a lead science developer for ICAS Science (UNSW Global).
+    promptInstruction: `You are a lead test developer for ICAS Science (UNSW Global).
 
 Generate an authentic ICAS Science examination paper focused strictly on scientific inquiry and experimental analysis.
 
-EXAM SPECIFICATION:
+OFFICIAL ICAS SCIENCE SYLLABUS BREAKDOWN:
 1. EXPERIMENTAL DESIGN & VARIABLES (35%):
-   - Identifying Independent, Dependent, and Controlled variables in a described experiment
-   - Evaluating experimental controls and identifying sources of error or bias
+   - Identifying Independent, Dependent, and Controlled variables in a described experiment.
+   - Evaluating experimental controls, fair testing principles, and sources of experimental error or bias.
 
 2. DATA INTERPRETATION & GRAPH ANALYSIS (35%):
-   - Line graphs, bar charts, scatterplots, and data tables representing scientific phenomena
-   - Interpolating and extrapolating values from complex experimental data
+   - Line graphs, dual-axis bar charts, scatter plots, and complex data tables representing scientific phenomena.
+   - Interpolating and extrapolating values from experimental data.
 
 3. HYPOTHESIS & SCIENTIFIC REASONING (30%):
-   - Evaluating whether experimental results support or refute a given hypothesis
-   - Cause-and-effect reasoning across Biology, Physics, Chemistry, and Earth/Space Science
+   - Evaluating whether data supports or refutes a given hypothesis using Claim-Evidence-Reasoning (CER).
+   - Cause-and-effect reasoning across Biology, Physics, Chemistry, and Earth/Space Science.
 
 FORMATTING RULES:
-• Every question MUST include a detailed 40-80 word scenario describing a realistic scientific investigation, data table, or experiment.
+• EVERY question MUST present a realistic 40-80 word scenario describing an experiment, data table, or graph.
 • 4 options (A, B, C, D) per question.
 • Explanations must break down the scientific method and data interpretation step-by-step.`
   },
@@ -183,25 +167,23 @@ FORMATTING RULES:
 
 Generate an authentic ICAS Digital Technologies paper testing computer science and computational thinking concepts.
 
-EXAM SPECIFICATION:
+OFFICIAL ICAS DIGITAL TECH SYLLABUS BREAKDOWN:
 1. ALGORITHMS & PSEUDOCODE (35%):
-   - Tracing loops (FOR, WHILE), IF-ELSE conditionals, and variables in pseudocode blocks
-   - Flowchart symbols, decision diamonds, and algorithmic logic tracking
+   - Tracing loops (FOR, WHILE), IF-ELSE conditionals, and variable state changes in pseudocode blocks.
+   - Flowchart symbols, decision diamonds, and algorithmic logic tracking.
 
 2. DATA REPRESENTATION & BINARY (25%):
-   - Binary code, bit/byte conversions, hexadecimal colors, ASCII encoding
-   - Data compression concepts (lossy vs. lossless)
+   - Binary code, bit/byte conversions, hexadecimal colors (#FF0000), ASCII encoding, and lossy vs. lossless compression.
 
 3. HARDWARE & NETWORKS (20%):
-   - CPU, RAM, storage, input/output devices
-   - IP addresses, routers, packets, DNS, and web browser protocols
+   - CPU, RAM, storage, input/output devices, IP addresses, routers, packets, DNS, and HTTP/HTTPS protocols.
 
 4. CYBERSECURITY & DIGITAL SAFETY (20%):
-   - Phishing detection, strong password hashing, encryption principles, digital footprints
+   - Phishing detection, password hashing, encryption principles, and digital footprints.
 
 FORMATTING RULES:
 • Include realistic pseudocode snippets and network scenario descriptions.
-• 4 multiple-choice options (A, B, C, D) per question.
+• 4 options (A, B, C, D) per question.
 • Explanations must trace pseudocode execution line-by-line.`
   },
   {
@@ -213,26 +195,25 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 32,
     defaultTime: 45,
-    promptInstruction: `You are an Australian Curriculum Assessment and Reporting Authority (ACARA) NAPLAN test developer.
+    promptInstruction: `You are an ACARA (Australian Curriculum Assessment and Reporting Authority) NAPLAN test author.
 
 Generate an authentic NAPLAN Numeracy practice examination paper aligned with the Australian Curriculum.
 
-EXAM SPECIFICATION:
+OFFICIAL NAPLAN SYLLABUS BREAKDOWN:
 1. NUMBER & ALGEBRA (40%):
-   - Fractions, decimals, percentages, money calculations, and number patterns
-   - Linear equations, index laws, and proportional reasoning
+   - Operations with whole numbers, fractions, decimals, percentages, money, ratios, and number patterns.
+   - Algebraic expressions, linear equations, and index laws.
 
 2. MEASUREMENT & GEOMETRY (35%):
-   - Time conversion (12h/24h), timetables, perimeter, area, volume of prisms
-   - Angle properties, 2D shape transformations, grid map directions
+   - 12h/24h time conversion, timetables, perimeter, area, volume of prisms, angle properties, and grid map directions.
 
 3. STATISTICS & PROBABILITY (25%):
-   - Column graphs, dot plots, pie charts, mean/median/range, spinner probabilities
+   - Interpreting column graphs, dot plots, pie charts, mean/median/range, and chance probabilities.
 
 FORMATTING RULES:
-• Use authentic Australian contexts (e.g. AFL scores, Australian geography, local currency).
-• 4 multiple-choice options (A, B, C, D) per question.
-• Explanations must provide clear Australian curriculum working steps.`
+• Use authentic Australian contexts (AFL scores, Australian geography, local currency).
+• 4 options (A, B, C, D) per question.
+• Provide clear step-by-step Australian Curriculum working.`
   },
   {
     id: 'digital_sat_math',
@@ -245,30 +226,25 @@ FORMATTING RULES:
     defaultTime: 35,
     promptInstruction: `You are an official US College Board Digital SAT Math test author.
 
-Generate an authentic Digital SAT Math section practice paper.
+Generate an authentic Digital SAT Math section practice paper (Multistage Adaptive Testing format).
 
-EXAM SPECIFICATION:
+OFFICIAL DIGITAL SAT MATH DOMAINS (Desmos Graphing Calculator Allowed for All Questions):
 1. ALGEBRA (35%):
-   - Linear equations in 1 and 2 variables, systems of linear equations, linear inequalities
-   - Interpreting linear models ($y = mx + b$) in real-world contexts
+   - Linear equations in 1 & 2 variables, systems of linear equations, linear inequalities, and interpreting linear models (y = mx + b).
 
 2. ADVANCED MATH (35%):
-   - Quadratic equations, vertex form, discriminant, factoring
-   - Exponential functions ($y = a \\cdot b^x$), growth/decay rates
-   - Polynomial expressions, rational equations, and radical expressions
+   - Quadratic equations, vertex form, discriminant, factoring, exponential functions (y = a*b^x), polynomials, and radical expressions.
 
 3. PROBLEM-SOLVING & DATA ANALYSIS (15%):
-   - Percentages, ratios, rates, unit conversions
-   - Scatter plots, line of best fit, mean/median, standard deviation concepts
+   - Percentages, ratios, rates, unit conversions, scatter plots, line of best fit, mean/median, standard deviation, and margin of error.
 
 4. GEOMETRY & TRIGONOMETRY (15%):
-   - Right triangle trigonometry ($\sin, \cos, \tan$), Pythagorean theorem
-   - Circle equations $(x-h)^2 + (y-k)^2 = r^2$, arc length, sector area
+   - Right triangle trigonometry (sin, cos, tan), Pythagorean theorem, circle equations (x-h)^2 + (y-k)^2 = r^2, arc length, and sector area.
 
 FORMATTING RULES:
-• Questions must match College Board phrasing and structure.
+• Questions MUST match College Board phrasing, structure, and difficulty calibration.
 • 4 options (A, B, C, D) per question.
-• Explanations must show both algebraic solution methods and calculator-assisted strategies.`
+• Explanations must show both algebraic solution steps and Desmos calculator techniques.`
   },
   {
     id: 'digital_sat_rw',
@@ -279,30 +255,33 @@ FORMATTING RULES:
     subject: 'english',
     defaultQuestions: 27,
     defaultTime: 32,
-    promptInstruction: `You are a Digital SAT Reading & Writing test developer for the US College Board.
+    promptInstruction: `You are an official US College Board Digital SAT Reading & Writing test developer.
 
 Generate an authentic Digital SAT Reading & Writing module paper.
 
-EXAM SPECIFICATION:
-1. CRAFT & STRUCTURE (30%):
-   - Words in Context (selecting high-utility academic vocabulary that fits the text tone)
-   - Text Structure & Purpose (analyzing passage function)
-   - Cross-Text Connections (comparing two short passages)
+OFFICIAL DIGITAL SAT R&W DOMAINS (1 Short Passage 25-150 words PER Question):
+1. CRAFT & STRUCTURE (28%):
+   - Words in Context (selecting high-utility academic vocabulary that fits text tone).
+   - Text Structure & Purpose (analyzing passage function).
+   - Cross-Text Connections (comparing paired short passages).
 
-2. INFORMATION & IDEAS (35%):
-   - Central Ideas & Details
-   - Command of Evidence (Textual & Quantitative data chart interpretation)
-   - Inferences (completing the logical conclusion of a passage)
+2. INFORMATION & IDEAS (26%):
+   - Central Ideas & Details.
+   - Command of Evidence (Textual & Quantitative data chart/table interpretation).
+   - Inferences (completing the logical conclusion of a passage).
 
-3. STANDARD ENGLISH CONVENTIONS (35%):
-   - Boundaries: Semicolons, colons, dashes, comma splices
-   - Form, Structure, & Sense: Subject-verb agreement, pronoun-antecedent agreement, modifier placement
+3. STANDARD ENGLISH CONVENTIONS (26%):
+   - Boundaries: Semicolons, colons, dashes, comma splices.
+   - Form, Structure, & Sense: Subject-verb agreement, pronoun-antecedent agreement, modifier placement.
+
+4. EXPRESSION OF IDEAS (20%):
+   - Rhetorical Synthesis (synthesizing provided bullet-point notes to achieve a specified goal) and Transitions (furthermore, however, consequently).
 
 FORMATTING RULES:
-• EVERY question MUST feature a short 25-120 word self-contained passage or data table.
+• EVERY single question MUST feature a short 25-150 word self-contained passage, scientific snippet, or data table.
 • Exactly 1 question per passage.
-• 4 multiple-choice options (A, B, C, D).
-• Explanations must detail the grammatical rule or textual evidence supporting the answer.`
+• 4 options (A, B, C, D).
+• Explanations must cite textual evidence or grammatical rules.`
   },
   {
     id: 'uk_11plus_reasoning',
@@ -317,21 +296,19 @@ FORMATTING RULES:
 
 Generate an authentic UK 11+ Reasoning examination paper.
 
-EXAM SPECIFICATION:
+OFFICIAL UK 11+ SYLLABUS BREAKDOWN:
 1. VERBAL REASONING (50%):
-   - Word Analogies & Synonyms/Antonyms in context
-   - Sentence Code Cracking & Letter-Shift Encryption
-   - Hidden Words & Compound Word Formation
-   - Deductive Logic & Sentence Completion
+   - Word Analogies, Synonyms & Antonyms in context.
+   - Sentence Code Cracking (alphabetical shift rules) and Hidden Words.
+   - Compound Word Formation and Syllogism Deductions.
 
 2. NON-VERBAL REASONING (50%):
-   - 2D & 3D Spatial Rotations & Reflections
-   - Folding Cube Nets & 3D Block Counting
-   - Pattern Matrix Series Completion (Odd One Out, Similar Matrices)
+   - 2D & 3D Spatial Rotations, Reflections, and Matrix Completion.
+   - Folding Cube Nets and 3D Block Counting.
 
 FORMATTING RULES:
 • Questions must adhere to classic UK 11+ phrasing and UK English spelling.
-• 4 multiple-choice options (A, B, C, D) per question.
+• 4 options (A, B, C, D) per question.
 • Explanations must clearly break down the verbal rule or spatial transformation pattern.`
   }
 ];
