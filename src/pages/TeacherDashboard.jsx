@@ -46,7 +46,10 @@ import {
   PauseCircle,
   PlayCircle,
   Mail,
-  Globe
+  Globe,
+  FlaskConical,
+  Code,
+  Coins
 } from 'lucide-react';
 import EmojiPicker from '../components/EmojiPicker';
 
@@ -967,6 +970,141 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [subjectPrompts, setSubjectPrompts] = useState(DEFAULT_SUBJECT_PROMPTS);
   const [newSubjectName, setNewSubjectName] = useState('');
   const [isSavingPrompts, setIsSavingPrompts] = useState(false);
+  const [activePromptModalSubject, setActivePromptModalSubject] = useState(null);
+  const [editingPromptContent, setEditingPromptContent] = useState('');
+
+  const resolveSubjectStyle = (name) => {
+    const s = (name || '').toLowerCase();
+    if (s.includes('math') || s.includes('numeracy') || s.includes('algebra') || s.includes('geometry') || s.includes('number')) {
+      return {
+        titleColor: 'text-[#0284c7]',
+        bgColor: 'bg-[#f0f9ff]',
+        borderColor: 'border-[#bae6fd]',
+        selectedBorder: 'border-[#0284c7] ring-4 ring-sky-100',
+        renderIcon: () => (
+          <div className="w-14 h-14 rounded-2xl bg-sky-100/80 border-2 border-sky-200 flex items-center justify-center text-sky-600 shadow-sm">
+            <span className="text-xl font-black">1 2 3</span>
+          </div>
+        )
+      };
+    }
+    if (s.includes('english') || s.includes('reading') || s.includes('writing') || s.includes('literacy') || s.includes('grammar') || s.includes('spelling') || s.includes('vocab')) {
+      return {
+        titleColor: 'text-[#d97706]',
+        bgColor: 'bg-[#fffbeb]',
+        borderColor: 'border-[#fde68a]',
+        selectedBorder: 'border-[#d97706] ring-4 ring-amber-100',
+        renderIcon: () => (
+          <div className="w-14 h-14 rounded-2xl bg-amber-100/80 border-2 border-amber-200 flex items-center justify-center text-amber-600 shadow-sm">
+            <span className="text-xl font-black">Aa</span>
+          </div>
+        )
+      };
+    }
+    if (s.includes('science') || s.includes('biology') || s.includes('chemistry') || s.includes('physics')) {
+      return {
+        titleColor: 'text-[#059669]',
+        bgColor: 'bg-[#ecfdf5]',
+        borderColor: 'border-[#a7f3d0]',
+        selectedBorder: 'border-[#059669] ring-4 ring-emerald-100',
+        renderIcon: () => (
+          <div className="w-14 h-14 rounded-2xl bg-emerald-100/80 border-2 border-emerald-200 flex items-center justify-center text-emerald-600 shadow-sm">
+            <FlaskConical className="w-7 h-7 text-emerald-600" />
+          </div>
+        )
+      };
+    }
+    if (s.includes('olympiad') || s.includes('trophy') || s.includes('contest')) {
+      return {
+        titleColor: 'text-[#7c3aed]',
+        bgColor: 'bg-[#f5f3ff]',
+        borderColor: 'border-[#ddd6fe]',
+        selectedBorder: 'border-[#7c3aed] ring-4 ring-purple-100',
+        renderIcon: () => (
+          <div className="w-14 h-14 rounded-2xl bg-purple-100/80 border-2 border-purple-200 flex items-center justify-center text-purple-600 shadow-sm">
+            <Trophy className="w-7 h-7 text-purple-600" />
+          </div>
+        )
+      };
+    }
+    if (s.includes('computer') || s.includes('code') || s.includes('tech') || s.includes('python')) {
+      return {
+        titleColor: 'text-[#0891b2]',
+        bgColor: 'bg-[#ecfeff]',
+        borderColor: 'border-[#a5f3fc]',
+        selectedBorder: 'border-[#0891b2] ring-4 ring-cyan-100',
+        renderIcon: () => (
+          <div className="w-14 h-14 rounded-2xl bg-cyan-100/80 border-2 border-cyan-200 flex items-center justify-center text-cyan-600 shadow-sm">
+            <Code className="w-7 h-7 text-cyan-600" />
+          </div>
+        )
+      };
+    }
+    if (s.includes('finance') || s.includes('money') || s.includes('business')) {
+      return {
+        titleColor: 'text-[#10b981]',
+        bgColor: 'bg-[#ecfdf5]',
+        borderColor: 'border-[#a7f3d0]',
+        selectedBorder: 'border-[#10b981] ring-4 ring-emerald-100',
+        renderIcon: () => (
+          <div className="w-14 h-14 rounded-2xl bg-emerald-100/80 border-2 border-emerald-200 flex items-center justify-center text-emerald-600 shadow-sm">
+            <Coins className="w-7 h-7 text-emerald-600" />
+          </div>
+        )
+      };
+    }
+    if (s.includes('history') || s.includes('social') || s.includes('geography')) {
+      return {
+        titleColor: 'text-[#c2410c]',
+        bgColor: 'bg-[#fff7ed]',
+        borderColor: 'border-[#ffedd5]',
+        selectedBorder: 'border-[#c2410c] ring-4 ring-orange-100',
+        renderIcon: () => (
+          <div className="w-14 h-14 rounded-2xl bg-orange-100/80 border-2 border-orange-200 flex items-center justify-center text-orange-600 shadow-sm">
+            <Globe className="w-7 h-7 text-orange-600" />
+          </div>
+        )
+      };
+    }
+    return {
+      titleColor: 'text-emerald-700',
+      bgColor: 'bg-[#f0fdf4]',
+      borderColor: 'border-emerald-200',
+      selectedBorder: 'border-emerald-600 ring-4 ring-emerald-100',
+      renderIcon: () => (
+        <div className="w-14 h-14 rounded-2xl bg-emerald-100/80 border-2 border-emerald-200 flex items-center justify-center text-emerald-600 shadow-sm">
+          <Pencil className="w-7 h-7 text-emerald-600" />
+        </div>
+      )
+    };
+  };
+
+  const handleOpenPromptModal = (subKey) => {
+    setActivePromptModalSubject(subKey);
+    setEditingPromptContent(subjectPrompts[subKey] || getPremiumPromptTemplate(subKey));
+  };
+
+  const handleSaveModalPrompt = async () => {
+    if (!activePromptModalSubject) return;
+    setIsSavingPrompts(true);
+    const updatedPrompts = {
+      ...subjectPrompts,
+      [activePromptModalSubject]: editingPromptContent
+    };
+    setSubjectPrompts(updatedPrompts);
+    if (user?.uid) {
+      try {
+        await updateDoc(doc(db, 'teachers', user.uid), {
+          subjectPrompts: updatedPrompts
+        });
+        await saveMasterDefaultPromptsIfAdmin(db, user, updatedPrompts);
+      } catch (err) {
+        console.error("Save Prompt Error:", err);
+      }
+    }
+    setIsSavingPrompts(false);
+    setActivePromptModalSubject(null);
+  };
   const getStudentAvatar = (name) => {
      const cleanName = name?.trim().toLowerCase();
      const st = allStudents.find(s => s.id?.trim().toLowerCase() === cleanName || s.name?.trim().toLowerCase() === cleanName);
@@ -6567,116 +6705,236 @@ Include a balanced combination of question types such as:
              );
           }
            case 'My Prompts': {
+              const activeSubjectKeys = Object.keys(subjectPrompts).filter(k => subjectPrompts[k] !== null);
+
               return (
-                 <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
-                    {/* Top Header */}
-                    <div className="flex items-center justify-between">
-                       <div>
-                          <p className="text-sm font-bold text-[#166534] italic">Configure default templates that automatically pre-fill the Magic Quiz Builder when a subject is chosen.</p>
+                 <div className="px-6 sm:px-10 py-10 space-y-8 min-h-[calc(100vh-64px)] pb-40 relative font-sans">
+                    
+                    {/* Top Banner & Header */}
+                    <div className="bg-white rounded-3xl p-6 sm:p-8 border border-orange-100 shadow-sm space-y-4 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                       <div className="space-y-1">
+                          <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-50 text-orange-800 rounded-full text-xs font-black border border-orange-200 mb-1">
+                             <MessageSquare className="w-3.5 h-3.5 text-orange-500" />
+                             <span>Master Prompt Library</span>
+                          </div>
+                          <h1 className="text-2xl sm:text-3xl font-black text-[#14532d] tracking-tight">
+                             My Subject Prompts
+                          </h1>
+                          <p className="text-sm font-semibold text-slate-600 max-w-2xl">
+                             Configure default master AI prompts for each subject. Click any subject card to customize its prompt or generate a tailored template with AI!
+                          </p>
+                       </div>
+
+                       {/* Quick Add Subject Bar */}
+                       <div className="flex items-center gap-2 bg-slate-50 p-2 rounded-2xl border border-slate-200 shrink-0">
+                          <input
+                             type="text"
+                             value={newSubjectName}
+                             onChange={(e) => setNewSubjectName(e.target.value)}
+                             onKeyDown={(e) => { if (e.key === 'Enter') handleAddSubject(); }}
+                             placeholder="New Subject Name (e.g. History)..."
+                             className="bg-transparent px-3 py-2 text-xs font-semibold text-slate-800 outline-none w-48 sm:w-64"
+                          />
+                          <button
+                             onClick={handleAddSubject}
+                             className="bg-orange-600 hover:bg-orange-500 text-white font-black text-xs px-4 py-2.5 rounded-xl shadow-md transition-all active:scale-95 flex items-center gap-1.5 shrink-0 cursor-pointer"
+                          >
+                             <Plus className="w-4 h-4" />
+                             <span>Add Subject</span>
+                          </button>
                        </div>
                     </div>
 
-                    {/* Main Form container */}
-                    <div className="grid grid-cols-12 gap-8 items-start">
-                       {/* Left: Prompts List */}
-                       <div className="col-span-8 space-y-6">
-                          {Object.keys(subjectPrompts).filter(k => subjectPrompts[k] !== null).length > 0 ? (
-                             Object.keys(subjectPrompts).filter(k => subjectPrompts[k] !== null).map(subKey => (
-                                <div key={subKey} className="bg-white rounded-[32px] border border-orange-100 shadow-sm p-6 space-y-4 hover:shadow-md transition-all relative overflow-hidden group">
-                                   <div className="flex items-center justify-between">
-                                      <div className="flex items-center gap-3">
-                                         <div className="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center text-orange-500 font-black text-xs uppercase shadow-sm">
-                                            {subKey.slice(0, 3)}
-                                         </div>
-                                         <h3 className="text-base font-black text-[#14532d] capitalize">{subKey}</h3>
-                                      </div>
-                                      <button 
-                                         onClick={() => handleDeleteSubject(subKey)}
-                                         className="text-red-400 hover:text-red-600 transition-colors w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-50"
-                                         title="Delete Subject"
-                                      >
-                                         <Trash2 className="w-4 h-4" />
-                                      </button>
+                    {/* Subject Icon Cards Grid (Matching Homework Generator Style) */}
+                    <div className="space-y-4">
+                       <div className="flex items-center justify-between">
+                          <h2 className="text-lg font-black text-[#14532d] flex items-center gap-2">
+                             <span>📚</span> Available Subjects ({activeSubjectKeys.length})
+                          </h2>
+                          <span className="text-xs font-bold text-slate-400">Click any card to edit prompt template</span>
+                       </div>
+
+                       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                          {activeSubjectKeys.map((subKey) => {
+                             const style = resolveSubjectStyle(subKey);
+                             const displayName = subKey.charAt(0).toUpperCase() + subKey.slice(1);
+                             const hasPrompt = !!subjectPrompts[subKey];
+
+                             return (
+                                <div
+                                   key={subKey}
+                                   onClick={() => handleOpenPromptModal(subKey)}
+                                   className={`relative p-5 rounded-3xl border-2 cursor-pointer transition-all flex flex-col items-center text-center group ${style.bgColor} ${style.borderColor} hover:${style.selectedBorder} hover:shadow-lg hover:-translate-y-1`}
+                                >
+                                   {/* Delete Button */}
+                                   <button
+                                      onClick={(e) => {
+                                         e.stopPropagation();
+                                         handleDeleteSubject(subKey);
+                                      }}
+                                      className="absolute top-3 right-3 text-slate-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded-full hover:bg-red-50"
+                                      title="Delete Subject Prompt"
+                                   >
+                                      <Trash2 className="w-4 h-4" />
+                                   </button>
+
+                                   {/* Subject Icon */}
+                                   <div className="mb-3 scale-95 origin-center group-hover:scale-105 transition-transform">
+                                      {style.renderIcon()}
                                    </div>
-                                   <div className="relative">
-                                      <textarea 
-                                         value={subjectPrompts[subKey] || ''}
-                                         onChange={(e) => setSubjectPrompts(prev => ({ ...prev, [subKey]: e.target.value }))}
-                                         className="w-full h-32 bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-slate-700 font-bold outline-none focus:border-green-400 transition-colors resize-none text-xs pb-12"
-                                         placeholder={`Enter generic prompt for ${subKey}...`}
-                                      />
+
+                                   {/* Subject Title */}
+                                   <h3 className={`text-base font-black mb-1 capitalize line-clamp-1 ${style.titleColor}`}>
+                                      {displayName}
+                                   </h3>
+
+                                   {/* Status Subtitle */}
+                                   <p className="text-[11px] font-semibold text-slate-500 leading-tight px-1 line-clamp-2">
+                                      {hasPrompt ? 'Click to edit prompt template ✏️' : 'No prompt set • Click to add ➕'}
+                                   </p>
+                                </div>
+                             );
+                          })}
+
+                          {/* "+ Add New Subject" Action Card */}
+                          <div
+                             onClick={() => {
+                                const name = prompt("Enter new subject name (e.g. Geography, Art, Philosophy):");
+                                if (name && name.trim()) {
+                                   setNewSubjectName(name.trim());
+                                   setTimeout(() => handleAddSubject(), 100);
+                                }
+                             }}
+                             className="p-5 rounded-3xl border-2 border-dashed border-slate-300 hover:border-orange-400 bg-slate-50/50 hover:bg-orange-50/30 cursor-pointer transition-all flex flex-col items-center justify-center text-center group hover:shadow-md min-h-[160px]"
+                          >
+                             <div className="w-12 h-12 rounded-2xl bg-white border-2 border-slate-200 group-hover:border-orange-400 flex items-center justify-center text-slate-400 group-hover:text-orange-500 shadow-sm mb-2 transition-colors">
+                                <Plus className="w-6 h-6" />
+                             </div>
+                             <span className="text-sm font-black text-slate-700 group-hover:text-orange-600 transition-colors">
+                                Add Subject
+                             </span>
+                             <span className="text-[10px] font-bold text-slate-400 mt-0.5">Custom template</span>
+                          </div>
+                       </div>
+                    </div>
+
+                    {/* POP-UP EDIT MODAL */}
+                    <AnimatePresence>
+                       {activePromptModalSubject && (
+                          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                             <motion.div
+                                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                                className="bg-white rounded-3xl max-w-2xl w-full border-2 border-slate-200 shadow-2xl overflow-hidden font-sans flex flex-col max-h-[90vh]"
+                             >
+                                {/* Modal Header */}
+                                {(() => {
+                                   const style = resolveSubjectStyle(activePromptModalSubject);
+                                   const displayName = activePromptModalSubject.charAt(0).toUpperCase() + activePromptModalSubject.slice(1);
+                                   return (
+                                      <div className={`p-6 ${style.bgColor} border-b ${style.borderColor} flex items-center justify-between shrink-0`}>
+                                         <div className="flex items-center gap-3">
+                                            <div className="scale-75 origin-left">
+                                               {style.renderIcon()}
+                                            </div>
+                                            <div>
+                                               <h3 className={`text-xl font-black capitalize ${style.titleColor}`}>
+                                                  {displayName} Master Prompt
+                                               </h3>
+                                               <p className="text-xs font-semibold text-slate-600">
+                                                  Edit default prompt template for {displayName}
+                                               </p>
+                                            </div>
+                                         </div>
+                                         <button
+                                            onClick={() => setActivePromptModalSubject(null)}
+                                            className="p-2 text-slate-400 hover:text-slate-700 hover:bg-white/80 rounded-full transition-colors"
+                                         >
+                                            <X className="w-5 h-5" />
+                                         </button>
+                                      </div>
+                                   );
+                                })()}
+
+                                {/* Modal Content */}
+                                <div className="p-6 space-y-4 overflow-y-auto flex-1">
+                                   <div className="flex items-center justify-between">
+                                      <label className="text-xs font-black text-slate-700 uppercase tracking-wider">
+                                         AI Prompt Template
+                                      </label>
                                       <button
                                          type="button"
-                                         disabled={subjectPrompts[subKey]?.startsWith("Generating")}
+                                         disabled={editingPromptContent.startsWith("Generating")}
                                          onClick={async () => {
-                                            setSubjectPrompts(prev => ({ ...prev, [subKey]: "Generating premium prompt using AI... 🪄 Please wait a moment." }));
+                                            setEditingPromptContent("Generating premium prompt using AI... 🪄 Please wait a moment.");
                                             try {
                                                const generatedText = await generateContent({
-                                                  prompt: `Write a highly detailed, customized, and structured instruction prompt template for another AI to generate high-quality worksheets and questions specifically for the subject: "${subKey}". The generated prompt must contain subject-specific details (for example, if the subject is "${subKey}", the instructions must specify key concepts, terminology, question structures, and topics unique to "${subKey}"). It should dynamically cater to the grade and difficulty level selected. Do not write a generic template containing '{SUBJECT}'. Write a concrete prompt tailored specifically to "${subKey}". Output only the prompt text itself, with no explanations or markdown quotes.`,
+                                                  prompt: `Write a highly detailed, customized, and structured instruction prompt template for another AI to generate high-quality worksheets and questions specifically for the subject: "${activePromptModalSubject}". The generated prompt must contain subject-specific details (key concepts, terminology, question structures, and topics unique to "${activePromptModalSubject}"). It should dynamically cater to the grade and difficulty level selected. Do not write a generic template containing '{SUBJECT}'. Write a concrete prompt tailored specifically to "${activePromptModalSubject}". Output only the prompt text itself, with no explanations or markdown quotes.`,
                                                   systemInstruction: "You are an expert AI prompt engineer. Write a highly detailed, professional, structured instruction prompt for another AI to generate high-quality worksheets and questions. Output ONLY the resulting prompt.",
                                                   provider: "gemini"
                                                });
                                                if (generatedText) {
-                                                  setSubjectPrompts(prev => ({ ...prev, [subKey]: generatedText.trim() }));
+                                                  setEditingPromptContent(generatedText.trim());
                                                }
                                             } catch (err) {
                                                console.error("AI prompt generation error:", err);
-                                               const template = getPremiumPromptTemplate(subKey);
-                                               setSubjectPrompts(prev => ({ ...prev, [subKey]: template }));
+                                               setEditingPromptContent(getPremiumPromptTemplate(activePromptModalSubject));
                                             }
                                          }}
-                                         className="absolute bottom-3 right-3 bg-white hover:bg-slate-50 active:scale-95 border border-slate-200 text-slate-600 font-black px-2.5 py-1 rounded-xl text-[9px] shadow-sm transition-all flex items-center gap-1.5 z-10 disabled:opacity-50"
+                                         className="bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 font-bold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer disabled:opacity-50"
                                       >
-                                         {subjectPrompts[subKey]?.startsWith("Generating") ? "🪄 Generating..." : "✨¨ Auto-Fill Template"}
+                                         <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                                         <span>{editingPromptContent.startsWith("Generating") ? "Generating..." : "✨ Auto-Fill Template"}</span>
+                                      </button>
+                                   </div>
+
+                                   <textarea
+                                      rows={10}
+                                      value={editingPromptContent}
+                                      onChange={(e) => setEditingPromptContent(e.target.value)}
+                                      className="w-full bg-slate-50 border-2 border-slate-200 focus:border-emerald-500 rounded-2xl p-4 text-xs font-mono font-medium text-slate-800 outline-none transition-colors leading-relaxed resize-none shadow-inner"
+                                      placeholder={`Enter custom AI prompt template for ${activePromptModalSubject}...`}
+                                   />
+                                </div>
+
+                                {/* Modal Footer */}
+                                <div className="p-5 bg-slate-50 border-t border-slate-200 flex items-center justify-between shrink-0">
+                                   <button
+                                      type="button"
+                                      onClick={() => {
+                                         handleDeleteSubject(activePromptModalSubject);
+                                         setActivePromptModalSubject(null);
+                                      }}
+                                      className="text-red-500 hover:text-red-700 font-bold text-xs px-3 py-2 rounded-xl hover:bg-red-50 transition-colors flex items-center gap-1.5 cursor-pointer"
+                                   >
+                                      <Trash2 className="w-4 h-4" />
+                                      <span>Delete Subject</span>
+                                   </button>
+
+                                   <div className="flex items-center gap-3">
+                                      <button
+                                         type="button"
+                                         onClick={() => setActivePromptModalSubject(null)}
+                                         className="px-5 py-2.5 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold text-xs rounded-2xl transition-colors cursor-pointer"
+                                      >
+                                         Cancel
+                                      </button>
+                                      <button
+                                         type="button"
+                                         disabled={isSavingPrompts}
+                                         onClick={handleSaveModalPrompt}
+                                         className="px-6 py-2.5 bg-orange-600 hover:bg-orange-500 text-white font-black text-xs rounded-2xl shadow-md transition-all active:scale-95 flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                                      >
+                                         <Save className="w-4 h-4" />
+                                         <span>{isSavingPrompts ? 'Saving...' : 'Save Prompt 💾'}</span>
                                       </button>
                                    </div>
                                 </div>
-                             ))
-                          ) : (
-                             <div className="text-center py-20 bg-white rounded-[32px] border border-orange-100">
-                                <p className="text-[#166534] font-bold italic">No generic prompts configured. Add a subject on the right!</p>
-                             </div>
-                          )}
-
-                          {/* Save Button */}
-                          <div className="flex justify-end pt-4">
-                             <button
-                                onClick={handleSavePrompts}
-                                disabled={isSavingPrompts}
-                                className="bg-orange-600 hover:bg-orange-500 text-white font-black py-4 px-10 rounded-[24px] shadow-lg shadow-orange-100 active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50"
-                             >
-                                {isSavingPrompts ? 'Saving...' : 'Save All Prompts ✨¨'}
-                             </button>
+                             </motion.div>
                           </div>
-                       </div>
-
-                       {/* Right: Add Subject Controls */}
-                       <div className="col-span-4 bg-white rounded-[32px] border border-orange-100 shadow-sm p-6 space-y-6">
-                          <div className="space-y-2">
-                             <h3 className="text-lg font-black text-[#14532d]">Add New Subject</h3>
-                             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Create a custom prompt section</p>
-                          </div>
-
-                          <div className="space-y-4">
-                             <div className="space-y-1">
-                                <label className="text-xs font-black text-slate-500 block ml-1">Subject Name</label>
-                                <input 
-                                   type="text"
-                                   value={newSubjectName}
-                                   onChange={(e) => setNewSubjectName(e.target.value)}
-                                   placeholder="e.g. History"
-                                   className="w-full bg-slate-50 border border-slate-100 p-3.5 rounded-2xl text-xs font-semibold text-[#475569] shadow-inner focus:border-green-400 outline-none transition-all"
-                                />
-                             </div>
-                             <button
-                                onClick={handleAddSubject}
-                                className="w-full bg-orange-600 hover:bg-orange-500 text-white font-black py-3.5 rounded-2xl shadow-md hover:scale-[1.02] active:scale-95 transition-all text-xs"
-                             >
-                                Create Subject Card âž•
-                             </button>
-                          </div>
-                       </div>
-                    </div>
+                       )}
+                    </AnimatePresence>
 
                     <GrassBorder />
                  </div>
