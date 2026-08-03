@@ -148,6 +148,8 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
   const [homework, setHomework] = useState(null);
   const isSubmittingRef = useRef(false);
   
+  const [inStudyMode, setInStudyMode] = useState(false);
+
   const [currentIdx, setCurrentIdx] = useState(() => {
     if (initialSubmission) return 0;
     try {
@@ -276,6 +278,14 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             });
           }
           setHomework(hwData);
+          if (hwData?.passage && !initialSubmission) {
+            try {
+              const draft = localStorage.getItem(`hz_draft_${studentName}_${homeworkId}`);
+              if (!draft) setInStudyMode(true);
+            } catch (e) {
+              setInStudyMode(true);
+            }
+          }
         }
       } catch (err) {
         console.error("Fetch Homework Error:", err);
@@ -708,7 +718,22 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
 
             {/* Question Navigation Dots */}
             {homework.type !== 'lesson' && (
-              <div className="flex flex-wrap gap-2 mt-2 justify-center">
+              <div className="flex flex-wrap gap-2 mt-2 justify-center items-center">
+                {homework.passage && (
+                  <button
+                    onClick={() => setInStudyMode(true)}
+                    className={`px-3 py-1 rounded-full border-2 text-xs font-bold transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                      inStudyMode 
+                        ? 'bg-amber-500 border-amber-600 text-white shadow-sm scale-105' 
+                        : 'bg-white border-amber-300 text-amber-900 hover:bg-amber-50'
+                    }`}
+                    title="Study Guide & Target Words"
+                  >
+                    <BookOpen className="w-3.5 h-3.5" />
+                    <span>Study Guide</span>
+                  </button>
+                )}
+
                 {displayQuestions.map((q, i) => {
                    let dotStatus = 'bg-slate-200 border-slate-300';
                    const hasAnswer = answers[q.id] !== undefined;
@@ -720,7 +745,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                        else if (hasAnswer) dotStatus = 'bg-rose-400 border-rose-500';
                        else dotStatus = 'bg-slate-300 border-slate-400';
                    } else {
-                       if (i === currentIdx) dotStatus = 'bg-[#F97316] border-[#C2410C] scale-110';
+                       if (!inStudyMode && i === currentIdx) dotStatus = 'bg-[#F97316] border-[#C2410C] scale-110';
                        else if (isMarked) dotStatus = 'bg-amber-400 border-amber-500';
                        else if (hasAnswer) dotStatus = 'bg-blue-400 border-blue-500';
                    }
@@ -728,8 +753,8 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                    return (
                      <button
                        key={q.id}
-                       onClick={() => setCurrentIdx(i)}
-                       className={`w-7 h-7 rounded-full border-2 transition-all flex items-center justify-center ${dotStatus} ${i === currentIdx ? 'ring-2 ring-orange-300 ring-offset-1' : 'hover:scale-110'} shrink-0`}
+                       onClick={() => { setInStudyMode(false); setCurrentIdx(i); }}
+                       className={`w-7 h-7 rounded-full border-2 transition-all flex items-center justify-center ${dotStatus} ${!inStudyMode && i === currentIdx ? 'ring-2 ring-orange-300 ring-offset-1' : 'hover:scale-110'} shrink-0`}
                        title={`Question ${i + 1}`}
                      >
                         {isMarked && !isReviewing && <Flag className="w-3.5 h-3.5 text-white fill-white" />}
@@ -746,20 +771,29 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
       </header>
 
       {/* Content Area */}
-      <main className={`max-w-${homework.passage ? '7xl' : '4xl'} mx-auto w-full flex-1 relative z-10 flex flex-col gap-6`}>
-        {homework.type === 'test' && !showSummary ? (
-          <div className={`w-full flex ${homework.passage ? 'flex-col lg:flex-row' : 'flex-col'} gap-8 pb-24 items-start`}>
+      <main className="max-w-4xl mx-auto w-full flex-1 relative z-10 flex flex-col gap-6">
+        {inStudyMode ? (
+          <div className="w-full py-4">
+            <PassageViewer 
+              passage={homework.passage} 
+              onStartQuiz={() => { setInStudyMode(false); setCurrentIdx(0); }} 
+            />
+          </div>
+        ) : homework.type === 'test' && !showSummary ? (
+          <div className="w-full flex flex-col gap-6 pb-24 items-center">
             {homework.passage && (
-              <div className="w-full lg:w-1/2 lg:sticky lg:top-[180px]">
-                <PassageViewer 
-                  passage={homework.passage} 
-                  subject={homework.subject} 
-                  currentQuestionText={displayQuestions[currentIdx]?.text || ''} 
-                />
+              <div className="w-full max-w-3xl flex justify-between items-center bg-amber-50 border border-amber-200 rounded-xl p-3 px-4 text-xs font-medium text-amber-900">
+                <span>Need to review the vocabulary words or passage?</span>
+                <button
+                  onClick={() => setInStudyMode(true)}
+                  className="px-3 py-1 bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 rounded-full font-bold transition-all text-xs cursor-pointer shadow-sm"
+                >
+                  Open Study Guide
+                </button>
               </div>
             )}
             
-            <div className={`flex flex-col gap-6 ${homework.passage ? 'w-full lg:w-1/2' : 'w-full'}`}>
+            <div className="w-full max-w-3xl flex flex-col gap-6">
               {displayQuestions.map((q, index) => {
                  let { text: cleanText, clockTime, inlineSvg } = parseQuestionText(q?.text || '');
                  const effectiveSvgCode = inlineSvg || q?.svgCode;
@@ -1117,26 +1151,28 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
               ) : (
                  <button 
                    onClick={() => setShowSummary(true)}
-                   className="inline-flex items-center justify-center gap-2 rounded-full py-5 px-16 bg-[#F97316] text-white shadow-[0_8px_0_0_#C2410C] text-2xl font-black active:translate-y-[8px] active:shadow-none transition-all hover:bg-[#EA580C]"
+                   className="inline-flex items-center justify-center gap-2 rounded-full py-4 px-12 bg-[#F97316] text-white shadow-[0_6px_0_0_#C2410C] text-xl font-bold active:translate-y-[6px] active:shadow-none transition-all hover:bg-[#EA580C] cursor-pointer"
                  >
-                   Finish Exam ✨
+                   {(homework?.type || homework?.mode || '').toLowerCase() === 'exam' || (homework?.type || '').toLowerCase() === 'test' ? 'Finish Exam' : 'Finish Quiz'}
                  </button>
               )}
             </div>
           </div>
         ) : (
-          <div className={`w-full flex ${homework.passage ? 'flex-col lg:flex-row' : 'flex-col'} gap-8 items-start`}>
-            {homework.passage && (
-              <div className="lg:w-1/2 sticky top-24">
-                <PassageViewer 
-                  passage={homework.passage} 
-                  subject={homework.subject} 
-                  currentQuestionText={displayQuestions[currentIdx]?.text || ''} 
-                />
+          <div className="w-full max-w-3xl mx-auto flex flex-col gap-6">
+            {homework.passage && !showSummary && (
+              <div className="w-full flex justify-between items-center bg-amber-50 border border-amber-200 rounded-xl p-3 px-4 text-xs font-medium text-amber-900">
+                <span>Need to review target words or passage?</span>
+                <button
+                  onClick={() => setInStudyMode(true)}
+                  className="px-3 py-1 bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 rounded-full font-bold transition-all text-xs cursor-pointer shadow-sm"
+                >
+                  Open Study Guide
+                </button>
               </div>
             )}
-        
-        <div className={homework.passage ? "lg:w-1/2 flex flex-col" : "w-full flex flex-col"}>
+
+            <div className="w-full flex flex-col">
           <AnimatePresence mode="wait">
             {showSummary ? (
               <motion.div 
