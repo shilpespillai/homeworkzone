@@ -9259,55 +9259,36 @@ const SidebarItem = ({ id, label, icon, iconColor, active, onClick, badge }) => 
   </button>
 );
 
-const PlaceholderView = ({ title, icon, description }) => (
-   <div className="px-10 py-20 flex flex-col items-center justify-center text-center space-y-6">
-      <div className="w-32 h-32 bg-white rounded-[40px] shadow-2xl flex-center border border-orange-100">
-         <img src={icon} className="w-20 h-20 object-contain mix-blend-multiply" alt={title} />
-      </div>
-      <div className="space-y-2">
-         <h1 className="text-4xl font-black text-[#14532d] tracking-tight">{title}</h1>
-         <p className="text-sm font-bold text-[#166534] italic">{description}</p>
-      </div>
-      <div className="grid grid-cols-3 gap-6 w-full max-w-4xl mt-12">
-         {[1, 2, 3].map(i => (
-            <div key={i} className="h-48 bg-white/50 rounded-[40px] border-2 border-dashed border-blue-100 flex-center">
-               <span className="text-blue-100 font-black text-4xl">{i}</span>
-            </div>
-         ))}
-      </div>
-   </div>
-);
-
 const ClassCard = ({ name, students, bgColor, kidsImg, subjects, onDelete, onView, onEdit }) => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   return (
-    <div className={`${bgColor} rounded-[40px] p-8 border border-white/50 shadow-sm flex flex-col gap-6 group hover:shadow-xl transition-all relative overflow-hidden`}>
+    <div className={`${bgColor} rounded-3xl p-5 border border-white/60 shadow-sm flex flex-col gap-4 group hover:shadow-lg transition-all relative overflow-hidden`}>
        <AnimatePresence>
          {showConfirm && (
            <motion.div 
              initial={{ opacity: 0 }}
              animate={{ opacity: 1 }}
              exit={{ opacity: 0 }}
-             className="absolute inset-0 bg-rose-600/95 z-50 flex flex-col items-center justify-center p-6 text-center space-y-4"
+             className="absolute inset-0 bg-rose-600/95 z-50 flex flex-col items-center justify-center p-5 text-center space-y-3"
            >
-             <div className="w-16 h-16 bg-white/20 rounded-full flex-center text-white">
-                <Trash2 className="w-8 h-8" />
+             <div className="w-12 h-12 bg-white/20 rounded-full flex-center text-white">
+                <Trash2 className="w-6 h-6" />
              </div>
-             <div className="space-y-1">
-                <h4 className="text-white font-black text-xl">Delete Class?</h4>
-                <p className="text-white/80 text-xs font-bold leading-tight">This will remove all students and data! ⚠️ï¸</p>
+             <div className="space-y-0.5">
+                <h4 className="text-white font-black text-lg">Delete Class?</h4>
+                <p className="text-white/80 text-[11px] font-bold leading-tight">This will remove all students and data!</p>
              </div>
-             <div className="flex items-center gap-3 w-full">
+             <div className="flex items-center gap-2.5 w-full pt-1">
                 <button 
                   onClick={(e) => { e.stopPropagation(); onDelete(); }}
-                  className="flex-1 bg-white text-rose-600 py-3 rounded-2xl font-black text-xs shadow-xl"
+                  className="flex-1 bg-white text-rose-600 py-2 rounded-xl font-black text-xs shadow-md"
                 >
-                   Delete Now
+                   Delete
                 </button>
                 <button 
                   onClick={(e) => { e.stopPropagation(); setShowConfirm(false); }}
-                  className="flex-1 bg-black/20 text-white py-3 rounded-2xl font-black text-xs"
+                  className="flex-1 bg-black/20 text-white py-2 rounded-xl font-black text-xs"
                 >
                    Cancel
                 </button>
@@ -9316,21 +9297,55 @@ const ClassCard = ({ name, students, bgColor, kidsImg, subjects, onDelete, onVie
          )}
        </AnimatePresence>
 
-       <div className="text-center space-y-1">
-             <h3 
-               className="text-2xl font-black text-[#14532d] flex items-center justify-center gap-2 group/title cursor-pointer hover:text-[#C2410C] transition-colors" 
-               onClick={(e) => { e.stopPropagation(); onEdit(); }}
-               title="Click to edit class"
-             >
-               {name}
-               <Pencil className="w-6 h-6 p-1.5 bg-green-100 rounded-full text-[#166534] opacity-80 group-hover/title:opacity-100 transition-opacity ml-2" />
-             </h3>
-          <p className="text-xs font-bold text-blue-400">{students} Students</p>
+       {/* Title & Student Count */}
+       <div className="text-center space-y-0.5">
+          <h3 
+            className="text-xl font-black text-[#14532d] flex items-center justify-center gap-1.5 group/title cursor-pointer hover:text-[#C2410C] transition-colors" 
+            onClick={(e) => { e.stopPropagation(); onEdit(); }}
+            title="Click to edit class"
+          >
+            <span>{name}</span>
+            <Pencil className="w-4 h-4 p-0.5 bg-green-100/80 rounded-full text-[#166534] opacity-80 group-hover/title:opacity-100 transition-opacity" />
+          </h3>
+          <p className="text-[11px] font-bold text-blue-500">{students} Students</p>
        </div>
-       <div className="h-32 flex-center py-1">
+
+       {/* Mascot Avatar */}
+       <div className="h-28 flex-center py-0.5">
           <img src={kidsImg} className="h-full object-contain mix-blend-multiply" alt="Kids" />
        </div>
-       <div className="flex flex-wrap items-center justify-center gap-2 max-h-24 overflow-y-auto px-1 py-1 custom-scrollbar">
+
+       {/* Wrap-friendly Subject Icons */}
+       <div className="flex flex-wrap items-center justify-center gap-2 max-h-20 overflow-y-auto px-1 py-0.5 custom-scrollbar">
+          {subjects.map((sub, i) => (
+             <div key={i} className="flex flex-col items-center gap-0.5 group/sub" title={sub.name}>
+                <div className="w-7 h-7 bg-white/90 rounded-lg flex-center shadow-sm border border-white/60 p-1 group-hover/sub:scale-105 transition-transform">
+                   <img src={sub.icon} className="w-4 h-4 object-contain mix-blend-multiply" alt={sub.name} />
+                </div>
+                <span className="text-[9px] font-extrabold text-[#166534] max-w-[48px] truncate text-center leading-none">
+                   {sub.name}
+                </span>
+             </div>
+          ))}
+       </div>
+
+       {/* View Class & Delete Action Bar */}
+       <div className="flex items-center gap-2.5 pt-1">
+          <button 
+            onClick={onView}
+            className="flex-1 bg-[#EA580C] hover:bg-[#D97706] text-white py-2.5 px-4 rounded-2xl font-black text-xs shadow-md active:scale-95 transition-all"
+          >
+             View Class
+          </button>
+          <button 
+             onClick={(e) => { e.stopPropagation(); setShowConfirm(true); }}
+             className="w-9 h-9 bg-white rounded-xl flex-center text-rose-300 shadow-sm hover:text-rose-600 hover:bg-rose-50 transition-all z-10 shrink-0"
+             title="Delete Class"
+          >
+             <Trash2 className="w-4 h-4" />
+          </button>
+       </div>
+    </div>-24 overflow-y-auto px-1 py-1 custom-scrollbar">
           {subjects.map((sub, i) => (
              <div key={i} className="flex flex-col items-center gap-0.5 group/sub" title={sub.name}>
                 <div className="w-8 h-8 sm:w-8 sm:h-8 bg-white/90 rounded-xl flex-center shadow-sm border border-white/60 p-1 group-hover/sub:scale-105 transition-transform">
