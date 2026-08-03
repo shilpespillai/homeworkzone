@@ -9327,16 +9327,18 @@ const ClassCard = ({ name, students, bgColor, kidsImg, subjects, onDelete, onVie
              </h3>
           <p className="text-xs font-bold text-blue-400">{students} Students</p>
        </div>
-       <div className="h-40 flex-center">
+       <div className="h-32 flex-center py-1">
           <img src={kidsImg} className="h-full object-contain mix-blend-multiply" alt="Kids" />
        </div>
-       <div className="flex items-center justify-around">
+       <div className="flex flex-wrap items-center justify-center gap-2 max-h-24 overflow-y-auto px-1 py-1 custom-scrollbar">
           {subjects.map((sub, i) => (
-             <div key={i} className="flex flex-col items-center gap-1">
-                <div className="w-10 h-10 bg-white rounded-2xl flex-center shadow-sm">
-                   <img src={sub.icon} className="w-6 h-6 object-contain mix-blend-multiply" alt={sub.name} />
+             <div key={i} className="flex flex-col items-center gap-0.5 group/sub" title={sub.name}>
+                <div className="w-8 h-8 sm:w-8 sm:h-8 bg-white/90 rounded-xl flex-center shadow-sm border border-white/60 p-1 group-hover/sub:scale-105 transition-transform">
+                   <img src={sub.icon} className="w-5 h-5 object-contain mix-blend-multiply" alt={sub.name} />
                 </div>
-                <span className="text-[10px] font-black text-blue-400">{sub.name}</span>
+                <span className="text-[9px] font-extrabold text-[#166534] max-w-[52px] truncate text-center leading-none">
+                   {sub.name}
+                </span>
              </div>
           ))}
        </div>
