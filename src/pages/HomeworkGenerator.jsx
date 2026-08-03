@@ -30,7 +30,8 @@ import {
   Code,
   Coins,
   Leaf,
-  Lightbulb
+  Lightbulb,
+  Globe
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { INTERNATIONAL_EXAMS } from '../data/examPresets';
