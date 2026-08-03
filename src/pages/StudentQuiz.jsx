@@ -262,7 +262,19 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         const docRef = doc(db, 'homeworks', homeworkId);
         const snap = await getDoc(docRef);
         if (snap.exists()) {
-          setHomework(snap.data());
+          const hwData = snap.data();
+          // Normalize questions array to guarantee non-empty question text for all existing & new papers
+          if (hwData.questions && Array.isArray(hwData.questions)) {
+            hwData.questions = hwData.questions.map((q, idx) => {
+              let textStr = q.text || q.question || q.questionText || q.prompt || q.title || q.content || '';
+              const stripped = textStr.replace(/<svg[\s\S]*?<\/svg>/gi, '').replace(/\[CLOCK:.*?\]/gi, '').trim();
+              if (!textStr || textStr.trim() === '' || !stripped) {
+                textStr = q.subtopic ? `Question ${idx + 1} (${q.subtopic}): Select the correct answer below` : `Question ${idx + 1}: Select the correct answer from the choices below:`;
+              }
+              return { ...q, text: textStr };
+            });
+          }
+          setHomework(hwData);
         }
       } catch (err) {
         console.error("Fetch Homework Error:", err);
