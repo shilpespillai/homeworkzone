@@ -232,6 +232,11 @@ export const sanitizeQuestionData = (q) => {
   // Strip bracketed English translations like " (Read this: ...)" or " (Translation: ...)"
   text = text.replace(/\s*\((?:Read this|Translation|In English|Meaning):?\s*[^)]+\)/gi, '').trim();
 
+  // Guarantee question text is never empty
+  if (!text || text.trim() === '') {
+    text = q.subtopic ? `Question about ${q.subtopic}` : 'Select the correct answer from the choices below:';
+  }
+
   let options = q.options;
   let answer = q.answer;
 
@@ -1438,7 +1443,10 @@ EXPECTED JSON SCHEMA:
            - The "passage" string MUST clearly detail each word: 📌 Word & Part of Speech, 🔊 Phonetic Pronunciation, 💡 Kid-Friendly Definition, 🔍 Root/Etymology, 👯 Synonyms & Antonyms, and 📖 Practical Example Sentence in Context.
            - MANDATORY APPLICATION QUESTIONS: Questions MUST test active contextual application (in-context scenario matching, fill-in-the-blanks, matching/sorting synonyms and antonyms, and text-input sentence creation). DO NOT generate plain 1-line definition lookup questions.
         
-        Return ONLY a JSON object containing:
+         CRITICAL MANDATORY QUESTION TEXT RULE:
+         Every single question object in the "questions" array MUST have an explicit, plain-text question stem in the "text" property (e.g., "Which number represents 8 tens of thousands?", "What is the value of the underlined digit?", "Which fraction is shaded?"). NEVER put SVG code or clock tags as the ONLY content of the "text" property without a plain-text question sentence! Every question MUST have a clear, human-readable text question sentence.
+
+         Return ONLY a JSON object containing:
         1. "questions": an array of objects. Each object must have: 
            - "id" (number)
            - "text" (string, the question)

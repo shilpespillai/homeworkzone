@@ -89,7 +89,7 @@ export const ClockFace = ({ timeStr }) => {
 };
 
 export const parseQuestionText = (text) => {
-  if (!text) return { text: '', clockTime: null, inlineSvg: null };
+  if (!text) return { text: 'Select the correct answer from the choices below:', clockTime: null, inlineSvg: null };
   let newText = text;
   let clockTime = null;
   let inlineSvg = null;
@@ -109,6 +109,10 @@ export const parseQuestionText = (text) => {
   // Automatically insert line breaks before "Row X:" and "Column X:" patterns to display them in rows
   newText = newText.replace(/([^\n])\s*(Row\s+(\d+|[a-zA-Z])[:\-—])/gi, '$1\n$2');
   newText = newText.replace(/([^\n])\s*(Column\s+(\d+|[a-zA-Z])[:\-—])/gi, '$1\n$2');
+
+  if (!newText || newText.trim() === '') {
+    newText = text.replace(/<svg[\s\S]*?<\/svg>/gi, '').trim() || 'Select the correct answer from the choices below:';
+  }
 
   return { text: newText, clockTime, inlineSvg };
 };

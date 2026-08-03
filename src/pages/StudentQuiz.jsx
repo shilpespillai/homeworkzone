@@ -613,13 +613,24 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                 {homework.title} {isReviewing && "(Review)"}
               </span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-sm shadow-inner">
                 🎒
               </div>
               <span className="text-[10px] font-black tracking-widest uppercase opacity-95 hidden sm:inline">
                 {homework.subject}
               </span>
+              <button
+                onClick={async () => {
+                  if (window.confirm("Are you sure you want to exit and return to the dashboard? 🏠")) {
+                    if (onComplete) onComplete();
+                  }
+                }}
+                className="bg-rose-500 hover:bg-rose-600 active:scale-95 text-white font-extrabold text-xs px-3.5 py-1.5 rounded-full shadow-sm transition-all flex items-center gap-1.5 cursor-pointer ml-2"
+                title="Exit exam and return to dashboard"
+              >
+                <span>Exit Exam 🚪</span>
+              </button>
             </div>
           </div>
 
@@ -785,7 +796,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                             >
                               <Volume2 className="w-5 h-5" />
                             </button>
-                            <span>{cleanText}</span>
+                            <span>{cleanText || q?.text || q?.subtopic || "Select the correct answer from the choices below:"}</span>
                           </div>
                          
                          {/* Visuals */}
@@ -1271,7 +1282,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                                  <Volume2 className="w-6 h-6" />
                                </button>
                                <h1 className="text-2xl md:text-[28px] font-extrabold text-slate-800 leading-snug text-center md:text-left tracking-tight whitespace-pre-wrap">
-                                 {cleanText}
+                                 {cleanText || currentQuestion?.text || currentQuestion?.subtopic || "Select the correct answer from the choices below:"}
                                </h1>
                              </div>
                            )}
