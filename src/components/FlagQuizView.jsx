@@ -15,12 +15,14 @@ import {
   Search, 
   Zap,
   BookOpen,
-  Play
+  Building2,
+  MapPin,
+  Shuffle
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 // ═══════════════════════════════════════════════════════════════
-//  COMPREHENSIVE COUNTRY FLAGS DATABASE
+//  COMPREHENSIVE COUNTRY FLAGS & CAPITALS DATABASE
 // ═══════════════════════════════════════════════════════════════
 const COUNTRIES_DATA = [
   // --- ASIA ---
@@ -85,6 +87,7 @@ const getFlagUrl = (code) => `https://flagcdn.com/w320/${code.toLowerCase()}.png
 export default function FlagQuizView({ onAddPoints }) {
   const [selectedContinent, setSelectedContinent] = useState('All');
   const [mode, setMode] = useState('quiz'); // 'quiz' | 'rush' | 'study'
+  const [quizCategory, setQuizCategory] = useState('flag'); // 'flag' | 'capital' | 'countryFromCapital' | 'mixed'
   
   // Game State
   const [questions, setQuestions] = useState([]);
@@ -120,7 +123,7 @@ export default function FlagQuizView({ onAddPoints }) {
     selectedContinent === 'All' ? true : country.continent === selectedContinent
   );
 
-  // Generate a round of 10 questions (or endless for rush)
+  // Generate a round of questions
   const generateQuestions = () => {
     const pool = [...filteredCountries];
     if (pool.length < 4) return;
@@ -128,18 +131,46 @@ export default function FlagQuizView({ onAddPoints }) {
     // Shuffle pool
     const shuffledPool = pool.sort(() => Math.random() - 0.5);
 
+    const questionTypes = ['flag', 'capital', 'countryFromCapital'];
+
     const newQuestions = shuffledPool.map((targetCountry) => {
+      // Determine question type for this card
+      let qType = quizCategory;
+      if (quizCategory === 'mixed') {
+        qType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
+      }
+
       // Pick 3 wrong options from pool excluding target
       const wrongOptions = pool
         .filter(c => c.code !== targetCountry.code)
         .sort(() => Math.random() - 0.5)
         .slice(0, 3);
 
-      const options = [targetCountry, ...wrongOptions].sort(() => Math.random() - 0.5);
+      const rawOptions = [targetCountry, ...wrongOptions].sort(() => Math.random() - 0.5);
+
+      // Format options depending on question type
+      const formattedOptions = rawOptions.map(item => ({
+        code: item.code,
+        displayLabel: qType === 'capital' ? item.capital : item.name,
+        subLabel: qType === 'capital' ? item.name : null,
+        flag: item.flag,
+        fullObj: item
+      }));
+
+      let questionText = '';
+      if (qType === 'flag') {
+        questionText = 'Which country does this flag belong to?';
+      } else if (qType === 'capital') {
+        questionText = `What is the capital city of ${targetCountry.name}?`;
+      } else {
+        questionText = `"${targetCountry.capital}" is the capital city of which country?`;
+      }
 
       return {
+        type: qType,
         target: targetCountry,
-        options: options
+        questionText,
+        options: formattedOptions
       };
     });
 
@@ -154,12 +185,12 @@ export default function FlagQuizView({ onAddPoints }) {
     setTimeLeft(45);
   };
 
-  // Start new game on continent/mode change
+  // Start new game on continent/mode/quizCategory change
   useEffect(() => {
     if (mode !== 'study') {
       generateQuestions();
     }
-  }, [selectedContinent, mode]);
+  }, [selectedContinent, mode, quizCategory]);
 
   // Speed Rush Timer effect
   useEffect(() => {
@@ -204,23 +235,23 @@ export default function FlagQuizView({ onAddPoints }) {
       setStreak(newStreak);
       if (newStreak > bestStreak) setBestStreak(newStreak);
 
-      speakText(`Correct! ${currentQuestion.target.name}`);
+      speakText(`Correct! ${currentQuestion.target.name}. Capital is ${currentQuestion.target.capital}`);
 
       if (onAddPoints) {
         onAddPoints(10);
       }
     } else {
       setStreak(0);
-      speakText(`Oops! That is ${option.name}. The correct flag is ${currentQuestion.target.name}`);
+      speakText(`Oops! That is ${option.displayLabel}. The correct answer is ${currentQuestion.target.name}, capital ${currentQuestion.target.capital}`);
     }
 
-    // Auto next after delay or when button pressed
+    // Auto next after delay
     setTimeout(() => {
-      handleNextQuestion(isCorrect);
+      handleNextQuestion();
     }, 1800);
   };
 
-  const handleNextQuestion = (lastWasCorrect) => {
+  const handleNextQuestion = () => {
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex(prev => prev + 1);
       setSelectedAnswer(null);
@@ -246,13 +277,13 @@ export default function FlagQuizView({ onAddPoints }) {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-blue-100 border border-white/20">
-              <Globe className="w-4 h-4 text-amber-300" /> Geography Master Quiz
+              <Globe className="w-4 h-4 text-amber-300" /> Geography & World Capitals Explorer
             </div>
             <h2 className="text-2xl md:text-4xl font-black tracking-tight text-white flex items-center gap-3">
-              Guess the Country Flag! 🚩
+              {quizCategory === 'capital' ? 'Capital Cities Quiz 🏛️' : quizCategory === 'countryFromCapital' ? 'Find the Country! 🗺️' : quizCategory === 'mixed' ? 'Mixed World Challenge 🎲' : 'Guess the Country Flag! 🚩'}
             </h2>
             <p className="text-xs md:text-sm font-semibold text-blue-100/90 max-w-xl">
-              Test your world knowledge, learn country capitals, and earn stars for your streak!
+              Test your world knowledge, learn country capitals & flags, and earn stars for your streak!
             </p>
           </div>
 
@@ -274,8 +305,31 @@ export default function FlagQuizView({ onAddPoints }) {
           </div>
         </div>
 
+        {/* 🗺️ Quiz Category Selector Bar */}
+        <div className="mt-6 pt-5 border-t border-white/15 flex flex-wrap items-center gap-2">
+          <span className="text-xs font-black text-blue-200 uppercase tracking-wider mr-2">Quiz Subject:</span>
+          {[
+            { id: 'flag', label: 'Guess Flag 🚩', icon: Globe },
+            { id: 'capital', label: 'Capital Cities 🏛️', icon: Building2 },
+            { id: 'countryFromCapital', label: 'Country by Capital 🗺️', icon: MapPin },
+            { id: 'mixed', label: 'Mixed Challenge 🎲', icon: Shuffle }
+          ].map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setQuizCategory(cat.id)}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                quizCategory === cat.id
+                  ? 'bg-amber-400 text-slate-950 shadow-md scale-105'
+                  : 'bg-white/15 hover:bg-white/25 text-white border border-white/15'
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
         {/* Mode Selector & Filter Toolbar */}
-        <div className="mt-6 pt-6 border-t border-white/15 flex flex-wrap items-center justify-between gap-4">
+        <div className="mt-4 pt-4 border-t border-white/15 flex flex-wrap items-center justify-between gap-4">
           
           {/* Mode Tabs */}
           <div className="flex items-center gap-2 bg-black/20 p-1.5 rounded-2xl border border-white/10">
@@ -301,7 +355,7 @@ export default function FlagQuizView({ onAddPoints }) {
                 mode === 'study' ? 'bg-emerald-400 text-emerald-950 shadow-md' : 'text-blue-100 hover:text-white'
               }`}
             >
-              <BookOpen className="w-3.5 h-3.5" /> Flag Atlas (Study)
+              <BookOpen className="w-3.5 h-3.5" /> Flags & Capitals Atlas
             </button>
           </div>
 
@@ -325,7 +379,7 @@ export default function FlagQuizView({ onAddPoints }) {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════ */}
-      {/* 1. STUDY / FLAG ATLAS MODE */}
+      {/* 1. STUDY / FLAG & CAPITAL ATLAS MODE */}
       {/* ═══════════════════════════════════════════════════════════════ */}
       {mode === 'study' ? (
         <div className="space-y-4">
@@ -333,7 +387,7 @@ export default function FlagQuizView({ onAddPoints }) {
             <Search className="w-5 h-5 text-slate-400" />
             <input
               type="text"
-              placeholder="Search country name or capital..."
+              placeholder="Search country name or capital city..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full text-sm font-bold text-slate-800 placeholder-slate-400 focus:outline-none"
@@ -341,7 +395,7 @@ export default function FlagQuizView({ onAddPoints }) {
             {searchQuery && (
               <button 
                 onClick={() => setSearchQuery('')}
-                className="text-xs font-black text-slate-400 hover:text-slate-600"
+                className="text-xs font-black text-slate-400 hover:text-slate-600 cursor-pointer"
               >
                 Clear
               </button>
@@ -374,10 +428,12 @@ export default function FlagQuizView({ onAddPoints }) {
                       <span className="text-6xl hidden">{c.flag}</span>
                     </div>
 
-                    {/* Country Details */}
+                    {/* Country & Capital Details */}
                     <div>
                       <div className="flex items-center justify-between">
-                        <h4 className="text-base font-black text-slate-800">{c.name}</h4>
+                        <h4 className="text-base font-black text-slate-800 flex items-center gap-1.5">
+                          <span>{c.flag}</span> {c.name}
+                        </h4>
                         <button 
                           onClick={() => speakText(`${c.name}. Capital is ${c.capital}`)}
                           className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
@@ -386,8 +442,8 @@ export default function FlagQuizView({ onAddPoints }) {
                           <Volume2 className="w-4 h-4" />
                         </button>
                       </div>
-                      <p className="text-xs font-bold text-slate-500 flex items-center gap-1 mt-0.5">
-                        🏛️ Capital: <span className="text-slate-700">{c.capital}</span>
+                      <p className="text-xs font-bold text-slate-600 flex items-center gap-1 mt-1 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-100">
+                        🏛️ Capital: <span className="text-amber-900 font-black">{c.capital}</span>
                       </p>
                       <span className="inline-block mt-2 text-[10px] font-black text-indigo-600 uppercase bg-indigo-50 px-2.5 py-1 rounded-md border border-indigo-100">
                         {c.continent}
@@ -448,7 +504,7 @@ export default function FlagQuizView({ onAddPoints }) {
               onClick={() => setMode('study')}
               className="w-full sm:w-auto px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-black text-sm rounded-2xl transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              <BookOpen className="w-4 h-4" /> Study Flags First
+              <BookOpen className="w-4 h-4" /> Study Atlas First
             </button>
           </div>
         </div>
@@ -501,43 +557,51 @@ export default function FlagQuizView({ onAddPoints }) {
             <div className="bg-white border-2 border-slate-200/80 rounded-[36px] p-6 md:p-10 shadow-xl space-y-8 text-center relative overflow-hidden">
               
               <div className="space-y-2">
-                <span className="text-xs font-black text-blue-600 uppercase tracking-widest bg-blue-50 px-3.5 py-1.5 rounded-full border border-blue-100">
-                  Which Country Does This Flag Belong To?
+                <span className="text-xs md:text-sm font-black text-blue-700 uppercase tracking-widest bg-blue-50 px-4 py-1.5 rounded-full border border-blue-100 inline-block shadow-sm">
+                  {currentQ.questionText}
                 </span>
               </div>
 
-              {/* Large Flag Display */}
-              <div className="relative inline-block mx-auto group">
-                <div className="h-44 md:h-56 min-w-[240px] max-w-sm bg-slate-50 border-4 border-slate-200 rounded-3xl shadow-lg p-3 flex items-center justify-center mx-auto overflow-hidden">
-                  <img
-                    src={getFlagUrl(currentQ.target.code)}
-                    alt="Flag Question"
-                    className="max-h-full max-w-full object-contain rounded-lg shadow-md"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'block';
-                    }}
-                  />
-                  <span className="text-8xl hidden">{currentQ.target.flag}</span>
+              {/* Display Target (Flag or Capital Card) */}
+              {currentQ.type === 'countryFromCapital' ? (
+                <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200/80 rounded-3xl p-6 max-w-md mx-auto shadow-inner space-y-2">
+                  <span className="text-5xl">🏛️</span>
+                  <h3 className="text-2xl md:text-3xl font-black text-amber-950">{currentQ.target.capital}</h3>
+                  <p className="text-xs font-bold text-amber-700">Capital City</p>
                 </div>
-
-                {/* Hint Button */}
-                {!isAnswered && (
-                  <button
-                    onClick={() => setShowHint(true)}
-                    className="mt-3 inline-flex items-center gap-1.5 text-xs font-black text-amber-700 bg-amber-50 hover:bg-amber-100 px-4 py-2 rounded-full border border-amber-200 transition-all cursor-pointer shadow-sm"
-                  >
-                    <HelpCircle className="w-3.5 h-3.5" /> Need a Hint?
-                  </button>
-                )}
-
-                {/* Revealed Hint Box */}
-                {showHint && !isAnswered && (
-                  <div className="mt-3 bg-amber-100/90 text-amber-950 text-xs font-black p-3 rounded-2xl border border-amber-300 animate-in fade-in duration-200">
-                    💡 Capital: <span className="underline">{currentQ.target.capital}</span> | Continent: {currentQ.target.continent}
+              ) : (
+                <div className="relative inline-block mx-auto group">
+                  <div className="h-44 md:h-56 min-w-[240px] max-w-sm bg-slate-50 border-4 border-slate-200 rounded-3xl shadow-lg p-3 flex items-center justify-center mx-auto overflow-hidden">
+                    <img
+                      src={getFlagUrl(currentQ.target.code)}
+                      alt="Flag Question"
+                      className="max-h-full max-w-full object-contain rounded-lg shadow-md"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'block';
+                      }}
+                    />
+                    <span className="text-8xl hidden">{currentQ.target.flag}</span>
                   </div>
-                )}
-              </div>
+
+                  {/* Hint Button */}
+                  {!isAnswered && (
+                    <button
+                      onClick={() => setShowHint(true)}
+                      className="mt-3 inline-flex items-center gap-1.5 text-xs font-black text-amber-700 bg-amber-50 hover:bg-amber-100 px-4 py-2 rounded-full border border-amber-200 transition-all cursor-pointer shadow-sm"
+                    >
+                      <HelpCircle className="w-3.5 h-3.5" /> Need a Hint?
+                    </button>
+                  )}
+
+                  {/* Revealed Hint Box */}
+                  {showHint && !isAnswered && (
+                    <div className="mt-3 bg-amber-100/90 text-amber-950 text-xs font-black p-3 rounded-2xl border border-amber-300 animate-in fade-in duration-200">
+                      💡 Capital: <span className="underline">{currentQ.target.capital}</span> | Continent: {currentQ.target.continent}
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Multiple Choice Options Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
@@ -562,10 +626,15 @@ export default function FlagQuizView({ onAddPoints }) {
                       className={`p-4 md:p-5 rounded-2xl font-black text-base md:text-lg text-left transition-all duration-200 flex items-center justify-between cursor-pointer ${btnStyle}`}
                     >
                       <span className="flex items-center gap-3">
-                        <span className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-xs font-bold text-slate-500">
-                          {option.flag}
+                        <span className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-xs font-bold text-slate-500 shrink-0">
+                          {option.flag || '🏛️'}
                         </span>
-                        {option.name}
+                        <div>
+                          <div>{option.displayLabel}</div>
+                          {option.subLabel && (
+                            <div className="text-xs font-medium opacity-80">{option.subLabel}</div>
+                          )}
+                        </div>
                       </span>
 
                       {isAnswered && option.code === currentQ.target.code && (
@@ -584,10 +653,10 @@ export default function FlagQuizView({ onAddPoints }) {
                 <div className="mt-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200/70 p-5 rounded-3xl text-left space-y-2 animate-in fade-in duration-300 max-w-2xl mx-auto">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-black text-blue-900 uppercase tracking-widest flex items-center gap-1.5">
-                      🏛️ Country Spotlight: {currentQ.target.name}
+                      🏛️ Country Spotlight: {currentQ.target.name} {currentQ.target.flag}
                     </span>
                     <button
-                      onClick={() => speakText(`${currentQ.target.name}. Capital is ${currentQ.target.capital}. ${currentQ.target.fact}`)}
+                      onClick={() => speakText(`${currentQ.target.name}. Capital city is ${currentQ.target.capital}. ${currentQ.target.fact}`)}
                       className="text-xs font-black text-blue-600 flex items-center gap-1 hover:underline cursor-pointer"
                     >
                       <Volume2 className="w-3.5 h-3.5" /> Speak Fact
@@ -601,6 +670,7 @@ export default function FlagQuizView({ onAddPoints }) {
                   </p>
                 </div>
               )}
+
             </div>
           </div>
         )
