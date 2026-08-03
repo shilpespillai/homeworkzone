@@ -14,18 +14,15 @@ const speakWord = (text) => {
 };
 
 /**
- * Strip AI symbols, markdown hashes, emojis, and messy formatting
+ * Strip markdown hashes, emojis, and messy formatting
  */
 const cleanText = (str) => {
   if (!str) return '';
   return str
-    // Remove markdown headers and formatting
     .replace(/^#+\s*/g, '')
     .replace(/\*\*(.*?)\*\*/g, '$1')
     .replace(/\*(.*?)\*/g, '$1')
-    // Remove common emojis & AI symbols
     .replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|✨|💡|❤️|🧩|🔊|✍️|🚫|#\d+/gu, '')
-    // Remove raw bullet dashes at start
     .replace(/^[\-\*\•]\s*/, '')
     .trim();
 };
@@ -48,21 +45,28 @@ const parseVocabGuide = (rawText) => {
     const raw = line.trim();
     if (!raw) return;
 
-    // Detect word headers
-    const isWordHeader = raw.toLowerCase().includes('vocabulary word:') || 
-                         (raw.startsWith('##') && raw.toLowerCase().includes('word')) ||
-                         /^(?:#+\s*)?\d+\.\s*(?:Vocabulary Word|Word)?/i.test(raw);
+    const lower = raw.toLowerCase();
+    const isSectionHeader = /why writers love|replace (?:these )?boring|quick writing tip|usage note|examples?|memory trick|antonyms?|synonyms?/i.test(lower);
 
-    if (isWordHeader) {
+    // Detect new word header
+    const isExplicitWordHeader = lower.includes('vocabulary word:') || 
+                                 lower.includes('target word:') || 
+                                 lower.includes('word spotlight:') ||
+                                 (raw.startsWith('##') && lower.includes('word') && !isSectionHeader);
+
+    // Also match lines like "1. Dashed" or "## 1. Dashed"
+    const isNumberedWordMatch = !isSectionHeader && /^(?:#+\s*)?\d+\.\s*(?:Vocabulary Word\s*:)?\s*[A-Za-z\-\'\s]{2,25}$/i.test(raw);
+
+    if (isExplicitWordHeader || isNumberedWordMatch) {
       if (currentWord) words.push(currentWord);
 
       let wordTitle = cleanText(raw)
         .replace(/^\d+\.\s*/, '')
         .replace(/Vocabulary Word\s*:\s*/i, '')
+        .replace(/Target Word\s*:\s*/i, '')
         .replace(/Word\s*\d*\s*:\s*/i, '')
         .trim();
 
-      // Normalize title casing (e.g. "Dashed", not "DASHED")
       if (wordTitle) {
         wordTitle = wordTitle.charAt(0).toUpperCase() + wordTitle.slice(1);
       }
@@ -73,7 +77,9 @@ const parseVocabGuide = (rawText) => {
         pronunciation: '',
         partOfSpeech: '',
         meaning: '',
-        usageNote: '',
+        whyWritersLoveIt: '',
+        replaceBoringWords: '',
+        quickWritingTips: '',
         examples: []
       };
       return;
@@ -87,24 +93,39 @@ const parseVocabGuide = (rawText) => {
       return;
     }
 
-    const lower = raw.toLowerCase();
-    const textWithoutPrefix = cleanText(raw);
+    const textCleaned = cleanText(raw);
 
     if (lower.includes('pronunciation')) {
-      currentWord.pronunciation = textWithoutPrefix.replace(/^Pronunciation\s*:\s*/i, '').trim();
+      currentWord.pronunciation = textCleaned.replace(/^Pronunciation\s*:\s*/i, '').trim();
     } else if (lower.includes('part of speech')) {
-      currentWord.partOfSpeech = textWithoutPrefix.replace(/^Part of Speech\s*:\s*/i, '').trim();
+      currentWord.partOfSpeech = textCleaned.replace(/^Part of Speech\s*:\s*/i, '').trim();
     } else if (lower.includes('meaning') || lower.includes('definition')) {
-      currentWord.meaning = textWithoutPrefix.replace(/^(?:Student-Friendly Meaning|Meaning|Definition)\s*:\s*/i, '').trim();
-    } else if (lower.includes('why writers love') || lower.includes('why use') || lower.includes('usage')) {
-      currentWord.usageNote = textWithoutPrefix.replace(/^(?:Why Writers Love This Word|Why Use It|Usage Note|Tip)\s*:\s*/i, '').trim();
+      const val = textCleaned.replace(/^(?:Student-Friendly Meaning|Meaning|Definition)\s*:\s*/i, '').trim();
+      currentWord.meaning = currentWord.meaning ? `${currentWord.meaning} ${val}` : val;
+    } else if (lower.includes('why writers love')) {
+      const val = textCleaned.replace(/^Why Writers Love (?:This Word|This)?\s*:?\s*/i, '').trim();
+      currentWord.whyWritersLoveIt = currentWord.whyWritersLoveIt ? `${currentWord.whyWritersLoveIt} ${val}` : val;
+    } else if (lower.includes('replace') || lower.includes('boring words')) {
+      const val = textCleaned.replace(/^Replace (?:These )?Boring Words\s*:?\s*/i, '').trim();
+      currentWord.replaceBoringWords = currentWord.replaceBoringWords ? `${currentWord.replaceBoringWords} ${val}` : val;
+    } else if (lower.includes('quick writing tip') || lower.includes('writing tip') || lower.includes('memory trick')) {
+      const val = textCleaned.replace(/^(?:Quick Writing Tip|Writing Tip|Memory Trick)\s*:?\s*/i, '').trim();
+      currentWord.quickWritingTips = currentWord.quickWritingTips ? `${currentWord.quickWritingTips} ${val}` : val;
     } else if (raw.startsWith('- ') || raw.startsWith('* ') || raw.startsWith('• ')) {
-      if (textWithoutPrefix) currentWord.examples.push(textWithoutPrefix);
+      if (textCleaned) {
+        if (!currentWord.replaceBoringWords && lower.includes('synonym')) {
+          currentWord.replaceBoringWords = textCleaned;
+        } else {
+          currentWord.examples.push(textCleaned);
+        }
+      }
     } else if (!raw.startsWith('---')) {
       if (!currentWord.meaning) {
-        currentWord.meaning = textWithoutPrefix;
-      } else if (!currentWord.usageNote) {
-        currentWord.usageNote = textWithoutPrefix;
+        currentWord.meaning = textCleaned;
+      } else if (!currentWord.whyWritersLoveIt) {
+        currentWord.whyWritersLoveIt = textCleaned;
+      } else if (!currentWord.quickWritingTips) {
+        currentWord.quickWritingTips = textCleaned;
       }
     }
   });
@@ -118,7 +139,7 @@ const parseVocabGuide = (rawText) => {
 };
 
 /**
- * Clean markdown renderer for standard non-vocab prose passages
+ * Clean markdown renderer for standard prose reading passages
  */
 const renderProsePassage = (text) => {
   if (!text) return null;
@@ -152,22 +173,22 @@ export default function PassageViewer({
   const isVocab = !!parsedVocab && parsedVocab.words.length > 0;
 
   return (
-    <div className={`w-full max-w-4xl mx-auto space-y-6 ${className}`}>
+    <div className={`w-full max-w-[96vw] xl:max-w-7xl mx-auto space-y-6 ${className}`}>
       
       {/* Page Title & Subtitle */}
       <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-2 text-center sm:text-left">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 text-amber-800 rounded-full text-xs font-medium border border-amber-200 mb-1">
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 text-amber-800 rounded-full text-xs font-normal border border-amber-200 mb-1">
           <BookOpen className="w-3.5 h-3.5 text-amber-600" />
-          <span>{isVocab ? 'Vocabulary Study Guide' : 'Reading Passage'}</span>
+          <span>{isVocab ? 'Weekly Vocabulary Table' : 'Reading Passage'}</span>
         </div>
         
-        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-          {isVocab ? 'Target Words & Learning Guide' : 'Read Before Answering'}
+        <h1 className="text-2xl sm:text-3xl font-normal text-slate-900 tracking-tight">
+          {isVocab ? 'Target Words & Learning Table' : 'Read Before Answering'}
         </h1>
         
         <p className="text-sm font-normal text-slate-600 leading-relaxed">
           {isVocab 
-            ? 'Review and learn these words carefully. Click any word to hear its pronunciation. When ready, click Start Quiz below.'
+            ? `Review all ${parsedVocab.words.length} target words in the table below. Click speaker icons to hear pronunciations. When ready, click Start Quiz.`
             : 'Read the text carefully below before continuing to the questions.'}
         </p>
       </div>
@@ -179,84 +200,85 @@ export default function PassageViewer({
         </div>
       )}
 
-      {/* Main Content Area */}
+      {/* Excel Data Table Grid for Vocab Words */}
       {isVocab ? (
-        <div className="space-y-4">
-          {parsedVocab.words.map((item, idx) => (
-            <div 
-              key={idx}
-              className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4 transition-all hover:border-slate-300"
-            >
-              {/* Word Title Casing & Pronunciation Pill Bar */}
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
-                <div className="flex items-center gap-3">
-                  <span className="w-7 h-7 rounded-lg bg-slate-100 text-slate-600 font-semibold text-xs flex items-center justify-center shrink-0">
+        <div className="w-full bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden overflow-x-auto font-sans">
+          <table className="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr className="bg-slate-100/80 text-slate-600 border-b border-slate-200 font-normal uppercase tracking-wider text-[11px]">
+                <th className="p-3.5 px-4 font-normal w-12 text-center border-r border-slate-200/60">#</th>
+                <th className="p-3.5 px-4 font-normal min-w-[170px] border-r border-slate-200/60">Word & Details</th>
+                <th className="p-3.5 px-4 font-normal min-w-[200px] border-r border-slate-200/60">Meaning</th>
+                <th className="p-3.5 px-4 font-normal min-w-[220px] border-r border-slate-200/60">Why Writers Love This</th>
+                <th className="p-3.5 px-4 font-normal min-w-[200px] border-r border-slate-200/60">Replace Boring Words</th>
+                <th className="p-3.5 px-4 font-normal min-w-[220px]">Quick Writing Tips</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200/80">
+              {parsedVocab.words.map((item, idx) => (
+                <tr key={idx} className="hover:bg-amber-50/20 transition-colors even:bg-slate-50/40">
+                  {/* Row Number */}
+                  <td className="p-3.5 px-4 text-center font-normal text-slate-400 border-r border-slate-200/60 align-top">
                     {idx + 1}
-                  </span>
-                  <h2 className="text-xl font-bold text-slate-900 capitalize">
-                    {item.word}
-                  </h2>
-                </div>
+                  </td>
 
-                <div className="flex items-center gap-2">
-                  {item.pronunciation && (
-                    <button
-                      onClick={() => speakWord(item.word)}
-                      className="px-3 py-1 bg-amber-50 hover:bg-amber-100 text-amber-900 rounded-full text-xs font-medium flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer border border-amber-200"
-                      title="Listen to pronunciation"
-                    >
-                      <Volume2 className="w-3.5 h-3.5 text-amber-700" />
-                      <span>{item.pronunciation}</span>
-                    </button>
-                  )}
+                  {/* Word, Audio & POS */}
+                  <td className="p-3.5 px-4 border-r border-slate-200/60 align-top space-y-1.5">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-base font-normal text-orange-500 capitalize">
+                        {item.word}
+                      </span>
+                      {item.pronunciation && (
+                        <button
+                          onClick={() => speakWord(item.word)}
+                          className="p-1 px-2 bg-amber-50 hover:bg-amber-100 text-amber-900 rounded-full border border-amber-200 text-xs font-normal flex items-center gap-1 cursor-pointer transition-all active:scale-95 shrink-0"
+                          title="Listen to pronunciation"
+                        >
+                          <Volume2 className="w-3 h-3 text-amber-600" />
+                          <span className="text-[11px] font-normal">{item.pronunciation}</span>
+                        </button>
+                      )}
+                    </div>
 
-                  {item.partOfSpeech && (
-                    <span className="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-medium border border-slate-200">
-                      {item.partOfSpeech}
-                    </span>
-                  )}
-                </div>
-              </div>
+                    {item.partOfSpeech && (
+                      <span className="inline-block text-[11px] font-normal text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200 uppercase">
+                        {item.partOfSpeech}
+                      </span>
+                    )}
+                  </td>
 
-              {/* Definition / Meaning (Regular Pleasant Font, Not Heavy Bold) */}
-              {item.meaning && (
-                <div className="space-y-1">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 block">
-                    Meaning
-                  </span>
-                  <p className="text-sm font-normal text-slate-800 leading-relaxed">
-                    {item.meaning}
-                  </p>
-                </div>
-              )}
+                  {/* Meaning Column */}
+                  <td className="p-3.5 px-4 font-normal text-slate-700 leading-relaxed border-r border-slate-200/60 align-top">
+                    {item.meaning || '-'}
+                  </td>
 
-              {/* Usage Note / Writer's Tip */}
-              {item.usageNote && (
-                <div className="bg-slate-50 rounded-xl p-4 border border-slate-200/80 space-y-1">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-indigo-700 block">
-                    Usage Note
-                  </span>
-                  <p className="text-xs font-normal text-slate-700 leading-relaxed italic">
-                    "{item.usageNote}"
-                  </p>
-                </div>
-              )}
+                  {/* Why Writers Love This Column */}
+                  <td className="p-3.5 px-4 font-normal text-slate-700 leading-relaxed border-r border-slate-200/60 align-top">
+                    <span className="text-emerald-600 font-normal">Why Writers Love This - </span>
+                    <span>{item.whyWritersLoveIt || 'Adds vivid description and energy to your writing.'}</span>
+                  </td>
 
-              {/* Example Sentences */}
-              {item.examples.length > 0 && (
-                <div className="space-y-1.5 pt-1">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 block">
-                    Example Sentences
-                  </span>
-                  <ul className="list-disc list-inside text-xs font-normal text-slate-600 space-y-1 pl-1">
-                    {item.examples.map((ex, eIdx) => (
-                      <li key={eIdx}>{ex}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          ))}
+                  {/* Replace Boring Words Column */}
+                  <td className="p-3.5 px-4 font-normal text-slate-700 leading-relaxed border-r border-slate-200/60 align-top">
+                    <span className="text-emerald-600 font-normal">Replace Boring Words - </span>
+                    <span>{item.replaceBoringWords || 'Ran, Went fast, Said, Good, Nice'}</span>
+                  </td>
+
+                  {/* Quick Writing Tips Column */}
+                  <td className="p-3.5 px-4 font-normal text-slate-700 leading-relaxed align-top">
+                    <span className="text-emerald-600 font-normal">Quick Writing Tips - </span>
+                    <span>{item.quickWritingTips || `Use '${item.word.toLowerCase()}' when describing action scenes.`}</span>
+
+                    {item.examples.length > 0 && (
+                      <div className="mt-2 text-xs font-normal text-slate-500 italic">
+                        Example: "{item.examples[0]}"
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       ) : (
         /* Prose Reading Passage */
@@ -270,7 +292,7 @@ export default function PassageViewer({
         <div className="pt-4 flex justify-center">
           <button
             onClick={onStartQuiz}
-            className="w-full sm:w-auto px-8 py-3.5 bg-orange-500 hover:bg-orange-600 active:scale-95 text-white font-bold text-base rounded-full shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full sm:w-auto px-8 py-3.5 bg-orange-500 hover:bg-orange-600 active:scale-95 text-white font-normal text-base rounded-full shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             <span>Start Quiz & Questions →</span>
           </button>

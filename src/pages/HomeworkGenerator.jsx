@@ -1405,7 +1405,7 @@ EXPECTED JSON SCHEMA:
       const isVocab = formData.subject === 'Vocabulary' || (formData.subject || '').toLowerCase().includes('vocab') || (topic || '').toLowerCase().includes('vocab');
 
       let prompt = isVocab ? `You are an expert Vocabulary Curriculum Director and Word Learning Coach.
-        Your mission is to teach students 6 to 8 NEW vocabulary words every week through an INFORMATION-FIRST "Weekly Word Spotlight & Learning Guide", followed by direct contextual application exercises.
+        Your mission is to teach students 10 to 15 NEW vocabulary words every week through an INFORMATION-FIRST "Weekly Word Spotlight & Learning Guide", followed by direct contextual application exercises.
         DO NOT generate a standard multiple-choice quiz of random words!
         
         Subject: ${formData.subject}
@@ -1416,7 +1416,7 @@ EXPECTED JSON SCHEMA:
         ${previousQuestionsBlock}
         
         YOUR JSON RESPONSE MUST PROVIDE:
-        1. "passage": A comprehensive, beautifully structured "Weekly Word Spotlight & Learning Guide" teaching 6-8 new grade-appropriate vocabulary words.
+        1. "passage": A comprehensive, beautifully structured "Weekly Word Spotlight & Learning Guide" teaching 10-15 new grade-appropriate vocabulary words.
            For EVERY word in "passage", you MUST include:
            - 📌 Word & Part of Speech
            - 🔊 Phonetics / Pronunciation
