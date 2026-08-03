@@ -1868,25 +1868,25 @@ EXPECTED JSON SCHEMA:
           <h2 className="text-2xl font-black text-[#14532d]">Choose Subject</h2>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
           {getDynamicSubjects().map((sub) => (
             <div 
               key={sub.id}
               onClick={() => setFormData({...formData, subject: sub.id})}
-              className={`relative p-8 rounded-3xl border-2 cursor-pointer transition-all flex flex-col items-center text-center group ${sub.bgColor} ${formData.subject === sub.id ? sub.selectedBorder : sub.borderColor}`}
+              className={`relative p-4 rounded-2xl border-2 cursor-pointer transition-all flex flex-col items-center text-center group ${sub.bgColor} ${formData.subject === sub.id ? sub.selectedBorder : sub.borderColor} hover:shadow-md hover:-translate-y-0.5`}
             >
-              {/* Radio Button */}
-              <div className={`absolute top-6 right-6 w-6 h-6 rounded-full border-2 flex items-center justify-center ${formData.subject === sub.id ? 'border-orange-1000' : 'border-slate-300 bg-white'}`}>
-                {formData.subject === sub.id && <div className="w-3 h-3 rounded-full bg-blue-500" />}
+              {/* Radio Indicator */}
+              <div className={`absolute top-2.5 right-2.5 w-4 h-4 rounded-full border flex items-center justify-center ${formData.subject === sub.id ? 'border-blue-600 bg-blue-600' : 'border-slate-300 bg-white'}`}>
+                {formData.subject === sub.id && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
               </div>
               
-              <h3 className={`text-2xl font-black mb-8 ${sub.titleColor}`}>{sub.name}</h3>
-              
-              <div className="h-24 flex items-center justify-center mb-6">
+              <div className="scale-75 origin-center mb-1 flex items-center justify-center h-14">
                 {sub.renderGraphic()}
               </div>
               
-              <p className="text-slate-600 font-bold text-sm px-4">{sub.desc}</p>
+              <h3 className={`text-sm font-black mb-1 line-clamp-1 ${sub.titleColor}`}>{sub.name}</h3>
+              
+              <p className="text-slate-500 font-semibold text-[11px] leading-tight line-clamp-2 px-1">{sub.desc}</p>
             </div>
           ))}
         </div>
