@@ -1178,11 +1178,11 @@ EXPECTED JSON SCHEMA:
         .replace(/\{DIFFICULTY\}/gi, formData.difficulty || 'Medium')
         .replace(/\{QUESTION_COUNT\}/gi, String(questionCount));
 
-      // Find up to 10 questions recently generated for this subject to prevent duplicates
+      // Find up to 30 questions recently generated for this subject/exam to prevent duplicates
       const recentlyGenerated = [];
       if (allHomeworks && allHomeworks.length > 0) {
         const matchingHws = allHomeworks
-          .filter(h => h.subject?.toLowerCase() === formData.subject?.toLowerCase())
+          .filter(h => h.subject?.toLowerCase() === formData.subject?.toLowerCase() || (formData.examPreset && h.examPreset === formData.examPreset))
           .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
         
         for (const hw of matchingHws) {
@@ -1195,16 +1195,21 @@ EXPECTED JSON SCHEMA:
                   recentlyGenerated.push(preview);
                 }
               }
-              if (recentlyGenerated.length >= 10) break;
+              if (recentlyGenerated.length >= 30) break;
             }
           }
-          if (recentlyGenerated.length >= 10) break;
+          if (recentlyGenerated.length >= 30) break;
         }
       }
       
+      const entropySeed = `SEED-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+
       const previousQuestionsBlock = recentlyGenerated.length > 0
-        ? `\n        CRITICAL UNIFORMITY AVOIDANCE RULE: You MUST NOT repeat or use similar templates, wording, or scenarios to these recently generated questions for this subject. Create completely different situations, contexts, numbers, or question types:\n        ${recentlyGenerated.map((q, idx) => `        ${idx + 1}. "${q}"`).join('\n')}\n`
-        : '';
+        ? `\n        CRITICAL ABSOLUTE ZERO-REPETITION MANDATE (Session Entropy Seed: ${entropySeed}):
+        You MUST NOT repeat or generate similar templates, character names, numbers, or question scenarios to ANY of these recently generated questions. Every single question generated in this session must feature 100% unique context, names, values, and problem structures:
+        ${recentlyGenerated.map((q, idx) => `        ${idx + 1}. "${q}"`).join('\n')}\n`
+        : `\n        CRITICAL ABSOLUTE ZERO-REPETITION MANDATE (Session Entropy Seed: ${entropySeed}):
+        Every single question generated in this session must feature 100% unique context, character names, numbers, and problem structures. Do not use generic repetitive textbook templates.\n`;
 
       const langObj = getLanguageObj(targetLanguage || 'en');
       const langRule = targetLanguage && targetLanguage !== 'en'
