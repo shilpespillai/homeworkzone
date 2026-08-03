@@ -55,6 +55,8 @@ import CurriculumModal from '../components/CurriculumModal';
 import { curriculum } from '../data/curriculum';
 import { SUPPORTED_LANGUAGES, getLanguageObj } from '../utils/languages';
 import { getSmartTopicTitle } from './HomeworkScheduler';
+import InternationalExamHubView from '../components/InternationalExamHubView';
+import { Globe } from 'lucide-react';
 
 export const sanitizeQuestionData = (q) => {
   if (!q) return q;
@@ -225,23 +227,43 @@ const SUBJECTS = [
   }
 ];
 
-export default function HomeworkGenerator({ user, classrooms = [], activeClassroom, initialDraft, subjectPrompts, onHomeworkCreated, teacherBilling, allHomeworks = [], setDashboardTab, isAdmin }) {
-  const [assignmentType, setAssignmentType] = useState(initialDraft ? (initialDraft.type || 'homework') : null);
+export default function HomeworkGenerator({ user, classrooms = [], activeClassroom, initialDraft, initialExam, subjectPrompts, onHomeworkCreated, teacherBilling, allHomeworks = [], setDashboardTab, isAdmin }) {
+  const [assignmentType, setAssignmentType] = useState(initialDraft ? (initialDraft.type || 'homework') : (initialExam ? 'test' : null));
   const [formData, setFormData] = useState({
-    subject: 'maths',
-    title: '',
-    instructions: assignmentType === 'test' ? 'Read each question carefully. You are on a timer! ⏳' : 'Read each question carefully and select the best answer! 🚀',
-    aiPrompt: '',
+    subject: initialExam ? initialExam.subject : 'maths',
+    title: initialExam ? `${initialExam.name} Practice Paper` : '',
+    instructions: initialExam ? `Read each question carefully. You are on a ${initialExam.defaultTime}-minute timer! ⏳` : (assignmentType === 'test' ? 'Read each question carefully. You are on a timer! ⏳' : 'Read each question carefully and select the best answer! 🚀'),
+    aiPrompt: initialExam ? initialExam.promptInstruction : '',
     classId: activeClassroom?.id || '',
     dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     time: '',
     points: '10',
-    timeLimit: '30',
+    timeLimit: initialExam ? String(initialExam.defaultTime) : '30',
     marksPerQuestion: '5',
     assignType: 'all',
     assignedStudentIds: [],
-    difficulty: 'Medium'
+    difficulty: 'Medium',
+    examPreset: initialExam ? initialExam.id : null,
+    isExamPaper: !!initialExam
   });
+
+  useEffect(() => {
+    if (initialExam) {
+      setFormData(prev => ({
+        ...prev,
+        subject: initialExam.subject,
+        title: `${initialExam.name} Practice Paper`,
+        instructions: `Read each question carefully. You are on a ${initialExam.defaultTime}-minute timer! ⏳`,
+        aiPrompt: initialExam.promptInstruction,
+        timeLimit: String(initialExam.defaultTime),
+        examPreset: initialExam.id,
+        isExamPaper: true
+      }));
+      setQuestionCount(initialExam.defaultQuestions);
+      setIsCurriculumMode(false);
+      setAssignmentType('test');
+    }
+  }, [initialExam]);
 
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
@@ -1728,35 +1750,71 @@ EXPECTED JSON SCHEMA:
         !assignmentType ? (
           <div className="flex flex-col items-center justify-center py-16 space-y-10">
             <h2 className="text-4xl font-black text-[#14532d]">What would you like to create?</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl w-full px-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl w-full px-4">
               <button 
                 onClick={() => setAssignmentType('homework')} 
-                className="h-64 bg-white rounded-[40px] border border-slate-200 shadow-xl flex flex-col items-center justify-center gap-6 hover:-translate-y-2 transition-all hover:border-pink-300 group cursor-pointer"
+                className="h-64 bg-white rounded-[40px] border border-slate-200 shadow-xl flex flex-col items-center justify-center gap-6 hover:-translate-y-2 transition-all hover:border-pink-300 group cursor-pointer p-6 text-center"
               >
                 <div className="w-24 h-24 bg-pink-50 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                   <img src="/ic-homework.png" className="w-12 h-12 object-contain mix-blend-multiply" alt="Homework" />
                 </div>
                 <span className="text-2xl font-black text-slate-800">Homework</span>
               </button>
+              
               <button 
                 onClick={() => setAssignmentType('test')} 
-                className="h-64 bg-white rounded-[40px] border border-slate-200 shadow-xl flex flex-col items-center justify-center gap-6 hover:-translate-y-2 transition-all hover:border-rose-300 group cursor-pointer"
+                className="h-64 bg-white rounded-[40px] border border-slate-200 shadow-xl flex flex-col items-center justify-center gap-6 hover:-translate-y-2 transition-all hover:border-rose-300 group cursor-pointer p-6 text-center"
               >
                 <div className="w-24 h-24 bg-rose-50 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                   <BookOpen className="w-12 h-12 text-rose-500" />
                 </div>
                 <span className="text-2xl font-black text-slate-800">Test Builder</span>
               </button>
+
+              <button 
+                onClick={() => setAssignmentType('exam_hub')} 
+                className="h-64 bg-gradient-to-tr from-purple-950 to-slate-900 text-white rounded-[40px] border-2 border-purple-400/40 shadow-xl flex flex-col items-center justify-center gap-6 hover:-translate-y-2 transition-all hover:border-amber-400 group cursor-pointer p-6 text-center"
+              >
+                <div className="w-24 h-24 bg-purple-900/60 border border-purple-400/40 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Globe className="w-12 h-12 text-amber-400" />
+                </div>
+                <div className="space-y-1">
+                  <span className="text-xl font-black text-white block">International Exam Builder</span>
+                  <span className="text-[10px] text-purple-200 font-bold block">NSW Selective, ACER, ICAS, SAT, NAPLAN & 11+</span>
+                </div>
+              </button>
             </div>
           </div>
+        ) : assignmentType === 'exam_hub' ? (
+          <InternationalExamHubView
+            onSelectExam={(exam) => {
+              setFormData(prev => ({
+                ...prev,
+                subject: exam.subject,
+                title: `${exam.name} Practice Paper`,
+                instructions: `Read each question carefully. You are on a ${exam.defaultTime}-minute timer! ⏳`,
+                aiPrompt: exam.promptInstruction,
+                timeLimit: String(exam.defaultTime),
+                examPreset: exam.id,
+                isExamPaper: true
+              }));
+              setQuestionCount(exam.defaultQuestions);
+              setIsCurriculumMode(false);
+              setAssignmentType('test');
+            }}
+          />
         ) : (
         <>
           {/* Header */}
           <div className="flex justify-between items-start mb-12">
             <div>
-              <h1 className="text-5xl font-black text-[#14532d] tracking-tight mb-2">Create Homework</h1>
+              <h1 className="text-5xl font-black text-[#14532d] tracking-tight mb-2">
+                {formData.isExamPaper ? 'Create Exam Paper' : assignmentType === 'test' ? 'Create Test' : 'Create Homework'}
+              </h1>
               <div className="relative inline-block">
-                 <p className="text-lg text-slate-500 font-bold">Prepare fun and meaningful homework for your students!</p>
+                 <p className="text-lg text-slate-500 font-bold">
+                   {formData.isExamPaper ? 'Generate official, computer-based exam practice papers!' : 'Prepare fun and meaningful homework for your students!'}
+                 </p>
                  <svg className="absolute -bottom-2 left-0 w-32 h-3 text-green-400 opacity-60" viewBox="0 0 100 20" preserveAspectRatio="none">
                    <path d="M0,10 Q10,20 20,10 T40,10 T60,10 T80,10 T100,10" fill="none" stroke="currentColor" strokeWidth="3" />
                  </svg>
@@ -1772,53 +1830,6 @@ EXPECTED JSON SCHEMA:
               <img src="/mascot.png" alt="Mascot" className="w-20 h-20 object-contain absolute -top-8 -left-16 drop-shadow-md" />
             </div>
           </div>
-
-      {/* International Exam Presets Quick Selector */}
-      <div className="mb-8 p-6 bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 rounded-3xl text-white shadow-xl border border-purple-500/30 relative overflow-hidden">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <Trophy className="w-5 h-5 text-amber-400 animate-pulse" />
-              <span className="text-xs font-black uppercase tracking-widest text-purple-300">New Exam Simulator Mode</span>
-            </div>
-            <h3 className="text-xl font-black text-white">Generate Authentic International Exam Papers 🏆</h3>
-            <p className="text-xs text-purple-200 font-medium">Select a preset to auto-load exam questions for ICAS, NSW Selective, SAT, NAPLAN & UK 11+.</p>
-          </div>
-          
-          <div className="w-full md:w-auto">
-            <select
-              onChange={(e) => {
-                const examId = e.target.value;
-                if (!examId) return;
-                const exam = INTERNATIONAL_EXAMS.find(ex => ex.id === examId);
-                if (exam) {
-                  setFormData(prev => ({
-                    ...prev,
-                    subject: exam.subject,
-                    title: `${exam.name} Practice Paper`,
-                    instructions: `Read each question carefully. You are on a ${exam.defaultTime}-minute timer! ⏳`,
-                    aiPrompt: exam.promptInstruction,
-                    timeLimit: String(exam.defaultTime),
-                    examPreset: exam.id,
-                    isExamPaper: true
-                  }));
-                  setQuestionCount(exam.defaultQuestions);
-                  setIsCurriculumMode(false);
-                }
-              }}
-              defaultValue=""
-              className="w-full md:w-72 bg-purple-950/80 hover:bg-purple-900 border-2 border-purple-400/50 text-white font-bold text-xs py-3 px-4 rounded-2xl outline-none focus:border-amber-400 transition-all cursor-pointer shadow-inner"
-            >
-              <option value="" disabled>✨ Select International Exam Preset...</option>
-              {INTERNATIONAL_EXAMS.map(exam => (
-                <option key={exam.id} value={exam.id} className="bg-slate-900 text-white">
-                  {exam.country} {exam.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-      </div>
 
       {/* Step 1: Choose Subject */}
       <div className="mb-12">
