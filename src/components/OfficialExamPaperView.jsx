@@ -17,6 +17,32 @@ import {
   X,
   LogOut
 } from 'lucide-react';
+import InteractiveSorting from './InteractiveSorting';
+import InteractiveMatching from './InteractiveMatching';
+import InteractiveFractionColoring from './InteractiveFractionColoring';
+import InteractiveClockSetting from './InteractiveClockSetting';
+import InteractivePlaceValueBlocks from './InteractivePlaceValueBlocks';
+import InteractiveNumberLinePlotter from './InteractiveNumberLinePlotter';
+import InteractiveAngleBuilder from './InteractiveAngleBuilder';
+import InteractiveGridAreaPainter from './InteractiveGridAreaPainter';
+import InteractiveBalanceScale from './InteractiveBalanceScale';
+import InteractiveFractionWall from './InteractiveFractionWall';
+import InteractiveCoordinatePlotter from './InteractiveCoordinatePlotter';
+import InteractiveMoneyCounter from './InteractiveMoneyCounter';
+import InteractiveGeometryNet from './InteractiveGeometryNet';
+import InteractiveVennDiagram from './InteractiveVennDiagram';
+import InteractiveProbabilitySpinner from './InteractiveProbabilitySpinner';
+import InteractiveFunctionGrapher from './InteractiveFunctionGrapher';
+import InteractiveChartBuilder from './InteractiveChartBuilder';
+import InteractiveRatioMixer from './InteractiveRatioMixer';
+import InteractiveFactorTree from './InteractiveFactorTree';
+import InteractivePythagorasExplorer from './InteractivePythagorasExplorer';
+import InteractiveTransformationGeometry from './InteractiveTransformationGeometry';
+import InteractiveQuadraticParabola from './InteractiveQuadraticParabola';
+import InteractivePercentageGrid from './InteractivePercentageGrid';
+import InteractiveStemLeafPlot from './InteractiveStemLeafPlot';
+import InteractiveTrigRatios from './InteractiveTrigRatios';
+import InteractiveExponentialCurve from './InteractiveExponentialCurve';
 
 export default function OfficialExamPaperView({
   homework,
@@ -52,6 +78,338 @@ export default function OfficialExamPaperView({
       return answers[`idx_${idx}`];
     }
     return undefined;
+  };
+
+  const renderQuestionInput = () => {
+    const currentAns = getAnswerForQuestion(currentQ, currentIdx);
+
+    if (currentQ.questionType === 'interactive') {
+      const handleInteractiveSelect = (val) => {
+        if (onSelectAnswer) onSelectAnswer(currentIdx, val);
+      };
+
+      if (currentQ.interactiveType === 'sorting') {
+        const itemsList = currentAns ? currentAns.split(', ') : (currentQ.interactiveData || []);
+        return (
+          <InteractiveSorting
+            items={itemsList}
+            onReorder={(newOrder) => handleInteractiveSelect(newOrder.join(', '))}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'matching') {
+        return (
+          <InteractiveMatching
+            pairs={currentQ.interactiveData || []}
+            reviewMatches={currentAns}
+            onMatch={(arr) => handleInteractiveSelect(arr[0] || '')}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'fractionColoring') {
+        return (
+          <InteractiveFractionColoring
+            targetFraction={currentQ.targetFraction || '1/3'}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'clockSetting') {
+        return (
+          <InteractiveClockSetting
+            targetTime={currentQ.targetTime || currentQ.answer || '03:45'}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'placeValueBlocks') {
+        return (
+          <InteractivePlaceValueBlocks
+            targetNumber={currentQ.targetNumber || currentQ.answer || 342}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'numberLinePlot') {
+        return (
+          <InteractiveNumberLinePlotter
+            targetValue={currentQ.targetValue || currentQ.answer || 4}
+            min={currentQ.min || -5}
+            max={currentQ.max || 10}
+            step={currentQ.step || 1}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'angleMeasuring') {
+        return (
+          <InteractiveAngleBuilder
+            targetAngle={currentQ.targetAngle || currentQ.answer || 65}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'gridAreaPainter') {
+        return (
+          <InteractiveGridAreaPainter
+            targetArea={currentQ.targetArea || currentQ.answer || 12}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'balanceScale') {
+        return (
+          <InteractiveBalanceScale
+            targetX={currentQ.targetX || currentQ.answer || 3}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'fractionWall') {
+        return (
+          <InteractiveFractionWall
+            targetFraction={currentQ.targetFraction || currentQ.answer || '3/4'}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'coordinatePlotter') {
+        return (
+          <InteractiveCoordinatePlotter
+            targetX={currentQ.targetX !== undefined ? currentQ.targetX : 3}
+            targetY={currentQ.targetY !== undefined ? currentQ.targetY : 2}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'moneyCounter') {
+        return (
+          <InteractiveMoneyCounter
+            targetAmount={currentQ.targetAmount || currentQ.answer || 1.75}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'geometryNet') {
+        return (
+          <InteractiveGeometryNet
+            targetShape={currentQ.targetShape || currentQ.answer || 'Cube'}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'vennDiagram') {
+        return (
+          <InteractiveVennDiagram
+            setALabel={currentQ.setALabel || 'Set A'}
+            setBLabel={currentQ.setBLabel || 'Set B'}
+            items={currentQ.interactiveData || currentQ.items}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'probabilitySpinner') {
+        return (
+          <InteractiveProbabilitySpinner
+            targetProbability={currentQ.targetProbability || currentQ.answer || '1/4'}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'functionGrapher') {
+        return (
+          <InteractiveFunctionGrapher
+            targetSlope={currentQ.targetSlope !== undefined ? currentQ.targetSlope : 2}
+            targetIntercept={currentQ.targetIntercept !== undefined ? currentQ.targetIntercept : 1}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'chartBuilder') {
+        return (
+          <InteractiveChartBuilder
+            categories={currentQ.categories || ['Apples', 'Bananas', 'Oranges']}
+            targetData={currentQ.targetData || { Apples: 4, Bananas: 7, Oranges: 3 }}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'ratioMixer') {
+        return (
+          <InteractiveRatioMixer
+            targetRed={currentQ.targetRed || 2}
+            targetBlue={currentQ.targetBlue || 3}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'factorTree') {
+        return (
+          <InteractiveFactorTree
+            targetNumber={currentQ.targetNumber || currentQ.answer || 24}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'pythagorasExplorer') {
+        return (
+          <InteractivePythagorasExplorer
+            targetHypotenuse={currentQ.targetHypotenuse || currentQ.answer || 5}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'transformationGeometry') {
+        return (
+          <InteractiveTransformationGeometry
+            targetShiftX={currentQ.targetShiftX !== undefined ? currentQ.targetShiftX : 2}
+            targetShiftY={currentQ.targetShiftY !== undefined ? currentQ.targetShiftY : 3}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'quadraticParabola') {
+        return (
+          <InteractiveQuadraticParabola
+            targetA={currentQ.targetA || 1}
+            targetC={currentQ.targetC || 0}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'percentageGrid') {
+        return (
+          <InteractivePercentageGrid
+            targetPercentage={currentQ.targetPercentage || currentQ.answer || 25}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'stemLeafPlot') {
+        return (
+          <InteractiveStemLeafPlot
+            targetMedian={currentQ.targetMedian || currentQ.answer || 25}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'trigRatios') {
+        return (
+          <InteractiveTrigRatios
+            targetRatio={currentQ.targetRatio || currentQ.answer || 0.5}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+      if (currentQ.interactiveType === 'exponentialCurve') {
+        return (
+          <InteractiveExponentialCurve
+            targetBase={currentQ.targetBase || 2}
+            instruction={currentQ.text || currentQ.instruction}
+            studentAnswer={currentAns}
+            onAnswerChange={handleInteractiveSelect}
+          />
+        );
+      }
+
+      return (
+        <div className="p-6 bg-slate-50 border-2 border-slate-200 rounded-xl my-4">
+          <p className="text-slate-600 font-bold mb-3">Interactive Task:</p>
+          <input
+            type="text"
+            value={currentAns || ''}
+            onChange={(e) => onSelectAnswer && onSelectAnswer(currentIdx, e.target.value)}
+            className="w-full p-4 border-2 border-slate-300 rounded-xl font-semibold text-slate-900"
+            placeholder="Type your answer or solution here..."
+          />
+        </div>
+      );
+    }
+
+    if (currentQ.questionType === 'text' || !currentQ.options || currentQ.options.length === 0) {
+      return (
+        <div className="flex flex-col gap-3 my-6">
+          <label className="text-xs font-black uppercase tracking-wider text-slate-500">
+            Type Your Official Answer Below:
+          </label>
+          <input
+            type="text"
+            value={currentAns || ''}
+            onChange={(e) => onSelectAnswer && onSelectAnswer(currentIdx, e.target.value)}
+            className="w-full max-w-xl p-4 text-lg font-bold border-2 border-slate-300 rounded-xl bg-white text-slate-900 focus:outline-none focus:border-slate-950 focus:ring-4 focus:ring-slate-950/10 transition-all shadow-inner"
+            placeholder="Enter your official answer here..."
+          />
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-3 font-sans pt-2">
+        {(currentQ.options || []).map((opt, oIdx) => {
+          const optKey = ['A', 'B', 'C', 'D'][oIdx] || String(oIdx);
+          const isSelected = currentAns === optKey || currentAns === opt;
+
+          return (
+            <div
+              key={oIdx}
+              onClick={() => onSelectAnswer && onSelectAnswer(currentIdx, optKey)}
+              className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center gap-4 ${isSelected ? 'bg-slate-950 text-white border-slate-950 shadow-md translate-x-1' : 'bg-white hover:bg-slate-50 text-slate-900 border-slate-300 hover:border-slate-400'}`}
+            >
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-xs shrink-0 border ${isSelected ? 'bg-amber-500 text-slate-950 border-amber-400' : 'bg-slate-100 text-slate-700 border-slate-300'}`}>
+                {optKey}
+              </div>
+              <span className="font-semibold text-sm leading-snug">{opt}</span>
+            </div>
+          );
+        })}
+      </div>
+    );
   };
 
   // Extract stimulus/passage vs main question statement
@@ -395,27 +753,8 @@ export default function OfficialExamPaperView({
             {cleanQuestionText || currentQ?.text || currentQ?.question || currentQ?.questionText || currentQ?.prompt || currentQ?.title || currentQ?.subtopic || `Question ${currentIdx + 1}: Select the correct answer from the options below:`}
           </div>
 
-          {/* Options Grid (Formal A/B/C/D) */}
-          <div className="space-y-3 font-sans pt-2">
-            {(currentQ.options || []).map((opt, oIdx) => {
-              const optKey = ['A', 'B', 'C', 'D'][oIdx] || String(oIdx);
-              const currentAns = getAnswerForQuestion(currentQ, currentIdx);
-              const isSelected = currentAns === optKey || currentAns === opt;
-
-              return (
-                <div
-                  key={oIdx}
-                  onClick={() => onSelectAnswer && onSelectAnswer(currentIdx, optKey)}
-                  className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center gap-4 ${isSelected ? 'bg-slate-950 text-white border-slate-950 shadow-md translate-x-1' : 'bg-white hover:bg-slate-50 text-slate-900 border-slate-300 hover:border-slate-400'}`}
-                >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-xs shrink-0 border ${isSelected ? 'bg-amber-500 text-slate-950 border-amber-400' : 'bg-slate-100 text-slate-700 border-slate-300'}`}>
-                    {optKey}
-                  </div>
-                  <span className="font-semibold text-sm leading-snug">{opt}</span>
-                </div>
-              );
-            })}
-          </div>
+          {/* Question Input (Multiple Choice / Short Answer Text / Interactive) */}
+          {renderQuestionInput()}
 
         </div>
       </main>
