@@ -2235,15 +2235,33 @@ EXPECTED JSON SCHEMA:
             <>
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-black">2</div>
-                <h2 className="text-2xl font-black text-[#14532d]">Homework Details</h2>
+                <h2 className="text-2xl font-black text-[#14532d]">
+                  {formData.isExamPaper || formData.examPreset
+                    ? 'International Exam Details 🌐'
+                    : assignmentType === 'test'
+                    ? 'Test Details ⏱️'
+                    : 'Homework Details 📝'}
+                </h2>
               </div>
 
               <div className="space-y-2">
-                <label className="font-bold text-[#14532d]">Title <span className="text-rose-500">*</span></label>
+                <label className="font-bold text-[#14532d]">
+                  {formData.isExamPaper || formData.examPreset
+                    ? 'Exam Title'
+                    : assignmentType === 'test'
+                    ? 'Test Title'
+                    : 'Homework Title'} <span className="text-rose-500">*</span>
+                </label>
                 <div className="relative">
                   <input 
                     type="text"
-                    placeholder="Enter homework title..."
+                    placeholder={
+                      formData.isExamPaper || formData.examPreset
+                        ? 'Enter exam paper title (e.g. NSW Selective Practice 1)...'
+                        : assignmentType === 'test'
+                        ? 'Enter test title (e.g. End of Unit Quiz)...'
+                        : 'Enter homework title...'
+                    }
                     value={formData.title}
                     onChange={(e) => setFormData({...formData, title: e.target.value})}
                     className="w-full h-14 bg-white border-2 border-slate-200 rounded-2xl px-4 text-slate-700 font-bold outline-none focus:border-green-400 transition-colors"
@@ -3029,7 +3047,13 @@ EXPECTED JSON SCHEMA:
             disabled={isPublishing}
             className="bg-[#2ecc71] hover:bg-[#27ae60] text-white font-black px-10 py-4 rounded-2xl flex items-center gap-3 transition-colors shadow-[0_4px_0_0_#219653] hover:translate-y-1 hover:shadow-none disabled:opacity-50"
           >
-            {isPublishing ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Publish Homework 🚀'}
+            {isPublishing ? <Loader2 className="w-5 h-5 animate-spin" /> : (
+              formData.isExamPaper || formData.examPreset
+                ? 'Publish International Exam 🌐🚀'
+                : assignmentType === 'test'
+                ? 'Publish Test Paper ⏱️🚀'
+                : 'Publish Homework 📝🚀'
+            )}
           </button>
         </div>
       </div>
