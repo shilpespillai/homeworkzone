@@ -31,7 +31,7 @@ import { cleanFirestorePayload } from '../utils/cleanFirestorePayload';
 import { SUPPORTED_LANGUAGES, getLanguageObj } from '../utils/languages';
 import CurriculumModal from '../components/CurriculumModal';
 import { curriculum } from '../data/curriculum';
-import { sanitizeQuestionData } from './HomeworkGenerator';
+import { sanitizeQuestionData, getCurriculumSubjectKey } from './HomeworkGenerator';
 import { DEFAULT_SUBJECT_PROMPTS, getMasterDefaultPrompts } from '../utils/defaultPrompts';
 
 // Module-level lock to prevent double-execution (e.g. from React StrictMode double mounts or rapid mount cycles)
@@ -220,9 +220,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
     loadCustomTopics();
   }, [user?.uid]);
 
-  const currentSubjectKey = (formData.subject?.toLowerCase().replace('_', ' ') === 'logical reasoning')
-    ? 'Logical Reasoning'
-    : (formData.subject ? formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1) : '');
+  const currentSubjectKey = getCurriculumSubjectKey(formData.subject);
 
   const currentSubjectTopics = curriculum[formData.grade]?.[currentSubjectKey] || [];
   const matchingCustomTopics = (customTopics || []).filter(ct => {
@@ -2281,7 +2279,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
               setFormData(prev => ({ ...prev, topic: getSmartTopicTitle(selectedSkills) }));
             }
           }}
-          curriculumData={curriculum[formData.grade]?.[(formData.subject?.toLowerCase().replace('_', ' ') === 'logical reasoning') ? 'Logical Reasoning' : (formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1))] || []}
+          curriculumData={curriculum[formData.grade]?.[getCurriculumSubjectKey(formData.subject)] || []}
           selectedSkills={selectedSkills}
           customTopics={customTopics}
           onAddCustomTopic={handleAddCustomTopic}

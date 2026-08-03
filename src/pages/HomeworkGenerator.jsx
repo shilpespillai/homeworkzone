@@ -210,6 +210,22 @@ export const resolveCustomSubjectStyle = (name) => {
   };
 };
 
+export const getCurriculumSubjectKey = (subject) => {
+  if (!subject) return '';
+  const s = subject.toLowerCase().replace(/_/g, ' ');
+  if (s === 'computer science') return 'Computer Science';
+  if (s === 'financial literacy') return 'Financial Literacy';
+  if (s === 'environmental science') return 'Environmental Science';
+  if (s === 'critical thinking') return 'Critical Thinking';
+  if (s === 'logical reasoning') return 'Logical Reasoning';
+  if (s === 'maths' || s === 'math') return 'Maths';
+  if (s === 'english') return 'English';
+  if (s === 'science') return 'Science';
+  if (s === 'olympiad') return 'Olympiad';
+
+  return subject.split(/_|\s+/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+};
+
 export const sanitizeQuestionData = (q) => {
   if (!q) return q;
   let text = q.text || '';
@@ -485,9 +501,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   }, [user?.uid]);
 
   const currentGradeName = resolveGradeFromClassroomName(activeClassroom?.name);
-  const currentSubjectKey = (formData.subject?.toLowerCase().replace('_', ' ') === 'logical reasoning')
-    ? 'Logical Reasoning'
-    : (formData.subject ? formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1) : '');
+  const currentSubjectKey = getCurriculumSubjectKey(formData.subject);
 
   const currentSubjectTopics = curriculum[currentGradeName]?.[currentSubjectKey] || [];
   const matchingCustomTopics = (customTopics || []).filter(ct => {
@@ -3215,7 +3229,7 @@ EXPECTED JSON SCHEMA:
       <CurriculumModal 
         isOpen={isCurriculumModalOpen}
         onClose={() => setIsCurriculumModalOpen(false)}
-        curriculumData={curriculum[resolveGradeFromClassroomName(activeClassroom?.name)]?.[(formData.subject?.toLowerCase().replace('_', ' ') === 'logical reasoning') ? 'Logical Reasoning' : (formData.subject.charAt(0).toUpperCase() + formData.subject.slice(1))] || []}
+        curriculumData={curriculum[resolveGradeFromClassroomName(activeClassroom?.name)]?.[getCurriculumSubjectKey(formData.subject)] || []}
         selectedSkills={selectedSkills}
         setSelectedSkills={setSelectedSkills}
         customTopics={customTopics}
