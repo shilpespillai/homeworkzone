@@ -12,6 +12,10 @@ export const INTERNATIONAL_EXAMS = [
 
 Generate an authentic, computer-based 'Thinking Skills' examination paper for Year 7 entry.
 
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• Target Cohort: Top 5% academically gifted Year 5/6 students.
+• Questions MUST match high-order cognitive complexity: multi-layered logic traps, contrapositive/converse logic, unstated assumption analysis, and non-trivial spatial deductions. DO NOT generate trivial or basic questions.
+
 OFFICIAL SYLLABUS & DOMAIN BREAKDOWN (40 Questions / 40 Minutes):
 1. LOGICAL REASONING (30%):
    - Deductive and inductive reasoning, identifying valid vs. invalid argument structures.
@@ -49,6 +53,10 @@ FORMATTING & DISTRACTOR RULES:
 
 Generate an authentic Mathematical Reasoning examination paper for Year 7 entry.
 
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• Non-calculator high-order problem solving (NSW Selective Benchmark for Top 5% students).
+• Questions must require strategic shortcuts, consecutive number sum logic, speed-distance-time catch-up rates, and composite area heuristics rather than rote calculation.
+
 OFFICIAL SYLLABUS & DOMAIN BREAKDOWN (35 Questions / 40 Minutes - NO CALCULATORS PERMITTED):
 1. NUMBER & ALGEBRA (40%):
    - Multi-step non-routine word problems, numerical sequences, and pattern rules.
@@ -81,6 +89,10 @@ FORMATTING & DISTRACTOR RULES:
 
 Generate an authentic ACER-pattern General Ability (Verbal, Reading & Quantitative Reasoning) examination paper for Year 9 entry.
 
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• Rapid High-Speed Cognitive Complexity (ACER Melbourne High / MacRob Standard).
+• Target high-pressure time limits (under 50 seconds per question) with multi-variable word analogies, letter-code shift ciphers, reading passage tone analysis, and high-level quantitative series.
+
 OFFICIAL SYLLABUS & DOMAIN BREAKDOWN (NO CALCULATORS ALLOWED):
 1. VERBAL REASONING & COMPREHENSION (50%):
    - Complex Word Analogies (A : B :: C : ?), word relationships, and vocabulary in context.
@@ -111,6 +123,10 @@ FORMATTING RULES:
 
 Generate an authentic ICAS Mathematics competition paper testing deep problem-solving, mathematical creativity, and non-routine logic.
 
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• UNSW Global Distinction / High Distinction Competition Rigor.
+• Include non-routine combinatorics, cryptarithms, Pigeonhole Principle, and a 3-5 question Section C Olympiad challenge tier designed to differentiate top 1% students.
+
 OFFICIAL ICAS SYLLABUS BREAKDOWN:
 1. HIGH-ORDER PROBLEM SOLVING (30%):
    - Combinatorics: Permutations, combinations, path counting on grid networks, and Pigeonhole Principle application.
@@ -140,6 +156,10 @@ FORMATTING RULES:
     promptInstruction: `You are a lead test developer for ICAS Science (UNSW Global).
 
 Generate an authentic ICAS Science examination paper focused strictly on scientific inquiry and experimental analysis.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• Scientific Inquiry & Analytical Rigor (UNSW Competition Standard).
+• Every question must require multi-variable experimental control analysis, data interpolation/extrapolation, or apparatus calibration (meniscus reading, zero-error adjustments, microscope magnification).
 
 OFFICIAL ICAS SCIENCE SYLLABUS BREAKDOWN:
 1. EXPERIMENTAL DESIGN & VARIABLES (35%):
@@ -172,6 +192,10 @@ FORMATTING RULES:
     promptInstruction: `You are an author for ICAS Digital Technologies (UNSW Educational Assessment Australia).
 
 Generate an authentic ICAS Digital Technologies paper testing computer science and computational thinking concepts.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• Computational Thinking & Algorithmic Complexity (ICAS Competition Level).
+• Test multi-nested loops (FOR/WHILE), array mutation tracking, hexadecimal/ASCII conversions, SQL query logic (SELECT/WHERE/ORDER BY), and network packet routing.
 
 OFFICIAL ICAS DIGITAL TECH SYLLABUS BREAKDOWN:
 1. ALGORITHMS & PSEUDOCODE (35%):
@@ -206,6 +230,10 @@ FORMATTING RULES:
 
 Generate an authentic NAPLAN Numeracy practice examination paper aligned with the Australian Curriculum.
 
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• ACARA National Benchmark Rigor (Mix of Band 5–8 Progressive Challenge Questions).
+• Feature authentic Australian real-world contexts, non-calculator mental strategy, and multi-step data interpretation.
+
 OFFICIAL NAPLAN SYLLABUS BREAKDOWN (Part 1 Non-Calculator & Part 2 Calculator Allowed):
 1. NUMBER & ALGEBRA (40%):
    - Operations with whole numbers, fractions, decimals, percentages, money, ratios, and number patterns.
@@ -235,6 +263,10 @@ FORMATTING RULES:
     promptInstruction: `You are an official US College Board Digital SAT Math test author.
 
 Generate an authentic Digital SAT Math section practice paper (Multistage Adaptive Testing format).
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• US College Board Official Digital SAT Rigor (Includes Section 2 Adaptive Hard-Module Level Challenge Questions).
+• Feature multi-step quadratics, exponential modeling, circle equations (x-h)^2 + (y-k)^2 = r^2, right-triangle trig, and Student-Produced Response (Grid-In) numerical entry.
 
 OFFICIAL DIGITAL SAT MATH DOMAINS (Desmos Graphing Calculator Allowed for All Questions):
 1. ALGEBRA (35%):
@@ -267,6 +299,10 @@ FORMATTING RULES:
     promptInstruction: `You are an official US College Board Digital SAT Reading & Writing test developer.
 
 Generate an authentic Digital SAT Reading & Writing module paper.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• US College Board Official Reading & Writing Benchmark Rigor.
+• Feature 25-150 word scholarly/scientific passages with advanced academic vocabulary in context, semicolon/colon boundary rules, and rhetorical synthesis note integration.
 
 OFFICIAL DIGITAL SAT R&W DOMAINS (1 Short Passage 25-150 words PER Question):
 1. CRAFT & STRUCTURE (28%):
@@ -304,6 +340,10 @@ FORMATTING RULES:
     promptInstruction: `You are an expert test creator for UK 11+ Entrance Examinations (GL Assessment & CEM style for Grammar & Independent Schools).
 
 Generate an authentic UK 11+ Reasoning examination paper.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• GL Assessment & CEM UK Grammar School Entrance Rigor.
+• Test rapid verbal shift ciphers, CEM literary cloze passage completion, 3D block net folding, and advanced UK English vocabulary.
 
 OFFICIAL UK 11+ SYLLABUS BREAKDOWN:
 1. VERBAL REASONING & COMPREHENSION (50%):
