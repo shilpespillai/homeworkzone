@@ -17,7 +17,15 @@ import {
   Check,
   X,
   LogOut
-} from 'lucide-react';
+import DynamicChart from './DynamicChart';
+import DynamicGeometry from './DynamicGeometry';
+import DynamicGridMap from './DynamicGridMap';
+import DynamicNumberLine from './DynamicNumberLine';
+import DynamicPathMap from './DynamicPathMap';
+import DynamicInstrument from './DynamicInstrument';
+import DynamicBlockStructure from './DynamicBlockStructure';
+import EarlyMathVisualizer from './EarlyMathVisualizer';
+import DynamicVennDiagram from './DynamicVennDiagram';
 import InteractiveSorting from './InteractiveSorting';
 import InteractiveMatching from './InteractiveMatching';
 import InteractiveFractionColoring from './InteractiveFractionColoring';
@@ -440,6 +448,87 @@ export default function OfficialExamPaperView({
     return { passage: null, question: cleanStem };
   };
 
+  const renderQuestionVisuals = (q) => {
+    if (!q) return null;
+    const hasVisualProp = q.chartData || q.geometryData || q.gridMapData || q.numberLineData || 
+                          q.pathData || q.instrumentData || q.blockData || q.earlyMathData || 
+                          q.vennDiagramData || q.svgCode || q.diagram || q.imageUrl;
+
+    const fullText = (q.text || q.question || q.questionText || '').toLowerCase();
+    const isLegacyTableQuestion = !hasVisualProp && (
+      fullText.includes('table shows') || 
+      fullText.includes('table below') || 
+      fullText.includes('in the table') || 
+      fullText.includes('daily maximum temperature') ||
+      fullText.includes('daily temperature')
+    );
+
+    if (!hasVisualProp && !isLegacyTableQuestion) return null;
+
+    return (
+      <div className="my-6 p-6 bg-white border-2 border-slate-200 rounded-xl shadow-inner flex flex-col items-center justify-center overflow-x-auto font-sans">
+        <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-3 self-start">
+          FIGURE / DATA STIMULUS
+        </span>
+
+        {q.chartData && <div className="w-full"><DynamicChart data={q.chartData} /></div>}
+        {q.geometryData && <div className="w-full"><DynamicGeometry data={q.geometryData} /></div>}
+        {q.gridMapData && <div className="w-full"><DynamicGridMap data={q.gridMapData} /></div>}
+        {q.numberLineData && <div className="w-full"><DynamicNumberLine data={q.numberLineData} /></div>}
+        {q.pathData && <div className="w-full"><DynamicPathMap data={q.pathData} /></div>}
+        {q.instrumentData && <div className="w-full"><DynamicInstrument data={q.instrumentData} /></div>}
+        {q.blockData && <div className="w-full"><DynamicBlockStructure data={q.blockData} /></div>}
+        {q.earlyMathData && <div className="w-full"><EarlyMathVisualizer data={q.earlyMathData} /></div>}
+        {q.vennDiagramData && <div className="w-full"><DynamicVennDiagram data={q.vennDiagramData} /></div>}
+
+        {!q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.earlyMathData && !q.vennDiagramData && (
+          <>
+            {q.svgCode ? (
+              <div dangerouslySetInnerHTML={{ __html: q.svgCode }} className="max-w-full max-h-[350px] flex items-center justify-center my-2" />
+            ) : q.diagram ? (
+              <div dangerouslySetInnerHTML={{ __html: q.diagram }} className="max-w-full max-h-[350px] flex items-center justify-center my-2" />
+            ) : q.imageUrl ? (
+              <img src={q.imageUrl} alt="Question Diagram" className="max-w-full max-h-[350px] object-contain rounded-lg my-2" />
+            ) : isLegacyTableQuestion ? (
+              /* Legacy Fallback Table Generator for older papers missing JSON visual data */
+              <div className="w-full max-w-lg bg-slate-50 border border-slate-300 rounded-lg p-4 my-2">
+                <span className="block text-xs font-bold uppercase text-slate-600 mb-2 text-center">
+                  Daily Maximum Temperatures (°C)
+                </span>
+                <table className="w-full text-xs text-center border-collapse border border-slate-300 font-sans">
+                  <thead>
+                    <tr className="bg-slate-200 text-slate-800 font-bold">
+                      <th className="border border-slate-300 p-2">Day</th>
+                      <th className="border border-slate-300 p-2">Mon</th>
+                      <th className="border border-slate-300 p-2">Tue</th>
+                      <th className="border border-slate-300 p-2">Wed</th>
+                      <th className="border border-slate-300 p-2">Thu</th>
+                      <th className="border border-slate-300 p-2">Fri</th>
+                      <th className="border border-slate-300 p-2">Sat</th>
+                      <th className="border border-slate-300 p-2">Sun</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-white text-slate-900 font-semibold">
+                      <td className="border border-slate-300 p-2 font-bold bg-slate-100">Max Temp (°C)</td>
+                      <td className="border border-slate-300 p-2">24°C</td>
+                      <td className="border border-slate-300 p-2">28°C</td>
+                      <td className="border border-slate-300 p-2 font-black text-rose-600 bg-rose-50">31°C</td>
+                      <td className="border border-slate-300 p-2">29°C</td>
+                      <td className="border border-slate-300 p-2">27°C</td>
+                      <td className="border border-slate-300 p-2 font-black text-blue-600 bg-blue-50">24°C</td>
+                      <td className="border border-slate-300 p-2">25°C</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
+          </>
+        )}
+      </div>
+    );
+  };
+
   const { passage, question: cleanQuestionText } = getParsedQuestionContent(currentQ);
 
   const answeredCount = Object.keys(answers).length;
@@ -598,6 +687,9 @@ export default function OfficialExamPaperView({
                     )}
 
                     <p className="font-bold text-sm text-slate-900">{parsed.question}</p>
+
+                    {/* Question Visuals / Figures */}
+                    {renderQuestionVisuals(q)}
 
                     {/* Always display the Official Correct Answer so it is NEVER hidden */}
                     <div className="p-3 bg-emerald-100/80 border-2 border-emerald-400 rounded-lg my-2 flex items-center gap-2">
@@ -759,30 +851,7 @@ export default function OfficialExamPaperView({
           )}
 
           {/* Visual Diagram / SVG Figure Container if present */}
-          {(currentQ.svgCode || currentQ.diagram || currentQ.imageUrl) && (
-            <div className="my-6 p-6 bg-white border-2 border-slate-200 rounded-xl shadow-inner flex flex-col items-center justify-center overflow-x-auto">
-              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-3 self-start">
-                FIGURE / VISUAL DIAGRAM
-              </span>
-              {currentQ.svgCode ? (
-                <div 
-                  dangerouslySetInnerHTML={{ __html: currentQ.svgCode }} 
-                  className="max-w-full max-h-[350px] flex items-center justify-center my-2" 
-                />
-              ) : currentQ.diagram ? (
-                <div 
-                  dangerouslySetInnerHTML={{ __html: currentQ.diagram }} 
-                  className="max-w-full max-h-[350px] flex items-center justify-center my-2" 
-                />
-              ) : currentQ.imageUrl ? (
-                <img 
-                  src={currentQ.imageUrl} 
-                  alt="Question Diagram" 
-                  className="max-w-full max-h-[350px] object-contain rounded-lg my-2" 
-                />
-              ) : null}
-            </div>
-          )}
+          {renderQuestionVisuals(currentQ)}
 
           {/* Question Text */}
           <div className="text-base md:text-lg font-extrabold leading-relaxed text-slate-900 bg-slate-50 border-l-4 border-amber-500 p-4 rounded-r-xl shadow-sm my-4">
