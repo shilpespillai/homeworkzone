@@ -1752,7 +1752,16 @@ EXPECTED JSON SCHEMA:
             <h2 className="text-4xl font-black text-[#14532d]">What would you like to create?</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl w-full px-4">
               <button 
-                onClick={() => setAssignmentType('homework')} 
+                onClick={() => {
+                  setFormData(prev => ({
+                    ...prev,
+                    isExamPaper: false,
+                    examPreset: null,
+                    title: '',
+                    instructions: 'Read each question carefully and select the best answer! 🚀'
+                  }));
+                  setAssignmentType('homework');
+                }} 
                 className="h-64 bg-white rounded-[40px] border border-slate-200 shadow-xl flex flex-col items-center justify-center gap-6 hover:-translate-y-2 transition-all hover:border-pink-300 group cursor-pointer p-6 text-center"
               >
                 <div className="w-24 h-24 bg-pink-50 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -1762,7 +1771,16 @@ EXPECTED JSON SCHEMA:
               </button>
               
               <button 
-                onClick={() => setAssignmentType('test')} 
+                onClick={() => {
+                  setFormData(prev => ({
+                    ...prev,
+                    isExamPaper: false,
+                    examPreset: null,
+                    title: '',
+                    instructions: 'Read each question carefully. You are on a timer! ⏳'
+                  }));
+                  setAssignmentType('test');
+                }} 
                 className="h-64 bg-white rounded-[40px] border border-slate-200 shadow-xl flex flex-col items-center justify-center gap-6 hover:-translate-y-2 transition-all hover:border-rose-300 group cursor-pointer p-6 text-center"
               >
                 <div className="w-24 h-24 bg-rose-50 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -1808,6 +1826,16 @@ EXPECTED JSON SCHEMA:
           {/* Header */}
           <div className="flex justify-between items-start mb-12">
             <div>
+              <button
+                onClick={() => {
+                  setAssignmentType(null);
+                  setFormData(prev => ({ ...prev, isExamPaper: false, examPreset: null }));
+                }}
+                className="mb-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-extrabold transition-all cursor-pointer"
+              >
+                <ChevronLeft className="w-4 h-4" /> Back to Creation Options
+              </button>
+
               <h1 className="text-5xl font-black text-[#14532d] tracking-tight mb-2">
                 {formData.isExamPaper ? 'Create Exam Paper' : assignmentType === 'test' ? 'Create Test' : 'Create Homework'}
               </h1>
