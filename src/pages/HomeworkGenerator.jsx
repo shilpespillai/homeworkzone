@@ -1806,6 +1806,7 @@ EXPECTED JSON SCHEMA:
           </div>
         ) : assignmentType === 'exam_hub' ? (
           <InternationalExamHubView
+            onBack={() => setAssignmentType(null)}
             onSelectExam={(exam) => {
               setFormData(prev => ({
                 ...prev,
@@ -1827,6 +1828,16 @@ EXPECTED JSON SCHEMA:
           {/* Header */}
           <div className="flex justify-between items-start mb-12">
             <div>
+              <button
+                onClick={() => {
+                  setAssignmentType(null);
+                  setFormData(prev => ({ ...prev, isExamPaper: false, examPreset: null }));
+                }}
+                className="mb-4 inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white hover:bg-slate-100 text-slate-800 text-xs font-black shadow-md border border-slate-200 transition-all active:scale-95 cursor-pointer"
+              >
+                <ChevronLeft className="w-4 h-4 text-[#14532d]" /> Back to Creation Options
+              </button>
+
               <h1 className="text-5xl font-black text-[#14532d] tracking-tight mb-2">
                 {formData.isExamPaper ? 'Create Exam Paper' : assignmentType === 'test' ? 'Create Test' : 'Create Homework'}
               </h1>

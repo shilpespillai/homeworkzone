@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Trophy, Globe, Timer, FileText, Sparkles, ChevronRight, Award, CheckCircle2, Zap } from 'lucide-react';
+import { Trophy, Globe, Timer, FileText, Sparkles, ChevronRight, ChevronLeft, Award, CheckCircle2, Zap } from 'lucide-react';
 import { INTERNATIONAL_EXAMS } from '../data/examPresets';
 
 export default function InternationalExamHubView({ onSelectExam, onBack }) {
@@ -15,7 +15,15 @@ export default function InternationalExamHubView({ onSelectExam, onBack }) {
   });
 
   return (
-    <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 space-y-10 font-sans animate-fadeIn">
+    <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 space-y-6 font-sans animate-fadeIn">
+      {onBack && (
+        <button
+          onClick={onBack}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white hover:bg-purple-50 text-slate-800 text-xs font-black shadow-md border border-slate-200 transition-all active:scale-95 cursor-pointer"
+        >
+          <ChevronLeft className="w-4 h-4 text-purple-600" /> Back to Creation Options
+        </button>
+      )}
       
       {/* Top Banner Header */}
       <div className="bg-gradient-to-r from-purple-950 via-indigo-950 to-slate-950 rounded-[40px] p-8 md:p-12 text-white shadow-2xl border-4 border-purple-500/30 relative overflow-hidden">
