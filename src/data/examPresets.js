@@ -16,7 +16,7 @@ OFFICIAL SYLLABUS & DOMAIN BREAKDOWN (40 Questions / 40 Minutes):
 1. LOGICAL REASONING (30%):
    - Deductive and inductive reasoning, identifying valid vs. invalid argument structures.
    - Knights & Knaves (truth-tellers vs. liars) scenarios, seating arrangements, and multi-variable logic elimination.
-   - Conditional logic: Testing converse fallacies (If P then Q != If Q then P) and contrapositives.
+   - Conditional logic: Testing converse fallacies (If P then Q != If Q then P), contrapositives, and inverses.
 
 2. IDENTIFYING FLAWS & ASSUMPTIONS (25%):
    - Short 40-70 word debate scenarios containing classical logical fallacies (Correlation vs. Causation, Straw Man, Ad Hominem, Over-generalization, Slippery Slope).
@@ -25,9 +25,10 @@ OFFICIAL SYLLABUS & DOMAIN BREAKDOWN (40 Questions / 40 Minutes):
 3. EVALUATING EVIDENCE & ARGUMENTS (25%):
    - Passages presenting a central claim with 4 candidate supporting or weakening statements.
    - Assessing which statement MOST strengthens or MOST weakens the argument.
+   - Perspective & Point of View Analysis: Identifying underlying motives, bias, or unstated perspectives in 2-person debate arguments.
 
 4. SPATIAL & DATA-BASED LOGIC PUZZLES (20%):
-   - 3-Set Venn diagram overlap calculations, pattern rule extensions, and decision tree networks.
+   - 3-Set Venn diagram overlap calculations, pattern rule extensions, decision tree networks, and truth-table state analysis.
 
 FORMATTING & DISTRACTOR RULES:
 • Every question MUST present a realistic 30-70 word scenario or logic puzzle.
@@ -53,6 +54,7 @@ OFFICIAL SYLLABUS & DOMAIN BREAKDOWN (35 Questions / 40 Minutes - NO CALCULATORS
    - Multi-step non-routine word problems, numerical sequences, and pattern rules.
    - Operations with fractions, decimals, percentages, ratios, and proportion heuristics (e.g. before-and-after ratio transfers).
    - Consecutive integer sums, Gauss summation methods, divisibility rules (2, 3, 5, 9, 10, 11), LCM/GCD word problems, and finding unit digits of large products.
+   - Speed, Distance, Time & Rate Problems (e.g. catch-up travel rates, filling/draining tank rates) and In/Out Algebraic Function Machines.
 
 2. MEASUREMENT & GEOMETRY (35%):
    - Perimeter and area of compound L-shaped figures, shaded regions of inscribed circles, squares, and right triangles.
@@ -77,13 +79,14 @@ FORMATTING & DISTRACTOR RULES:
     defaultTime: 30,
     promptInstruction: `You are an ACER (Australian Council for Educational Research) exam author creating the Victorian Selective Entry High School Exam (Melbourne High, Mac.Robertson, Nossal, Suzanne Cory).
 
-Generate an authentic ACER-pattern General Ability (Verbal & Quantitative Reasoning) examination paper for Year 9 entry.
+Generate an authentic ACER-pattern General Ability (Verbal, Reading & Quantitative Reasoning) examination paper for Year 9 entry.
 
 OFFICIAL SYLLABUS & DOMAIN BREAKDOWN (NO CALCULATORS ALLOWED):
-1. VERBAL REASONING (50%):
+1. VERBAL REASONING & COMPREHENSION (50%):
    - Complex Word Analogies (A : B :: C : ?), word relationships, and vocabulary in context.
    - Letter-Code Cracking (alphabetical shift rules & cipher patterns).
    - Deductive Syllogisms, statement assumptions, and odd-word-out categorization.
+   - Reading Comprehension & Humanities Reasoning: Analyzing short prose or poetry passages for central theme, tone, author intent, and inference.
 
 2. QUANTITATIVE REASONING (50%):
    - Numerical series completion, matrix pattern deduction, and shape-symbol equations.
@@ -117,6 +120,8 @@ OFFICIAL ICAS SYLLABUS BREAKDOWN:
    - Modular arithmetic cycles, sequence patterns, and Alphametic (cryptarithm arithmetic addition/multiplication) puzzles.
 4. DATA & CHANCE (20%):
    - Probability tree diagrams, 3-set Venn diagrams, and stem-and-leaf interpretation.
+5. ADVANCED CHALLENGE SECTION (SECTION C):
+   - Include 3-5 multi-step Olympiad-style questions designed to test top 1% distinction students.
 
 FORMATTING RULES:
 • Questions must range from moderate to highly challenging.
@@ -144,6 +149,7 @@ OFFICIAL ICAS SCIENCE SYLLABUS BREAKDOWN:
 2. DATA INTERPRETATION & GRAPH ANALYSIS (35%):
    - Line graphs, dual-axis bar charts, scatter plots, and complex data tables representing scientific phenomena.
    - Interpolating and extrapolating values from experimental data.
+   - Scientific Apparatus & Measurement Calibration: Reading meniscus levels in measuring cylinders, microscope magnification calculations, and spring balance zero-error adjustments.
 
 3. HYPOTHESIS & SCIENTIFIC REASONING (30%):
    - Evaluating whether data supports or refutes a given hypothesis using Claim-Evidence-Reasoning (CER).
@@ -175,14 +181,15 @@ OFFICIAL ICAS DIGITAL TECH SYLLABUS BREAKDOWN:
 2. DATA REPRESENTATION & BINARY (25%):
    - Binary code, bit/byte conversions, hexadecimal colors (#FF0000), ASCII encoding, and lossy vs. lossless compression.
 
-3. HARDWARE & NETWORKS (20%):
+3. HARDWARE, NETWORKS & DATABASES (20%):
    - CPU, RAM, storage, input/output devices, IP addresses, routers, packets, DNS, and HTTP/HTTPS protocols.
+   - Database Queries & Web Tech: Relational tables, basic SQL logic (SELECT, WHERE, ORDER BY), and HTML tag/CSS selector structure.
 
 4. CYBERSECURITY & DIGITAL SAFETY (20%):
    - Phishing detection, password hashing, encryption principles, and digital footprints.
 
 FORMATTING RULES:
-• Include realistic pseudocode snippets and network scenario descriptions.
+• Include realistic pseudocode snippets, SQL queries, and network scenario descriptions.
 • 4 options (A, B, C, D) per question.
 • Explanations must trace pseudocode execution line-by-line.`
   },
@@ -199,7 +206,7 @@ FORMATTING RULES:
 
 Generate an authentic NAPLAN Numeracy practice examination paper aligned with the Australian Curriculum.
 
-OFFICIAL NAPLAN SYLLABUS BREAKDOWN:
+OFFICIAL NAPLAN SYLLABUS BREAKDOWN (Part 1 Non-Calculator & Part 2 Calculator Allowed):
 1. NUMBER & ALGEBRA (40%):
    - Operations with whole numbers, fractions, decimals, percentages, money, ratios, and number patterns.
    - Algebraic expressions, linear equations, and index laws.
@@ -212,6 +219,7 @@ OFFICIAL NAPLAN SYLLABUS BREAKDOWN:
 
 FORMATTING RULES:
 • Use authentic Australian contexts (AFL scores, Australian geography, local currency).
+• Clearly demarcate questions between Non-Calculator (mental strategy) and Calculator-Allowed problems.
 • 4 options (A, B, C, D) per question.
 • Provide clear step-by-step Australian Curriculum working.`
   },
@@ -243,7 +251,8 @@ OFFICIAL DIGITAL SAT MATH DOMAINS (Desmos Graphing Calculator Allowed for All Qu
 
 FORMATTING RULES:
 • Questions MUST match College Board phrasing, structure, and difficulty calibration.
-• 4 options (A, B, C, D) per question.
+• Include Student-Produced Response (Grid-In) numerical entry problems alongside multiple-choice.
+• 4 options (A, B, C, D) per multiple-choice question.
 • Explanations must show both algebraic solution steps and Desmos calculator techniques.`
   },
   {
@@ -271,11 +280,11 @@ OFFICIAL DIGITAL SAT R&W DOMAINS (1 Short Passage 25-150 words PER Question):
    - Inferences (completing the logical conclusion of a passage).
 
 3. STANDARD ENGLISH CONVENTIONS (26%):
-   - Boundaries: Semicolons, colons, dashes, comma splices.
+   - Boundaries: Semicolons, colons, em-dashes, comma splices.
    - Form, Structure, & Sense: Subject-verb agreement, pronoun-antecedent agreement, modifier placement.
 
 4. EXPRESSION OF IDEAS (20%):
-   - Rhetorical Synthesis (synthesizing provided bullet-point notes to achieve a specified goal) and Transitions (furthermore, however, consequently).
+   - Rhetorical Synthesis (synthesizing provided bullet-point notes to achieve a specified goal) and Transitions (furthermore, however, nevertheless, consequently, for instance).
 
 FORMATTING RULES:
 • EVERY single question MUST feature a short 25-150 word self-contained passage, scientific snippet, or data table.
@@ -297,10 +306,11 @@ FORMATTING RULES:
 Generate an authentic UK 11+ Reasoning examination paper.
 
 OFFICIAL UK 11+ SYLLABUS BREAKDOWN:
-1. VERBAL REASONING (50%):
+1. VERBAL REASONING & COMPREHENSION (50%):
    - Word Analogies, Synonyms & Antonyms in context.
    - Sentence Code Cracking (alphabetical shift rules) and Hidden Words.
    - Compound Word Formation and Syllogism Deductions.
+   - CEM-style Cloze passages (selecting missing words from options to complete a short literary snippet).
 
 2. NON-VERBAL REASONING (50%):
    - 2D & 3D Spatial Rotations, Reflections, and Matrix Completion.
