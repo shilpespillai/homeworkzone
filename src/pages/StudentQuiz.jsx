@@ -508,7 +508,8 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
 
     try {
       const marksPerQ = homework.marksPerQuestion ? parseInt(homework.marksPerQuestion) : 1;
-      const totalMarksScored = homework.type === 'test' ? correctCount * marksPerQ : undefined;
+      const isExam = homework.type === 'test' || !!homework.examPreset || !!homework.isExamPaper;
+      const totalMarksScored = isExam ? correctCount * marksPerQ : undefined;
 
       const submissionPayload = {
         homeworkId,
@@ -522,7 +523,11 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         answers,
         wrongAnswersExplanations: explanations,
         timeSpent: secondsSpent,
-        submittedAt: serverTimestamp()
+        submittedAt: serverTimestamp(),
+        isExamPaper: isExam,
+        examPreset: homework.examPreset || null,
+        subject: homework.subject || 'maths',
+        title: homework.title || 'Assignment'
       };
 
       if (totalMarksScored !== undefined) {

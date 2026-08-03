@@ -1498,6 +1498,8 @@ EXPECTED JSON SCHEMA:
         questionExplanations = await generateExplanations(questionsToSave, formData.subject, getModelForGrade(publishGrade, formData.subject, activeModel));
       }
 
+      const isExam = finalType === 'test' || !!formData.examPreset || !!formData.isExamPaper;
+
       const payload = cleanFirestorePayload({
         title: formData.title || '',
         subject: formData.subject || 'maths',
@@ -1514,7 +1516,9 @@ EXPECTED JSON SCHEMA:
         assignType: formData.assignType || 'all',
         assignedStudentIds: formData.assignType === 'students' ? (formData.assignedStudentIds || []) : [],
         status: 'published',
-        type: finalType || 'homework',
+        type: isExam ? 'test' : (finalType || 'homework'),
+        isExamPaper: isExam,
+        examPreset: formData.examPreset || null,
         timeLimit: formData.timeLimit || '30',
         marksPerQuestion: formData.marksPerQuestion || '5',
         difficulty: formData.difficulty || 'Medium',
@@ -1789,7 +1793,9 @@ EXPECTED JSON SCHEMA:
                     title: `${exam.name} Practice Paper`,
                     instructions: `Read each question carefully. You are on a ${exam.defaultTime}-minute timer! ⏳`,
                     aiPrompt: exam.promptInstruction,
-                    timeLimit: String(exam.defaultTime)
+                    timeLimit: String(exam.defaultTime),
+                    examPreset: exam.id,
+                    isExamPaper: true
                   }));
                   setQuestionCount(exam.defaultQuestions);
                   setIsCurriculumMode(false);

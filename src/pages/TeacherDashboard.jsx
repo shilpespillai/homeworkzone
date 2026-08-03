@@ -5654,7 +5654,7 @@ Include a balanced combination of question types such as:
              return (
                <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
                  <TestReportsDashboard
-                   tests={allHomeworks.filter(hw => hw.type === 'test' && (!activeClassroom || hw.assignedClassId === activeClassroom.id))}
+                   tests={allHomeworks.filter(hw => (hw.type === 'test' || hw.isExamPaper || !!hw.examPreset) && (!activeClassroom || hw.assignedClassId === activeClassroom.id))}
                    submissions={allSubmissions}
                    students={activeClassroom ? students : allStudents}
                  />
