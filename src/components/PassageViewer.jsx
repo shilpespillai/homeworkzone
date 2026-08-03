@@ -28,15 +28,18 @@ const cleanText = (str) => {
 };
 
 /**
- * Clean redundant prefix titles like "Why Writers Love This Word:" or "Quick Writing Tip:"
+ * Aggressively strip redundant prefix labels from cell text
  */
 const cleanPrefixHeader = (str) => {
   if (!str) return '';
   return cleanText(str)
-    .replace(/^(?:Why Writers Love This Word|Why Writers Love This|Why Use It|Usage Note|Tip)\s*:?\s*/i, '')
-    .replace(/^(?:Replace Boring Words|Replace These Boring Words|Boring Words)\s*:?\s*/i, '')
-    .replace(/^(?:Quick Writing Tip|Writing Tip|Memory Trick)\s*:?\s*/i, '')
-    .replace(/^(?:Student-Friendly Meaning|Meaning|Definition)\s*:?\s*/i, '')
+    .replace(/^(?:Narrative\s*)?(?:Example\s*)?(?:Sentences\s*)?:?\s*/gi, '')
+    .replace(/^(?:Quick\s*)?(?:Writing\s*)?(?:Tip|Tips|Memory Trick)\s*:?\s*/gi, '')
+    .replace(/^(?:Why\s*)?(?:Writers\s*)?(?:Love\s*)?(?:This\s*)?(?:Word|This)?\s*:?\s*/gi, '')
+    .replace(/^(?:Replace\s*)?(?:These\s*)?(?:Boring\s*)?(?:Words)?\s*:?\s*/gi, '')
+    .replace(/^(?:Student-Friendly\s*)?(?:Meaning|Definition)\s*:?\s*/gi, '')
+    .replace(/^(?:Synonyms|Antonyms|Synonyms & Antonyms)\s*:?\s*/gi, '')
+    .replace(/^[\-\*\•\:]\s*/, '')
     .trim();
 };
 
@@ -115,7 +118,7 @@ const parseVocabGuide = (rawText) => {
     } else if (lower.includes('part of speech')) {
       currentWord.partOfSpeech = rawCleaned.replace(/^Part of Speech\s*:\s*/i, '').trim();
     } else if (lower.includes('synonym') || lower.includes('antonym')) {
-      const val = rawCleaned.replace(/^(?:Synonyms|Antonyms|Synonyms & Antonyms)\s*:?\s*/i, '').trim();
+      const val = cleanPrefixHeader(rawCleaned);
       currentWord.synonyms = currentWord.synonyms ? `${currentWord.synonyms}; ${val}` : val;
     } else if (lower.includes('meaning') || lower.includes('definition')) {
       currentWord.meaning = currentWord.meaning ? `${currentWord.meaning} ${textCleaned}` : textCleaned;
@@ -128,9 +131,9 @@ const parseVocabGuide = (rawText) => {
     } else if (raw.startsWith('- ') || raw.startsWith('* ') || raw.startsWith('• ')) {
       if (rawCleaned) {
         if (!currentWord.synonyms && (lower.includes('synonym') || lower.includes('antonym'))) {
-          currentWord.synonyms = rawCleaned;
+          currentWord.synonyms = cleanPrefixHeader(rawCleaned);
         } else {
-          currentWord.examples.push(rawCleaned);
+          currentWord.examples.push(cleanPrefixHeader(rawCleaned));
         }
       }
     } else if (!raw.startsWith('---')) {
@@ -216,17 +219,17 @@ export default function PassageViewer({
 
       {/* Excel Data Table Grid for Vocab Words */}
       {isVocab ? (
-        <div className="w-full bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden font-sans">
+        <div className="w-full bg-white border border-emerald-200 rounded-2xl shadow-sm overflow-hidden font-sans">
           <table className="w-full text-left border-collapse text-xs sm:text-sm table-auto">
             <thead>
-              <tr className="bg-slate-100/80 text-slate-600 border-b border-slate-200 font-normal uppercase tracking-wider text-[11px]">
-                <th className="p-3.5 px-3 font-normal w-10 text-center border-r border-slate-200/60">#</th>
-                <th className="p-3.5 px-4 font-normal w-[15%] border-r border-slate-200/60">Word & Details</th>
-                <th className="p-3.5 px-4 font-normal w-[18%] border-r border-slate-200/60">Meaning</th>
-                <th className="p-3.5 px-4 font-normal w-[17%] border-r border-slate-200/60">Synonyms & Antonyms</th>
-                <th className="p-3.5 px-4 font-normal w-[18%] border-r border-slate-200/60">Why Writers Love This</th>
-                <th className="p-3.5 px-4 font-normal w-[15%] border-r border-slate-200/60">Replace Boring Words</th>
-                <th className="p-3.5 px-4 font-normal w-[17%]">Quick Writing Tips</th>
+              <tr className="bg-emerald-50/90 text-emerald-900 border-b-2 border-emerald-200 font-extrabold uppercase tracking-wider text-[11px] sm:text-xs">
+                <th className="p-3.5 px-3 font-extrabold w-10 text-center border-r border-emerald-200/80">#</th>
+                <th className="p-3.5 px-4 font-extrabold w-[15%] border-r border-emerald-200/80">WORD & DETAILS</th>
+                <th className="p-3.5 px-4 font-extrabold w-[18%] border-r border-emerald-200/80">MEANING</th>
+                <th className="p-3.5 px-4 font-extrabold w-[17%] border-r border-emerald-200/80">SYNONYMS & ANTONYMS</th>
+                <th className="p-3.5 px-4 font-extrabold w-[18%] border-r border-emerald-200/80">WHY WRITERS LOVE THIS</th>
+                <th className="p-3.5 px-4 font-extrabold w-[15%] border-r border-emerald-200/80">REPLACE BORING WORDS</th>
+                <th className="p-3.5 px-4 font-extrabold w-[17%]">QUICK WRITING TIPS</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200/80">
@@ -264,31 +267,31 @@ export default function PassageViewer({
 
                   {/* Meaning Column */}
                   <td className="p-3.5 px-4 font-normal text-slate-700 leading-relaxed border-r border-slate-200/60 align-top">
-                    {item.meaning || '-'}
+                    {cleanPrefixHeader(item.meaning) || '-'}
                   </td>
 
                   {/* Dedicated Synonyms & Antonyms Column */}
                   <td className="p-3.5 px-4 font-normal text-slate-700 leading-relaxed border-r border-slate-200/60 align-top">
-                    {item.synonyms || 'Sprint, bolted, rushed, darted'}
+                    {cleanPrefixHeader(item.synonyms) || 'Sprint, bolted, rushed, darted'}
                   </td>
 
-                  {/* Why Writers Love This Column (Clean, no repeated headers) */}
+                  {/* Why Writers Love This Column */}
                   <td className="p-3.5 px-4 font-normal text-slate-700 leading-relaxed border-r border-slate-200/60 align-top">
-                    {item.whyWritersLoveIt || 'Adds vivid description and energy to your writing.'}
+                    {cleanPrefixHeader(item.whyWritersLoveIt) || 'Adds vivid description and energy to your writing.'}
                   </td>
 
-                  {/* Replace Boring Words Column (Clean, no repeated headers) */}
+                  {/* Replace Boring Words Column */}
                   <td className="p-3.5 px-4 font-normal text-slate-700 leading-relaxed border-r border-slate-200/60 align-top">
-                    {item.replaceBoringWords || 'Ran, went fast, hurried'}
+                    {cleanPrefixHeader(item.replaceBoringWords) || 'Ran, went fast, hurried'}
                   </td>
 
-                  {/* Quick Writing Tips Column (Clean, no repeated headers or synonyms) */}
+                  {/* Quick Writing Tips Column */}
                   <td className="p-3.5 px-4 font-normal text-slate-700 leading-relaxed align-top">
-                    {item.quickWritingTips || `Use '${item.word.toLowerCase()}' when describing action scenes.`}
+                    {cleanPrefixHeader(item.quickWritingTips) || `Use '${item.word.toLowerCase()}' when describing action scenes.`}
 
                     {item.examples.length > 0 && (
                       <div className="mt-2 text-xs font-normal text-slate-500 italic">
-                        Example: "{item.examples[0]}"
+                        Example: "{cleanPrefixHeader(item.examples[0])}"
                       </div>
                     )}
                   </td>
