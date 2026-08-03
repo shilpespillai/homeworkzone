@@ -9345,33 +9345,6 @@ const ClassCard = ({ name, students, bgColor, kidsImg, subjects, onDelete, onVie
              <Trash2 className="w-4 h-4" />
           </button>
        </div>
-    </div>-24 overflow-y-auto px-1 py-1 custom-scrollbar">
-          {subjects.map((sub, i) => (
-             <div key={i} className="flex flex-col items-center gap-0.5 group/sub" title={sub.name}>
-                <div className="w-8 h-8 sm:w-8 sm:h-8 bg-white/90 rounded-xl flex-center shadow-sm border border-white/60 p-1 group-hover/sub:scale-105 transition-transform">
-                   <img src={sub.icon} className="w-5 h-5 object-contain mix-blend-multiply" alt={sub.name} />
-                </div>
-                <span className="text-[9px] font-extrabold text-[#166534] max-w-[52px] truncate text-center leading-none">
-                   {sub.name}
-                </span>
-             </div>
-          ))}
-       </div>
-       <div className="flex items-center gap-3">
-          <button 
-            onClick={onView}
-            className="flex-1 bg-[#EA580C] text-white py-4 rounded-3xl font-black text-sm shadow-lg shadow-orange-100 hover:scale-[1.02] transition-all"
-          >
-             View Class
-          </button>
-          <button 
-             onClick={(e) => { e.stopPropagation(); setShowConfirm(true); }}
-             className="w-12 h-12 bg-white rounded-2xl flex-center text-rose-300 shadow-sm hover:text-rose-600 hover:bg-rose-50 transition-all z-10"
-             title="Delete Class"
-          >
-             <Trash2 className="w-5 h-5" />
-          </button>
-       </div>
     </div>
   );
 };
