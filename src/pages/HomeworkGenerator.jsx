@@ -424,19 +424,16 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         if (subjectPrompts[key] === null) return;
         const lowerKey = key.toLowerCase();
         if (!list.some(s => s.id === lowerKey)) {
+          const style = resolveCustomSubjectStyle(key);
           list.push({
             id: lowerKey,
             name: key.charAt(0).toUpperCase() + key.slice(1),
-            titleColor: 'text-orange-500',
-            bgColor: 'bg-[#faf9ff]',
-            borderColor: 'border-orange-200',
-            selectedBorder: 'border-orange-400 ring-4 ring-orange-100',
-            desc: `Custom subject template for ${key}!`,
-            renderGraphic: () => (
-              <div className="w-16 h-20 bg-orange-500 rounded-lg flex items-center justify-center text-white font-black text-2xl shadow-[0_4px_0_0_#4338ca] transform rotate-3">
-                {key.slice(0, 2).toUpperCase()}
-              </div>
-            )
+            titleColor: style.titleColor,
+            bgColor: style.bgColor,
+            borderColor: style.borderColor,
+            selectedBorder: style.selectedBorder,
+            desc: `Custom subject template for ${key.toLowerCase()}!`,
+            renderGraphic: style.renderIcon
           });
         }
       });
@@ -445,19 +442,16 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       activeClassroom.subjects.forEach(subjectName => {
         const lowerKey = subjectName.toLowerCase();
         if (!list.some(s => s.id === lowerKey)) {
+          const style = resolveCustomSubjectStyle(subjectName);
           list.push({
             id: lowerKey,
             name: subjectName,
-            titleColor: 'text-purple-500',
-            bgColor: 'bg-[#faf9ff]',
-            borderColor: 'border-purple-200',
-            selectedBorder: 'border-purple-400 ring-4 ring-purple-100',
+            titleColor: style.titleColor,
+            bgColor: style.bgColor,
+            borderColor: style.borderColor,
+            selectedBorder: style.selectedBorder,
             desc: `Custom subject for ${activeClassroom.name}!`,
-            renderGraphic: () => (
-              <div className="w-16 h-20 bg-purple-500 rounded-lg flex items-center justify-center text-white font-black text-2xl shadow-[0_4px_0_0_#4338ca] transform rotate-3">
-                {subjectName.slice(0, 2).toUpperCase()}
-              </div>
-            )
+            renderGraphic: style.renderIcon
           });
         }
       });
