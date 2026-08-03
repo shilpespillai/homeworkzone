@@ -61,58 +61,58 @@ export default function InternationalExamHubView({ onSelectExam, onBack }) {
       </div>
 
       {/* Exam Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {filteredExams.map((exam) => (
           <div
             key={exam.id}
-            className="bg-white rounded-[32px] border-2 border-slate-200 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1 hover:border-purple-400"
+            className="bg-white rounded-2xl border-2 border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-0.5 hover:border-purple-400 p-4"
           >
-            {/* Card Header */}
-            <div className="p-6 space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="px-3 py-1 bg-purple-50 text-purple-700 border border-purple-200/60 font-black text-[10px] uppercase tracking-wider rounded-full">
+            {/* Card Top Content */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between gap-1">
+                <span className="px-2.5 py-0.5 bg-purple-50 text-purple-700 border border-purple-200/60 font-black text-[9px] uppercase tracking-wider rounded-full truncate">
                   {exam.country}
                 </span>
-                <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">
+                <span className="text-[9px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full shrink-0">
                   {exam.gradeRange}
                 </span>
               </div>
 
-              <div className="space-y-1">
-                <h3 className="text-xl font-black text-slate-900 group-hover:text-purple-700 transition-colors leading-tight">
+              <div className="space-y-0.5">
+                <h3 className="text-base font-black text-slate-900 group-hover:text-purple-700 transition-colors leading-tight line-clamp-1">
                   {exam.name}
                 </h3>
-                <p className="text-xs font-bold text-slate-500">{exam.category}</p>
+                <p className="text-[11px] font-bold text-slate-500 truncate">{exam.category}</p>
               </div>
 
               {/* Specs Badge Bar */}
-              <div className="grid grid-cols-2 gap-2 bg-slate-50 p-3 rounded-2xl border border-slate-100 font-mono text-xs font-bold text-slate-700">
-                <div className="flex items-center gap-1.5">
-                  <FileText className="w-3.5 h-3.5 text-purple-600" />
-                  <span>{exam.defaultQuestions} Questions</span>
+              <div className="grid grid-cols-2 gap-1.5 bg-slate-50 p-2 rounded-xl border border-slate-100 font-mono text-[11px] font-bold text-slate-700">
+                <div className="flex items-center gap-1">
+                  <FileText className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                  <span>{exam.defaultQuestions} Qs</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <Timer className="w-3.5 h-3.5 text-amber-500" />
-                  <span>{exam.defaultTime} Minutes</span>
+                <div className="flex items-center gap-1">
+                  <Timer className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                  <span>{exam.defaultTime} Mins</span>
                 </div>
               </div>
 
               {/* Syllabus Highlights Preview */}
-              <div className="space-y-1.5 pt-2">
-                <span className="text-[10px] font-black uppercase text-slate-400 tracking-wider">Official Syllabus Focus</span>
-                <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed font-medium">
-                  {exam.promptInstruction.split('OFFICIAL SYLLABUS & DOMAIN BREAKDOWN')[1]?.split('FORMATTING')[0]?.trim() || exam.promptInstruction.slice(0, 150)}
+              <div className="space-y-1">
+                <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider block">Official Syllabus Focus</span>
+                <p className="text-[11px] text-slate-600 line-clamp-2 leading-snug font-medium">
+                  {exam.promptInstruction.split('OFFICIAL SYLLABUS & DOMAIN BREAKDOWN')[1]?.split('FORMATTING')[0]?.trim() || exam.promptInstruction.slice(0, 120)}
                 </p>
               </div>
             </div>
 
-            {/* Action Footer */}
-            <div className="p-4 bg-slate-50 border-t border-slate-100">
+            {/* Action Footer Button */}
+            <div className="pt-3 mt-3 border-t border-slate-100">
               <button
                 onClick={() => onSelectExam && onSelectExam(exam)}
-                className="w-full py-3.5 px-4 bg-slate-950 hover:bg-purple-900 active:scale-95 text-white font-black text-xs rounded-2xl flex items-center justify-center gap-2 shadow-lg transition-all uppercase tracking-wider group-hover:bg-purple-700"
+                className="w-full py-2.5 px-3 bg-slate-950 hover:bg-purple-900 active:scale-95 text-white font-black text-[11px] rounded-xl flex items-center justify-center gap-1.5 shadow-md transition-all uppercase tracking-wider group-hover:bg-purple-700 cursor-pointer"
               >
-                Generate Exam Paper 📝 <ChevronRight className="w-4 h-4 text-amber-400 group-hover:translate-x-1 transition-transform" />
+                Generate Exam Paper 📝 <ChevronRight className="w-3.5 h-3.5 text-amber-400 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
