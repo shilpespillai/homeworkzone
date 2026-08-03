@@ -32,6 +32,7 @@ import {
   Lightbulb
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { INTERNATIONAL_EXAMS } from '../data/examPresets';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, getDocs, query, where, orderBy, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -1762,6 +1763,51 @@ EXPECTED JSON SCHEMA:
               <img src="/mascot.png" alt="Mascot" className="w-20 h-20 object-contain absolute -top-8 -left-16 drop-shadow-md" />
             </div>
           </div>
+
+      {/* International Exam Presets Quick Selector */}
+      <div className="mb-8 p-6 bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 rounded-3xl text-white shadow-xl border border-purple-500/30 relative overflow-hidden">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <Trophy className="w-5 h-5 text-amber-400 animate-pulse" />
+              <span className="text-xs font-black uppercase tracking-widest text-purple-300">New Exam Simulator Mode</span>
+            </div>
+            <h3 className="text-xl font-black text-white">Generate Authentic International Exam Papers 🏆</h3>
+            <p className="text-xs text-purple-200 font-medium">Select a preset to auto-load exam questions for ICAS, NSW Selective, SAT, NAPLAN & UK 11+.</p>
+          </div>
+          
+          <div className="w-full md:w-auto">
+            <select
+              onChange={(e) => {
+                const examId = e.target.value;
+                if (!examId) return;
+                const exam = INTERNATIONAL_EXAMS.find(ex => ex.id === examId);
+                if (exam) {
+                  setFormData(prev => ({
+                    ...prev,
+                    subject: exam.subject,
+                    title: `${exam.name} Practice Paper`,
+                    instructions: `Read each question carefully. You are on a ${exam.defaultTime}-minute timer! ⏳`,
+                    aiPrompt: exam.promptInstruction,
+                    timeLimit: String(exam.defaultTime)
+                  }));
+                  setQuestionCount(exam.defaultQuestions);
+                  setIsCurriculumMode(false);
+                }
+              }}
+              defaultValue=""
+              className="w-full md:w-72 bg-purple-950/80 hover:bg-purple-900 border-2 border-purple-400/50 text-white font-bold text-xs py-3 px-4 rounded-2xl outline-none focus:border-amber-400 transition-all cursor-pointer shadow-inner"
+            >
+              <option value="" disabled>✨ Select International Exam Preset...</option>
+              {INTERNATIONAL_EXAMS.map(exam => (
+                <option key={exam.id} value={exam.id} className="bg-slate-900 text-white">
+                  {exam.country} {exam.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
 
       {/* Step 1: Choose Subject */}
       <div className="mb-12">
