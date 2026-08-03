@@ -4272,18 +4272,6 @@ Include a balanced combination of question types such as:
                  </div>
              );
 
-          case 'International Exam Builder':
-             return (
-                <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
-                   <InternationalExamHubView
-                      onSelectExam={(exam) => {
-                         setSelectedExamForBuilder(exam);
-                         setActiveTab('Homework/Test Builder');
-                      }}
-                   />
-                </div>
-             );
-
           case 'Scheduler':
              return (
                 <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
@@ -7375,7 +7363,6 @@ Include a balanced combination of question types such as:
             <SidebarItem id="Dashboard" label="Dashboard" icon={<LayoutDashboard />} iconColor="text-blue-500" active={activeTab === 'Dashboard'} onClick={setActiveTab} />
             <SidebarItem id="My Classes" label="My Classes" icon={<img src="/ic-classes.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Classes" />} active={activeTab === 'My Classes'} onClick={setActiveTab} />
             <SidebarItem id="Homework/Test Builder" label="Homework/Test Builder" icon={<img src="/ic-homework.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Homework" />} active={activeTab === 'Homework/Test Builder'} onClick={setActiveTab} />
-            <SidebarItem id="International Exam Builder" label="International Exam Builder" icon={<Globe className="w-5 h-5 text-indigo-500" />} active={activeTab === 'International Exam Builder'} onClick={setActiveTab} />
             <SidebarItem id="Scheduler" label="Scheduler" icon={<Calendar className="w-5 h-5 text-pink-500" />} active={activeTab === 'Scheduler'} onClick={setActiveTab} />
             <SidebarItem id="Gradebook" label="Gradebook" icon={<Trophy className="w-5 h-5 text-emerald-500" />} active={activeTab === 'Gradebook'} onClick={setActiveTab} />
             <SidebarItem id="Reports" label="Reports" icon={<BarChartIcon className="w-5 h-5 text-[#EA580C]" />} active={activeTab === 'Reports'} onClick={setActiveTab} />

@@ -1827,16 +1827,6 @@ EXPECTED JSON SCHEMA:
           {/* Header */}
           <div className="flex justify-between items-start mb-12">
             <div>
-              <button
-                onClick={() => {
-                  setAssignmentType(null);
-                  setFormData(prev => ({ ...prev, isExamPaper: false, examPreset: null }));
-                }}
-                className="mb-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-extrabold transition-all cursor-pointer"
-              >
-                <ChevronLeft className="w-4 h-4" /> Back to Creation Options
-              </button>
-
               <h1 className="text-5xl font-black text-[#14532d] tracking-tight mb-2">
                 {formData.isExamPaper ? 'Create Exam Paper' : assignmentType === 'test' ? 'Create Test' : 'Create Homework'}
               </h1>
