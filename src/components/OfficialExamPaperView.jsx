@@ -43,6 +43,17 @@ export default function OfficialExamPaperView({
   const totalQuestions = questions.length;
   const currentQ = questions[currentIdx] || {};
 
+  const getAnswerForQuestion = (q, idx) => {
+    if (!q) return undefined;
+    if (q.id !== undefined && q.id !== null && answers[q.id] !== undefined) {
+      return answers[q.id];
+    }
+    if (answers[`idx_${idx}`] !== undefined) {
+      return answers[`idx_${idx}`];
+    }
+    return undefined;
+  };
+
   // Extract stimulus/passage vs main question statement
   const getParsedQuestionContent = (q) => {
     if (!q) return { passage: null, question: 'Select the correct answer from the choices below:' };
@@ -145,7 +156,10 @@ export default function OfficialExamPaperView({
 
   // Render Examination Results Report if Submitted
   if (isSubmitted) {
-    const correctCount = submissionResult?.correctCount ?? Object.keys(answers).filter(idx => answers[idx] === questions[idx]?.correctAnswer).length;
+    const correctCount = submissionResult?.correctCount ?? questions.filter((q, idx) => {
+      const ans = getAnswerForQuestion(q, idx);
+      return ans !== undefined && (ans === q?.correctAnswer || ans === q?.answer);
+    }).length;
     const percentage = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
     
     // Performance Band Estimation
@@ -193,7 +207,7 @@ export default function OfficialExamPaperView({
 
             <div className="space-y-6 font-sans">
               {questions.map((q, idx) => {
-                const studentAns = answers[idx];
+                const studentAns = getAnswerForQuestion(q, idx);
                 const isCorrect = studentAns === q.correctAnswer;
                 const parsed = getParsedQuestionContent(q);
 
@@ -385,7 +399,8 @@ export default function OfficialExamPaperView({
           <div className="space-y-3 font-sans pt-2">
             {(currentQ.options || []).map((opt, oIdx) => {
               const optKey = ['A', 'B', 'C', 'D'][oIdx] || String(oIdx);
-              const isSelected = answers[currentIdx] === optKey || answers[currentIdx] === opt;
+              const currentAns = getAnswerForQuestion(currentQ, currentIdx);
+              const isSelected = currentAns === optKey || currentAns === opt;
 
               return (
                 <div
@@ -451,7 +466,7 @@ export default function OfficialExamPaperView({
 
             <div className="grid grid-cols-5 gap-3 max-h-72 overflow-y-auto p-1">
               {questions.map((_, qIdx) => {
-                const isAns = answers[qIdx] !== undefined;
+                const isAns = getAnswerForQuestion(questions[qIdx], qIdx) !== undefined;
                 const isFlag = markedForReview[qIdx];
                 const isCurr = qIdx === currentIdx;
 

@@ -351,8 +351,9 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         formattedTime={fmtTime}
         answers={answers}
         onSelectAnswer={(qIdx, optionKey) => {
-          const qId = homework.questions[qIdx]?.id || qIdx;
-          setAnswers(prev => ({ ...prev, [qId]: optionKey, [qIdx]: optionKey }));
+          const qObj = homework.questions[qIdx];
+          const qId = qObj?.id !== undefined && qObj?.id !== null ? qObj.id : `idx_${qIdx}`;
+          setAnswers(prev => ({ ...prev, [qId]: optionKey, [`idx_${qIdx}`]: optionKey }));
         }}
         markedForReview={markedForReview}
         onToggleReview={(qIdx) => {
