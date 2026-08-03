@@ -25,7 +25,11 @@ import {
   ChevronUp,
   Filter,
   Search,
-  X
+  X,
+  Code,
+  Coins,
+  Leaf,
+  Lightbulb
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
@@ -159,6 +163,62 @@ const SUBJECTS = [
     renderGraphic: () => (
       <div className="w-16 h-20 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 shadow-inner overflow-hidden border-4 border-purple-200">
         <Trophy className="w-10 h-10 text-purple-500" />
+      </div>
+    )
+  },
+  { 
+    id: 'computer_science', 
+    name: 'Computer Science', 
+    titleColor: 'text-cyan-600',
+    bgColor: 'bg-[#f0fdfa]', 
+    borderColor: 'border-cyan-200',
+    selectedBorder: 'border-cyan-500 ring-4 ring-cyan-100',
+    desc: 'Coding, Python, Web & AI Ethics!',
+    renderGraphic: () => (
+      <div className="w-16 h-20 bg-cyan-100 rounded-full flex items-center justify-center text-cyan-600 shadow-inner overflow-hidden border-4 border-cyan-200">
+        <Code className="w-10 h-10 text-cyan-500" />
+      </div>
+    )
+  },
+  { 
+    id: 'financial_literacy', 
+    name: 'Financial Literacy', 
+    titleColor: 'text-emerald-600',
+    bgColor: 'bg-[#ecfdf5]', 
+    borderColor: 'border-emerald-200',
+    selectedBorder: 'border-emerald-500 ring-4 ring-emerald-100',
+    desc: 'Money, saving, investing & business!',
+    renderGraphic: () => (
+      <div className="w-16 h-20 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 shadow-inner overflow-hidden border-4 border-emerald-200">
+        <Coins className="w-10 h-10 text-emerald-500" />
+      </div>
+    )
+  },
+  { 
+    id: 'environmental_science', 
+    name: 'Environmental Science', 
+    titleColor: 'text-teal-600',
+    bgColor: 'bg-[#f0fdf4]', 
+    borderColor: 'border-teal-200',
+    selectedBorder: 'border-teal-500 ring-4 ring-teal-100',
+    desc: 'Ecology, clean energy & sustainability!',
+    renderGraphic: () => (
+      <div className="w-16 h-20 bg-teal-100 rounded-full flex items-center justify-center text-teal-600 shadow-inner overflow-hidden border-4 border-teal-200">
+        <Leaf className="w-10 h-10 text-teal-500" />
+      </div>
+    )
+  },
+  { 
+    id: 'critical_thinking', 
+    name: 'Critical Thinking', 
+    titleColor: 'text-amber-600',
+    bgColor: 'bg-[#fffbeb]', 
+    borderColor: 'border-amber-200',
+    selectedBorder: 'border-amber-500 ring-4 ring-amber-100',
+    desc: 'Logic, fallacies & problem solving!',
+    renderGraphic: () => (
+      <div className="w-16 h-20 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 shadow-inner overflow-hidden border-4 border-amber-200">
+        <Lightbulb className="w-10 h-10 text-amber-500" />
       </div>
     )
   }

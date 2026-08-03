@@ -2270,6 +2270,431 @@ export const curriculum = {
         "title": "Design a sunshade",
         "category": "L. Engineering practices"
       }
+    ],
+    "Olympiad": [
+      {
+        "id": "ol_f_1",
+        "title": "Visual Pattern Recognition",
+        "category": "Patterns & Logic"
+      },
+      {
+        "id": "ol_f_2",
+        "title": "Count and Group Objects",
+        "category": "Numbers & Counting"
+      },
+      {
+        "id": "ol_f_3",
+        "title": "Basic Spatial Shapes",
+        "category": "Geometry"
+      },
+      {
+        "id": "ol_f_4",
+        "title": "Simple Logic Elimination Puzzles",
+        "category": "Patterns & Logic"
+      }
+    ],
+    "Hindi": [
+      {
+        "id": "hi_1",
+        "title": "स्वर और व्यंजन पहचान (Vowels & Consonants Identification)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_2",
+        "title": "मात्राएँ और शब्द रचना (Matras and Word Formation)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_3",
+        "title": "संयुक्त अक्षर और द्वित्व व्यंजन (Conjunct Characters & Double Consonants)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_4",
+        "title": "हिंदी संख्याएँ 1 से 20 (Hindi Numbers 1 to 20)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_5",
+        "title": "हिंदी संख्याएँ 21 से 50 (Hindi Numbers 21 to 50)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_6",
+        "title": "हिंदी संख्याएँ 51 से 100 (Hindi Numbers 51 to 100)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_7",
+        "title": "संज्ञा और उसके भेद (Nouns and Types)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_8",
+        "title": "सर्वनाम की पहचान (Pronouns Identification)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_9",
+        "title": "विशेषण और उसके उदाहरण (Adjectives & Examples)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_10",
+        "title": "क्रिया और काल (Verbs and Tenses)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_11",
+        "title": "लिंग बदलो - पुल्लिंग और स्त्रीलिंग (Gender - Masculine & Feminine)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_12",
+        "title": "वचन बदलो - एकवचन और बहुवचन (Singular and Plural)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_20",
+        "title": "कारक और परसर्ग (Case Endings & Postpositions - ने, को, से)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_21",
+        "title": "सकर्मक और अकर्मक क्रिया (Transitive & Intransitive Verbs & 'Ne' Rule)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_22",
+        "title": "उपसर्ग और प्रत्यय (Prefixes & Suffixes)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_23",
+        "title": "संधि और समास (Word Compounding & Joining)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_13",
+        "title": "पर्यायवाची शब्द (Synonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_14",
+        "title": "विलोम शब्द (Antonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_15",
+        "title": "अनेक शब्दों के लिए एक शब्द (One Word Substitution)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_16",
+        "title": "मुहावरे और कहावतें (Idioms and Proverbs)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_24",
+        "title": "दिन, महीने और ऋतुएँ (Days, Months & Seasons)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_25",
+        "title": "रंग और आकृतियाँ (Colors & Shapes)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_26",
+        "title": "रिश्ते-नाते (Family Relations Vocabulary)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_27",
+        "title": "शरीर के अंग और स्वास्थ्य (Body Parts & Health)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_28",
+        "title": "फल, सब्जियाँ और मसाले (Fruits, Vegetables & Spices)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_29",
+        "title": "पशु-पक्षी और उनकी बोलियाँ (Animals, Birds & Their Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_30",
+        "title": "श्रुतिसम भिन्नार्थक शब्द (Homophones & Similar Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_17",
+        "title": "शुद्ध और अशुद्ध वाक्य (Correct Sentence Formation)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_18",
+        "title": "विराम चिह्न (Punctuation Marks)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_19",
+        "title": "अपठित गद्यांश (Reading Comprehension)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_31",
+        "title": "शिष्टाचार और अभिवादन (Greetings & Politeness - आप/तुम)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_32",
+        "title": "दिशाएँ और स्थान (Directions & Positioning)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_33",
+        "title": "बाजार और खरीदारी (Shopping, Weights & Bargaining)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_34",
+        "title": "यात्रा और परिवहन (Travel & Transportation)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_35",
+        "title": "चित्र वर्णन (Picture Description & Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_36",
+        "title": "अनुच्छेद एवं निबंध लेखन (Paragraph & Essay Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_37",
+        "title": "पत्र लेखन (Formal & Informal Letter Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_38",
+        "title": "कहानी लेखन और नीति कथाएँ (Fables & Story Completion - Panchatantra)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_39",
+        "title": "बालगीत और कविताएँ (Nursery Rhymes & Poetry)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      }
+    ],
+    "History": [
+      {
+        "id": "hist_1",
+        "title": "Ancient Civilizations (Egypt, Mesopotamia, Indus Valley)",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_2",
+        "title": "Ancient Greece and Roman Empire",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_3",
+        "title": "Medieval Europe & Feudalism",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_4",
+        "title": "The Renaissance & Scientific Revolution",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_5",
+        "title": "Industrial Revolution & Global Expansion",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_6",
+        "title": "World War I & World War II",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_7",
+        "title": "Australian & Local Indigenous History",
+        "category": "D. Local & Regional History"
+      }
+    ],
+    "Geography": [
+      {
+        "id": "geo_1",
+        "title": "Continents, Oceans & World Map Reading",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_2",
+        "title": "Latitude, Longitude & Time Zones",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_3",
+        "title": "Landforms: Mountains, Rivers, Valleys & Volcanoes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_4",
+        "title": "Weather, Climate Zones & Biomes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_5",
+        "title": "Population, Urbanization & Migration",
+        "category": "C. Human Geography"
+      },
+      {
+        "id": "geo_6",
+        "title": "Natural Resources & Sustainability",
+        "category": "C. Human Geography"
+      }
+    ],
+    "Spanish": [
+      {
+        "id": "es_1",
+        "title": "El Alfabeto y Pronunciación (Alphabet & Sounds)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_2",
+        "title": "Números 1 al 100 (Numbers 1 to 100)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_3",
+        "title": "Saludos, Despedidas y Presentaciones (Greetings & Intro)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_4",
+        "title": "Sustantivos y Artículos - El, La, Los, Las (Nouns & Articles)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_5",
+        "title": "Verbos Comunes - Ser, Estar, Tener, Ir (Common Verbs)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_6",
+        "title": "Vocabulario de la Familia, Comida y Escuela (Vocabulary)",
+        "category": "C. Vocabulario (Vocabulary)"
+      }
+    ],
+    "French": [
+      {
+        "id": "fr_1",
+        "title": "L'Alphabet et la Prononciation (Alphabet & Sounds)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_2",
+        "title": "Les Nombres 1 à 100 (Numbers 1 to 100)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_3",
+        "title": "Salutations et Présentations (Greetings & Intro)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_4",
+        "title": "Les Articles et Noms - Le, La, Les, Un, Une (Articles & Nouns)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_5",
+        "title": "Verbes Essentiels - Être, Avoir, Faire, Aller (Key Verbs)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_6",
+        "title": "Vocabulaire de la Famille et de la Maison (Vocabulary)",
+        "category": "C. Vocabulaire (Vocabulary)"
+      }
+    ],
+    "Computer Science": [
+      {
+        "id": "cs_f_1",
+        "title": "Identify digital devices (tablet, computer, screen)",
+        "category": "A. Digital World"
+      },
+      {
+        "id": "cs_f_2",
+        "title": "Following step-by-step instructions (Algorithms)",
+        "category": "B. Algorithmic Thinking"
+      },
+      {
+        "id": "cs_f_3",
+        "title": "Pattern recognition in shapes & colors",
+        "category": "B. Algorithmic Thinking"
+      },
+      {
+        "id": "cs_f_4",
+        "title": "Digital safety: Asking an adult before using devices",
+        "category": "C. Digital Safety"
+      }
+    ],
+    "Financial Literacy": [
+      {
+        "id": "fl_f_1",
+        "title": "Recognizing coins and paper bills",
+        "category": "A. Money Basics"
+      },
+      {
+        "id": "fl_f_2",
+        "title": "Needs vs. Wants (Food vs. Toys)",
+        "category": "B. Smart Choices"
+      },
+      {
+        "id": "fl_f_3",
+        "title": "Saving coins in a piggy bank",
+        "category": "C. Saving Habits"
+      }
+    ],
+    "Environmental Science": [
+      {
+        "id": "es_f_1",
+        "title": "Living vs. Non-living things in nature",
+        "category": "A. Earth & Nature"
+      },
+      {
+        "id": "es_f_2",
+        "title": "The 3 R's: Reduce, Reuse, Recycle",
+        "category": "B. Caring for Our Planet"
+      },
+      {
+        "id": "es_f_3",
+        "title": "Sunlight, water, and plants growing",
+        "category": "A. Earth & Nature"
+      }
+    ],
+    "Critical Thinking": [
+      {
+        "id": "ct_f_1",
+        "title": "Sorting objects by size, color, and shape",
+        "category": "A. Logical Classification"
+      },
+      {
+        "id": "ct_f_2",
+        "title": "Cause and effect in everyday stories",
+        "category": "B. Cause & Effect"
+      },
+      {
+        "id": "ct_f_3",
+        "title": "Identifying what comes next in a picture sequence",
+        "category": "A. Logical Classification"
+      }
     ]
   },
   "Grade 1": {
@@ -4980,6 +5405,461 @@ export const curriculum = {
         "title": "Basic Classification",
         "category": "Logical Reasoning"
       }
+    ],
+    "Olympiad": [
+      {
+        "id": "ol_12_1",
+        "title": "Completing Visual and Numeric Sequences",
+        "category": "A. Patterns & Sequences"
+      },
+      {
+        "id": "ol_12_2",
+        "title": "Symbol Math and Simple Alphametics",
+        "category": "B. Mathematical Operations"
+      },
+      {
+        "id": "ol_12_3",
+        "title": "Counting Shapes and Overlapping Figures",
+        "category": "C. Spatial Visualisation"
+      },
+      {
+        "id": "ol_12_4",
+        "title": "Paper Folding and Mirror Reflection Puzzles",
+        "category": "C. Spatial Visualisation"
+      },
+      {
+        "id": "ol_12_5",
+        "title": "Logic Elimination and Ordering Puzzles",
+        "category": "D. Logical Reasoning"
+      },
+      {
+        "id": "ol_12_6",
+        "title": "Systematic Coin and Currency Counting",
+        "category": "B. Mathematical Operations"
+      }
+    ],
+    "Hindi": [
+      {
+        "id": "hi_1",
+        "title": "स्वर और व्यंजन पहचान (Vowels & Consonants Identification)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_2",
+        "title": "मात्राएँ और शब्द रचना (Matras and Word Formation)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_3",
+        "title": "संयुक्त अक्षर और द्वित्व व्यंजन (Conjunct Characters & Double Consonants)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_4",
+        "title": "हिंदी संख्याएँ 1 से 20 (Hindi Numbers 1 to 20)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_5",
+        "title": "हिंदी संख्याएँ 21 से 50 (Hindi Numbers 21 to 50)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_6",
+        "title": "हिंदी संख्याएँ 51 से 100 (Hindi Numbers 51 to 100)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_7",
+        "title": "संज्ञा और उसके भेद (Nouns and Types)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_8",
+        "title": "सर्वनाम की पहचान (Pronouns Identification)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_9",
+        "title": "विशेषण और उसके उदाहरण (Adjectives & Examples)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_10",
+        "title": "क्रिया और काल (Verbs and Tenses)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_11",
+        "title": "लिंग बदलो - पुल्लिंग और स्त्रीलिंग (Gender - Masculine & Feminine)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_12",
+        "title": "वचन बदलो - एकवचन और बहुवचन (Singular and Plural)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_20",
+        "title": "कारक और परसर्ग (Case Endings & Postpositions - ने, को, से)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_21",
+        "title": "सकर्मक और अकर्मक क्रिया (Transitive & Intransitive Verbs & 'Ne' Rule)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_22",
+        "title": "उपसर्ग और प्रत्यय (Prefixes & Suffixes)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_23",
+        "title": "संधि और समास (Word Compounding & Joining)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_13",
+        "title": "पर्यायवाची शब्द (Synonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_14",
+        "title": "विलोम शब्द (Antonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_15",
+        "title": "अनेक शब्दों के लिए एक शब्द (One Word Substitution)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_16",
+        "title": "मुहावरे और कहावतें (Idioms and Proverbs)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_24",
+        "title": "दिन, महीने और ऋतुएँ (Days, Months & Seasons)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_25",
+        "title": "रंग और आकृतियाँ (Colors & Shapes)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_26",
+        "title": "रिश्ते-नाते (Family Relations Vocabulary)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_27",
+        "title": "शरीर के अंग और स्वास्थ्य (Body Parts & Health)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_28",
+        "title": "फल, सब्जियाँ और मसाले (Fruits, Vegetables & Spices)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_29",
+        "title": "पशु-पक्षी और उनकी बोलियाँ (Animals, Birds & Their Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_30",
+        "title": "श्रुतिसम भिन्नार्थक शब्द (Homophones & Similar Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_17",
+        "title": "शुद्ध और अशुद्ध वाक्य (Correct Sentence Formation)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_18",
+        "title": "विराम चिह्न (Punctuation Marks)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_19",
+        "title": "अपठित गद्यांश (Reading Comprehension)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_31",
+        "title": "शिष्टाचार और अभिवादन (Greetings & Politeness - आप/तुम)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_32",
+        "title": "दिशाएँ और स्थान (Directions & Positioning)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_33",
+        "title": "बाजार और खरीदारी (Shopping, Weights & Bargaining)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_34",
+        "title": "यात्रा और परिवहन (Travel & Transportation)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_35",
+        "title": "चित्र वर्णन (Picture Description & Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_36",
+        "title": "अनुच्छेद एवं निबंध लेखन (Paragraph & Essay Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_37",
+        "title": "पत्र लेखन (Formal & Informal Letter Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_38",
+        "title": "कहानी लेखन और नीति कथाएँ (Fables & Story Completion - Panchatantra)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_39",
+        "title": "बालगीत और कविताएँ (Nursery Rhymes & Poetry)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      }
+    ],
+    "History": [
+      {
+        "id": "hist_1",
+        "title": "Ancient Civilizations (Egypt, Mesopotamia, Indus Valley)",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_2",
+        "title": "Ancient Greece and Roman Empire",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_3",
+        "title": "Medieval Europe & Feudalism",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_4",
+        "title": "The Renaissance & Scientific Revolution",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_5",
+        "title": "Industrial Revolution & Global Expansion",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_6",
+        "title": "World War I & World War II",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_7",
+        "title": "Australian & Local Indigenous History",
+        "category": "D. Local & Regional History"
+      }
+    ],
+    "Geography": [
+      {
+        "id": "geo_1",
+        "title": "Continents, Oceans & World Map Reading",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_2",
+        "title": "Latitude, Longitude & Time Zones",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_3",
+        "title": "Landforms: Mountains, Rivers, Valleys & Volcanoes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_4",
+        "title": "Weather, Climate Zones & Biomes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_5",
+        "title": "Population, Urbanization & Migration",
+        "category": "C. Human Geography"
+      },
+      {
+        "id": "geo_6",
+        "title": "Natural Resources & Sustainability",
+        "category": "C. Human Geography"
+      }
+    ],
+    "Spanish": [
+      {
+        "id": "es_1",
+        "title": "El Alfabeto y Pronunciación (Alphabet & Sounds)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_2",
+        "title": "Números 1 al 100 (Numbers 1 to 100)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_3",
+        "title": "Saludos, Despedidas y Presentaciones (Greetings & Intro)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_4",
+        "title": "Sustantivos y Artículos - El, La, Los, Las (Nouns & Articles)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_5",
+        "title": "Verbos Comunes - Ser, Estar, Tener, Ir (Common Verbs)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_6",
+        "title": "Vocabulario de la Familia, Comida y Escuela (Vocabulary)",
+        "category": "C. Vocabulario (Vocabulary)"
+      }
+    ],
+    "French": [
+      {
+        "id": "fr_1",
+        "title": "L'Alphabet et la Prononciation (Alphabet & Sounds)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_2",
+        "title": "Les Nombres 1 à 100 (Numbers 1 to 100)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_3",
+        "title": "Salutations et Présentations (Greetings & Intro)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_4",
+        "title": "Les Articles et Noms - Le, La, Les, Un, Une (Articles & Nouns)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_5",
+        "title": "Verbes Essentiels - Être, Avoir, Faire, Aller (Key Verbs)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_6",
+        "title": "Vocabulaire de la Famille et de la Maison (Vocabulary)",
+        "category": "C. Vocabulaire (Vocabulary)"
+      }
+    ],
+    "Computer Science": [
+      {
+        "id": "cs_12_1",
+        "title": "Understanding algorithm sequences (First, Next, Last)",
+        "category": "A. Algorithmic Thinking"
+      },
+      {
+        "id": "cs_12_2",
+        "title": "Directional coding puzzles (Up, Down, Left, Right)",
+        "category": "A. Algorithmic Thinking"
+      },
+      {
+        "id": "cs_12_3",
+        "title": "Debugging: Finding and fixing errors in a sequence",
+        "category": "B. Problem Solving"
+      },
+      {
+        "id": "cs_12_4",
+        "title": "Parts of a computer (Keyboard, Mouse, Monitor, CPU)",
+        "category": "C. Computer Hardware"
+      },
+      {
+        "id": "cs_12_5",
+        "title": "Safe passwords and private personal information",
+        "category": "D. Digital Safety"
+      }
+    ],
+    "Financial Literacy": [
+      {
+        "id": "fl_12_1",
+        "title": "Counting small combinations of coins and notes",
+        "category": "A. Money & Value"
+      },
+      {
+        "id": "fl_12_2",
+        "title": "Understanding prices and paying at a store",
+        "category": "A. Money & Value"
+      },
+      {
+        "id": "fl_12_3",
+        "title": "Saving money for a future goal",
+        "category": "B. Saving & Goals"
+      },
+      {
+        "id": "fl_12_4",
+        "title": "Distinguishing between spending, saving, and sharing",
+        "category": "B. Saving & Goals"
+      }
+    ],
+    "Environmental Science": [
+      {
+        "id": "es_12_1",
+        "title": "Animal habitats (Forest, Ocean, Desert, Arctic)",
+        "category": "A. Ecosystems & Habitats"
+      },
+      {
+        "id": "es_12_2",
+        "title": "Protecting water sources and saving water",
+        "category": "B. Conservation"
+      },
+      {
+        "id": "es_12_3",
+        "title": "Renewable energy from the Sun and Wind",
+        "category": "C. Clean Energy"
+      },
+      {
+        "id": "es_12_4",
+        "title": "Planting trees and plant life cycles",
+        "category": "A. Ecosystems & Habitats"
+      }
+    ],
+    "Critical Thinking": [
+      {
+        "id": "ct_12_1",
+        "title": "Odd One Out reasoning and justification",
+        "category": "A. Deductive Reasoning"
+      },
+      {
+        "id": "ct_12_2",
+        "title": "Comparing and contrasting objects with Venn diagrams",
+        "category": "A. Deductive Reasoning"
+      },
+      {
+        "id": "ct_12_3",
+        "title": "True, False, or Cannot Tell statements",
+        "category": "B. Analytical Logic"
+      },
+      {
+        "id": "ct_12_4",
+        "title": "Simple balance scale weight puzzles",
+        "category": "B. Analytical Logic"
+      }
     ]
   },
   "Grade 2": {
@@ -7689,6 +8569,461 @@ export const curriculum = {
         "id": "g2_lr_10",
         "title": "Logical Stories",
         "category": "Logical Reasoning"
+      }
+    ],
+    "Olympiad": [
+      {
+        "id": "ol_12_1",
+        "title": "Completing Visual and Numeric Sequences",
+        "category": "A. Patterns & Sequences"
+      },
+      {
+        "id": "ol_12_2",
+        "title": "Symbol Math and Simple Alphametics",
+        "category": "B. Mathematical Operations"
+      },
+      {
+        "id": "ol_12_3",
+        "title": "Counting Shapes and Overlapping Figures",
+        "category": "C. Spatial Visualisation"
+      },
+      {
+        "id": "ol_12_4",
+        "title": "Paper Folding and Mirror Reflection Puzzles",
+        "category": "C. Spatial Visualisation"
+      },
+      {
+        "id": "ol_12_5",
+        "title": "Logic Elimination and Ordering Puzzles",
+        "category": "D. Logical Reasoning"
+      },
+      {
+        "id": "ol_12_6",
+        "title": "Systematic Coin and Currency Counting",
+        "category": "B. Mathematical Operations"
+      }
+    ],
+    "Hindi": [
+      {
+        "id": "hi_1",
+        "title": "स्वर और व्यंजन पहचान (Vowels & Consonants Identification)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_2",
+        "title": "मात्राएँ और शब्द रचना (Matras and Word Formation)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_3",
+        "title": "संयुक्त अक्षर और द्वित्व व्यंजन (Conjunct Characters & Double Consonants)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_4",
+        "title": "हिंदी संख्याएँ 1 से 20 (Hindi Numbers 1 to 20)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_5",
+        "title": "हिंदी संख्याएँ 21 से 50 (Hindi Numbers 21 to 50)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_6",
+        "title": "हिंदी संख्याएँ 51 से 100 (Hindi Numbers 51 to 100)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_7",
+        "title": "संज्ञा और उसके भेद (Nouns and Types)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_8",
+        "title": "सर्वनाम की पहचान (Pronouns Identification)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_9",
+        "title": "विशेषण और उसके उदाहरण (Adjectives & Examples)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_10",
+        "title": "क्रिया और काल (Verbs and Tenses)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_11",
+        "title": "लिंग बदलो - पुल्लिंग और स्त्रीलिंग (Gender - Masculine & Feminine)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_12",
+        "title": "वचन बदलो - एकवचन और बहुवचन (Singular and Plural)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_20",
+        "title": "कारक और परसर्ग (Case Endings & Postpositions - ने, को, से)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_21",
+        "title": "सकर्मक और अकर्मक क्रिया (Transitive & Intransitive Verbs & 'Ne' Rule)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_22",
+        "title": "उपसर्ग और प्रत्यय (Prefixes & Suffixes)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_23",
+        "title": "संधि और समास (Word Compounding & Joining)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_13",
+        "title": "पर्यायवाची शब्द (Synonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_14",
+        "title": "विलोम शब्द (Antonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_15",
+        "title": "अनेक शब्दों के लिए एक शब्द (One Word Substitution)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_16",
+        "title": "मुहावरे और कहावतें (Idioms and Proverbs)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_24",
+        "title": "दिन, महीने और ऋतुएँ (Days, Months & Seasons)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_25",
+        "title": "रंग और आकृतियाँ (Colors & Shapes)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_26",
+        "title": "रिश्ते-नाते (Family Relations Vocabulary)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_27",
+        "title": "शरीर के अंग और स्वास्थ्य (Body Parts & Health)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_28",
+        "title": "फल, सब्जियाँ और मसाले (Fruits, Vegetables & Spices)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_29",
+        "title": "पशु-पक्षी और उनकी बोलियाँ (Animals, Birds & Their Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_30",
+        "title": "श्रुतिसम भिन्नार्थक शब्द (Homophones & Similar Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_17",
+        "title": "शुद्ध और अशुद्ध वाक्य (Correct Sentence Formation)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_18",
+        "title": "विराम चिह्न (Punctuation Marks)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_19",
+        "title": "अपठित गद्यांश (Reading Comprehension)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_31",
+        "title": "शिष्टाचार और अभिवादन (Greetings & Politeness - आप/तुम)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_32",
+        "title": "दिशाएँ और स्थान (Directions & Positioning)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_33",
+        "title": "बाजार और खरीदारी (Shopping, Weights & Bargaining)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_34",
+        "title": "यात्रा और परिवहन (Travel & Transportation)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_35",
+        "title": "चित्र वर्णन (Picture Description & Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_36",
+        "title": "अनुच्छेद एवं निबंध लेखन (Paragraph & Essay Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_37",
+        "title": "पत्र लेखन (Formal & Informal Letter Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_38",
+        "title": "कहानी लेखन और नीति कथाएँ (Fables & Story Completion - Panchatantra)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_39",
+        "title": "बालगीत और कविताएँ (Nursery Rhymes & Poetry)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      }
+    ],
+    "History": [
+      {
+        "id": "hist_1",
+        "title": "Ancient Civilizations (Egypt, Mesopotamia, Indus Valley)",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_2",
+        "title": "Ancient Greece and Roman Empire",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_3",
+        "title": "Medieval Europe & Feudalism",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_4",
+        "title": "The Renaissance & Scientific Revolution",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_5",
+        "title": "Industrial Revolution & Global Expansion",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_6",
+        "title": "World War I & World War II",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_7",
+        "title": "Australian & Local Indigenous History",
+        "category": "D. Local & Regional History"
+      }
+    ],
+    "Geography": [
+      {
+        "id": "geo_1",
+        "title": "Continents, Oceans & World Map Reading",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_2",
+        "title": "Latitude, Longitude & Time Zones",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_3",
+        "title": "Landforms: Mountains, Rivers, Valleys & Volcanoes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_4",
+        "title": "Weather, Climate Zones & Biomes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_5",
+        "title": "Population, Urbanization & Migration",
+        "category": "C. Human Geography"
+      },
+      {
+        "id": "geo_6",
+        "title": "Natural Resources & Sustainability",
+        "category": "C. Human Geography"
+      }
+    ],
+    "Spanish": [
+      {
+        "id": "es_1",
+        "title": "El Alfabeto y Pronunciación (Alphabet & Sounds)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_2",
+        "title": "Números 1 al 100 (Numbers 1 to 100)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_3",
+        "title": "Saludos, Despedidas y Presentaciones (Greetings & Intro)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_4",
+        "title": "Sustantivos y Artículos - El, La, Los, Las (Nouns & Articles)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_5",
+        "title": "Verbos Comunes - Ser, Estar, Tener, Ir (Common Verbs)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_6",
+        "title": "Vocabulario de la Familia, Comida y Escuela (Vocabulary)",
+        "category": "C. Vocabulario (Vocabulary)"
+      }
+    ],
+    "French": [
+      {
+        "id": "fr_1",
+        "title": "L'Alphabet et la Prononciation (Alphabet & Sounds)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_2",
+        "title": "Les Nombres 1 à 100 (Numbers 1 to 100)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_3",
+        "title": "Salutations et Présentations (Greetings & Intro)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_4",
+        "title": "Les Articles et Noms - Le, La, Les, Un, Une (Articles & Nouns)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_5",
+        "title": "Verbes Essentiels - Être, Avoir, Faire, Aller (Key Verbs)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_6",
+        "title": "Vocabulaire de la Famille et de la Maison (Vocabulary)",
+        "category": "C. Vocabulaire (Vocabulary)"
+      }
+    ],
+    "Computer Science": [
+      {
+        "id": "cs_12_1",
+        "title": "Understanding algorithm sequences (First, Next, Last)",
+        "category": "A. Algorithmic Thinking"
+      },
+      {
+        "id": "cs_12_2",
+        "title": "Directional coding puzzles (Up, Down, Left, Right)",
+        "category": "A. Algorithmic Thinking"
+      },
+      {
+        "id": "cs_12_3",
+        "title": "Debugging: Finding and fixing errors in a sequence",
+        "category": "B. Problem Solving"
+      },
+      {
+        "id": "cs_12_4",
+        "title": "Parts of a computer (Keyboard, Mouse, Monitor, CPU)",
+        "category": "C. Computer Hardware"
+      },
+      {
+        "id": "cs_12_5",
+        "title": "Safe passwords and private personal information",
+        "category": "D. Digital Safety"
+      }
+    ],
+    "Financial Literacy": [
+      {
+        "id": "fl_12_1",
+        "title": "Counting small combinations of coins and notes",
+        "category": "A. Money & Value"
+      },
+      {
+        "id": "fl_12_2",
+        "title": "Understanding prices and paying at a store",
+        "category": "A. Money & Value"
+      },
+      {
+        "id": "fl_12_3",
+        "title": "Saving money for a future goal",
+        "category": "B. Saving & Goals"
+      },
+      {
+        "id": "fl_12_4",
+        "title": "Distinguishing between spending, saving, and sharing",
+        "category": "B. Saving & Goals"
+      }
+    ],
+    "Environmental Science": [
+      {
+        "id": "es_12_1",
+        "title": "Animal habitats (Forest, Ocean, Desert, Arctic)",
+        "category": "A. Ecosystems & Habitats"
+      },
+      {
+        "id": "es_12_2",
+        "title": "Protecting water sources and saving water",
+        "category": "B. Conservation"
+      },
+      {
+        "id": "es_12_3",
+        "title": "Renewable energy from the Sun and Wind",
+        "category": "C. Clean Energy"
+      },
+      {
+        "id": "es_12_4",
+        "title": "Planting trees and plant life cycles",
+        "category": "A. Ecosystems & Habitats"
+      }
+    ],
+    "Critical Thinking": [
+      {
+        "id": "ct_12_1",
+        "title": "Odd One Out reasoning and justification",
+        "category": "A. Deductive Reasoning"
+      },
+      {
+        "id": "ct_12_2",
+        "title": "Comparing and contrasting objects with Venn diagrams",
+        "category": "A. Deductive Reasoning"
+      },
+      {
+        "id": "ct_12_3",
+        "title": "True, False, or Cannot Tell statements",
+        "category": "B. Analytical Logic"
+      },
+      {
+        "id": "ct_12_4",
+        "title": "Simple balance scale weight puzzles",
+        "category": "B. Analytical Logic"
       }
     ]
   },
@@ -10735,6 +12070,606 @@ export const curriculum = {
         "title": "Shape Rotation",
         "category": "Logical Reasoning"
       }
+    ],
+    "Olympiad": [
+      {
+        "id": "ol_34_1",
+        "title": "Divisibility Rules (2, 3, 5, 9, 10)",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_34_2",
+        "title": "Prime Factorisation & Prime Numbers",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_34_3",
+        "title": "Finding the Units Digit of Large Products",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_34_4",
+        "title": "Lowest Common Multiple (LCM) Word Problems",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_34_5",
+        "title": "Greatest Common Divisor (GCD) Word Problems",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_34_6",
+        "title": "Properties of Odd and Even Integers",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_34_7",
+        "title": "Magic Squares and Number Grids",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_34_8",
+        "title": "Consecutive Integer Sums",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_34_9",
+        "title": "Basic Pigeonhole Principle (Socks/Drawers)",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_34_10",
+        "title": "Grid Paths (Shortest Routes on Grid Maps)",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_34_11",
+        "title": "Handshake & Matchmaking Puzzles",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_34_12",
+        "title": "Systematic Listing of Combinations",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_34_13",
+        "title": "Permutations of Words and Letters",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_34_14",
+        "title": "Venn Diagrams (2-Set Intersections)",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_34_15",
+        "title": "Overlapping Intervals & Tree Planting Problems",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_34_16",
+        "title": "Alphametics (Addition & Subtraction Cryptarithms)",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_34_17",
+        "title": "Shape Math (Solving Visual Systems of Equations)",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_34_18",
+        "title": "The Working Backwards Method",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_34_19",
+        "title": "The Chicken and Rabbit Problem (Heuristics)",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_34_20",
+        "title": "Age Word Problems (Past and Future Relationships)",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_34_21",
+        "title": "Excess and Deficit Puzzles",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_34_22",
+        "title": "Gauss Series Summation Methods",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_34_23",
+        "title": "Perimeter of Compound & L-Shaped Polygons",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_34_24",
+        "title": "Shaded Area of Squares, Rectangles & Triangles",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_34_25",
+        "title": "Area on Grid Maps (Counting Unit Squares)",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_34_26",
+        "title": "Spatial Cube Stacks (Visible vs. Hidden Blocks)",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_34_27",
+        "title": "Paper Folding, Symmetry & Mirror Reflections",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_34_28",
+        "title": "Geometry of Angles in Triangles",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_34_29",
+        "title": "Truth-Tellers and Liars (Knights & Knaves)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "ol_34_30",
+        "title": "Grid Logic Elimination (Attribute Matching)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "ol_34_31",
+        "title": "Visual Pattern Matrices (Sequence Prediction)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "ol_34_32",
+        "title": "Clock and Calendar Math (Hand Angles & Leap Years)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "ol_34_33",
+        "title": "Seating Arrangements and Circular Logic",
+        "category": "Logical Reasoning"
+      }
+    ],
+    "Hindi": [
+      {
+        "id": "hi_1",
+        "title": "स्वर और व्यंजन पहचान (Vowels & Consonants Identification)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_2",
+        "title": "मात्राएँ और शब्द रचना (Matras and Word Formation)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_3",
+        "title": "संयुक्त अक्षर और द्वित्व व्यंजन (Conjunct Characters & Double Consonants)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_4",
+        "title": "हिंदी संख्याएँ 1 से 20 (Hindi Numbers 1 to 20)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_5",
+        "title": "हिंदी संख्याएँ 21 से 50 (Hindi Numbers 21 to 50)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_6",
+        "title": "हिंदी संख्याएँ 51 से 100 (Hindi Numbers 51 to 100)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_7",
+        "title": "संज्ञा और उसके भेद (Nouns and Types)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_8",
+        "title": "सर्वनाम की पहचान (Pronouns Identification)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_9",
+        "title": "विशेषण और उसके उदाहरण (Adjectives & Examples)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_10",
+        "title": "क्रिया और काल (Verbs and Tenses)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_11",
+        "title": "लिंग बदलो - पुल्लिंग और स्त्रीलिंग (Gender - Masculine & Feminine)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_12",
+        "title": "वचन बदलो - एकवचन और बहुवचन (Singular and Plural)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_20",
+        "title": "कारक और परसर्ग (Case Endings & Postpositions - ने, को, से)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_21",
+        "title": "सकर्मक और अकर्मक क्रिया (Transitive & Intransitive Verbs & 'Ne' Rule)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_22",
+        "title": "उपसर्ग और प्रत्यय (Prefixes & Suffixes)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_23",
+        "title": "संधि और समास (Word Compounding & Joining)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_13",
+        "title": "पर्यायवाची शब्द (Synonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_14",
+        "title": "विलोम शब्द (Antonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_15",
+        "title": "अनेक शब्दों के लिए एक शब्द (One Word Substitution)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_16",
+        "title": "मुहावरे और कहावतें (Idioms and Proverbs)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_24",
+        "title": "दिन, महीने और ऋतुएँ (Days, Months & Seasons)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_25",
+        "title": "रंग और आकृतियाँ (Colors & Shapes)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_26",
+        "title": "रिश्ते-नाते (Family Relations Vocabulary)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_27",
+        "title": "शरीर के अंग और स्वास्थ्य (Body Parts & Health)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_28",
+        "title": "फल, सब्जियाँ और मसाले (Fruits, Vegetables & Spices)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_29",
+        "title": "पशु-पक्षी और उनकी बोलियाँ (Animals, Birds & Their Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_30",
+        "title": "श्रुतिसम भिन्नार्थक शब्द (Homophones & Similar Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_17",
+        "title": "शुद्ध और अशुद्ध वाक्य (Correct Sentence Formation)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_18",
+        "title": "विराम चिह्न (Punctuation Marks)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_19",
+        "title": "अपठित गद्यांश (Reading Comprehension)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_31",
+        "title": "शिष्टाचार और अभिवादन (Greetings & Politeness - आप/तुम)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_32",
+        "title": "दिशाएँ और स्थान (Directions & Positioning)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_33",
+        "title": "बाजार और खरीदारी (Shopping, Weights & Bargaining)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_34",
+        "title": "यात्रा और परिवहन (Travel & Transportation)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_35",
+        "title": "चित्र वर्णन (Picture Description & Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_36",
+        "title": "अनुच्छेद एवं निबंध लेखन (Paragraph & Essay Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_37",
+        "title": "पत्र लेखन (Formal & Informal Letter Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_38",
+        "title": "कहानी लेखन और नीति कथाएँ (Fables & Story Completion - Panchatantra)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_39",
+        "title": "बालगीत और कविताएँ (Nursery Rhymes & Poetry)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      }
+    ],
+    "History": [
+      {
+        "id": "hist_1",
+        "title": "Ancient Civilizations (Egypt, Mesopotamia, Indus Valley)",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_2",
+        "title": "Ancient Greece and Roman Empire",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_3",
+        "title": "Medieval Europe & Feudalism",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_4",
+        "title": "The Renaissance & Scientific Revolution",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_5",
+        "title": "Industrial Revolution & Global Expansion",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_6",
+        "title": "World War I & World War II",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_7",
+        "title": "Australian & Local Indigenous History",
+        "category": "D. Local & Regional History"
+      }
+    ],
+    "Geography": [
+      {
+        "id": "geo_1",
+        "title": "Continents, Oceans & World Map Reading",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_2",
+        "title": "Latitude, Longitude & Time Zones",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_3",
+        "title": "Landforms: Mountains, Rivers, Valleys & Volcanoes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_4",
+        "title": "Weather, Climate Zones & Biomes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_5",
+        "title": "Population, Urbanization & Migration",
+        "category": "C. Human Geography"
+      },
+      {
+        "id": "geo_6",
+        "title": "Natural Resources & Sustainability",
+        "category": "C. Human Geography"
+      }
+    ],
+    "Spanish": [
+      {
+        "id": "es_1",
+        "title": "El Alfabeto y Pronunciación (Alphabet & Sounds)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_2",
+        "title": "Números 1 al 100 (Numbers 1 to 100)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_3",
+        "title": "Saludos, Despedidas y Presentaciones (Greetings & Intro)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_4",
+        "title": "Sustantivos y Artículos - El, La, Los, Las (Nouns & Articles)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_5",
+        "title": "Verbos Comunes - Ser, Estar, Tener, Ir (Common Verbs)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_6",
+        "title": "Vocabulario de la Familia, Comida y Escuela (Vocabulary)",
+        "category": "C. Vocabulario (Vocabulary)"
+      }
+    ],
+    "French": [
+      {
+        "id": "fr_1",
+        "title": "L'Alphabet et la Prononciation (Alphabet & Sounds)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_2",
+        "title": "Les Nombres 1 à 100 (Numbers 1 to 100)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_3",
+        "title": "Salutations et Présentations (Greetings & Intro)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_4",
+        "title": "Les Articles et Noms - Le, La, Les, Un, Une (Articles & Nouns)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_5",
+        "title": "Verbes Essentiels - Être, Avoir, Faire, Aller (Key Verbs)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_6",
+        "title": "Vocabulaire de la Famille et de la Maison (Vocabulary)",
+        "category": "C. Vocabulaire (Vocabulary)"
+      }
+    ],
+    "Computer Science": [
+      {
+        "id": "cs_34_1",
+        "title": "Block-based programming: Command loops & repetition",
+        "category": "A. Programming Fundamentals"
+      },
+      {
+        "id": "cs_34_2",
+        "title": "Conditional statements (If-Then logic)",
+        "category": "A. Programming Fundamentals"
+      },
+      {
+        "id": "cs_34_3",
+        "title": "Variables: Storing scores, names, and numbers",
+        "category": "A. Programming Fundamentals"
+      },
+      {
+        "id": "cs_34_4",
+        "title": "Binary code basics: Bits, 0s and 1s",
+        "category": "B. Data & Representation"
+      },
+      {
+        "id": "cs_34_5",
+        "title": "How the Internet connects computers globally",
+        "category": "C. Networks & Internet"
+      },
+      {
+        "id": "cs_34_6",
+        "title": "Cyberbullying prevention & online kindness",
+        "category": "D. Digital Citizenship"
+      }
+    ],
+    "Financial Literacy": [
+      {
+        "id": "fl_34_1",
+        "title": "Earning income: Jobs, goods, and services",
+        "category": "A. Income & Economy"
+      },
+      {
+        "id": "fl_34_2",
+        "title": "Making a simple weekly spending budget",
+        "category": "B. Budgeting & Planning"
+      },
+      {
+        "id": "fl_34_3",
+        "title": "Understanding receipts, change, and discounts",
+        "category": "C. Smart Shopping"
+      },
+      {
+        "id": "fl_34_4",
+        "title": "Opportunity cost: Choosing one item over another",
+        "category": "B. Budgeting & Planning"
+      },
+      {
+        "id": "fl_34_5",
+        "title": "How banks keep money safe and pay interest",
+        "category": "D. Banking Basics"
+      }
+    ],
+    "Environmental Science": [
+      {
+        "id": "es_34_1",
+        "title": "Food chains and energy pyramids in nature",
+        "category": "A. Ecology & Energy"
+      },
+      {
+        "id": "es_34_2",
+        "title": "Deforestation, reforestation, and soil erosion",
+        "category": "B. Land & Forest Science"
+      },
+      {
+        "id": "es_34_3",
+        "title": "Ocean plastic pollution & marine conservation",
+        "category": "C. Marine Conservation"
+      },
+      {
+        "id": "es_34_4",
+        "title": "Solar energy, wind turbines, and hydropower",
+        "category": "D. Renewable Energy"
+      }
+    ],
+    "Critical Thinking": [
+      {
+        "id": "ct_34_1",
+        "title": "Fact vs. Opinion identification",
+        "category": "A. Logical Analysis"
+      },
+      {
+        "id": "ct_34_2",
+        "title": "Identifying assumptions in arguments",
+        "category": "A. Logical Analysis"
+      },
+      {
+        "id": "ct_34_3",
+        "title": "Grid logic deduction with 3 attributes",
+        "category": "B. Deductive Logic"
+      },
+      {
+        "id": "ct_34_4",
+        "title": "The Engineering Design Process (Plan, Build, Test)",
+        "category": "C. Problem Solving"
+      }
     ]
   },
   "Grade 4": {
@@ -13329,6 +15264,606 @@ export const curriculum = {
         "id": "g4_lr_10",
         "title": "Simple Deductive Reasoning",
         "category": "Logical Reasoning"
+      }
+    ],
+    "Olympiad": [
+      {
+        "id": "ol_34_1",
+        "title": "Divisibility Rules (2, 3, 5, 9, 10)",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_34_2",
+        "title": "Prime Factorisation & Prime Numbers",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_34_3",
+        "title": "Finding the Units Digit of Large Products",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_34_4",
+        "title": "Lowest Common Multiple (LCM) Word Problems",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_34_5",
+        "title": "Greatest Common Divisor (GCD) Word Problems",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_34_6",
+        "title": "Properties of Odd and Even Integers",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_34_7",
+        "title": "Magic Squares and Number Grids",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_34_8",
+        "title": "Consecutive Integer Sums",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_34_9",
+        "title": "Basic Pigeonhole Principle (Socks/Drawers)",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_34_10",
+        "title": "Grid Paths (Shortest Routes on Grid Maps)",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_34_11",
+        "title": "Handshake & Matchmaking Puzzles",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_34_12",
+        "title": "Systematic Listing of Combinations",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_34_13",
+        "title": "Permutations of Words and Letters",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_34_14",
+        "title": "Venn Diagrams (2-Set Intersections)",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_34_15",
+        "title": "Overlapping Intervals & Tree Planting Problems",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_34_16",
+        "title": "Alphametics (Addition & Subtraction Cryptarithms)",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_34_17",
+        "title": "Shape Math (Solving Visual Systems of Equations)",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_34_18",
+        "title": "The Working Backwards Method",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_34_19",
+        "title": "The Chicken and Rabbit Problem (Heuristics)",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_34_20",
+        "title": "Age Word Problems (Past and Future Relationships)",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_34_21",
+        "title": "Excess and Deficit Puzzles",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_34_22",
+        "title": "Gauss Series Summation Methods",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_34_23",
+        "title": "Perimeter of Compound & L-Shaped Polygons",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_34_24",
+        "title": "Shaded Area of Squares, Rectangles & Triangles",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_34_25",
+        "title": "Area on Grid Maps (Counting Unit Squares)",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_34_26",
+        "title": "Spatial Cube Stacks (Visible vs. Hidden Blocks)",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_34_27",
+        "title": "Paper Folding, Symmetry & Mirror Reflections",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_34_28",
+        "title": "Geometry of Angles in Triangles",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_34_29",
+        "title": "Truth-Tellers and Liars (Knights & Knaves)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "ol_34_30",
+        "title": "Grid Logic Elimination (Attribute Matching)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "ol_34_31",
+        "title": "Visual Pattern Matrices (Sequence Prediction)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "ol_34_32",
+        "title": "Clock and Calendar Math (Hand Angles & Leap Years)",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "ol_34_33",
+        "title": "Seating Arrangements and Circular Logic",
+        "category": "Logical Reasoning"
+      }
+    ],
+    "Hindi": [
+      {
+        "id": "hi_1",
+        "title": "स्वर और व्यंजन पहचान (Vowels & Consonants Identification)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_2",
+        "title": "मात्राएँ और शब्द रचना (Matras and Word Formation)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_3",
+        "title": "संयुक्त अक्षर और द्वित्व व्यंजन (Conjunct Characters & Double Consonants)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_4",
+        "title": "हिंदी संख्याएँ 1 से 20 (Hindi Numbers 1 to 20)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_5",
+        "title": "हिंदी संख्याएँ 21 से 50 (Hindi Numbers 21 to 50)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_6",
+        "title": "हिंदी संख्याएँ 51 से 100 (Hindi Numbers 51 to 100)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_7",
+        "title": "संज्ञा और उसके भेद (Nouns and Types)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_8",
+        "title": "सर्वनाम की पहचान (Pronouns Identification)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_9",
+        "title": "विशेषण और उसके उदाहरण (Adjectives & Examples)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_10",
+        "title": "क्रिया और काल (Verbs and Tenses)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_11",
+        "title": "लिंग बदलो - पुल्लिंग और स्त्रीलिंग (Gender - Masculine & Feminine)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_12",
+        "title": "वचन बदलो - एकवचन और बहुवचन (Singular and Plural)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_20",
+        "title": "कारक और परसर्ग (Case Endings & Postpositions - ने, को, से)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_21",
+        "title": "सकर्मक और अकर्मक क्रिया (Transitive & Intransitive Verbs & 'Ne' Rule)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_22",
+        "title": "उपसर्ग और प्रत्यय (Prefixes & Suffixes)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_23",
+        "title": "संधि और समास (Word Compounding & Joining)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_13",
+        "title": "पर्यायवाची शब्द (Synonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_14",
+        "title": "विलोम शब्द (Antonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_15",
+        "title": "अनेक शब्दों के लिए एक शब्द (One Word Substitution)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_16",
+        "title": "मुहावरे और कहावतें (Idioms and Proverbs)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_24",
+        "title": "दिन, महीने और ऋतुएँ (Days, Months & Seasons)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_25",
+        "title": "रंग और आकृतियाँ (Colors & Shapes)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_26",
+        "title": "रिश्ते-नाते (Family Relations Vocabulary)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_27",
+        "title": "शरीर के अंग और स्वास्थ्य (Body Parts & Health)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_28",
+        "title": "फल, सब्जियाँ और मसाले (Fruits, Vegetables & Spices)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_29",
+        "title": "पशु-पक्षी और उनकी बोलियाँ (Animals, Birds & Their Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_30",
+        "title": "श्रुतिसम भिन्नार्थक शब्द (Homophones & Similar Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_17",
+        "title": "शुद्ध और अशुद्ध वाक्य (Correct Sentence Formation)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_18",
+        "title": "विराम चिह्न (Punctuation Marks)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_19",
+        "title": "अपठित गद्यांश (Reading Comprehension)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_31",
+        "title": "शिष्टाचार और अभिवादन (Greetings & Politeness - आप/तुम)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_32",
+        "title": "दिशाएँ और स्थान (Directions & Positioning)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_33",
+        "title": "बाजार और खरीदारी (Shopping, Weights & Bargaining)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_34",
+        "title": "यात्रा और परिवहन (Travel & Transportation)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_35",
+        "title": "चित्र वर्णन (Picture Description & Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_36",
+        "title": "अनुच्छेद एवं निबंध लेखन (Paragraph & Essay Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_37",
+        "title": "पत्र लेखन (Formal & Informal Letter Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_38",
+        "title": "कहानी लेखन और नीति कथाएँ (Fables & Story Completion - Panchatantra)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_39",
+        "title": "बालगीत और कविताएँ (Nursery Rhymes & Poetry)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      }
+    ],
+    "History": [
+      {
+        "id": "hist_1",
+        "title": "Ancient Civilizations (Egypt, Mesopotamia, Indus Valley)",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_2",
+        "title": "Ancient Greece and Roman Empire",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_3",
+        "title": "Medieval Europe & Feudalism",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_4",
+        "title": "The Renaissance & Scientific Revolution",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_5",
+        "title": "Industrial Revolution & Global Expansion",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_6",
+        "title": "World War I & World War II",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_7",
+        "title": "Australian & Local Indigenous History",
+        "category": "D. Local & Regional History"
+      }
+    ],
+    "Geography": [
+      {
+        "id": "geo_1",
+        "title": "Continents, Oceans & World Map Reading",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_2",
+        "title": "Latitude, Longitude & Time Zones",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_3",
+        "title": "Landforms: Mountains, Rivers, Valleys & Volcanoes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_4",
+        "title": "Weather, Climate Zones & Biomes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_5",
+        "title": "Population, Urbanization & Migration",
+        "category": "C. Human Geography"
+      },
+      {
+        "id": "geo_6",
+        "title": "Natural Resources & Sustainability",
+        "category": "C. Human Geography"
+      }
+    ],
+    "Spanish": [
+      {
+        "id": "es_1",
+        "title": "El Alfabeto y Pronunciación (Alphabet & Sounds)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_2",
+        "title": "Números 1 al 100 (Numbers 1 to 100)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_3",
+        "title": "Saludos, Despedidas y Presentaciones (Greetings & Intro)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_4",
+        "title": "Sustantivos y Artículos - El, La, Los, Las (Nouns & Articles)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_5",
+        "title": "Verbos Comunes - Ser, Estar, Tener, Ir (Common Verbs)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_6",
+        "title": "Vocabulario de la Familia, Comida y Escuela (Vocabulary)",
+        "category": "C. Vocabulario (Vocabulary)"
+      }
+    ],
+    "French": [
+      {
+        "id": "fr_1",
+        "title": "L'Alphabet et la Prononciation (Alphabet & Sounds)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_2",
+        "title": "Les Nombres 1 à 100 (Numbers 1 to 100)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_3",
+        "title": "Salutations et Présentations (Greetings & Intro)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_4",
+        "title": "Les Articles et Noms - Le, La, Les, Un, Une (Articles & Nouns)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_5",
+        "title": "Verbes Essentiels - Être, Avoir, Faire, Aller (Key Verbs)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_6",
+        "title": "Vocabulaire de la Famille et de la Maison (Vocabulary)",
+        "category": "C. Vocabulaire (Vocabulary)"
+      }
+    ],
+    "Computer Science": [
+      {
+        "id": "cs_34_1",
+        "title": "Block-based programming: Command loops & repetition",
+        "category": "A. Programming Fundamentals"
+      },
+      {
+        "id": "cs_34_2",
+        "title": "Conditional statements (If-Then logic)",
+        "category": "A. Programming Fundamentals"
+      },
+      {
+        "id": "cs_34_3",
+        "title": "Variables: Storing scores, names, and numbers",
+        "category": "A. Programming Fundamentals"
+      },
+      {
+        "id": "cs_34_4",
+        "title": "Binary code basics: Bits, 0s and 1s",
+        "category": "B. Data & Representation"
+      },
+      {
+        "id": "cs_34_5",
+        "title": "How the Internet connects computers globally",
+        "category": "C. Networks & Internet"
+      },
+      {
+        "id": "cs_34_6",
+        "title": "Cyberbullying prevention & online kindness",
+        "category": "D. Digital Citizenship"
+      }
+    ],
+    "Financial Literacy": [
+      {
+        "id": "fl_34_1",
+        "title": "Earning income: Jobs, goods, and services",
+        "category": "A. Income & Economy"
+      },
+      {
+        "id": "fl_34_2",
+        "title": "Making a simple weekly spending budget",
+        "category": "B. Budgeting & Planning"
+      },
+      {
+        "id": "fl_34_3",
+        "title": "Understanding receipts, change, and discounts",
+        "category": "C. Smart Shopping"
+      },
+      {
+        "id": "fl_34_4",
+        "title": "Opportunity cost: Choosing one item over another",
+        "category": "B. Budgeting & Planning"
+      },
+      {
+        "id": "fl_34_5",
+        "title": "How banks keep money safe and pay interest",
+        "category": "D. Banking Basics"
+      }
+    ],
+    "Environmental Science": [
+      {
+        "id": "es_34_1",
+        "title": "Food chains and energy pyramids in nature",
+        "category": "A. Ecology & Energy"
+      },
+      {
+        "id": "es_34_2",
+        "title": "Deforestation, reforestation, and soil erosion",
+        "category": "B. Land & Forest Science"
+      },
+      {
+        "id": "es_34_3",
+        "title": "Ocean plastic pollution & marine conservation",
+        "category": "C. Marine Conservation"
+      },
+      {
+        "id": "es_34_4",
+        "title": "Solar energy, wind turbines, and hydropower",
+        "category": "D. Renewable Energy"
+      }
+    ],
+    "Critical Thinking": [
+      {
+        "id": "ct_34_1",
+        "title": "Fact vs. Opinion identification",
+        "category": "A. Logical Analysis"
+      },
+      {
+        "id": "ct_34_2",
+        "title": "Identifying assumptions in arguments",
+        "category": "A. Logical Analysis"
+      },
+      {
+        "id": "ct_34_3",
+        "title": "Grid logic deduction with 3 attributes",
+        "category": "B. Deductive Logic"
+      },
+      {
+        "id": "ct_34_4",
+        "title": "The Engineering Design Process (Plan, Build, Test)",
+        "category": "C. Problem Solving"
       }
     ]
   },
@@ -15935,6 +18470,571 @@ export const curriculum = {
         "title": "Number Logic",
         "category": "Logical Reasoning"
       }
+    ],
+    "Olympiad": [
+      {
+        "id": "ol_56_1",
+        "title": "Advanced Divisibility Rules (7, 11, 13)",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_56_2",
+        "title": "GCD, LCM, and Remainder Word Problems",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_56_3",
+        "title": "Modular Arithmetic & Calendar Calculations",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_56_4",
+        "title": "Finding the Last Two Digits of Large Numbers",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_56_5",
+        "title": "Farey Sequences and Fraction Properties",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_56_6",
+        "title": "Factors and Divisors (Counting and Summing)",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_56_7",
+        "title": "Permutations, Combinations & Arrangements",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_56_8",
+        "title": "Pigeonhole Principle (Advanced Sorting)",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_56_9",
+        "title": "Path Counting on Chessboards & Grid Networks",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_56_10",
+        "title": "Venn Diagrams (3-Set Complex Intersections)",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_56_11",
+        "title": "Systematic Tree Diagrams & Probability Trees",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_56_12",
+        "title": "Alphametics with Multiplication & Division",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_56_13",
+        "title": "Solving Visual Algebraic Equations with 3 Variables",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_56_14",
+        "title": "Rate-Time-Distance Word Problems",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_56_15",
+        "title": "Work-Rate Puzzles (Cooperative Pipes & Jobs)",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_56_16",
+        "title": "Multi-Step Fraction Word Problems",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_56_17",
+        "title": "Arithmetic & Geometric Sequences",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_56_18",
+        "title": "Pythagorean Theorem & Geometric Angle Puzzles",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_56_19",
+        "title": "Inscribed Figures & Shifting Shaded Segments",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_56_20",
+        "title": "Nets, Surface Area & Volumes of 3D Prisms",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_56_21",
+        "title": "Transformational Geometry (Rotation, Dilations)",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_56_22",
+        "title": "Complex Liars & Truth-Tellers Deduction",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "ol_56_23",
+        "title": "Logic grids & multi-parameter elimination",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "ol_56_24",
+        "title": "Symmetric Game Strategies & Winning Piles",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "ol_56_25",
+        "title": "Cryptographic Decryption & Cipher Decoding",
+        "category": "Logical Reasoning"
+      }
+    ],
+    "Hindi": [
+      {
+        "id": "hi_1",
+        "title": "स्वर और व्यंजन पहचान (Vowels & Consonants Identification)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_2",
+        "title": "मात्राएँ और शब्द रचना (Matras and Word Formation)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_3",
+        "title": "संयुक्त अक्षर और द्वित्व व्यंजन (Conjunct Characters & Double Consonants)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_4",
+        "title": "हिंदी संख्याएँ 1 से 20 (Hindi Numbers 1 to 20)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_5",
+        "title": "हिंदी संख्याएँ 21 से 50 (Hindi Numbers 21 to 50)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_6",
+        "title": "हिंदी संख्याएँ 51 से 100 (Hindi Numbers 51 to 100)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_7",
+        "title": "संज्ञा और उसके भेद (Nouns and Types)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_8",
+        "title": "सर्वनाम की पहचान (Pronouns Identification)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_9",
+        "title": "विशेषण और उसके उदाहरण (Adjectives & Examples)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_10",
+        "title": "क्रिया और काल (Verbs and Tenses)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_11",
+        "title": "लिंग बदलो - पुल्लिंग और स्त्रीलिंग (Gender - Masculine & Feminine)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_12",
+        "title": "वचन बदलो - एकवचन और बहुवचन (Singular and Plural)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_20",
+        "title": "कारक और परसर्ग (Case Endings & Postpositions - ने, को, से)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_21",
+        "title": "सकर्मक और अकर्मक क्रिया (Transitive & Intransitive Verbs & 'Ne' Rule)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_22",
+        "title": "उपसर्ग और प्रत्यय (Prefixes & Suffixes)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_23",
+        "title": "संधि और समास (Word Compounding & Joining)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_13",
+        "title": "पर्यायवाची शब्द (Synonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_14",
+        "title": "विलोम शब्द (Antonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_15",
+        "title": "अनेक शब्दों के लिए एक शब्द (One Word Substitution)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_16",
+        "title": "मुहावरे और कहावतें (Idioms and Proverbs)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_24",
+        "title": "दिन, महीने और ऋतुएँ (Days, Months & Seasons)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_25",
+        "title": "रंग और आकृतियाँ (Colors & Shapes)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_26",
+        "title": "रिश्ते-नाते (Family Relations Vocabulary)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_27",
+        "title": "शरीर के अंग और स्वास्थ्य (Body Parts & Health)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_28",
+        "title": "फल, सब्जियाँ और मसाले (Fruits, Vegetables & Spices)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_29",
+        "title": "पशु-पक्षी और उनकी बोलियाँ (Animals, Birds & Their Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_30",
+        "title": "श्रुतिसम भिन्नार्थक शब्द (Homophones & Similar Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_17",
+        "title": "शुद्ध और अशुद्ध वाक्य (Correct Sentence Formation)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_18",
+        "title": "विराम चिह्न (Punctuation Marks)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_19",
+        "title": "अपठित गद्यांश (Reading Comprehension)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_31",
+        "title": "शिष्टाचार और अभिवादन (Greetings & Politeness - आप/तुम)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_32",
+        "title": "दिशाएँ और स्थान (Directions & Positioning)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_33",
+        "title": "बाजार और खरीदारी (Shopping, Weights & Bargaining)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_34",
+        "title": "यात्रा और परिवहन (Travel & Transportation)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_35",
+        "title": "चित्र वर्णन (Picture Description & Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_36",
+        "title": "अनुच्छेद एवं निबंध लेखन (Paragraph & Essay Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_37",
+        "title": "पत्र लेखन (Formal & Informal Letter Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_38",
+        "title": "कहानी लेखन और नीति कथाएँ (Fables & Story Completion - Panchatantra)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_39",
+        "title": "बालगीत और कविताएँ (Nursery Rhymes & Poetry)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      }
+    ],
+    "History": [
+      {
+        "id": "hist_1",
+        "title": "Ancient Civilizations (Egypt, Mesopotamia, Indus Valley)",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_2",
+        "title": "Ancient Greece and Roman Empire",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_3",
+        "title": "Medieval Europe & Feudalism",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_4",
+        "title": "The Renaissance & Scientific Revolution",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_5",
+        "title": "Industrial Revolution & Global Expansion",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_6",
+        "title": "World War I & World War II",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_7",
+        "title": "Australian & Local Indigenous History",
+        "category": "D. Local & Regional History"
+      }
+    ],
+    "Geography": [
+      {
+        "id": "geo_1",
+        "title": "Continents, Oceans & World Map Reading",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_2",
+        "title": "Latitude, Longitude & Time Zones",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_3",
+        "title": "Landforms: Mountains, Rivers, Valleys & Volcanoes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_4",
+        "title": "Weather, Climate Zones & Biomes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_5",
+        "title": "Population, Urbanization & Migration",
+        "category": "C. Human Geography"
+      },
+      {
+        "id": "geo_6",
+        "title": "Natural Resources & Sustainability",
+        "category": "C. Human Geography"
+      }
+    ],
+    "Spanish": [
+      {
+        "id": "es_1",
+        "title": "El Alfabeto y Pronunciación (Alphabet & Sounds)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_2",
+        "title": "Números 1 al 100 (Numbers 1 to 100)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_3",
+        "title": "Saludos, Despedidas y Presentaciones (Greetings & Intro)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_4",
+        "title": "Sustantivos y Artículos - El, La, Los, Las (Nouns & Articles)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_5",
+        "title": "Verbos Comunes - Ser, Estar, Tener, Ir (Common Verbs)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_6",
+        "title": "Vocabulario de la Familia, Comida y Escuela (Vocabulary)",
+        "category": "C. Vocabulario (Vocabulary)"
+      }
+    ],
+    "French": [
+      {
+        "id": "fr_1",
+        "title": "L'Alphabet et la Prononciation (Alphabet & Sounds)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_2",
+        "title": "Les Nombres 1 à 100 (Numbers 1 to 100)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_3",
+        "title": "Salutations et Présentations (Greetings & Intro)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_4",
+        "title": "Les Articles et Noms - Le, La, Les, Un, Une (Articles & Nouns)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_5",
+        "title": "Verbes Essentiels - Être, Avoir, Faire, Aller (Key Verbs)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_6",
+        "title": "Vocabulaire de la Famille et de la Maison (Vocabulary)",
+        "category": "C. Vocabulaire (Vocabulary)"
+      }
+    ],
+    "Computer Science": [
+      {
+        "id": "cs_56_1",
+        "title": "Functions, parameters, and code reusability",
+        "category": "A. Software Development"
+      },
+      {
+        "id": "cs_56_2",
+        "title": "Introduction to Text-based syntax (Python basics)",
+        "category": "A. Software Development"
+      },
+      {
+        "id": "cs_56_3",
+        "title": "HTML tags, headings, paragraphs, and links",
+        "category": "B. Web Development"
+      },
+      {
+        "id": "cs_56_4",
+        "title": "CSS styling: Colors, fonts, and box margins",
+        "category": "B. Web Development"
+      },
+      {
+        "id": "cs_56_5",
+        "title": "Data units: Bytes, Kilobytes, Megabytes, Gigabytes",
+        "category": "C. Data Systems"
+      },
+      {
+        "id": "cs_56_6",
+        "title": "How search engines index and rank web pages",
+        "category": "D. Internet & Networks"
+      }
+    ],
+    "Financial Literacy": [
+      {
+        "id": "fl_56_1",
+        "title": "Simple interest formula (I = P * R * T)",
+        "category": "A. Financial Math"
+      },
+      {
+        "id": "fl_56_2",
+        "title": "Debit cards vs. Credit cards vs. Cash",
+        "category": "B. Payment Systems"
+      },
+      {
+        "id": "fl_56_3",
+        "title": "Profit, Loss, and Break-Even Point in business",
+        "category": "C. Entrepreneurship"
+      },
+      {
+        "id": "fl_56_4",
+        "title": "Understanding taxes: Sales tax & Income tax",
+        "category": "D. Taxes & Economy"
+      },
+      {
+        "id": "fl_56_5",
+        "title": "Creating a business product proposal",
+        "category": "C. Entrepreneurship"
+      }
+    ],
+    "Environmental Science": [
+      {
+        "id": "es_56_1",
+        "title": "The Carbon Cycle & Greenhouse Gases",
+        "category": "A. Climate Science"
+      },
+      {
+        "id": "es_56_2",
+        "title": "Global Warming causes, effects, and mitigation",
+        "category": "A. Climate Science"
+      },
+      {
+        "id": "es_56_3",
+        "title": "Biodiversity hotspots and endangered species",
+        "category": "B. Biodiversity"
+      },
+      {
+        "id": "es_56_4",
+        "title": "Sustainable agriculture & organic farming",
+        "category": "C. Sustainability"
+      },
+      {
+        "id": "es_56_5",
+        "title": "UN Sustainable Development Goal 13: Climate Action",
+        "category": "C. Sustainability"
+      }
+    ],
+    "Critical Thinking": [
+      {
+        "id": "ct_56_1",
+        "title": "Common logical fallacies (Ad Hominem, Strawman)",
+        "category": "A. Argumentation"
+      },
+      {
+        "id": "ct_56_2",
+        "title": "Socratic questioning & deep inquiry methods",
+        "category": "A. Argumentation"
+      },
+      {
+        "id": "ct_56_3",
+        "title": "Active Recall & Spaced Repetition study science",
+        "category": "B. Cognitive Skills"
+      },
+      {
+        "id": "ct_56_4",
+        "title": "Multi-criteria decision matrix analysis",
+        "category": "B. Cognitive Skills"
+      }
     ]
   },
   "Grade 6": {
@@ -18349,6 +21449,571 @@ export const curriculum = {
         "id": "g6_lr_10",
         "title": "Spatial Reasoning",
         "category": "Logical Reasoning"
+      }
+    ],
+    "Olympiad": [
+      {
+        "id": "ol_56_1",
+        "title": "Advanced Divisibility Rules (7, 11, 13)",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_56_2",
+        "title": "GCD, LCM, and Remainder Word Problems",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_56_3",
+        "title": "Modular Arithmetic & Calendar Calculations",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_56_4",
+        "title": "Finding the Last Two Digits of Large Numbers",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_56_5",
+        "title": "Farey Sequences and Fraction Properties",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_56_6",
+        "title": "Factors and Divisors (Counting and Summing)",
+        "category": "Number Theory"
+      },
+      {
+        "id": "ol_56_7",
+        "title": "Permutations, Combinations & Arrangements",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_56_8",
+        "title": "Pigeonhole Principle (Advanced Sorting)",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_56_9",
+        "title": "Path Counting on Chessboards & Grid Networks",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_56_10",
+        "title": "Venn Diagrams (3-Set Complex Intersections)",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_56_11",
+        "title": "Systematic Tree Diagrams & Probability Trees",
+        "category": "Combinatorics & Counting"
+      },
+      {
+        "id": "ol_56_12",
+        "title": "Alphametics with Multiplication & Division",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_56_13",
+        "title": "Solving Visual Algebraic Equations with 3 Variables",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_56_14",
+        "title": "Rate-Time-Distance Word Problems",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_56_15",
+        "title": "Work-Rate Puzzles (Cooperative Pipes & Jobs)",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_56_16",
+        "title": "Multi-Step Fraction Word Problems",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_56_17",
+        "title": "Arithmetic & Geometric Sequences",
+        "category": "Mathematical Operations"
+      },
+      {
+        "id": "ol_56_18",
+        "title": "Pythagorean Theorem & Geometric Angle Puzzles",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_56_19",
+        "title": "Inscribed Figures & Shifting Shaded Segments",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_56_20",
+        "title": "Nets, Surface Area & Volumes of 3D Prisms",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_56_21",
+        "title": "Transformational Geometry (Rotation, Dilations)",
+        "category": "Geometry & Measurement"
+      },
+      {
+        "id": "ol_56_22",
+        "title": "Complex Liars & Truth-Tellers Deduction",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "ol_56_23",
+        "title": "Logic grids & multi-parameter elimination",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "ol_56_24",
+        "title": "Symmetric Game Strategies & Winning Piles",
+        "category": "Logical Reasoning"
+      },
+      {
+        "id": "ol_56_25",
+        "title": "Cryptographic Decryption & Cipher Decoding",
+        "category": "Logical Reasoning"
+      }
+    ],
+    "Hindi": [
+      {
+        "id": "hi_1",
+        "title": "स्वर और व्यंजन पहचान (Vowels & Consonants Identification)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_2",
+        "title": "मात्राएँ और शब्द रचना (Matras and Word Formation)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_3",
+        "title": "संयुक्त अक्षर और द्वित्व व्यंजन (Conjunct Characters & Double Consonants)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_4",
+        "title": "हिंदी संख्याएँ 1 से 20 (Hindi Numbers 1 to 20)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_5",
+        "title": "हिंदी संख्याएँ 21 से 50 (Hindi Numbers 21 to 50)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_6",
+        "title": "हिंदी संख्याएँ 51 से 100 (Hindi Numbers 51 to 100)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_7",
+        "title": "संज्ञा और उसके भेद (Nouns and Types)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_8",
+        "title": "सर्वनाम की पहचान (Pronouns Identification)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_9",
+        "title": "विशेषण और उसके उदाहरण (Adjectives & Examples)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_10",
+        "title": "क्रिया और काल (Verbs and Tenses)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_11",
+        "title": "लिंग बदलो - पुल्लिंग और स्त्रीलिंग (Gender - Masculine & Feminine)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_12",
+        "title": "वचन बदलो - एकवचन और बहुवचन (Singular and Plural)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_20",
+        "title": "कारक और परसर्ग (Case Endings & Postpositions - ने, को, से)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_21",
+        "title": "सकर्मक और अकर्मक क्रिया (Transitive & Intransitive Verbs & 'Ne' Rule)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_22",
+        "title": "उपसर्ग और प्रत्यय (Prefixes & Suffixes)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_23",
+        "title": "संधि और समास (Word Compounding & Joining)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_13",
+        "title": "पर्यायवाची शब्द (Synonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_14",
+        "title": "विलोम शब्द (Antonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_15",
+        "title": "अनेक शब्दों के लिए एक शब्द (One Word Substitution)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_16",
+        "title": "मुहावरे और कहावतें (Idioms and Proverbs)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_24",
+        "title": "दिन, महीने और ऋतुएँ (Days, Months & Seasons)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_25",
+        "title": "रंग और आकृतियाँ (Colors & Shapes)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_26",
+        "title": "रिश्ते-नाते (Family Relations Vocabulary)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_27",
+        "title": "शरीर के अंग और स्वास्थ्य (Body Parts & Health)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_28",
+        "title": "फल, सब्जियाँ और मसाले (Fruits, Vegetables & Spices)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_29",
+        "title": "पशु-पक्षी और उनकी बोलियाँ (Animals, Birds & Their Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_30",
+        "title": "श्रुतिसम भिन्नार्थक शब्द (Homophones & Similar Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_17",
+        "title": "शुद्ध और अशुद्ध वाक्य (Correct Sentence Formation)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_18",
+        "title": "विराम चिह्न (Punctuation Marks)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_19",
+        "title": "अपठित गद्यांश (Reading Comprehension)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_31",
+        "title": "शिष्टाचार और अभिवादन (Greetings & Politeness - आप/तुम)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_32",
+        "title": "दिशाएँ और स्थान (Directions & Positioning)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_33",
+        "title": "बाजार और खरीदारी (Shopping, Weights & Bargaining)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_34",
+        "title": "यात्रा और परिवहन (Travel & Transportation)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_35",
+        "title": "चित्र वर्णन (Picture Description & Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_36",
+        "title": "अनुच्छेद एवं निबंध लेखन (Paragraph & Essay Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_37",
+        "title": "पत्र लेखन (Formal & Informal Letter Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_38",
+        "title": "कहानी लेखन और नीति कथाएँ (Fables & Story Completion - Panchatantra)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_39",
+        "title": "बालगीत और कविताएँ (Nursery Rhymes & Poetry)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      }
+    ],
+    "History": [
+      {
+        "id": "hist_1",
+        "title": "Ancient Civilizations (Egypt, Mesopotamia, Indus Valley)",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_2",
+        "title": "Ancient Greece and Roman Empire",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_3",
+        "title": "Medieval Europe & Feudalism",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_4",
+        "title": "The Renaissance & Scientific Revolution",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_5",
+        "title": "Industrial Revolution & Global Expansion",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_6",
+        "title": "World War I & World War II",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_7",
+        "title": "Australian & Local Indigenous History",
+        "category": "D. Local & Regional History"
+      }
+    ],
+    "Geography": [
+      {
+        "id": "geo_1",
+        "title": "Continents, Oceans & World Map Reading",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_2",
+        "title": "Latitude, Longitude & Time Zones",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_3",
+        "title": "Landforms: Mountains, Rivers, Valleys & Volcanoes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_4",
+        "title": "Weather, Climate Zones & Biomes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_5",
+        "title": "Population, Urbanization & Migration",
+        "category": "C. Human Geography"
+      },
+      {
+        "id": "geo_6",
+        "title": "Natural Resources & Sustainability",
+        "category": "C. Human Geography"
+      }
+    ],
+    "Spanish": [
+      {
+        "id": "es_1",
+        "title": "El Alfabeto y Pronunciación (Alphabet & Sounds)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_2",
+        "title": "Números 1 al 100 (Numbers 1 to 100)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_3",
+        "title": "Saludos, Despedidas y Presentaciones (Greetings & Intro)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_4",
+        "title": "Sustantivos y Artículos - El, La, Los, Las (Nouns & Articles)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_5",
+        "title": "Verbos Comunes - Ser, Estar, Tener, Ir (Common Verbs)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_6",
+        "title": "Vocabulario de la Familia, Comida y Escuela (Vocabulary)",
+        "category": "C. Vocabulario (Vocabulary)"
+      }
+    ],
+    "French": [
+      {
+        "id": "fr_1",
+        "title": "L'Alphabet et la Prononciation (Alphabet & Sounds)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_2",
+        "title": "Les Nombres 1 à 100 (Numbers 1 to 100)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_3",
+        "title": "Salutations et Présentations (Greetings & Intro)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_4",
+        "title": "Les Articles et Noms - Le, La, Les, Un, Une (Articles & Nouns)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_5",
+        "title": "Verbes Essentiels - Être, Avoir, Faire, Aller (Key Verbs)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_6",
+        "title": "Vocabulaire de la Famille et de la Maison (Vocabulary)",
+        "category": "C. Vocabulaire (Vocabulary)"
+      }
+    ],
+    "Computer Science": [
+      {
+        "id": "cs_56_1",
+        "title": "Functions, parameters, and code reusability",
+        "category": "A. Software Development"
+      },
+      {
+        "id": "cs_56_2",
+        "title": "Introduction to Text-based syntax (Python basics)",
+        "category": "A. Software Development"
+      },
+      {
+        "id": "cs_56_3",
+        "title": "HTML tags, headings, paragraphs, and links",
+        "category": "B. Web Development"
+      },
+      {
+        "id": "cs_56_4",
+        "title": "CSS styling: Colors, fonts, and box margins",
+        "category": "B. Web Development"
+      },
+      {
+        "id": "cs_56_5",
+        "title": "Data units: Bytes, Kilobytes, Megabytes, Gigabytes",
+        "category": "C. Data Systems"
+      },
+      {
+        "id": "cs_56_6",
+        "title": "How search engines index and rank web pages",
+        "category": "D. Internet & Networks"
+      }
+    ],
+    "Financial Literacy": [
+      {
+        "id": "fl_56_1",
+        "title": "Simple interest formula (I = P * R * T)",
+        "category": "A. Financial Math"
+      },
+      {
+        "id": "fl_56_2",
+        "title": "Debit cards vs. Credit cards vs. Cash",
+        "category": "B. Payment Systems"
+      },
+      {
+        "id": "fl_56_3",
+        "title": "Profit, Loss, and Break-Even Point in business",
+        "category": "C. Entrepreneurship"
+      },
+      {
+        "id": "fl_56_4",
+        "title": "Understanding taxes: Sales tax & Income tax",
+        "category": "D. Taxes & Economy"
+      },
+      {
+        "id": "fl_56_5",
+        "title": "Creating a business product proposal",
+        "category": "C. Entrepreneurship"
+      }
+    ],
+    "Environmental Science": [
+      {
+        "id": "es_56_1",
+        "title": "The Carbon Cycle & Greenhouse Gases",
+        "category": "A. Climate Science"
+      },
+      {
+        "id": "es_56_2",
+        "title": "Global Warming causes, effects, and mitigation",
+        "category": "A. Climate Science"
+      },
+      {
+        "id": "es_56_3",
+        "title": "Biodiversity hotspots and endangered species",
+        "category": "B. Biodiversity"
+      },
+      {
+        "id": "es_56_4",
+        "title": "Sustainable agriculture & organic farming",
+        "category": "C. Sustainability"
+      },
+      {
+        "id": "es_56_5",
+        "title": "UN Sustainable Development Goal 13: Climate Action",
+        "category": "C. Sustainability"
+      }
+    ],
+    "Critical Thinking": [
+      {
+        "id": "ct_56_1",
+        "title": "Common logical fallacies (Ad Hominem, Strawman)",
+        "category": "A. Argumentation"
+      },
+      {
+        "id": "ct_56_2",
+        "title": "Socratic questioning & deep inquiry methods",
+        "category": "A. Argumentation"
+      },
+      {
+        "id": "ct_56_3",
+        "title": "Active Recall & Spaced Repetition study science",
+        "category": "B. Cognitive Skills"
+      },
+      {
+        "id": "ct_56_4",
+        "title": "Multi-criteria decision matrix analysis",
+        "category": "B. Cognitive Skills"
       }
     ]
   },
@@ -21150,6 +24815,481 @@ export const curriculum = {
         "title": "Analytical Reasoning",
         "category": "Logical Reasoning"
       }
+    ],
+    "Olympiad": [
+      {
+        "id": "ol_78_1",
+        "title": "Prime Factorisation & Diophantine Equations",
+        "category": "A. Higher Number Theory"
+      },
+      {
+        "id": "ol_78_2",
+        "title": "Modular Arithmetic Congruences & Divisibility Proofs",
+        "category": "A. Higher Number Theory"
+      },
+      {
+        "id": "ol_78_3",
+        "title": "Combinatorics Permutations (nPr) and Combinations (nCr)",
+        "category": "B. Advanced Combinatorics"
+      },
+      {
+        "id": "ol_78_4",
+        "title": "Advanced Pigeonhole Principle & Extremal Cases",
+        "category": "B. Advanced Combinatorics"
+      },
+      {
+        "id": "ol_78_5",
+        "title": "System of Linear Equations & Functional Relations",
+        "category": "C. Algebra"
+      },
+      {
+        "id": "ol_78_6",
+        "title": "Factoring Polynomials & Quadratic Sequences",
+        "category": "C. Algebra"
+      },
+      {
+        "id": "ol_78_7",
+        "title": "Angles, Similarity and Congruence in Polygons",
+        "category": "D. Geometry & Measurement"
+      },
+      {
+        "id": "ol_78_8",
+        "title": "Chessboard Coloring Proofs & Grid Route Puzzles",
+        "category": "E. Logical Reasoning"
+      }
+    ],
+    "Hindi": [
+      {
+        "id": "hi_1",
+        "title": "स्वर और व्यंजन पहचान (Vowels & Consonants Identification)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_2",
+        "title": "मात्राएँ और शब्द रचना (Matras and Word Formation)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_3",
+        "title": "संयुक्त अक्षर और द्वित्व व्यंजन (Conjunct Characters & Double Consonants)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_4",
+        "title": "हिंदी संख्याएँ 1 से 20 (Hindi Numbers 1 to 20)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_5",
+        "title": "हिंदी संख्याएँ 21 से 50 (Hindi Numbers 21 to 50)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_6",
+        "title": "हिंदी संख्याएँ 51 से 100 (Hindi Numbers 51 to 100)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_7",
+        "title": "संज्ञा और उसके भेद (Nouns and Types)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_8",
+        "title": "सर्वनाम की पहचान (Pronouns Identification)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_9",
+        "title": "विशेषण और उसके उदाहरण (Adjectives & Examples)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_10",
+        "title": "क्रिया और काल (Verbs and Tenses)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_11",
+        "title": "लिंग बदलो - पुल्लिंग और स्त्रीलिंग (Gender - Masculine & Feminine)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_12",
+        "title": "वचन बदलो - एकवचन और बहुवचन (Singular and Plural)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_20",
+        "title": "कारक और परसर्ग (Case Endings & Postpositions - ने, को, से)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_21",
+        "title": "सकर्मक और अकर्मक क्रिया (Transitive & Intransitive Verbs & 'Ne' Rule)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_22",
+        "title": "उपसर्ग और प्रत्यय (Prefixes & Suffixes)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_23",
+        "title": "संधि और समास (Word Compounding & Joining)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_13",
+        "title": "पर्यायवाची शब्द (Synonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_14",
+        "title": "विलोम शब्द (Antonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_15",
+        "title": "अनेक शब्दों के लिए एक शब्द (One Word Substitution)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_16",
+        "title": "मुहावरे और कहावतें (Idioms and Proverbs)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_24",
+        "title": "दिन, महीने और ऋतुएँ (Days, Months & Seasons)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_25",
+        "title": "रंग और आकृतियाँ (Colors & Shapes)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_26",
+        "title": "रिश्ते-नाते (Family Relations Vocabulary)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_27",
+        "title": "शरीर के अंग और स्वास्थ्य (Body Parts & Health)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_28",
+        "title": "फल, सब्जियाँ और मसाले (Fruits, Vegetables & Spices)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_29",
+        "title": "पशु-पक्षी और उनकी बोलियाँ (Animals, Birds & Their Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_30",
+        "title": "श्रुतिसम भिन्नार्थक शब्द (Homophones & Similar Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_17",
+        "title": "शुद्ध और अशुद्ध वाक्य (Correct Sentence Formation)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_18",
+        "title": "विराम चिह्न (Punctuation Marks)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_19",
+        "title": "अपठित गद्यांश (Reading Comprehension)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_31",
+        "title": "शिष्टाचार और अभिवादन (Greetings & Politeness - आप/तुम)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_32",
+        "title": "दिशाएँ और स्थान (Directions & Positioning)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_33",
+        "title": "बाजार और खरीदारी (Shopping, Weights & Bargaining)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_34",
+        "title": "यात्रा और परिवहन (Travel & Transportation)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_35",
+        "title": "चित्र वर्णन (Picture Description & Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_36",
+        "title": "अनुच्छेद एवं निबंध लेखन (Paragraph & Essay Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_37",
+        "title": "पत्र लेखन (Formal & Informal Letter Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_38",
+        "title": "कहानी लेखन और नीति कथाएँ (Fables & Story Completion - Panchatantra)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_39",
+        "title": "बालगीत और कविताएँ (Nursery Rhymes & Poetry)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      }
+    ],
+    "History": [
+      {
+        "id": "hist_1",
+        "title": "Ancient Civilizations (Egypt, Mesopotamia, Indus Valley)",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_2",
+        "title": "Ancient Greece and Roman Empire",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_3",
+        "title": "Medieval Europe & Feudalism",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_4",
+        "title": "The Renaissance & Scientific Revolution",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_5",
+        "title": "Industrial Revolution & Global Expansion",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_6",
+        "title": "World War I & World War II",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_7",
+        "title": "Australian & Local Indigenous History",
+        "category": "D. Local & Regional History"
+      }
+    ],
+    "Geography": [
+      {
+        "id": "geo_1",
+        "title": "Continents, Oceans & World Map Reading",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_2",
+        "title": "Latitude, Longitude & Time Zones",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_3",
+        "title": "Landforms: Mountains, Rivers, Valleys & Volcanoes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_4",
+        "title": "Weather, Climate Zones & Biomes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_5",
+        "title": "Population, Urbanization & Migration",
+        "category": "C. Human Geography"
+      },
+      {
+        "id": "geo_6",
+        "title": "Natural Resources & Sustainability",
+        "category": "C. Human Geography"
+      }
+    ],
+    "Spanish": [
+      {
+        "id": "es_1",
+        "title": "El Alfabeto y Pronunciación (Alphabet & Sounds)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_2",
+        "title": "Números 1 al 100 (Numbers 1 to 100)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_3",
+        "title": "Saludos, Despedidas y Presentaciones (Greetings & Intro)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_4",
+        "title": "Sustantivos y Artículos - El, La, Los, Las (Nouns & Articles)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_5",
+        "title": "Verbos Comunes - Ser, Estar, Tener, Ir (Common Verbs)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_6",
+        "title": "Vocabulario de la Familia, Comida y Escuela (Vocabulary)",
+        "category": "C. Vocabulario (Vocabulary)"
+      }
+    ],
+    "French": [
+      {
+        "id": "fr_1",
+        "title": "L'Alphabet et la Prononciation (Alphabet & Sounds)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_2",
+        "title": "Les Nombres 1 à 100 (Numbers 1 to 100)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_3",
+        "title": "Salutations et Présentations (Greetings & Intro)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_4",
+        "title": "Les Articles et Noms - Le, La, Les, Un, Une (Articles & Nouns)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_5",
+        "title": "Verbes Essentiels - Être, Avoir, Faire, Aller (Key Verbs)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_6",
+        "title": "Vocabulaire de la Famille et de la Maison (Vocabulary)",
+        "category": "C. Vocabulaire (Vocabulary)"
+      }
+    ],
+    "Computer Science": [
+      {
+        "id": "cs_78_1",
+        "title": "Python Data Types, Lists, Dictionaries, and Loops",
+        "category": "A. Python Programming"
+      },
+      {
+        "id": "cs_78_2",
+        "title": "Object-Oriented Programming (Classes & Objects)",
+        "category": "A. Python Programming"
+      },
+      {
+        "id": "cs_78_3",
+        "title": "JavaScript DOM manipulation & interactive buttons",
+        "category": "B. Web Development"
+      },
+      {
+        "id": "cs_78_4",
+        "title": "Cybersecurity threats: Phishing, Malware & Firewalls",
+        "category": "C. Cybersecurity"
+      },
+      {
+        "id": "cs_78_5",
+        "title": "Symmetric vs. Asymmetric encryption basics",
+        "category": "C. Cybersecurity"
+      },
+      {
+        "id": "cs_78_6",
+        "title": "Introduction to Artificial Intelligence & Neural Networks",
+        "category": "D. AI & Future Tech"
+      }
+    ],
+    "Financial Literacy": [
+      {
+        "id": "fl_78_1",
+        "title": "Compound interest and the Rule of 72",
+        "category": "A. Wealth Building"
+      },
+      {
+        "id": "fl_78_2",
+        "title": "Introduction to Stock Markets, Shares & Dividends",
+        "category": "B. Investing"
+      },
+      {
+        "id": "fl_78_3",
+        "title": "Inflation and purchasing power over time",
+        "category": "C. Macroeconomics"
+      },
+      {
+        "id": "fl_78_4",
+        "title": "Mutual funds, ETFs, and index diversification",
+        "category": "B. Investing"
+      },
+      {
+        "id": "fl_78_5",
+        "title": "Credit scores, debt management, and interest rates",
+        "category": "D. Banking & Credit"
+      }
+    ],
+    "Environmental Science": [
+      {
+        "id": "es_78_1",
+        "title": "Ocean Acidification, Coral Bleaching & Marine Chemistry",
+        "category": "A. Marine & Climate"
+      },
+      {
+        "id": "es_78_2",
+        "title": "Renewable energy grid integration & battery storage",
+        "category": "B. Energy Engineering"
+      },
+      {
+        "id": "es_78_3",
+        "title": "Ecological footprint calculations & Earth Overshoot",
+        "category": "C. Human Impact"
+      },
+      {
+        "id": "es_78_4",
+        "title": "Environmental policy, carbon credits, and treaties",
+        "category": "C. Human Impact"
+      }
+    ],
+    "Critical Thinking": [
+      {
+        "id": "ct_78_1",
+        "title": "Cognitive biases (Confirmation Bias, Availability Heuristic)",
+        "category": "A. Behavioral Psychology"
+      },
+      {
+        "id": "ct_78_2",
+        "title": "STEM Engineering Design Process (Iterative prototyping)",
+        "category": "B. Engineering Logic"
+      },
+      {
+        "id": "ct_78_3",
+        "title": "Evaluating source credibility & detecting fake news",
+        "category": "C. Media Literacy"
+      },
+      {
+        "id": "ct_78_4",
+        "title": "Ethical frameworks: Utilitarianism, Deontology & Virtue Ethics",
+        "category": "D. Ethics"
+      }
     ]
   },
   "Grade 8": {
@@ -23935,6 +28075,481 @@ export const curriculum = {
         "title": "Mixed Logic Problems",
         "category": "Logical Reasoning"
       }
+    ],
+    "Olympiad": [
+      {
+        "id": "ol_78_1",
+        "title": "Prime Factorisation & Diophantine Equations",
+        "category": "A. Higher Number Theory"
+      },
+      {
+        "id": "ol_78_2",
+        "title": "Modular Arithmetic Congruences & Divisibility Proofs",
+        "category": "A. Higher Number Theory"
+      },
+      {
+        "id": "ol_78_3",
+        "title": "Combinatorics Permutations (nPr) and Combinations (nCr)",
+        "category": "B. Advanced Combinatorics"
+      },
+      {
+        "id": "ol_78_4",
+        "title": "Advanced Pigeonhole Principle & Extremal Cases",
+        "category": "B. Advanced Combinatorics"
+      },
+      {
+        "id": "ol_78_5",
+        "title": "System of Linear Equations & Functional Relations",
+        "category": "C. Algebra"
+      },
+      {
+        "id": "ol_78_6",
+        "title": "Factoring Polynomials & Quadratic Sequences",
+        "category": "C. Algebra"
+      },
+      {
+        "id": "ol_78_7",
+        "title": "Angles, Similarity and Congruence in Polygons",
+        "category": "D. Geometry & Measurement"
+      },
+      {
+        "id": "ol_78_8",
+        "title": "Chessboard Coloring Proofs & Grid Route Puzzles",
+        "category": "E. Logical Reasoning"
+      }
+    ],
+    "Hindi": [
+      {
+        "id": "hi_1",
+        "title": "स्वर और व्यंजन पहचान (Vowels & Consonants Identification)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_2",
+        "title": "मात्राएँ और शब्द रचना (Matras and Word Formation)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_3",
+        "title": "संयुक्त अक्षर और द्वित्व व्यंजन (Conjunct Characters & Double Consonants)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_4",
+        "title": "हिंदी संख्याएँ 1 से 20 (Hindi Numbers 1 to 20)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_5",
+        "title": "हिंदी संख्याएँ 21 से 50 (Hindi Numbers 21 to 50)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_6",
+        "title": "हिंदी संख्याएँ 51 से 100 (Hindi Numbers 51 to 100)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_7",
+        "title": "संज्ञा और उसके भेद (Nouns and Types)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_8",
+        "title": "सर्वनाम की पहचान (Pronouns Identification)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_9",
+        "title": "विशेषण और उसके उदाहरण (Adjectives & Examples)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_10",
+        "title": "क्रिया और काल (Verbs and Tenses)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_11",
+        "title": "लिंग बदलो - पुल्लिंग और स्त्रीलिंग (Gender - Masculine & Feminine)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_12",
+        "title": "वचन बदलो - एकवचन और बहुवचन (Singular and Plural)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_20",
+        "title": "कारक और परसर्ग (Case Endings & Postpositions - ने, को, से)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_21",
+        "title": "सकर्मक और अकर्मक क्रिया (Transitive & Intransitive Verbs & 'Ne' Rule)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_22",
+        "title": "उपसर्ग और प्रत्यय (Prefixes & Suffixes)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_23",
+        "title": "संधि और समास (Word Compounding & Joining)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_13",
+        "title": "पर्यायवाची शब्द (Synonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_14",
+        "title": "विलोम शब्द (Antonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_15",
+        "title": "अनेक शब्दों के लिए एक शब्द (One Word Substitution)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_16",
+        "title": "मुहावरे और कहावतें (Idioms and Proverbs)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_24",
+        "title": "दिन, महीने और ऋतुएँ (Days, Months & Seasons)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_25",
+        "title": "रंग और आकृतियाँ (Colors & Shapes)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_26",
+        "title": "रिश्ते-नाते (Family Relations Vocabulary)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_27",
+        "title": "शरीर के अंग और स्वास्थ्य (Body Parts & Health)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_28",
+        "title": "फल, सब्जियाँ और मसाले (Fruits, Vegetables & Spices)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_29",
+        "title": "पशु-पक्षी और उनकी बोलियाँ (Animals, Birds & Their Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_30",
+        "title": "श्रुतिसम भिन्नार्थक शब्द (Homophones & Similar Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_17",
+        "title": "शुद्ध और अशुद्ध वाक्य (Correct Sentence Formation)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_18",
+        "title": "विराम चिह्न (Punctuation Marks)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_19",
+        "title": "अपठित गद्यांश (Reading Comprehension)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_31",
+        "title": "शिष्टाचार और अभिवादन (Greetings & Politeness - आप/तुम)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_32",
+        "title": "दिशाएँ और स्थान (Directions & Positioning)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_33",
+        "title": "बाजार और खरीदारी (Shopping, Weights & Bargaining)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_34",
+        "title": "यात्रा और परिवहन (Travel & Transportation)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_35",
+        "title": "चित्र वर्णन (Picture Description & Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_36",
+        "title": "अनुच्छेद एवं निबंध लेखन (Paragraph & Essay Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_37",
+        "title": "पत्र लेखन (Formal & Informal Letter Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_38",
+        "title": "कहानी लेखन और नीति कथाएँ (Fables & Story Completion - Panchatantra)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_39",
+        "title": "बालगीत और कविताएँ (Nursery Rhymes & Poetry)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      }
+    ],
+    "History": [
+      {
+        "id": "hist_1",
+        "title": "Ancient Civilizations (Egypt, Mesopotamia, Indus Valley)",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_2",
+        "title": "Ancient Greece and Roman Empire",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_3",
+        "title": "Medieval Europe & Feudalism",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_4",
+        "title": "The Renaissance & Scientific Revolution",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_5",
+        "title": "Industrial Revolution & Global Expansion",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_6",
+        "title": "World War I & World War II",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_7",
+        "title": "Australian & Local Indigenous History",
+        "category": "D. Local & Regional History"
+      }
+    ],
+    "Geography": [
+      {
+        "id": "geo_1",
+        "title": "Continents, Oceans & World Map Reading",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_2",
+        "title": "Latitude, Longitude & Time Zones",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_3",
+        "title": "Landforms: Mountains, Rivers, Valleys & Volcanoes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_4",
+        "title": "Weather, Climate Zones & Biomes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_5",
+        "title": "Population, Urbanization & Migration",
+        "category": "C. Human Geography"
+      },
+      {
+        "id": "geo_6",
+        "title": "Natural Resources & Sustainability",
+        "category": "C. Human Geography"
+      }
+    ],
+    "Spanish": [
+      {
+        "id": "es_1",
+        "title": "El Alfabeto y Pronunciación (Alphabet & Sounds)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_2",
+        "title": "Números 1 al 100 (Numbers 1 to 100)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_3",
+        "title": "Saludos, Despedidas y Presentaciones (Greetings & Intro)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_4",
+        "title": "Sustantivos y Artículos - El, La, Los, Las (Nouns & Articles)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_5",
+        "title": "Verbos Comunes - Ser, Estar, Tener, Ir (Common Verbs)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_6",
+        "title": "Vocabulario de la Familia, Comida y Escuela (Vocabulary)",
+        "category": "C. Vocabulario (Vocabulary)"
+      }
+    ],
+    "French": [
+      {
+        "id": "fr_1",
+        "title": "L'Alphabet et la Prononciation (Alphabet & Sounds)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_2",
+        "title": "Les Nombres 1 à 100 (Numbers 1 to 100)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_3",
+        "title": "Salutations et Présentations (Greetings & Intro)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_4",
+        "title": "Les Articles et Noms - Le, La, Les, Un, Une (Articles & Nouns)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_5",
+        "title": "Verbes Essentiels - Être, Avoir, Faire, Aller (Key Verbs)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_6",
+        "title": "Vocabulaire de la Famille et de la Maison (Vocabulary)",
+        "category": "C. Vocabulaire (Vocabulary)"
+      }
+    ],
+    "Computer Science": [
+      {
+        "id": "cs_78_1",
+        "title": "Python Data Types, Lists, Dictionaries, and Loops",
+        "category": "A. Python Programming"
+      },
+      {
+        "id": "cs_78_2",
+        "title": "Object-Oriented Programming (Classes & Objects)",
+        "category": "A. Python Programming"
+      },
+      {
+        "id": "cs_78_3",
+        "title": "JavaScript DOM manipulation & interactive buttons",
+        "category": "B. Web Development"
+      },
+      {
+        "id": "cs_78_4",
+        "title": "Cybersecurity threats: Phishing, Malware & Firewalls",
+        "category": "C. Cybersecurity"
+      },
+      {
+        "id": "cs_78_5",
+        "title": "Symmetric vs. Asymmetric encryption basics",
+        "category": "C. Cybersecurity"
+      },
+      {
+        "id": "cs_78_6",
+        "title": "Introduction to Artificial Intelligence & Neural Networks",
+        "category": "D. AI & Future Tech"
+      }
+    ],
+    "Financial Literacy": [
+      {
+        "id": "fl_78_1",
+        "title": "Compound interest and the Rule of 72",
+        "category": "A. Wealth Building"
+      },
+      {
+        "id": "fl_78_2",
+        "title": "Introduction to Stock Markets, Shares & Dividends",
+        "category": "B. Investing"
+      },
+      {
+        "id": "fl_78_3",
+        "title": "Inflation and purchasing power over time",
+        "category": "C. Macroeconomics"
+      },
+      {
+        "id": "fl_78_4",
+        "title": "Mutual funds, ETFs, and index diversification",
+        "category": "B. Investing"
+      },
+      {
+        "id": "fl_78_5",
+        "title": "Credit scores, debt management, and interest rates",
+        "category": "D. Banking & Credit"
+      }
+    ],
+    "Environmental Science": [
+      {
+        "id": "es_78_1",
+        "title": "Ocean Acidification, Coral Bleaching & Marine Chemistry",
+        "category": "A. Marine & Climate"
+      },
+      {
+        "id": "es_78_2",
+        "title": "Renewable energy grid integration & battery storage",
+        "category": "B. Energy Engineering"
+      },
+      {
+        "id": "es_78_3",
+        "title": "Ecological footprint calculations & Earth Overshoot",
+        "category": "C. Human Impact"
+      },
+      {
+        "id": "es_78_4",
+        "title": "Environmental policy, carbon credits, and treaties",
+        "category": "C. Human Impact"
+      }
+    ],
+    "Critical Thinking": [
+      {
+        "id": "ct_78_1",
+        "title": "Cognitive biases (Confirmation Bias, Availability Heuristic)",
+        "category": "A. Behavioral Psychology"
+      },
+      {
+        "id": "ct_78_2",
+        "title": "STEM Engineering Design Process (Iterative prototyping)",
+        "category": "B. Engineering Logic"
+      },
+      {
+        "id": "ct_78_3",
+        "title": "Evaluating source credibility & detecting fake news",
+        "category": "C. Media Literacy"
+      },
+      {
+        "id": "ct_78_4",
+        "title": "Ethical frameworks: Utilitarianism, Deontology & Virtue Ethics",
+        "category": "D. Ethics"
+      }
     ]
   },
   "Grade 9": {
@@ -26312,6 +30927,476 @@ export const curriculum = {
         "id": "9_s_100",
         "title": "Properties and classifications of stars",
         "category": "OO. Astronomy"
+      }
+    ],
+    "Olympiad": [
+      {
+        "id": "ol_912_1",
+        "title": "Diophantine Equations & Fermat's Little Theorem",
+        "category": "A. Olympiad Number Theory"
+      },
+      {
+        "id": "ol_912_2",
+        "title": "Advanced Combinatorics (Stars and Bars Method)",
+        "category": "B. Olympiad Combinatorics"
+      },
+      {
+        "id": "ol_912_3",
+        "title": "Principle of Inclusion-Exclusion (PIE)",
+        "category": "B. Olympiad Combinatorics"
+      },
+      {
+        "id": "ol_912_4",
+        "title": "Logarithmic, Exponential & Polynomial Equations",
+        "category": "C. Olympiad Algebra"
+      },
+      {
+        "id": "ol_912_5",
+        "title": "Inequalities (AM-GM, Cauchy-Schwarz)",
+        "category": "C. Olympiad Algebra"
+      },
+      {
+        "id": "ol_912_6",
+        "title": "Power of a Point, Cyclic Quadrilaterals & Geometry Proofs",
+        "category": "D. Olympiad Geometry"
+      },
+      {
+        "id": "ol_912_7",
+        "title": "Game Theory, Winning Strategies & Invariants",
+        "category": "E. Advanced Logic"
+      }
+    ],
+    "Hindi": [
+      {
+        "id": "hi_1",
+        "title": "स्वर और व्यंजन पहचान (Vowels & Consonants Identification)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_2",
+        "title": "मात्राएँ और शब्द रचना (Matras and Word Formation)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_3",
+        "title": "संयुक्त अक्षर और द्वित्व व्यंजन (Conjunct Characters & Double Consonants)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_4",
+        "title": "हिंदी संख्याएँ 1 से 20 (Hindi Numbers 1 to 20)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_5",
+        "title": "हिंदी संख्याएँ 21 से 50 (Hindi Numbers 21 to 50)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_6",
+        "title": "हिंदी संख्याएँ 51 से 100 (Hindi Numbers 51 to 100)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_7",
+        "title": "संज्ञा और उसके भेद (Nouns and Types)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_8",
+        "title": "सर्वनाम की पहचान (Pronouns Identification)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_9",
+        "title": "विशेषण और उसके उदाहरण (Adjectives & Examples)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_10",
+        "title": "क्रिया और काल (Verbs and Tenses)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_11",
+        "title": "लिंग बदलो - पुल्लिंग और स्त्रीलिंग (Gender - Masculine & Feminine)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_12",
+        "title": "वचन बदलो - एकवचन और बहुवचन (Singular and Plural)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_20",
+        "title": "कारक और परसर्ग (Case Endings & Postpositions - ने, को, से)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_21",
+        "title": "सकर्मक और अकर्मक क्रिया (Transitive & Intransitive Verbs & 'Ne' Rule)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_22",
+        "title": "उपसर्ग और प्रत्यय (Prefixes & Suffixes)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_23",
+        "title": "संधि और समास (Word Compounding & Joining)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_13",
+        "title": "पर्यायवाची शब्द (Synonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_14",
+        "title": "विलोम शब्द (Antonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_15",
+        "title": "अनेक शब्दों के लिए एक शब्द (One Word Substitution)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_16",
+        "title": "मुहावरे और कहावतें (Idioms and Proverbs)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_24",
+        "title": "दिन, महीने और ऋतुएँ (Days, Months & Seasons)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_25",
+        "title": "रंग और आकृतियाँ (Colors & Shapes)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_26",
+        "title": "रिश्ते-नाते (Family Relations Vocabulary)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_27",
+        "title": "शरीर के अंग और स्वास्थ्य (Body Parts & Health)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_28",
+        "title": "फल, सब्जियाँ और मसाले (Fruits, Vegetables & Spices)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_29",
+        "title": "पशु-पक्षी और उनकी बोलियाँ (Animals, Birds & Their Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_30",
+        "title": "श्रुतिसम भिन्नार्थक शब्द (Homophones & Similar Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_17",
+        "title": "शुद्ध और अशुद्ध वाक्य (Correct Sentence Formation)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_18",
+        "title": "विराम चिह्न (Punctuation Marks)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_19",
+        "title": "अपठित गद्यांश (Reading Comprehension)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_31",
+        "title": "शिष्टाचार और अभिवादन (Greetings & Politeness - आप/तुम)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_32",
+        "title": "दिशाएँ और स्थान (Directions & Positioning)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_33",
+        "title": "बाजार और खरीदारी (Shopping, Weights & Bargaining)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_34",
+        "title": "यात्रा और परिवहन (Travel & Transportation)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_35",
+        "title": "चित्र वर्णन (Picture Description & Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_36",
+        "title": "अनुच्छेद एवं निबंध लेखन (Paragraph & Essay Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_37",
+        "title": "पत्र लेखन (Formal & Informal Letter Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_38",
+        "title": "कहानी लेखन और नीति कथाएँ (Fables & Story Completion - Panchatantra)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_39",
+        "title": "बालगीत और कविताएँ (Nursery Rhymes & Poetry)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      }
+    ],
+    "History": [
+      {
+        "id": "hist_1",
+        "title": "Ancient Civilizations (Egypt, Mesopotamia, Indus Valley)",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_2",
+        "title": "Ancient Greece and Roman Empire",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_3",
+        "title": "Medieval Europe & Feudalism",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_4",
+        "title": "The Renaissance & Scientific Revolution",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_5",
+        "title": "Industrial Revolution & Global Expansion",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_6",
+        "title": "World War I & World War II",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_7",
+        "title": "Australian & Local Indigenous History",
+        "category": "D. Local & Regional History"
+      }
+    ],
+    "Geography": [
+      {
+        "id": "geo_1",
+        "title": "Continents, Oceans & World Map Reading",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_2",
+        "title": "Latitude, Longitude & Time Zones",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_3",
+        "title": "Landforms: Mountains, Rivers, Valleys & Volcanoes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_4",
+        "title": "Weather, Climate Zones & Biomes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_5",
+        "title": "Population, Urbanization & Migration",
+        "category": "C. Human Geography"
+      },
+      {
+        "id": "geo_6",
+        "title": "Natural Resources & Sustainability",
+        "category": "C. Human Geography"
+      }
+    ],
+    "Spanish": [
+      {
+        "id": "es_1",
+        "title": "El Alfabeto y Pronunciación (Alphabet & Sounds)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_2",
+        "title": "Números 1 al 100 (Numbers 1 to 100)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_3",
+        "title": "Saludos, Despedidas y Presentaciones (Greetings & Intro)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_4",
+        "title": "Sustantivos y Artículos - El, La, Los, Las (Nouns & Articles)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_5",
+        "title": "Verbos Comunes - Ser, Estar, Tener, Ir (Common Verbs)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_6",
+        "title": "Vocabulario de la Familia, Comida y Escuela (Vocabulary)",
+        "category": "C. Vocabulario (Vocabulary)"
+      }
+    ],
+    "French": [
+      {
+        "id": "fr_1",
+        "title": "L'Alphabet et la Prononciation (Alphabet & Sounds)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_2",
+        "title": "Les Nombres 1 à 100 (Numbers 1 to 100)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_3",
+        "title": "Salutations et Présentations (Greetings & Intro)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_4",
+        "title": "Les Articles et Noms - Le, La, Les, Un, Une (Articles & Nouns)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_5",
+        "title": "Verbes Essentiels - Être, Avoir, Faire, Aller (Key Verbs)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_6",
+        "title": "Vocabulaire de la Famille et de la Maison (Vocabulary)",
+        "category": "C. Vocabulaire (Vocabulary)"
+      }
+    ],
+    "Computer Science": [
+      {
+        "id": "cs_912_1",
+        "title": "Data Structures: Arrays, Stacks, Queues, Hash Tables & Trees",
+        "category": "A. Advanced CS"
+      },
+      {
+        "id": "cs_912_2",
+        "title": "Sorting & Searching Algorithms (Binary Search, QuickSort)",
+        "category": "A. Advanced CS"
+      },
+      {
+        "id": "cs_912_3",
+        "title": "Relational Databases, SQL Queries (SELECT, JOIN, GROUP BY)",
+        "category": "B. Data Engineering"
+      },
+      {
+        "id": "cs_912_4",
+        "title": "Machine Learning: Supervised vs. Unsupervised Learning",
+        "category": "C. AI & Data Science"
+      },
+      {
+        "id": "cs_912_5",
+        "title": "AI Ethics, Bias in Training Data, & Algorithmic Fairness",
+        "category": "C. AI & Data Science"
+      },
+      {
+        "id": "cs_912_6",
+        "title": "Network Protocols: HTTP, HTTPS, TCP/IP, DNS & IP Routing",
+        "category": "D. Systems & Networks"
+      }
+    ],
+    "Financial Literacy": [
+      {
+        "id": "fl_912_1",
+        "title": "Financial Statement Analysis (Balance Sheets & P&L)",
+        "category": "A. Corporate Finance"
+      },
+      {
+        "id": "fl_912_2",
+        "title": "Risk Management, Portfolio Allocation & Diversification",
+        "category": "B. Investment Strategy"
+      },
+      {
+        "id": "fl_912_3",
+        "title": "Monetary Policy, Central Banks & Federal Reserve System",
+        "category": "C. Global Economics"
+      },
+      {
+        "id": "fl_912_4",
+        "title": "Global Trade, Tariffs, Exchange Rates & Trade Deficits",
+        "category": "C. Global Economics"
+      },
+      {
+        "id": "fl_912_5",
+        "title": "Venture Capital, Startup Valuations & Equity Dilution",
+        "category": "D. Entrepreneurship"
+      }
+    ],
+    "Environmental Science": [
+      {
+        "id": "es_912_1",
+        "title": "Biogeochemical Cycles (Nitrogen, Phosphorus, Carbon, Water)",
+        "category": "A. Earth Systems"
+      },
+      {
+        "id": "es_912_2",
+        "title": "Climate Models, IPCC Projections & Temperature Anomalies",
+        "category": "B. Climate Science"
+      },
+      {
+        "id": "es_912_3",
+        "title": "Nuclear Energy: Fission, Fusion & Waste Storage Chemistry",
+        "category": "C. Clean Tech"
+      },
+      {
+        "id": "es_912_4",
+        "title": "Circular Economy, Life Cycle Assessment (LCA) of Materials",
+        "category": "D. Industrial Ecology"
+      }
+    ],
+    "Critical Thinking": [
+      {
+        "id": "ct_912_1",
+        "title": "Formal Logic: Syllogisms, Modus Ponens & Truth Tables",
+        "category": "A. Formal Logic"
+      },
+      {
+        "id": "ct_912_2",
+        "title": "Statistical Reasoning: Correlation vs. Causation & p-values",
+        "category": "B. Scientific Reasoning"
+      },
+      {
+        "id": "ct_912_3",
+        "title": "Bioethics & Technology Ethics (Genetic editing, AI autonomous decisions)",
+        "category": "C. Applied Ethics"
+      },
+      {
+        "id": "ct_912_4",
+        "title": "Game Theory: Nash Equilibrium & Prisoner's Dilemma",
+        "category": "D. Decision Science"
       }
     ]
   },
@@ -29181,6 +34266,476 @@ export const curriculum = {
         "title": "Properties and classifications of stars",
         "category": "JJ. Astronomy"
       }
+    ],
+    "Olympiad": [
+      {
+        "id": "ol_912_1",
+        "title": "Diophantine Equations & Fermat's Little Theorem",
+        "category": "A. Olympiad Number Theory"
+      },
+      {
+        "id": "ol_912_2",
+        "title": "Advanced Combinatorics (Stars and Bars Method)",
+        "category": "B. Olympiad Combinatorics"
+      },
+      {
+        "id": "ol_912_3",
+        "title": "Principle of Inclusion-Exclusion (PIE)",
+        "category": "B. Olympiad Combinatorics"
+      },
+      {
+        "id": "ol_912_4",
+        "title": "Logarithmic, Exponential & Polynomial Equations",
+        "category": "C. Olympiad Algebra"
+      },
+      {
+        "id": "ol_912_5",
+        "title": "Inequalities (AM-GM, Cauchy-Schwarz)",
+        "category": "C. Olympiad Algebra"
+      },
+      {
+        "id": "ol_912_6",
+        "title": "Power of a Point, Cyclic Quadrilaterals & Geometry Proofs",
+        "category": "D. Olympiad Geometry"
+      },
+      {
+        "id": "ol_912_7",
+        "title": "Game Theory, Winning Strategies & Invariants",
+        "category": "E. Advanced Logic"
+      }
+    ],
+    "Hindi": [
+      {
+        "id": "hi_1",
+        "title": "स्वर और व्यंजन पहचान (Vowels & Consonants Identification)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_2",
+        "title": "मात्राएँ और शब्द रचना (Matras and Word Formation)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_3",
+        "title": "संयुक्त अक्षर और द्वित्व व्यंजन (Conjunct Characters & Double Consonants)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_4",
+        "title": "हिंदी संख्याएँ 1 से 20 (Hindi Numbers 1 to 20)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_5",
+        "title": "हिंदी संख्याएँ 21 से 50 (Hindi Numbers 21 to 50)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_6",
+        "title": "हिंदी संख्याएँ 51 से 100 (Hindi Numbers 51 to 100)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_7",
+        "title": "संज्ञा और उसके भेद (Nouns and Types)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_8",
+        "title": "सर्वनाम की पहचान (Pronouns Identification)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_9",
+        "title": "विशेषण और उसके उदाहरण (Adjectives & Examples)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_10",
+        "title": "क्रिया और काल (Verbs and Tenses)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_11",
+        "title": "लिंग बदलो - पुल्लिंग और स्त्रीलिंग (Gender - Masculine & Feminine)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_12",
+        "title": "वचन बदलो - एकवचन और बहुवचन (Singular and Plural)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_20",
+        "title": "कारक और परसर्ग (Case Endings & Postpositions - ने, को, से)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_21",
+        "title": "सकर्मक और अकर्मक क्रिया (Transitive & Intransitive Verbs & 'Ne' Rule)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_22",
+        "title": "उपसर्ग और प्रत्यय (Prefixes & Suffixes)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_23",
+        "title": "संधि और समास (Word Compounding & Joining)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_13",
+        "title": "पर्यायवाची शब्द (Synonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_14",
+        "title": "विलोम शब्द (Antonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_15",
+        "title": "अनेक शब्दों के लिए एक शब्द (One Word Substitution)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_16",
+        "title": "मुहावरे और कहावतें (Idioms and Proverbs)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_24",
+        "title": "दिन, महीने और ऋतुएँ (Days, Months & Seasons)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_25",
+        "title": "रंग और आकृतियाँ (Colors & Shapes)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_26",
+        "title": "रिश्ते-नाते (Family Relations Vocabulary)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_27",
+        "title": "शरीर के अंग और स्वास्थ्य (Body Parts & Health)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_28",
+        "title": "फल, सब्जियाँ और मसाले (Fruits, Vegetables & Spices)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_29",
+        "title": "पशु-पक्षी और उनकी बोलियाँ (Animals, Birds & Their Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_30",
+        "title": "श्रुतिसम भिन्नार्थक शब्द (Homophones & Similar Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_17",
+        "title": "शुद्ध और अशुद्ध वाक्य (Correct Sentence Formation)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_18",
+        "title": "विराम चिह्न (Punctuation Marks)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_19",
+        "title": "अपठित गद्यांश (Reading Comprehension)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_31",
+        "title": "शिष्टाचार और अभिवादन (Greetings & Politeness - आप/तुम)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_32",
+        "title": "दिशाएँ और स्थान (Directions & Positioning)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_33",
+        "title": "बाजार और खरीदारी (Shopping, Weights & Bargaining)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_34",
+        "title": "यात्रा और परिवहन (Travel & Transportation)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_35",
+        "title": "चित्र वर्णन (Picture Description & Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_36",
+        "title": "अनुच्छेद एवं निबंध लेखन (Paragraph & Essay Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_37",
+        "title": "पत्र लेखन (Formal & Informal Letter Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_38",
+        "title": "कहानी लेखन और नीति कथाएँ (Fables & Story Completion - Panchatantra)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_39",
+        "title": "बालगीत और कविताएँ (Nursery Rhymes & Poetry)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      }
+    ],
+    "History": [
+      {
+        "id": "hist_1",
+        "title": "Ancient Civilizations (Egypt, Mesopotamia, Indus Valley)",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_2",
+        "title": "Ancient Greece and Roman Empire",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_3",
+        "title": "Medieval Europe & Feudalism",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_4",
+        "title": "The Renaissance & Scientific Revolution",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_5",
+        "title": "Industrial Revolution & Global Expansion",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_6",
+        "title": "World War I & World War II",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_7",
+        "title": "Australian & Local Indigenous History",
+        "category": "D. Local & Regional History"
+      }
+    ],
+    "Geography": [
+      {
+        "id": "geo_1",
+        "title": "Continents, Oceans & World Map Reading",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_2",
+        "title": "Latitude, Longitude & Time Zones",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_3",
+        "title": "Landforms: Mountains, Rivers, Valleys & Volcanoes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_4",
+        "title": "Weather, Climate Zones & Biomes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_5",
+        "title": "Population, Urbanization & Migration",
+        "category": "C. Human Geography"
+      },
+      {
+        "id": "geo_6",
+        "title": "Natural Resources & Sustainability",
+        "category": "C. Human Geography"
+      }
+    ],
+    "Spanish": [
+      {
+        "id": "es_1",
+        "title": "El Alfabeto y Pronunciación (Alphabet & Sounds)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_2",
+        "title": "Números 1 al 100 (Numbers 1 to 100)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_3",
+        "title": "Saludos, Despedidas y Presentaciones (Greetings & Intro)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_4",
+        "title": "Sustantivos y Artículos - El, La, Los, Las (Nouns & Articles)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_5",
+        "title": "Verbos Comunes - Ser, Estar, Tener, Ir (Common Verbs)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_6",
+        "title": "Vocabulario de la Familia, Comida y Escuela (Vocabulary)",
+        "category": "C. Vocabulario (Vocabulary)"
+      }
+    ],
+    "French": [
+      {
+        "id": "fr_1",
+        "title": "L'Alphabet et la Prononciation (Alphabet & Sounds)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_2",
+        "title": "Les Nombres 1 à 100 (Numbers 1 to 100)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_3",
+        "title": "Salutations et Présentations (Greetings & Intro)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_4",
+        "title": "Les Articles et Noms - Le, La, Les, Un, Une (Articles & Nouns)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_5",
+        "title": "Verbes Essentiels - Être, Avoir, Faire, Aller (Key Verbs)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_6",
+        "title": "Vocabulaire de la Famille et de la Maison (Vocabulary)",
+        "category": "C. Vocabulaire (Vocabulary)"
+      }
+    ],
+    "Computer Science": [
+      {
+        "id": "cs_912_1",
+        "title": "Data Structures: Arrays, Stacks, Queues, Hash Tables & Trees",
+        "category": "A. Advanced CS"
+      },
+      {
+        "id": "cs_912_2",
+        "title": "Sorting & Searching Algorithms (Binary Search, QuickSort)",
+        "category": "A. Advanced CS"
+      },
+      {
+        "id": "cs_912_3",
+        "title": "Relational Databases, SQL Queries (SELECT, JOIN, GROUP BY)",
+        "category": "B. Data Engineering"
+      },
+      {
+        "id": "cs_912_4",
+        "title": "Machine Learning: Supervised vs. Unsupervised Learning",
+        "category": "C. AI & Data Science"
+      },
+      {
+        "id": "cs_912_5",
+        "title": "AI Ethics, Bias in Training Data, & Algorithmic Fairness",
+        "category": "C. AI & Data Science"
+      },
+      {
+        "id": "cs_912_6",
+        "title": "Network Protocols: HTTP, HTTPS, TCP/IP, DNS & IP Routing",
+        "category": "D. Systems & Networks"
+      }
+    ],
+    "Financial Literacy": [
+      {
+        "id": "fl_912_1",
+        "title": "Financial Statement Analysis (Balance Sheets & P&L)",
+        "category": "A. Corporate Finance"
+      },
+      {
+        "id": "fl_912_2",
+        "title": "Risk Management, Portfolio Allocation & Diversification",
+        "category": "B. Investment Strategy"
+      },
+      {
+        "id": "fl_912_3",
+        "title": "Monetary Policy, Central Banks & Federal Reserve System",
+        "category": "C. Global Economics"
+      },
+      {
+        "id": "fl_912_4",
+        "title": "Global Trade, Tariffs, Exchange Rates & Trade Deficits",
+        "category": "C. Global Economics"
+      },
+      {
+        "id": "fl_912_5",
+        "title": "Venture Capital, Startup Valuations & Equity Dilution",
+        "category": "D. Entrepreneurship"
+      }
+    ],
+    "Environmental Science": [
+      {
+        "id": "es_912_1",
+        "title": "Biogeochemical Cycles (Nitrogen, Phosphorus, Carbon, Water)",
+        "category": "A. Earth Systems"
+      },
+      {
+        "id": "es_912_2",
+        "title": "Climate Models, IPCC Projections & Temperature Anomalies",
+        "category": "B. Climate Science"
+      },
+      {
+        "id": "es_912_3",
+        "title": "Nuclear Energy: Fission, Fusion & Waste Storage Chemistry",
+        "category": "C. Clean Tech"
+      },
+      {
+        "id": "es_912_4",
+        "title": "Circular Economy, Life Cycle Assessment (LCA) of Materials",
+        "category": "D. Industrial Ecology"
+      }
+    ],
+    "Critical Thinking": [
+      {
+        "id": "ct_912_1",
+        "title": "Formal Logic: Syllogisms, Modus Ponens & Truth Tables",
+        "category": "A. Formal Logic"
+      },
+      {
+        "id": "ct_912_2",
+        "title": "Statistical Reasoning: Correlation vs. Causation & p-values",
+        "category": "B. Scientific Reasoning"
+      },
+      {
+        "id": "ct_912_3",
+        "title": "Bioethics & Technology Ethics (Genetic editing, AI autonomous decisions)",
+        "category": "C. Applied Ethics"
+      },
+      {
+        "id": "ct_912_4",
+        "title": "Game Theory: Nash Equilibrium & Prisoner's Dilemma",
+        "category": "D. Decision Science"
+      }
     ]
   },
   "Grade 11": {
@@ -31507,6 +37062,476 @@ export const curriculum = {
         "title": "Correct capitalisation errors",
         "category": "GG. Capitalisation"
       }
+    ],
+    "Olympiad": [
+      {
+        "id": "ol_912_1",
+        "title": "Diophantine Equations & Fermat's Little Theorem",
+        "category": "A. Olympiad Number Theory"
+      },
+      {
+        "id": "ol_912_2",
+        "title": "Advanced Combinatorics (Stars and Bars Method)",
+        "category": "B. Olympiad Combinatorics"
+      },
+      {
+        "id": "ol_912_3",
+        "title": "Principle of Inclusion-Exclusion (PIE)",
+        "category": "B. Olympiad Combinatorics"
+      },
+      {
+        "id": "ol_912_4",
+        "title": "Logarithmic, Exponential & Polynomial Equations",
+        "category": "C. Olympiad Algebra"
+      },
+      {
+        "id": "ol_912_5",
+        "title": "Inequalities (AM-GM, Cauchy-Schwarz)",
+        "category": "C. Olympiad Algebra"
+      },
+      {
+        "id": "ol_912_6",
+        "title": "Power of a Point, Cyclic Quadrilaterals & Geometry Proofs",
+        "category": "D. Olympiad Geometry"
+      },
+      {
+        "id": "ol_912_7",
+        "title": "Game Theory, Winning Strategies & Invariants",
+        "category": "E. Advanced Logic"
+      }
+    ],
+    "Hindi": [
+      {
+        "id": "hi_1",
+        "title": "स्वर और व्यंजन पहचान (Vowels & Consonants Identification)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_2",
+        "title": "मात्राएँ और शब्द रचना (Matras and Word Formation)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_3",
+        "title": "संयुक्त अक्षर और द्वित्व व्यंजन (Conjunct Characters & Double Consonants)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_4",
+        "title": "हिंदी संख्याएँ 1 से 20 (Hindi Numbers 1 to 20)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_5",
+        "title": "हिंदी संख्याएँ 21 से 50 (Hindi Numbers 21 to 50)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_6",
+        "title": "हिंदी संख्याएँ 51 से 100 (Hindi Numbers 51 to 100)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_7",
+        "title": "संज्ञा और उसके भेद (Nouns and Types)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_8",
+        "title": "सर्वनाम की पहचान (Pronouns Identification)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_9",
+        "title": "विशेषण और उसके उदाहरण (Adjectives & Examples)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_10",
+        "title": "क्रिया और काल (Verbs and Tenses)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_11",
+        "title": "लिंग बदलो - पुल्लिंग और स्त्रीलिंग (Gender - Masculine & Feminine)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_12",
+        "title": "वचन बदलो - एकवचन और बहुवचन (Singular and Plural)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_20",
+        "title": "कारक और परसर्ग (Case Endings & Postpositions - ने, को, से)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_21",
+        "title": "सकर्मक और अकर्मक क्रिया (Transitive & Intransitive Verbs & 'Ne' Rule)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_22",
+        "title": "उपसर्ग और प्रत्यय (Prefixes & Suffixes)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_23",
+        "title": "संधि और समास (Word Compounding & Joining)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_13",
+        "title": "पर्यायवाची शब्द (Synonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_14",
+        "title": "विलोम शब्द (Antonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_15",
+        "title": "अनेक शब्दों के लिए एक शब्द (One Word Substitution)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_16",
+        "title": "मुहावरे और कहावतें (Idioms and Proverbs)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_24",
+        "title": "दिन, महीने और ऋतुएँ (Days, Months & Seasons)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_25",
+        "title": "रंग और आकृतियाँ (Colors & Shapes)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_26",
+        "title": "रिश्ते-नाते (Family Relations Vocabulary)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_27",
+        "title": "शरीर के अंग और स्वास्थ्य (Body Parts & Health)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_28",
+        "title": "फल, सब्जियाँ और मसाले (Fruits, Vegetables & Spices)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_29",
+        "title": "पशु-पक्षी और उनकी बोलियाँ (Animals, Birds & Their Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_30",
+        "title": "श्रुतिसम भिन्नार्थक शब्द (Homophones & Similar Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_17",
+        "title": "शुद्ध और अशुद्ध वाक्य (Correct Sentence Formation)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_18",
+        "title": "विराम चिह्न (Punctuation Marks)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_19",
+        "title": "अपठित गद्यांश (Reading Comprehension)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_31",
+        "title": "शिष्टाचार और अभिवादन (Greetings & Politeness - आप/तुम)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_32",
+        "title": "दिशाएँ और स्थान (Directions & Positioning)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_33",
+        "title": "बाजार और खरीदारी (Shopping, Weights & Bargaining)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_34",
+        "title": "यात्रा और परिवहन (Travel & Transportation)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_35",
+        "title": "चित्र वर्णन (Picture Description & Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_36",
+        "title": "अनुच्छेद एवं निबंध लेखन (Paragraph & Essay Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_37",
+        "title": "पत्र लेखन (Formal & Informal Letter Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_38",
+        "title": "कहानी लेखन और नीति कथाएँ (Fables & Story Completion - Panchatantra)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_39",
+        "title": "बालगीत और कविताएँ (Nursery Rhymes & Poetry)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      }
+    ],
+    "History": [
+      {
+        "id": "hist_1",
+        "title": "Ancient Civilizations (Egypt, Mesopotamia, Indus Valley)",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_2",
+        "title": "Ancient Greece and Roman Empire",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_3",
+        "title": "Medieval Europe & Feudalism",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_4",
+        "title": "The Renaissance & Scientific Revolution",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_5",
+        "title": "Industrial Revolution & Global Expansion",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_6",
+        "title": "World War I & World War II",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_7",
+        "title": "Australian & Local Indigenous History",
+        "category": "D. Local & Regional History"
+      }
+    ],
+    "Geography": [
+      {
+        "id": "geo_1",
+        "title": "Continents, Oceans & World Map Reading",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_2",
+        "title": "Latitude, Longitude & Time Zones",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_3",
+        "title": "Landforms: Mountains, Rivers, Valleys & Volcanoes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_4",
+        "title": "Weather, Climate Zones & Biomes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_5",
+        "title": "Population, Urbanization & Migration",
+        "category": "C. Human Geography"
+      },
+      {
+        "id": "geo_6",
+        "title": "Natural Resources & Sustainability",
+        "category": "C. Human Geography"
+      }
+    ],
+    "Spanish": [
+      {
+        "id": "es_1",
+        "title": "El Alfabeto y Pronunciación (Alphabet & Sounds)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_2",
+        "title": "Números 1 al 100 (Numbers 1 to 100)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_3",
+        "title": "Saludos, Despedidas y Presentaciones (Greetings & Intro)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_4",
+        "title": "Sustantivos y Artículos - El, La, Los, Las (Nouns & Articles)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_5",
+        "title": "Verbos Comunes - Ser, Estar, Tener, Ir (Common Verbs)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_6",
+        "title": "Vocabulario de la Familia, Comida y Escuela (Vocabulary)",
+        "category": "C. Vocabulario (Vocabulary)"
+      }
+    ],
+    "French": [
+      {
+        "id": "fr_1",
+        "title": "L'Alphabet et la Prononciation (Alphabet & Sounds)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_2",
+        "title": "Les Nombres 1 à 100 (Numbers 1 to 100)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_3",
+        "title": "Salutations et Présentations (Greetings & Intro)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_4",
+        "title": "Les Articles et Noms - Le, La, Les, Un, Une (Articles & Nouns)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_5",
+        "title": "Verbes Essentiels - Être, Avoir, Faire, Aller (Key Verbs)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_6",
+        "title": "Vocabulaire de la Famille et de la Maison (Vocabulary)",
+        "category": "C. Vocabulaire (Vocabulary)"
+      }
+    ],
+    "Computer Science": [
+      {
+        "id": "cs_912_1",
+        "title": "Data Structures: Arrays, Stacks, Queues, Hash Tables & Trees",
+        "category": "A. Advanced CS"
+      },
+      {
+        "id": "cs_912_2",
+        "title": "Sorting & Searching Algorithms (Binary Search, QuickSort)",
+        "category": "A. Advanced CS"
+      },
+      {
+        "id": "cs_912_3",
+        "title": "Relational Databases, SQL Queries (SELECT, JOIN, GROUP BY)",
+        "category": "B. Data Engineering"
+      },
+      {
+        "id": "cs_912_4",
+        "title": "Machine Learning: Supervised vs. Unsupervised Learning",
+        "category": "C. AI & Data Science"
+      },
+      {
+        "id": "cs_912_5",
+        "title": "AI Ethics, Bias in Training Data, & Algorithmic Fairness",
+        "category": "C. AI & Data Science"
+      },
+      {
+        "id": "cs_912_6",
+        "title": "Network Protocols: HTTP, HTTPS, TCP/IP, DNS & IP Routing",
+        "category": "D. Systems & Networks"
+      }
+    ],
+    "Financial Literacy": [
+      {
+        "id": "fl_912_1",
+        "title": "Financial Statement Analysis (Balance Sheets & P&L)",
+        "category": "A. Corporate Finance"
+      },
+      {
+        "id": "fl_912_2",
+        "title": "Risk Management, Portfolio Allocation & Diversification",
+        "category": "B. Investment Strategy"
+      },
+      {
+        "id": "fl_912_3",
+        "title": "Monetary Policy, Central Banks & Federal Reserve System",
+        "category": "C. Global Economics"
+      },
+      {
+        "id": "fl_912_4",
+        "title": "Global Trade, Tariffs, Exchange Rates & Trade Deficits",
+        "category": "C. Global Economics"
+      },
+      {
+        "id": "fl_912_5",
+        "title": "Venture Capital, Startup Valuations & Equity Dilution",
+        "category": "D. Entrepreneurship"
+      }
+    ],
+    "Environmental Science": [
+      {
+        "id": "es_912_1",
+        "title": "Biogeochemical Cycles (Nitrogen, Phosphorus, Carbon, Water)",
+        "category": "A. Earth Systems"
+      },
+      {
+        "id": "es_912_2",
+        "title": "Climate Models, IPCC Projections & Temperature Anomalies",
+        "category": "B. Climate Science"
+      },
+      {
+        "id": "es_912_3",
+        "title": "Nuclear Energy: Fission, Fusion & Waste Storage Chemistry",
+        "category": "C. Clean Tech"
+      },
+      {
+        "id": "es_912_4",
+        "title": "Circular Economy, Life Cycle Assessment (LCA) of Materials",
+        "category": "D. Industrial Ecology"
+      }
+    ],
+    "Critical Thinking": [
+      {
+        "id": "ct_912_1",
+        "title": "Formal Logic: Syllogisms, Modus Ponens & Truth Tables",
+        "category": "A. Formal Logic"
+      },
+      {
+        "id": "ct_912_2",
+        "title": "Statistical Reasoning: Correlation vs. Causation & p-values",
+        "category": "B. Scientific Reasoning"
+      },
+      {
+        "id": "ct_912_3",
+        "title": "Bioethics & Technology Ethics (Genetic editing, AI autonomous decisions)",
+        "category": "C. Applied Ethics"
+      },
+      {
+        "id": "ct_912_4",
+        "title": "Game Theory: Nash Equilibrium & Prisoner's Dilemma",
+        "category": "D. Decision Science"
+      }
     ]
   },
   "Grade 12": {
@@ -33788,246 +39813,476 @@ export const curriculum = {
         "title": "Correct capitalisation errors",
         "category": "GG. Capitalisation"
       }
+    ],
+    "Olympiad": [
+      {
+        "id": "ol_912_1",
+        "title": "Diophantine Equations & Fermat's Little Theorem",
+        "category": "A. Olympiad Number Theory"
+      },
+      {
+        "id": "ol_912_2",
+        "title": "Advanced Combinatorics (Stars and Bars Method)",
+        "category": "B. Olympiad Combinatorics"
+      },
+      {
+        "id": "ol_912_3",
+        "title": "Principle of Inclusion-Exclusion (PIE)",
+        "category": "B. Olympiad Combinatorics"
+      },
+      {
+        "id": "ol_912_4",
+        "title": "Logarithmic, Exponential & Polynomial Equations",
+        "category": "C. Olympiad Algebra"
+      },
+      {
+        "id": "ol_912_5",
+        "title": "Inequalities (AM-GM, Cauchy-Schwarz)",
+        "category": "C. Olympiad Algebra"
+      },
+      {
+        "id": "ol_912_6",
+        "title": "Power of a Point, Cyclic Quadrilaterals & Geometry Proofs",
+        "category": "D. Olympiad Geometry"
+      },
+      {
+        "id": "ol_912_7",
+        "title": "Game Theory, Winning Strategies & Invariants",
+        "category": "E. Advanced Logic"
+      }
+    ],
+    "Hindi": [
+      {
+        "id": "hi_1",
+        "title": "स्वर और व्यंजन पहचान (Vowels & Consonants Identification)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_2",
+        "title": "मात्राएँ और शब्द रचना (Matras and Word Formation)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_3",
+        "title": "संयुक्त अक्षर और द्वित्व व्यंजन (Conjunct Characters & Double Consonants)",
+        "category": "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)"
+      },
+      {
+        "id": "hi_4",
+        "title": "हिंदी संख्याएँ 1 से 20 (Hindi Numbers 1 to 20)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_5",
+        "title": "हिंदी संख्याएँ 21 से 50 (Hindi Numbers 21 to 50)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_6",
+        "title": "हिंदी संख्याएँ 51 से 100 (Hindi Numbers 51 to 100)",
+        "category": "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)"
+      },
+      {
+        "id": "hi_7",
+        "title": "संज्ञा और उसके भेद (Nouns and Types)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_8",
+        "title": "सर्वनाम की पहचान (Pronouns Identification)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_9",
+        "title": "विशेषण और उसके उदाहरण (Adjectives & Examples)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_10",
+        "title": "क्रिया और काल (Verbs and Tenses)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_11",
+        "title": "लिंग बदलो - पुल्लिंग और स्त्रीलिंग (Gender - Masculine & Feminine)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_12",
+        "title": "वचन बदलो - एकवचन और बहुवचन (Singular and Plural)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_20",
+        "title": "कारक और परसर्ग (Case Endings & Postpositions - ने, को, से)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_21",
+        "title": "सकर्मक और अकर्मक क्रिया (Transitive & Intransitive Verbs & 'Ne' Rule)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_22",
+        "title": "उपसर्ग और प्रत्यय (Prefixes & Suffixes)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_23",
+        "title": "संधि और समास (Word Compounding & Joining)",
+        "category": "C. हिंदी व्याकरण (Hindi Grammar)"
+      },
+      {
+        "id": "hi_13",
+        "title": "पर्यायवाची शब्द (Synonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_14",
+        "title": "विलोम शब्द (Antonyms)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_15",
+        "title": "अनेक शब्दों के लिए एक शब्द (One Word Substitution)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_16",
+        "title": "मुहावरे और कहावतें (Idioms and Proverbs)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_24",
+        "title": "दिन, महीने और ऋतुएँ (Days, Months & Seasons)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_25",
+        "title": "रंग और आकृतियाँ (Colors & Shapes)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_26",
+        "title": "रिश्ते-नाते (Family Relations Vocabulary)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_27",
+        "title": "शरीर के अंग और स्वास्थ्य (Body Parts & Health)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_28",
+        "title": "फल, सब्जियाँ और मसाले (Fruits, Vegetables & Spices)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_29",
+        "title": "पशु-पक्षी और उनकी बोलियाँ (Animals, Birds & Their Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_30",
+        "title": "श्रुतिसम भिन्नार्थक शब्द (Homophones & Similar Sounds)",
+        "category": "D. शब्द ज्ञान (Vocabulary)"
+      },
+      {
+        "id": "hi_17",
+        "title": "शुद्ध और अशुद्ध वाक्य (Correct Sentence Formation)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_18",
+        "title": "विराम चिह्न (Punctuation Marks)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_19",
+        "title": "अपठित गद्यांश (Reading Comprehension)",
+        "category": "E. वाक्य रचना और समझ (Sentence Building)"
+      },
+      {
+        "id": "hi_31",
+        "title": "शिष्टाचार और अभिवादन (Greetings & Politeness - आप/तुम)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_32",
+        "title": "दिशाएँ और स्थान (Directions & Positioning)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_33",
+        "title": "बाजार और खरीदारी (Shopping, Weights & Bargaining)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_34",
+        "title": "यात्रा और परिवहन (Travel & Transportation)",
+        "category": "F. व्यावहारिक बातचीत (Conversational Hindi)"
+      },
+      {
+        "id": "hi_35",
+        "title": "चित्र वर्णन (Picture Description & Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_36",
+        "title": "अनुच्छेद एवं निबंध लेखन (Paragraph & Essay Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_37",
+        "title": "पत्र लेखन (Formal & Informal Letter Writing)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_38",
+        "title": "कहानी लेखन और नीति कथाएँ (Fables & Story Completion - Panchatantra)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      },
+      {
+        "id": "hi_39",
+        "title": "बालगीत और कविताएँ (Nursery Rhymes & Poetry)",
+        "category": "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)"
+      }
+    ],
+    "History": [
+      {
+        "id": "hist_1",
+        "title": "Ancient Civilizations (Egypt, Mesopotamia, Indus Valley)",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_2",
+        "title": "Ancient Greece and Roman Empire",
+        "category": "A. Ancient World History"
+      },
+      {
+        "id": "hist_3",
+        "title": "Medieval Europe & Feudalism",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_4",
+        "title": "The Renaissance & Scientific Revolution",
+        "category": "B. Medieval & Early Modern History"
+      },
+      {
+        "id": "hist_5",
+        "title": "Industrial Revolution & Global Expansion",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_6",
+        "title": "World War I & World War II",
+        "category": "C. Modern World History"
+      },
+      {
+        "id": "hist_7",
+        "title": "Australian & Local Indigenous History",
+        "category": "D. Local & Regional History"
+      }
+    ],
+    "Geography": [
+      {
+        "id": "geo_1",
+        "title": "Continents, Oceans & World Map Reading",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_2",
+        "title": "Latitude, Longitude & Time Zones",
+        "category": "A. Maps & Spatial Skills"
+      },
+      {
+        "id": "geo_3",
+        "title": "Landforms: Mountains, Rivers, Valleys & Volcanoes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_4",
+        "title": "Weather, Climate Zones & Biomes",
+        "category": "B. Physical Geography"
+      },
+      {
+        "id": "geo_5",
+        "title": "Population, Urbanization & Migration",
+        "category": "C. Human Geography"
+      },
+      {
+        "id": "geo_6",
+        "title": "Natural Resources & Sustainability",
+        "category": "C. Human Geography"
+      }
+    ],
+    "Spanish": [
+      {
+        "id": "es_1",
+        "title": "El Alfabeto y Pronunciación (Alphabet & Sounds)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_2",
+        "title": "Números 1 al 100 (Numbers 1 to 100)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_3",
+        "title": "Saludos, Despedidas y Presentaciones (Greetings & Intro)",
+        "category": "A. Basicos (Basics)"
+      },
+      {
+        "id": "es_4",
+        "title": "Sustantivos y Artículos - El, La, Los, Las (Nouns & Articles)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_5",
+        "title": "Verbos Comunes - Ser, Estar, Tener, Ir (Common Verbs)",
+        "category": "B. Gramática (Grammar)"
+      },
+      {
+        "id": "es_6",
+        "title": "Vocabulario de la Familia, Comida y Escuela (Vocabulary)",
+        "category": "C. Vocabulario (Vocabulary)"
+      }
+    ],
+    "French": [
+      {
+        "id": "fr_1",
+        "title": "L'Alphabet et la Prononciation (Alphabet & Sounds)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_2",
+        "title": "Les Nombres 1 à 100 (Numbers 1 to 100)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_3",
+        "title": "Salutations et Présentations (Greetings & Intro)",
+        "category": "A. Les Bases (Basics)"
+      },
+      {
+        "id": "fr_4",
+        "title": "Les Articles et Noms - Le, La, Les, Un, Une (Articles & Nouns)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_5",
+        "title": "Verbes Essentiels - Être, Avoir, Faire, Aller (Key Verbs)",
+        "category": "B. Grammaire (Grammar)"
+      },
+      {
+        "id": "fr_6",
+        "title": "Vocabulaire de la Famille et de la Maison (Vocabulary)",
+        "category": "C. Vocabulaire (Vocabulary)"
+      }
+    ],
+    "Computer Science": [
+      {
+        "id": "cs_912_1",
+        "title": "Data Structures: Arrays, Stacks, Queues, Hash Tables & Trees",
+        "category": "A. Advanced CS"
+      },
+      {
+        "id": "cs_912_2",
+        "title": "Sorting & Searching Algorithms (Binary Search, QuickSort)",
+        "category": "A. Advanced CS"
+      },
+      {
+        "id": "cs_912_3",
+        "title": "Relational Databases, SQL Queries (SELECT, JOIN, GROUP BY)",
+        "category": "B. Data Engineering"
+      },
+      {
+        "id": "cs_912_4",
+        "title": "Machine Learning: Supervised vs. Unsupervised Learning",
+        "category": "C. AI & Data Science"
+      },
+      {
+        "id": "cs_912_5",
+        "title": "AI Ethics, Bias in Training Data, & Algorithmic Fairness",
+        "category": "C. AI & Data Science"
+      },
+      {
+        "id": "cs_912_6",
+        "title": "Network Protocols: HTTP, HTTPS, TCP/IP, DNS & IP Routing",
+        "category": "D. Systems & Networks"
+      }
+    ],
+    "Financial Literacy": [
+      {
+        "id": "fl_912_1",
+        "title": "Financial Statement Analysis (Balance Sheets & P&L)",
+        "category": "A. Corporate Finance"
+      },
+      {
+        "id": "fl_912_2",
+        "title": "Risk Management, Portfolio Allocation & Diversification",
+        "category": "B. Investment Strategy"
+      },
+      {
+        "id": "fl_912_3",
+        "title": "Monetary Policy, Central Banks & Federal Reserve System",
+        "category": "C. Global Economics"
+      },
+      {
+        "id": "fl_912_4",
+        "title": "Global Trade, Tariffs, Exchange Rates & Trade Deficits",
+        "category": "C. Global Economics"
+      },
+      {
+        "id": "fl_912_5",
+        "title": "Venture Capital, Startup Valuations & Equity Dilution",
+        "category": "D. Entrepreneurship"
+      }
+    ],
+    "Environmental Science": [
+      {
+        "id": "es_912_1",
+        "title": "Biogeochemical Cycles (Nitrogen, Phosphorus, Carbon, Water)",
+        "category": "A. Earth Systems"
+      },
+      {
+        "id": "es_912_2",
+        "title": "Climate Models, IPCC Projections & Temperature Anomalies",
+        "category": "B. Climate Science"
+      },
+      {
+        "id": "es_912_3",
+        "title": "Nuclear Energy: Fission, Fusion & Waste Storage Chemistry",
+        "category": "C. Clean Tech"
+      },
+      {
+        "id": "es_912_4",
+        "title": "Circular Economy, Life Cycle Assessment (LCA) of Materials",
+        "category": "D. Industrial Ecology"
+      }
+    ],
+    "Critical Thinking": [
+      {
+        "id": "ct_912_1",
+        "title": "Formal Logic: Syllogisms, Modus Ponens & Truth Tables",
+        "category": "A. Formal Logic"
+      },
+      {
+        "id": "ct_912_2",
+        "title": "Statistical Reasoning: Correlation vs. Causation & p-values",
+        "category": "B. Scientific Reasoning"
+      },
+      {
+        "id": "ct_912_3",
+        "title": "Bioethics & Technology Ethics (Genetic editing, AI autonomous decisions)",
+        "category": "C. Applied Ethics"
+      },
+      {
+        "id": "ct_912_4",
+        "title": "Game Theory: Nash Equilibrium & Prisoner's Dilemma",
+        "category": "D. Decision Science"
+      }
     ]
   }
 };
-
-// Define Olympiad topics for different grade bands
-const olympiadFoundation = [
-  { id: "ol_f_1", title: "Visual Pattern Recognition", category: "Patterns & Logic" },
-  { id: "ol_f_2", title: "Count and Group Objects", category: "Numbers & Counting" },
-  { id: "ol_f_3", title: "Basic Spatial Shapes", category: "Geometry" },
-  { id: "ol_f_4", title: "Simple Logic Elimination Puzzles", category: "Patterns & Logic" }
-];
-
-const olympiadG1_G2 = [
-  { id: "ol_12_1", title: "Completing Visual and Numeric Sequences", category: "A. Patterns & Sequences" },
-  { id: "ol_12_2", title: "Symbol Math and Simple Alphametics", category: "B. Mathematical Operations" },
-  { id: "ol_12_3", title: "Counting Shapes and Overlapping Figures", category: "C. Spatial Visualisation" },
-  { id: "ol_12_4", title: "Paper Folding and Mirror Reflection Puzzles", category: "C. Spatial Visualisation" },
-  { id: "ol_12_5", title: "Logic Elimination and Ordering Puzzles", category: "D. Logical Reasoning" },
-  { id: "ol_12_6", title: "Systematic Coin and Currency Counting", category: "B. Mathematical Operations" }
-];
-
-const olympiadG3_G4 = [
-  // Number Theory
-  { id: "ol_34_1", title: "Divisibility Rules (2, 3, 5, 9, 10)", category: "Number Theory" },
-  { id: "ol_34_2", title: "Prime Factorisation & Prime Numbers", category: "Number Theory" },
-  { id: "ol_34_3", title: "Finding the Units Digit of Large Products", category: "Number Theory" },
-  { id: "ol_34_4", title: "Lowest Common Multiple (LCM) Word Problems", category: "Number Theory" },
-  { id: "ol_34_5", title: "Greatest Common Divisor (GCD) Word Problems", category: "Number Theory" },
-  { id: "ol_34_6", title: "Properties of Odd and Even Integers", category: "Number Theory" },
-  { id: "ol_34_7", title: "Magic Squares and Number Grids", category: "Number Theory" },
-  { id: "ol_34_8", title: "Consecutive Integer Sums", category: "Number Theory" },
-
-  // Combinatorics & Counting
-  { id: "ol_34_9", title: "Basic Pigeonhole Principle (Socks/Drawers)", category: "Combinatorics & Counting" },
-  { id: "ol_34_10", title: "Grid Paths (Shortest Routes on Grid Maps)", category: "Combinatorics & Counting" },
-  { id: "ol_34_11", title: "Handshake & Matchmaking Puzzles", category: "Combinatorics & Counting" },
-  { id: "ol_34_12", title: "Systematic Listing of Combinations", category: "Combinatorics & Counting" },
-  { id: "ol_34_13", title: "Permutations of Words and Letters", category: "Combinatorics & Counting" },
-  { id: "ol_34_14", title: "Venn Diagrams (2-Set Intersections)", category: "Combinatorics & Counting" },
-  { id: "ol_34_15", title: "Overlapping Intervals & Tree Planting Problems", category: "Combinatorics & Counting" },
-
-  // Mathematical Operations & Algebra
-  { id: "ol_34_16", title: "Alphametics (Addition & Subtraction Cryptarithms)", category: "Mathematical Operations" },
-  { id: "ol_34_17", title: "Shape Math (Solving Visual Systems of Equations)", category: "Mathematical Operations" },
-  { id: "ol_34_18", title: "The Working Backwards Method", category: "Mathematical Operations" },
-  { id: "ol_34_19", title: "The Chicken and Rabbit Problem (Heuristics)", category: "Mathematical Operations" },
-  { id: "ol_34_20", title: "Age Word Problems (Past and Future Relationships)", category: "Mathematical Operations" },
-  { id: "ol_34_21", title: "Excess and Deficit Puzzles", category: "Mathematical Operations" },
-  { id: "ol_34_22", title: "Gauss Series Summation Methods", category: "Mathematical Operations" },
-
-  // Geometry & Measurement
-  { id: "ol_34_23", title: "Perimeter of Compound & L-Shaped Polygons", category: "Geometry & Measurement" },
-  { id: "ol_34_24", title: "Shaded Area of Squares, Rectangles & Triangles", category: "Geometry & Measurement" },
-  { id: "ol_34_25", title: "Area on Grid Maps (Counting Unit Squares)", category: "Geometry & Measurement" },
-  { id: "ol_34_26", title: "Spatial Cube Stacks (Visible vs. Hidden Blocks)", category: "Geometry & Measurement" },
-  { id: "ol_34_27", title: "Paper Folding, Symmetry & Mirror Reflections", category: "Geometry & Measurement" },
-  { id: "ol_34_28", title: "Geometry of Angles in Triangles", category: "Geometry & Measurement" },
-
-  // Logical Reasoning
-  { id: "ol_34_29", title: "Truth-Tellers and Liars (Knights & Knaves)", category: "Logical Reasoning" },
-  { id: "ol_34_30", title: "Grid Logic Elimination (Attribute Matching)", category: "Logical Reasoning" },
-  { id: "ol_34_31", title: "Visual Pattern Matrices (Sequence Prediction)", category: "Logical Reasoning" },
-  { id: "ol_34_32", title: "Clock and Calendar Math (Hand Angles & Leap Years)", category: "Logical Reasoning" },
-  { id: "ol_34_33", title: "Seating Arrangements and Circular Logic", category: "Logical Reasoning" }
-];
-
-const olympiadG5_G6 = [
-  // Number Theory
-  { id: "ol_56_1", title: "Advanced Divisibility Rules (7, 11, 13)", category: "Number Theory" },
-  { id: "ol_56_2", title: "GCD, LCM, and Remainder Word Problems", category: "Number Theory" },
-  { id: "ol_56_3", title: "Modular Arithmetic & Calendar Calculations", category: "Number Theory" },
-  { id: "ol_56_4", title: "Finding the Last Two Digits of Large Numbers", category: "Number Theory" },
-  { id: "ol_56_5", title: "Farey Sequences and Fraction Properties", category: "Number Theory" },
-  { id: "ol_56_6", title: "Factors and Divisors (Counting and Summing)", category: "Number Theory" },
-
-  // Combinatorics & Counting
-  { id: "ol_56_7", title: "Permutations, Combinations & Arrangements", category: "Combinatorics & Counting" },
-  { id: "ol_56_8", title: "Pigeonhole Principle (Advanced Sorting)", category: "Combinatorics & Counting" },
-  { id: "ol_56_9", title: "Path Counting on Chessboards & Grid Networks", category: "Combinatorics & Counting" },
-  { id: "ol_56_10", title: "Venn Diagrams (3-Set Complex Intersections)", category: "Combinatorics & Counting" },
-  { id: "ol_56_11", title: "Systematic Tree Diagrams & Probability Trees", category: "Combinatorics & Counting" },
-
-  // Mathematical Operations & Algebra
-  { id: "ol_56_12", title: "Alphametics with Multiplication & Division", category: "Mathematical Operations" },
-  { id: "ol_56_13", title: "Solving Visual Algebraic Equations with 3 Variables", category: "Mathematical Operations" },
-  { id: "ol_56_14", title: "Rate-Time-Distance Word Problems", category: "Mathematical Operations" },
-  { id: "ol_56_15", title: "Work-Rate Puzzles (Cooperative Pipes & Jobs)", category: "Mathematical Operations" },
-  { id: "ol_56_16", title: "Multi-Step Fraction Word Problems", category: "Mathematical Operations" },
-  { id: "ol_56_17", title: "Arithmetic & Geometric Sequences", category: "Mathematical Operations" },
-
-  // Geometry & Measurement
-  { id: "ol_56_18", title: "Pythagorean Theorem & Geometric Angle Puzzles", category: "Geometry & Measurement" },
-  { id: "ol_56_19", title: "Inscribed Figures & Shifting Shaded Segments", category: "Geometry & Measurement" },
-  { id: "ol_56_20", title: "Nets, Surface Area & Volumes of 3D Prisms", category: "Geometry & Measurement" },
-  { id: "ol_56_21", title: "Transformational Geometry (Rotation, Dilations)", category: "Geometry & Measurement" },
-
-  // Logical Reasoning
-  { id: "ol_56_22", title: "Complex Liars & Truth-Tellers Deduction", category: "Logical Reasoning" },
-  { id: "ol_56_23", title: "Logic grids & multi-parameter elimination", category: "Logical Reasoning" },
-  { id: "ol_56_24", title: "Symmetric Game Strategies & Winning Piles", category: "Logical Reasoning" },
-  { id: "ol_56_25", title: "Cryptographic Decryption & Cipher Decoding", category: "Logical Reasoning" }
-];
-
-const olympiadG7_G8 = [
-  { id: "ol_78_1", title: "Prime Factorisation & Diophantine Equations", category: "A. Higher Number Theory" },
-  { id: "ol_78_2", title: "Modular Arithmetic Congruences & Divisibility Proofs", category: "A. Higher Number Theory" },
-  { id: "ol_78_3", title: "Combinatorics Permutations (nPr) and Combinations (nCr)", category: "B. Advanced Combinatorics" },
-  { id: "ol_78_4", title: "Advanced Pigeonhole Principle & Extremal Cases", category: "B. Advanced Combinatorics" },
-  { id: "ol_78_5", title: "System of Linear Equations & Functional Relations", category: "C. Algebra" },
-  { id: "ol_78_6", title: "Factoring Polynomials & Quadratic Sequences", category: "C. Algebra" },
-  { id: "ol_78_7", title: "Angles, Similarity and Congruence in Polygons", category: "D. Geometry & Measurement" },
-  { id: "ol_78_8", title: "Chessboard Coloring Proofs & Grid Route Puzzles", category: "E. Logical Reasoning" }
-];
-
-const olympiadG9_G12 = [
-  { id: "ol_912_1", title: "Diophantine Equations & Fermat's Little Theorem", category: "A. Olympiad Number Theory" },
-  { id: "ol_912_2", title: "Advanced Combinatorics (Stars and Bars Method)", category: "B. Olympiad Combinatorics" },
-  { id: "ol_912_3", title: "Principle of Inclusion-Exclusion (PIE)", category: "B. Olympiad Combinatorics" },
-  { id: "ol_912_4", title: "Logarithmic, Exponential & Polynomial Equations", category: "C. Olympiad Algebra" },
-  { id: "ol_912_5", title: "Inequalities (AM-GM, Cauchy-Schwarz)", category: "C. Olympiad Algebra" },
-  { id: "ol_912_6", title: "Power of a Point, Cyclic Quadrilaterals & Geometry Proofs", category: "D. Olympiad Geometry" },
-  { id: "ol_912_7", title: "Game Theory, Winning Strategies & Invariants", category: "E. Advanced Logic" }
-];
-
-// Dynamically inject Olympiad arrays to corresponding Grade keys
-if (curriculum) {
-  if (curriculum["Foundation"]) curriculum["Foundation"]["Olympiad"] = olympiadFoundation;
-  
-  if (curriculum["Grade 1"]) curriculum["Grade 1"]["Olympiad"] = olympiadG1_G2;
-  if (curriculum["Grade 2"]) curriculum["Grade 2"]["Olympiad"] = olympiadG1_G2;
-  
-  if (curriculum["Grade 3"]) curriculum["Grade 3"]["Olympiad"] = olympiadG3_G4;
-  if (curriculum["Grade 4"]) curriculum["Grade 4"]["Olympiad"] = olympiadG3_G4;
-  
-  if (curriculum["Grade 5"]) curriculum["Grade 5"]["Olympiad"] = olympiadG5_G6;
-  if (curriculum["Grade 6"]) curriculum["Grade 6"]["Olympiad"] = olympiadG5_G6;
-  
-  if (curriculum["Grade 7"]) curriculum["Grade 7"]["Olympiad"] = olympiadG7_G8;
-  if (curriculum["Grade 8"]) curriculum["Grade 8"]["Olympiad"] = olympiadG7_G8;
-  
-  for (let g = 9; g <= 12; g++) {
-    const key = `Grade ${g}`;
-    if (curriculum[key]) curriculum[key]["Olympiad"] = olympiadG9_G12;
-  }
-}
-
-export const hindiCurriculum = [
-  { id: "hi_1", title: "स्वर और व्यंजन पहचान (Vowels & Consonants Identification)", category: "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)" },
-  { id: "hi_2", title: "मात्राएँ और शब्द रचना (Matras and Word Formation)", category: "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)" },
-  { id: "hi_3", title: "संयुक्त अक्षर और द्वित्व व्यंजन (Conjunct Characters & Double Consonants)", category: "A. वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)" },
-
-  { id: "hi_4", title: "हिंदी संख्याएँ 1 से 20 (Hindi Numbers 1 to 20)", category: "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)" },
-  { id: "hi_5", title: "हिंदी संख्याएँ 21 से 50 (Hindi Numbers 21 to 50)", category: "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)" },
-  { id: "hi_6", title: "हिंदी संख्याएँ 51 से 100 (Hindi Numbers 51 to 100)", category: "B. हिंदी गिनती और संख्याएँ (Numbers & Counting)" },
-
-  { id: "hi_7", title: "संज्ञा और उसके भेद (Nouns and Types)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
-  { id: "hi_8", title: "सर्वनाम की पहचान (Pronouns Identification)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
-  { id: "hi_9", title: "विशेषण और उसके उदाहरण (Adjectives & Examples)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
-  { id: "hi_10", title: "क्रिया और काल (Verbs and Tenses)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
-  { id: "hi_11", title: "लिंग बदलो - पुल्लिंग और स्त्रीलिंग (Gender - Masculine & Feminine)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
-  { id: "hi_12", title: "वचन बदलो - एकवचन और बहुवचन (Singular and Plural)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
-  { id: "hi_20", title: "कारक और परसर्ग (Case Endings & Postpositions - ने, को, से)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
-  { id: "hi_21", title: "सकर्मक और अकर्मक क्रिया (Transitive & Intransitive Verbs & 'Ne' Rule)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
-  { id: "hi_22", title: "उपसर्ग और प्रत्यय (Prefixes & Suffixes)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
-  { id: "hi_23", title: "संधि और समास (Word Compounding & Joining)", category: "C. हिंदी व्याकरण (Hindi Grammar)" },
-
-  { id: "hi_13", title: "पर्यायवाची शब्द (Synonyms)", category: "D. शब्द ज्ञान (Vocabulary)" },
-  { id: "hi_14", title: "विलोम शब्द (Antonyms)", category: "D. शब्द ज्ञान (Vocabulary)" },
-  { id: "hi_15", title: "अनेक शब्दों के लिए एक शब्द (One Word Substitution)", category: "D. शब्द ज्ञान (Vocabulary)" },
-  { id: "hi_16", title: "मुहावरे और कहावतें (Idioms and Proverbs)", category: "D. शब्द ज्ञान (Vocabulary)" },
-  { id: "hi_24", title: "दिन, महीने और ऋतुएँ (Days, Months & Seasons)", category: "D. शब्द ज्ञान (Vocabulary)" },
-  { id: "hi_25", title: "रंग और आकृतियाँ (Colors & Shapes)", category: "D. शब्द ज्ञान (Vocabulary)" },
-  { id: "hi_26", title: "रिश्ते-नाते (Family Relations Vocabulary)", category: "D. शब्द ज्ञान (Vocabulary)" },
-  { id: "hi_27", title: "शरीर के अंग और स्वास्थ्य (Body Parts & Health)", category: "D. शब्द ज्ञान (Vocabulary)" },
-  { id: "hi_28", title: "फल, सब्जियाँ और मसाले (Fruits, Vegetables & Spices)", category: "D. शब्द ज्ञान (Vocabulary)" },
-  { id: "hi_29", title: "पशु-पक्षी और उनकी बोलियाँ (Animals, Birds & Their Sounds)", category: "D. शब्द ज्ञान (Vocabulary)" },
-  { id: "hi_30", title: "श्रुतिसम भिन्नार्थक शब्द (Homophones & Similar Sounds)", category: "D. शब्द ज्ञान (Vocabulary)" },
-
-  { id: "hi_17", title: "शुद्ध और अशुद्ध वाक्य (Correct Sentence Formation)", category: "E. वाक्य रचना और समझ (Sentence Building)" },
-  { id: "hi_18", title: "विराम चिह्न (Punctuation Marks)", category: "E. वाक्य रचना और समझ (Sentence Building)" },
-  { id: "hi_19", title: "अपठित गद्यांश (Reading Comprehension)", category: "E. वाक्य रचना और समझ (Sentence Building)" },
-
-  { id: "hi_31", title: "शिष्टाचार और अभिवादन (Greetings & Politeness - आप/तुम)", category: "F. व्यावहारिक बातचीत (Conversational Hindi)" },
-  { id: "hi_32", title: "दिशाएँ और स्थान (Directions & Positioning)", category: "F. व्यावहारिक बातचीत (Conversational Hindi)" },
-  { id: "hi_33", title: "बाजार और खरीदारी (Shopping, Weights & Bargaining)", category: "F. व्यावहारिक बातचीत (Conversational Hindi)" },
-  { id: "hi_34", title: "यात्रा और परिवहन (Travel & Transportation)", category: "F. व्यावहारिक बातचीत (Conversational Hindi)" },
-
-  { id: "hi_35", title: "चित्र वर्णन (Picture Description & Writing)", category: "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)" },
-  { id: "hi_36", title: "अनुच्छेद एवं निबंध लेखन (Paragraph & Essay Writing)", category: "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)" },
-  { id: "hi_37", title: "पत्र लेखन (Formal & Informal Letter Writing)", category: "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)" },
-  { id: "hi_38", title: "कहानी लेखन और नीति कथाएँ (Fables & Story Completion - Panchatantra)", category: "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)" },
-  { id: "hi_39", title: "बालगीत और कविताएँ (Nursery Rhymes & Poetry)", category: "G. रचनात्मक लेखन एवं साहित्य (Creative Writing & Literature)" }
-];
-
-export const historyCurriculum = [
-  { id: "hist_1", title: "Ancient Civilizations (Egypt, Mesopotamia, Indus Valley)", category: "A. Ancient World History" },
-  { id: "hist_2", title: "Ancient Greece and Roman Empire", category: "A. Ancient World History" },
-  { id: "hist_3", title: "Medieval Europe & Feudalism", category: "B. Medieval & Early Modern History" },
-  { id: "hist_4", title: "The Renaissance & Scientific Revolution", category: "B. Medieval & Early Modern History" },
-  { id: "hist_5", title: "Industrial Revolution & Global Expansion", category: "C. Modern World History" },
-  { id: "hist_6", title: "World War I & World War II", category: "C. Modern World History" },
-  { id: "hist_7", title: "Australian & Local Indigenous History", category: "D. Local & Regional History" }
-];
-
-export const geographyCurriculum = [
-  { id: "geo_1", title: "Continents, Oceans & World Map Reading", category: "A. Maps & Spatial Skills" },
-  { id: "geo_2", title: "Latitude, Longitude & Time Zones", category: "A. Maps & Spatial Skills" },
-  { id: "geo_3", title: "Landforms: Mountains, Rivers, Valleys & Volcanoes", category: "B. Physical Geography" },
-  { id: "geo_4", title: "Weather, Climate Zones & Biomes", category: "B. Physical Geography" },
-  { id: "geo_5", title: "Population, Urbanization & Migration", category: "C. Human Geography" },
-  { id: "geo_6", title: "Natural Resources & Sustainability", category: "C. Human Geography" }
-];
-
-export const spanishCurriculum = [
-  { id: "es_1", title: "El Alfabeto y Pronunciación (Alphabet & Sounds)", category: "A. Basicos (Basics)" },
-  { id: "es_2", title: "Números 1 al 100 (Numbers 1 to 100)", category: "A. Basicos (Basics)" },
-  { id: "es_3", title: "Saludos, Despedidas y Presentaciones (Greetings & Intro)", category: "A. Basicos (Basics)" },
-  { id: "es_4", title: "Sustantivos y Artículos - El, La, Los, Las (Nouns & Articles)", category: "B. Gramática (Grammar)" },
-  { id: "es_5", title: "Verbos Comunes - Ser, Estar, Tener, Ir (Common Verbs)", category: "B. Gramática (Grammar)" },
-  { id: "es_6", title: "Vocabulario de la Familia, Comida y Escuela (Vocabulary)", category: "C. Vocabulario (Vocabulary)" }
-];
-
-export const frenchCurriculum = [
-  { id: "fr_1", title: "L'Alphabet et la Prononciation (Alphabet & Sounds)", category: "A. Les Bases (Basics)" },
-  { id: "fr_2", title: "Les Nombres 1 à 100 (Numbers 1 to 100)", category: "A. Les Bases (Basics)" },
-  { id: "fr_3", title: "Salutations et Présentations (Greetings & Intro)", category: "A. Les Bases (Basics)" },
-  { id: "fr_4", title: "Les Articles et Noms - Le, La, Les, Un, Une (Articles & Nouns)", category: "B. Grammaire (Grammar)" },
-  { id: "fr_5", title: "Verbes Essentiels - Être, Avoir, Faire, Aller (Key Verbs)", category: "B. Grammaire (Grammar)" },
-  { id: "fr_6", title: "Vocabulaire de la Famille et de la Maison (Vocabulary)", category: "C. Vocabulaire (Vocabulary)" }
-];
-
-if (curriculum) {
-  Object.keys(curriculum).forEach(gradeKey => {
-    if (curriculum[gradeKey]) {
-      curriculum[gradeKey]["Hindi"] = hindiCurriculum;
-      curriculum[gradeKey]["History"] = historyCurriculum;
-      curriculum[gradeKey]["Geography"] = geographyCurriculum;
-      curriculum[gradeKey]["Spanish"] = spanishCurriculum;
-      curriculum[gradeKey]["French"] = frenchCurriculum;
-    }
-  });
-}
-
