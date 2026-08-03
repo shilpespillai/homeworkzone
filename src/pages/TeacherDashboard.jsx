@@ -87,6 +87,7 @@ import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, wh
 import HomeworkGenerator from './HomeworkGenerator';
 import HomeworkScheduler from './HomeworkScheduler';
 import TestReportsDashboard from '../components/TestReportsDashboard';
+import AgenticHelpAssistant from '../components/AgenticHelpAssistant';
 import { encryptText, decryptText } from '../utils/crypto';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
 
@@ -8990,7 +8991,8 @@ Include a balanced combination of question types such as:
            );
          })()}
        </AnimatePresence>
-       </main>
+       <AgenticHelpAssistant setDashboardTab={setActiveTab} />
+        </main>
      </div>
     );
 };
