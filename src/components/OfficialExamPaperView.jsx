@@ -27,6 +27,7 @@ import DynamicInstrument from './DynamicInstrument';
 import DynamicBlockStructure from './DynamicBlockStructure';
 import EarlyMathVisualizer from './EarlyMathVisualizer';
 import DynamicVennDiagram from './DynamicVennDiagram';
+import PassageViewer from './PassageViewer';
 import InteractiveSorting from './InteractiveSorting';
 import InteractiveMatching from './InteractiveMatching';
 import InteractiveFractionColoring from './InteractiveFractionColoring';
@@ -849,12 +850,11 @@ export default function OfficialExamPaperView({
 
           {/* Reading Passage / Stimulus Container if present */}
           {passage && (
-            <div className="bg-amber-50/50 border-2 border-amber-200/80 p-6 rounded-xl font-serif text-slate-900 leading-relaxed text-sm md:text-base space-y-3 shadow-inner">
-              <span className="font-sans text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-200/60 px-2 py-0.5 rounded border border-amber-300">
-                READING PASSAGE / STIMULUS DATA
-              </span>
-              <p className="whitespace-pre-line">{passage}</p>
-            </div>
+            <PassageViewer 
+              passage={passage} 
+              currentQuestionText={cleanQuestionText || ''} 
+              className="my-4" 
+            />
           )}
 
           {/* Visual Diagram / SVG Figure Container if present */}
