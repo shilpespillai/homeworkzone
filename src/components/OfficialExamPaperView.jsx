@@ -639,6 +639,7 @@ export default function OfficialExamPaperView({
                         <span className="font-black uppercase text-[10px] text-slate-500 block">Worked Logic Solution:</span>
                         <p className="text-slate-800 leading-normal">{q.solution || q.explanation}</p>
                       </div>
+                    )}
                   </div>
                 );
               })}
