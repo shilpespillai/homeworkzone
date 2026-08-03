@@ -6795,26 +6795,6 @@ Include a balanced combination of question types such as:
                                 </div>
                              );
                           })}
-
-                          {/* "+ Add New Subject" Action Card */}
-                          <div
-                             onClick={() => {
-                                const name = prompt("Enter new subject name (e.g. Geography, Art, Philosophy):");
-                                if (name && name.trim()) {
-                                   setNewSubjectName(name.trim());
-                                   setTimeout(() => handleAddSubject(), 100);
-                                }
-                             }}
-                             className="p-5 rounded-3xl border-2 border-dashed border-slate-300 hover:border-orange-400 bg-slate-50/50 hover:bg-orange-50/30 cursor-pointer transition-all flex flex-col items-center justify-center text-center group hover:shadow-md min-h-[160px]"
-                          >
-                             <div className="w-12 h-12 rounded-2xl bg-white border-2 border-slate-200 group-hover:border-orange-400 flex items-center justify-center text-slate-400 group-hover:text-orange-500 shadow-sm mb-2 transition-colors">
-                                <Plus className="w-6 h-6" />
-                             </div>
-                             <span className="text-sm font-black text-slate-700 group-hover:text-orange-600 transition-colors">
-                                Add Subject
-                             </span>
-                             <span className="text-[10px] font-bold text-slate-400 mt-0.5">Custom template</span>
-                          </div>
                        </div>
                     </div>
 
