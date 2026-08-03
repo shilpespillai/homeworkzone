@@ -35,16 +35,34 @@ Include a balanced combination of question types such as:
 - Fill in the Blanks
 - Match the Following
 - Short Answer Questions
-- Picture-based questions (describe the image instead of generating one)
-- Sequence or Ordering questions (when applicable)
 - Odd One Out (where applicable)`;
+};
+
+export const getVocabularyPromptTemplate = () => {
+  return `SPECIAL VOCABULARY & WORD POWER LEARNING MANDATE:
+When generating a quiz for Vocabulary (or Vocabulary & Word Power / Vocab):
+1. YOU MUST ALWAYS GENERATE A ROOT-LEVEL "passage" STRING CONTAINING A DEDICATED "WEEKLY WORD SPOTLIGHT & GUIDE" for 3 to 5 target vocabulary words appropriate for the requested grade level.
+2. The "passage" string MUST be formatted clearly using headers and bullet points for each target word:
+   - 📌 Word & Part of Speech: (e.g., Resilient - Adjective)
+   - 🔊 Phonetic Pronunciation: (e.g., [ri-zil-yuhnt])
+   - 💡 Kid-Friendly Definition: Clear, simple, age-appropriate explanation.
+   - 🔍 Etymology & Word Root: Origin breakdown (e.g., From Latin 'resilire' - to leap back or rebound).
+   - 👯 Synonyms & Antonyms: List 3 synonyms and 3 antonyms.
+   - 📖 Example Sentence in Context: A rich story sentence showing practical usage.
+3. QUESTION MANDATE:
+   - Do NOT generate simple 1-line definition lookups.
+   - Questions MUST test ACTIVE APPLICATION:
+     a) Contextual Scenario Analysis ("Which word best describes a student who never gives up after a setback?")
+     b) Fill-in-the-blank in new sentence scenarios.
+     c) Interactive matching or sorting of synonyms and antonyms.
+     d) Text input sentence construction ("Write a complete sentence using the word 'resilient'...").`;
 };
 
 export const DEFAULT_SUBJECT_PROMPTS = {
   maths: getPremiumPromptTemplate('Maths'),
   english: getPremiumPromptTemplate('English'),
   science: getPremiumPromptTemplate('Science'),
-  vocabulary: getPremiumPromptTemplate('Vocabulary & Word Power'),
+  vocabulary: getVocabularyPromptTemplate(),
   logical_reasoning: getPremiumPromptTemplate('Logical Reasoning'),
   olympiad: getPremiumPromptTemplate('Olympiad Maths'),
   hindi: getPremiumPromptTemplate('Hindi')

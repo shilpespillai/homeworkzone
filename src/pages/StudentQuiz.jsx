@@ -725,8 +725,16 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             {homework.passage && (
               <div className="w-full lg:w-1/2 lg:sticky lg:top-[180px] bg-white/95 backdrop-blur-md rounded-[32px] p-8 shadow-[0_8px_0_0_rgba(255,255,255,0.6)] flex flex-col lg:max-h-[calc(100vh-220px)] overflow-y-auto no-scrollbar">
                 <div className="flex items-center gap-2 mb-6 shrink-0">
-                  <BookOpen className="w-6 h-6 text-indigo-500" />
-                  <h2 className="text-xl font-black text-slate-800">Reading Passage</h2>
+                  {homework.subject?.toLowerCase().includes('vocab') ? (
+                    <Sparkles className="w-6 h-6 text-amber-500" />
+                  ) : (
+                    <BookOpen className="w-6 h-6 text-indigo-500" />
+                  )}
+                  <h2 className="text-xl font-black text-slate-800">
+                    {homework.subject?.toLowerCase().includes('vocab')
+                      ? '💡 Weekly Word Spotlight & Learning Guide'
+                      : 'Reading Passage'}
+                  </h2>
                 </div>
                 <div className="text-lg font-medium text-slate-700 leading-relaxed space-y-4 pb-4">
                   {homework.passage.split('\n').map((paragraph, idx) => (
@@ -1106,8 +1114,16 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
             {homework.passage && (
               <div className="lg:w-1/2 bg-white/95 backdrop-blur-md rounded-[40px] p-8 shadow-[0_16px_0_0_rgba(255,255,255,0.6)] flex flex-col max-h-[80vh] overflow-y-auto custom-scrollbar sticky top-24">
                 <div className="flex items-center gap-2 mb-6">
-                  <BookOpen className="w-6 h-6 text-indigo-500" />
-                  <h2 className="text-xl font-black text-slate-800">Reading Passage</h2>
+                  {homework.subject?.toLowerCase().includes('vocab') ? (
+                    <Sparkles className="w-6 h-6 text-amber-500" />
+                  ) : (
+                    <BookOpen className="w-6 h-6 text-indigo-500" />
+                  )}
+                  <h2 className="text-xl font-black text-slate-800">
+                    {homework.subject?.toLowerCase().includes('vocab')
+                      ? '💡 Weekly Word Spotlight & Learning Guide'
+                      : 'Reading Passage'}
+                  </h2>
                 </div>
                 <div className="text-lg font-medium text-slate-700 leading-relaxed space-y-4">
                   {homework.passage.split('\n').map((paragraph, idx) => (
