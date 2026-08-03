@@ -17,6 +17,7 @@ import {
   Check,
   X,
   LogOut
+} from 'lucide-react';
 import DynamicChart from './DynamicChart';
 import DynamicGeometry from './DynamicGeometry';
 import DynamicGridMap from './DynamicGridMap';
