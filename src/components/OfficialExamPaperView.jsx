@@ -789,18 +789,24 @@ export default function OfficialExamPaperView({
             <FileText className="w-3.5 h-3.5" /> Palette ({answeredCount}/{totalQuestions})
           </button>
 
-          <button
-            onClick={async () => {
-              if (window.confirm("Are you sure you want to exit the exam and return to the dashboard? 🏠")) {
-                if (onExit) onExit();
-                else if (onFinishExam) onFinishExam();
-              }
-            }}
-            className="py-1.5 px-3.5 bg-rose-600 hover:bg-rose-500 active:scale-95 text-white rounded-lg text-xs font-black flex items-center gap-1.5 transition-all shadow-md cursor-pointer ml-1"
-            title="Exit exam and return to dashboard"
-          >
-            <LogOut className="w-3.5 h-3.5" /> Exit Exam
-          </button>
+          {(() => {
+            const assignmentType = (homework?.type || homework?.mode || 'exam').toLowerCase();
+            const exitText = assignmentType === 'exam' ? 'Exit Exam' : assignmentType === 'lesson' ? 'Exit Lesson' : assignmentType === 'quiz' ? 'Exit Quiz' : 'Exit Homework';
+            return (
+              <button
+                onClick={async () => {
+                  if (window.confirm(`Are you sure you want to exit the ${assignmentType} and return to the dashboard? 🏠`)) {
+                    if (onExit) onExit();
+                    else if (onFinishExam) onFinishExam();
+                  }
+                }}
+                className="py-1.5 px-3.5 bg-rose-600 hover:bg-rose-500 active:scale-95 text-white rounded-lg text-xs font-black flex items-center gap-1.5 transition-all shadow-md cursor-pointer ml-1"
+                title={`Exit ${assignmentType} and return to dashboard`}
+              >
+                <LogOut className="w-3.5 h-3.5" /> {exitText}
+              </button>
+            );
+          })()}
         </div>
       </header>
 

@@ -628,17 +628,24 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
               <span className="text-[10px] font-black tracking-widest uppercase opacity-95 hidden sm:inline">
                 {homework.subject}
               </span>
-              <button
-                onClick={async () => {
-                  if (window.confirm("Are you sure you want to exit and return to the dashboard? 🏠")) {
-                    if (onComplete) onComplete();
-                  }
-                }}
-                className="bg-rose-500 hover:bg-rose-600 active:scale-95 text-white font-extrabold text-xs px-3.5 py-1.5 rounded-full shadow-sm transition-all flex items-center gap-1.5 cursor-pointer ml-2"
-                title="Exit exam and return to dashboard"
-              >
-                <span>Exit Exam 🚪</span>
-              </button>
+              {(() => {
+                const assignmentType = (homework?.type || homework?.mode || 'homework').toLowerCase();
+                const isExamOrTest = assignmentType === 'exam' || assignmentType === 'test' || assignmentType.includes('exam') || assignmentType.includes('test');
+                const exitText = isExamOrTest ? 'Exit Exam 🚪' : assignmentType === 'lesson' ? 'Exit Lesson 🚪' : assignmentType === 'quiz' ? 'Exit Quiz 🚪' : 'Exit Homework 🚪';
+                return (
+                  <button
+                    onClick={async () => {
+                      if (window.confirm("Are you sure you want to exit and return to the dashboard? 🏠")) {
+                        if (onComplete) onComplete();
+                      }
+                    }}
+                    className="bg-rose-500 hover:bg-rose-600 active:scale-95 text-white font-extrabold text-xs px-3.5 py-1.5 rounded-full shadow-sm transition-all flex items-center gap-1.5 cursor-pointer ml-2"
+                    title={`Exit ${isExamOrTest ? 'exam' : assignmentType} and return to dashboard`}
+                  >
+                    <span>{exitText}</span>
+                  </button>
+                );
+              })()}
             </div>
           </div>
 
