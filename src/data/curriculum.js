@@ -2291,6 +2291,56 @@ export const curriculum = {
         "id": "ol_f_4",
         "title": "Simple Logic Elimination Puzzles",
         "category": "Patterns & Logic"
+      },
+      {
+        "id": "foundation_olympiad_micro_1",
+        "title": "Combinatorics — Grid Path Counting via Pascal Triangle Logic",
+        "category": "Olympiad"
+      },
+      {
+        "id": "foundation_olympiad_micro_2",
+        "title": "Combinatorics — Permutations vs. Combinations in Real Scenarios",
+        "category": "Olympiad"
+      },
+      {
+        "id": "foundation_olympiad_micro_3",
+        "title": "Combinatorics — Pigeonhole Principle Minimum Item Selection",
+        "category": "Olympiad"
+      },
+      {
+        "id": "foundation_olympiad_micro_4",
+        "title": "Number Theory — Modular Arithmetic Remainders & Cycle Length",
+        "category": "Olympiad"
+      },
+      {
+        "id": "foundation_olympiad_micro_5",
+        "title": "Number Theory — Alphametics & Cryptarithm Addition Letter Solving",
+        "category": "Olympiad"
+      },
+      {
+        "id": "foundation_olympiad_micro_6",
+        "title": "Number Theory — Prime Factorization & Number of Divisors Formula",
+        "category": "Olympiad"
+      },
+      {
+        "id": "foundation_olympiad_micro_7",
+        "title": "Non-Routine Geometry — Shaded Region Areas of Overlapping Circles & Squares",
+        "category": "Olympiad"
+      },
+      {
+        "id": "foundation_olympiad_micro_8",
+        "title": "Non-Routine Geometry — Angle Chasing in Polygons & Cyclic Quadrilaterals",
+        "category": "Olympiad"
+      },
+      {
+        "id": "foundation_olympiad_micro_9",
+        "title": "Olympiad Rates — Catch-Up Distance-Time-Speed Calculations",
+        "category": "Olympiad"
+      },
+      {
+        "id": "foundation_olympiad_micro_10",
+        "title": "Olympiad Rates — Simultaneous Filling and Draining Tank Rates",
+        "category": "Olympiad"
       }
     ],
     "Hindi": [
@@ -2643,6 +2693,71 @@ export const curriculum = {
         "id": "cs_f_4",
         "title": "Digital safety: Asking an adult before using devices",
         "category": "C. Digital Safety"
+      },
+      {
+        "id": "foundation_computerscience_micro_1",
+        "title": "Pseudocode Tracing — FOR Loop Nested Counter Tracking",
+        "category": "Computer Science"
+      },
+      {
+        "id": "foundation_computerscience_micro_2",
+        "title": "Pseudocode Tracing — WHILE Loop Condition Evaluation & Infinite Loop Traps",
+        "category": "Computer Science"
+      },
+      {
+        "id": "foundation_computerscience_micro_3",
+        "title": "Pseudocode Tracing — IF-ELSE Nested Decision Tree State Tables",
+        "category": "Computer Science"
+      },
+      {
+        "id": "foundation_computerscience_micro_4",
+        "title": "Data Representation — Binary to Decimal & Decimal to Binary Conversions",
+        "category": "Computer Science"
+      },
+      {
+        "id": "foundation_computerscience_micro_5",
+        "title": "Data Representation — Hexadecimal Color Code Breakdown (#RRGGBB)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "foundation_computerscience_micro_6",
+        "title": "Data Representation — Lossy vs. Lossless Image Compression Trade-offs",
+        "category": "Computer Science"
+      },
+      {
+        "id": "foundation_computerscience_micro_7",
+        "title": "Networks & Internet — IP Address Subnet Routing & Packet Header Roles",
+        "category": "Computer Science"
+      },
+      {
+        "id": "foundation_computerscience_micro_8",
+        "title": "Networks & Internet — DNS Lookup Process and HTTP/HTTPS Encryption",
+        "category": "Computer Science"
+      },
+      {
+        "id": "foundation_computerscience_micro_9",
+        "title": "Databases & SQL — Basic SQL Queries (SELECT, WHERE, ORDER BY)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "foundation_computerscience_micro_10",
+        "title": "Databases & SQL — Relational Table Primary Key & Foreign Key Links",
+        "category": "Computer Science"
+      },
+      {
+        "id": "foundation_computerscience_micro_11",
+        "title": "Web Development — HTML Structural Tags (div, p, header, section)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "foundation_computerscience_micro_12",
+        "title": "Web Development — CSS Selector Rules (class, id, hover state)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "foundation_computerscience_micro_13",
+        "title": "Cybersecurity — Phishing Detection and Password Hashing Principles",
+        "category": "Computer Science"
       }
     ],
     "Financial Literacy": [
@@ -2660,6 +2775,56 @@ export const curriculum = {
         "id": "fl_f_3",
         "title": "Saving coins in a piggy bank",
         "category": "C. Saving Habits"
+      },
+      {
+        "id": "foundation_financialliteracy_micro_1",
+        "title": "Money Basics — Coin & Bill Identification & Value Counting",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "foundation_financialliteracy_micro_2",
+        "title": "Budgeting — Needs vs. Wants Categorization & Priority Spending",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "foundation_financialliteracy_micro_3",
+        "title": "Budgeting — Income, Fixed Expenses, and Variable Savings Tracking",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "foundation_financialliteracy_micro_4",
+        "title": "Banking & Interest — Simple Interest Formula I = PRT Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "foundation_financialliteracy_micro_5",
+        "title": "Banking & Interest — Compound Interest Growth & Rule of 72",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "foundation_financialliteracy_micro_6",
+        "title": "Economics — Inflation Purchasing Power Impact",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "foundation_financialliteracy_micro_7",
+        "title": "Investments — Stocks, Dividends, and Market Risk Diversification",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "foundation_financialliteracy_micro_8",
+        "title": "Investments — Bonds, Yields, and Fixed-Income Assets",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "foundation_financialliteracy_micro_9",
+        "title": "Corporate Finance — Profit, Loss, Revenue, and Gross Margin Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "foundation_financialliteracy_micro_10",
+        "title": "Taxes — Sales Tax, Income Tax Brackets, and Net Pay Computation",
+        "category": "Financial Literacy"
       }
     ],
     "Environmental Science": [
@@ -2677,6 +2842,51 @@ export const curriculum = {
         "id": "es_f_3",
         "title": "Sunlight, water, and plants growing",
         "category": "A. Earth & Nature"
+      },
+      {
+        "id": "foundation_environmentalscience_micro_1",
+        "title": "Ecosystems — Food Chains, Food Webs, and Trophic Energy Pyramids",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "foundation_environmentalscience_micro_2",
+        "title": "Ecosystems — Biome Classification (Rainforest, Tundra, Desert, Savannah)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "foundation_environmentalscience_micro_3",
+        "title": "Biogeochemical Cycles — Water Cycle Steps (Evaporation, Transpiration, Condensation)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "foundation_environmentalscience_micro_4",
+        "title": "Biogeochemical Cycles — Carbon Cycle & Global Warming Atmosphere Impacts",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "foundation_environmentalscience_micro_5",
+        "title": "Biogeochemical Cycles — Nitrogen Cycle & Soil Nutrient Replenishment",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "foundation_environmentalscience_micro_6",
+        "title": "Conservation — Renewable Energy (Solar, Wind, Hydro, Geothermal)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "foundation_environmentalscience_micro_7",
+        "title": "Conservation — Waste Reduction: 3 Rs (Reduce, Reuse, Recycle)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "foundation_environmentalscience_micro_8",
+        "title": "Conservation — Marine Pollution, Microplastics, and Ocean Acidification",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "foundation_environmentalscience_micro_9",
+        "title": "Global Goals — UN Sustainable Development Goals (SDGs) Analysis",
+        "category": "Environmental Science"
       }
     ],
     "Critical Thinking": [
@@ -2694,6 +2904,153 @@ export const curriculum = {
         "id": "ct_f_3",
         "title": "Identifying what comes next in a picture sequence",
         "category": "A. Logical Classification"
+      },
+      {
+        "id": "foundation_criticalthinking_micro_1",
+        "title": "Identifying Flaws — Correlation vs. Causation Error",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "foundation_criticalthinking_micro_2",
+        "title": "Identifying Flaws — Straw Man & Ad Hominem Distortions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "foundation_criticalthinking_micro_3",
+        "title": "Identifying Flaws — Over-Generalization & Slippery Slope",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "foundation_criticalthinking_micro_4",
+        "title": "Evaluating Arguments — Finding Statements That MOST Strengthen a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "foundation_criticalthinking_micro_5",
+        "title": "Evaluating Arguments — Finding Statements That MOST Weaken a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "foundation_criticalthinking_micro_6",
+        "title": "Evaluating Arguments — Identifying Unstated Implicit Assumptions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "foundation_criticalthinking_micro_7",
+        "title": "Evaluating Arguments — Perspective & Point of View Analysis",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "foundation_criticalthinking_micro_8",
+        "title": "Socratic Inquiry — Distinguishing Fact from Opinion",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "foundation_criticalthinking_micro_9",
+        "title": "Socratic Inquiry — Questioning Premise Validity and Bias",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "foundation_criticalthinking_micro_10",
+        "title": "Formal Fallacies — Affirming the Consequent & Denying the Antecedent",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "foundation_criticalthinking_micro_11",
+        "title": "Informal Fallacies — Appeal to Authority & False Dilemma",
+        "category": "Critical Thinking"
+      }
+    ],
+    "Logical Reasoning": [
+      {
+        "id": "foundation_logicalreasoning_micro_1",
+        "title": "Knights & Knaves — 2-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_2",
+        "title": "Knights & Knaves — 3-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_3",
+        "title": "Linear Seating Arrangement — 5-6 Person Constraint Solving",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_4",
+        "title": "Circular Seating Arrangement — Facing Inward vs. Outward",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_5",
+        "title": "Matrix Grid Matching — Multi-Variable Logic Elimination",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_6",
+        "title": "Conditional Logic — Identifying Contrapositive Validity",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_7",
+        "title": "Conditional Logic — Identifying Converse & Inverse Fallacies",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_8",
+        "title": "Data & Venn Logic — 3-Set Venn Diagram Overlap Calculation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_9",
+        "title": "Data & Venn Logic — Decision Tree Network Condition Tracking",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_10",
+        "title": "Verbal Analogies — Synonyms & Antonyms Relational Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_11",
+        "title": "Verbal Analogies — Part-to-Whole and Cause-to-Effect Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_12",
+        "title": "Letter Cipher Cracking — Single & Double Shift Alphabetical Rules",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_13",
+        "title": "Letter Cipher Cracking — Reversed Alphabet & Symbol Substitution",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_14",
+        "title": "Deductive Syllogisms — Categorical Syllogisms (All A are B, No B are C)",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_15",
+        "title": "Spatial Reasoning — 2D Pattern Matrix Completion",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_16",
+        "title": "Spatial Reasoning — 3D Cube Net Folding and Orientation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_17",
+        "title": "Spatial Reasoning — Paper Folding and Punch-Hole Symmetry",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "foundation_logicalreasoning_micro_18",
+        "title": "Spatial Reasoning — Mirror Reflection and Rotational Invariance",
+        "category": "Logic & Reasoning"
       }
     ]
   },
@@ -5404,6 +5761,96 @@ export const curriculum = {
         "id": "g1_lr_10",
         "title": "Basic Classification",
         "category": "Logical Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_1",
+        "title": "Knights & Knaves — 2-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_2",
+        "title": "Knights & Knaves — 3-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_3",
+        "title": "Linear Seating Arrangement — 5-6 Person Constraint Solving",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_4",
+        "title": "Circular Seating Arrangement — Facing Inward vs. Outward",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_5",
+        "title": "Matrix Grid Matching — Multi-Variable Logic Elimination",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_6",
+        "title": "Conditional Logic — Identifying Contrapositive Validity",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_7",
+        "title": "Conditional Logic — Identifying Converse & Inverse Fallacies",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_8",
+        "title": "Data & Venn Logic — 3-Set Venn Diagram Overlap Calculation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_9",
+        "title": "Data & Venn Logic — Decision Tree Network Condition Tracking",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_10",
+        "title": "Verbal Analogies — Synonyms & Antonyms Relational Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_11",
+        "title": "Verbal Analogies — Part-to-Whole and Cause-to-Effect Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_12",
+        "title": "Letter Cipher Cracking — Single & Double Shift Alphabetical Rules",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_13",
+        "title": "Letter Cipher Cracking — Reversed Alphabet & Symbol Substitution",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_14",
+        "title": "Deductive Syllogisms — Categorical Syllogisms (All A are B, No B are C)",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_15",
+        "title": "Spatial Reasoning — 2D Pattern Matrix Completion",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_16",
+        "title": "Spatial Reasoning — 3D Cube Net Folding and Orientation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_17",
+        "title": "Spatial Reasoning — Paper Folding and Punch-Hole Symmetry",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade1_logicalreasoning_micro_18",
+        "title": "Spatial Reasoning — Mirror Reflection and Rotational Invariance",
+        "category": "Logic & Reasoning"
       }
     ],
     "Olympiad": [
@@ -5436,6 +5883,56 @@ export const curriculum = {
         "id": "ol_12_6",
         "title": "Systematic Coin and Currency Counting",
         "category": "B. Mathematical Operations"
+      },
+      {
+        "id": "grade1_olympiad_micro_1",
+        "title": "Combinatorics — Grid Path Counting via Pascal Triangle Logic",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade1_olympiad_micro_2",
+        "title": "Combinatorics — Permutations vs. Combinations in Real Scenarios",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade1_olympiad_micro_3",
+        "title": "Combinatorics — Pigeonhole Principle Minimum Item Selection",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade1_olympiad_micro_4",
+        "title": "Number Theory — Modular Arithmetic Remainders & Cycle Length",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade1_olympiad_micro_5",
+        "title": "Number Theory — Alphametics & Cryptarithm Addition Letter Solving",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade1_olympiad_micro_6",
+        "title": "Number Theory — Prime Factorization & Number of Divisors Formula",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade1_olympiad_micro_7",
+        "title": "Non-Routine Geometry — Shaded Region Areas of Overlapping Circles & Squares",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade1_olympiad_micro_8",
+        "title": "Non-Routine Geometry — Angle Chasing in Polygons & Cyclic Quadrilaterals",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade1_olympiad_micro_9",
+        "title": "Olympiad Rates — Catch-Up Distance-Time-Speed Calculations",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade1_olympiad_micro_10",
+        "title": "Olympiad Rates — Simultaneous Filling and Draining Tank Rates",
+        "category": "Olympiad"
       }
     ],
     "Hindi": [
@@ -5793,6 +6290,71 @@ export const curriculum = {
         "id": "cs_12_5",
         "title": "Safe passwords and private personal information",
         "category": "D. Digital Safety"
+      },
+      {
+        "id": "grade1_computerscience_micro_1",
+        "title": "Pseudocode Tracing — FOR Loop Nested Counter Tracking",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade1_computerscience_micro_2",
+        "title": "Pseudocode Tracing — WHILE Loop Condition Evaluation & Infinite Loop Traps",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade1_computerscience_micro_3",
+        "title": "Pseudocode Tracing — IF-ELSE Nested Decision Tree State Tables",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade1_computerscience_micro_4",
+        "title": "Data Representation — Binary to Decimal & Decimal to Binary Conversions",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade1_computerscience_micro_5",
+        "title": "Data Representation — Hexadecimal Color Code Breakdown (#RRGGBB)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade1_computerscience_micro_6",
+        "title": "Data Representation — Lossy vs. Lossless Image Compression Trade-offs",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade1_computerscience_micro_7",
+        "title": "Networks & Internet — IP Address Subnet Routing & Packet Header Roles",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade1_computerscience_micro_8",
+        "title": "Networks & Internet — DNS Lookup Process and HTTP/HTTPS Encryption",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade1_computerscience_micro_9",
+        "title": "Databases & SQL — Basic SQL Queries (SELECT, WHERE, ORDER BY)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade1_computerscience_micro_10",
+        "title": "Databases & SQL — Relational Table Primary Key & Foreign Key Links",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade1_computerscience_micro_11",
+        "title": "Web Development — HTML Structural Tags (div, p, header, section)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade1_computerscience_micro_12",
+        "title": "Web Development — CSS Selector Rules (class, id, hover state)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade1_computerscience_micro_13",
+        "title": "Cybersecurity — Phishing Detection and Password Hashing Principles",
+        "category": "Computer Science"
       }
     ],
     "Financial Literacy": [
@@ -5815,6 +6377,56 @@ export const curriculum = {
         "id": "fl_12_4",
         "title": "Distinguishing between spending, saving, and sharing",
         "category": "B. Saving & Goals"
+      },
+      {
+        "id": "grade1_financialliteracy_micro_1",
+        "title": "Money Basics — Coin & Bill Identification & Value Counting",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade1_financialliteracy_micro_2",
+        "title": "Budgeting — Needs vs. Wants Categorization & Priority Spending",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade1_financialliteracy_micro_3",
+        "title": "Budgeting — Income, Fixed Expenses, and Variable Savings Tracking",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade1_financialliteracy_micro_4",
+        "title": "Banking & Interest — Simple Interest Formula I = PRT Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade1_financialliteracy_micro_5",
+        "title": "Banking & Interest — Compound Interest Growth & Rule of 72",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade1_financialliteracy_micro_6",
+        "title": "Economics — Inflation Purchasing Power Impact",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade1_financialliteracy_micro_7",
+        "title": "Investments — Stocks, Dividends, and Market Risk Diversification",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade1_financialliteracy_micro_8",
+        "title": "Investments — Bonds, Yields, and Fixed-Income Assets",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade1_financialliteracy_micro_9",
+        "title": "Corporate Finance — Profit, Loss, Revenue, and Gross Margin Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade1_financialliteracy_micro_10",
+        "title": "Taxes — Sales Tax, Income Tax Brackets, and Net Pay Computation",
+        "category": "Financial Literacy"
       }
     ],
     "Environmental Science": [
@@ -5837,6 +6449,51 @@ export const curriculum = {
         "id": "es_12_4",
         "title": "Planting trees and plant life cycles",
         "category": "A. Ecosystems & Habitats"
+      },
+      {
+        "id": "grade1_environmentalscience_micro_1",
+        "title": "Ecosystems — Food Chains, Food Webs, and Trophic Energy Pyramids",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade1_environmentalscience_micro_2",
+        "title": "Ecosystems — Biome Classification (Rainforest, Tundra, Desert, Savannah)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade1_environmentalscience_micro_3",
+        "title": "Biogeochemical Cycles — Water Cycle Steps (Evaporation, Transpiration, Condensation)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade1_environmentalscience_micro_4",
+        "title": "Biogeochemical Cycles — Carbon Cycle & Global Warming Atmosphere Impacts",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade1_environmentalscience_micro_5",
+        "title": "Biogeochemical Cycles — Nitrogen Cycle & Soil Nutrient Replenishment",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade1_environmentalscience_micro_6",
+        "title": "Conservation — Renewable Energy (Solar, Wind, Hydro, Geothermal)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade1_environmentalscience_micro_7",
+        "title": "Conservation — Waste Reduction: 3 Rs (Reduce, Reuse, Recycle)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade1_environmentalscience_micro_8",
+        "title": "Conservation — Marine Pollution, Microplastics, and Ocean Acidification",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade1_environmentalscience_micro_9",
+        "title": "Global Goals — UN Sustainable Development Goals (SDGs) Analysis",
+        "category": "Environmental Science"
       }
     ],
     "Critical Thinking": [
@@ -5859,6 +6516,61 @@ export const curriculum = {
         "id": "ct_12_4",
         "title": "Simple balance scale weight puzzles",
         "category": "B. Analytical Logic"
+      },
+      {
+        "id": "grade1_criticalthinking_micro_1",
+        "title": "Identifying Flaws — Correlation vs. Causation Error",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade1_criticalthinking_micro_2",
+        "title": "Identifying Flaws — Straw Man & Ad Hominem Distortions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade1_criticalthinking_micro_3",
+        "title": "Identifying Flaws — Over-Generalization & Slippery Slope",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade1_criticalthinking_micro_4",
+        "title": "Evaluating Arguments — Finding Statements That MOST Strengthen a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade1_criticalthinking_micro_5",
+        "title": "Evaluating Arguments — Finding Statements That MOST Weaken a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade1_criticalthinking_micro_6",
+        "title": "Evaluating Arguments — Identifying Unstated Implicit Assumptions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade1_criticalthinking_micro_7",
+        "title": "Evaluating Arguments — Perspective & Point of View Analysis",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade1_criticalthinking_micro_8",
+        "title": "Socratic Inquiry — Distinguishing Fact from Opinion",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade1_criticalthinking_micro_9",
+        "title": "Socratic Inquiry — Questioning Premise Validity and Bias",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade1_criticalthinking_micro_10",
+        "title": "Formal Fallacies — Affirming the Consequent & Denying the Antecedent",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade1_criticalthinking_micro_11",
+        "title": "Informal Fallacies — Appeal to Authority & False Dilemma",
+        "category": "Critical Thinking"
       }
     ]
   },
@@ -8569,6 +9281,96 @@ export const curriculum = {
         "id": "g2_lr_10",
         "title": "Logical Stories",
         "category": "Logical Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_1",
+        "title": "Knights & Knaves — 2-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_2",
+        "title": "Knights & Knaves — 3-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_3",
+        "title": "Linear Seating Arrangement — 5-6 Person Constraint Solving",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_4",
+        "title": "Circular Seating Arrangement — Facing Inward vs. Outward",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_5",
+        "title": "Matrix Grid Matching — Multi-Variable Logic Elimination",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_6",
+        "title": "Conditional Logic — Identifying Contrapositive Validity",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_7",
+        "title": "Conditional Logic — Identifying Converse & Inverse Fallacies",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_8",
+        "title": "Data & Venn Logic — 3-Set Venn Diagram Overlap Calculation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_9",
+        "title": "Data & Venn Logic — Decision Tree Network Condition Tracking",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_10",
+        "title": "Verbal Analogies — Synonyms & Antonyms Relational Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_11",
+        "title": "Verbal Analogies — Part-to-Whole and Cause-to-Effect Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_12",
+        "title": "Letter Cipher Cracking — Single & Double Shift Alphabetical Rules",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_13",
+        "title": "Letter Cipher Cracking — Reversed Alphabet & Symbol Substitution",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_14",
+        "title": "Deductive Syllogisms — Categorical Syllogisms (All A are B, No B are C)",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_15",
+        "title": "Spatial Reasoning — 2D Pattern Matrix Completion",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_16",
+        "title": "Spatial Reasoning — 3D Cube Net Folding and Orientation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_17",
+        "title": "Spatial Reasoning — Paper Folding and Punch-Hole Symmetry",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade2_logicalreasoning_micro_18",
+        "title": "Spatial Reasoning — Mirror Reflection and Rotational Invariance",
+        "category": "Logic & Reasoning"
       }
     ],
     "Olympiad": [
@@ -8601,6 +9403,56 @@ export const curriculum = {
         "id": "ol_12_6",
         "title": "Systematic Coin and Currency Counting",
         "category": "B. Mathematical Operations"
+      },
+      {
+        "id": "grade2_olympiad_micro_1",
+        "title": "Combinatorics — Grid Path Counting via Pascal Triangle Logic",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade2_olympiad_micro_2",
+        "title": "Combinatorics — Permutations vs. Combinations in Real Scenarios",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade2_olympiad_micro_3",
+        "title": "Combinatorics — Pigeonhole Principle Minimum Item Selection",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade2_olympiad_micro_4",
+        "title": "Number Theory — Modular Arithmetic Remainders & Cycle Length",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade2_olympiad_micro_5",
+        "title": "Number Theory — Alphametics & Cryptarithm Addition Letter Solving",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade2_olympiad_micro_6",
+        "title": "Number Theory — Prime Factorization & Number of Divisors Formula",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade2_olympiad_micro_7",
+        "title": "Non-Routine Geometry — Shaded Region Areas of Overlapping Circles & Squares",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade2_olympiad_micro_8",
+        "title": "Non-Routine Geometry — Angle Chasing in Polygons & Cyclic Quadrilaterals",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade2_olympiad_micro_9",
+        "title": "Olympiad Rates — Catch-Up Distance-Time-Speed Calculations",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade2_olympiad_micro_10",
+        "title": "Olympiad Rates — Simultaneous Filling and Draining Tank Rates",
+        "category": "Olympiad"
       }
     ],
     "Hindi": [
@@ -8958,6 +9810,71 @@ export const curriculum = {
         "id": "cs_12_5",
         "title": "Safe passwords and private personal information",
         "category": "D. Digital Safety"
+      },
+      {
+        "id": "grade2_computerscience_micro_1",
+        "title": "Pseudocode Tracing — FOR Loop Nested Counter Tracking",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade2_computerscience_micro_2",
+        "title": "Pseudocode Tracing — WHILE Loop Condition Evaluation & Infinite Loop Traps",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade2_computerscience_micro_3",
+        "title": "Pseudocode Tracing — IF-ELSE Nested Decision Tree State Tables",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade2_computerscience_micro_4",
+        "title": "Data Representation — Binary to Decimal & Decimal to Binary Conversions",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade2_computerscience_micro_5",
+        "title": "Data Representation — Hexadecimal Color Code Breakdown (#RRGGBB)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade2_computerscience_micro_6",
+        "title": "Data Representation — Lossy vs. Lossless Image Compression Trade-offs",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade2_computerscience_micro_7",
+        "title": "Networks & Internet — IP Address Subnet Routing & Packet Header Roles",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade2_computerscience_micro_8",
+        "title": "Networks & Internet — DNS Lookup Process and HTTP/HTTPS Encryption",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade2_computerscience_micro_9",
+        "title": "Databases & SQL — Basic SQL Queries (SELECT, WHERE, ORDER BY)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade2_computerscience_micro_10",
+        "title": "Databases & SQL — Relational Table Primary Key & Foreign Key Links",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade2_computerscience_micro_11",
+        "title": "Web Development — HTML Structural Tags (div, p, header, section)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade2_computerscience_micro_12",
+        "title": "Web Development — CSS Selector Rules (class, id, hover state)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade2_computerscience_micro_13",
+        "title": "Cybersecurity — Phishing Detection and Password Hashing Principles",
+        "category": "Computer Science"
       }
     ],
     "Financial Literacy": [
@@ -8980,6 +9897,56 @@ export const curriculum = {
         "id": "fl_12_4",
         "title": "Distinguishing between spending, saving, and sharing",
         "category": "B. Saving & Goals"
+      },
+      {
+        "id": "grade2_financialliteracy_micro_1",
+        "title": "Money Basics — Coin & Bill Identification & Value Counting",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade2_financialliteracy_micro_2",
+        "title": "Budgeting — Needs vs. Wants Categorization & Priority Spending",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade2_financialliteracy_micro_3",
+        "title": "Budgeting — Income, Fixed Expenses, and Variable Savings Tracking",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade2_financialliteracy_micro_4",
+        "title": "Banking & Interest — Simple Interest Formula I = PRT Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade2_financialliteracy_micro_5",
+        "title": "Banking & Interest — Compound Interest Growth & Rule of 72",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade2_financialliteracy_micro_6",
+        "title": "Economics — Inflation Purchasing Power Impact",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade2_financialliteracy_micro_7",
+        "title": "Investments — Stocks, Dividends, and Market Risk Diversification",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade2_financialliteracy_micro_8",
+        "title": "Investments — Bonds, Yields, and Fixed-Income Assets",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade2_financialliteracy_micro_9",
+        "title": "Corporate Finance — Profit, Loss, Revenue, and Gross Margin Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade2_financialliteracy_micro_10",
+        "title": "Taxes — Sales Tax, Income Tax Brackets, and Net Pay Computation",
+        "category": "Financial Literacy"
       }
     ],
     "Environmental Science": [
@@ -9002,6 +9969,51 @@ export const curriculum = {
         "id": "es_12_4",
         "title": "Planting trees and plant life cycles",
         "category": "A. Ecosystems & Habitats"
+      },
+      {
+        "id": "grade2_environmentalscience_micro_1",
+        "title": "Ecosystems — Food Chains, Food Webs, and Trophic Energy Pyramids",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade2_environmentalscience_micro_2",
+        "title": "Ecosystems — Biome Classification (Rainforest, Tundra, Desert, Savannah)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade2_environmentalscience_micro_3",
+        "title": "Biogeochemical Cycles — Water Cycle Steps (Evaporation, Transpiration, Condensation)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade2_environmentalscience_micro_4",
+        "title": "Biogeochemical Cycles — Carbon Cycle & Global Warming Atmosphere Impacts",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade2_environmentalscience_micro_5",
+        "title": "Biogeochemical Cycles — Nitrogen Cycle & Soil Nutrient Replenishment",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade2_environmentalscience_micro_6",
+        "title": "Conservation — Renewable Energy (Solar, Wind, Hydro, Geothermal)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade2_environmentalscience_micro_7",
+        "title": "Conservation — Waste Reduction: 3 Rs (Reduce, Reuse, Recycle)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade2_environmentalscience_micro_8",
+        "title": "Conservation — Marine Pollution, Microplastics, and Ocean Acidification",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade2_environmentalscience_micro_9",
+        "title": "Global Goals — UN Sustainable Development Goals (SDGs) Analysis",
+        "category": "Environmental Science"
       }
     ],
     "Critical Thinking": [
@@ -9024,6 +10036,61 @@ export const curriculum = {
         "id": "ct_12_4",
         "title": "Simple balance scale weight puzzles",
         "category": "B. Analytical Logic"
+      },
+      {
+        "id": "grade2_criticalthinking_micro_1",
+        "title": "Identifying Flaws — Correlation vs. Causation Error",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade2_criticalthinking_micro_2",
+        "title": "Identifying Flaws — Straw Man & Ad Hominem Distortions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade2_criticalthinking_micro_3",
+        "title": "Identifying Flaws — Over-Generalization & Slippery Slope",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade2_criticalthinking_micro_4",
+        "title": "Evaluating Arguments — Finding Statements That MOST Strengthen a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade2_criticalthinking_micro_5",
+        "title": "Evaluating Arguments — Finding Statements That MOST Weaken a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade2_criticalthinking_micro_6",
+        "title": "Evaluating Arguments — Identifying Unstated Implicit Assumptions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade2_criticalthinking_micro_7",
+        "title": "Evaluating Arguments — Perspective & Point of View Analysis",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade2_criticalthinking_micro_8",
+        "title": "Socratic Inquiry — Distinguishing Fact from Opinion",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade2_criticalthinking_micro_9",
+        "title": "Socratic Inquiry — Questioning Premise Validity and Bias",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade2_criticalthinking_micro_10",
+        "title": "Formal Fallacies — Affirming the Consequent & Denying the Antecedent",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade2_criticalthinking_micro_11",
+        "title": "Informal Fallacies — Appeal to Authority & False Dilemma",
+        "category": "Critical Thinking"
       }
     ]
   },
@@ -12069,6 +13136,96 @@ export const curriculum = {
         "id": "g3_lr_10",
         "title": "Shape Rotation",
         "category": "Logical Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_1",
+        "title": "Knights & Knaves — 2-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_2",
+        "title": "Knights & Knaves — 3-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_3",
+        "title": "Linear Seating Arrangement — 5-6 Person Constraint Solving",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_4",
+        "title": "Circular Seating Arrangement — Facing Inward vs. Outward",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_5",
+        "title": "Matrix Grid Matching — Multi-Variable Logic Elimination",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_6",
+        "title": "Conditional Logic — Identifying Contrapositive Validity",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_7",
+        "title": "Conditional Logic — Identifying Converse & Inverse Fallacies",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_8",
+        "title": "Data & Venn Logic — 3-Set Venn Diagram Overlap Calculation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_9",
+        "title": "Data & Venn Logic — Decision Tree Network Condition Tracking",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_10",
+        "title": "Verbal Analogies — Synonyms & Antonyms Relational Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_11",
+        "title": "Verbal Analogies — Part-to-Whole and Cause-to-Effect Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_12",
+        "title": "Letter Cipher Cracking — Single & Double Shift Alphabetical Rules",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_13",
+        "title": "Letter Cipher Cracking — Reversed Alphabet & Symbol Substitution",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_14",
+        "title": "Deductive Syllogisms — Categorical Syllogisms (All A are B, No B are C)",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_15",
+        "title": "Spatial Reasoning — 2D Pattern Matrix Completion",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_16",
+        "title": "Spatial Reasoning — 3D Cube Net Folding and Orientation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_17",
+        "title": "Spatial Reasoning — Paper Folding and Punch-Hole Symmetry",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade3_logicalreasoning_micro_18",
+        "title": "Spatial Reasoning — Mirror Reflection and Rotational Invariance",
+        "category": "Logic & Reasoning"
       }
     ],
     "Olympiad": [
@@ -12236,6 +13393,56 @@ export const curriculum = {
         "id": "ol_34_33",
         "title": "Seating Arrangements and Circular Logic",
         "category": "Logical Reasoning"
+      },
+      {
+        "id": "grade3_olympiad_micro_1",
+        "title": "Combinatorics — Grid Path Counting via Pascal Triangle Logic",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade3_olympiad_micro_2",
+        "title": "Combinatorics — Permutations vs. Combinations in Real Scenarios",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade3_olympiad_micro_3",
+        "title": "Combinatorics — Pigeonhole Principle Minimum Item Selection",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade3_olympiad_micro_4",
+        "title": "Number Theory — Modular Arithmetic Remainders & Cycle Length",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade3_olympiad_micro_5",
+        "title": "Number Theory — Alphametics & Cryptarithm Addition Letter Solving",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade3_olympiad_micro_6",
+        "title": "Number Theory — Prime Factorization & Number of Divisors Formula",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade3_olympiad_micro_7",
+        "title": "Non-Routine Geometry — Shaded Region Areas of Overlapping Circles & Squares",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade3_olympiad_micro_8",
+        "title": "Non-Routine Geometry — Angle Chasing in Polygons & Cyclic Quadrilaterals",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade3_olympiad_micro_9",
+        "title": "Olympiad Rates — Catch-Up Distance-Time-Speed Calculations",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade3_olympiad_micro_10",
+        "title": "Olympiad Rates — Simultaneous Filling and Draining Tank Rates",
+        "category": "Olympiad"
       }
     ],
     "Hindi": [
@@ -12598,6 +13805,71 @@ export const curriculum = {
         "id": "cs_34_6",
         "title": "Cyberbullying prevention & online kindness",
         "category": "D. Digital Citizenship"
+      },
+      {
+        "id": "grade3_computerscience_micro_1",
+        "title": "Pseudocode Tracing — FOR Loop Nested Counter Tracking",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade3_computerscience_micro_2",
+        "title": "Pseudocode Tracing — WHILE Loop Condition Evaluation & Infinite Loop Traps",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade3_computerscience_micro_3",
+        "title": "Pseudocode Tracing — IF-ELSE Nested Decision Tree State Tables",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade3_computerscience_micro_4",
+        "title": "Data Representation — Binary to Decimal & Decimal to Binary Conversions",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade3_computerscience_micro_5",
+        "title": "Data Representation — Hexadecimal Color Code Breakdown (#RRGGBB)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade3_computerscience_micro_6",
+        "title": "Data Representation — Lossy vs. Lossless Image Compression Trade-offs",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade3_computerscience_micro_7",
+        "title": "Networks & Internet — IP Address Subnet Routing & Packet Header Roles",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade3_computerscience_micro_8",
+        "title": "Networks & Internet — DNS Lookup Process and HTTP/HTTPS Encryption",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade3_computerscience_micro_9",
+        "title": "Databases & SQL — Basic SQL Queries (SELECT, WHERE, ORDER BY)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade3_computerscience_micro_10",
+        "title": "Databases & SQL — Relational Table Primary Key & Foreign Key Links",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade3_computerscience_micro_11",
+        "title": "Web Development — HTML Structural Tags (div, p, header, section)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade3_computerscience_micro_12",
+        "title": "Web Development — CSS Selector Rules (class, id, hover state)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade3_computerscience_micro_13",
+        "title": "Cybersecurity — Phishing Detection and Password Hashing Principles",
+        "category": "Computer Science"
       }
     ],
     "Financial Literacy": [
@@ -12625,6 +13897,56 @@ export const curriculum = {
         "id": "fl_34_5",
         "title": "How banks keep money safe and pay interest",
         "category": "D. Banking Basics"
+      },
+      {
+        "id": "grade3_financialliteracy_micro_1",
+        "title": "Money Basics — Coin & Bill Identification & Value Counting",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade3_financialliteracy_micro_2",
+        "title": "Budgeting — Needs vs. Wants Categorization & Priority Spending",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade3_financialliteracy_micro_3",
+        "title": "Budgeting — Income, Fixed Expenses, and Variable Savings Tracking",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade3_financialliteracy_micro_4",
+        "title": "Banking & Interest — Simple Interest Formula I = PRT Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade3_financialliteracy_micro_5",
+        "title": "Banking & Interest — Compound Interest Growth & Rule of 72",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade3_financialliteracy_micro_6",
+        "title": "Economics — Inflation Purchasing Power Impact",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade3_financialliteracy_micro_7",
+        "title": "Investments — Stocks, Dividends, and Market Risk Diversification",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade3_financialliteracy_micro_8",
+        "title": "Investments — Bonds, Yields, and Fixed-Income Assets",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade3_financialliteracy_micro_9",
+        "title": "Corporate Finance — Profit, Loss, Revenue, and Gross Margin Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade3_financialliteracy_micro_10",
+        "title": "Taxes — Sales Tax, Income Tax Brackets, and Net Pay Computation",
+        "category": "Financial Literacy"
       }
     ],
     "Environmental Science": [
@@ -12647,6 +13969,51 @@ export const curriculum = {
         "id": "es_34_4",
         "title": "Solar energy, wind turbines, and hydropower",
         "category": "D. Renewable Energy"
+      },
+      {
+        "id": "grade3_environmentalscience_micro_1",
+        "title": "Ecosystems — Food Chains, Food Webs, and Trophic Energy Pyramids",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade3_environmentalscience_micro_2",
+        "title": "Ecosystems — Biome Classification (Rainforest, Tundra, Desert, Savannah)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade3_environmentalscience_micro_3",
+        "title": "Biogeochemical Cycles — Water Cycle Steps (Evaporation, Transpiration, Condensation)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade3_environmentalscience_micro_4",
+        "title": "Biogeochemical Cycles — Carbon Cycle & Global Warming Atmosphere Impacts",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade3_environmentalscience_micro_5",
+        "title": "Biogeochemical Cycles — Nitrogen Cycle & Soil Nutrient Replenishment",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade3_environmentalscience_micro_6",
+        "title": "Conservation — Renewable Energy (Solar, Wind, Hydro, Geothermal)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade3_environmentalscience_micro_7",
+        "title": "Conservation — Waste Reduction: 3 Rs (Reduce, Reuse, Recycle)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade3_environmentalscience_micro_8",
+        "title": "Conservation — Marine Pollution, Microplastics, and Ocean Acidification",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade3_environmentalscience_micro_9",
+        "title": "Global Goals — UN Sustainable Development Goals (SDGs) Analysis",
+        "category": "Environmental Science"
       }
     ],
     "Critical Thinking": [
@@ -12669,6 +14036,61 @@ export const curriculum = {
         "id": "ct_34_4",
         "title": "The Engineering Design Process (Plan, Build, Test)",
         "category": "C. Problem Solving"
+      },
+      {
+        "id": "grade3_criticalthinking_micro_1",
+        "title": "Identifying Flaws — Correlation vs. Causation Error",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade3_criticalthinking_micro_2",
+        "title": "Identifying Flaws — Straw Man & Ad Hominem Distortions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade3_criticalthinking_micro_3",
+        "title": "Identifying Flaws — Over-Generalization & Slippery Slope",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade3_criticalthinking_micro_4",
+        "title": "Evaluating Arguments — Finding Statements That MOST Strengthen a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade3_criticalthinking_micro_5",
+        "title": "Evaluating Arguments — Finding Statements That MOST Weaken a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade3_criticalthinking_micro_6",
+        "title": "Evaluating Arguments — Identifying Unstated Implicit Assumptions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade3_criticalthinking_micro_7",
+        "title": "Evaluating Arguments — Perspective & Point of View Analysis",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade3_criticalthinking_micro_8",
+        "title": "Socratic Inquiry — Distinguishing Fact from Opinion",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade3_criticalthinking_micro_9",
+        "title": "Socratic Inquiry — Questioning Premise Validity and Bias",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade3_criticalthinking_micro_10",
+        "title": "Formal Fallacies — Affirming the Consequent & Denying the Antecedent",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade3_criticalthinking_micro_11",
+        "title": "Informal Fallacies — Appeal to Authority & False Dilemma",
+        "category": "Critical Thinking"
       }
     ]
   },
@@ -15264,6 +16686,96 @@ export const curriculum = {
         "id": "g4_lr_10",
         "title": "Simple Deductive Reasoning",
         "category": "Logical Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_1",
+        "title": "Knights & Knaves — 2-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_2",
+        "title": "Knights & Knaves — 3-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_3",
+        "title": "Linear Seating Arrangement — 5-6 Person Constraint Solving",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_4",
+        "title": "Circular Seating Arrangement — Facing Inward vs. Outward",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_5",
+        "title": "Matrix Grid Matching — Multi-Variable Logic Elimination",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_6",
+        "title": "Conditional Logic — Identifying Contrapositive Validity",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_7",
+        "title": "Conditional Logic — Identifying Converse & Inverse Fallacies",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_8",
+        "title": "Data & Venn Logic — 3-Set Venn Diagram Overlap Calculation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_9",
+        "title": "Data & Venn Logic — Decision Tree Network Condition Tracking",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_10",
+        "title": "Verbal Analogies — Synonyms & Antonyms Relational Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_11",
+        "title": "Verbal Analogies — Part-to-Whole and Cause-to-Effect Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_12",
+        "title": "Letter Cipher Cracking — Single & Double Shift Alphabetical Rules",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_13",
+        "title": "Letter Cipher Cracking — Reversed Alphabet & Symbol Substitution",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_14",
+        "title": "Deductive Syllogisms — Categorical Syllogisms (All A are B, No B are C)",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_15",
+        "title": "Spatial Reasoning — 2D Pattern Matrix Completion",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_16",
+        "title": "Spatial Reasoning — 3D Cube Net Folding and Orientation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_17",
+        "title": "Spatial Reasoning — Paper Folding and Punch-Hole Symmetry",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade4_logicalreasoning_micro_18",
+        "title": "Spatial Reasoning — Mirror Reflection and Rotational Invariance",
+        "category": "Logic & Reasoning"
       }
     ],
     "Olympiad": [
@@ -15431,6 +16943,56 @@ export const curriculum = {
         "id": "ol_34_33",
         "title": "Seating Arrangements and Circular Logic",
         "category": "Logical Reasoning"
+      },
+      {
+        "id": "grade4_olympiad_micro_1",
+        "title": "Combinatorics — Grid Path Counting via Pascal Triangle Logic",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade4_olympiad_micro_2",
+        "title": "Combinatorics — Permutations vs. Combinations in Real Scenarios",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade4_olympiad_micro_3",
+        "title": "Combinatorics — Pigeonhole Principle Minimum Item Selection",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade4_olympiad_micro_4",
+        "title": "Number Theory — Modular Arithmetic Remainders & Cycle Length",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade4_olympiad_micro_5",
+        "title": "Number Theory — Alphametics & Cryptarithm Addition Letter Solving",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade4_olympiad_micro_6",
+        "title": "Number Theory — Prime Factorization & Number of Divisors Formula",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade4_olympiad_micro_7",
+        "title": "Non-Routine Geometry — Shaded Region Areas of Overlapping Circles & Squares",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade4_olympiad_micro_8",
+        "title": "Non-Routine Geometry — Angle Chasing in Polygons & Cyclic Quadrilaterals",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade4_olympiad_micro_9",
+        "title": "Olympiad Rates — Catch-Up Distance-Time-Speed Calculations",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade4_olympiad_micro_10",
+        "title": "Olympiad Rates — Simultaneous Filling and Draining Tank Rates",
+        "category": "Olympiad"
       }
     ],
     "Hindi": [
@@ -15793,6 +17355,71 @@ export const curriculum = {
         "id": "cs_34_6",
         "title": "Cyberbullying prevention & online kindness",
         "category": "D. Digital Citizenship"
+      },
+      {
+        "id": "grade4_computerscience_micro_1",
+        "title": "Pseudocode Tracing — FOR Loop Nested Counter Tracking",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade4_computerscience_micro_2",
+        "title": "Pseudocode Tracing — WHILE Loop Condition Evaluation & Infinite Loop Traps",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade4_computerscience_micro_3",
+        "title": "Pseudocode Tracing — IF-ELSE Nested Decision Tree State Tables",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade4_computerscience_micro_4",
+        "title": "Data Representation — Binary to Decimal & Decimal to Binary Conversions",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade4_computerscience_micro_5",
+        "title": "Data Representation — Hexadecimal Color Code Breakdown (#RRGGBB)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade4_computerscience_micro_6",
+        "title": "Data Representation — Lossy vs. Lossless Image Compression Trade-offs",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade4_computerscience_micro_7",
+        "title": "Networks & Internet — IP Address Subnet Routing & Packet Header Roles",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade4_computerscience_micro_8",
+        "title": "Networks & Internet — DNS Lookup Process and HTTP/HTTPS Encryption",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade4_computerscience_micro_9",
+        "title": "Databases & SQL — Basic SQL Queries (SELECT, WHERE, ORDER BY)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade4_computerscience_micro_10",
+        "title": "Databases & SQL — Relational Table Primary Key & Foreign Key Links",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade4_computerscience_micro_11",
+        "title": "Web Development — HTML Structural Tags (div, p, header, section)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade4_computerscience_micro_12",
+        "title": "Web Development — CSS Selector Rules (class, id, hover state)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade4_computerscience_micro_13",
+        "title": "Cybersecurity — Phishing Detection and Password Hashing Principles",
+        "category": "Computer Science"
       }
     ],
     "Financial Literacy": [
@@ -15820,6 +17447,56 @@ export const curriculum = {
         "id": "fl_34_5",
         "title": "How banks keep money safe and pay interest",
         "category": "D. Banking Basics"
+      },
+      {
+        "id": "grade4_financialliteracy_micro_1",
+        "title": "Money Basics — Coin & Bill Identification & Value Counting",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade4_financialliteracy_micro_2",
+        "title": "Budgeting — Needs vs. Wants Categorization & Priority Spending",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade4_financialliteracy_micro_3",
+        "title": "Budgeting — Income, Fixed Expenses, and Variable Savings Tracking",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade4_financialliteracy_micro_4",
+        "title": "Banking & Interest — Simple Interest Formula I = PRT Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade4_financialliteracy_micro_5",
+        "title": "Banking & Interest — Compound Interest Growth & Rule of 72",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade4_financialliteracy_micro_6",
+        "title": "Economics — Inflation Purchasing Power Impact",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade4_financialliteracy_micro_7",
+        "title": "Investments — Stocks, Dividends, and Market Risk Diversification",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade4_financialliteracy_micro_8",
+        "title": "Investments — Bonds, Yields, and Fixed-Income Assets",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade4_financialliteracy_micro_9",
+        "title": "Corporate Finance — Profit, Loss, Revenue, and Gross Margin Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade4_financialliteracy_micro_10",
+        "title": "Taxes — Sales Tax, Income Tax Brackets, and Net Pay Computation",
+        "category": "Financial Literacy"
       }
     ],
     "Environmental Science": [
@@ -15842,6 +17519,51 @@ export const curriculum = {
         "id": "es_34_4",
         "title": "Solar energy, wind turbines, and hydropower",
         "category": "D. Renewable Energy"
+      },
+      {
+        "id": "grade4_environmentalscience_micro_1",
+        "title": "Ecosystems — Food Chains, Food Webs, and Trophic Energy Pyramids",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade4_environmentalscience_micro_2",
+        "title": "Ecosystems — Biome Classification (Rainforest, Tundra, Desert, Savannah)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade4_environmentalscience_micro_3",
+        "title": "Biogeochemical Cycles — Water Cycle Steps (Evaporation, Transpiration, Condensation)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade4_environmentalscience_micro_4",
+        "title": "Biogeochemical Cycles — Carbon Cycle & Global Warming Atmosphere Impacts",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade4_environmentalscience_micro_5",
+        "title": "Biogeochemical Cycles — Nitrogen Cycle & Soil Nutrient Replenishment",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade4_environmentalscience_micro_6",
+        "title": "Conservation — Renewable Energy (Solar, Wind, Hydro, Geothermal)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade4_environmentalscience_micro_7",
+        "title": "Conservation — Waste Reduction: 3 Rs (Reduce, Reuse, Recycle)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade4_environmentalscience_micro_8",
+        "title": "Conservation — Marine Pollution, Microplastics, and Ocean Acidification",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade4_environmentalscience_micro_9",
+        "title": "Global Goals — UN Sustainable Development Goals (SDGs) Analysis",
+        "category": "Environmental Science"
       }
     ],
     "Critical Thinking": [
@@ -15864,6 +17586,61 @@ export const curriculum = {
         "id": "ct_34_4",
         "title": "The Engineering Design Process (Plan, Build, Test)",
         "category": "C. Problem Solving"
+      },
+      {
+        "id": "grade4_criticalthinking_micro_1",
+        "title": "Identifying Flaws — Correlation vs. Causation Error",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade4_criticalthinking_micro_2",
+        "title": "Identifying Flaws — Straw Man & Ad Hominem Distortions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade4_criticalthinking_micro_3",
+        "title": "Identifying Flaws — Over-Generalization & Slippery Slope",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade4_criticalthinking_micro_4",
+        "title": "Evaluating Arguments — Finding Statements That MOST Strengthen a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade4_criticalthinking_micro_5",
+        "title": "Evaluating Arguments — Finding Statements That MOST Weaken a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade4_criticalthinking_micro_6",
+        "title": "Evaluating Arguments — Identifying Unstated Implicit Assumptions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade4_criticalthinking_micro_7",
+        "title": "Evaluating Arguments — Perspective & Point of View Analysis",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade4_criticalthinking_micro_8",
+        "title": "Socratic Inquiry — Distinguishing Fact from Opinion",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade4_criticalthinking_micro_9",
+        "title": "Socratic Inquiry — Questioning Premise Validity and Bias",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade4_criticalthinking_micro_10",
+        "title": "Formal Fallacies — Affirming the Consequent & Denying the Antecedent",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade4_criticalthinking_micro_11",
+        "title": "Informal Fallacies — Appeal to Authority & False Dilemma",
+        "category": "Critical Thinking"
       }
     ]
   },
@@ -18469,6 +20246,96 @@ export const curriculum = {
         "id": "g5_lr_10",
         "title": "Number Logic",
         "category": "Logical Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_1",
+        "title": "Knights & Knaves — 2-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_2",
+        "title": "Knights & Knaves — 3-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_3",
+        "title": "Linear Seating Arrangement — 5-6 Person Constraint Solving",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_4",
+        "title": "Circular Seating Arrangement — Facing Inward vs. Outward",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_5",
+        "title": "Matrix Grid Matching — Multi-Variable Logic Elimination",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_6",
+        "title": "Conditional Logic — Identifying Contrapositive Validity",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_7",
+        "title": "Conditional Logic — Identifying Converse & Inverse Fallacies",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_8",
+        "title": "Data & Venn Logic — 3-Set Venn Diagram Overlap Calculation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_9",
+        "title": "Data & Venn Logic — Decision Tree Network Condition Tracking",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_10",
+        "title": "Verbal Analogies — Synonyms & Antonyms Relational Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_11",
+        "title": "Verbal Analogies — Part-to-Whole and Cause-to-Effect Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_12",
+        "title": "Letter Cipher Cracking — Single & Double Shift Alphabetical Rules",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_13",
+        "title": "Letter Cipher Cracking — Reversed Alphabet & Symbol Substitution",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_14",
+        "title": "Deductive Syllogisms — Categorical Syllogisms (All A are B, No B are C)",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_15",
+        "title": "Spatial Reasoning — 2D Pattern Matrix Completion",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_16",
+        "title": "Spatial Reasoning — 3D Cube Net Folding and Orientation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_17",
+        "title": "Spatial Reasoning — Paper Folding and Punch-Hole Symmetry",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade5_logicalreasoning_micro_18",
+        "title": "Spatial Reasoning — Mirror Reflection and Rotational Invariance",
+        "category": "Logic & Reasoning"
       }
     ],
     "Olympiad": [
@@ -18596,6 +20463,56 @@ export const curriculum = {
         "id": "ol_56_25",
         "title": "Cryptographic Decryption & Cipher Decoding",
         "category": "Logical Reasoning"
+      },
+      {
+        "id": "grade5_olympiad_micro_1",
+        "title": "Combinatorics — Grid Path Counting via Pascal Triangle Logic",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade5_olympiad_micro_2",
+        "title": "Combinatorics — Permutations vs. Combinations in Real Scenarios",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade5_olympiad_micro_3",
+        "title": "Combinatorics — Pigeonhole Principle Minimum Item Selection",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade5_olympiad_micro_4",
+        "title": "Number Theory — Modular Arithmetic Remainders & Cycle Length",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade5_olympiad_micro_5",
+        "title": "Number Theory — Alphametics & Cryptarithm Addition Letter Solving",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade5_olympiad_micro_6",
+        "title": "Number Theory — Prime Factorization & Number of Divisors Formula",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade5_olympiad_micro_7",
+        "title": "Non-Routine Geometry — Shaded Region Areas of Overlapping Circles & Squares",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade5_olympiad_micro_8",
+        "title": "Non-Routine Geometry — Angle Chasing in Polygons & Cyclic Quadrilaterals",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade5_olympiad_micro_9",
+        "title": "Olympiad Rates — Catch-Up Distance-Time-Speed Calculations",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade5_olympiad_micro_10",
+        "title": "Olympiad Rates — Simultaneous Filling and Draining Tank Rates",
+        "category": "Olympiad"
       }
     ],
     "Hindi": [
@@ -18958,6 +20875,71 @@ export const curriculum = {
         "id": "cs_56_6",
         "title": "How search engines index and rank web pages",
         "category": "D. Internet & Networks"
+      },
+      {
+        "id": "grade5_computerscience_micro_1",
+        "title": "Pseudocode Tracing — FOR Loop Nested Counter Tracking",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade5_computerscience_micro_2",
+        "title": "Pseudocode Tracing — WHILE Loop Condition Evaluation & Infinite Loop Traps",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade5_computerscience_micro_3",
+        "title": "Pseudocode Tracing — IF-ELSE Nested Decision Tree State Tables",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade5_computerscience_micro_4",
+        "title": "Data Representation — Binary to Decimal & Decimal to Binary Conversions",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade5_computerscience_micro_5",
+        "title": "Data Representation — Hexadecimal Color Code Breakdown (#RRGGBB)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade5_computerscience_micro_6",
+        "title": "Data Representation — Lossy vs. Lossless Image Compression Trade-offs",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade5_computerscience_micro_7",
+        "title": "Networks & Internet — IP Address Subnet Routing & Packet Header Roles",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade5_computerscience_micro_8",
+        "title": "Networks & Internet — DNS Lookup Process and HTTP/HTTPS Encryption",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade5_computerscience_micro_9",
+        "title": "Databases & SQL — Basic SQL Queries (SELECT, WHERE, ORDER BY)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade5_computerscience_micro_10",
+        "title": "Databases & SQL — Relational Table Primary Key & Foreign Key Links",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade5_computerscience_micro_11",
+        "title": "Web Development — HTML Structural Tags (div, p, header, section)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade5_computerscience_micro_12",
+        "title": "Web Development — CSS Selector Rules (class, id, hover state)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade5_computerscience_micro_13",
+        "title": "Cybersecurity — Phishing Detection and Password Hashing Principles",
+        "category": "Computer Science"
       }
     ],
     "Financial Literacy": [
@@ -18985,6 +20967,56 @@ export const curriculum = {
         "id": "fl_56_5",
         "title": "Creating a business product proposal",
         "category": "C. Entrepreneurship"
+      },
+      {
+        "id": "grade5_financialliteracy_micro_1",
+        "title": "Money Basics — Coin & Bill Identification & Value Counting",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade5_financialliteracy_micro_2",
+        "title": "Budgeting — Needs vs. Wants Categorization & Priority Spending",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade5_financialliteracy_micro_3",
+        "title": "Budgeting — Income, Fixed Expenses, and Variable Savings Tracking",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade5_financialliteracy_micro_4",
+        "title": "Banking & Interest — Simple Interest Formula I = PRT Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade5_financialliteracy_micro_5",
+        "title": "Banking & Interest — Compound Interest Growth & Rule of 72",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade5_financialliteracy_micro_6",
+        "title": "Economics — Inflation Purchasing Power Impact",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade5_financialliteracy_micro_7",
+        "title": "Investments — Stocks, Dividends, and Market Risk Diversification",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade5_financialliteracy_micro_8",
+        "title": "Investments — Bonds, Yields, and Fixed-Income Assets",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade5_financialliteracy_micro_9",
+        "title": "Corporate Finance — Profit, Loss, Revenue, and Gross Margin Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade5_financialliteracy_micro_10",
+        "title": "Taxes — Sales Tax, Income Tax Brackets, and Net Pay Computation",
+        "category": "Financial Literacy"
       }
     ],
     "Environmental Science": [
@@ -19012,6 +21044,51 @@ export const curriculum = {
         "id": "es_56_5",
         "title": "UN Sustainable Development Goal 13: Climate Action",
         "category": "C. Sustainability"
+      },
+      {
+        "id": "grade5_environmentalscience_micro_1",
+        "title": "Ecosystems — Food Chains, Food Webs, and Trophic Energy Pyramids",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade5_environmentalscience_micro_2",
+        "title": "Ecosystems — Biome Classification (Rainforest, Tundra, Desert, Savannah)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade5_environmentalscience_micro_3",
+        "title": "Biogeochemical Cycles — Water Cycle Steps (Evaporation, Transpiration, Condensation)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade5_environmentalscience_micro_4",
+        "title": "Biogeochemical Cycles — Carbon Cycle & Global Warming Atmosphere Impacts",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade5_environmentalscience_micro_5",
+        "title": "Biogeochemical Cycles — Nitrogen Cycle & Soil Nutrient Replenishment",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade5_environmentalscience_micro_6",
+        "title": "Conservation — Renewable Energy (Solar, Wind, Hydro, Geothermal)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade5_environmentalscience_micro_7",
+        "title": "Conservation — Waste Reduction: 3 Rs (Reduce, Reuse, Recycle)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade5_environmentalscience_micro_8",
+        "title": "Conservation — Marine Pollution, Microplastics, and Ocean Acidification",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade5_environmentalscience_micro_9",
+        "title": "Global Goals — UN Sustainable Development Goals (SDGs) Analysis",
+        "category": "Environmental Science"
       }
     ],
     "Critical Thinking": [
@@ -19034,6 +21111,61 @@ export const curriculum = {
         "id": "ct_56_4",
         "title": "Multi-criteria decision matrix analysis",
         "category": "B. Cognitive Skills"
+      },
+      {
+        "id": "grade5_criticalthinking_micro_1",
+        "title": "Identifying Flaws — Correlation vs. Causation Error",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade5_criticalthinking_micro_2",
+        "title": "Identifying Flaws — Straw Man & Ad Hominem Distortions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade5_criticalthinking_micro_3",
+        "title": "Identifying Flaws — Over-Generalization & Slippery Slope",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade5_criticalthinking_micro_4",
+        "title": "Evaluating Arguments — Finding Statements That MOST Strengthen a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade5_criticalthinking_micro_5",
+        "title": "Evaluating Arguments — Finding Statements That MOST Weaken a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade5_criticalthinking_micro_6",
+        "title": "Evaluating Arguments — Identifying Unstated Implicit Assumptions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade5_criticalthinking_micro_7",
+        "title": "Evaluating Arguments — Perspective & Point of View Analysis",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade5_criticalthinking_micro_8",
+        "title": "Socratic Inquiry — Distinguishing Fact from Opinion",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade5_criticalthinking_micro_9",
+        "title": "Socratic Inquiry — Questioning Premise Validity and Bias",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade5_criticalthinking_micro_10",
+        "title": "Formal Fallacies — Affirming the Consequent & Denying the Antecedent",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade5_criticalthinking_micro_11",
+        "title": "Informal Fallacies — Appeal to Authority & False Dilemma",
+        "category": "Critical Thinking"
       }
     ]
   },
@@ -21449,6 +23581,96 @@ export const curriculum = {
         "id": "g6_lr_10",
         "title": "Spatial Reasoning",
         "category": "Logical Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_1",
+        "title": "Knights & Knaves — 2-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_2",
+        "title": "Knights & Knaves — 3-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_3",
+        "title": "Linear Seating Arrangement — 5-6 Person Constraint Solving",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_4",
+        "title": "Circular Seating Arrangement — Facing Inward vs. Outward",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_5",
+        "title": "Matrix Grid Matching — Multi-Variable Logic Elimination",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_6",
+        "title": "Conditional Logic — Identifying Contrapositive Validity",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_7",
+        "title": "Conditional Logic — Identifying Converse & Inverse Fallacies",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_8",
+        "title": "Data & Venn Logic — 3-Set Venn Diagram Overlap Calculation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_9",
+        "title": "Data & Venn Logic — Decision Tree Network Condition Tracking",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_10",
+        "title": "Verbal Analogies — Synonyms & Antonyms Relational Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_11",
+        "title": "Verbal Analogies — Part-to-Whole and Cause-to-Effect Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_12",
+        "title": "Letter Cipher Cracking — Single & Double Shift Alphabetical Rules",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_13",
+        "title": "Letter Cipher Cracking — Reversed Alphabet & Symbol Substitution",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_14",
+        "title": "Deductive Syllogisms — Categorical Syllogisms (All A are B, No B are C)",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_15",
+        "title": "Spatial Reasoning — 2D Pattern Matrix Completion",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_16",
+        "title": "Spatial Reasoning — 3D Cube Net Folding and Orientation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_17",
+        "title": "Spatial Reasoning — Paper Folding and Punch-Hole Symmetry",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade6_logicalreasoning_micro_18",
+        "title": "Spatial Reasoning — Mirror Reflection and Rotational Invariance",
+        "category": "Logic & Reasoning"
       }
     ],
     "Olympiad": [
@@ -21576,6 +23798,56 @@ export const curriculum = {
         "id": "ol_56_25",
         "title": "Cryptographic Decryption & Cipher Decoding",
         "category": "Logical Reasoning"
+      },
+      {
+        "id": "grade6_olympiad_micro_1",
+        "title": "Combinatorics — Grid Path Counting via Pascal Triangle Logic",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade6_olympiad_micro_2",
+        "title": "Combinatorics — Permutations vs. Combinations in Real Scenarios",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade6_olympiad_micro_3",
+        "title": "Combinatorics — Pigeonhole Principle Minimum Item Selection",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade6_olympiad_micro_4",
+        "title": "Number Theory — Modular Arithmetic Remainders & Cycle Length",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade6_olympiad_micro_5",
+        "title": "Number Theory — Alphametics & Cryptarithm Addition Letter Solving",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade6_olympiad_micro_6",
+        "title": "Number Theory — Prime Factorization & Number of Divisors Formula",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade6_olympiad_micro_7",
+        "title": "Non-Routine Geometry — Shaded Region Areas of Overlapping Circles & Squares",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade6_olympiad_micro_8",
+        "title": "Non-Routine Geometry — Angle Chasing in Polygons & Cyclic Quadrilaterals",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade6_olympiad_micro_9",
+        "title": "Olympiad Rates — Catch-Up Distance-Time-Speed Calculations",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade6_olympiad_micro_10",
+        "title": "Olympiad Rates — Simultaneous Filling and Draining Tank Rates",
+        "category": "Olympiad"
       }
     ],
     "Hindi": [
@@ -21938,6 +24210,71 @@ export const curriculum = {
         "id": "cs_56_6",
         "title": "How search engines index and rank web pages",
         "category": "D. Internet & Networks"
+      },
+      {
+        "id": "grade6_computerscience_micro_1",
+        "title": "Pseudocode Tracing — FOR Loop Nested Counter Tracking",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade6_computerscience_micro_2",
+        "title": "Pseudocode Tracing — WHILE Loop Condition Evaluation & Infinite Loop Traps",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade6_computerscience_micro_3",
+        "title": "Pseudocode Tracing — IF-ELSE Nested Decision Tree State Tables",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade6_computerscience_micro_4",
+        "title": "Data Representation — Binary to Decimal & Decimal to Binary Conversions",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade6_computerscience_micro_5",
+        "title": "Data Representation — Hexadecimal Color Code Breakdown (#RRGGBB)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade6_computerscience_micro_6",
+        "title": "Data Representation — Lossy vs. Lossless Image Compression Trade-offs",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade6_computerscience_micro_7",
+        "title": "Networks & Internet — IP Address Subnet Routing & Packet Header Roles",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade6_computerscience_micro_8",
+        "title": "Networks & Internet — DNS Lookup Process and HTTP/HTTPS Encryption",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade6_computerscience_micro_9",
+        "title": "Databases & SQL — Basic SQL Queries (SELECT, WHERE, ORDER BY)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade6_computerscience_micro_10",
+        "title": "Databases & SQL — Relational Table Primary Key & Foreign Key Links",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade6_computerscience_micro_11",
+        "title": "Web Development — HTML Structural Tags (div, p, header, section)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade6_computerscience_micro_12",
+        "title": "Web Development — CSS Selector Rules (class, id, hover state)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade6_computerscience_micro_13",
+        "title": "Cybersecurity — Phishing Detection and Password Hashing Principles",
+        "category": "Computer Science"
       }
     ],
     "Financial Literacy": [
@@ -21965,6 +24302,56 @@ export const curriculum = {
         "id": "fl_56_5",
         "title": "Creating a business product proposal",
         "category": "C. Entrepreneurship"
+      },
+      {
+        "id": "grade6_financialliteracy_micro_1",
+        "title": "Money Basics — Coin & Bill Identification & Value Counting",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade6_financialliteracy_micro_2",
+        "title": "Budgeting — Needs vs. Wants Categorization & Priority Spending",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade6_financialliteracy_micro_3",
+        "title": "Budgeting — Income, Fixed Expenses, and Variable Savings Tracking",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade6_financialliteracy_micro_4",
+        "title": "Banking & Interest — Simple Interest Formula I = PRT Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade6_financialliteracy_micro_5",
+        "title": "Banking & Interest — Compound Interest Growth & Rule of 72",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade6_financialliteracy_micro_6",
+        "title": "Economics — Inflation Purchasing Power Impact",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade6_financialliteracy_micro_7",
+        "title": "Investments — Stocks, Dividends, and Market Risk Diversification",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade6_financialliteracy_micro_8",
+        "title": "Investments — Bonds, Yields, and Fixed-Income Assets",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade6_financialliteracy_micro_9",
+        "title": "Corporate Finance — Profit, Loss, Revenue, and Gross Margin Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade6_financialliteracy_micro_10",
+        "title": "Taxes — Sales Tax, Income Tax Brackets, and Net Pay Computation",
+        "category": "Financial Literacy"
       }
     ],
     "Environmental Science": [
@@ -21992,6 +24379,51 @@ export const curriculum = {
         "id": "es_56_5",
         "title": "UN Sustainable Development Goal 13: Climate Action",
         "category": "C. Sustainability"
+      },
+      {
+        "id": "grade6_environmentalscience_micro_1",
+        "title": "Ecosystems — Food Chains, Food Webs, and Trophic Energy Pyramids",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade6_environmentalscience_micro_2",
+        "title": "Ecosystems — Biome Classification (Rainforest, Tundra, Desert, Savannah)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade6_environmentalscience_micro_3",
+        "title": "Biogeochemical Cycles — Water Cycle Steps (Evaporation, Transpiration, Condensation)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade6_environmentalscience_micro_4",
+        "title": "Biogeochemical Cycles — Carbon Cycle & Global Warming Atmosphere Impacts",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade6_environmentalscience_micro_5",
+        "title": "Biogeochemical Cycles — Nitrogen Cycle & Soil Nutrient Replenishment",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade6_environmentalscience_micro_6",
+        "title": "Conservation — Renewable Energy (Solar, Wind, Hydro, Geothermal)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade6_environmentalscience_micro_7",
+        "title": "Conservation — Waste Reduction: 3 Rs (Reduce, Reuse, Recycle)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade6_environmentalscience_micro_8",
+        "title": "Conservation — Marine Pollution, Microplastics, and Ocean Acidification",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade6_environmentalscience_micro_9",
+        "title": "Global Goals — UN Sustainable Development Goals (SDGs) Analysis",
+        "category": "Environmental Science"
       }
     ],
     "Critical Thinking": [
@@ -22014,6 +24446,61 @@ export const curriculum = {
         "id": "ct_56_4",
         "title": "Multi-criteria decision matrix analysis",
         "category": "B. Cognitive Skills"
+      },
+      {
+        "id": "grade6_criticalthinking_micro_1",
+        "title": "Identifying Flaws — Correlation vs. Causation Error",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade6_criticalthinking_micro_2",
+        "title": "Identifying Flaws — Straw Man & Ad Hominem Distortions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade6_criticalthinking_micro_3",
+        "title": "Identifying Flaws — Over-Generalization & Slippery Slope",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade6_criticalthinking_micro_4",
+        "title": "Evaluating Arguments — Finding Statements That MOST Strengthen a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade6_criticalthinking_micro_5",
+        "title": "Evaluating Arguments — Finding Statements That MOST Weaken a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade6_criticalthinking_micro_6",
+        "title": "Evaluating Arguments — Identifying Unstated Implicit Assumptions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade6_criticalthinking_micro_7",
+        "title": "Evaluating Arguments — Perspective & Point of View Analysis",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade6_criticalthinking_micro_8",
+        "title": "Socratic Inquiry — Distinguishing Fact from Opinion",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade6_criticalthinking_micro_9",
+        "title": "Socratic Inquiry — Questioning Premise Validity and Bias",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade6_criticalthinking_micro_10",
+        "title": "Formal Fallacies — Affirming the Consequent & Denying the Antecedent",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade6_criticalthinking_micro_11",
+        "title": "Informal Fallacies — Appeal to Authority & False Dilemma",
+        "category": "Critical Thinking"
       }
     ]
   },
@@ -24814,6 +27301,96 @@ export const curriculum = {
         "id": "g7_lr_10",
         "title": "Analytical Reasoning",
         "category": "Logical Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_1",
+        "title": "Knights & Knaves — 2-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_2",
+        "title": "Knights & Knaves — 3-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_3",
+        "title": "Linear Seating Arrangement — 5-6 Person Constraint Solving",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_4",
+        "title": "Circular Seating Arrangement — Facing Inward vs. Outward",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_5",
+        "title": "Matrix Grid Matching — Multi-Variable Logic Elimination",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_6",
+        "title": "Conditional Logic — Identifying Contrapositive Validity",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_7",
+        "title": "Conditional Logic — Identifying Converse & Inverse Fallacies",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_8",
+        "title": "Data & Venn Logic — 3-Set Venn Diagram Overlap Calculation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_9",
+        "title": "Data & Venn Logic — Decision Tree Network Condition Tracking",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_10",
+        "title": "Verbal Analogies — Synonyms & Antonyms Relational Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_11",
+        "title": "Verbal Analogies — Part-to-Whole and Cause-to-Effect Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_12",
+        "title": "Letter Cipher Cracking — Single & Double Shift Alphabetical Rules",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_13",
+        "title": "Letter Cipher Cracking — Reversed Alphabet & Symbol Substitution",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_14",
+        "title": "Deductive Syllogisms — Categorical Syllogisms (All A are B, No B are C)",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_15",
+        "title": "Spatial Reasoning — 2D Pattern Matrix Completion",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_16",
+        "title": "Spatial Reasoning — 3D Cube Net Folding and Orientation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_17",
+        "title": "Spatial Reasoning — Paper Folding and Punch-Hole Symmetry",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade7_logicalreasoning_micro_18",
+        "title": "Spatial Reasoning — Mirror Reflection and Rotational Invariance",
+        "category": "Logic & Reasoning"
       }
     ],
     "Olympiad": [
@@ -24856,6 +27433,56 @@ export const curriculum = {
         "id": "ol_78_8",
         "title": "Chessboard Coloring Proofs & Grid Route Puzzles",
         "category": "E. Logical Reasoning"
+      },
+      {
+        "id": "grade7_olympiad_micro_1",
+        "title": "Combinatorics — Grid Path Counting via Pascal Triangle Logic",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade7_olympiad_micro_2",
+        "title": "Combinatorics — Permutations vs. Combinations in Real Scenarios",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade7_olympiad_micro_3",
+        "title": "Combinatorics — Pigeonhole Principle Minimum Item Selection",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade7_olympiad_micro_4",
+        "title": "Number Theory — Modular Arithmetic Remainders & Cycle Length",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade7_olympiad_micro_5",
+        "title": "Number Theory — Alphametics & Cryptarithm Addition Letter Solving",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade7_olympiad_micro_6",
+        "title": "Number Theory — Prime Factorization & Number of Divisors Formula",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade7_olympiad_micro_7",
+        "title": "Non-Routine Geometry — Shaded Region Areas of Overlapping Circles & Squares",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade7_olympiad_micro_8",
+        "title": "Non-Routine Geometry — Angle Chasing in Polygons & Cyclic Quadrilaterals",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade7_olympiad_micro_9",
+        "title": "Olympiad Rates — Catch-Up Distance-Time-Speed Calculations",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade7_olympiad_micro_10",
+        "title": "Olympiad Rates — Simultaneous Filling and Draining Tank Rates",
+        "category": "Olympiad"
       }
     ],
     "Hindi": [
@@ -25218,6 +27845,71 @@ export const curriculum = {
         "id": "cs_78_6",
         "title": "Introduction to Artificial Intelligence & Neural Networks",
         "category": "D. AI & Future Tech"
+      },
+      {
+        "id": "grade7_computerscience_micro_1",
+        "title": "Pseudocode Tracing — FOR Loop Nested Counter Tracking",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade7_computerscience_micro_2",
+        "title": "Pseudocode Tracing — WHILE Loop Condition Evaluation & Infinite Loop Traps",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade7_computerscience_micro_3",
+        "title": "Pseudocode Tracing — IF-ELSE Nested Decision Tree State Tables",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade7_computerscience_micro_4",
+        "title": "Data Representation — Binary to Decimal & Decimal to Binary Conversions",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade7_computerscience_micro_5",
+        "title": "Data Representation — Hexadecimal Color Code Breakdown (#RRGGBB)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade7_computerscience_micro_6",
+        "title": "Data Representation — Lossy vs. Lossless Image Compression Trade-offs",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade7_computerscience_micro_7",
+        "title": "Networks & Internet — IP Address Subnet Routing & Packet Header Roles",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade7_computerscience_micro_8",
+        "title": "Networks & Internet — DNS Lookup Process and HTTP/HTTPS Encryption",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade7_computerscience_micro_9",
+        "title": "Databases & SQL — Basic SQL Queries (SELECT, WHERE, ORDER BY)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade7_computerscience_micro_10",
+        "title": "Databases & SQL — Relational Table Primary Key & Foreign Key Links",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade7_computerscience_micro_11",
+        "title": "Web Development — HTML Structural Tags (div, p, header, section)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade7_computerscience_micro_12",
+        "title": "Web Development — CSS Selector Rules (class, id, hover state)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade7_computerscience_micro_13",
+        "title": "Cybersecurity — Phishing Detection and Password Hashing Principles",
+        "category": "Computer Science"
       }
     ],
     "Financial Literacy": [
@@ -25245,6 +27937,56 @@ export const curriculum = {
         "id": "fl_78_5",
         "title": "Credit scores, debt management, and interest rates",
         "category": "D. Banking & Credit"
+      },
+      {
+        "id": "grade7_financialliteracy_micro_1",
+        "title": "Money Basics — Coin & Bill Identification & Value Counting",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade7_financialliteracy_micro_2",
+        "title": "Budgeting — Needs vs. Wants Categorization & Priority Spending",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade7_financialliteracy_micro_3",
+        "title": "Budgeting — Income, Fixed Expenses, and Variable Savings Tracking",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade7_financialliteracy_micro_4",
+        "title": "Banking & Interest — Simple Interest Formula I = PRT Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade7_financialliteracy_micro_5",
+        "title": "Banking & Interest — Compound Interest Growth & Rule of 72",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade7_financialliteracy_micro_6",
+        "title": "Economics — Inflation Purchasing Power Impact",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade7_financialliteracy_micro_7",
+        "title": "Investments — Stocks, Dividends, and Market Risk Diversification",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade7_financialliteracy_micro_8",
+        "title": "Investments — Bonds, Yields, and Fixed-Income Assets",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade7_financialliteracy_micro_9",
+        "title": "Corporate Finance — Profit, Loss, Revenue, and Gross Margin Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade7_financialliteracy_micro_10",
+        "title": "Taxes — Sales Tax, Income Tax Brackets, and Net Pay Computation",
+        "category": "Financial Literacy"
       }
     ],
     "Environmental Science": [
@@ -25267,6 +28009,51 @@ export const curriculum = {
         "id": "es_78_4",
         "title": "Environmental policy, carbon credits, and treaties",
         "category": "C. Human Impact"
+      },
+      {
+        "id": "grade7_environmentalscience_micro_1",
+        "title": "Ecosystems — Food Chains, Food Webs, and Trophic Energy Pyramids",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade7_environmentalscience_micro_2",
+        "title": "Ecosystems — Biome Classification (Rainforest, Tundra, Desert, Savannah)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade7_environmentalscience_micro_3",
+        "title": "Biogeochemical Cycles — Water Cycle Steps (Evaporation, Transpiration, Condensation)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade7_environmentalscience_micro_4",
+        "title": "Biogeochemical Cycles — Carbon Cycle & Global Warming Atmosphere Impacts",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade7_environmentalscience_micro_5",
+        "title": "Biogeochemical Cycles — Nitrogen Cycle & Soil Nutrient Replenishment",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade7_environmentalscience_micro_6",
+        "title": "Conservation — Renewable Energy (Solar, Wind, Hydro, Geothermal)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade7_environmentalscience_micro_7",
+        "title": "Conservation — Waste Reduction: 3 Rs (Reduce, Reuse, Recycle)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade7_environmentalscience_micro_8",
+        "title": "Conservation — Marine Pollution, Microplastics, and Ocean Acidification",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade7_environmentalscience_micro_9",
+        "title": "Global Goals — UN Sustainable Development Goals (SDGs) Analysis",
+        "category": "Environmental Science"
       }
     ],
     "Critical Thinking": [
@@ -25289,6 +28076,61 @@ export const curriculum = {
         "id": "ct_78_4",
         "title": "Ethical frameworks: Utilitarianism, Deontology & Virtue Ethics",
         "category": "D. Ethics"
+      },
+      {
+        "id": "grade7_criticalthinking_micro_1",
+        "title": "Identifying Flaws — Correlation vs. Causation Error",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade7_criticalthinking_micro_2",
+        "title": "Identifying Flaws — Straw Man & Ad Hominem Distortions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade7_criticalthinking_micro_3",
+        "title": "Identifying Flaws — Over-Generalization & Slippery Slope",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade7_criticalthinking_micro_4",
+        "title": "Evaluating Arguments — Finding Statements That MOST Strengthen a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade7_criticalthinking_micro_5",
+        "title": "Evaluating Arguments — Finding Statements That MOST Weaken a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade7_criticalthinking_micro_6",
+        "title": "Evaluating Arguments — Identifying Unstated Implicit Assumptions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade7_criticalthinking_micro_7",
+        "title": "Evaluating Arguments — Perspective & Point of View Analysis",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade7_criticalthinking_micro_8",
+        "title": "Socratic Inquiry — Distinguishing Fact from Opinion",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade7_criticalthinking_micro_9",
+        "title": "Socratic Inquiry — Questioning Premise Validity and Bias",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade7_criticalthinking_micro_10",
+        "title": "Formal Fallacies — Affirming the Consequent & Denying the Antecedent",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade7_criticalthinking_micro_11",
+        "title": "Informal Fallacies — Appeal to Authority & False Dilemma",
+        "category": "Critical Thinking"
       }
     ]
   },
@@ -28074,6 +30916,96 @@ export const curriculum = {
         "id": "g8_lr_10",
         "title": "Mixed Logic Problems",
         "category": "Logical Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_1",
+        "title": "Knights & Knaves — 2-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_2",
+        "title": "Knights & Knaves — 3-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_3",
+        "title": "Linear Seating Arrangement — 5-6 Person Constraint Solving",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_4",
+        "title": "Circular Seating Arrangement — Facing Inward vs. Outward",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_5",
+        "title": "Matrix Grid Matching — Multi-Variable Logic Elimination",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_6",
+        "title": "Conditional Logic — Identifying Contrapositive Validity",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_7",
+        "title": "Conditional Logic — Identifying Converse & Inverse Fallacies",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_8",
+        "title": "Data & Venn Logic — 3-Set Venn Diagram Overlap Calculation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_9",
+        "title": "Data & Venn Logic — Decision Tree Network Condition Tracking",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_10",
+        "title": "Verbal Analogies — Synonyms & Antonyms Relational Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_11",
+        "title": "Verbal Analogies — Part-to-Whole and Cause-to-Effect Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_12",
+        "title": "Letter Cipher Cracking — Single & Double Shift Alphabetical Rules",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_13",
+        "title": "Letter Cipher Cracking — Reversed Alphabet & Symbol Substitution",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_14",
+        "title": "Deductive Syllogisms — Categorical Syllogisms (All A are B, No B are C)",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_15",
+        "title": "Spatial Reasoning — 2D Pattern Matrix Completion",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_16",
+        "title": "Spatial Reasoning — 3D Cube Net Folding and Orientation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_17",
+        "title": "Spatial Reasoning — Paper Folding and Punch-Hole Symmetry",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade8_logicalreasoning_micro_18",
+        "title": "Spatial Reasoning — Mirror Reflection and Rotational Invariance",
+        "category": "Logic & Reasoning"
       }
     ],
     "Olympiad": [
@@ -28116,6 +31048,56 @@ export const curriculum = {
         "id": "ol_78_8",
         "title": "Chessboard Coloring Proofs & Grid Route Puzzles",
         "category": "E. Logical Reasoning"
+      },
+      {
+        "id": "grade8_olympiad_micro_1",
+        "title": "Combinatorics — Grid Path Counting via Pascal Triangle Logic",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade8_olympiad_micro_2",
+        "title": "Combinatorics — Permutations vs. Combinations in Real Scenarios",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade8_olympiad_micro_3",
+        "title": "Combinatorics — Pigeonhole Principle Minimum Item Selection",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade8_olympiad_micro_4",
+        "title": "Number Theory — Modular Arithmetic Remainders & Cycle Length",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade8_olympiad_micro_5",
+        "title": "Number Theory — Alphametics & Cryptarithm Addition Letter Solving",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade8_olympiad_micro_6",
+        "title": "Number Theory — Prime Factorization & Number of Divisors Formula",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade8_olympiad_micro_7",
+        "title": "Non-Routine Geometry — Shaded Region Areas of Overlapping Circles & Squares",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade8_olympiad_micro_8",
+        "title": "Non-Routine Geometry — Angle Chasing in Polygons & Cyclic Quadrilaterals",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade8_olympiad_micro_9",
+        "title": "Olympiad Rates — Catch-Up Distance-Time-Speed Calculations",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade8_olympiad_micro_10",
+        "title": "Olympiad Rates — Simultaneous Filling and Draining Tank Rates",
+        "category": "Olympiad"
       }
     ],
     "Hindi": [
@@ -28478,6 +31460,71 @@ export const curriculum = {
         "id": "cs_78_6",
         "title": "Introduction to Artificial Intelligence & Neural Networks",
         "category": "D. AI & Future Tech"
+      },
+      {
+        "id": "grade8_computerscience_micro_1",
+        "title": "Pseudocode Tracing — FOR Loop Nested Counter Tracking",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade8_computerscience_micro_2",
+        "title": "Pseudocode Tracing — WHILE Loop Condition Evaluation & Infinite Loop Traps",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade8_computerscience_micro_3",
+        "title": "Pseudocode Tracing — IF-ELSE Nested Decision Tree State Tables",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade8_computerscience_micro_4",
+        "title": "Data Representation — Binary to Decimal & Decimal to Binary Conversions",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade8_computerscience_micro_5",
+        "title": "Data Representation — Hexadecimal Color Code Breakdown (#RRGGBB)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade8_computerscience_micro_6",
+        "title": "Data Representation — Lossy vs. Lossless Image Compression Trade-offs",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade8_computerscience_micro_7",
+        "title": "Networks & Internet — IP Address Subnet Routing & Packet Header Roles",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade8_computerscience_micro_8",
+        "title": "Networks & Internet — DNS Lookup Process and HTTP/HTTPS Encryption",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade8_computerscience_micro_9",
+        "title": "Databases & SQL — Basic SQL Queries (SELECT, WHERE, ORDER BY)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade8_computerscience_micro_10",
+        "title": "Databases & SQL — Relational Table Primary Key & Foreign Key Links",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade8_computerscience_micro_11",
+        "title": "Web Development — HTML Structural Tags (div, p, header, section)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade8_computerscience_micro_12",
+        "title": "Web Development — CSS Selector Rules (class, id, hover state)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade8_computerscience_micro_13",
+        "title": "Cybersecurity — Phishing Detection and Password Hashing Principles",
+        "category": "Computer Science"
       }
     ],
     "Financial Literacy": [
@@ -28505,6 +31552,56 @@ export const curriculum = {
         "id": "fl_78_5",
         "title": "Credit scores, debt management, and interest rates",
         "category": "D. Banking & Credit"
+      },
+      {
+        "id": "grade8_financialliteracy_micro_1",
+        "title": "Money Basics — Coin & Bill Identification & Value Counting",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade8_financialliteracy_micro_2",
+        "title": "Budgeting — Needs vs. Wants Categorization & Priority Spending",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade8_financialliteracy_micro_3",
+        "title": "Budgeting — Income, Fixed Expenses, and Variable Savings Tracking",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade8_financialliteracy_micro_4",
+        "title": "Banking & Interest — Simple Interest Formula I = PRT Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade8_financialliteracy_micro_5",
+        "title": "Banking & Interest — Compound Interest Growth & Rule of 72",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade8_financialliteracy_micro_6",
+        "title": "Economics — Inflation Purchasing Power Impact",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade8_financialliteracy_micro_7",
+        "title": "Investments — Stocks, Dividends, and Market Risk Diversification",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade8_financialliteracy_micro_8",
+        "title": "Investments — Bonds, Yields, and Fixed-Income Assets",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade8_financialliteracy_micro_9",
+        "title": "Corporate Finance — Profit, Loss, Revenue, and Gross Margin Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade8_financialliteracy_micro_10",
+        "title": "Taxes — Sales Tax, Income Tax Brackets, and Net Pay Computation",
+        "category": "Financial Literacy"
       }
     ],
     "Environmental Science": [
@@ -28527,6 +31624,51 @@ export const curriculum = {
         "id": "es_78_4",
         "title": "Environmental policy, carbon credits, and treaties",
         "category": "C. Human Impact"
+      },
+      {
+        "id": "grade8_environmentalscience_micro_1",
+        "title": "Ecosystems — Food Chains, Food Webs, and Trophic Energy Pyramids",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade8_environmentalscience_micro_2",
+        "title": "Ecosystems — Biome Classification (Rainforest, Tundra, Desert, Savannah)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade8_environmentalscience_micro_3",
+        "title": "Biogeochemical Cycles — Water Cycle Steps (Evaporation, Transpiration, Condensation)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade8_environmentalscience_micro_4",
+        "title": "Biogeochemical Cycles — Carbon Cycle & Global Warming Atmosphere Impacts",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade8_environmentalscience_micro_5",
+        "title": "Biogeochemical Cycles — Nitrogen Cycle & Soil Nutrient Replenishment",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade8_environmentalscience_micro_6",
+        "title": "Conservation — Renewable Energy (Solar, Wind, Hydro, Geothermal)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade8_environmentalscience_micro_7",
+        "title": "Conservation — Waste Reduction: 3 Rs (Reduce, Reuse, Recycle)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade8_environmentalscience_micro_8",
+        "title": "Conservation — Marine Pollution, Microplastics, and Ocean Acidification",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade8_environmentalscience_micro_9",
+        "title": "Global Goals — UN Sustainable Development Goals (SDGs) Analysis",
+        "category": "Environmental Science"
       }
     ],
     "Critical Thinking": [
@@ -28549,6 +31691,61 @@ export const curriculum = {
         "id": "ct_78_4",
         "title": "Ethical frameworks: Utilitarianism, Deontology & Virtue Ethics",
         "category": "D. Ethics"
+      },
+      {
+        "id": "grade8_criticalthinking_micro_1",
+        "title": "Identifying Flaws — Correlation vs. Causation Error",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade8_criticalthinking_micro_2",
+        "title": "Identifying Flaws — Straw Man & Ad Hominem Distortions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade8_criticalthinking_micro_3",
+        "title": "Identifying Flaws — Over-Generalization & Slippery Slope",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade8_criticalthinking_micro_4",
+        "title": "Evaluating Arguments — Finding Statements That MOST Strengthen a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade8_criticalthinking_micro_5",
+        "title": "Evaluating Arguments — Finding Statements That MOST Weaken a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade8_criticalthinking_micro_6",
+        "title": "Evaluating Arguments — Identifying Unstated Implicit Assumptions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade8_criticalthinking_micro_7",
+        "title": "Evaluating Arguments — Perspective & Point of View Analysis",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade8_criticalthinking_micro_8",
+        "title": "Socratic Inquiry — Distinguishing Fact from Opinion",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade8_criticalthinking_micro_9",
+        "title": "Socratic Inquiry — Questioning Premise Validity and Bias",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade8_criticalthinking_micro_10",
+        "title": "Formal Fallacies — Affirming the Consequent & Denying the Antecedent",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade8_criticalthinking_micro_11",
+        "title": "Informal Fallacies — Appeal to Authority & False Dilemma",
+        "category": "Critical Thinking"
       }
     ]
   },
@@ -30964,6 +34161,56 @@ export const curriculum = {
         "id": "ol_912_7",
         "title": "Game Theory, Winning Strategies & Invariants",
         "category": "E. Advanced Logic"
+      },
+      {
+        "id": "grade9_olympiad_micro_1",
+        "title": "Combinatorics — Grid Path Counting via Pascal Triangle Logic",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade9_olympiad_micro_2",
+        "title": "Combinatorics — Permutations vs. Combinations in Real Scenarios",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade9_olympiad_micro_3",
+        "title": "Combinatorics — Pigeonhole Principle Minimum Item Selection",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade9_olympiad_micro_4",
+        "title": "Number Theory — Modular Arithmetic Remainders & Cycle Length",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade9_olympiad_micro_5",
+        "title": "Number Theory — Alphametics & Cryptarithm Addition Letter Solving",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade9_olympiad_micro_6",
+        "title": "Number Theory — Prime Factorization & Number of Divisors Formula",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade9_olympiad_micro_7",
+        "title": "Non-Routine Geometry — Shaded Region Areas of Overlapping Circles & Squares",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade9_olympiad_micro_8",
+        "title": "Non-Routine Geometry — Angle Chasing in Polygons & Cyclic Quadrilaterals",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade9_olympiad_micro_9",
+        "title": "Olympiad Rates — Catch-Up Distance-Time-Speed Calculations",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade9_olympiad_micro_10",
+        "title": "Olympiad Rates — Simultaneous Filling and Draining Tank Rates",
+        "category": "Olympiad"
       }
     ],
     "Hindi": [
@@ -31326,6 +34573,71 @@ export const curriculum = {
         "id": "cs_912_6",
         "title": "Network Protocols: HTTP, HTTPS, TCP/IP, DNS & IP Routing",
         "category": "D. Systems & Networks"
+      },
+      {
+        "id": "grade9_computerscience_micro_1",
+        "title": "Pseudocode Tracing — FOR Loop Nested Counter Tracking",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade9_computerscience_micro_2",
+        "title": "Pseudocode Tracing — WHILE Loop Condition Evaluation & Infinite Loop Traps",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade9_computerscience_micro_3",
+        "title": "Pseudocode Tracing — IF-ELSE Nested Decision Tree State Tables",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade9_computerscience_micro_4",
+        "title": "Data Representation — Binary to Decimal & Decimal to Binary Conversions",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade9_computerscience_micro_5",
+        "title": "Data Representation — Hexadecimal Color Code Breakdown (#RRGGBB)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade9_computerscience_micro_6",
+        "title": "Data Representation — Lossy vs. Lossless Image Compression Trade-offs",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade9_computerscience_micro_7",
+        "title": "Networks & Internet — IP Address Subnet Routing & Packet Header Roles",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade9_computerscience_micro_8",
+        "title": "Networks & Internet — DNS Lookup Process and HTTP/HTTPS Encryption",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade9_computerscience_micro_9",
+        "title": "Databases & SQL — Basic SQL Queries (SELECT, WHERE, ORDER BY)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade9_computerscience_micro_10",
+        "title": "Databases & SQL — Relational Table Primary Key & Foreign Key Links",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade9_computerscience_micro_11",
+        "title": "Web Development — HTML Structural Tags (div, p, header, section)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade9_computerscience_micro_12",
+        "title": "Web Development — CSS Selector Rules (class, id, hover state)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade9_computerscience_micro_13",
+        "title": "Cybersecurity — Phishing Detection and Password Hashing Principles",
+        "category": "Computer Science"
       }
     ],
     "Financial Literacy": [
@@ -31353,6 +34665,56 @@ export const curriculum = {
         "id": "fl_912_5",
         "title": "Venture Capital, Startup Valuations & Equity Dilution",
         "category": "D. Entrepreneurship"
+      },
+      {
+        "id": "grade9_financialliteracy_micro_1",
+        "title": "Money Basics — Coin & Bill Identification & Value Counting",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade9_financialliteracy_micro_2",
+        "title": "Budgeting — Needs vs. Wants Categorization & Priority Spending",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade9_financialliteracy_micro_3",
+        "title": "Budgeting — Income, Fixed Expenses, and Variable Savings Tracking",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade9_financialliteracy_micro_4",
+        "title": "Banking & Interest — Simple Interest Formula I = PRT Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade9_financialliteracy_micro_5",
+        "title": "Banking & Interest — Compound Interest Growth & Rule of 72",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade9_financialliteracy_micro_6",
+        "title": "Economics — Inflation Purchasing Power Impact",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade9_financialliteracy_micro_7",
+        "title": "Investments — Stocks, Dividends, and Market Risk Diversification",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade9_financialliteracy_micro_8",
+        "title": "Investments — Bonds, Yields, and Fixed-Income Assets",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade9_financialliteracy_micro_9",
+        "title": "Corporate Finance — Profit, Loss, Revenue, and Gross Margin Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade9_financialliteracy_micro_10",
+        "title": "Taxes — Sales Tax, Income Tax Brackets, and Net Pay Computation",
+        "category": "Financial Literacy"
       }
     ],
     "Environmental Science": [
@@ -31375,6 +34737,51 @@ export const curriculum = {
         "id": "es_912_4",
         "title": "Circular Economy, Life Cycle Assessment (LCA) of Materials",
         "category": "D. Industrial Ecology"
+      },
+      {
+        "id": "grade9_environmentalscience_micro_1",
+        "title": "Ecosystems — Food Chains, Food Webs, and Trophic Energy Pyramids",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade9_environmentalscience_micro_2",
+        "title": "Ecosystems — Biome Classification (Rainforest, Tundra, Desert, Savannah)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade9_environmentalscience_micro_3",
+        "title": "Biogeochemical Cycles — Water Cycle Steps (Evaporation, Transpiration, Condensation)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade9_environmentalscience_micro_4",
+        "title": "Biogeochemical Cycles — Carbon Cycle & Global Warming Atmosphere Impacts",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade9_environmentalscience_micro_5",
+        "title": "Biogeochemical Cycles — Nitrogen Cycle & Soil Nutrient Replenishment",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade9_environmentalscience_micro_6",
+        "title": "Conservation — Renewable Energy (Solar, Wind, Hydro, Geothermal)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade9_environmentalscience_micro_7",
+        "title": "Conservation — Waste Reduction: 3 Rs (Reduce, Reuse, Recycle)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade9_environmentalscience_micro_8",
+        "title": "Conservation — Marine Pollution, Microplastics, and Ocean Acidification",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade9_environmentalscience_micro_9",
+        "title": "Global Goals — UN Sustainable Development Goals (SDGs) Analysis",
+        "category": "Environmental Science"
       }
     ],
     "Critical Thinking": [
@@ -31397,6 +34804,153 @@ export const curriculum = {
         "id": "ct_912_4",
         "title": "Game Theory: Nash Equilibrium & Prisoner's Dilemma",
         "category": "D. Decision Science"
+      },
+      {
+        "id": "grade9_criticalthinking_micro_1",
+        "title": "Identifying Flaws — Correlation vs. Causation Error",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade9_criticalthinking_micro_2",
+        "title": "Identifying Flaws — Straw Man & Ad Hominem Distortions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade9_criticalthinking_micro_3",
+        "title": "Identifying Flaws — Over-Generalization & Slippery Slope",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade9_criticalthinking_micro_4",
+        "title": "Evaluating Arguments — Finding Statements That MOST Strengthen a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade9_criticalthinking_micro_5",
+        "title": "Evaluating Arguments — Finding Statements That MOST Weaken a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade9_criticalthinking_micro_6",
+        "title": "Evaluating Arguments — Identifying Unstated Implicit Assumptions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade9_criticalthinking_micro_7",
+        "title": "Evaluating Arguments — Perspective & Point of View Analysis",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade9_criticalthinking_micro_8",
+        "title": "Socratic Inquiry — Distinguishing Fact from Opinion",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade9_criticalthinking_micro_9",
+        "title": "Socratic Inquiry — Questioning Premise Validity and Bias",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade9_criticalthinking_micro_10",
+        "title": "Formal Fallacies — Affirming the Consequent & Denying the Antecedent",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade9_criticalthinking_micro_11",
+        "title": "Informal Fallacies — Appeal to Authority & False Dilemma",
+        "category": "Critical Thinking"
+      }
+    ],
+    "Logical Reasoning": [
+      {
+        "id": "grade9_logicalreasoning_micro_1",
+        "title": "Knights & Knaves — 2-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_2",
+        "title": "Knights & Knaves — 3-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_3",
+        "title": "Linear Seating Arrangement — 5-6 Person Constraint Solving",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_4",
+        "title": "Circular Seating Arrangement — Facing Inward vs. Outward",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_5",
+        "title": "Matrix Grid Matching — Multi-Variable Logic Elimination",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_6",
+        "title": "Conditional Logic — Identifying Contrapositive Validity",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_7",
+        "title": "Conditional Logic — Identifying Converse & Inverse Fallacies",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_8",
+        "title": "Data & Venn Logic — 3-Set Venn Diagram Overlap Calculation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_9",
+        "title": "Data & Venn Logic — Decision Tree Network Condition Tracking",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_10",
+        "title": "Verbal Analogies — Synonyms & Antonyms Relational Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_11",
+        "title": "Verbal Analogies — Part-to-Whole and Cause-to-Effect Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_12",
+        "title": "Letter Cipher Cracking — Single & Double Shift Alphabetical Rules",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_13",
+        "title": "Letter Cipher Cracking — Reversed Alphabet & Symbol Substitution",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_14",
+        "title": "Deductive Syllogisms — Categorical Syllogisms (All A are B, No B are C)",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_15",
+        "title": "Spatial Reasoning — 2D Pattern Matrix Completion",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_16",
+        "title": "Spatial Reasoning — 3D Cube Net Folding and Orientation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_17",
+        "title": "Spatial Reasoning — Paper Folding and Punch-Hole Symmetry",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade9_logicalreasoning_micro_18",
+        "title": "Spatial Reasoning — Mirror Reflection and Rotational Invariance",
+        "category": "Logic & Reasoning"
       }
     ]
   },
@@ -34302,6 +37856,56 @@ export const curriculum = {
         "id": "ol_912_7",
         "title": "Game Theory, Winning Strategies & Invariants",
         "category": "E. Advanced Logic"
+      },
+      {
+        "id": "grade10_olympiad_micro_1",
+        "title": "Combinatorics — Grid Path Counting via Pascal Triangle Logic",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade10_olympiad_micro_2",
+        "title": "Combinatorics — Permutations vs. Combinations in Real Scenarios",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade10_olympiad_micro_3",
+        "title": "Combinatorics — Pigeonhole Principle Minimum Item Selection",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade10_olympiad_micro_4",
+        "title": "Number Theory — Modular Arithmetic Remainders & Cycle Length",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade10_olympiad_micro_5",
+        "title": "Number Theory — Alphametics & Cryptarithm Addition Letter Solving",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade10_olympiad_micro_6",
+        "title": "Number Theory — Prime Factorization & Number of Divisors Formula",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade10_olympiad_micro_7",
+        "title": "Non-Routine Geometry — Shaded Region Areas of Overlapping Circles & Squares",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade10_olympiad_micro_8",
+        "title": "Non-Routine Geometry — Angle Chasing in Polygons & Cyclic Quadrilaterals",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade10_olympiad_micro_9",
+        "title": "Olympiad Rates — Catch-Up Distance-Time-Speed Calculations",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade10_olympiad_micro_10",
+        "title": "Olympiad Rates — Simultaneous Filling and Draining Tank Rates",
+        "category": "Olympiad"
       }
     ],
     "Hindi": [
@@ -34664,6 +38268,71 @@ export const curriculum = {
         "id": "cs_912_6",
         "title": "Network Protocols: HTTP, HTTPS, TCP/IP, DNS & IP Routing",
         "category": "D. Systems & Networks"
+      },
+      {
+        "id": "grade10_computerscience_micro_1",
+        "title": "Pseudocode Tracing — FOR Loop Nested Counter Tracking",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade10_computerscience_micro_2",
+        "title": "Pseudocode Tracing — WHILE Loop Condition Evaluation & Infinite Loop Traps",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade10_computerscience_micro_3",
+        "title": "Pseudocode Tracing — IF-ELSE Nested Decision Tree State Tables",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade10_computerscience_micro_4",
+        "title": "Data Representation — Binary to Decimal & Decimal to Binary Conversions",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade10_computerscience_micro_5",
+        "title": "Data Representation — Hexadecimal Color Code Breakdown (#RRGGBB)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade10_computerscience_micro_6",
+        "title": "Data Representation — Lossy vs. Lossless Image Compression Trade-offs",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade10_computerscience_micro_7",
+        "title": "Networks & Internet — IP Address Subnet Routing & Packet Header Roles",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade10_computerscience_micro_8",
+        "title": "Networks & Internet — DNS Lookup Process and HTTP/HTTPS Encryption",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade10_computerscience_micro_9",
+        "title": "Databases & SQL — Basic SQL Queries (SELECT, WHERE, ORDER BY)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade10_computerscience_micro_10",
+        "title": "Databases & SQL — Relational Table Primary Key & Foreign Key Links",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade10_computerscience_micro_11",
+        "title": "Web Development — HTML Structural Tags (div, p, header, section)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade10_computerscience_micro_12",
+        "title": "Web Development — CSS Selector Rules (class, id, hover state)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade10_computerscience_micro_13",
+        "title": "Cybersecurity — Phishing Detection and Password Hashing Principles",
+        "category": "Computer Science"
       }
     ],
     "Financial Literacy": [
@@ -34691,6 +38360,56 @@ export const curriculum = {
         "id": "fl_912_5",
         "title": "Venture Capital, Startup Valuations & Equity Dilution",
         "category": "D. Entrepreneurship"
+      },
+      {
+        "id": "grade10_financialliteracy_micro_1",
+        "title": "Money Basics — Coin & Bill Identification & Value Counting",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade10_financialliteracy_micro_2",
+        "title": "Budgeting — Needs vs. Wants Categorization & Priority Spending",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade10_financialliteracy_micro_3",
+        "title": "Budgeting — Income, Fixed Expenses, and Variable Savings Tracking",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade10_financialliteracy_micro_4",
+        "title": "Banking & Interest — Simple Interest Formula I = PRT Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade10_financialliteracy_micro_5",
+        "title": "Banking & Interest — Compound Interest Growth & Rule of 72",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade10_financialliteracy_micro_6",
+        "title": "Economics — Inflation Purchasing Power Impact",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade10_financialliteracy_micro_7",
+        "title": "Investments — Stocks, Dividends, and Market Risk Diversification",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade10_financialliteracy_micro_8",
+        "title": "Investments — Bonds, Yields, and Fixed-Income Assets",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade10_financialliteracy_micro_9",
+        "title": "Corporate Finance — Profit, Loss, Revenue, and Gross Margin Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade10_financialliteracy_micro_10",
+        "title": "Taxes — Sales Tax, Income Tax Brackets, and Net Pay Computation",
+        "category": "Financial Literacy"
       }
     ],
     "Environmental Science": [
@@ -34713,6 +38432,51 @@ export const curriculum = {
         "id": "es_912_4",
         "title": "Circular Economy, Life Cycle Assessment (LCA) of Materials",
         "category": "D. Industrial Ecology"
+      },
+      {
+        "id": "grade10_environmentalscience_micro_1",
+        "title": "Ecosystems — Food Chains, Food Webs, and Trophic Energy Pyramids",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade10_environmentalscience_micro_2",
+        "title": "Ecosystems — Biome Classification (Rainforest, Tundra, Desert, Savannah)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade10_environmentalscience_micro_3",
+        "title": "Biogeochemical Cycles — Water Cycle Steps (Evaporation, Transpiration, Condensation)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade10_environmentalscience_micro_4",
+        "title": "Biogeochemical Cycles — Carbon Cycle & Global Warming Atmosphere Impacts",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade10_environmentalscience_micro_5",
+        "title": "Biogeochemical Cycles — Nitrogen Cycle & Soil Nutrient Replenishment",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade10_environmentalscience_micro_6",
+        "title": "Conservation — Renewable Energy (Solar, Wind, Hydro, Geothermal)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade10_environmentalscience_micro_7",
+        "title": "Conservation — Waste Reduction: 3 Rs (Reduce, Reuse, Recycle)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade10_environmentalscience_micro_8",
+        "title": "Conservation — Marine Pollution, Microplastics, and Ocean Acidification",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade10_environmentalscience_micro_9",
+        "title": "Global Goals — UN Sustainable Development Goals (SDGs) Analysis",
+        "category": "Environmental Science"
       }
     ],
     "Critical Thinking": [
@@ -34735,6 +38499,153 @@ export const curriculum = {
         "id": "ct_912_4",
         "title": "Game Theory: Nash Equilibrium & Prisoner's Dilemma",
         "category": "D. Decision Science"
+      },
+      {
+        "id": "grade10_criticalthinking_micro_1",
+        "title": "Identifying Flaws — Correlation vs. Causation Error",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade10_criticalthinking_micro_2",
+        "title": "Identifying Flaws — Straw Man & Ad Hominem Distortions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade10_criticalthinking_micro_3",
+        "title": "Identifying Flaws — Over-Generalization & Slippery Slope",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade10_criticalthinking_micro_4",
+        "title": "Evaluating Arguments — Finding Statements That MOST Strengthen a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade10_criticalthinking_micro_5",
+        "title": "Evaluating Arguments — Finding Statements That MOST Weaken a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade10_criticalthinking_micro_6",
+        "title": "Evaluating Arguments — Identifying Unstated Implicit Assumptions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade10_criticalthinking_micro_7",
+        "title": "Evaluating Arguments — Perspective & Point of View Analysis",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade10_criticalthinking_micro_8",
+        "title": "Socratic Inquiry — Distinguishing Fact from Opinion",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade10_criticalthinking_micro_9",
+        "title": "Socratic Inquiry — Questioning Premise Validity and Bias",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade10_criticalthinking_micro_10",
+        "title": "Formal Fallacies — Affirming the Consequent & Denying the Antecedent",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade10_criticalthinking_micro_11",
+        "title": "Informal Fallacies — Appeal to Authority & False Dilemma",
+        "category": "Critical Thinking"
+      }
+    ],
+    "Logical Reasoning": [
+      {
+        "id": "grade10_logicalreasoning_micro_1",
+        "title": "Knights & Knaves — 2-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_2",
+        "title": "Knights & Knaves — 3-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_3",
+        "title": "Linear Seating Arrangement — 5-6 Person Constraint Solving",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_4",
+        "title": "Circular Seating Arrangement — Facing Inward vs. Outward",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_5",
+        "title": "Matrix Grid Matching — Multi-Variable Logic Elimination",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_6",
+        "title": "Conditional Logic — Identifying Contrapositive Validity",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_7",
+        "title": "Conditional Logic — Identifying Converse & Inverse Fallacies",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_8",
+        "title": "Data & Venn Logic — 3-Set Venn Diagram Overlap Calculation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_9",
+        "title": "Data & Venn Logic — Decision Tree Network Condition Tracking",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_10",
+        "title": "Verbal Analogies — Synonyms & Antonyms Relational Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_11",
+        "title": "Verbal Analogies — Part-to-Whole and Cause-to-Effect Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_12",
+        "title": "Letter Cipher Cracking — Single & Double Shift Alphabetical Rules",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_13",
+        "title": "Letter Cipher Cracking — Reversed Alphabet & Symbol Substitution",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_14",
+        "title": "Deductive Syllogisms — Categorical Syllogisms (All A are B, No B are C)",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_15",
+        "title": "Spatial Reasoning — 2D Pattern Matrix Completion",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_16",
+        "title": "Spatial Reasoning — 3D Cube Net Folding and Orientation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_17",
+        "title": "Spatial Reasoning — Paper Folding and Punch-Hole Symmetry",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade10_logicalreasoning_micro_18",
+        "title": "Spatial Reasoning — Mirror Reflection and Rotational Invariance",
+        "category": "Logic & Reasoning"
       }
     ]
   },
@@ -37098,6 +41009,56 @@ export const curriculum = {
         "id": "ol_912_7",
         "title": "Game Theory, Winning Strategies & Invariants",
         "category": "E. Advanced Logic"
+      },
+      {
+        "id": "grade11_olympiad_micro_1",
+        "title": "Combinatorics — Grid Path Counting via Pascal Triangle Logic",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade11_olympiad_micro_2",
+        "title": "Combinatorics — Permutations vs. Combinations in Real Scenarios",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade11_olympiad_micro_3",
+        "title": "Combinatorics — Pigeonhole Principle Minimum Item Selection",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade11_olympiad_micro_4",
+        "title": "Number Theory — Modular Arithmetic Remainders & Cycle Length",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade11_olympiad_micro_5",
+        "title": "Number Theory — Alphametics & Cryptarithm Addition Letter Solving",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade11_olympiad_micro_6",
+        "title": "Number Theory — Prime Factorization & Number of Divisors Formula",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade11_olympiad_micro_7",
+        "title": "Non-Routine Geometry — Shaded Region Areas of Overlapping Circles & Squares",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade11_olympiad_micro_8",
+        "title": "Non-Routine Geometry — Angle Chasing in Polygons & Cyclic Quadrilaterals",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade11_olympiad_micro_9",
+        "title": "Olympiad Rates — Catch-Up Distance-Time-Speed Calculations",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade11_olympiad_micro_10",
+        "title": "Olympiad Rates — Simultaneous Filling and Draining Tank Rates",
+        "category": "Olympiad"
       }
     ],
     "Hindi": [
@@ -37460,6 +41421,71 @@ export const curriculum = {
         "id": "cs_912_6",
         "title": "Network Protocols: HTTP, HTTPS, TCP/IP, DNS & IP Routing",
         "category": "D. Systems & Networks"
+      },
+      {
+        "id": "grade11_computerscience_micro_1",
+        "title": "Pseudocode Tracing — FOR Loop Nested Counter Tracking",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade11_computerscience_micro_2",
+        "title": "Pseudocode Tracing — WHILE Loop Condition Evaluation & Infinite Loop Traps",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade11_computerscience_micro_3",
+        "title": "Pseudocode Tracing — IF-ELSE Nested Decision Tree State Tables",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade11_computerscience_micro_4",
+        "title": "Data Representation — Binary to Decimal & Decimal to Binary Conversions",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade11_computerscience_micro_5",
+        "title": "Data Representation — Hexadecimal Color Code Breakdown (#RRGGBB)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade11_computerscience_micro_6",
+        "title": "Data Representation — Lossy vs. Lossless Image Compression Trade-offs",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade11_computerscience_micro_7",
+        "title": "Networks & Internet — IP Address Subnet Routing & Packet Header Roles",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade11_computerscience_micro_8",
+        "title": "Networks & Internet — DNS Lookup Process and HTTP/HTTPS Encryption",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade11_computerscience_micro_9",
+        "title": "Databases & SQL — Basic SQL Queries (SELECT, WHERE, ORDER BY)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade11_computerscience_micro_10",
+        "title": "Databases & SQL — Relational Table Primary Key & Foreign Key Links",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade11_computerscience_micro_11",
+        "title": "Web Development — HTML Structural Tags (div, p, header, section)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade11_computerscience_micro_12",
+        "title": "Web Development — CSS Selector Rules (class, id, hover state)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade11_computerscience_micro_13",
+        "title": "Cybersecurity — Phishing Detection and Password Hashing Principles",
+        "category": "Computer Science"
       }
     ],
     "Financial Literacy": [
@@ -37487,6 +41513,56 @@ export const curriculum = {
         "id": "fl_912_5",
         "title": "Venture Capital, Startup Valuations & Equity Dilution",
         "category": "D. Entrepreneurship"
+      },
+      {
+        "id": "grade11_financialliteracy_micro_1",
+        "title": "Money Basics — Coin & Bill Identification & Value Counting",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade11_financialliteracy_micro_2",
+        "title": "Budgeting — Needs vs. Wants Categorization & Priority Spending",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade11_financialliteracy_micro_3",
+        "title": "Budgeting — Income, Fixed Expenses, and Variable Savings Tracking",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade11_financialliteracy_micro_4",
+        "title": "Banking & Interest — Simple Interest Formula I = PRT Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade11_financialliteracy_micro_5",
+        "title": "Banking & Interest — Compound Interest Growth & Rule of 72",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade11_financialliteracy_micro_6",
+        "title": "Economics — Inflation Purchasing Power Impact",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade11_financialliteracy_micro_7",
+        "title": "Investments — Stocks, Dividends, and Market Risk Diversification",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade11_financialliteracy_micro_8",
+        "title": "Investments — Bonds, Yields, and Fixed-Income Assets",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade11_financialliteracy_micro_9",
+        "title": "Corporate Finance — Profit, Loss, Revenue, and Gross Margin Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade11_financialliteracy_micro_10",
+        "title": "Taxes — Sales Tax, Income Tax Brackets, and Net Pay Computation",
+        "category": "Financial Literacy"
       }
     ],
     "Environmental Science": [
@@ -37509,6 +41585,51 @@ export const curriculum = {
         "id": "es_912_4",
         "title": "Circular Economy, Life Cycle Assessment (LCA) of Materials",
         "category": "D. Industrial Ecology"
+      },
+      {
+        "id": "grade11_environmentalscience_micro_1",
+        "title": "Ecosystems — Food Chains, Food Webs, and Trophic Energy Pyramids",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade11_environmentalscience_micro_2",
+        "title": "Ecosystems — Biome Classification (Rainforest, Tundra, Desert, Savannah)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade11_environmentalscience_micro_3",
+        "title": "Biogeochemical Cycles — Water Cycle Steps (Evaporation, Transpiration, Condensation)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade11_environmentalscience_micro_4",
+        "title": "Biogeochemical Cycles — Carbon Cycle & Global Warming Atmosphere Impacts",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade11_environmentalscience_micro_5",
+        "title": "Biogeochemical Cycles — Nitrogen Cycle & Soil Nutrient Replenishment",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade11_environmentalscience_micro_6",
+        "title": "Conservation — Renewable Energy (Solar, Wind, Hydro, Geothermal)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade11_environmentalscience_micro_7",
+        "title": "Conservation — Waste Reduction: 3 Rs (Reduce, Reuse, Recycle)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade11_environmentalscience_micro_8",
+        "title": "Conservation — Marine Pollution, Microplastics, and Ocean Acidification",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade11_environmentalscience_micro_9",
+        "title": "Global Goals — UN Sustainable Development Goals (SDGs) Analysis",
+        "category": "Environmental Science"
       }
     ],
     "Critical Thinking": [
@@ -37531,6 +41652,153 @@ export const curriculum = {
         "id": "ct_912_4",
         "title": "Game Theory: Nash Equilibrium & Prisoner's Dilemma",
         "category": "D. Decision Science"
+      },
+      {
+        "id": "grade11_criticalthinking_micro_1",
+        "title": "Identifying Flaws — Correlation vs. Causation Error",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade11_criticalthinking_micro_2",
+        "title": "Identifying Flaws — Straw Man & Ad Hominem Distortions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade11_criticalthinking_micro_3",
+        "title": "Identifying Flaws — Over-Generalization & Slippery Slope",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade11_criticalthinking_micro_4",
+        "title": "Evaluating Arguments — Finding Statements That MOST Strengthen a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade11_criticalthinking_micro_5",
+        "title": "Evaluating Arguments — Finding Statements That MOST Weaken a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade11_criticalthinking_micro_6",
+        "title": "Evaluating Arguments — Identifying Unstated Implicit Assumptions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade11_criticalthinking_micro_7",
+        "title": "Evaluating Arguments — Perspective & Point of View Analysis",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade11_criticalthinking_micro_8",
+        "title": "Socratic Inquiry — Distinguishing Fact from Opinion",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade11_criticalthinking_micro_9",
+        "title": "Socratic Inquiry — Questioning Premise Validity and Bias",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade11_criticalthinking_micro_10",
+        "title": "Formal Fallacies — Affirming the Consequent & Denying the Antecedent",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade11_criticalthinking_micro_11",
+        "title": "Informal Fallacies — Appeal to Authority & False Dilemma",
+        "category": "Critical Thinking"
+      }
+    ],
+    "Logical Reasoning": [
+      {
+        "id": "grade11_logicalreasoning_micro_1",
+        "title": "Knights & Knaves — 2-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_2",
+        "title": "Knights & Knaves — 3-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_3",
+        "title": "Linear Seating Arrangement — 5-6 Person Constraint Solving",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_4",
+        "title": "Circular Seating Arrangement — Facing Inward vs. Outward",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_5",
+        "title": "Matrix Grid Matching — Multi-Variable Logic Elimination",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_6",
+        "title": "Conditional Logic — Identifying Contrapositive Validity",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_7",
+        "title": "Conditional Logic — Identifying Converse & Inverse Fallacies",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_8",
+        "title": "Data & Venn Logic — 3-Set Venn Diagram Overlap Calculation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_9",
+        "title": "Data & Venn Logic — Decision Tree Network Condition Tracking",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_10",
+        "title": "Verbal Analogies — Synonyms & Antonyms Relational Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_11",
+        "title": "Verbal Analogies — Part-to-Whole and Cause-to-Effect Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_12",
+        "title": "Letter Cipher Cracking — Single & Double Shift Alphabetical Rules",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_13",
+        "title": "Letter Cipher Cracking — Reversed Alphabet & Symbol Substitution",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_14",
+        "title": "Deductive Syllogisms — Categorical Syllogisms (All A are B, No B are C)",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_15",
+        "title": "Spatial Reasoning — 2D Pattern Matrix Completion",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_16",
+        "title": "Spatial Reasoning — 3D Cube Net Folding and Orientation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_17",
+        "title": "Spatial Reasoning — Paper Folding and Punch-Hole Symmetry",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade11_logicalreasoning_micro_18",
+        "title": "Spatial Reasoning — Mirror Reflection and Rotational Invariance",
+        "category": "Logic & Reasoning"
       }
     ]
   },
@@ -39849,6 +44117,56 @@ export const curriculum = {
         "id": "ol_912_7",
         "title": "Game Theory, Winning Strategies & Invariants",
         "category": "E. Advanced Logic"
+      },
+      {
+        "id": "grade12_olympiad_micro_1",
+        "title": "Combinatorics — Grid Path Counting via Pascal Triangle Logic",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade12_olympiad_micro_2",
+        "title": "Combinatorics — Permutations vs. Combinations in Real Scenarios",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade12_olympiad_micro_3",
+        "title": "Combinatorics — Pigeonhole Principle Minimum Item Selection",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade12_olympiad_micro_4",
+        "title": "Number Theory — Modular Arithmetic Remainders & Cycle Length",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade12_olympiad_micro_5",
+        "title": "Number Theory — Alphametics & Cryptarithm Addition Letter Solving",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade12_olympiad_micro_6",
+        "title": "Number Theory — Prime Factorization & Number of Divisors Formula",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade12_olympiad_micro_7",
+        "title": "Non-Routine Geometry — Shaded Region Areas of Overlapping Circles & Squares",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade12_olympiad_micro_8",
+        "title": "Non-Routine Geometry — Angle Chasing in Polygons & Cyclic Quadrilaterals",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade12_olympiad_micro_9",
+        "title": "Olympiad Rates — Catch-Up Distance-Time-Speed Calculations",
+        "category": "Olympiad"
+      },
+      {
+        "id": "grade12_olympiad_micro_10",
+        "title": "Olympiad Rates — Simultaneous Filling and Draining Tank Rates",
+        "category": "Olympiad"
       }
     ],
     "Hindi": [
@@ -40211,6 +44529,71 @@ export const curriculum = {
         "id": "cs_912_6",
         "title": "Network Protocols: HTTP, HTTPS, TCP/IP, DNS & IP Routing",
         "category": "D. Systems & Networks"
+      },
+      {
+        "id": "grade12_computerscience_micro_1",
+        "title": "Pseudocode Tracing — FOR Loop Nested Counter Tracking",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade12_computerscience_micro_2",
+        "title": "Pseudocode Tracing — WHILE Loop Condition Evaluation & Infinite Loop Traps",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade12_computerscience_micro_3",
+        "title": "Pseudocode Tracing — IF-ELSE Nested Decision Tree State Tables",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade12_computerscience_micro_4",
+        "title": "Data Representation — Binary to Decimal & Decimal to Binary Conversions",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade12_computerscience_micro_5",
+        "title": "Data Representation — Hexadecimal Color Code Breakdown (#RRGGBB)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade12_computerscience_micro_6",
+        "title": "Data Representation — Lossy vs. Lossless Image Compression Trade-offs",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade12_computerscience_micro_7",
+        "title": "Networks & Internet — IP Address Subnet Routing & Packet Header Roles",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade12_computerscience_micro_8",
+        "title": "Networks & Internet — DNS Lookup Process and HTTP/HTTPS Encryption",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade12_computerscience_micro_9",
+        "title": "Databases & SQL — Basic SQL Queries (SELECT, WHERE, ORDER BY)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade12_computerscience_micro_10",
+        "title": "Databases & SQL — Relational Table Primary Key & Foreign Key Links",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade12_computerscience_micro_11",
+        "title": "Web Development — HTML Structural Tags (div, p, header, section)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade12_computerscience_micro_12",
+        "title": "Web Development — CSS Selector Rules (class, id, hover state)",
+        "category": "Computer Science"
+      },
+      {
+        "id": "grade12_computerscience_micro_13",
+        "title": "Cybersecurity — Phishing Detection and Password Hashing Principles",
+        "category": "Computer Science"
       }
     ],
     "Financial Literacy": [
@@ -40238,6 +44621,56 @@ export const curriculum = {
         "id": "fl_912_5",
         "title": "Venture Capital, Startup Valuations & Equity Dilution",
         "category": "D. Entrepreneurship"
+      },
+      {
+        "id": "grade12_financialliteracy_micro_1",
+        "title": "Money Basics — Coin & Bill Identification & Value Counting",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade12_financialliteracy_micro_2",
+        "title": "Budgeting — Needs vs. Wants Categorization & Priority Spending",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade12_financialliteracy_micro_3",
+        "title": "Budgeting — Income, Fixed Expenses, and Variable Savings Tracking",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade12_financialliteracy_micro_4",
+        "title": "Banking & Interest — Simple Interest Formula I = PRT Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade12_financialliteracy_micro_5",
+        "title": "Banking & Interest — Compound Interest Growth & Rule of 72",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade12_financialliteracy_micro_6",
+        "title": "Economics — Inflation Purchasing Power Impact",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade12_financialliteracy_micro_7",
+        "title": "Investments — Stocks, Dividends, and Market Risk Diversification",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade12_financialliteracy_micro_8",
+        "title": "Investments — Bonds, Yields, and Fixed-Income Assets",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade12_financialliteracy_micro_9",
+        "title": "Corporate Finance — Profit, Loss, Revenue, and Gross Margin Calculations",
+        "category": "Financial Literacy"
+      },
+      {
+        "id": "grade12_financialliteracy_micro_10",
+        "title": "Taxes — Sales Tax, Income Tax Brackets, and Net Pay Computation",
+        "category": "Financial Literacy"
       }
     ],
     "Environmental Science": [
@@ -40260,6 +44693,51 @@ export const curriculum = {
         "id": "es_912_4",
         "title": "Circular Economy, Life Cycle Assessment (LCA) of Materials",
         "category": "D. Industrial Ecology"
+      },
+      {
+        "id": "grade12_environmentalscience_micro_1",
+        "title": "Ecosystems — Food Chains, Food Webs, and Trophic Energy Pyramids",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade12_environmentalscience_micro_2",
+        "title": "Ecosystems — Biome Classification (Rainforest, Tundra, Desert, Savannah)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade12_environmentalscience_micro_3",
+        "title": "Biogeochemical Cycles — Water Cycle Steps (Evaporation, Transpiration, Condensation)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade12_environmentalscience_micro_4",
+        "title": "Biogeochemical Cycles — Carbon Cycle & Global Warming Atmosphere Impacts",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade12_environmentalscience_micro_5",
+        "title": "Biogeochemical Cycles — Nitrogen Cycle & Soil Nutrient Replenishment",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade12_environmentalscience_micro_6",
+        "title": "Conservation — Renewable Energy (Solar, Wind, Hydro, Geothermal)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade12_environmentalscience_micro_7",
+        "title": "Conservation — Waste Reduction: 3 Rs (Reduce, Reuse, Recycle)",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade12_environmentalscience_micro_8",
+        "title": "Conservation — Marine Pollution, Microplastics, and Ocean Acidification",
+        "category": "Environmental Science"
+      },
+      {
+        "id": "grade12_environmentalscience_micro_9",
+        "title": "Global Goals — UN Sustainable Development Goals (SDGs) Analysis",
+        "category": "Environmental Science"
       }
     ],
     "Critical Thinking": [
@@ -40282,6 +44760,153 @@ export const curriculum = {
         "id": "ct_912_4",
         "title": "Game Theory: Nash Equilibrium & Prisoner's Dilemma",
         "category": "D. Decision Science"
+      },
+      {
+        "id": "grade12_criticalthinking_micro_1",
+        "title": "Identifying Flaws — Correlation vs. Causation Error",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade12_criticalthinking_micro_2",
+        "title": "Identifying Flaws — Straw Man & Ad Hominem Distortions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade12_criticalthinking_micro_3",
+        "title": "Identifying Flaws — Over-Generalization & Slippery Slope",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade12_criticalthinking_micro_4",
+        "title": "Evaluating Arguments — Finding Statements That MOST Strengthen a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade12_criticalthinking_micro_5",
+        "title": "Evaluating Arguments — Finding Statements That MOST Weaken a Claim",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade12_criticalthinking_micro_6",
+        "title": "Evaluating Arguments — Identifying Unstated Implicit Assumptions",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade12_criticalthinking_micro_7",
+        "title": "Evaluating Arguments — Perspective & Point of View Analysis",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade12_criticalthinking_micro_8",
+        "title": "Socratic Inquiry — Distinguishing Fact from Opinion",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade12_criticalthinking_micro_9",
+        "title": "Socratic Inquiry — Questioning Premise Validity and Bias",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade12_criticalthinking_micro_10",
+        "title": "Formal Fallacies — Affirming the Consequent & Denying the Antecedent",
+        "category": "Critical Thinking"
+      },
+      {
+        "id": "grade12_criticalthinking_micro_11",
+        "title": "Informal Fallacies — Appeal to Authority & False Dilemma",
+        "category": "Critical Thinking"
+      }
+    ],
+    "Logical Reasoning": [
+      {
+        "id": "grade12_logicalreasoning_micro_1",
+        "title": "Knights & Knaves — 2-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_2",
+        "title": "Knights & Knaves — 3-Person Truth/Liar Deduction",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_3",
+        "title": "Linear Seating Arrangement — 5-6 Person Constraint Solving",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_4",
+        "title": "Circular Seating Arrangement — Facing Inward vs. Outward",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_5",
+        "title": "Matrix Grid Matching — Multi-Variable Logic Elimination",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_6",
+        "title": "Conditional Logic — Identifying Contrapositive Validity",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_7",
+        "title": "Conditional Logic — Identifying Converse & Inverse Fallacies",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_8",
+        "title": "Data & Venn Logic — 3-Set Venn Diagram Overlap Calculation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_9",
+        "title": "Data & Venn Logic — Decision Tree Network Condition Tracking",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_10",
+        "title": "Verbal Analogies — Synonyms & Antonyms Relational Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_11",
+        "title": "Verbal Analogies — Part-to-Whole and Cause-to-Effect Pairs",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_12",
+        "title": "Letter Cipher Cracking — Single & Double Shift Alphabetical Rules",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_13",
+        "title": "Letter Cipher Cracking — Reversed Alphabet & Symbol Substitution",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_14",
+        "title": "Deductive Syllogisms — Categorical Syllogisms (All A are B, No B are C)",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_15",
+        "title": "Spatial Reasoning — 2D Pattern Matrix Completion",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_16",
+        "title": "Spatial Reasoning — 3D Cube Net Folding and Orientation",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_17",
+        "title": "Spatial Reasoning — Paper Folding and Punch-Hole Symmetry",
+        "category": "Logic & Reasoning"
+      },
+      {
+        "id": "grade12_logicalreasoning_micro_18",
+        "title": "Spatial Reasoning — Mirror Reflection and Rotational Invariance",
+        "category": "Logic & Reasoning"
       }
     ]
   }
