@@ -1977,28 +1977,35 @@ const QuizResults = ({ type, score, total, percentage, feedback, questions, answ
             </>
           )}
 
-          <div className="flex flex-col gap-3 w-full mt-4">
-            <div className="flex flex-col md:flex-row gap-3">
-               {score < total && (
-                 <button onClick={() => onReview('incorrect')} className="flex-1 bg-rose-500 hover:bg-rose-400 text-white py-4 rounded-3xl font-black text-sm md:text-base transition-all shadow-[0_4px_0_0_#be123c] active:translate-y-1 active:shadow-none flex-center gap-2">
-                   Mistakes <AlertCircle className="w-4 h-4" />
-                 </button>
-               )}
-               {score > 0 && (
-                 <button onClick={() => onReview('correct')} className="flex-1 bg-emerald-500 hover:bg-emerald-400 text-white py-4 rounded-3xl font-black text-sm md:text-base transition-all shadow-[0_4px_0_0_#047857] active:translate-y-1 active:shadow-none flex-center gap-2">
-                   Correct <CheckCircle2 className="w-4 h-4" />
-                 </button>
-               )}
-            </div>
-            <div className="flex gap-3">
-               <button onClick={onRetake} className="flex-1 bg-[#38BDF8] hover:bg-[#0EA5E9] text-white py-4 rounded-3xl font-black text-base transition-all shadow-[0_4px_0_0_#0284C7] active:translate-y-1 active:shadow-none flex-center gap-2">
-                 Play Again! <Rocket className="w-5 h-5" />
-               </button>
-               <button onClick={onHome} className="flex-1 bg-[#1E293B] hover:bg-[#0F172A] text-white py-4 rounded-3xl font-black text-base transition-all shadow-[0_4px_0_0_#020617] active:translate-y-1 active:shadow-none">
-                 Back to Base
-               </button>
-            </div>
-          </div>
+          {(() => {
+            const isExamOrTest = type === 'test' || type === 'exam' || (type || '').toLowerCase().includes('test') || (type || '').toLowerCase().includes('exam');
+            return (
+              <div className="flex flex-col gap-3 w-full mt-4">
+                <div className="flex flex-col md:flex-row gap-3">
+                   {score < total && (
+                     <button onClick={() => onReview('incorrect')} className="flex-1 bg-rose-500 hover:bg-rose-400 text-white py-4 rounded-3xl font-black text-sm md:text-base transition-all shadow-[0_4px_0_0_#be123c] active:translate-y-1 active:shadow-none flex-center gap-2">
+                       Mistakes <AlertCircle className="w-4 h-4" />
+                     </button>
+                   )}
+                   {score > 0 && (
+                     <button onClick={() => onReview('correct')} className="flex-1 bg-emerald-500 hover:bg-emerald-400 text-white py-4 rounded-3xl font-black text-sm md:text-base transition-all shadow-[0_4px_0_0_#047857] active:translate-y-1 active:shadow-none flex-center gap-2">
+                       Correct <CheckCircle2 className="w-4 h-4" />
+                     </button>
+                   )}
+                </div>
+                <div className="flex gap-3">
+                   {!isExamOrTest && (
+                     <button onClick={onRetake} className="flex-1 bg-[#38BDF8] hover:bg-[#0EA5E9] text-white py-4 rounded-3xl font-black text-base transition-all shadow-[0_4px_0_0_#0284C7] active:translate-y-1 active:shadow-none flex-center gap-2">
+                       Play Again! <Rocket className="w-5 h-5" />
+                     </button>
+                   )}
+                   <button onClick={onHome} className="flex-1 bg-[#1E293B] hover:bg-[#0F172A] text-white py-4 rounded-3xl font-black text-base transition-all shadow-[0_4px_0_0_#020617] active:translate-y-1 active:shadow-none">
+                     Back to Base
+                   </button>
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </motion.div>
     </div>
