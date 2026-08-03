@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { checkIsCorrect } from '../utils/checkIsCorrect';
 import { 
   Timer, 
   Flag, 
@@ -516,7 +517,7 @@ export default function OfficialExamPaperView({
   if (isSubmitted) {
     const correctCount = submissionResult?.correctCount ?? questions.filter((q, idx) => {
       const ans = getAnswerForQuestion(q, idx);
-      return ans !== undefined && (ans === q?.correctAnswer || ans === q?.answer);
+      return ans !== undefined && checkIsCorrect(q, ans);
     }).length;
     const percentage = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
     
@@ -566,8 +567,9 @@ export default function OfficialExamPaperView({
             <div className="space-y-6 font-sans">
               {questions.map((q, idx) => {
                 const studentAns = getAnswerForQuestion(q, idx);
-                const isCorrect = studentAns === q.correctAnswer;
+                const isCorrect = checkIsCorrect(q, studentAns);
                 const parsed = getParsedQuestionContent(q);
+                const rawCorrect = q.answer !== undefined ? q.answer : (q.correctAnswer !== undefined ? q.correctAnswer : '');
 
                 return (
                   <div key={idx} className={`p-6 rounded-xl border-2 space-y-4 ${isCorrect ? 'border-emerald-300 bg-emerald-50/30' : 'border-red-200 bg-red-50/20'}`}>
@@ -588,30 +590,45 @@ export default function OfficialExamPaperView({
 
                     <p className="font-bold text-sm text-slate-900">{parsed.question}</p>
 
-                    {/* Options Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-medium">
-                      {(q.options || []).map((opt, oIdx) => {
-                        const optKey = ['A', 'B', 'C', 'D'][oIdx] || String(oIdx);
-                        const isStudentChoice = studentAns === optKey || studentAns === opt;
-                        const isRightChoice = q.correctAnswer === optKey || q.correctAnswer === opt;
-
-                        let optClass = 'bg-white border-slate-200 text-slate-700';
-                        if (isRightChoice) optClass = 'bg-emerald-100 border-emerald-400 font-bold text-emerald-900';
-                        else if (isStudentChoice) optClass = 'bg-red-100 border-red-400 font-bold text-red-900';
-
-                        return (
-                          <div key={oIdx} className={`p-3 rounded-lg border flex items-center gap-2 ${optClass}`}>
-                            <span className="font-black">({optKey})</span> {opt}
-                          </div>
-                        );
-                      })}
+                    {/* Always display the Official Correct Answer so it is NEVER hidden */}
+                    <div className="p-3 bg-emerald-100/80 border-2 border-emerald-400 rounded-lg my-2 flex items-center gap-2">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-700 shrink-0" />
+                      <div>
+                        <span className="font-black text-[11px] uppercase tracking-wide text-emerald-900 block">
+                          Official Correct Answer:
+                        </span>
+                        <span className="font-bold text-sm text-emerald-950">
+                          {String(rawCorrect || 'See worked solution below')}
+                        </span>
+                      </div>
                     </div>
 
+                    {/* Options Grid */}
+                    {(q.options && q.options.length > 0) && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-medium">
+                        {(q.options || []).map((opt, oIdx) => {
+                          const optKey = ['A', 'B', 'C', 'D'][oIdx] || String(oIdx);
+                          const isStudentChoice = studentAns === optKey || studentAns === opt;
+                          const isRightChoice = rawCorrect === optKey || rawCorrect === opt || String(rawCorrect) === String(oIdx) || (typeof rawCorrect === 'string' && rawCorrect.trim().toLowerCase() === opt.trim().toLowerCase());
+
+                          let optClass = 'bg-white border-slate-200 text-slate-700';
+                          if (isRightChoice) optClass = 'bg-emerald-100 border-emerald-400 font-bold text-emerald-900';
+                          else if (isStudentChoice) optClass = 'bg-red-100 border-red-400 font-bold text-red-900';
+
+                          return (
+                            <div key={oIdx} className={`p-3 rounded-lg border flex items-center gap-2 ${optClass}`}>
+                              <span className="font-black">({optKey})</span> {opt}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+
                     {/* Worked Solution */}
-                    {q.explanation && (
+                    {(q.solution || q.explanation) && (
                       <div className="p-3.5 bg-slate-100 border border-slate-200 rounded-lg text-xs space-y-1">
                         <span className="font-black uppercase text-[10px] text-slate-500 block">Worked Logic Solution:</span>
-                        <p className="text-slate-800 leading-normal">{q.explanation}</p>
+                        <p className="text-slate-800 leading-normal">{q.solution || q.explanation}</p>
                       </div>
                     )}
                   </div>
