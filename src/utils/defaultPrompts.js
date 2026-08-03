@@ -73,13 +73,18 @@ export const DEFAULT_SUBJECT_PROMPTS = {
  */
 export const getMasterDefaultPrompts = async (db) => {
   let masterPrompts = { ...DEFAULT_SUBJECT_PROMPTS };
+  masterPrompts.vocabulary = getVocabularyPromptTemplate();
   if (!db) return masterPrompts;
 
   try {
     // 1. Try system doc first
     const sysDoc = await getDoc(doc(db, 'system', 'default_subject_prompts'));
     if (sysDoc.exists() && sysDoc.data().subjectPrompts) {
-      return { ...masterPrompts, ...sysDoc.data().subjectPrompts };
+      const merged = { ...masterPrompts, ...sysDoc.data().subjectPrompts };
+      if (!merged.vocabulary || merged.vocabulary.includes('Vocabulary & Word Power')) {
+        merged.vocabulary = getVocabularyPromptTemplate();
+      }
+      return merged;
     }
 
     // 2. Query shilpeshpillai81@gmail.com teacher doc
@@ -88,7 +93,11 @@ export const getMasterDefaultPrompts = async (db) => {
     if (!snap.empty) {
       const adminData = snap.docs[0].data();
       if (adminData.subjectPrompts) {
-        return { ...masterPrompts, ...adminData.subjectPrompts };
+        const merged = { ...masterPrompts, ...adminData.subjectPrompts };
+        if (!merged.vocabulary || merged.vocabulary.includes('Vocabulary & Word Power')) {
+          merged.vocabulary = getVocabularyPromptTemplate();
+        }
+        return merged;
       }
     }
   } catch (err) {
