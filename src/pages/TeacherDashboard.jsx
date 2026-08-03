@@ -4107,7 +4107,7 @@ Include a balanced combination of question types such as:
                      </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
                      {classrooms.map((room, i) => (
                         <ClassCard 
                            key={room.id}
@@ -9263,7 +9263,7 @@ const ClassCard = ({ name, students, bgColor, kidsImg, subjects, onDelete, onVie
   const [showConfirm, setShowConfirm] = useState(false);
 
   return (
-    <div className={`${bgColor} rounded-3xl p-5 border border-white/60 shadow-sm flex flex-col gap-4 group hover:shadow-lg transition-all relative overflow-hidden`}>
+    <div className={`${bgColor} rounded-3xl p-5 border border-white/60 shadow-sm flex flex-col gap-3.5 max-w-[260px] w-full mx-auto group hover:shadow-md transition-all relative overflow-hidden`}>
        <AnimatePresence>
          {showConfirm && (
            <motion.div 
@@ -9300,29 +9300,29 @@ const ClassCard = ({ name, students, bgColor, kidsImg, subjects, onDelete, onVie
        {/* Title & Student Count */}
        <div className="text-center space-y-0.5">
           <h3 
-            className="text-xl font-black text-[#14532d] flex items-center justify-center gap-1.5 group/title cursor-pointer hover:text-[#C2410C] transition-colors" 
+            className="text-lg font-black text-[#14532d] flex items-center justify-center gap-1.5 group/title cursor-pointer hover:text-[#C2410C] transition-colors" 
             onClick={(e) => { e.stopPropagation(); onEdit(); }}
             title="Click to edit class"
           >
             <span>{name}</span>
-            <Pencil className="w-4 h-4 p-0.5 bg-green-100/80 rounded-full text-[#166534] opacity-80 group-hover/title:opacity-100 transition-opacity" />
+            <Pencil className="w-3.5 h-3.5 p-0.5 bg-green-100/80 rounded-full text-[#166534] opacity-80 group-hover/title:opacity-100 transition-opacity" />
           </h3>
           <p className="text-[11px] font-bold text-blue-500">{students} Students</p>
        </div>
 
        {/* Mascot Avatar */}
-       <div className="h-28 flex-center py-0.5">
+       <div className="h-24 flex-center py-0.5">
           <img src={kidsImg} className="h-full object-contain mix-blend-multiply" alt="Kids" />
        </div>
 
        {/* Wrap-friendly Subject Icons */}
-       <div className="flex flex-wrap items-center justify-center gap-2 max-h-20 overflow-y-auto px-1 py-0.5 custom-scrollbar">
+       <div className="flex flex-wrap items-center justify-center gap-1.5 max-h-16 overflow-y-auto px-1 py-0.5 custom-scrollbar">
           {subjects.map((sub, i) => (
              <div key={i} className="flex flex-col items-center gap-0.5 group/sub" title={sub.name}>
                 <div className="w-7 h-7 bg-white/90 rounded-lg flex-center shadow-sm border border-white/60 p-1 group-hover/sub:scale-105 transition-transform">
                    <img src={sub.icon} className="w-4 h-4 object-contain mix-blend-multiply" alt={sub.name} />
                 </div>
-                <span className="text-[9px] font-extrabold text-[#166534] max-w-[48px] truncate text-center leading-none">
+                <span className="text-[8.5px] font-extrabold text-[#166534] max-w-[46px] truncate text-center leading-none">
                    {sub.name}
                 </span>
              </div>
@@ -9330,19 +9330,19 @@ const ClassCard = ({ name, students, bgColor, kidsImg, subjects, onDelete, onVie
        </div>
 
        {/* View Class & Delete Action Bar */}
-       <div className="flex items-center gap-2.5 pt-1">
+       <div className="flex items-center justify-center gap-2 pt-1">
           <button 
             onClick={onView}
-            className="flex-1 bg-[#EA580C] hover:bg-[#D97706] text-white py-2.5 px-4 rounded-2xl font-black text-xs shadow-md active:scale-95 transition-all"
+            className="px-6 py-2 bg-[#EA580C] hover:bg-[#D97706] text-white rounded-xl font-black text-xs shadow-md active:scale-95 transition-all cursor-pointer"
           >
              View Class
           </button>
           <button 
              onClick={(e) => { e.stopPropagation(); setShowConfirm(true); }}
-             className="w-9 h-9 bg-white rounded-xl flex-center text-rose-300 shadow-sm hover:text-rose-600 hover:bg-rose-50 transition-all z-10 shrink-0"
+             className="w-8 h-8 bg-white rounded-xl flex-center text-rose-300 shadow-sm hover:text-rose-600 hover:bg-rose-50 transition-all z-10 shrink-0 cursor-pointer"
              title="Delete Class"
           >
-             <Trash2 className="w-4 h-4" />
+             <Trash2 className="w-3.5 h-3.5" />
           </button>
        </div>
     </div>
