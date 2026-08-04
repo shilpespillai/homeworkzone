@@ -202,7 +202,11 @@ export default function PolyglotPlanetView({ onAddPoints }) {
   // Datasets
   const getRawAlphabetList = () => {
     if (!selectedLang) return [];
-    return LANGUAGE_ALPHABETS[selectedLang.code] || LANGUAGE_ALPHABETS.es;
+    if (LANGUAGE_ALPHABETS[selectedLang.code]) return LANGUAGE_ALPHABETS[selectedLang.code];
+    return [
+      { char: 'अ', name: 'a', type: 'Vowel', ipa: '/a/', mnemonic: `${selectedLang.name} Letter 1`, example: `${selectedLang.native} Letter 1` },
+      { char: 'आ', name: 'aa', type: 'Vowel', ipa: '/aː/', mnemonic: `${selectedLang.name} Letter 2`, example: `${selectedLang.native} Letter 2` }
+    ];
   };
 
   const getFilteredAlphabetList = () => {
@@ -213,12 +217,26 @@ export default function PolyglotPlanetView({ onAddPoints }) {
 
   const getNumbersList = () => {
     if (!selectedLang) return [];
-    return LANGUAGE_NUMBERS[selectedLang.code] || LANGUAGE_NUMBERS.fr || LANGUAGE_NUMBERS.es;
+    if (LANGUAGE_NUMBERS[selectedLang.code]) return LANGUAGE_NUMBERS[selectedLang.code];
+    return [
+      { num: 1, native: '1', word: `One (${selectedLang.native})`, phonetic: 'one' },
+      { num: 2, native: '2', word: `Two (${selectedLang.native})`, phonetic: 'two' },
+      { num: 3, native: '3', word: `Three (${selectedLang.native})`, phonetic: 'three' },
+      { num: 5, native: '5', word: `Five (${selectedLang.native})`, phonetic: 'five' },
+      { num: 10, native: '10', word: `Ten (${selectedLang.native})`, phonetic: 'ten' }
+    ];
   };
 
   const getRawVocabList = () => {
     if (!selectedLang) return [];
-    return VISUAL_VOCABULARY[selectedLang.code] || VISUAL_VOCABULARY.fr || VISUAL_VOCABULARY.es;
+    if (VISUAL_VOCABULARY[selectedLang.code]) return VISUAL_VOCABULARY[selectedLang.code];
+    return [
+      { id: 'cat', word: `Cat (${selectedLang.native})`, meaning: 'The Cat', category: 'Animals', icon: '🐱', phonetic: 'cat' },
+      { id: 'dog', word: `Dog (${selectedLang.native})`, meaning: 'The Dog', category: 'Animals', icon: '🐕', phonetic: 'dog' },
+      { id: 'apple', word: `Apple (${selectedLang.native})`, meaning: 'The Apple', category: 'Food', icon: '🍎', phonetic: 'apple' },
+      { id: 'house', word: `House (${selectedLang.native})`, meaning: 'The House', category: 'Home', icon: '🏠', phonetic: 'house' },
+      { id: 'sun', word: `Sun (${selectedLang.native})`, meaning: 'The Sun', category: 'Nature', icon: '☀️', phonetic: 'sun' }
+    ];
   };
 
   const getFilteredVocabList = () => {
@@ -229,22 +247,59 @@ export default function PolyglotPlanetView({ onAddPoints }) {
 
   const getActionList = () => {
     if (!selectedLang) return [];
-    return ACTION_VERBS_GREETINGS[selectedLang.code] || ACTION_VERBS_GREETINGS.fr || ACTION_VERBS_GREETINGS.es;
+    if (ACTION_VERBS_GREETINGS[selectedLang.code]) return ACTION_VERBS_GREETINGS[selectedLang.code];
+    return [
+      { phrase: `Hello (${selectedLang.native})!`, meaning: 'Hello / Greetings!', icon: '👋', phonetic: 'hello', type: 'Greeting' },
+      { phrase: `Thank you (${selectedLang.native})!`, meaning: 'Thank you!', icon: '🙏', phonetic: 'thank-you', type: 'Greeting' },
+      { phrase: `Run (${selectedLang.native})`, meaning: 'To Run', icon: '🏃', phonetic: 'run', type: 'Action Verb' },
+      { phrase: `Eat (${selectedLang.native})`, meaning: 'To Eat', icon: '🍽️', phonetic: 'eat', type: 'Action Verb' }
+    ];
   };
 
   const getPhrasebookList = () => {
     if (!selectedLang) return [];
-    return SITUATIONAL_PHRASEBOOK[selectedLang.code] || SITUATIONAL_PHRASEBOOK.fr || SITUATIONAL_PHRASEBOOK.es;
+    if (SITUATIONAL_PHRASEBOOK[selectedLang.code]) return SITUATIONAL_PHRASEBOOK[selectedLang.code];
+    return [
+      {
+        category: '🍽️ Restaurant & Food',
+        phrases: [
+          { native: `Table for two, please (${selectedLang.native})`, english: 'A table for two, please.', phonetic: 'table for two' },
+          { native: `How much is this? (${selectedLang.native})`, english: 'How much does this cost?', phonetic: 'how much' }
+        ]
+      }
+    ];
   };
 
   const getGrammarList = () => {
     if (!selectedLang) return [];
-    return GRAMMAR_SENTENCES[selectedLang.code] || GRAMMAR_SENTENCES.fr || GRAMMAR_SENTENCES.es;
+    if (GRAMMAR_SENTENCES[selectedLang.code]) return GRAMMAR_SENTENCES[selectedLang.code];
+    return [
+      {
+        targetSentence: `Cat eats apple (${selectedLang.native})`,
+        englishTranslation: 'The cat eats the apple',
+        blocks: [
+          { id: 'b1', text: `Cat (${selectedLang.native}) 🐱`, type: 'noun', color: 'bg-emerald-500 text-white' },
+          { id: 'b2', text: `Eats (${selectedLang.native}) 🍽️`, type: 'verb', color: 'bg-blue-600 text-white' },
+          { id: 'b3', text: `Apple (${selectedLang.native}) 🍎`, type: 'noun', color: 'bg-emerald-500 text-white' }
+        ]
+      }
+    ];
   };
 
   const getStoryList = () => {
     if (!selectedLang) return [];
-    return GRAPHIC_NOVEL_STORIES[selectedLang.code] || GRAPHIC_NOVEL_STORIES.fr || GRAPHIC_NOVEL_STORIES.es;
+    if (GRAPHIC_NOVEL_STORIES[selectedLang.code]) return GRAPHIC_NOVEL_STORIES[selectedLang.code];
+    return [
+      {
+        title: `Episode 1: ${selectedLang.name} Magic Adventure`,
+        panels: [
+          { speaker: "Poly Parrot 🦜", speech: `Hello friends! Welcome to ${selectedLang.name} Academy!`, translation: `Hello friends! Welcome to ${selectedLang.name} Academy!` },
+          { speaker: "Dino REX 🦖", speech: `Awesome! Let's learn ${selectedLang.native} together!`, translation: `Awesome! Let's learn ${selectedLang.native} together!` },
+          { speaker: "Wise Owl 🦉", speech: "Take this golden key of knowledge!", translation: "Take this golden key of knowledge!" },
+          { speaker: "Poly Parrot 🦜", speech: "We completed the quest together!", translation: "We completed the quest together!" }
+        ]
+      }
+    ];
   };
 
   // Handle Lego Block Selection
