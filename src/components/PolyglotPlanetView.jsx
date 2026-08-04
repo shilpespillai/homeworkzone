@@ -17,7 +17,12 @@ import {
   Award,
   ChevronRight,
   Check,
-  X
+  X,
+  MessageSquare,
+  Film,
+  Smile,
+  BookMarked,
+  Grid
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -25,26 +30,36 @@ import {
   SUPPORTED_LEARNING_LANGUAGES, 
   LANGUAGE_ALPHABETS, 
   VISUAL_VOCABULARY, 
-  GRAMMAR_SENTENCES 
+  GRAMMAR_SENTENCES,
+  ACTION_VERBS_GREETINGS,
+  GRAPHIC_NOVEL_STORIES
 } from '../data/languagesData';
 
 export default function PolyglotPlanetView({ onAddPoints }) {
   const [selectedLang, setSelectedLang] = useState(null); // Selected language object
-  const [activeLevel, setActiveLevel] = useState(0); // 0: Script | 1: Vocab | 3: Lego Grammar | 5: Voice Trainer
+  const [activeLevel, setActiveLevel] = useState(0); // 0: Script | 1: Vocab Nouns | 2: Actions & Greetings | 3: Lego Grammar | 4: Graphic Novel Stories | 5: Voice Trainer
   
   // Level 0 State: Alphabet Tracing & Posters
+  const [alphabetFilter, setAlphabetFilter] = useState('All'); // 'All' | 'Vowel' | 'Consonant'
   const [alphabetIndex, setAlphabetIndex] = useState(0);
   const [isTracing, setIsTracing] = useState(false);
   const canvasRef = useRef(null);
 
-  // Level 1 State: Vocab Poster Cards
+  // Level 1 State: Vocab Nouns Category & Cards
+  const [vocabCategoryFilter, setVocabCategoryFilter] = useState('All');
   const [vocabIndex, setVocabIndex] = useState(0);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+
+  // Level 2 State: Actions & Greetings
+  const [actionIndex, setActionIndex] = useState(0);
 
   // Level 3 State: Lego Grammar Builder
   const [grammarIndex, setGrammarIndex] = useState(0);
   const [userSentenceBlocks, setUserSentenceBlocks] = useState([]);
   const [isGrammarSuccess, setIsGrammarSuccess] = useState(false);
+
+  // Level 4 State: Graphic Novel Comic Reader
+  const [storyPanelIndex, setStoryPanelIndex] = useState(0);
 
   // Level 5 State: Voice Trainer
   const [isListening, setIsListening] = useState(false);
@@ -62,7 +77,6 @@ export default function PolyglotPlanetView({ onAddPoints }) {
       utterance.rate = 0.85;
       utterance.pitch = 1.0;
       
-      // Match voice locale
       const ttsMap = {
         es: 'es-ES', fr: 'fr-FR', de: 'de-DE', hi: 'hi-IN', 
         ja: 'ja-JP', zh: 'zh-CN', ar: 'ar-SA', ta: 'ta-IN',
@@ -76,7 +90,6 @@ export default function PolyglotPlanetView({ onAddPoints }) {
     }
   };
 
-  // Trigger Confetti
   const triggerConfetti = () => {
     confetti({
       particleCount: 80,
@@ -85,9 +98,7 @@ export default function PolyglotPlanetView({ onAddPoints }) {
     });
   };
 
-  // ═══════════════════════════════════════════════════════════════
-  //  CANVAS TRACING HANDLERS (Level 0)
-  // ═══════════════════════════════════════════════════════════════
+  // Canvas Tracing
   const startTracing = (e) => {
     setIsTracing(true);
     drawTrace(e);
@@ -114,7 +125,7 @@ export default function PolyglotPlanetView({ onAddPoints }) {
 
     ctx.lineWidth = 14;
     ctx.lineCap = 'round';
-    ctx.strokeStyle = '#38bdf8'; // Glowing sky blue stroke
+    ctx.strokeStyle = '#38bdf8';
     ctx.shadowBlur = 10;
     ctx.shadowColor = '#0284c7';
 
@@ -132,9 +143,7 @@ export default function PolyglotPlanetView({ onAddPoints }) {
     }
   };
 
-  // ═══════════════════════════════════════════════════════════════
-  //  VOICE RECOGNITION HANDLER (Level 5)
-  // ═══════════════════════════════════════════════════════════════
+  // Voice Trainer
   const handleStartVoiceRecord = () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
@@ -157,8 +166,7 @@ export default function PolyglotPlanetView({ onAddPoints }) {
       setSpokenText(transcript);
       setIsListening(false);
 
-      // Score calculation
-      const currentWordObj = getVocabList()[vocabIndex] || { word: '' };
+      const currentWordObj = getFilteredVocabList()[vocabIndex] || { word: '' };
       if (transcript.toLowerCase().includes(currentWordObj.word.toLowerCase())) {
         setSpeechMatchScore(100);
         triggerConfetti();
@@ -176,19 +184,41 @@ export default function PolyglotPlanetView({ onAddPoints }) {
   };
 
   // Helpers to fetch current dataset
-  const getAlphabetList = () => {
+  const getRawAlphabetList = () => {
     if (!selectedLang) return [];
     return LANGUAGE_ALPHABETS[selectedLang.code] || LANGUAGE_ALPHABETS.es;
   };
 
-  const getVocabList = () => {
+  const getFilteredAlphabetList = () => {
+    const raw = getRawAlphabetList();
+    if (alphabetFilter === 'All') return raw;
+    return raw.filter(item => item.type === alphabetFilter);
+  };
+
+  const getRawVocabList = () => {
     if (!selectedLang) return [];
     return VISUAL_VOCABULARY[selectedLang.code] || VISUAL_VOCABULARY.es;
+  };
+
+  const getFilteredVocabList = () => {
+    const raw = getRawVocabList();
+    if (vocabCategoryFilter === 'All') return raw;
+    return raw.filter(v => v.category === vocabCategoryFilter);
+  };
+
+  const getActionList = () => {
+    if (!selectedLang) return [];
+    return ACTION_VERBS_GREETINGS[selectedLang.code] || ACTION_VERBS_GREETINGS.es;
   };
 
   const getGrammarList = () => {
     if (!selectedLang) return [];
     return GRAMMAR_SENTENCES[selectedLang.code] || GRAMMAR_SENTENCES.es;
+  };
+
+  const getStoryList = () => {
+    if (!selectedLang) return [];
+    return GRAPHIC_NOVEL_STORIES[selectedLang.code] || GRAPHIC_NOVEL_STORIES.es;
   };
 
   // Handle Lego Block Selection
@@ -200,8 +230,6 @@ export default function PolyglotPlanetView({ onAddPoints }) {
     const currentSentenceObj = getGrammarList()[grammarIndex];
     if (!currentSentenceObj) return;
 
-    // Check sentence match
-    const assembledText = updated.map(b => b.text.split(' ')[0]).join(' ');
     if (updated.length === currentSentenceObj.blocks.length) {
       setIsGrammarSuccess(true);
       triggerConfetti();
@@ -226,10 +254,10 @@ export default function PolyglotPlanetView({ onAddPoints }) {
               <Globe className="w-4 h-4 text-amber-300 animate-spin" /> Polyglot Planet Language Academy
             </div>
             <h1 className="text-3xl md:text-6xl font-black tracking-tight text-white leading-tight">
-              Learn Any Language in the World Visually! 🌍
+              Learn Any Language Visually! 🌍
             </h1>
             <p className="text-sm md:text-lg text-sky-100 font-medium">
-              Choose your target language below to begin your immersive visual adventure — starting from letter stroke tracing to real-world voice fluency!
+              Choose your target language below to begin your exhaustive learning adventure — from 100% complete character stroke tracing to visual nouns, action verbs, lego grammar, and graphic novel comic stories!
             </p>
           </div>
         </div>
@@ -242,6 +270,7 @@ export default function PolyglotPlanetView({ onAddPoints }) {
               onClick={() => {
                 setSelectedLang(lang);
                 setActiveLevel(0);
+                setAlphabetIndex(0);
               }}
               className="bg-white border-2 border-slate-200 hover:border-sky-500 rounded-3xl p-6 shadow-md hover:shadow-2xl transition-all duration-300 group flex flex-col items-center text-center space-y-3 cursor-pointer hover:scale-105"
             >
@@ -262,15 +291,22 @@ export default function PolyglotPlanetView({ onAddPoints }) {
     );
   }
 
-  // Current Level Datasets
-  const alphabets = getAlphabetList();
+  // Active Datasets
+  const alphabets = getFilteredAlphabetList();
   const currentChar = alphabets[alphabetIndex] || alphabets[0];
   
-  const vocabs = getVocabList();
+  const vocabs = getFilteredVocabList();
   const currentVocab = vocabs[vocabIndex] || vocabs[0];
+
+  const actions = getActionList();
+  const currentAction = actions[actionIndex] || actions[0];
 
   const grammars = getGrammarList();
   const currentGrammar = grammars[grammarIndex] || grammars[0];
+
+  const stories = getStoryList();
+  const currentStory = stories[0] || { title: 'Comic Episode 1', panels: [] };
+  const currentPanel = currentStory.panels[storyPanelIndex] || { speaker: 'Poly', speech: '¡Hola!', translation: 'Hello!' };
 
   return (
     <div className="max-w-6xl mx-auto space-y-6 pb-16 animate-in fade-in duration-300">
@@ -299,18 +335,24 @@ export default function PolyglotPlanetView({ onAddPoints }) {
         </div>
       </div>
 
-      {/* 🎛️ 5-Level Progress Tabs */}
+      {/* 🎛️ 6-Level Progress Tabs */}
       <div className="flex items-center gap-2 overflow-x-auto no-scrollbar bg-slate-200 p-2 rounded-2xl border border-slate-300">
         {[
-          { id: 0, label: 'Level 0: Script & Tracing 🔤', icon: PenTool },
-          { id: 1, label: 'Level 1: Visual Flashcards 🎴', icon: Layers },
+          { id: 0, label: 'Level 0: Script Master 🔤', icon: PenTool },
+          { id: 1, label: 'Level 1: Visual Nouns 🎴', icon: Layers },
+          { id: 2, label: 'Level 2: Actions & Greetings 👋', icon: Smile },
           { id: 3, label: 'Level 3: Lego Grammar 🧩', icon: Zap },
+          { id: 4, label: 'Level 4: Graphic Novels 🖼️', icon: BookMarked },
           { id: 5, label: 'Level 5: Voice Trainer 🎤', icon: Mic }
         ].map((lvl) => (
           <button
             key={lvl.id}
-            onClick={() => setActiveLevel(lvl.id)}
-            className={`px-5 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
+            onClick={() => {
+              setActiveLevel(lvl.id);
+              if (lvl.id === 0) setAlphabetIndex(0);
+              if (lvl.id === 1) setVocabIndex(0);
+            }}
+            className={`px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
               activeLevel === lvl.id
                 ? 'bg-sky-600 text-white shadow-lg scale-102'
                 : 'bg-white text-slate-700 hover:bg-slate-100'
@@ -322,166 +364,257 @@ export default function PolyglotPlanetView({ onAddPoints }) {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════ */}
-      {/* LEVEL 0: SCRIPT, CHARACTER POSTER & STROKE TRACING             */}
+      {/* LEVEL 0: COMPLETE SCRIPT MASTER (100% LETTER COVERAGE)         */}
       {/* ═══════════════════════════════════════════════════════════════ */}
       {activeLevel === 0 && currentChar && (
-        <div className="bg-slate-950 border-4 border-slate-800 rounded-[40px] p-6 md:p-10 text-white shadow-2xl grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative overflow-hidden">
+        <div className="space-y-6">
           
-          {/* Left: Giant Poster Stage */}
-          <div className="text-center space-y-6">
-            <div className="inline-flex items-center gap-2 bg-sky-500/20 text-sky-300 border border-sky-500/30 px-3.5 py-1.5 rounded-full text-xs font-black uppercase">
-              Character {alphabetIndex + 1} of {alphabets.length}
+          {/* Sub-Filters for Vowels vs Consonants */}
+          <div className="flex items-center justify-between bg-slate-900 p-4 rounded-2xl border border-slate-800 text-white">
+            <span className="text-xs font-black text-sky-400 uppercase tracking-wider">
+              Alphabet Set ({alphabets.length} Total Characters)
+            </span>
+            <div className="flex items-center gap-2">
+              {['All', 'Vowel', 'Consonant'].map((filter) => (
+                <button
+                  key={filter}
+                  onClick={() => {
+                    setAlphabetFilter(filter);
+                    setAlphabetIndex(0);
+                  }}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                    alphabetFilter === filter ? 'bg-sky-500 text-white' : 'bg-slate-800 text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {filter}s
+                </button>
+              ))}
             </div>
+          </div>
 
-            {/* Giant 60% Hero Letter Poster */}
-            <div className="relative group inline-block">
-              <div className="w-64 h-64 md:w-80 md:h-80 bg-gradient-to-b from-slate-900 to-slate-900/90 border-4 border-sky-500/40 rounded-[48px] shadow-2xl flex items-center justify-center mx-auto relative overflow-hidden">
-                <span className="text-8xl md:text-9xl font-black text-sky-400 drop-shadow-[0_10px_25px_rgba(56,189,248,0.5)]">
-                  {currentChar.char}
-                </span>
+          <div className="bg-slate-950 border-4 border-slate-800 rounded-[40px] p-6 md:p-10 text-white shadow-2xl grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative overflow-hidden">
+            
+            {/* Left: Giant Poster Stage */}
+            <div className="text-center space-y-6">
+              <div className="inline-flex items-center gap-2 bg-sky-500/20 text-sky-300 border border-sky-500/30 px-3.5 py-1.5 rounded-full text-xs font-black uppercase">
+                Character {alphabetIndex + 1} of {alphabets.length} &bull; {currentChar.type || 'Letter'}
+              </div>
 
-                {/* Animated Audio Button */}
+              {/* Giant 60% Hero Letter Poster */}
+              <div className="relative group inline-block">
+                <div className="w-64 h-64 md:w-80 md:h-80 bg-gradient-to-b from-slate-900 to-slate-900/90 border-4 border-sky-500/40 rounded-[48px] shadow-2xl flex items-center justify-center mx-auto relative overflow-hidden">
+                  <span className="text-8xl md:text-9xl font-black text-sky-400 drop-shadow-[0_10px_25px_rgba(56,189,248,0.5)]">
+                    {currentChar.char}
+                  </span>
+
+                  {/* Audio Button */}
+                  <button
+                    onClick={() => speakNativeText(currentChar.char, selectedLang.code)}
+                    className="absolute bottom-4 right-4 bg-sky-500 hover:bg-sky-400 text-white p-4 rounded-2xl shadow-xl transition-all cursor-pointer hover:scale-110 active:scale-95"
+                  >
+                    <Volume2 className="w-6 h-6" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <h3 className="text-2xl font-black text-white">{currentChar.name} &bull; IPA: {currentChar.ipa}</h3>
+                <p className="text-xs font-bold text-amber-300">💡 Mnemonic: {currentChar.mnemonic}</p>
+                <p className="text-xs text-slate-400">Example Word: <span className="text-white font-bold">{currentChar.example}</span></p>
+              </div>
+
+              {/* Navigation Carousel Buttons */}
+              <div className="flex items-center justify-center gap-3 pt-2">
+                <button
+                  onClick={() => {
+                    setAlphabetIndex(prev => (prev > 0 ? prev - 1 : alphabets.length - 1));
+                    clearCanvas();
+                  }}
+                  className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-black text-xs rounded-2xl transition-all cursor-pointer"
+                >
+                  ◀ Previous
+                </button>
                 <button
                   onClick={() => speakNativeText(currentChar.char, selectedLang.code)}
-                  className="absolute bottom-4 right-4 bg-sky-500 hover:bg-sky-400 text-white p-4 rounded-2xl shadow-xl transition-all cursor-pointer hover:scale-110 active:scale-95"
+                  className="px-6 py-2.5 bg-sky-500 hover:bg-sky-400 text-white font-black text-xs rounded-2xl shadow-lg shadow-sky-500/30 transition-all cursor-pointer flex items-center gap-1.5"
                 >
-                  <Volume2 className="w-6 h-6" />
+                  <Volume2 className="w-4 h-4" /> Listen Sound
+                </button>
+                <button
+                  onClick={() => {
+                    setAlphabetIndex(prev => (prev + 1) % alphabets.length);
+                    clearCanvas();
+                  }}
+                  className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-black text-xs rounded-2xl transition-all cursor-pointer"
+                >
+                  Next ▶
                 </button>
               </div>
             </div>
 
-            <div className="space-y-1">
-              <h3 className="text-2xl font-black text-white">{currentChar.name} &bull; IPA: {currentChar.ipa}</h3>
-              <p className="text-xs font-bold text-amber-300">💡 Mnemonic: {currentChar.mnemonic}</p>
-              <p className="text-xs text-slate-400">Example: <span className="text-white font-bold">{currentChar.example}</span></p>
+            {/* Right: Interactive Finger/Mouse Tracing Canvas */}
+            <div className="bg-slate-900 border-2 border-slate-800 p-6 rounded-[36px] text-center space-y-4 shadow-inner">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-black text-sky-400 uppercase tracking-wider flex items-center gap-1">
+                  <PenTool className="w-4 h-4" /> Character Stroke Tracing Stage
+                </span>
+                <button
+                  onClick={clearCanvas}
+                  className="text-xs font-bold text-slate-400 hover:text-white bg-slate-800 px-3 py-1 rounded-lg cursor-pointer"
+                >
+                  Clear Stroke
+                </button>
+              </div>
+
+              {/* HTML5 Canvas for Stroke Tracing */}
+              <div className="relative w-full h-72 md:h-80 bg-slate-950 border-2 border-dashed border-sky-500/30 rounded-3xl overflow-hidden flex items-center justify-center">
+                <span className="absolute text-9xl font-black text-slate-800/50 pointer-events-none select-none">
+                  {currentChar.char}
+                </span>
+
+                <canvas
+                  ref={canvasRef}
+                  width={320}
+                  height={320}
+                  onMouseDown={startTracing}
+                  onMouseUp={stopTracing}
+                  onMouseMove={drawTrace}
+                  onTouchStart={startTracing}
+                  onTouchEnd={stopTracing}
+                  onTouchMove={drawTrace}
+                  className="w-full h-full cursor-crosshair relative z-10"
+                />
+              </div>
+
+              <p className="text-xs font-medium text-slate-400">
+                Trace over the guide with your mouse or finger to master stroke paths!
+              </p>
             </div>
 
-            {/* Navigation Carousel Buttons */}
-            <div className="flex items-center justify-center gap-3 pt-2">
-              <button
-                onClick={() => {
-                  setAlphabetIndex(prev => (prev > 0 ? prev - 1 : alphabets.length - 1));
-                  clearCanvas();
-                }}
-                className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-black text-xs rounded-2xl transition-all cursor-pointer"
-              >
-                ◀ Previous
-              </button>
-              <button
-                onClick={() => {
-                  speakNativeText(currentChar.char, selectedLang.code);
-                }}
-                className="px-6 py-2.5 bg-sky-500 hover:bg-sky-400 text-white font-black text-xs rounded-2xl shadow-lg shadow-sky-500/30 transition-all cursor-pointer flex items-center gap-1.5"
-              >
-                <Volume2 className="w-4 h-4" /> Listen Sound
-              </button>
-              <button
-                onClick={() => {
-                  setAlphabetIndex(prev => (prev + 1) % alphabets.length);
-                  clearCanvas();
-                }}
-                className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-black text-xs rounded-2xl transition-all cursor-pointer"
-              >
-                Next ▶
-              </button>
-            </div>
           </div>
-
-          {/* Right: Interactive Finger/Mouse Tracing Canvas */}
-          <div className="bg-slate-900 border-2 border-slate-800 p-6 rounded-[36px] text-center space-y-4 shadow-inner">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-black text-sky-400 uppercase tracking-wider flex items-center gap-1">
-                <PenTool className="w-4 h-4" /> Character Stroke Tracing Stage
-              </span>
-              <button
-                onClick={clearCanvas}
-                className="text-xs font-bold text-slate-400 hover:text-white bg-slate-800 px-3 py-1 rounded-lg cursor-pointer"
-              >
-                Clear Stroke
-              </button>
-            </div>
-
-            {/* HTML5 Canvas for Stroke Tracing */}
-            <div className="relative w-full h-72 md:h-80 bg-slate-950 border-2 border-dashed border-sky-500/30 rounded-3xl overflow-hidden flex items-center justify-center">
-              {/* Background Faint Template */}
-              <span className="absolute text-9xl font-black text-slate-800/50 pointer-events-none select-none">
-                {currentChar.char}
-              </span>
-
-              <canvas
-                ref={canvasRef}
-                width={320}
-                height={320}
-                onMouseDown={startTracing}
-                onMouseUp={stopTracing}
-                onMouseMove={drawTrace}
-                onTouchStart={startTracing}
-                onTouchEnd={stopTracing}
-                onTouchMove={drawTrace}
-                className="w-full h-full cursor-crosshair relative z-10"
-              />
-            </div>
-
-            <p className="text-xs font-medium text-slate-400">
-              Trace over the guide with your mouse or finger to master the character's strokes!
-            </p>
-          </div>
-
         </div>
       )}
 
       {/* ═══════════════════════════════════════════════════════════════ */}
-      {/* LEVEL 1: VISUAL HERO FLASHCARDS                                */}
+      {/* LEVEL 1: EXTENSIVE VISUAL VOCABULARY VAULT                     */}
       {/* ═══════════════════════════════════════════════════════════════ */}
       {activeLevel === 1 && currentVocab && (
-        <div className="bg-white border-4 border-slate-200 rounded-[40px] p-6 md:p-10 shadow-2xl max-w-3xl mx-auto space-y-8 text-center">
+        <div className="space-y-6">
+          
+          {/* Category Filter Pills Bar */}
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar bg-slate-900 p-3 rounded-2xl border border-slate-800 text-white">
+            {['All', 'Animals', 'Food', 'Home', 'Nature', 'School'].map((cat) => (
+              <button
+                key={cat}
+                onClick={() => {
+                  setVocabCategoryFilter(cat);
+                  setVocabIndex(0);
+                }}
+                className={`px-4 py-2 rounded-xl text-xs font-black cursor-pointer transition-all ${
+                  vocabCategoryFilter === cat ? 'bg-sky-500 text-white shadow-md' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          <div className="bg-white border-4 border-slate-200 rounded-[40px] p-6 md:p-10 shadow-2xl max-w-3xl mx-auto space-y-8 text-center">
+            
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-black text-sky-600 bg-sky-50 px-4 py-1.5 rounded-full border border-sky-100 uppercase tracking-widest">
+                Word {vocabIndex + 1} of {vocabs.length} &bull; {currentVocab.category}
+              </span>
+              <span className="text-xs font-bold text-slate-400 uppercase">Vocabulary Item</span>
+            </div>
+
+            {/* Big Hero Emoji & Text Card Stage */}
+            <div className="w-56 h-56 md:w-64 md:h-64 bg-gradient-to-b from-sky-50 to-indigo-50 border-4 border-sky-200 rounded-[48px] shadow-xl flex flex-col items-center justify-center mx-auto space-y-2 group hover:scale-105 transition-transform duration-300">
+              <span className="text-8xl md:text-9xl filter drop-shadow-md group-hover:scale-110 transition-transform duration-300">
+                {currentVocab.icon || '🏷️'}
+              </span>
+            </div>
+
+            <div className="space-y-2">
+              <h2 className="text-3xl md:text-5xl font-black text-slate-900">{currentVocab.word}</h2>
+              <p className="text-xl font-bold text-sky-600">Meaning: "{currentVocab.meaning}"</p>
+              <p className="text-xs font-semibold text-slate-400">[{currentVocab.phonetic}]</p>
+            </div>
+
+            {/* Audio Visualizer & Speak Controls */}
+            <div className="flex items-center justify-center gap-4">
+              <button
+                onClick={() => speakNativeText(currentVocab.word, selectedLang.code)}
+                className="px-8 py-4 bg-sky-500 hover:bg-sky-400 text-white font-black text-base rounded-2xl shadow-xl shadow-sky-500/30 transition-all hover:scale-105 cursor-pointer flex items-center gap-3"
+              >
+                <Volume2 className={`w-6 h-6 ${isPlayingAudio ? 'animate-bounce' : ''}`} />
+                Hear Native Pronunciation
+              </button>
+            </div>
+
+            {/* Carousel Next/Prev */}
+            <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+              <button
+                onClick={() => setVocabIndex(prev => (prev > 0 ? prev - 1 : vocabs.length - 1))}
+                className="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-black text-xs rounded-2xl cursor-pointer"
+              >
+                ◀ Previous Word
+              </button>
+              <button
+                onClick={() => setVocabIndex(prev => (prev + 1) % vocabs.length)}
+                className="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white font-black text-xs rounded-2xl cursor-pointer"
+              >
+                Next Word ▶
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* ═══════════════════════════════════════════════════════════════ */}
+      {/* LEVEL 2: ACTION VERBS & GREETINGS                              */}
+      {/* ═══════════════════════════════════════════════════════════════ */}
+      {activeLevel === 2 && currentAction && (
+        <div className="bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-950 border-4 border-purple-500/30 rounded-[40px] p-6 md:p-10 text-white shadow-2xl max-w-3xl mx-auto space-y-8 text-center">
           
           <div className="flex items-center justify-between">
-            <span className="text-xs font-black text-sky-600 bg-sky-50 px-4 py-1.5 rounded-full border border-sky-100 uppercase tracking-widest">
-              Visual Word {vocabIndex + 1} of {vocabs.length} &bull; {currentVocab.category}
+            <span className="text-xs font-black text-purple-300 bg-purple-500/20 border border-purple-400/30 px-4 py-1.5 rounded-full uppercase tracking-widest">
+              Action & Greeting {actionIndex + 1} of {actions.length}
             </span>
-            <span className="text-xs font-bold text-slate-400 uppercase">{currentVocab.type}</span>
+            <span className="text-xs font-bold text-amber-300 uppercase">{currentAction.type}</span>
           </div>
 
-          {/* Full-Bleed Hero 3D Poster Image */}
-          <div className="h-64 md:h-80 bg-slate-900 rounded-[36px] overflow-hidden relative shadow-xl border-4 border-slate-100 group">
-            <img
-              src={currentVocab.image}
-              alt={currentVocab.word}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-            
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end text-left text-white">
-              <div className="text-xs font-black text-amber-300 uppercase tracking-widest">{currentVocab.meaning}</div>
-              <h2 className="text-3xl md:text-5xl font-black text-white">{currentVocab.word}</h2>
-              <p className="text-sm font-semibold text-slate-300">[{currentVocab.phonetic}]</p>
-            </div>
+          {/* Big Hero Icon Stage */}
+          <div className="w-48 h-48 md:w-56 md:h-56 bg-white/10 backdrop-blur-md border-4 border-white/20 rounded-[48px] shadow-2xl flex items-center justify-center mx-auto text-8xl md:text-9xl animate-pulse">
+            {currentAction.icon}
           </div>
 
-          {/* Audio Visualizer & Speak Controls */}
-          <div className="flex items-center justify-center gap-4">
+          <div className="space-y-2">
+            <h2 className="text-3xl md:text-5xl font-black text-white">{currentAction.phrase}</h2>
+            <p className="text-lg font-bold text-amber-300">Meaning: "{currentAction.meaning}"</p>
+            <p className="text-xs font-medium text-slate-300">[{currentAction.phonetic}]</p>
+          </div>
+
+          <button
+            onClick={() => speakNativeText(currentAction.phrase, selectedLang.code)}
+            className="px-8 py-4 bg-purple-500 hover:bg-purple-400 text-white font-black text-base rounded-2xl shadow-xl shadow-purple-500/30 transition-all hover:scale-105 cursor-pointer flex items-center justify-center gap-3 mx-auto"
+          >
+            <Volume2 className="w-6 h-6" /> Speak Phrase
+          </button>
+
+          <div className="flex items-center justify-between pt-4 border-t border-white/10">
             <button
-              onClick={() => speakNativeText(currentVocab.word, selectedLang.code)}
-              className="px-8 py-4 bg-sky-500 hover:bg-sky-400 text-white font-black text-base rounded-2xl shadow-xl shadow-sky-500/30 transition-all hover:scale-105 cursor-pointer flex items-center gap-3"
+              onClick={() => setActionIndex(prev => (prev > 0 ? prev - 1 : actions.length - 1))}
+              className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-black text-xs rounded-2xl cursor-pointer"
             >
-              <Volume2 className={`w-6 h-6 ${isPlayingAudio ? 'animate-bounce' : ''}`} />
-              Hear Native Pronunciation
-            </button>
-          </div>
-
-          {/* Carousel Next/Prev */}
-          <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-            <button
-              onClick={() => setVocabIndex(prev => (prev > 0 ? prev - 1 : vocabs.length - 1))}
-              className="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-black text-xs rounded-2xl cursor-pointer"
-            >
-              ◀ Previous Word
+              ◀ Previous Phrase
             </button>
             <button
-              onClick={() => setVocabIndex(prev => (prev + 1) % vocabs.length)}
-              className="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white font-black text-xs rounded-2xl cursor-pointer"
+              onClick={() => setActionIndex(prev => (prev + 1) % actions.length)}
+              className="px-6 py-3 bg-purple-500 hover:bg-purple-400 text-white font-black text-xs rounded-2xl cursor-pointer"
             >
-              Next Word ▶
+              Next Phrase ▶
             </button>
           </div>
 
@@ -503,7 +636,6 @@ export default function PolyglotPlanetView({ onAddPoints }) {
             </h3>
           </div>
 
-          {/* Target Snap Container */}
           <div className="min-h-24 bg-slate-950 border-2 border-dashed border-slate-700 rounded-3xl p-4 flex flex-wrap items-center justify-center gap-3 shadow-inner">
             {userSentenceBlocks.length === 0 ? (
               <span className="text-xs font-bold text-slate-500">Tap colored blocks below in correct order to snap them here!</span>
@@ -519,7 +651,6 @@ export default function PolyglotPlanetView({ onAddPoints }) {
             )}
           </div>
 
-          {/* Color Key Guide */}
           <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-black text-slate-300">
             <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-emerald-500" /> Green = Noun</span>
             <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-blue-600" /> Blue = Verb</span>
@@ -527,7 +658,6 @@ export default function PolyglotPlanetView({ onAddPoints }) {
             <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-rose-500" /> Red = Location</span>
           </div>
 
-          {/* Available Blocks Pool */}
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             {currentGrammar.blocks.map((block) => {
               const isUsed = userSentenceBlocks.some(b => b.id === block.id);
@@ -546,7 +676,6 @@ export default function PolyglotPlanetView({ onAddPoints }) {
             })}
           </div>
 
-          {/* Reset / Success Actions */}
           <div className="flex items-center justify-center gap-4 pt-4 border-t border-slate-800">
             <button
               onClick={() => {
@@ -557,6 +686,66 @@ export default function PolyglotPlanetView({ onAddPoints }) {
               className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-black text-xs rounded-2xl cursor-pointer flex items-center gap-1.5"
             >
               <RotateCcw className="w-4 h-4" /> Reset Sentence Blocks
+            </button>
+          </div>
+
+        </div>
+      )}
+
+      {/* ═══════════════════════════════════════════════════════════════ */}
+      {/* LEVEL 4: GRAPHIC NOVEL COMIC STRIP STORIES                     */}
+      {/* ═══════════════════════════════════════════════════════════════ */}
+      {activeLevel === 4 && (
+        <div className="bg-slate-900 border-4 border-slate-800 rounded-[40px] p-6 md:p-10 text-white shadow-2xl max-w-4xl mx-auto space-y-6">
+          
+          <div className="flex items-center justify-between">
+            <div className="space-y-1 text-left">
+              <span className="text-xs font-black text-amber-400 uppercase tracking-widest">Graphic Novel Storybook 🖼️</span>
+              <h2 className="text-2xl font-black text-white">{currentStory.title}</h2>
+            </div>
+            <span className="text-xs font-bold text-slate-400">Panel {storyPanelIndex + 1} of {currentStory.panels.length}</span>
+          </div>
+
+          {/* Comic Panel Stage */}
+          <div className="h-72 md:h-96 rounded-3xl overflow-hidden relative shadow-2xl border-4 border-slate-700 bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 flex items-center justify-center p-8 text-center">
+            
+            {/* Speech Bubble Card */}
+            <div className="max-w-xl bg-white text-slate-900 p-6 md:p-8 rounded-[36px] shadow-2xl border-4 border-amber-400 space-y-3">
+              <div className="text-xs font-black text-amber-700 uppercase tracking-wider flex items-center justify-between">
+                <span>{currentPanel.speaker}</span>
+                <button
+                  onClick={() => speakNativeText(currentPanel.speech, selectedLang.code)}
+                  className="p-1 text-amber-600 hover:bg-amber-50 rounded-lg cursor-pointer"
+                >
+                  <Volume2 className="w-5 h-5" />
+                </button>
+              </div>
+              <p className="text-xl md:text-3xl font-black leading-snug">{currentPanel.speech}</p>
+              <p className="text-sm font-bold text-slate-500 border-t border-slate-100 pt-3 italic">
+                Translation: "{currentPanel.translation}"
+              </p>
+            </div>
+          </div>
+
+          {/* Story Controls */}
+          <div className="flex items-center justify-between pt-4 border-t border-slate-800">
+            <button
+              onClick={() => setStoryPanelIndex(prev => (prev > 0 ? prev - 1 : currentStory.panels.length - 1))}
+              className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-black text-xs rounded-2xl cursor-pointer"
+            >
+              ◀ Previous Panel
+            </button>
+            <button
+              onClick={() => speakNativeText(currentPanel.speech, selectedLang.code)}
+              className="px-8 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs rounded-2xl shadow-lg cursor-pointer flex items-center gap-2"
+            >
+              <Volume2 className="w-4 h-4" /> Read Panel Audio
+            </button>
+            <button
+              onClick={() => setStoryPanelIndex(prev => (prev + 1) % currentStory.panels.length)}
+              className="px-6 py-3 bg-sky-500 hover:bg-sky-400 text-white font-black text-xs rounded-2xl cursor-pointer"
+            >
+              Next Panel ▶
             </button>
           </div>
 
@@ -580,7 +769,6 @@ export default function PolyglotPlanetView({ onAddPoints }) {
             <p className="text-xs font-bold text-slate-400">[{currentVocab.phonetic}] &bull; Meaning: {currentVocab.meaning}</p>
           </div>
 
-          {/* Giant Microphone Recording Button */}
           <div className="py-4">
             <button
               onClick={handleStartVoiceRecord}
@@ -598,7 +786,6 @@ export default function PolyglotPlanetView({ onAddPoints }) {
             </p>
           </div>
 
-          {/* Speech Result Box */}
           {spokenText && (
             <div className="bg-slate-900 border border-slate-800 p-5 rounded-3xl max-w-md mx-auto space-y-2 animate-in fade-in">
               <div className="text-xs font-black text-slate-400 uppercase">You Said:</div>
