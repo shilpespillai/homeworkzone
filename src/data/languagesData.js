@@ -189,6 +189,141 @@ export const LANGUAGE_ALPHABETS = {
 };
 
 // ═══════════════════════════════════════════════════════════════
+//  LEVEL 4: MULTI-PANEL GRAPHIC NOVEL NARRATIVE STORIES (7 PANELS EACH)
+// ═══════════════════════════════════════════════════════════════
+export const GRAPHIC_NOVEL_STORIES = {
+  hi: [
+    {
+      title: "Episode 1: जादुई बगीचे की रहस्यमयी यात्रा (The Quest for the Magic Garden)",
+      panels: [
+        {
+          speaker: "Poly Parrot 🦜",
+          avatar: "🦜",
+          speech: "नमस्ते दोस्तों! आज हम एक जादुई गुप्त बगीचे की खोज में जा रहे हैं!",
+          translation: "Hello friends! Today we are going on a quest for a secret magic garden!"
+        },
+        {
+          speaker: "Dino 🦖",
+          avatar: "🦖",
+          speech: "वाह! क्या वहाँ मीठे फल और सुंदर नदियाँ होंगी?",
+          translation: "Wow! Will there be sweet fruits and beautiful rivers there?"
+        },
+        {
+          speaker: "Poly Parrot 🦜",
+          avatar: "🦜",
+          speech: "हाँ! लेकिन पहले हमें उस पुरानी जादुई नदी को पार करना होगा।",
+          translation: "Yes! But first we must cross that ancient magic river."
+        },
+        {
+          speaker: "Wise Owl 🦉",
+          avatar: "🦉",
+          speech: "रुकिए! नदी पार करने के लिए आपको इस पहेली का सही उत्तर देना होगा।",
+          translation: "Stop! To cross the river you must answer this riddle correctly."
+        },
+        {
+          speaker: "Dino 🦖",
+          avatar: "🦖",
+          speech: "हम तैयार हैं! बताइए पहेली क्या है?",
+          translation: "We are ready! Tell us what the riddle is?"
+        },
+        {
+          speaker: "Wise Owl 🦉",
+          avatar: "🦉",
+          speech: "शाबाश! आपने सही पहेली सुलझा ली! यह रही जादुई चाबी।",
+          translation: "Bravo! You solved the riddle correctly! Here is the magic key."
+        },
+        {
+          speaker: "Poly Parrot 🦜",
+          avatar: "🦜",
+          speech: "बधाई हो! देखो, जादुई बगीचे का दरवाजा खुल गया है! हमने कर दिखाया!",
+          translation: "Congratulations! Look, the door to the magic garden is open! We did it!"
+        }
+      ]
+    }
+  ],
+  es: [
+    {
+      title: "Episode 1: El Misterio del Bosque Encantado (Mystery of Enchanted Forest)",
+      panels: [
+        {
+          speaker: "Poly Parrot 🦜",
+          avatar: "🦜",
+          speech: "¡Hola amigos! Hoy vamos a explorar el Bosque Encantado.",
+          translation: "Hello friends! Today we are exploring the Enchanted Forest."
+        },
+        {
+          speaker: "Dino 🦖",
+          speech: "¡Fantástico! Escucho el sonido de una cascada mágica.",
+          translation: "Fantastic! I hear the sound of a magical waterfall."
+        },
+        {
+          speaker: "Wise Owl 🦉",
+          speech: "¡Bienvenidos jóvenes aventureros! Tomen este mapa antiguo.",
+          translation: "Welcome young adventurers! Take this ancient map."
+        },
+        {
+          speaker: "Poly Parrot 🦜",
+          speech: "¡Mira Dino! El mapa nos muestra el camino hacia el castillo.",
+          translation: "Look Dino! The map shows us the path to the castle."
+        },
+        {
+          speaker: "Dino 🦖",
+          speech: "¡Vamos corriendo! ¡Me encanta descubrir nuevos lugares!",
+          translation: "Let's run! I love discovering new places!"
+        },
+        {
+          speaker: "Wise Owl 🦉",
+          speech: "¡Felicidades! Han encontrado el tesoro de la sabiduría.",
+          translation: "Congratulations! You have found the treasure of wisdom."
+        },
+        {
+          speaker: "Poly Parrot 🦜",
+          speech: "¡Lo logramos juntos! ¡Qué gran aventura!",
+          translation: "We achieved it together! What a great adventure!"
+        }
+      ]
+    }
+  ],
+  ja: [
+    {
+      title: "Episode 1: 魔法の森の大冒険 (Great Adventure in the Magic Forest)",
+      panels: [
+        {
+          speaker: "Poly Parrot 🦜",
+          avatar: "🦜",
+          speech: "こんにちは！今日は魔法の森を探検しましょう！",
+          translation: "Hello! Let's explore the magic forest today!"
+        },
+        {
+          speaker: "Dino 🦖",
+          avatar: "🦖",
+          speech: "すごい！きれいな川と果物が見えます！",
+          translation: "Amazing! I can see a pretty river and fruits!"
+        },
+        {
+          speaker: "Wise Owl 🦉",
+          avatar: "🦉",
+          speech: "ようこそ！この古い鍵を使ってドアを開けてください。",
+          translation: "Welcome! Use this old key to open the door."
+        },
+        {
+          speaker: "Poly Parrot 🦜",
+          avatar: "🦜",
+          speech: "ありがとう！さあ、一緒に行きましょう！",
+          translation: "Thank you! Now, let me go together!"
+        },
+        {
+          speaker: "Dino 🦖",
+          avatar: "🦖",
+          speech: "やったー！宝箱を見つけました！",
+          translation: "Yay! We found the treasure chest!"
+        }
+      ]
+    }
+  ]
+};
+
+// ═══════════════════════════════════════════════════════════════
 //  LEVEL 0.5: NATIVE NUMBERS & COUNTING (1 TO 100)
 // ═══════════════════════════════════════════════════════════════
 export const LANGUAGE_NUMBERS = {
@@ -326,147 +461,38 @@ export const ACTION_VERBS_GREETINGS = {
 };
 
 // ═══════════════════════════════════════════════════════════════
-//  LEVEL 4: GRAPHIC NOVEL COMIC STRIP STORIES
-// ═══════════════════════════════════════════════════════════════
-export const GRAPHIC_NOVEL_STORIES = {
-  es: [
-    {
-      title: "Episode 1: El Mercado Mágico (The Magic Market)",
-      panels: [
-        {
-          speaker: "Poly Parrot 🦜",
-          speech: "¡Hola amigo! Bienvenido al Mercado Mágico.",
-          translation: "Hello friend! Welcome to the Magic Market."
-        },
-        {
-          speaker: "Dino 🦖",
-          speech: "¡Me gusta comer manzanas rojas y jugosas!",
-          translation: "I like to eat juicy red apples!"
-        },
-        {
-          speaker: "Poly Parrot 🦜",
-          speech: "¡Excelente! Vamos a comprar frutas frescas.",
-          translation: "Excellent! Let's buy fresh fruits."
-        }
-      ]
-    }
-  ],
-  hi: [
-    {
-      title: "Episode 1: सुंदर बगीचा (The Beautiful Garden)",
-      panels: [
-        {
-          speaker: "Poly Parrot 🦜",
-          speech: "नमस्ते दोस्त! यह एक सुंदर बगीचा है।",
-          translation: "Hello friend! This is a beautiful garden."
-        },
-        {
-          speaker: "Dino 🦖",
-          speech: "मुझे लाल सेब और आम बहुत पसंद हैं!",
-          translation: "I really like red apples and mangoes!"
-        }
-      ]
-    }
-  ],
-  ja: [
-    {
-      title: "Episode 1: 楽しい公園 (The Fun Park)",
-      panels: [
-        {
-          speaker: "Poly Parrot 🦜",
-          speech: "こんにちは！公園で遊びましょう。",
-          translation: "Hello! Let's play in the park."
-        },
-        {
-          speaker: "Dino 🦖",
-          speech: "美味しいおにぎりを食べます！",
-          translation: "I eat delicious rice balls!"
-        }
-      ]
-    }
-  ]
-};
-
-// ═══════════════════════════════════════════════════════════════
-//  LEVEL 1: EXTENSIVE VOCABULARY VAULT (COVERING ALL DOMAINS)
+//  LEVEL 1: EXTENSIVE VOCABULARY VAULT
 // ═══════════════════════════════════════════════════════════════
 export const VISUAL_VOCABULARY = {
   es: [
-    // Animals (15)
     { id: 'cat', word: 'El Gato', meaning: 'The Cat', category: 'Animals', icon: '🐱', phonetic: 'el gah-toh' },
     { id: 'dog', word: 'El Perro', meaning: 'The Dog', category: 'Animals', icon: '🐕', phonetic: 'el peh-rroh' },
     { id: 'bird', word: 'El Pájaro', meaning: 'The Bird', category: 'Animals', icon: '🐦', phonetic: 'el pah-hah-roh' },
     { id: 'lion', word: 'El León', meaning: 'The Lion', category: 'Animals', icon: '🦁', phonetic: 'el lay-ohn' },
     { id: 'tiger', word: 'El Tigre', meaning: 'The Tiger', category: 'Animals', icon: '🐅', phonetic: 'el tee-gray' },
     { id: 'elephant', word: 'El Elefante', meaning: 'The Elephant', category: 'Animals', icon: '🐘', phonetic: 'el eh-lay-fahn-tay' },
-    { id: 'bear', word: 'El Oso', meaning: 'The Bear', category: 'Animals', icon: '🐻', phonetic: 'el oh-soh' },
-    { id: 'monkey', word: 'El Mono', meaning: 'The Monkey', category: 'Animals', icon: '🐒', phonetic: 'el moh-noh' },
-    { id: 'rabbit', word: 'El Conejo', meaning: 'The Rabbit', category: 'Animals', icon: '🐇', phonetic: 'el koh-nay-hoh' },
-    { id: 'horse', word: 'El Caballo', meaning: 'The Horse', category: 'Animals', icon: '🐎', phonetic: 'el kah-bah-yoh' },
-    { id: 'cow', word: 'La Vaca', meaning: 'The Cow', category: 'Animals', icon: '🐄', phonetic: 'lah bah-kah' },
-    { id: 'duck', word: 'El Pato', meaning: 'The Duck', category: 'Animals', icon: '🦆', phonetic: 'el pah-toh' },
-    { id: 'fish', word: 'El Pez', meaning: 'The Fish', category: 'Animals', icon: '🐟', phonetic: 'el pehs' },
-    { id: 'turtle', word: 'La Tortuga', meaning: 'The Turtle', category: 'Animals', icon: '🐢', phonetic: 'lah tohr-too-gah' },
-    { id: 'butterfly', word: 'La Mariposa', meaning: 'The Butterfly', category: 'Animals', icon: '🦋', phonetic: 'lah mah-ree-poh-sah' },
-
-    // Food (15)
     { id: 'apple', word: 'La Manzana', meaning: 'The Apple', category: 'Food', icon: '🍎', phonetic: 'lah mahn-sah-nah' },
     { id: 'banana', word: 'El Plátano', meaning: 'The Banana', category: 'Food', icon: '🍌', phonetic: 'el plah-tah-noh' },
-    { id: 'grapes', word: 'Las Uvas', meaning: 'Grapes', category: 'Food', icon: '🍇', phonetic: 'lahs oo-bahs' },
-    { id: 'orange', word: 'La Naranja', meaning: 'Orange', category: 'Food', icon: '🍊', phonetic: 'lah nah-rahn-hah' },
-    { id: 'bread', word: 'El Pan', meaning: 'Bread', category: 'Food', icon: '🍞', phonetic: 'el pahn' },
-    { id: 'cheese', word: 'El Queso', meaning: 'Cheese', category: 'Food', icon: '🧀', phonetic: 'el kay-soh' },
     { id: 'water', word: 'El Agua', meaning: 'Water', category: 'Food', icon: '💧', phonetic: 'el ah-gwah' },
-    { id: 'milk', word: 'La Leche', meaning: 'Milk', category: 'Food', icon: '🥛', phonetic: 'lah lay-chay' },
-    { id: 'rice', word: 'El Arroz', meaning: 'Rice', category: 'Food', icon: '🍚', phonetic: 'el ah-rrohs' },
-    { id: 'soup', word: 'La Sopa', meaning: 'Soup', category: 'Food', icon: '🥣', phonetic: 'lah soh-pah' },
-
-    // Home & Objects (10)
     { id: 'house', word: 'La Casa', meaning: 'The House', category: 'Home', icon: '🏠', phonetic: 'lah kah-sah' },
-    { id: 'table', word: 'La Mesa', meaning: 'The Table', category: 'Home', icon: '🪑', phonetic: 'lah me-sah' },
-    { id: 'bed', word: 'La Cama', meaning: 'The Bed', category: 'Home', icon: '🛏️', phonetic: 'lah kah-mah' },
-    { id: 'door', word: 'La Puerta', meaning: 'The Door', category: 'Home', icon: '🚪', phonetic: 'lah pwehr-tah' },
-    { id: 'clock', word: 'El Reloj', meaning: 'The Clock', category: 'Home', icon: '⏰', phonetic: 'el ray-loh' },
-    { id: 'book', word: 'El Libro', meaning: 'The Book', category: 'School', icon: '📖', phonetic: 'el lee-broh' },
-
-    // Nature & World (10)
-    { id: 'sun', word: 'El Sol', meaning: 'The Sun', category: 'Nature', icon: '☀️', phonetic: 'el sohl' },
-    { id: 'moon', word: 'La Luna', meaning: 'The Moon', category: 'Nature', icon: '🌙', phonetic: 'lah loo-nah' },
-    { id: 'star', word: 'La Estrella', meaning: 'The Star', category: 'Nature', icon: '⭐️', phonetic: 'lah ehs-tray-yah' },
-    { id: 'tree', word: 'El Árbol', meaning: 'The Tree', category: 'Nature', icon: '🌳', phonetic: 'el ahr-bohl' },
-    { id: 'flower', word: 'La Flor', meaning: 'The Flower', category: 'Nature', icon: '🌸', phonetic: 'lah flohr' }
+    { id: 'sun', word: 'El Sol', meaning: 'The Sun', category: 'Nature', icon: '☀️', phonetic: 'el sohl' }
   ],
   hi: [
-    // Animals (10)
     { id: 'cat', word: 'बिल्ली (Billi)', meaning: 'The Cat', category: 'Animals', icon: '🐱', phonetic: 'bil-lee' },
     { id: 'dog', word: 'कुत्ता (Kutta)', meaning: 'The Dog', category: 'Animals', icon: '🐕', phonetic: 'kut-taa' },
     { id: 'lion', word: 'शेर (Sher)', meaning: 'The Lion', category: 'Animals', icon: '🦁', phonetic: 'shayr' },
     { id: 'elephant', word: 'हाथी (Hathi)', meaning: 'The Elephant', category: 'Animals', icon: '🐘', phonetic: 'haa-thee' },
-    { id: 'monkey', word: 'बंदर (Bandar)', meaning: 'The Monkey', category: 'Animals', icon: '🐒', phonetic: 'ban-dar' },
-    { id: 'peacock', word: 'मोर (Mor)', meaning: 'The Peacock', category: 'Animals', icon: '🦚', phonetic: 'mor' },
-    { id: 'cow', word: 'गाय (Gaay)', meaning: 'The Cow', category: 'Animals', icon: '🐄', phonetic: 'gaay' },
-    { id: 'fish', word: 'मछली (Machhli)', meaning: 'The Fish', category: 'Animals', icon: '🐟', phonetic: 'machh-lee' },
-
-    // Food (8)
     { id: 'apple', word: 'सेब (Seb)', meaning: 'The Apple', category: 'Food', icon: '🍎', phonetic: 'sayb' },
     { id: 'mango', word: 'आम (Aam)', meaning: 'The Mango', category: 'Food', icon: '🥭', phonetic: 'aam' },
     { id: 'water', word: 'पानी (Paani)', meaning: 'Water', category: 'Food', icon: '💧', phonetic: 'paa-nee' },
-    { id: 'milk', word: 'दूध (Doodh)', meaning: 'Milk', category: 'Food', icon: '🥛', phonetic: 'doodh' },
-
-    // Home & Nature (8)
     { id: 'house', word: 'घर (Ghar)', meaning: 'The House', category: 'Home', icon: '🏠', phonetic: 'ghar' },
-    { id: 'sun', word: 'सूरज (Suraj)', meaning: 'The Sun', category: 'Nature', icon: '☀️', phonetic: 'soo-raj' },
-    { id: 'moon', word: 'चांद (Chaand)', meaning: 'The Moon', category: 'Nature', icon: '🌙', phonetic: 'chaand' },
-    { id: 'star', word: 'तारा (Taara)', meaning: 'The Star', category: 'Nature', icon: '⭐️', phonetic: 'taa-raa' },
-    { id: 'tree', word: 'पेड़ (Ped)', meaning: 'The Tree', category: 'Nature', icon: '🌳', phonetic: 'ped' }
+    { id: 'sun', word: 'सूरज (Suraj)', meaning: 'The Sun', category: 'Nature', icon: '☀️', phonetic: 'soo-raj' }
   ],
   ja: [
     { id: 'cat', word: '猫 (Neko)', meaning: 'The Cat', category: 'Animals', icon: '🐱', phonetic: 'neh-koh' },
     { id: 'dog', word: '犬 (Inu)', meaning: 'The Dog', category: 'Animals', icon: '🐕', phonetic: 'ee-noo' },
     { id: 'sun', word: '太陽 (Taiyou)', meaning: 'The Sun', category: 'Nature', icon: '☀️', phonetic: 'ta-ee-yoh' },
-    { id: 'apple', word: 'りんご (Ringo)', meaning: 'The Apple', category: 'Food', icon: '🍎', phonetic: 'reen-goh' },
-    { id: 'water', word: '水 (Mizu)', meaning: 'Water', category: 'Food', icon: '💧', phonetic: 'mee-zoo' },
-    { id: 'house', word: '家 (Ie)', meaning: 'The House', category: 'Home', icon: '🏠', phonetic: 'ee-eh' }
+    { id: 'apple', word: 'りんご (Ringo)', meaning: 'The Apple', category: 'Food', icon: '🍎', phonetic: 'reen-goh' }
   ]
 };
 
@@ -482,16 +508,6 @@ export const GRAMMAR_SENTENCES = {
         { id: 'b1', text: 'El gato 🐱', type: 'noun', color: 'bg-emerald-500 text-white' },
         { id: 'b2', text: 'come 🍽️', type: 'verb', color: 'bg-blue-600 text-white' },
         { id: 'b3', text: 'la manzana 🍎', type: 'noun', color: 'bg-emerald-500 text-white' }
-      ]
-    },
-    {
-      targetSentence: "El coche rápido corre en el parque",
-      englishTranslation: "The fast car runs in the park",
-      blocks: [
-        { id: 'b1', text: 'El coche 🚗', type: 'noun', color: 'bg-emerald-500 text-white' },
-        { id: 'b2', text: 'rápido ⚡', type: 'adj', color: 'bg-amber-400 text-slate-950' },
-        { id: 'b3', text: 'corre 🏃', type: 'verb', color: 'bg-blue-600 text-white' },
-        { id: 'b4', text: 'en el parque 🌳', type: 'place', color: 'bg-rose-500 text-white' }
       ]
     }
   ],

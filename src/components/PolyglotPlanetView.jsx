@@ -25,7 +25,8 @@ import {
   Grid,
   Hash,
   MessageCircle,
-  HelpCircle
+  HelpCircle,
+  PlayCircle
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -80,7 +81,6 @@ export default function PolyglotPlanetView({ onAddPoints }) {
   // Level 6: Mastery Quiz
   const [quizScore, setQuizScore] = useState(0);
   const [quizIndex, setQuizIndex] = useState(0);
-  const [isQuizCompleted, setIsQuizCompleted] = useState(false);
 
   // Gamification
   const [stars, setStars] = useState(0);
@@ -244,7 +244,7 @@ export default function PolyglotPlanetView({ onAddPoints }) {
 
   const getStoryList = () => {
     if (!selectedLang) return [];
-    return GRAPHIC_NOVEL_STORIES[selectedLang.code] || GRAPHIC_NOVEL_STORIES.es;
+    return GRAPHIC_NOVEL_STORIES[selectedLang.code] || GRAPHIC_NOVEL_STORIES.hi;
   };
 
   // Handle Lego Block Selection
@@ -271,7 +271,6 @@ export default function PolyglotPlanetView({ onAddPoints }) {
   if (!selectedLang) {
     return (
       <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in duration-300 pb-16">
-        {/* Hero Banner */}
         <div className="bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-700 rounded-[40px] p-8 md:p-12 text-white shadow-2xl relative overflow-hidden text-center">
           <div className="absolute -left-12 -top-12 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
           
@@ -283,12 +282,11 @@ export default function PolyglotPlanetView({ onAddPoints }) {
               Learn Any Language Visually! 🌍
             </h1>
             <p className="text-sm md:text-lg text-sky-100 font-medium">
-              Explore 100% complete character alphabets, Native Numbers 1-100, Action Verbs, Situational Phrasebooks, Lego Grammar, Graphic Novels, and Voice Training!
+              Explore 100% complete character alphabets, Native Numbers 1-100, Action Verbs, Situational Phrasebooks, Lego Grammar, Graphic Novel Stories, and Voice Training!
             </p>
           </div>
         </div>
 
-        {/* 🌐 World Language Poster Cards Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
           {SUPPORTED_LEARNING_LANGUAGES.map((lang) => (
             <button
@@ -338,7 +336,7 @@ export default function PolyglotPlanetView({ onAddPoints }) {
 
   const stories = getStoryList();
   const currentStory = stories[0] || { title: 'Comic Episode 1', panels: [] };
-  const currentPanel = currentStory.panels[storyPanelIndex] || { speaker: 'Poly', speech: '¡Hola!', translation: 'Hello!' };
+  const currentPanel = currentStory.panels[storyPanelIndex] || { speaker: 'Poly Parrot 🦜', speech: '¡Hola!', translation: 'Hello!' };
 
   return (
     <div className="max-w-6xl mx-auto space-y-6 pb-16 animate-in fade-in duration-300">
@@ -361,7 +359,6 @@ export default function PolyglotPlanetView({ onAddPoints }) {
           </div>
         </div>
 
-        {/* Stars Counter */}
         <div className="flex items-center gap-2 bg-amber-400/20 text-amber-300 border border-amber-400/30 px-4 py-2 rounded-2xl font-black text-sm">
           <Sparkles className="w-4 h-4" /> {stars} Language Stars
         </div>
@@ -386,6 +383,7 @@ export default function PolyglotPlanetView({ onAddPoints }) {
               setActiveLevel(lvl.id);
               if (lvl.id === 0) setAlphabetIndex(0);
               if (lvl.id === 1) setVocabIndex(0);
+              if (lvl.id === 4) setStoryPanelIndex(0);
             }}
             className={`px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
               activeLevel === lvl.id
@@ -426,7 +424,6 @@ export default function PolyglotPlanetView({ onAddPoints }) {
           </div>
 
           <div className="bg-slate-950 border-4 border-slate-800 rounded-[40px] p-6 md:p-10 text-white shadow-2xl grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative overflow-hidden">
-            
             <div className="text-center space-y-6">
               <div className="inline-flex items-center gap-2 bg-sky-500/20 text-sky-300 border border-sky-500/30 px-3.5 py-1.5 rounded-full text-xs font-black uppercase">
                 Character {alphabetIndex + 1} of {alphabets.length} &bull; {currentChar.type || 'Letter'}
@@ -517,7 +514,6 @@ export default function PolyglotPlanetView({ onAddPoints }) {
                 Trace over the guide with your mouse or finger to master stroke paths!
               </p>
             </div>
-
           </div>
         </div>
       )}
@@ -760,36 +756,66 @@ export default function PolyglotPlanetView({ onAddPoints }) {
       )}
 
       {/* ═══════════════════════════════════════════════════════════════ */}
-      {/* LEVEL 4: GRAPHIC NOVEL COMIC STRIP STORIES                     */}
+      {/* LEVEL 4: GRAPHIC NOVEL MULTI-PANEL COMIC READER                */}
       {/* ═══════════════════════════════════════════════════════════════ */}
       {activeLevel === 4 && (
-        <div className="bg-slate-900 border-4 border-slate-800 rounded-[40px] p-6 md:p-10 text-white shadow-2xl max-w-4xl mx-auto space-y-6">
-          <div className="flex items-center justify-between">
+        <div className="bg-slate-950 border-4 border-slate-800 rounded-[40px] p-6 md:p-10 text-white shadow-2xl max-w-4xl mx-auto space-y-6">
+          
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
             <div className="space-y-1 text-left">
-              <span className="text-xs font-black text-amber-400 uppercase tracking-widest">Graphic Novel Storybook 🖼️</span>
+              <span className="text-xs font-black text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
+                <BookMarked className="w-4 h-4" /> Graphic Novel Comic Reader &bull; Multi-Panel Story
+              </span>
               <h2 className="text-2xl font-black text-white">{currentStory.title}</h2>
             </div>
-            <span className="text-xs font-bold text-slate-400">Panel {storyPanelIndex + 1} of {currentStory.panels.length}</span>
+            
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-amber-300 bg-amber-400/20 px-3 py-1 rounded-full border border-amber-400/30">
+                Panel {storyPanelIndex + 1} of {currentStory.panels.length}
+              </span>
+            </div>
           </div>
 
-          <div className="h-72 md:h-96 rounded-3xl overflow-hidden relative shadow-2xl border-4 border-slate-700 bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 flex items-center justify-center p-8 text-center">
-            <div className="max-w-xl bg-white text-slate-900 p-6 md:p-8 rounded-[36px] shadow-2xl border-4 border-amber-400 space-y-3">
-              <div className="text-xs font-black text-amber-700 uppercase tracking-wider flex items-center justify-between">
-                <span>{currentPanel.speaker}</span>
-                <button
-                  onClick={() => speakNativeText(currentPanel.speech, selectedLang.code)}
-                  className="p-1 text-amber-600 hover:bg-amber-50 rounded-lg cursor-pointer"
-                >
-                  <Volume2 className="w-5 h-5" />
-                </button>
-              </div>
-              <p className="text-xl md:text-3xl font-black leading-snug">{currentPanel.speech}</p>
-              <p className="text-sm font-bold text-slate-500 border-t border-slate-100 pt-3 italic">
+          {/* Panel Selector Thumbnails Bar */}
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar bg-slate-900 p-2.5 rounded-2xl border border-slate-800">
+            {currentStory.panels.map((panel, idx) => (
+              <button
+                key={idx}
+                onClick={() => setStoryPanelIndex(idx)}
+                className={`px-4 py-2 rounded-xl text-xs font-black whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 ${
+                  storyPanelIndex === idx 
+                    ? 'bg-amber-400 text-slate-950 font-black shadow-lg scale-105' 
+                    : 'bg-slate-800 text-slate-400 hover:text-white'
+                }`}
+              >
+                <span>Panel {idx + 1}</span>
+                <span className="text-xs">{panel.speaker?.split(' ')[1] || '💬'}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Rich Comic Scene Canvas with Speech Bubble */}
+          <div className="min-h-[340px] md:min-h-[380px] rounded-[36px] overflow-hidden relative shadow-2xl border-4 border-indigo-500/30 bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 flex flex-col items-center justify-center p-6 md:p-10 text-center">
+            
+            {/* Speaker Avatar & Name Badge */}
+            <div className="flex items-center gap-3 bg-slate-900/90 border-2 border-amber-400/40 px-5 py-2 rounded-full shadow-xl mb-4 animate-in zoom-in-95">
+              <span className="text-3xl">{currentPanel.avatar || '🦜'}</span>
+              <span className="text-base font-black text-amber-300 uppercase tracking-wide">{currentPanel.speaker}</span>
+            </div>
+
+            {/* Comic Cartoon Speech Bubble */}
+            <div className="relative max-w-2xl bg-white text-slate-900 p-6 md:p-8 rounded-[36px] shadow-2xl border-4 border-amber-400 space-y-3 animate-in fade-in duration-300">
+              <p className="text-2xl md:text-4xl font-black leading-snug text-slate-950">
+                "{currentPanel.speech}"
+              </p>
+              
+              <p className="text-sm font-bold text-sky-700 border-t border-slate-200 pt-3 italic">
                 Translation: "{currentPanel.translation}"
               </p>
             </div>
           </div>
 
+          {/* Story Navigation Controls */}
           <div className="flex items-center justify-between pt-4 border-t border-slate-800">
             <button
               onClick={() => setStoryPanelIndex(prev => (prev > 0 ? prev - 1 : currentStory.panels.length - 1))}
@@ -797,6 +823,14 @@ export default function PolyglotPlanetView({ onAddPoints }) {
             >
               ◀ Previous Panel
             </button>
+
+            <button
+              onClick={() => speakNativeText(currentPanel.speech, selectedLang.code)}
+              className="px-8 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs rounded-2xl shadow-lg cursor-pointer flex items-center gap-2 hover:scale-105 active:scale-95 transition-all"
+            >
+              <Volume2 className="w-5 h-5" /> Read Panel Audio
+            </button>
+
             <button
               onClick={() => setStoryPanelIndex(prev => (prev + 1) % currentStory.panels.length)}
               className="px-6 py-3 bg-sky-500 hover:bg-sky-400 text-white font-black text-xs rounded-2xl cursor-pointer"
@@ -804,6 +838,7 @@ export default function PolyglotPlanetView({ onAddPoints }) {
               Next Panel ▶
             </button>
           </div>
+
         </div>
       )}
 
