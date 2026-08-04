@@ -394,6 +394,29 @@ export const SITUATIONAL_PHRASEBOOK = {
   ]
 };
 
+export const LANGUAGE_NUMBERS = {
+  fr: [
+    { num: 1, native: '1', word: 'Un', phonetic: 'uhn' },
+    { num: 2, native: '2', word: 'Deux', phonetic: 'duh' },
+    { num: 3, native: '3', word: 'Trois', phonetic: 'trwah' }
+  ],
+  de: [
+    { num: 1, native: '1', word: 'Eins', phonetic: 'eyens' },
+    { num: 2, native: '2', word: 'Zwei', phonetic: 'tsvay' }
+  ],
+  es: [
+    { num: 1, native: '1', word: 'Uno', phonetic: 'oo-noh' },
+    { num: 2, native: '2', word: 'Dos', phonetic: 'dohs' }
+  ],
+  hi: [
+    { num: 1, native: '१', word: 'एक (Ek)', phonetic: 'ek' },
+    { num: 2, native: '२', word: 'दो (Do)', phonetic: 'do' }
+  ],
+  ja: [
+    { num: 1, native: '一', word: 'いち (Ichi)', phonetic: 'ee-chee' }
+  ]
+};
+
 // ═══════════════════════════════════════════════════════════════
 //  LEVEL 3: COLOR-CODED LEGO GRAMMAR SENTENCES (NATIVE DICTIONARIES)
 // ═══════════════════════════════════════════════════════════════
