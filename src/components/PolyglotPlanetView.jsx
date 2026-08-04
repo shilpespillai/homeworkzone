@@ -244,7 +244,7 @@ export default function PolyglotPlanetView({ onAddPoints }) {
 
   const getStoryList = () => {
     if (!selectedLang) return [];
-    return GRAPHIC_NOVEL_STORIES[selectedLang.code] || GRAPHIC_NOVEL_STORIES.hi;
+    return GRAPHIC_NOVEL_STORIES[selectedLang.code] || GRAPHIC_NOVEL_STORIES.es;
   };
 
   // Handle Lego Block Selection
