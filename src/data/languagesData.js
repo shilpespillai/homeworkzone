@@ -635,3 +635,126 @@ export const VISUAL_VOCABULARY = {
     { id: 'dog', word: 'நாய் (Naai)', meaning: 'The Dog', category: 'Animals', icon: '🐕', phonetic: 'naai' }
   ]
 };
+
+// ═══════════════════════════════════════════════════════════════
+//  LEVEL 4: MULTI-PANEL GRAPHIC NOVEL NARRATIVE STORIES (EXPLICIT NATIVE STORIES)
+// ═══════════════════════════════════════════════════════════════
+export const GRAPHIC_NOVEL_STORIES = {
+  fr: [
+    {
+      title: "Épisode 1: Le Mystère du Jardin Magique (Quest for Magic Garden)",
+      panels: [
+        { speaker: "Poly Parrot 🦜", speech: "Bonjour les amis! Aujourd'hui, nous explorons le jardin magique!", translation: "Hello friends! Today we explore the magic garden!" },
+        { speaker: "Dino 🦖", speech: "Regarde ces belles pommes et fleurs colorées!", translation: "Look at these beautiful apples and colorful flowers!" },
+        { speaker: "Wise Owl 🦉", speech: "Bienvenue petits aventuriers! Prenez cette clé dorée.", translation: "Welcome little adventurers! Take this golden key." },
+        { speaker: "Poly Parrot 🦜", speech: "Merci! Maintenant, ouvrons la porte secrète du château!", translation: "Thank you! Now let's open the secret castle door!" }
+      ]
+    }
+  ],
+  de: [
+    {
+      title: "Episode 1: Das Geheimnis des Zauberwalds (Mystery of Magic Forest)",
+      panels: [
+        { speaker: "Poly Parrot 🦜", speech: "Hallo Freunde! Heute erkunden wir den magischen Wald!", translation: "Hello friends! Today we explore the magic forest!" },
+        { speaker: "Dino 🦖", speech: "Wollte schon immer frische Äpfel und Blumen sehen!", translation: "Always wanted to see fresh apples and flowers!" },
+        { speaker: "Wise Owl 🦉", speech: "Willkommen! Hier ist der goldene Schlüssel.", translation: "Welcome! Here is the golden key." }
+      ]
+    }
+  ],
+  es: [
+    {
+      title: "Episodio 1: El Misterio del Jardín Mágico (Quest for Magic Garden)",
+      panels: [
+        { speaker: "Poly Parrot 🦜", speech: "¡Hola amigos! Hoy vamos a explorar el Jardín Mágico.", translation: "Hello friends! Today we are exploring the Magic Garden." },
+        { speaker: "Dino 🦖", speech: "¡Fantástico! ¡Mira esas deliciosas manzanas y flores brillantes!", translation: "Fantastic! Look at those delicious apples and bright flowers!" },
+        { speaker: "Wise Owl 🦉", speech: "¡Bienvenidos aventureros! Tomen esta llave dorada.", translation: "Welcome adventurers! Take this golden key." },
+        { speaker: "Poly Parrot 🦜", speech: "¡Gracias! ¡Juntos abriremos la puerta secreta!", translation: "Thank you! Together we will open the secret door!" }
+      ]
+    }
+  ],
+  hi: [
+    {
+      title: "Episode 1: जादुई बगीचे की रहस्यमयी यात्रा (The Quest for the Magic Garden)",
+      panels: [
+        { speaker: "Poly Parrot 🦜", speech: "नमस्ते दोस्तों! आज हम एक जादुई गुप्त बगीचे की खोज में जा रहे हैं!", translation: "Hello friends! Today we are going on a quest for a secret magic garden!" },
+        { speaker: "Dino 🦖", speech: "वाह! क्या वहाँ मीठे फल और सुंदर नदियाँ होंगी?", translation: "Wow! Will there be sweet fruits and beautiful rivers there?" },
+        { speaker: "Wise Owl 🦉", speech: "रुकिए! नदी पार करने के लिए आपको इस चाबी का सही उपयोग करना होगा।", translation: "Stop! To cross the river you must use this key correctly." },
+        { speaker: "Poly Parrot 🦜", speech: "बधाई हो! देखो, जादुई बगीचे का दरवाजा खुल गया है!", translation: "Congratulations! Look, the door to the magic garden is open!" }
+      ]
+    }
+  ],
+  ja: [
+    {
+      title: "Episode 1: 魔法の森の大冒険 (Great Adventure in the Magic Forest)",
+      panels: [
+        { speaker: "Poly Parrot 🦜", speech: "こんにちは！今日は魔法の森を探検しましょう！", translation: "Hello! Let's explore the magic forest today!" },
+        { speaker: "Dino 🦖", speech: "すごい！きれいな川と果物が見えます！", translation: "Amazing! I can see a pretty river and fruits!" },
+        { speaker: "Wise Owl 🦉", speech: "ようこそ！この古い鍵を使ってドアを開けてください。", translation: "Welcome! Use this old key to open the door." }
+      ]
+    }
+  ],
+  zh: [
+    {
+      title: "第一集：魔法花园大冒险 (The Magic Garden Adventure)",
+      panels: [
+        { speaker: "Poly Parrot 🦜", speech: "你好朋友们！今天我们要去探索魔法花园！", translation: "Hello friends! Today we are exploring the magic garden!" },
+        { speaker: "Dino 🦖", speech: "太棒了！我看到了新鲜的苹果和漂亮的鲜花！", translation: "Great! I see fresh apples and pretty flowers!" }
+      ]
+    }
+  ],
+  ar: [
+    {
+      title: "الحلقة 1: مغامرة الحديقة السحرية (The Magic Garden Adventure)",
+      panels: [
+        { speaker: "Poly Parrot 🦜", speech: "مرحباً يا أصدقاء! اليوم سنستكشف الحديقة السحرية!", translation: "Hello friends! Today we explore the magic garden!" },
+        { speaker: "Dino 🦖", speech: "يا رائع! أرى الفواكه اللذيذة والزهور الملونة!", translation: "Awesome! I see delicious fruits and colorful flowers!" }
+      ]
+    }
+  ],
+  it: [
+    {
+      title: "Episodio 1: Il Mistero del Giardino Magico (Magic Garden Mystery)",
+      panels: [
+        { speaker: "Poly Parrot 🦜", speech: "Ciao amici! Oggi esploriamo il giardino magico!", translation: "Hello friends! Today we explore the magic garden!" },
+        { speaker: "Dino 🦖", speech: "Fantastico! Guarda queste belle mele e fiori colorati!", translation: "Fantastic! Look at these beautiful apples and colorful flowers!" }
+      ]
+    }
+  ],
+  ru: [
+    {
+      title: "Эпизод 1: Тайна Волшебного Сада (Mystery of the Magic Garden)",
+      panels: [
+        { speaker: "Poly Parrot 🦜", speech: "Привет друзья! Сегодня мы исследуем волшебный сад!", translation: "Hello friends! Today we explore the magic garden!" },
+        { speaker: "Dino 🦖", speech: "Ура! Я вижу спелые яблоки и прекрасные цветы!", translation: "Hooray! I see ripe apples and beautiful flowers!" }
+      ]
+    }
+  ],
+  ko: [
+    {
+      title: "에피소드 1: 마법의 정원 대모험 (Magic Garden Adventure)",
+      panels: [
+        { speaker: "Poly Parrot 🦜", speech: "안녕 친구들! 오늘은 마법의 정원을 탐험해 볼까요?", translation: "Hello friends! Shall we explore the magic garden today?" },
+        { speaker: "Dino 🦖", speech: "와! 신난다! 맛있는 사과와 예쁜 꽃들이 보여요!", translation: "Wow! Exciting! I see delicious apples and pretty flowers!" }
+      ]
+    }
+  ],
+  pt: [
+    {
+      title: "Episódio 1: O Mistério do Jardim Mágico (Magic Garden Mystery)",
+      panels: [
+        { speaker: "Poly Parrot 🦜", speech: "Olá amigos! Hoje vamos explorar o jardim mágico!", translation: "Hello friends! Today we explore the magic garden!" },
+        { speaker: "Dino 🦖", speech: "Que legal! Veja essas maçãs saborosas e flores bonitas!", translation: "So cool! See these tasty apples and pretty flowers!" }
+      ]
+    }
+  ],
+  ta: [
+    {
+      title: "அத்தியாயம் 1: மாயத் தோட்டத்தின் பயணம் (Magic Garden Journey)",
+      panels: [
+        { speaker: "Poly Parrot 🦜", speech: "வணக்கம் நண்பர்களே! இன்று நாம் மாயத் தோட்டம் செல்வோம்!", translation: "Hello friends! Today we will go to the magic garden!" },
+        { speaker: "Dino 🦖", speech: "அற்புதம்! அங்கே பல இனிப்பான பழங்கள் உள்ளன!", translation: "Wonderful! There are many sweet fruits there!" }
+      ]
+    }
+  ]
+};
+
