@@ -213,12 +213,12 @@ export default function PolyglotPlanetView({ onAddPoints }) {
 
   const getNumbersList = () => {
     if (!selectedLang) return [];
-    return LANGUAGE_NUMBERS[selectedLang.code] || LANGUAGE_NUMBERS.es;
+    return LANGUAGE_NUMBERS[selectedLang.code] || LANGUAGE_NUMBERS.fr || LANGUAGE_NUMBERS.es;
   };
 
   const getRawVocabList = () => {
     if (!selectedLang) return [];
-    return VISUAL_VOCABULARY[selectedLang.code] || VISUAL_VOCABULARY.es;
+    return VISUAL_VOCABULARY[selectedLang.code] || VISUAL_VOCABULARY.fr || VISUAL_VOCABULARY.es;
   };
 
   const getFilteredVocabList = () => {
@@ -229,22 +229,22 @@ export default function PolyglotPlanetView({ onAddPoints }) {
 
   const getActionList = () => {
     if (!selectedLang) return [];
-    return ACTION_VERBS_GREETINGS[selectedLang.code] || ACTION_VERBS_GREETINGS.es;
+    return ACTION_VERBS_GREETINGS[selectedLang.code] || ACTION_VERBS_GREETINGS.fr || ACTION_VERBS_GREETINGS.es;
   };
 
   const getPhrasebookList = () => {
     if (!selectedLang) return [];
-    return SITUATIONAL_PHRASEBOOK[selectedLang.code] || SITUATIONAL_PHRASEBOOK.es;
+    return SITUATIONAL_PHRASEBOOK[selectedLang.code] || SITUATIONAL_PHRASEBOOK.fr || SITUATIONAL_PHRASEBOOK.es;
   };
 
   const getGrammarList = () => {
     if (!selectedLang) return [];
-    return GRAMMAR_SENTENCES[selectedLang.code] || GRAMMAR_SENTENCES.es;
+    return GRAMMAR_SENTENCES[selectedLang.code] || GRAMMAR_SENTENCES.fr || GRAMMAR_SENTENCES.es;
   };
 
   const getStoryList = () => {
     if (!selectedLang) return [];
-    return GRAPHIC_NOVEL_STORIES[selectedLang.code] || GRAPHIC_NOVEL_STORIES.es;
+    return GRAPHIC_NOVEL_STORIES[selectedLang.code] || GRAPHIC_NOVEL_STORIES.fr || GRAPHIC_NOVEL_STORIES.es;
   };
 
   // Handle Lego Block Selection
