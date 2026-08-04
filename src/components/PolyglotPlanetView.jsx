@@ -204,8 +204,8 @@ export default function PolyglotPlanetView({ onAddPoints }) {
     if (!selectedLang) return [];
     if (LANGUAGE_ALPHABETS[selectedLang.code]) return LANGUAGE_ALPHABETS[selectedLang.code];
     return [
-      { char: 'अ', name: 'a', type: 'Vowel', ipa: '/a/', mnemonic: `${selectedLang.name} Letter 1`, example: `${selectedLang.native} Letter 1` },
-      { char: 'आ', name: 'aa', type: 'Vowel', ipa: '/aː/', mnemonic: `${selectedLang.name} Letter 2`, example: `${selectedLang.native} Letter 2` }
+      { char: 'A', name: 'A', type: 'Vowel', ipa: '/a/', mnemonic: `${selectedLang.name} Letter A`, example: `Alphabet A 🔤` },
+      { char: 'B', name: 'B', type: 'Consonant', ipa: '/b/', mnemonic: `${selectedLang.name} Letter B`, example: `Alphabet B 🔤` }
     ];
   };
 
