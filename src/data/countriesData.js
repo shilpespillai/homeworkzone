@@ -192,7 +192,7 @@ export const COUNTRIES_DATA = [
   { code: 'lr', name: 'Liberia', capital: 'Monrovia', landmark: 'Sapo National Park 🌳', continent: 'Africa', flag: '🇱🇷', fact: 'Africa\'s oldest republic, founded in 1847.' },
   { code: 'tg', name: 'Togo', capital: 'Lomé', landmark: 'Koutammakou Mud Houses 🏰', continent: 'Africa', flag: '🇹🇬', fact: 'Famous for Koutammakou tower-houses made of mud and straw.' },
   { code: 'cf', name: 'Central African Republic', capital: 'Bangui', landmark: 'Dzanga-Sangha Reserve 🐘', continent: 'Africa', flag: '🇨🇫', fact: 'Home to forest elephants in the Dzanga-Sangha rainforest.' },
-  { code: 'gq', name: 'Equatorial Guinea', capital: 'Malabo', landmark: 'Pico Basile 🌋', continent: 'Africa', flag: '🇬🇶', fact: 'Only Spanish-speaking nation in Africa.' },
+  { code: 'gq', name: 'Equatorial Guinea', capital: 'Malabo', landmark: 'Pico Basile 🌋', landmarkImg: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80', continent: 'Africa', flag: '🇬🇶', fact: 'Only Spanish-speaking nation in Africa.' },
   { code: 'cv', name: 'Cape Verde', capital: 'Praia', landmark: 'Pico do Fogo Volcano 🌋', continent: 'Africa', flag: '🇨🇻', fact: 'Island nation off West Africa famous for Morna music.' },
   { code: 'km', name: 'Comoros', capital: 'Moroni', landmark: 'Karthala Volcano 🌋', continent: 'Africa', flag: '🇰🇲', fact: 'Perfume Isles famous for ylang-ylang and vanilla.' },
   { code: 'st', name: 'São Tomé and Príncipe', capital: 'São Tomé', landmark: 'Pico Cão Grande ⛰️', continent: 'Africa', flag: '🇸🇹', fact: 'Famous for Pico Cão Grande, a volcanic plug needle peak.' },
@@ -220,5 +220,6 @@ export const getFlagUrl = (code) => `https://flagcdn.com/w320/${code.toLowerCase
 
 export const getLandmarkImg = (country) => {
   if (country.landmarkImg) return country.landmarkImg;
-  return `https://flagcdn.com/w320/${country.code.toLowerCase()}.png`;
+  // Scenic landmark fallback - NEVER return country flag image
+  return `https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80`;
 };
