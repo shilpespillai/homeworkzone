@@ -1,4 +1,4 @@
-// Comprehensive World Countries, Capitals & Landmarks Database (195 Sovereign Nations)
+// Comprehensive World Countries, Capitals & Landmarks Database (195+ Sovereign Nations)
 // Formatted for HomeworkZone Geography, Flags, Capitals & Landmark Quiz
 
 export const COUNTRIES_DATA = [
@@ -51,6 +51,8 @@ export const COUNTRIES_DATA = [
   { code: 'mm', name: 'Myanmar', capital: 'Naypyidaw', landmark: 'Bagan Golden Pagodas 🛕', continent: 'Asia', flag: '🇲🇲', fact: 'Home to thousands of ancient golden pagodas in Bagan.' },
   { code: 'tw', name: 'Taiwan', capital: 'Taipei', landmark: 'Taipei 101 🏙️', continent: 'Asia', flag: '🇹🇼', fact: 'Famous for night markets, high-tech chips, and Taipei 101.' },
   { code: 'ps', name: 'Palestine', capital: 'Jerusalem', landmark: 'Church of the Nativity ⛪', continent: 'Asia', flag: '🇵🇸', fact: 'Rich in ancient Levantine history and heritage.' },
+  { code: 'tr', name: 'Turkey', capital: 'Ankara', landmark: 'Hagia Sophia & Cappadocia 🕌', continent: 'Asia', flag: '🇹🇷', fact: 'Spans Europe and Asia, famous for Hagia Sophia and hot air balloons.' },
+  { code: 'cy', name: 'Cyprus', capital: 'Nicosia', landmark: 'Paphos Archaeological Park 🏛️', continent: 'Asia', flag: '🇨🇾', fact: 'Mythological birthplace of Aphrodite in the Mediterranean.' },
 
   // ═══════════════════════════════════════════════════════════════
   //  🇪🇺 EUROPE (44 Nations)
@@ -73,7 +75,7 @@ export const COUNTRIES_DATA = [
   { code: 'be', name: 'Belgium', capital: 'Brussels', landmark: 'Atomium & Grand Place ⚛️', continent: 'Europe', flag: '🇧🇪', fact: 'Home of NATO, European Union headquarters, waffles, and chocolate.' },
   { code: 'pl', name: 'Poland', capital: 'Warsaw', landmark: 'Wawel Royal Castle 🏰', continent: 'Europe', flag: '🇵🇱', fact: 'Famous for pierogi, medieval castles, and Copernicus.' },
   { code: 'cz', name: 'Czech Republic', capital: 'Prague', landmark: 'Charles Bridge & Prague Castle 🌉', continent: 'Europe', flag: '🇨🇿', fact: 'Home to fairytale Prague Castle and Charles Bridge.' },
-  { code: 'hu', name: 'Hungary', capital: 'Budapest', landmark: 'Hungarian Parliament 🏛️', continent: 'Europe', flag: '🇭🇺', fact: 'Famous for the Danube River, thermal baths, and paprika.' },
+  { code: 'hu', name: 'Hungary', capital: 'Budapest', landmark: 'Hungarian Parliament 🏛️', continent: 'Europe', fact: 'Famous for the Danube River, thermal baths, and paprika.' },
   { code: 'dk', name: 'Denmark', capital: 'Copenhagen', landmark: 'The Little Mermaid Statue 🧜‍♀️', continent: 'Europe', flag: '🇩🇰', fact: 'Birthplace of LEGO, Hans Christian Andersen, and Viking heritage.' },
   { code: 'fi', name: 'Finland', capital: 'Helsinki', landmark: 'Suomenlinna Fortress 🏰', continent: 'Europe', flag: '🇫🇮', fact: 'Land of 180,000+ lakes, saunas, and Santa Claus\' village.' },
   { code: 'ua', name: 'Ukraine', capital: 'Kyiv', landmark: 'Saint Sophia Cathedral ⛪', continent: 'Europe', flag: '🇺🇦', fact: 'Famous for vast golden wheat fields and St. Sophia Cathedral.' },
@@ -91,13 +93,14 @@ export const COUNTRIES_DATA = [
   { code: 'al', name: 'Albania', capital: 'Tirana', landmark: 'Rozafa Castle 🏰', continent: 'Europe', flag: '🇦🇱', fact: 'Stunning Riviera nation with ancient Illyrian heritage.' },
   { code: 'mk', name: 'North Macedonia', capital: 'Skopje', landmark: 'Church of St. John at Kaneo ⛪', continent: 'Europe', flag: '🇲🇰', fact: 'Home to ancient Lake Ohrid, one of Europe\'s deepest lakes.' },
   { code: 'mt', name: 'Malta', capital: 'Valletta', landmark: 'Upper Barrakka Gardens 🏰', continent: 'Europe', flag: '🇲🇹', fact: 'Sun-drenched archipelago with 7,000-year-old megalithic temples.' },
-  { code: 'cy', name: 'Cyprus', capital: 'Nicosia', landmark: 'Paphos Archaeological Park 🏛️', continent: 'Europe', flag: '🇨🇾', fact: 'Mythological birthplace of Aphrodite in the Mediterranean.' },
   { code: 'lu', name: 'Luxembourg', capital: 'Luxembourg City', landmark: 'Vianden Castle 🏰', continent: 'Europe', flag: '🇱🇺', fact: 'Wealthy Grand Duchy with fortified clifftop castles.' },
   { code: 'mc', name: 'Monaco', capital: 'Monaco', landmark: 'Prince\'s Palace 🏰', continent: 'Europe', flag: '🇲🇨', fact: 'Second smallest country on Earth, famous for Formula 1 Grand Prix.' },
   { code: 'sm', name: 'San Marino', capital: 'San Marino', landmark: 'Guaita Tower 🏰', continent: 'Europe', flag: '🇸🇲', fact: 'World\'s oldest surviving republic, perched on Mount Titano.' },
   { code: 'va', name: 'Vatican City', capital: 'Vatican City', landmark: 'St. Peter\'s Basilica ⛪', continent: 'Europe', flag: '🇻🇦', fact: 'Smallest independent nation on Earth, headquarters of Roman Catholic Church.' },
   { code: 'li', name: 'Liechtenstein', capital: 'Vaduz', landmark: 'Vaduz Castle 🏰', continent: 'Europe', flag: '🇱🇮', fact: 'Alpine principality tucked between Switzerland and Austria.' },
   { code: 'ad', name: 'Andorra', capital: 'Andorra la Vella', landmark: 'Vallnord Pyrenees 🏔️', continent: 'Europe', flag: '🇦🇩', fact: 'Highest capital city in Europe, famous for Pyrenean ski resorts.' },
+  { code: 'me', name: 'Montenegro', capital: 'Podgorica', landmark: 'Bay of Kotor 🏔️', continent: 'Europe', flag: '🇲🇪', fact: 'Famous for dramatic Bay of Kotor fjords along the Adriatic Sea.' },
+  { code: 'xk', name: 'Kosovo', capital: 'Pristina', landmark: 'Rugova Canyon 🏔️', continent: 'Europe', flag: '🇽🇰', fact: 'Young Balkan nation famous for Rugova Canyon and monasteries.' },
 
   // ═══════════════════════════════════════════════════════════════
   //  🌎 AMERICAS (35 Nations)
@@ -129,6 +132,14 @@ export const COUNTRIES_DATA = [
   { code: 'tt', name: 'Trinidad and Tobago', capital: 'Port of Spain', landmark: 'Pitch Lake 🛢️', continent: 'Americas', flag: '🇹🇹', fact: 'Birthplace of steelpan music, Limbo, and Carnival.' },
   { code: 'bb', name: 'Barbados', capital: 'Bridgetown', landmark: 'Harrison\'s Cave 洞', continent: 'Americas', flag: '🇧🇧', fact: 'Island nation famous for flying fish and Rihanna.' },
   { code: 'bz', name: 'Belize', capital: 'Belmopan', landmark: 'Great Blue Hole 🌊', continent: 'Americas', flag: '🇧🇿', fact: 'Home to the Great Blue Hole submarine sinkhole.' },
+  { code: 'gy', name: 'Guyana', capital: 'Georgetown', landmark: 'Kaieteur Falls 🌊', continent: 'Americas', flag: '🇬🇾', fact: 'Home to Kaieteur Falls, world\'s largest single-drop waterfall by volume.' },
+  { code: 'sr', name: 'Suriname', capital: 'Paramaribo', landmark: 'Central Suriname Reserve 🌳', continent: 'Americas', flag: '🇸🇷', fact: 'Smallest sovereign state in South America, rich in rainforests.' },
+  { code: 'gd', name: 'Grenada', capital: 'St. George\'s', landmark: 'Underwater Sculpture Park 🌊', continent: 'Americas', flag: '🇬🇩', fact: 'Known as the Spice Isle for nutmeg and cocoa production.' },
+  { code: 'dm', name: 'Dominica', capital: 'Roseau', landmark: 'Boiling Lake 🌋', continent: 'Americas', flag: '🇩🇲', fact: 'Known as the Nature Isle of the Caribbean, home to Boiling Lake.' },
+  { code: 'lc', name: 'Saint Lucia', capital: 'Castries', landmark: 'The Pitons ⛰️', continent: 'Americas', flag: '🇱🇨', fact: 'Famous for the majestic twin volcanic spires called The Pitons.' },
+  { code: 'vc', name: 'Saint Vincent and the Grenadines', capital: 'Kingstown', landmark: 'La Soufrière Volcano 🌋', continent: 'Americas', flag: '🇻🇨', fact: 'Archipelago famous for Tobago Cays marine park.' },
+  { code: 'ag', name: 'Antigua and Barbuda', capital: 'St. John\'s', landmark: 'Nelson\'s Dockyard ⚓', continent: 'Americas', flag: '🇦🇬', fact: 'Famous for having 365 white and pink sand beaches — one for every day!' },
+  { code: 'kn', name: 'Saint Kitts and Nevis', capital: 'Basseterre', landmark: 'Brimstone Hill Fortress 🏰', continent: 'Americas', flag: '🇰🇳', fact: 'Smallest sovereign nation in the Americas, famous for Brimstone Hill.' },
 
   // ═══════════════════════════════════════════════════════════════
   //  🌍 AFRICA (54 Nations)
@@ -159,6 +170,32 @@ export const COUNTRIES_DATA = [
   { code: 'mw', name: 'Malawi', capital: 'Lilongwe', landmark: 'Lake Malawi 🌊', continent: 'Africa', flag: '🇲🇼', fact: 'Known as the Warm Heart of Africa, home to Lake Malawi.' },
   { code: 'sc', name: 'Seychelles', capital: 'Victoria', landmark: 'Anse Source d\'Argent 🏝️', continent: 'Africa', flag: '🇸🇨', fact: 'Granite island archipelago with giant tortoises and clear sea.' },
   { code: 'mu', name: 'Mauritius', capital: 'Port Louis', landmark: 'Le Morne Brabant 🏔️', continent: 'Africa', flag: '🇲🇺', fact: 'Historic home of the extinct Dodo bird.' },
+  { code: 'ss', name: 'South Sudan', capital: 'Juba', landmark: 'Sudd Wetland 🌊', continent: 'Africa', flag: '🇸🇸', fact: 'World\'s youngest nation, home to the massive Sudd wetland.' },
+  { code: 'ml', name: 'Mali', capital: 'Bamako', landmark: 'Great Mosque of Djenné 🕌', continent: 'Africa', flag: '🇲🇱', fact: 'Famous for Timbuktu and the mud-brick Great Mosque of Djenné.' },
+  { code: 'bf', name: 'Burkina Faso', capital: 'Ouagadougou', landmark: 'Sindou Peaks ⛰️', continent: 'Africa', flag: '🇧🇫', fact: 'Famous for FESPACO film festival and wild rock formations.' },
+  { code: 'ne', name: 'Niger', capital: 'Niamey', landmark: 'Agadez Mosque 🕌', continent: 'Africa', flag: '🇳🇪', fact: 'Landlocked Saharan nation famous for Agadez mud minaret.' },
+  { code: 'td', name: 'Chad', capital: 'N\'Djamena', landmark: 'Tibesti Mountains 🏔️', continent: 'Africa', flag: '🇹🇩', fact: 'Home to Lake Chad and soaring Sahara volcanic peaks.' },
+  { code: 'so', name: 'Somalia', capital: 'Mogadishu', landmark: 'Laas Geel Cave Art 🎨', continent: 'Africa', flag: '🇸🇴', fact: 'Has the longest coastline on Africa\'s mainland.' },
+  { code: 'gn', name: 'Guinea', capital: 'Conakry', landmark: 'Mount Nimba Reserve 🏔️', continent: 'Africa', flag: '🇬🇳', fact: 'Rich in bauxite and mountain reserves.' },
+  { code: 'bj', name: 'Benin', capital: 'Porto-Novo', landmark: 'Royal Palaces of Abomey 🏰', continent: 'Africa', flag: '🇧🇯', fact: 'Birthplace of Vodun culture and Dahomey Kingdom history.' },
+  { code: 'bi', name: 'Burundi', capital: 'Gitega', landmark: 'Source of the Nile 🌊', continent: 'Africa', flag: '🇧🇮', fact: 'Known as the Heart of Africa, home to Lake Tanganyika.' },
+  { code: 'cd', name: 'DR Congo', capital: 'Kinshasa', landmark: 'Virunga Volcanoes 🦍', continent: 'Africa', flag: '🇨🇩', fact: 'Second largest country in Africa, covered by vast rainforests.' },
+  { code: 'cg', name: 'Republic of the Congo', capital: 'Brazzaville', landmark: 'Odzala National Park 🦍', continent: 'Africa', flag: '🇨🇬', fact: 'Known for lowland gorilla reserves in the Congo Basin.' },
+  { code: 'ga', name: 'Gabon', capital: 'Libreville', landmark: 'Loango National Park 🦛', continent: 'Africa', flag: '🇬🇦', fact: 'Famous for surfing hippos on Atlantic ocean beaches.' },
+  { code: 'ls', name: 'Lesotho', capital: 'Maseru', landmark: 'Maletsunyane Falls 🌊', continent: 'Africa', flag: '🇱🇸', fact: 'The Kingdom in the Sky, completely encircled by South Africa.' },
+  { code: 'sz', name: 'Eswatini', capital: 'Mbabane', landmark: 'Mlilwane Sanctuary 🦒', continent: 'Africa', flag: '🇸🇿', fact: 'Mountainous kingdom famous for rich royal ceremonies.' },
+  { code: 'dj', name: 'Djibouti', capital: 'Djibouti', landmark: 'Lake Assal 🧂', continent: 'Africa', flag: '🇩🇯', fact: 'Home to Lake Assal, lowest point in Africa and highly saline.' },
+  { code: 'er', name: 'Eritrea', capital: 'Asmara', landmark: 'Asmara Art Deco Architecture 🏛️', continent: 'Africa', flag: '🇪🇷', fact: 'Famous for UNESCO Italian modernist architecture in Asmara.' },
+  { code: 'mr', name: 'Mauritania', capital: 'Nouakchott', landmark: 'Eye of the Sahara 👁️', continent: 'Africa', flag: '🇲🇷', fact: 'Home to the Richat Structure, the giant Eye of the Sahara.' },
+  { code: 'gm', name: 'Gambia', capital: 'Banjul', landmark: 'Kunta Kinteh Island 🏝️', continent: 'Africa', flag: '🇬🇲', fact: 'Smallest country in mainland Africa, stretching along Gambia River.' },
+  { code: 'sl', name: 'Sierra Leone', capital: 'Freetown', landmark: 'Cotton Tree & Tacugama 🌳', continent: 'Africa', flag: '🇸🇱', fact: 'Famous for white sand beaches and chimpanzee sanctuaries.' },
+  { code: 'lr', name: 'Liberia', capital: 'Monrovia', landmark: 'Sapo National Park 🌳', continent: 'Africa', flag: '🇱🇷', fact: 'Africa\'s oldest republic, founded in 1847.' },
+  { code: 'tg', name: 'Togo', capital: 'Lomé', landmark: 'Koutammakou Mud Houses 🏰', continent: 'Africa', flag: '🇹🇬', fact: 'Famous for Koutammakou tower-houses made of mud and straw.' },
+  { code: 'cf', name: 'Central African Republic', capital: 'Bangui', landmark: 'Dzanga-Sangha Reserve 🐘', continent: 'Africa', flag: '🇨🇫', fact: 'Home to forest elephants in the Dzanga-Sangha rainforest.' },
+  { code: 'gq', name: 'Equatorial Guinea', capital: 'Malabo', landmark: 'Pico Basile 🌋', continent: 'Africa', flag: '🇬🇶', fact: 'Only Spanish-speaking nation in Africa.' },
+  { code: 'cv', name: 'Cape Verde', capital: 'Praia', landmark: 'Pico do Fogo Volcano 🌋', continent: 'Africa', flag: '🇨🇻', fact: 'Island nation off West Africa famous for Morna music.' },
+  { code: 'km', name: 'Comoros', capital: 'Moroni', landmark: 'Karthala Volcano 🌋', continent: 'Africa', flag: '🇰🇲', fact: 'Perfume Isles famous for ylang-ylang and vanilla.' },
+  { code: 'st', name: 'São Tomé and Príncipe', capital: 'São Tomé', landmark: 'Pico Cão Grande ⛰️', continent: 'Africa', flag: '🇸🇹', fact: 'Famous for Pico Cão Grande, a volcanic plug needle peak.' },
 
   // ═══════════════════════════════════════════════════════════════
   //  🇦🇺 OCEANIA (14 Nations)
