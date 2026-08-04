@@ -95,6 +95,7 @@ import AgenticHelpAssistant from '../components/AgenticHelpAssistant';
 import InternationalExamHubView from '../components/InternationalExamHubView';
 import { encryptText, decryptText } from '../utils/crypto';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
+import { SUPER_USER_EMAILS } from '../utils/defaultPrompts';
 
 const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
 
@@ -534,7 +535,10 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [teacherData, setTeacherData] = useState(null);
   
   // ─── Admin Executive Roles ───────────────────────────────────────────────
+  // isAdminUser → full admin (unlimited + Admin Reports tab) — shilpeshpillai81@gmail.com only
+  // isSuperUser → unlimited usage only, no Admin Reports
   const isAdminUser = teacherData?.isAdmin === true || teacherData?.role === 'admin';
+  const isSuperUser = SUPER_USER_EMAILS.includes((teacherData?.email || '').toLowerCase().trim()) || teacherData?.isSuperUser === true;
 
   const [adminTeachers, setAdminTeachers] = useState([]);
   const [adminLoading, setAdminLoading] = useState(false);
@@ -609,7 +613,8 @@ const TeacherDashboard = ({ user, onLogout }) => {
           activePlanId,
           isPaid,
           conversionStatus,
-          mrr: getTeacherMRR(billing, studentCount)
+          mrr: getTeacherMRR(billing, studentCount),
+          isSuperUser: data.isSuperUser === true
         });
       });
 
@@ -618,6 +623,19 @@ const TeacherDashboard = ({ user, onLogout }) => {
       console.error('Error fetching admin data:', err);
     }
     setAdminLoading(false);
+  };
+
+  const handleToggleSuperUser = async (teacherId, currentValue) => {
+    try {
+      const newValue = !currentValue;
+      await setDoc(doc(db, 'teachers', teacherId), { isSuperUser: newValue }, { merge: true });
+      setAdminTeachers(prev =>
+        prev.map(t => t.id === teacherId ? { ...t, isSuperUser: newValue } : t)
+      );
+    } catch (err) {
+      console.error('Error toggling super user:', err);
+      alert('Failed to update super user status.');
+    }
   };
 
   const getTeacherMRR = (billing, studentCount) => {
@@ -3045,6 +3063,7 @@ Include a balanced combination of question types such as:
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none" onClick={() => handleAdminSort('activePlanId')}>Plan Model</th>
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none text-right" onClick={() => handleAdminSort('mrr')}>Est. MRR</th>
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none text-center" onClick={() => handleAdminSort('conversionStatus')}>Conversion Status</th>
+                      <th className="p-4 text-center text-[9px]">Super User</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -3113,6 +3132,17 @@ Include a balanced combination of question types such as:
                                 </>
                               )}
                             </span>
+                          </td>
+                          <td className="p-4 text-center">
+                            <label className="relative inline-flex items-center cursor-pointer group" title={teacher.isSuperUser ? 'Remove super user access' : 'Grant super user (unlimited) access'}>
+                              <input
+                                type="checkbox"
+                                className="sr-only peer"
+                                checked={!!teacher.isSuperUser}
+                                onChange={() => handleToggleSuperUser(teacher.id, teacher.isSuperUser)}
+                              />
+                              <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-violet-500 group-hover:ring-2 group-hover:ring-violet-200 transition-all" />
+                            </label>
                           </td>
                         </tr>
                       ))
@@ -4388,6 +4418,7 @@ Include a balanced combination of question types such as:
             );
          }
           case 'Homework/Test Builder':
+            const isSuperUser = user?.email && SUPER_USER_EMAILS.includes(user.email);
             return (
                <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
                   <HomeworkGenerator 
@@ -4406,6 +4437,7 @@ Include a balanced combination of question types such as:
                       allHomeworks={allHomeworks}
                       setDashboardTab={setActiveTab}
                       isAdmin={isAdminUser}
+                      isSuperUser={isSuperUser}
                    />
                  </div>
              );

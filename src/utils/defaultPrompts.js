@@ -2,6 +2,12 @@ import { doc, getDoc, setDoc, getDocs, collection, query, where } from 'firebase
 
 export const ADMIN_EMAIL = 'shilpeshpillai81@gmail.com';
 
+// Super users get unlimited usage but do NOT see the Admin Reports tab.
+// Only ADMIN_EMAIL has full admin access.
+export const SUPER_USER_EMAILS = [
+  'manoj.jose.au@gmail.com',
+];
+
 export const getPremiumPromptTemplate = (subjectName) => {
   const capsSubject = (subjectName || '').charAt(0).toUpperCase() + (subjectName || '').slice(1);
   return `You are an expert educator and curriculum designer creating practice questions for an educational learning platform used by school students.

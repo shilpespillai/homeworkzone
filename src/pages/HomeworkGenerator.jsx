@@ -401,7 +401,7 @@ const SUBJECTS = [
   }
 ];
 
-export default function HomeworkGenerator({ user, classrooms = [], activeClassroom, initialDraft, initialExam, subjectPrompts, onHomeworkCreated, teacherBilling, allHomeworks = [], setDashboardTab, isAdmin }) {
+export default function HomeworkGenerator({ user, classrooms = [], activeClassroom, initialDraft, initialExam, subjectPrompts, onHomeworkCreated, teacherBilling, allHomeworks = [], setDashboardTab, isAdmin, isSuperUser }) {
   const [assignmentType, setAssignmentType] = useState(initialDraft ? (initialDraft.type || 'homework') : (initialExam ? 'test' : null));
   const [formData, setFormData] = useState({
     subject: initialExam ? initialExam.subject : 'maths',
@@ -446,6 +446,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
 
   const hasReachedLimit = (() => {
     if (isAdmin) return false;
+    if (isSuperUser) return false; // Super users have unlimited access
     if (activePlanId === 'free') {
       return totalHomeworksCount >= 3;
     }
@@ -454,6 +455,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
 
   const limitText = (() => {
     if (isAdmin) return '';
+    if (isSuperUser) return '';
     if (activePlanId === 'free') {
       return `Free Tier Limit: 3 homeworks total (You've created ${totalHomeworksCount}/3)`;
     }

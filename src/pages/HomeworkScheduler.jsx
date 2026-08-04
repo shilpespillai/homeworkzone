@@ -129,7 +129,7 @@ const compilePrompt = (customPrompt, params) => {
   return compiled;
 };
 
-export default function HomeworkScheduler({ user, classrooms = [], activeClassroom, subjectPrompts = {}, onHomeworkScheduled, teacherBilling, allHomeworks = [], setDashboardTab, isAdmin }) {
+export default function HomeworkScheduler({ user, classrooms = [], activeClassroom, subjectPrompts = {}, onHomeworkScheduled, teacherBilling, allHomeworks = [], setDashboardTab, isAdmin, isSuperUser }) {
   const [formData, setFormData] = useState({
     subject: 'maths',
     topic: '',
@@ -161,6 +161,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
   const hasReachedLimit = (() => {
     if (isAdmin) return false;
+    if (isSuperUser) return false; // Super users have unlimited access
     if (activePlanId === 'free') {
       return totalHomeworksCount >= 3;
     }
@@ -169,6 +170,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
   const limitText = (() => {
     if (isAdmin) return '';
+    if (isSuperUser) return '';
     if (activePlanId === 'free') {
       return `Free Tier Limit: 3 homeworks total (You've created ${totalHomeworksCount}/3)`;
     }
