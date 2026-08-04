@@ -189,6 +189,94 @@ export const LANGUAGE_ALPHABETS = {
 };
 
 // ═══════════════════════════════════════════════════════════════
+//  LEVEL 0.5: NATIVE NUMBERS & COUNTING (1 TO 100)
+// ═══════════════════════════════════════════════════════════════
+export const LANGUAGE_NUMBERS = {
+  hi: [
+    { num: 1, native: '१', word: 'एक (Ek)', phonetic: 'ek' },
+    { num: 2, native: '२', word: 'दो (Do)', phonetic: 'do' },
+    { num: 3, native: '३', word: 'तीन (Teen)', phonetic: 'teen' },
+    { num: 4, native: '४', word: 'चार (Chaar)', phonetic: 'chaar' },
+    { num: 5, native: '५', word: 'पाँच (Paanch)', phonetic: 'paanch' },
+    { num: 6, native: '६', word: 'छह (Chhah)', phonetic: 'chhah' },
+    { num: 7, native: '७', word: 'सात (Saat)', phonetic: 'saat' },
+    { num: 8, native: '८', word: 'आठ (Aath)', phonetic: 'aath' },
+    { num: 9, native: '९', word: 'नौ (Nau)', phonetic: 'nau' },
+    { num: 10, native: '१०', word: 'दस (Das)', phonetic: 'das' },
+    { num: 20, native: '२०', word: 'बीस (Bees)', phonetic: 'bees' },
+    { num: 50, native: '५०', word: 'पचास (Pachas)', phonetic: 'pachas' },
+    { num: 100, native: '१००', word: 'सौ (Sau)', phonetic: 'sau' }
+  ],
+  ja: [
+    { num: 1, native: '一', word: 'いち (Ichi)', phonetic: 'ee-chee' },
+    { num: 2, native: '二', word: 'に (Ni)', phonetic: 'nee' },
+    { num: 3, native: '三', word: 'さん (San)', phonetic: 'sahn' },
+    { num: 4, native: '四', word: 'よん (Yon)', phonetic: 'yohn' },
+    { num: 5, native: '五', word: 'ご (Go)', phonetic: 'goh' },
+    { num: 6, native: '六', word: 'ろく (Roku)', phonetic: 'roh-koo' },
+    { num: 7, native: '七', word: 'なな (Nana)', phonetic: 'nah-nah' },
+    { num: 8, native: '八', word: 'はち (Hachi)', phonetic: 'hah-chee' },
+    { num: 9, native: '九', word: 'きゅう (Kyuu)', phonetic: 'kyoo' },
+    { num: 10, native: '十', word: 'じゅう (Juu)', phonetic: 'joo' },
+    { num: 100, native: '百', word: 'ひゃく (Hyaku)', phonetic: 'hyah-koo' }
+  ],
+  es: [
+    { num: 1, native: '1', word: 'Uno', phonetic: 'oo-noh' },
+    { num: 2, native: '2', word: 'Dos', phonetic: 'dohs' },
+    { num: 3, native: '3', word: 'Tres', phonetic: 'trays' },
+    { num: 4, native: '4', word: 'Cuatro', phonetic: 'kwah-troh' },
+    { num: 5, native: '5', word: 'Cinco', phonetic: 'seen-koh' },
+    { num: 6, native: '6', word: 'Seis', phonetic: 'says' },
+    { num: 7, native: '7', word: 'Siete', phonetic: 'syeh-tay' },
+    { num: 8, native: '8', word: 'Ocho', phonetic: 'oh-choh' },
+    { num: 9, native: '9', word: 'Nueve', phonetic: 'nway-bay' },
+    { num: 10, native: '10', word: 'Diez', phonetic: 'dyehs' },
+    { num: 100, native: '100', word: 'Cien', phonetic: 'syehn' }
+  ]
+};
+
+// ═══════════════════════════════════════════════════════════════
+//  LEVEL 2.5: SITUATIONAL CONVERSATIONAL PHRASEBOOK
+// ═══════════════════════════════════════════════════════════════
+export const SITUATIONAL_PHRASEBOOK = {
+  es: [
+    {
+      category: '🍽️ Restaurant & Food',
+      phrases: [
+        { native: 'Una mesa para dos, por favor.', english: 'A table for two, please.', phonetic: 'oo-nah me-sah pah-rah dohs' },
+        { native: '¿Cuánto cuesta esto?', english: 'How much does this cost?', phonetic: 'kwahn-toh kwes-tah ehs-toh' },
+        { native: 'La cuenta, por favor.', english: 'The bill, please.', phonetic: 'lah kwen-tah' }
+      ]
+    },
+    {
+      category: '🧭 Directions & Travel',
+      phrases: [
+        { native: '¿Dónde está el baño?', english: 'Where is the bathroom?', phonetic: 'dohn-day ehs-tah el bah-nyoh' },
+        { native: '¿Dónde está la estación?', english: 'Where is the station?', phonetic: 'dohn-day ehs-tah lah ehs-tah-syohn' }
+      ]
+    }
+  ],
+  hi: [
+    {
+      category: '🍽️ Restaurant & Food',
+      phrases: [
+        { native: 'यह कितने का है?', english: 'How much is this?', phonetic: 'yeh kit-ne kaa hai' },
+        { native: 'पानी दीजिए, कृपया।', english: 'Please give water.', phonetic: 'paa-nee dee-ji-ye' }
+      ]
+    }
+  ],
+  ja: [
+    {
+      category: '🍽️ Restaurant & Food',
+      phrases: [
+        { native: 'これをください。', english: 'Please give me this.', phonetic: 'koh-reh oh koo-dah-sa-ee' },
+        { native: 'いくらですか？', english: 'How much is it?', phonetic: 'ee-koo-rah des-kah' }
+      ]
+    }
+  ]
+};
+
+// ═══════════════════════════════════════════════════════════════
 //  LEVEL 2: ACTION VERBS & GREETINGS
 // ═══════════════════════════════════════════════════════════════
 export const ACTION_VERBS_GREETINGS = {
@@ -332,38 +420,24 @@ export const VISUAL_VOCABULARY = {
     { id: 'milk', word: 'La Leche', meaning: 'Milk', category: 'Food', icon: '🥛', phonetic: 'lah lay-chay' },
     { id: 'rice', word: 'El Arroz', meaning: 'Rice', category: 'Food', icon: '🍚', phonetic: 'el ah-rrohs' },
     { id: 'soup', word: 'La Sopa', meaning: 'Soup', category: 'Food', icon: '🥣', phonetic: 'lah soh-pah' },
-    { id: 'egg', word: 'El Huevo', meaning: 'Egg', category: 'Food', icon: '🥚', phonetic: 'el way-boh' },
-    { id: 'cake', word: 'El Pastel', meaning: 'Cake', category: 'Food', icon: '🎂', phonetic: 'el pahs-tehl' },
-    { id: 'pizza', word: 'La Pizza', meaning: 'Pizza', category: 'Food', icon: '🍕', phonetic: 'lah peet-sah' },
-    { id: 'icecream', word: 'El Helado', meaning: 'Ice Cream', category: 'Food', icon: '🍦', phonetic: 'el eh-lah-doh' },
-    { id: 'juice', word: 'El Jugo', meaning: 'Juice', category: 'Food', icon: '🧃', phonetic: 'el hoo-goh' },
 
     // Home & Objects (10)
     { id: 'house', word: 'La Casa', meaning: 'The House', category: 'Home', icon: '🏠', phonetic: 'lah kah-sah' },
     { id: 'table', word: 'La Mesa', meaning: 'The Table', category: 'Home', icon: '🪑', phonetic: 'lah me-sah' },
-    { id: 'chair', word: 'La Silla', meaning: 'The Chair', category: 'Home', icon: '🪑', phonetic: 'lah see-yah' },
     { id: 'bed', word: 'La Cama', meaning: 'The Bed', category: 'Home', icon: '🛏️', phonetic: 'lah kah-mah' },
     { id: 'door', word: 'La Puerta', meaning: 'The Door', category: 'Home', icon: '🚪', phonetic: 'lah pwehr-tah' },
-    { id: 'window', word: 'La Ventana', meaning: 'The Window', category: 'Home', icon: '🪟', phonetic: 'lah behn-tah-nah' },
     { id: 'clock', word: 'El Reloj', meaning: 'The Clock', category: 'Home', icon: '⏰', phonetic: 'el ray-loh' },
-    { id: 'lamp', word: 'La Lámpara', meaning: 'The Lamp', category: 'Home', icon: '💡', phonetic: 'lah lahm-pah-rah' },
     { id: 'book', word: 'El Libro', meaning: 'The Book', category: 'School', icon: '📖', phonetic: 'el lee-broh' },
-    { id: 'pencil', word: 'El Lápiz', meaning: 'The Pencil', category: 'School', icon: '✏️', phonetic: 'el lah-pees' },
 
     // Nature & World (10)
     { id: 'sun', word: 'El Sol', meaning: 'The Sun', category: 'Nature', icon: '☀️', phonetic: 'el sohl' },
     { id: 'moon', word: 'La Luna', meaning: 'The Moon', category: 'Nature', icon: '🌙', phonetic: 'lah loo-nah' },
     { id: 'star', word: 'La Estrella', meaning: 'The Star', category: 'Nature', icon: '⭐️', phonetic: 'lah ehs-tray-yah' },
-    { id: 'sky', word: 'El Cielo', meaning: 'The Sky', category: 'Nature', icon: '☁️', phonetic: 'el syeh-loh' },
     { id: 'tree', word: 'El Árbol', meaning: 'The Tree', category: 'Nature', icon: '🌳', phonetic: 'el ahr-bohl' },
-    { id: 'flower', word: 'La Flor', meaning: 'The Flower', category: 'Nature', icon: '🌸', phonetic: 'lah flohr' },
-    { id: 'mountain', word: 'La Montaña', meaning: 'The Mountain', category: 'Nature', icon: '🏔️', phonetic: 'lah mohn-tah-nyah' },
-    { id: 'river', word: 'El Río', meaning: 'The River', category: 'Nature', icon: '🏞️', phonetic: 'el ree-oh' },
-    { id: 'sea', word: 'El Mar', meaning: 'The Sea', category: 'Nature', icon: '🌊', phonetic: 'el mahr' },
-    { id: 'rain', word: 'La Lluvia', meaning: 'The Rain', category: 'Nature', icon: '🌧️', phonetic: 'lah yoo-byah' }
+    { id: 'flower', word: 'La Flor', meaning: 'The Flower', category: 'Nature', icon: '🌸', phonetic: 'lah flohr' }
   ],
   hi: [
-    // Animals (12)
+    // Animals (10)
     { id: 'cat', word: 'बिल्ली (Billi)', meaning: 'The Cat', category: 'Animals', icon: '🐱', phonetic: 'bil-lee' },
     { id: 'dog', word: 'कुत्ता (Kutta)', meaning: 'The Dog', category: 'Animals', icon: '🐕', phonetic: 'kut-taa' },
     { id: 'lion', word: 'शेर (Sher)', meaning: 'The Lion', category: 'Animals', icon: '🦁', phonetic: 'shayr' },
@@ -371,39 +445,28 @@ export const VISUAL_VOCABULARY = {
     { id: 'monkey', word: 'बंदर (Bandar)', meaning: 'The Monkey', category: 'Animals', icon: '🐒', phonetic: 'ban-dar' },
     { id: 'peacock', word: 'मोर (Mor)', meaning: 'The Peacock', category: 'Animals', icon: '🦚', phonetic: 'mor' },
     { id: 'cow', word: 'गाय (Gaay)', meaning: 'The Cow', category: 'Animals', icon: '🐄', phonetic: 'gaay' },
-    { id: 'horse', word: 'घोड़ा (Ghoda)', meaning: 'The Horse', category: 'Animals', icon: '🐎', phonetic: 'gho-daa' },
     { id: 'fish', word: 'मछली (Machhli)', meaning: 'The Fish', category: 'Animals', icon: '🐟', phonetic: 'machh-lee' },
-    { id: 'bird', word: 'चिड़िया (Chidiya)', meaning: 'The Bird', category: 'Animals', icon: '🐦', phonetic: 'chid-i-yaa' },
 
-    // Food (10)
+    // Food (8)
     { id: 'apple', word: 'सेब (Seb)', meaning: 'The Apple', category: 'Food', icon: '🍎', phonetic: 'sayb' },
     { id: 'mango', word: 'आम (Aam)', meaning: 'The Mango', category: 'Food', icon: '🥭', phonetic: 'aam' },
-    { id: 'banana', word: 'केला (Kela)', meaning: 'Banana', category: 'Food', icon: '🍌', phonetic: 'kay-laa' },
     { id: 'water', word: 'पानी (Paani)', meaning: 'Water', category: 'Food', icon: '💧', phonetic: 'paa-nee' },
     { id: 'milk', word: 'दूध (Doodh)', meaning: 'Milk', category: 'Food', icon: '🥛', phonetic: 'doodh' },
-    { id: 'bread', word: 'रोटी (Roti)', meaning: 'Bread / Roti', category: 'Food', icon: '🫓', phonetic: 'ro-tee' },
-    { id: 'rice', word: 'चावल (Chawal)', meaning: 'Rice', category: 'Food', icon: '🍚', phonetic: 'chaa-wal' },
-    { id: 'tea', word: 'चाय (Chai)', meaning: 'Tea', category: 'Food', icon: '☕', phonetic: 'chai' },
 
-    // Home & Nature (10)
+    // Home & Nature (8)
     { id: 'house', word: 'घर (Ghar)', meaning: 'The House', category: 'Home', icon: '🏠', phonetic: 'ghar' },
-    { id: 'door', word: 'दरवाजा (Darwaza)', meaning: 'The Door', category: 'Home', icon: '🚪', phonetic: 'dar-waa-zaa' },
     { id: 'sun', word: 'सूरज (Suraj)', meaning: 'The Sun', category: 'Nature', icon: '☀️', phonetic: 'soo-raj' },
     { id: 'moon', word: 'चांद (Chaand)', meaning: 'The Moon', category: 'Nature', icon: '🌙', phonetic: 'chaand' },
     { id: 'star', word: 'तारा (Taara)', meaning: 'The Star', category: 'Nature', icon: '⭐️', phonetic: 'taa-raa' },
-    { id: 'tree', word: 'पेड़ (Ped)', meaning: 'The Tree', category: 'Nature', icon: '🌳', phonetic: 'ped' },
-    { id: 'flower', word: 'फूल (Phool)', meaning: 'The Flower', category: 'Nature', icon: '🌸', phonetic: 'phool' }
+    { id: 'tree', word: 'पेड़ (Ped)', meaning: 'The Tree', category: 'Nature', icon: '🌳', phonetic: 'ped' }
   ],
   ja: [
     { id: 'cat', word: '猫 (Neko)', meaning: 'The Cat', category: 'Animals', icon: '🐱', phonetic: 'neh-koh' },
     { id: 'dog', word: '犬 (Inu)', meaning: 'The Dog', category: 'Animals', icon: '🐕', phonetic: 'ee-noo' },
-    { id: 'bird', word: '鳥 (Tori)', meaning: 'The Bird', category: 'Animals', icon: '🐦', phonetic: 'toh-ree' },
     { id: 'sun', word: '太陽 (Taiyou)', meaning: 'The Sun', category: 'Nature', icon: '☀️', phonetic: 'ta-ee-yoh' },
-    { id: 'moon', word: '月 (Tsuki)', meaning: 'The Moon', category: 'Nature', icon: '🌙', phonetic: 'tsoo-kee' },
     { id: 'apple', word: 'りんご (Ringo)', meaning: 'The Apple', category: 'Food', icon: '🍎', phonetic: 'reen-goh' },
     { id: 'water', word: '水 (Mizu)', meaning: 'Water', category: 'Food', icon: '💧', phonetic: 'mee-zoo' },
-    { id: 'house', word: '家 (Ie)', meaning: 'The House', category: 'Home', icon: '🏠', phonetic: 'ee-eh' },
-    { id: 'car', word: '車 (Kuruma)', meaning: 'The Car', category: 'Transport', icon: '🚗', phonetic: 'koo-roo-mah' }
+    { id: 'house', word: '家 (Ie)', meaning: 'The House', category: 'Home', icon: '🏠', phonetic: 'ee-eh' }
   ]
 };
 
