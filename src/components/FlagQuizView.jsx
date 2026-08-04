@@ -21,68 +21,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-// ═══════════════════════════════════════════════════════════════
-//  COMPREHENSIVE COUNTRY FLAGS & CAPITALS DATABASE
-// ═══════════════════════════════════════════════════════════════
-const COUNTRIES_DATA = [
-  // --- ASIA ---
-  { code: 'in', name: 'India', capital: 'New Delhi', continent: 'Asia', flag: '🇮🇳', fact: 'Home to the Taj Mahal and the world\'s largest democracy.' },
-  { code: 'jp', name: 'Japan', capital: 'Tokyo', continent: 'Asia', flag: '🇯🇵', fact: 'Known as the Land of the Rising Sun and famous for sushi and cherry blossoms.' },
-  { code: 'kr', name: 'South Korea', capital: 'Seoul', continent: 'Asia', flag: '🇰🇷', fact: 'Famous for K-pop, taekwondo, and high-tech innovation.' },
-  { code: 'cn', name: 'China', capital: 'Beijing', continent: 'Asia', flag: '🇨🇳', fact: 'Home to the Great Wall of China and giant pandas.' },
-  { code: 'sg', name: 'Singapore', capital: 'Singapore', continent: 'Asia', flag: '🇸🇬', fact: 'A vibrant island city-state famous for Gardens by the Bay.' },
-  { code: 'th', name: 'Thailand', capital: 'Bangkok', continent: 'Asia', flag: '🇹🇭', fact: 'Known as the Land of Smiles with beautiful golden temples.' },
-  { code: 'vn', name: 'Vietnam', capital: 'Hanoi', continent: 'Asia', flag: '🇻🇳', fact: 'Famous for Ha Long Bay, delicious pho, and rich history.' },
-  { code: 'np', name: 'Nepal', capital: 'Kathmandu', continent: 'Asia', flag: '🇳🇵', fact: 'Home to Mount Everest, the tallest mountain on Earth.' },
-  { code: 'lk', name: 'Sri Lanka', capital: 'Sri Jayawardenepura Kotte', continent: 'Asia', flag: '🇱🇰', fact: 'An emerald island famous for tea, elephants, and ancient ruins.' },
-  { code: 'sa', name: 'Saudi Arabia', capital: 'Riyadh', continent: 'Asia', flag: '🇸🇦', fact: 'Famous for its vast desert dunes and historic holy cities.' },
-  { code: 'ae', name: 'United Arab Emirates', capital: 'Abu Dhabi', continent: 'Asia', flag: '🇦🇪', fact: 'Home to the Burj Khalifa, the tallest building in the world.' },
-  { code: 'my', name: 'Malaysia', capital: 'Kuala Lumpur', continent: 'Asia', flag: '🇲🇾', fact: 'Famous for the iconic Petronas Twin Towers.' },
-  { code: 'id', name: 'Indonesia', capital: 'Jakarta', continent: 'Asia', flag: '🇮🇩', fact: 'The world\'s largest island country with over 17,000 islands.' },
-  { code: 'ph', name: 'Philippines', capital: 'Manila', continent: 'Asia', flag: '🇵🇭', fact: 'An archipelago of 7,000+ islands with crystal-clear beaches.' },
-
-  // --- EUROPE ---
-  { code: 'fr', name: 'France', capital: 'Paris', continent: 'Europe', flag: '🇫🇷', fact: 'Famous for the Eiffel Tower, fine pastries, and art museums.' },
-  { code: 'gb', name: 'United Kingdom', capital: 'London', continent: 'Europe', flag: '🇬🇧', fact: 'Home to Big Ben, red double-decker buses, and royal castles.' },
-  { code: 'de', name: 'Germany', capital: 'Berlin', continent: 'Europe', flag: '🇩🇪', fact: 'Known for fairytale castles, fast autobahns, and invention.' },
-  { code: 'it', name: 'Italy', capital: 'Rome', continent: 'Europe', flag: '🇮🇹', fact: 'Home to the Colosseum, pizza, pasta, and Renaissance art.' },
-  { code: 'es', name: 'Spain', capital: 'Madrid', continent: 'Europe', flag: '🇪🇸', fact: 'Famous for flamenco dancing, sunny beaches, and Sagrada Familia.' },
-  { code: 'ch', name: 'Switzerland', capital: 'Bern', continent: 'Europe', flag: '🇨🇭', fact: 'Known for snowy Swiss Alps, delicious chocolate, and watches.' },
-  { code: 'nl', name: 'Netherlands', capital: 'Amsterdam', continent: 'Europe', flag: '🇳🇱', fact: 'Famous for colorful tulip fields, windmills, and bicycles.' },
-  { code: 'se', name: 'Sweden', capital: 'Stockholm', continent: 'Europe', flag: '🇸🇪', fact: 'Home of ABBA, IKEA, and the magical Northern Lights.' },
-  { code: 'no', name: 'Norway', capital: 'Oslo', continent: 'Europe', flag: '🇳🇴', fact: 'Famous for deep dramatic fjords and Midnight Sun.' },
-  { code: 'gr', name: 'Greece', capital: 'Athens', continent: 'Europe', flag: '🇬🇷', fact: 'Birthplace of the Olympic Games and ancient western philosophy.' },
-  { code: 'pt', name: 'Portugal', capital: 'Lisbon', continent: 'Europe', flag: '🇵🇹', fact: 'Famous for historic explorers, pastel de nata, and sunny coasts.' },
-  { code: 'ie', name: 'Ireland', capital: 'Dublin', continent: 'Europe', flag: '🇮🇪', fact: 'Known as the Emerald Isle with lush green hills and shamrocks.' },
-  { code: 'is', name: 'Iceland', capital: 'Reykjavik', continent: 'Europe', flag: '🇮🇸', fact: 'The Land of Fire and Ice with volcanoes, geysers, and glaciers.' },
-  { code: 'ru', name: 'Russia', capital: 'Moscow', continent: 'Europe', flag: '🇷🇺', fact: 'The largest country in the world spanning 11 time zones.' },
-
-  // --- AMERICAS ---
-  { code: 'us', name: 'United States', capital: 'Washington, D.C.', continent: 'Americas', flag: '🇺🇸', fact: 'Home to the Statue of Liberty, Grand Canyon, and Hollywood.' },
-  { code: 'ca', name: 'Canada', capital: 'Ottawa', continent: 'Americas', flag: '🇨🇦', fact: 'Famous for maple syrup, polite people, and Niagara Falls.' },
-  { code: 'mx', name: 'Mexico', capital: 'Mexico City', continent: 'Americas', flag: '🇲🇽', fact: 'Famous for ancient Mayan pyramids, tacos, and vibrant festivals.' },
-  { code: 'br', name: 'Brazil', capital: 'Brasília', continent: 'Americas', flag: '🇧🇷', fact: 'Home to the Amazon Rainforest, Carnival, and Christ the Redeemer.' },
-  { code: 'ar', name: 'Argentina', capital: 'Buenos Aires', continent: 'Americas', flag: '🇦🇷', fact: 'Famous for Tango music, football legends, and Patagonia.' },
-  { code: 'co', name: 'Colombia', capital: 'Bogotá', continent: 'Americas', flag: '🇨🇴', fact: 'Famous for delicious coffee, emeralds, and colorful biodiversity.' },
-  { code: 'cl', name: 'Chile', capital: 'Santiago', continent: 'Americas', flag: '🇨🇱', fact: 'The narrowest country in the world extending along the Andes.' },
-  { code: 'pe', name: 'Peru', capital: 'Lima', continent: 'Americas', flag: '🇵🇪', fact: 'Home to the ancient Inca citadel of Machu Picchu high in the mountains.' },
-  { code: 'jm', name: 'Jamaica', capital: 'Kingston', continent: 'Americas', flag: '🇯🇲', fact: 'Famous for reggae music, sprint champions, and tropical beaches.' },
-
-  // --- AFRICA ---
-  { code: 'eg', name: 'Egypt', capital: 'Cairo', continent: 'Africa', flag: '🇪🇬', fact: 'Famous for the ancient Pyramids of Giza and the majestic Nile River.' },
-  { code: 'za', name: 'South Africa', capital: 'Pretoria', continent: 'Africa', flag: '🇿🇦', fact: 'Known as the Rainbow Nation with Table Mountain and wildlife safaris.' },
-  { code: 'ke', name: 'Kenya', capital: 'Nairobi', continent: 'Africa', flag: '🇰🇪', fact: 'Famous for marathon runners and the Great Wildlife Migration.' },
-  { code: 'ng', name: 'Nigeria', capital: 'Abuja', continent: 'Africa', flag: '🇳🇬', fact: 'Africa\'s most populous country, famous for Afrobeats and Nollywood.' },
-  { code: 'ma', name: 'Morocco', capital: 'Rabat', continent: 'Africa', flag: '🇲🇦', fact: 'Famous for colorful souk markets, Sahara dunes, and mint tea.' },
-
-  // --- OCEANIA ---
-  { code: 'au', name: 'Australia', capital: 'Canberra', continent: 'Oceania', flag: '🇦🇺', fact: 'Home to kangaroos, koalas, and the Great Barrier Reef.' },
-  { code: 'nz', name: 'New Zealand', capital: 'Wellington', continent: 'Oceania', flag: '🇳🇿', fact: 'Famous for stunning landscapes, kiwi birds, and the Haka dance.' },
-  { code: 'fj', name: 'Fiji', capital: 'Suva', continent: 'Oceania', flag: '🇫🇯', fact: 'A paradise nation of 300+ tropical South Pacific islands.' }
-];
-
-// Helper to get image URL for high res flag
-const getFlagUrl = (code) => `https://flagcdn.com/w320/${code.toLowerCase()}.png`;
+import { COUNTRIES_DATA, getFlagUrl } from '../data/countriesData';
 
 export default function FlagQuizView({ onAddPoints }) {
   const [selectedContinent, setSelectedContinent] = useState('All');
