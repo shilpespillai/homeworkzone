@@ -92,8 +92,8 @@ export default function FlagQuizView({ onAddPoints }) {
       const formattedOptions = rawOptions.map(item => ({
         code: item.code,
         displayLabel: qType === 'capital' ? item.capital : item.name,
-        subLabel: qType === 'capital' ? item.name : null,
-        flag: item.flag,
+        subLabel: null, // Never show country name under capital city option
+        flag: qType === 'capital' ? '🏛️' : item.flag, // Show neutral city icon for capital quiz options
         fullObj: item
       }));
 
