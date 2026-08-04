@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import FlagQuizView from './FlagQuizView';
-import PolyglotPlanetView from './PolyglotPlanetView';
+// PolyglotPlanetView disabled - import removed
 
 // ═══════════════════════════════════════════════════════════════
 //  PIANO KEYS CONFIGURATION
@@ -310,7 +310,6 @@ export default function ArtsAndFunView({ studentName, currentStudentProfile }) {
       {/* Tabs Menu */}
       <div className="px-8 py-4 bg-white border-b border-slate-100 flex gap-3 shrink-0 overflow-x-auto no-scrollbar">
         {[
-          { label: 'Polyglot Planet 🌍', icon: '🌍' },
           { label: 'Guess the Flag 🚩', icon: '🚩' },
           { label: 'Draw & Color', icon: '🎨' },
           { label: 'Music Room', icon: '🎵' },
@@ -831,10 +830,6 @@ export default function ArtsAndFunView({ studentName, currentStudentProfile }) {
           </div>
         )}
 
-        {/* ==================== 0. POLYGLOT PLANET ==================== */}
-        {activeTab === 'Polyglot Planet 🌍' && (
-          <PolyglotPlanetView />
-        )}
 
         {/* ==================== 5. GUESS THE FLAG QUIZ ==================== */}
         {activeTab === 'Guess the Flag 🚩' && (

@@ -42,6 +42,7 @@ import { storage } from '../firebase';
 import { decryptText } from '../utils/crypto';
 import { fetchWithRetry, generateContent, getModelForGrade } from '../utils/aiClient';
 import { generateExplanations } from '../utils/generateExplanations';
+import { safeParseAiJson } from '../utils/safeParseAiJson';
 import { cleanFirestorePayload } from '../utils/cleanFirestorePayload';
 import DynamicChart from '../components/DynamicChart';
 import DynamicGeometry from '../components/DynamicGeometry';
@@ -1086,7 +1087,7 @@ EXPECTED JSON SCHEMA:
         provider: tieredModel
       });
 
-      const parsedBook = JSON.parse(textResponse);
+      const parsedBook = safeParseAiJson(textResponse);
       parsedBook.promptUsed = masterPixarPrompt;
 
       // Cap at maximum 5 pages
@@ -1655,7 +1656,7 @@ EXPECTED JSON SCHEMA:
         provider: tieredModel
       });
 
-      const parsed = JSON.parse(textResponse);
+      const parsed = safeParseAiJson(textResponse);
       const rawQuestions = parsed.questions || parsed;
       const questions = Array.isArray(rawQuestions) ? rawQuestions.map(sanitizeQuestionData) : rawQuestions;
       const passage = parsed.passage || null;

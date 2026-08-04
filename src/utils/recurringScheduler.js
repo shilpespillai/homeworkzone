@@ -12,6 +12,7 @@ import {
 } from 'firebase/firestore';
 import { fetchWithRetry, generateContent } from './aiClient';
 import { generateExplanations } from './generateExplanations';
+import { safeParseAiJson } from './safeParseAiJson';
 import { cleanFirestorePayload } from './cleanFirestorePayload';
 import { DEFAULT_SUBJECT_PROMPTS, getMasterDefaultPrompts } from './defaultPrompts';
 import { getLanguageObj } from './languages';
@@ -202,7 +203,7 @@ CRITICAL VISUAL RULES:
       provider: activeModel
     });
 
-    const parsed = JSON.parse(textResponse);
+    const parsed = safeParseAiJson(textResponse);
     const questions = parsed.questions || parsed;
 
     if (!Array.isArray(questions) || questions.length === 0) {
