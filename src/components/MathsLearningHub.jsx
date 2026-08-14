@@ -395,6 +395,16 @@ export default function MathsLearningHub({ activeConcept = 'Numbers & Place Valu
       return 'Measurement & Money';
     }
     
+    if (
+      cat.includes('profit') || 
+      cat.includes('loss') || 
+      cat.includes('cost price') || 
+      cat.includes('selling price') || 
+      cat === 'profit & loss'
+    ) {
+      return 'Profit & Loss';
+    }
+    
     if (cat.includes('time')) {
       return 'Time & Clocks';
     }
@@ -485,6 +495,7 @@ export default function MathsLearningHub({ activeConcept = 'Numbers & Place Valu
           { name: 'Arithmetic & Operations', emoji: '🧮' },
           { name: 'Fractions & Decimals', emoji: '🍕' },
           { name: 'Measurement & Money', emoji: '📏' },
+          { name: 'Profit & Loss', emoji: '💰' },
           { name: 'Time & Clocks', emoji: '⏰' },
           { name: 'Geometry & Shapes', emoji: '📐' },
           { name: 'Algebra & Patterns', emoji: '⚡' },
@@ -740,6 +751,52 @@ export default function MathsLearningHub({ activeConcept = 'Numbers & Place Valu
                   alt="Money and Coins Concept Infographic" 
                   className="w-full h-auto object-contain"
                 />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Concept Infographic Images for Profit & Loss */}
+        {activeConcept === 'Profit & Loss' && (
+          <div className="space-y-6 mb-8 w-full max-w-6xl mx-auto">
+            {/* Featured Master Visual Guide Header */}
+            <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-green-700 rounded-[32px] p-6 text-white shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="space-y-1 text-center md:text-left">
+                <span className="bg-white/20 text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full">
+                  💰 Master Financial Guide
+                </span>
+                <h3 className="text-xl md:text-2xl font-black tracking-tight">
+                  Understanding Profit &amp; Loss Poster
+                </h3>
+                <p className="text-xs text-emerald-100 font-medium">
+                  "Don't just memorise the formulas — understand where the money GOES!" Click poster to view high-resolution full screen.
+                </p>
+              </div>
+              <span className="bg-amber-400 text-slate-900 px-4 py-2 rounded-2xl text-xs font-black shrink-0 shadow-md">
+                Complete Visual Map 🏷️
+              </span>
+            </div>
+
+            {/* Poster Card */}
+            <div className="bg-white p-5 rounded-[32px] border-2 border-emerald-200 shadow-md flex flex-col items-center hover:shadow-lg transition-all">
+              <div className="w-full flex justify-between items-center mb-3 px-2">
+                <span className="text-xs font-black text-emerald-700 uppercase tracking-widest block">💰 Cost Price (CP), Selling Price (SP), Profit %, Loss % &amp; Break-Even</span>
+                <span className="text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Rules 1–20 Complete Guide</span>
+              </div>
+              <div 
+                onClick={() => setZoomedImage('/profit_loss_concept.jpg')}
+                className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in group relative"
+              >
+                <img 
+                  src="/profit_loss_concept.jpg" 
+                  alt="Understanding Profit and Loss Complete Visual Poster" 
+                  className="w-full h-auto max-h-[650px] object-contain mx-auto"
+                />
+                <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-[2px]">
+                  <span className="px-6 py-3 bg-white text-slate-900 font-black text-xs rounded-2xl shadow-xl flex items-center gap-2">
+                    🔍 Click to Expand &amp; Zoom Profit &amp; Loss Master Poster
+                  </span>
+                </div>
               </div>
             </div>
           </div>

@@ -2977,6 +2977,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                                     { name: 'Arithmetic & Operations', emoji: '🧮' },
                                     { name: 'Fractions & Decimals', emoji: '🍕' },
                                     { name: 'Measurement & Money', emoji: '📏' },
+                                    { name: 'Profit & Loss', emoji: '💰' },
                                     { name: 'Time & Clocks', emoji: '⏰' },
                                     { name: 'Geometry & Shapes', emoji: '📐' },
                                     { name: 'Algebra & Patterns', emoji: '⚡' },
