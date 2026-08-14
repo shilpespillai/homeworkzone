@@ -513,31 +513,124 @@ export default function MathsLearningHub({ activeConcept = 'Numbers & Place Valu
       <div className="space-y-12 text-left">
         {/* Concept Infographic Images for Numbers & Place Value */}
         {activeConcept === 'Numbers & Place Value' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 w-full max-w-6xl mx-auto">
-            <div className="bg-white p-4 rounded-[32px] border border-orange-100 shadow-sm flex flex-col items-center">
-              <span className="text-xs font-black text-orange-600 uppercase tracking-widest mb-3 block">🔢 Let's Learn Hundreds, Tens & Ones!</span>
-              <div 
-                onClick={() => setZoomedImage('/placevalue-concept-1.jpg')}
-                className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.02] transition-transform duration-300 cursor-zoom-in"
-              >
-                <img 
-                  src="/placevalue-concept-1.jpg" 
-                  alt="Hundreds, Tens & Ones Concept Infographic" 
-                  className="w-full h-auto object-contain"
-                />
+          <div className="space-y-6 mb-8 w-full max-w-6xl mx-auto">
+            {/* Featured Master Visual Guide Header */}
+            <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-[32px] p-6 text-white shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="space-y-1 text-center md:text-left">
+                <span className="bg-white/20 text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full">
+                  🌟 Visual Learning Guide
+                </span>
+                <h3 className="text-xl md:text-2xl font-black tracking-tight">
+                  Understanding Numbers &amp; Place Value Posters
+                </h3>
+                <p className="text-xs text-blue-100 font-medium">
+                  "Don't just read the digits — understand what every digit is REALLY worth!" Click any poster to view high-resolution full screen.
+                </p>
+              </div>
+              <span className="bg-amber-400 text-slate-900 px-4 py-2 rounded-2xl text-xs font-black shrink-0 shadow-md">
+                3 Master Charts 📚
+              </span>
+            </div>
+
+            {/* 3 Master Infographics Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Part 1 */}
+              <div className="bg-white p-4 rounded-[32px] border-2 border-blue-100 hover:border-blue-300 shadow-sm flex flex-col items-center hover:shadow-md transition-all">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="bg-blue-100 text-blue-800 text-[10px] font-black px-2.5 py-0.5 rounded-full">PART 1 (Rules 1-15)</span>
+                  <span className="text-xs font-black text-slate-800">Base-10 &amp; Position</span>
+                </div>
+                <div 
+                  onClick={() => setZoomedImage('/numbers_place_value_part1.jpg')}
+                  className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.02] transition-transform duration-300 cursor-zoom-in group relative"
+                >
+                  <img 
+                    src="/numbers_place_value_part1.jpg" 
+                    alt="Understanding Numbers & Place Value Part 1" 
+                    className="w-full h-auto object-contain"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                    <span className="opacity-0 group-hover:opacity-100 bg-white/90 text-slate-900 text-xs font-black px-3 py-1.5 rounded-xl shadow-lg transition-opacity">
+                      🔍 Click to Zoom
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Part 2 */}
+              <div className="bg-white p-4 rounded-[32px] border-2 border-indigo-100 hover:border-indigo-300 shadow-sm flex flex-col items-center hover:shadow-md transition-all">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="bg-indigo-100 text-indigo-800 text-[10px] font-black px-2.5 py-0.5 rounded-full">PART 2 (Rules 15-30)</span>
+                  <span className="text-xs font-black text-slate-800">Rounding &amp; Comparison</span>
+                </div>
+                <div 
+                  onClick={() => setZoomedImage('/numbers_place_value_part2.jpg')}
+                  className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.02] transition-transform duration-300 cursor-zoom-in group relative"
+                >
+                  <img 
+                    src="/numbers_place_value_part2.jpg" 
+                    alt="Understanding Numbers & Place Value Part 2" 
+                    className="w-full h-auto object-contain"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                    <span className="opacity-0 group-hover:opacity-100 bg-white/90 text-slate-900 text-xs font-black px-3 py-1.5 rounded-xl shadow-lg transition-opacity">
+                      🔍 Click to Zoom
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Part 3 */}
+              <div className="bg-white p-4 rounded-[32px] border-2 border-purple-100 hover:border-purple-300 shadow-sm flex flex-col items-center hover:shadow-md transition-all">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="bg-purple-100 text-purple-800 text-[10px] font-black px-2.5 py-0.5 rounded-full">PART 3 (Rules 30-43)</span>
+                  <span className="text-xs font-black text-slate-800">Decimals &amp; Powers of 10</span>
+                </div>
+                <div 
+                  onClick={() => setZoomedImage('/numbers_place_value_part3.jpg')}
+                  className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.02] transition-transform duration-300 cursor-zoom-in group relative"
+                >
+                  <img 
+                    src="/numbers_place_value_part3.jpg" 
+                    alt="Understanding Numbers & Place Value Part 3" 
+                    className="w-full h-auto object-contain"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                    <span className="opacity-0 group-hover:opacity-100 bg-white/90 text-slate-900 text-xs font-black px-3 py-1.5 rounded-xl shadow-lg transition-opacity">
+                      🔍 Click to Zoom
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="bg-white p-4 rounded-[32px] border border-green-200 shadow-sm flex flex-col items-center">
-              <span className="text-xs font-black text-green-700 uppercase tracking-widest mb-3 block">⚡ Let's Learn Regrouping & Trading!</span>
-              <div 
-                onClick={() => setZoomedImage('/placevalue-concept-2.jpg')}
-                className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.02] transition-transform duration-300 cursor-zoom-in"
-              >
-                <img 
-                  src="/placevalue-concept-2.jpg" 
-                  alt="Place Value Regrouping & Trading Infographic" 
-                  className="w-full h-auto object-contain"
-                />
+
+            {/* Supplementary Visual Blocks */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+              <div className="bg-white p-4 rounded-[32px] border border-orange-100 shadow-sm flex flex-col items-center">
+                <span className="text-xs font-black text-orange-600 uppercase tracking-widest mb-3 block">🔢 Hundreds, Tens &amp; Ones Visual Blocks</span>
+                <div 
+                  onClick={() => setZoomedImage('/placevalue-concept-1.jpg')}
+                  className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.02] transition-transform duration-300 cursor-zoom-in"
+                >
+                  <img 
+                    src="/placevalue-concept-1.jpg" 
+                    alt="Hundreds, Tens & Ones Concept Infographic" 
+                    className="w-full h-auto object-contain"
+                  />
+                </div>
+              </div>
+              <div className="bg-white p-4 rounded-[32px] border border-green-200 shadow-sm flex flex-col items-center">
+                <span className="text-xs font-black text-green-700 uppercase tracking-widest mb-3 block">⚡ Regrouping &amp; Trading Visual Guide</span>
+                <div 
+                  onClick={() => setZoomedImage('/placevalue-concept-2.jpg')}
+                  className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.02] transition-transform duration-300 cursor-zoom-in"
+                >
+                  <img 
+                    src="/placevalue-concept-2.jpg" 
+                    alt="Place Value Regrouping & Trading Infographic" 
+                    className="w-full h-auto object-contain"
+                  />
+                </div>
               </div>
             </div>
           </div>
