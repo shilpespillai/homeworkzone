@@ -4510,37 +4510,8 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
 
       <main className="w-full px-6 pb-12">
 
-        {/* TOP SHOUTOUT ANNOUNCEMENT BANNER */}
-        <div className="w-full mt-3 mb-2">
-          <div className="bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500 rounded-full p-0.5 shadow-md hover:shadow-lg transition-all duration-300">
-            <div className="bg-gradient-to-r from-amber-50 via-orange-50 to-rose-50 rounded-full px-4 py-2 sm:py-2.5 flex flex-wrap items-center justify-between gap-3 text-slate-800 border border-white/80">
-              <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm font-black">
-                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white font-black text-xs shadow-sm shrink-0">
-                  📢
-                </span>
-                <span className="bg-gradient-to-r from-amber-600 to-rose-600 px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-black uppercase text-white tracking-wide shrink-0">
-                  SHOUTOUT!
-                </span>
-                <span className="text-slate-900 leading-snug">
-                  Now Supporting <strong className="text-orange-600 font-black underline decoration-orange-400 decoration-2">Foundation (Prep/K) to Grade 12</strong>! 🎓
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-600 ml-auto sm:ml-0">
-                <span className="hidden lg:inline text-slate-500 font-medium">Curriculum-aligned practice for every age group</span>
-                <a 
-                  href="#grade-coverage" 
-                  className="inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 text-white text-xs font-black rounded-full shadow-sm hover:shadow-md transition-all transform hover:scale-105"
-                >
-                  Explore Grades <span>→</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* HERO */}
-        <section className="relative w-full rounded-3xl mt-2 overflow-hidden shadow-sm h-[320px] md:h-[380px] lg:h-[400px] flex items-center">
+        <section className="relative w-full rounded-3xl mt-4 overflow-hidden shadow-sm h-[320px] md:h-[380px] lg:h-[400px] flex items-center">
           {/* Background image covering the container perfectly */}
           <img src="/images/hero-bg-cartoon.jpg?v=5" className="absolute inset-0 w-full h-full object-cover object-[center_60%]" alt="Background" />
           
