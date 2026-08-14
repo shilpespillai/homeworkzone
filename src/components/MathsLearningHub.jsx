@@ -837,16 +837,107 @@ export default function MathsLearningHub({ activeConcept = 'Numbers & Place Valu
 
         {/* Concept Infographic Images for Data & Probability */}
         {activeConcept === 'Data & Probability' && (
-          <div className="grid grid-cols-1 max-w-3xl mx-auto mb-8">
+          <div className="space-y-6 mb-8 w-full max-w-6xl mx-auto">
+            {/* Featured Master Visual Guide Header */}
+            <div className="bg-gradient-to-r from-teal-600 via-emerald-600 to-indigo-600 rounded-[32px] p-6 text-white shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="space-y-1 text-center md:text-left">
+                <span className="bg-white/20 text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full">
+                  🎲 Master Visual Guide
+                </span>
+                <h3 className="text-xl md:text-2xl font-black tracking-tight">
+                  Understanding Probability Posters
+                </h3>
+                <p className="text-xs text-teal-100 font-medium">
+                  "Don't just calculate the chance — understand WHY outcomes are likely or unlikely!" Click any poster to view high-resolution full screen.
+                </p>
+              </div>
+              <span className="bg-amber-400 text-slate-900 px-4 py-2 rounded-2xl text-xs font-black shrink-0 shadow-md">
+                3 Master Probability Charts 🎯
+              </span>
+            </div>
+
+            {/* 3 Master Probability Infographics Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Part 1 */}
+              <div className="bg-white p-4 rounded-[32px] border-2 border-teal-100 hover:border-teal-300 shadow-sm flex flex-col items-center hover:shadow-md transition-all">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="bg-teal-100 text-teal-800 text-[10px] font-black px-2.5 py-0.5 rounded-full">PART 1 (Points 1-15)</span>
+                  <span className="text-xs font-black text-slate-800">Chance &amp; Outcomes</span>
+                </div>
+                <div 
+                  onClick={() => setZoomedImage('/probability_part1.jpg')}
+                  className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.02] transition-transform duration-300 cursor-zoom-in group relative"
+                >
+                  <img 
+                    src="/probability_part1.jpg" 
+                    alt="Understanding Probability Part 1" 
+                    className="w-full h-auto object-contain"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                    <span className="opacity-0 group-hover:opacity-100 bg-white/90 text-slate-900 text-xs font-black px-3 py-1.5 rounded-xl shadow-lg transition-opacity">
+                      🔍 Click to Zoom
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Part 2 */}
+              <div className="bg-white p-4 rounded-[32px] border-2 border-emerald-100 hover:border-emerald-300 shadow-sm flex flex-col items-center hover:shadow-md transition-all">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-0.5 rounded-full">PART 2 (Points 15-30)</span>
+                  <span className="text-xs font-black text-slate-800">Theoretical vs Experimental</span>
+                </div>
+                <div 
+                  onClick={() => setZoomedImage('/probability_part2.jpg')}
+                  className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.02] transition-transform duration-300 cursor-zoom-in group relative"
+                >
+                  <img 
+                    src="/probability_part2.jpg" 
+                    alt="Understanding Probability Part 2" 
+                    className="w-full h-auto object-contain"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                    <span className="opacity-0 group-hover:opacity-100 bg-white/90 text-slate-900 text-xs font-black px-3 py-1.5 rounded-xl shadow-lg transition-opacity">
+                      🔍 Click to Zoom
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Part 3 */}
+              <div className="bg-white p-4 rounded-[32px] border-2 border-indigo-100 hover:border-indigo-300 shadow-sm flex flex-col items-center hover:shadow-md transition-all">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="bg-indigo-100 text-indigo-800 text-[10px] font-black px-2.5 py-0.5 rounded-full">PART 3 (Points 30-45)</span>
+                  <span className="text-xs font-black text-slate-800">Dependent Events &amp; AND/OR</span>
+                </div>
+                <div 
+                  onClick={() => setZoomedImage('/probability_part3.jpg')}
+                  className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.02] transition-transform duration-300 cursor-zoom-in group relative"
+                >
+                  <img 
+                    src="/probability_part3.jpg" 
+                    alt="Understanding Probability Part 3" 
+                    className="w-full h-auto object-contain"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                    <span className="opacity-0 group-hover:opacity-100 bg-white/90 text-slate-900 text-xs font-black px-3 py-1.5 rounded-xl shadow-lg transition-opacity">
+                      🔍 Click to Zoom
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Supplementary Visual Chart */}
             <div className="bg-white p-4 rounded-[32px] border border-orange-100 shadow-sm flex flex-col items-center">
-              <span className="text-xs font-black text-orange-600 uppercase tracking-widest mb-3 block">📊 Let's Learn Data & Probability!</span>
+              <span className="text-xs font-black text-orange-600 uppercase tracking-widest mb-3 block">📊 Data &amp; Probability Overview Infographic</span>
               <div 
                 onClick={() => setZoomedImage('/data-probability-concept.jpg')}
-                className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.02] transition-transform duration-300 cursor-zoom-in"
+                className="w-full overflow-hidden rounded-2xl border border-slate-100 hover:scale-[1.02] transition-transform duration-300 cursor-zoom-in max-w-3xl"
               >
                 <img 
                   src="/data-probability-concept.jpg" 
-                  alt="Data & Probability Concept Infographic" 
+                  alt="Data &amp; Probability Concept Infographic" 
                   className="w-full h-auto object-contain"
                 />
               </div>
