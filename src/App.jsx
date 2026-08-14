@@ -4510,8 +4510,37 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
 
       <main className="w-full px-6 pb-12">
 
+        {/* TOP SHOUTOUT ANNOUNCEMENT BANNER */}
+        <div className="w-full mt-3 mb-2">
+          <div className="bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500 rounded-full p-0.5 shadow-md hover:shadow-lg transition-all duration-300">
+            <div className="bg-gradient-to-r from-amber-50 via-orange-50 to-rose-50 rounded-full px-4 py-2 sm:py-2.5 flex flex-wrap items-center justify-between gap-3 text-slate-800 border border-white/80">
+              <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm font-black">
+                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white font-black text-xs shadow-sm shrink-0">
+                  📢
+                </span>
+                <span className="bg-gradient-to-r from-amber-600 to-rose-600 px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-black uppercase text-white tracking-wide shrink-0">
+                  SHOUTOUT!
+                </span>
+                <span className="text-slate-900 leading-snug">
+                  Now Supporting <strong className="text-orange-600 font-black underline decoration-orange-400 decoration-2">Foundation (Prep/K) to Grade 12</strong>! 🎓
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-600 ml-auto sm:ml-0">
+                <span className="hidden lg:inline text-slate-500 font-medium">Curriculum-aligned practice for every age group</span>
+                <a 
+                  href="#grade-coverage" 
+                  className="inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 text-white text-xs font-black rounded-full shadow-sm hover:shadow-md transition-all transform hover:scale-105"
+                >
+                  Explore Grades <span>→</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* HERO */}
-        <section className="relative w-full rounded-3xl mt-4 overflow-hidden shadow-sm h-[320px] md:h-[380px] lg:h-[400px] flex items-center">
+        <section className="relative w-full rounded-3xl mt-2 overflow-hidden shadow-sm h-[320px] md:h-[380px] lg:h-[400px] flex items-center">
           {/* Background image covering the container perfectly */}
           <img src="/images/hero-bg-cartoon.jpg?v=5" className="absolute inset-0 w-full h-full object-cover object-[center_60%]" alt="Background" />
           
@@ -4538,33 +4567,6 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
             </div>
           </div>
         </section>
-
-        {/* SHOUTOUT BANNER: FOUNDATION TO GRADE 12 */}
-        <div className="w-full mt-6 bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500 p-1 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-          <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-[22px] px-6 py-4 md:py-5 flex flex-col md:flex-row items-center justify-between gap-4 text-white">
-            <div className="flex items-center gap-4 text-center md:text-left">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-2xl shadow-md shrink-0 group-hover:scale-110 transition-transform">
-                🎒
-              </div>
-              <div>
-                <div className="inline-flex items-center gap-2 px-2.5 py-0.5 bg-amber-400/20 border border-amber-400/30 rounded-full text-[10px] font-black uppercase tracking-wider text-amber-300 mb-1">
-                  <Star className="w-3 h-3 fill-amber-400 text-amber-400" /> Complete School Coverage
-                </div>
-                <h3 className="text-lg md:text-2xl font-black tracking-tight text-white">
-                  Comprehensive Practice from <span className="bg-gradient-to-r from-amber-300 via-orange-300 to-rose-300 bg-clip-text text-transparent">Foundation (Prep/K) to Grade 12!</span>
-                </h3>
-                <p className="text-xs md:text-sm text-slate-300 font-medium mt-0.5">
-                  Curriculum-aligned questions, gamified rewards &amp; AI-guided feedback tailored for every age group.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="px-4 py-2 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 text-xs font-extrabold text-amber-300 shadow-inner">
-                Grades F – 12 🎓
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* FEATURE CARDS */}
         <section className="grid lg:grid-cols-3 gap-5 mt-6">
@@ -4678,7 +4680,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
         </section>
 
         {/* GRADE COVERAGE SECTION: FOUNDATION TO GRADE 12 */}
-        <section className="mt-10 bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 rounded-[36px] p-1.5 shadow-xl relative overflow-hidden">
+        <section id="grade-coverage" className="mt-10 bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 rounded-[36px] p-1.5 shadow-xl relative overflow-hidden">
           <div className="bg-white rounded-[32px] p-6 md:p-10 space-y-8 relative z-10">
             
             {/* Section Header */}
