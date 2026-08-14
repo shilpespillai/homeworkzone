@@ -46,6 +46,59 @@ async function sha256(message) {
   return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
+let cachedAnthropicModels = null;
+let lastAnthropicModelFetch = 0;
+
+async function getLiveAnthropicModels(apiKey) {
+  const now = Date.now();
+  if (cachedAnthropicModels && (now - lastAnthropicModelFetch < 3600000)) {
+    return cachedAnthropicModels;
+  }
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/models', {
+      headers: {
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01'
+      }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const rawList = data.data || [];
+      rawList.sort((a, b) => {
+        const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
+        const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
+        return timeB - timeA;
+      });
+      const modelIds = rawList.map(m => m.id);
+      if (modelIds.length > 0) {
+        cachedAnthropicModels = modelIds;
+        lastAnthropicModelFetch = now;
+        console.log(`[AI Router] Discovered live active Anthropic models (sorted newest first):`, modelIds.join(', '));
+        return modelIds;
+      }
+    }
+  } catch (e) {
+    console.warn(`[AI Router] Dynamic Anthropic model discovery failed:`, e.message);
+  }
+  return null;
+}
+
+async function resolveBestAnthropicModel(apiKey, provider) {
+  const liveModels = await getLiveAnthropicModels(apiKey);
+  const tier = provider.replace('claude-', '').replace('anthropic', 'sonnet').toLowerCase(); // haiku | sonnet | opus
+  
+  if (liveModels && liveModels.length > 0) {
+    const matching = liveModels.filter(m => m.toLowerCase().includes(tier));
+    if (matching.length > 0) {
+      return matching[0]; // Pure dynamic selection from API!
+    }
+    return liveModels[0];
+  }
+  
+  // Generic dynamic fallback aliases supported by Anthropic API
+  return `claude-${tier}-latest`;
+}
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -58,7 +111,7 @@ export default async function handler(req, res) {
     const { prompt, systemInstruction, responseMimeType, provider: reqProvider } = req.body;
     if (!prompt) return res.status(400).json({ error: 'Prompt is required' });
 
-    let provider = (reqProvider || process.env.SYSTEM_ACTIVE_AI || 'gemini').toLowerCase();
+    let provider = (reqProvider || process.env.SYSTEM_ACTIVE_AI || 'anthropic').toLowerCase();
     const cacheKey = await sha256(provider + prompt);
     
     if (!admin.apps.length) {
@@ -66,7 +119,7 @@ export default async function handler(req, res) {
         credential: admin.credential.cert({
           projectId: process.env.FIREBASE_PROJECT_ID,
           clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-          privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+          privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\n/g, '\n'),
         }),
       });
     }
@@ -79,7 +132,7 @@ export default async function handler(req, res) {
 
     if (provider === 'gemini') {
       apiKey = process.env.GEMINI_API_KEY;
-      modelName = 'gemini-2.5-flash';
+      modelName = 'gemini-flash-latest';
       if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY not configured' });
       endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
       headers = { 'Content-Type': 'application/json' };
@@ -99,47 +152,86 @@ export default async function handler(req, res) {
       const messages = systemInstruction ? [{ role: 'system', content: systemInstruction }, { role: 'user', content: prompt }] : [{ role: 'user', content: prompt }];
       bodyObj = { model: modelName, messages, temperature: 0.7 };
       if (responseMimeType === 'application/json') bodyObj.response_format = { type: 'json_object' };
-    } else if (provider === 'anthropic' || provider === 'claude-haiku' || provider === 'claude-sonnet' || provider === 'claude-opus') {
-      // Grade-tiered Claude models:
-      //   claude-haiku  → claude-haiku-4-5        (Foundation–Grade 5, simple tasks)
-      //   claude-sonnet → claude-sonnet-4-5        (Grade 6–10, general work)
-      //   claude-opus   → claude-opus-4-5          (Grade 11–12, senior maths/science)
-      //   anthropic     → claude-sonnet-4-5        (legacy fallback = sonnet)
-      const claudeModelMap = {
-        'claude-haiku':  'claude-haiku-4-5',
-        'claude-sonnet': 'claude-sonnet-4-5',
-        'claude-opus':   'claude-opus-4-5',
-        'anthropic':     'claude-sonnet-4-5',
-      };
+    } else if (provider === 'anthropic' || provider.startsWith('claude')) {
       apiKey = process.env.ANTHROPIC_API_KEY;
-      modelName = claudeModelMap[provider] || 'claude-sonnet-4-5';
-      if (!apiKey) return res.status(500).json({ error: 'ANTHROPIC_API_KEY not configured' });
-      endpoint = 'https://api.anthropic.com/v1/messages';
-      headers = { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' };
-      bodyObj = { model: modelName, messages: [{ role: 'user', content: prompt }], max_tokens: 4096, temperature: 0.7 };
-      if (systemInstruction) bodyObj.system = systemInstruction;
+      
+      // Fallback to Gemini if Anthropic key is not configured
+      if (!apiKey && process.env.GEMINI_API_KEY) {
+        console.warn(`[AI Proxy] ANTHROPIC_API_KEY not found. Falling back to Gemini API.`);
+        provider = 'gemini';
+        apiKey = process.env.GEMINI_API_KEY;
+        modelName = 'gemini-flash-latest';
+        endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+        headers = { 'Content-Type': 'application/json' };
+        bodyObj = {
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.7, responseMimeType: responseMimeType === 'application/json' ? 'application/json' : 'text/plain' }
+        };
+        if (systemInstruction) {
+          bodyObj.systemInstruction = { parts: [{ text: systemInstruction }] };
+        }
+      } else if (!apiKey) {
+        return res.status(500).json({ error: 'ANTHROPIC_API_KEY not configured and GEMINI_API_KEY fallback missing' });
+      } else {
+        modelName = await resolveBestAnthropicModel(apiKey, provider);
+        endpoint = 'https://api.anthropic.com/v1/messages';
+        headers = { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' };
+        bodyObj = { model: modelName, messages: [{ role: 'user', content: prompt }], max_tokens: 8192, temperature: 0.7 };
+        if (systemInstruction) bodyObj.system = systemInstruction;
+      }
     } else {
       return res.status(400).json({ error: `Unsupported provider: ${provider}` });
     }
 
-    const resAi = await fetchWithRetry(endpoint, { method: 'POST', headers, body: JSON.stringify(bodyObj) });
-    if (!resAi.ok) {
-      const errorBody = await resAi.text().catch(() => '');
-      let extraInfo = '';
-      
-      // If 404 from Gemini, fetch available models
-      if (provider === 'gemini' && resAi.status === 404) {
-        try {
-          const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
-          const listData = await listRes.json();
-          const availableModels = (listData.models || []).map(m => m.name).join(', ');
-          extraInfo = `\nAvailable models on your API Key: ${availableModels}`;
-        } catch(e) {}
-      }
+    console.log(`🤖 [AI ROUTER LOG] Executing Request -> Provider: ${provider.toUpperCase()} | Model: ${modelName} | Prompt Length: ${prompt.length} chars`);
 
-      console.error(`[AI API Error] ${endpoint} -> ${resAi.status} ${errorBody} ${extraInfo}`);
-      throw new Error(`${provider} API error: ${resAi.status} - ${errorBody} ${extraInfo}`);
+    let resAi = await fetchWithRetry(endpoint, { method: 'POST', headers, body: JSON.stringify(bodyObj) }).catch((err) => {
+      console.warn(`[AI Proxy] Primary call to ${provider} (${modelName}) failed:`, err.message);
+      return { ok: false, status: 500 };
+    });
+    
+    // Auto-retry with live discovered models if primary call failed
+    if (!resAi.ok && provider.startsWith('claude')) {
+      const liveDiscovered = (await getLiveAnthropicModels(apiKey)) || [];
+      for (const fbModel of liveDiscovered) {
+        if (fbModel === modelName) continue;
+        console.warn(`[AI Proxy] Model ${modelName} failed. Retrying with live discovered model ${fbModel}`);
+        bodyObj.model = fbModel;
+        const resFb = await fetchWithRetry(endpoint, { method: 'POST', headers, body: JSON.stringify(bodyObj) }).catch(() => null);
+        if (resFb && resFb.ok) {
+          resAi = resFb;
+          modelName = fbModel;
+          break;
+        }
+      }
     }
+
+    // ULTIMATE FAIL-SAFE: If provider failed, automatically fall back to Gemini Flash!
+    if (!resAi.ok && process.env.GEMINI_API_KEY && provider !== 'gemini') {
+      console.warn(`[AI Proxy] Provider ${provider} (${modelName}) failed. Automatically falling back to Gemini API...`);
+      const gApiKey = process.env.GEMINI_API_KEY;
+      const gModelName = 'gemini-flash-latest';
+      const gEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/${gModelName}:generateContent?key=${gApiKey}`;
+      const gHeaders = { 'Content-Type': 'application/json' };
+      const gBodyObj = {
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.7, responseMimeType: responseMimeType === 'application/json' ? 'application/json' : 'text/plain' }
+      };
+      if (systemInstruction) {
+        gBodyObj.systemInstruction = { parts: [{ text: systemInstruction }] };
+      }
+      const resGemini = await fetchWithRetry(gEndpoint, { method: 'POST', headers: gHeaders, body: JSON.stringify(gBodyObj) }).catch(() => null);
+      if (resGemini && resGemini.ok) {
+        resAi = resGemini;
+        provider = 'gemini';
+      }
+    }
+
+    if (!resAi.ok) {
+      console.error(`[AI API Error] Unable to complete generation across providers.`);
+      return res.status(500).json({ error: "Our learning engine is briefly recalibrating content. Please try again in a moment." });
+    }
+
     const data = await resAi.json();
     let textResult = provider === 'gemini' ? data.candidates?.[0]?.content?.parts?.[0]?.text : (provider === 'openai' ? data.choices?.[0]?.message?.content : data.content?.[0]?.text) || '';
 
@@ -152,6 +244,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ text: textResult });
   } catch (err) {
     console.error('[AI Proxy Error]', err);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: "Our learning engine is briefly recalibrating content. Please try again in a moment." });
   }
 }

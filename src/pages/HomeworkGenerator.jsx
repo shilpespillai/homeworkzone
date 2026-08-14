@@ -34,7 +34,7 @@ import {
   Globe
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { INTERNATIONAL_EXAMS } from '../data/examPresets';
+import { INTERNATIONAL_EXAMS, getNaplanDefaults } from '../data/examPresets';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, getDocs, query, where, orderBy, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -59,6 +59,9 @@ import { curriculum } from '../data/curriculum';
 import { SUPPORTED_LANGUAGES, getLanguageObj } from '../utils/languages';
 import { getSmartTopicTitle } from './HomeworkScheduler';
 import InternationalExamHubView from '../components/InternationalExamHubView';
+import PaperQuotaBoosterModal from '../components/PaperQuotaBoosterModal';
+import { checkCanGeneratePaper, getBaseQuotaForPlan } from '../utils/quotaManager';
+
 export const resolveCustomSubjectStyle = (name) => {
   const s = (name || '').toLowerCase();
 
@@ -232,6 +235,13 @@ export const sanitizeQuestionData = (q) => {
   let text = q.text || '';
   // Strip bracketed English translations like " (Read this: ...)" or " (Translation: ...)"
   text = text.replace(/\s*\((?:Read this|Translation|In English|Meaning):?\s*[^)]+\)/gi, '').trim();
+
+  // Strip accidental answer leaks or self-answering statements from question text (e.g., "(Answer: B)", "The answer is 42", "Correct choice: C")
+  text = text
+    .replace(/\s*\(?(?:The\s+)?(?:correct\s+)?answer\s*(?:is|:|=)\s*(?:[A-D]|\d+|[^\s\)]+)\)?/gi, '')
+    .replace(/\s*\(?Correct\s+(?:choice|option|answer)\s*:\s*(?:[A-D]|\d+|[^\s\)]+)\)?/gi, '')
+    .replace(/\s*Therefore,?\s+the\s+(?:correct\s+)?answer\s+is\s+.*$/gi, '')
+    .trim();
 
   // Guarantee question text is never empty
   if (!text || text.trim() === '') {
@@ -440,26 +450,41 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   }, [initialExam]);
 
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [showBoosterModal, setShowBoosterModal] = useState(false);
+  const [topUpCredits, setTopUpCredits] = useState(0);
+
+  useEffect(() => {
+    if (!user?.uid) return;
+    const fetchTopUpCredits = async () => {
+      try {
+        const teacherDoc = await getDoc(doc(db, 'teachers', user.uid));
+        if (teacherDoc.exists() && teacherDoc.data().topUpCredits) {
+          setTopUpCredits(teacherDoc.data().topUpCredits);
+        }
+      } catch (err) {
+        console.warn("Failed to fetch top-up credits:", err);
+      }
+    };
+    fetchTopUpCredits();
+  }, [user?.uid]);
 
   const activePlanId = (teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free';
-  const totalHomeworksCount = allHomeworks ? allHomeworks.length : 0;
 
-  const hasReachedLimit = (() => {
-    if (isAdmin) return false;
-    if (isSuperUser) return false; // Super users have unlimited access
-    if (activePlanId === 'free') {
-      return totalHomeworksCount >= 3;
-    }
-    return false; // Paid tiers have unlimited homework creation
-  })();
+  const quotaInfo = checkCanGeneratePaper({
+    user,
+    isAdmin,
+    isSuperUser,
+    activePlanId,
+    allHomeworks,
+    topUpCredits
+  });
+
+  const hasReachedLimit = !quotaInfo.canGenerate;
 
   const limitText = (() => {
-    if (isAdmin) return '';
-    if (isSuperUser) return '';
-    if (activePlanId === 'free') {
-      return `Free Tier Limit: 3 homeworks total (You've created ${totalHomeworksCount}/3)`;
-    }
-    return '';
+    if (isAdmin || isSuperUser) return '';
+    if (quotaInfo.isUnlimited) return '';
+    return `Monthly Quota: ${quotaInfo.usage} / ${quotaInfo.limit} Papers Used`;
   })();
 
   const checkLimitAndTrigger = () => {
@@ -468,7 +493,11 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       return false;
     }
     if (hasReachedLimit) {
-      setShowUpgradeModal(true);
+      if (activePlanId === 'free') {
+        setShowUpgradeModal(true);
+      } else {
+        setShowBoosterModal(true);
+      }
       return true;
     }
     return false;
@@ -574,6 +603,10 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const lastSubjectRef = useRef(formData.subject);
 
   useEffect(() => {
+    // Never overwrite the exam-specific promptInstruction with a generic My Prompts entry.
+    // isExamPaper is set when any International Exam preset is selected.
+    if (formData.isExamPaper) return;
+
     if (subjectPrompts) {
       const normSubject = formData.subject.toLowerCase();
       const matchedKey = Object.keys(subjectPrompts).find(k => k.toLowerCase() === normSubject);
@@ -588,7 +621,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         }
       }
     }
-  }, [formData.subject, subjectPrompts]);
+  }, [formData.subject, subjectPrompts, formData.isExamPaper]);
 
   const getDynamicSubjects = () => {
     const list = [...SUBJECTS];
@@ -641,13 +674,14 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [isDiscardingDraft, setIsDiscardingDraft] = useState(false);
   const [generatedQuestions, setGeneratedQuestions] = useState(null);
   const [generatedPassage, setGeneratedPassage] = useState(null);
+  const [generatedModelUsed, setGeneratedModelUsed] = useState(null);
   const [isAiAccepted, setIsAiAccepted] = useState(false);
 
   // Book Generator State (Pixar 12-Step Master Prompt)
   const [bookGenre, setBookGenre] = useState('Fantasy & Magic');
   const [storyThemeCategory, setStoryThemeCategory] = useState('random');
   const [customStoryPrompt, setCustomStoryPrompt] = useState('');
-  const [selectedAiModel, setSelectedAiModel] = useState(() => localStorage.getItem('hwz_active_ai') || 'gemini');
+  const [selectedAiModel, setSelectedAiModel] = useState(() => localStorage.getItem('hwz_active_ai') || 'anthropic');
   const [openAiKey, setOpenAiKey] = useState(() => localStorage.getItem('hwz_openai_key') || '');
   const [bookTopic, setBookTopic] = useState('');
   const [bookCharacters, setBookCharacters] = useState('');
@@ -1077,7 +1111,7 @@ EXPECTED JSON SCHEMA:
     setIsGeneratingBook(true);
     setBookGenStatus('Crafting Pixar story, vocabulary & grammar...');
     try {
-      const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
+      const activeModel = localStorage.getItem('hwz_active_ai') || 'anthropic';
       const resolvedGrade = resolveGradeFromClassroomName(activeClassroom?.name);
 
       const masterPixarPrompt = getConstructedPixarPrompt();
@@ -1339,7 +1373,7 @@ EXPECTED JSON SCHEMA:
     setIsGenerating(true);
 
     try {
-      const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
+      const activeModel = localStorage.getItem('hwz_active_ai') || 'anthropic';
 
       if (isCurriculumMode && selectedSkills.length === 0) {
         alert("Please select at least one Micro-Skill from the Curriculum! 🎯");
@@ -1445,6 +1479,26 @@ EXPECTED JSON SCHEMA:
         
         Ensure the questions test the students' knowledge on the specific content instructions provided. DO NOT generate meta-questions about the instructions themselves.
         
+        ================================================================================
+        CRITICAL MANDATED GUARDRAILS FOR ALL EXAMS AND HOMEWORKS:
+        ================================================================================
+        1. DYNAMIC PAST-PAPER COMPLEXITY & SYLLABUS EVOLUTION ALIGNMENT:
+           - Every question MUST strictly match the exact difficulty, cognitive depth, section structure, and active syllabus specifications of official ${new Date().getFullYear() - 6}–${new Date().getFullYear()} released past papers for this specific exam board (e.g. ACARA, College Board, NTA, NCERT, SEAB, AQA, Edexcel, ISEB, MAA, SIMCC, GMAC).
+           - Dynamically adapt to recent curriculum revisions, digital adaptive testing shifts, and modern section structures for the active ${new Date().getFullYear()} exam cycle.
+           - DO NOT generate oversimplified, generic, or trivial questions. Questions MUST reflect real competitive entrance exam pressure.
+
+        2. ZERO HALLUCINATIONS & FACTUAL / MATH INTEGRITY:
+           - 100% Mathematical, Logical, and Scientific Accuracy.
+           - All arithmetic calculations, geometry side lengths, angle totals, data table values, historical dates, and scientific laws MUST be verified for 100% internal consistency.
+           - NEVER hallucinate fake dates, fictitious historical events, broken formulas, or impossible geometric shapes.
+
+        3. ZERO SELF-ANSWERING / NO LEAKING ANSWERS IN QUESTION TEXT:
+           - CRITICAL RULE: DO NOT leak or reveal the correct answer or solution inside the question text or prompt!
+           - The question text MUST ONLY present the problem statement, scenario, passage, or visual figure.
+           - ABSOLUTELY NEVER include phrases like "The answer is B", "Therefore the value is 45", "Correct answer: C", or "(Answer: 12)" inside the question text!
+           - The correct answer choice MUST ONLY appear in the designated "answer" property and options array!
+        ================================================================================
+
         CRITICAL LASER-FOCUS RULE: If a highly specific topic or micro-skill is provided (e.g., 'place value in decimal numbers' or 'identifying nouns'), EVERY SINGLE QUESTION MUST STRICTLY TEST THAT EXACT SKILL. DO NOT generate generalized questions about the broader subject (e.g., if asked for 'decimal place value', DO NOT generate questions about 'ordering decimals' or 'adding decimals'). Stay completely laser-focused on the exact requested skill!
 
         CRITICAL ACCURACY & QUALITY RULES:
@@ -1650,27 +1704,144 @@ EXPECTED JSON SCHEMA:
 
         CRITICAL: If the user requests a "NAPLAN" test, you MUST make the test highly pictorial and visual. Use "chartData", "geometryData", "gridMapData", "numberLineData", "pathData", "instrumentData", "blockData" or "svgCode" for at least 70% of the questions. NAPLAN heavily relies on visual stimulus for problem-solving!. NAPLAN heavily relies on visual stimulus for problem-solving!`;
 
-      const tieredModel = getModelForGrade(resolvedGrade, formData.subject, activeModel);
-      console.log(`[AI] Grade: ${resolvedGrade}, Subject: ${formData.subject} → model: ${tieredModel}`);
-      const textResponse = await generateContent({
-        prompt,
-        responseMimeType: 'application/json',
-        provider: tieredModel
+      const subjectAndTitle = `${formData.subject || ''} ${formData.title || ''} ${formData.aiPrompt || ''}`;
+      const tieredModel = getModelForGrade(resolvedGrade, subjectAndTitle, activeModel);
+      console.log(`🤖 [HWZ AI ENGINE] Grade: ${resolvedGrade} | Subject: ${formData.subject} | Routing Model: ${tieredModel} | Target Questions: ${questionCount}`);
+
+      const getPromptForCount = (targetCount, batchTag = '') => {
+        const countInjected = (rawInjected || '')
+          .replace(/\{SUBJECT\}/gi, formData.subject || '')
+          .replace(/\{GRADE\}/gi, resolvedGrade || 'Age-Appropriate')
+          .replace(/\{TOPIC\}/gi, topic || '')
+          .replace(/\{DIFFICULTY\}/gi, formData.difficulty || 'Medium')
+          .replace(/\{QUESTION_COUNT\}/gi, String(targetCount));
+
+        return isVocab ? `You are an expert Vocabulary Curriculum Director and Word Learning Coach.
+        Your mission is to teach students 10 to 15 NEW vocabulary words every week through an INFORMATION-FIRST "Weekly Word Spotlight & Learning Guide", followed by direct contextual application exercises.
+        DO NOT generate a standard multiple-choice quiz of random words!
+        
+        Subject: ${formData.subject}
+        Topic: ${topic}
+        Target Language: ${langObj.name} (${langObj.nativeName})
+        Specific Content Instructions: ${countInjected}
+        ${langRule}
+        ${previousQuestionsBlock}
+        
+        YOUR JSON RESPONSE MUST PROVIDE:
+        1. "passage": A comprehensive, beautifully structured "Weekly Word Spotlight & Learning Guide" teaching 10-15 new grade-appropriate vocabulary words.
+        2. "questions": An array of ${targetCount} application exercises that help the student actively PRACTICE and APPLY the exact words taught in the guide above.
+        ` : `You are an expert curriculum designer. 
+        Create a ${targetCount}-question multiple-choice quiz for students about the following topic:
+        Subject: ${formData.subject}
+        Topic: ${topic}
+        Target Language: ${langObj.name} (${langObj.nativeName})
+        Specific Content Instructions: ${countInjected}
+        ${langRule}
+        ${previousQuestionsBlock}
+        
+        Ensure the questions test the students' knowledge on the specific content instructions provided. DO NOT generate meta-questions about the instructions themselves.
+        
+        ================================================================================
+        CRITICAL MANDATED GUARDRAILS FOR ALL EXAMS AND HOMEWORKS:
+        ================================================================================
+        1. DYNAMIC PAST-PAPER COMPLEXITY & SYLLABUS EVOLUTION ALIGNMENT:
+           - Every question MUST strictly match the exact difficulty, cognitive depth, section structure, and active syllabus specifications of official released past papers.
+           - DO NOT generate oversimplified, generic, or trivial questions. Questions MUST reflect real competitive entrance exam pressure.
+
+        2. ZERO HALLUCINATIONS & FACTUAL / MATH INTEGRITY:
+           - 100% Mathematical, Logical, and Scientific Accuracy.
+           - All arithmetic calculations, geometry side lengths, angle totals, data table values, historical dates, and scientific laws MUST be verified for 100% internal consistency.
+
+        3. ZERO SELF-ANSWERING / NO LEAKING ANSWERS IN QUESTION TEXT:
+           - CRITICAL RULE: DO NOT leak or reveal the correct answer or solution inside the question text or prompt!
+           - The question text MUST ONLY present the problem statement, scenario, passage, or visual figure.
+        ================================================================================
+
+        CRITICAL ACCURACY & QUALITY RULES:
+        1. For ALL Mathematics, Numeracy, NAPLAN Numeracy, ICAS Maths, Selective Maths, SAT Math, and Olympiad Maths:
+           - Ensure all equations, word problems, and numeric values are mathematically correct.
+           - CRITICAL VISUAL DIAGRAM MANDATE (AT LEAST 40% VISUAL QUESTIONS): For ALL Mathematics, Numeracy, NAPLAN Numeracy, and Maths competitions/exams, you MUST ensure that AT LEAST 40% of the questions generated are VISUAL DIAGRAM-BASED questions. Each visual question MUST include clean, beautifully formatted inline SVG code in the "svgCode" property or chart/geometry/grid data.
+
+        Return ONLY a JSON object containing:
+        1. "questions": an array of ${targetCount} objects. Each object must have: 
+           - "id" (number)
+           - "text" (string, the question)
+           - "questionType" (string, either "multiple_choice", "text", or "interactive")
+           - "options" (array of exactly 4 strings for multiple_choice)
+           - "answer" (string/number answer matching target)
+           - "subtopic" (string, concept under main topic)
+           - "chartData", "geometryData", "gridMapData", "numberLineData", "instrumentData", "blockData", "svgCode" (for visual questions)
+        2. "passage": an optional string if required for reading text.
+        
+        ${assignmentType === 'test' ? 'CRITICAL FOR TESTS: This is a formal NAPLAN-style test paper. Generate a mix of multiple_choice and text input questions.' : 'CRITICAL FOR HOMEWORK: Generate a healthy mix of question types.'}
+        `;
+      };
+
+      let questions = [];
+      let passage = null;
+
+      // Chunk size cap: Max 10 questions per batch to eliminate any possibility of token truncation!
+      const CHUNK_SIZE = 10;
+      const chunkCounts = [];
+      let remainingToAssign = questionCount;
+      while (remainingToAssign > 0) {
+        const currentChunk = Math.min(remainingToAssign, CHUNK_SIZE);
+        chunkCounts.push(currentChunk);
+        remainingToAssign -= currentChunk;
+      }
+
+      console.log(`🚀 [HWZ SELF-HEALING ENGINE] Generating ${questionCount} questions in ${chunkCounts.length} parallel batches:`, chunkCounts);
+
+      const batchPromises = chunkCounts.map((countToGen, idx) => {
+        return generateContent({
+          prompt: getPromptForCount(countToGen, `BATCH-${idx + 1}-${Date.now()}`),
+          responseMimeType: 'application/json',
+          provider: tieredModel
+        }).then(res => safeParseAiJson(res)).catch((err) => {
+          console.warn(`[HWZ Batch Engine] Batch ${idx + 1} failed:`, err);
+          return { questions: [] };
+        });
       });
 
-      const parsed = safeParseAiJson(textResponse);
-      const rawQuestions = parsed.questions || parsed;
-      const questions = Array.isArray(rawQuestions) ? rawQuestions.map(sanitizeQuestionData) : rawQuestions;
-      const passage = parsed.passage || null;
+      const batchResults = await Promise.all(batchPromises);
+
+      let collectedQuestions = [];
+      for (const resObj of batchResults) {
+        const rawQs = resObj.questions || resObj;
+        if (Array.isArray(rawQs)) {
+          collectedQuestions.push(...rawQs.map(sanitizeQuestionData));
+        }
+        if (!passage && resObj.passage) {
+          passage = resObj.passage;
+        }
+      }
+
+      // SELF-HEALING TOP-UP PASS: If collected questions < questionCount, fetch deficit in a quick top-up pass!
+      if (collectedQuestions.length < questionCount) {
+        const deficit = questionCount - collectedQuestions.length;
+        console.warn(`⚠️ [HWZ SELF-HEALING ENGINE] Deficit of ${deficit} questions detected (${collectedQuestions.length}/${questionCount}). Launching top-up pass...`);
+        try {
+          const topUpRes = await generateContent({
+            prompt: getPromptForCount(deficit, `TOPUP-${Date.now()}`),
+            responseMimeType: 'application/json',
+            provider: tieredModel
+          });
+          const parsedTopUp = safeParseAiJson(topUpRes);
+          const topUpQs = Array.isArray(parsedTopUp.questions || parsedTopUp) ? (parsedTopUp.questions || parsedTopUp) : [];
+          collectedQuestions.push(...topUpQs.map(sanitizeQuestionData));
+        } catch (e) {
+          console.error("[HWZ SELF-HEALING ENGINE] Top-up pass encountered issue:", e);
+        }
+      }
+
+      // Guarantee exact count requested & sequential 1-based indexing
+      questions = collectedQuestions.slice(0, questionCount).map((q, idx) => ({ ...q, id: idx + 1 }));
 
       // Shuffle options for each question to randomize correct answer position
       if (Array.isArray(questions)) {
         questions.forEach(q => {
-          if (q.imagePrompt && !q.imageUrl) {
-            const styleModifier = " in the style of highly attractive, cute, flat vector educational clipart for children, vibrant pastel colors, clean white background, no text";
-            q.imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(q.imagePrompt + styleModifier)}?width=800&height=800&nologo=true`;
-          } else if (q.imageUrl && !q.imageUrl.includes('pollinations')) {
-            // Delete broken hallucinated URLs
+          if (q.imageUrl && !q.imageUrl.startsWith('/')) {
+            // Delete raw external/hallucinated image URLs
             delete q.imageUrl;
           }
           if (Array.isArray(q.options) && q.options.length > 0) {
@@ -1684,6 +1855,7 @@ EXPECTED JSON SCHEMA:
 
       setGeneratedQuestions(questions);
       setGeneratedPassage(passage);
+      setGeneratedModelUsed(tieredModel);
     } catch (err) {
       console.error("AI Gen Error:", err);
       alert("Failed to generate questions. ❌");
@@ -1713,7 +1885,7 @@ EXPECTED JSON SCHEMA:
 
     setIsPublishing(true);
     try {
-      const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
+      const activeModel = localStorage.getItem('hwz_active_ai') || 'anthropic';
       const publishGrade = resolveGradeFromClassroomName(activeClassroom?.name);
       const questionsToSave = generatedQuestions || [];
 
@@ -1846,7 +2018,7 @@ EXPECTED JSON SCHEMA:
 
     setIsSavingDraft(true);
     try {
-      const activeModel = localStorage.getItem('hwz_active_ai') || 'gemini';
+      const activeModel = localStorage.getItem('hwz_active_ai') || 'anthropic';
       const draftGrade = resolveGradeFromClassroomName(activeClassroom?.name);
       const questionsToSave = generatedQuestions || [];
 
@@ -1925,8 +2097,8 @@ EXPECTED JSON SCHEMA:
   return (
     <div className="max-w-6xl mx-auto animate-in font-nunito pb-10">
       
-      {/* Tab Switcher */}
-      <div className="flex items-center justify-center mb-8">
+      {/* Tab Switcher & Quota Counter */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
         <div className="bg-slate-100 p-1.5 rounded-full flex gap-1 border border-slate-200/60 shadow-sm flex-wrap justify-center">
           <button 
             onClick={() => { setActiveTab('create'); setAssignmentType(null); }}
@@ -1947,6 +2119,22 @@ EXPECTED JSON SCHEMA:
             <BookOpen className="w-4 h-4" /> Past Tests
           </button>
         </div>
+
+        {/* Paper Quota Credit Badge */}
+        {!quotaInfo.isUnlimited && (
+          <div className="flex items-center gap-2 bg-gradient-to-r from-violet-50 to-indigo-50 border border-violet-200/70 rounded-full px-4 py-2 shadow-sm">
+            <span className="text-sm">📄</span>
+            <span className="text-xs font-bold text-slate-700">
+              <strong className="text-violet-700">{quotaInfo.usage}</strong> / {quotaInfo.limit} Papers Used
+            </span>
+            <button
+              onClick={() => setShowBoosterModal(true)}
+              className="ml-1 px-3 py-1 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-black text-[11px] rounded-full shadow transition-all active:scale-95 flex items-center gap-1"
+            >
+              <span>⚡</span> Top-Up
+            </button>
+          </div>
+        )}
       </div>
 
       {activeTab === 'create' ? (
@@ -2019,17 +2207,22 @@ EXPECTED JSON SCHEMA:
           <InternationalExamHubView
             onBack={() => setAssignmentType(null)}
             onSelectExam={(exam) => {
+              const gradeName = resolveGradeFromClassroomName(activeClassroom?.name);
+              const naplanDefs = getNaplanDefaults(exam.id, gradeName);
+              const finalTime = naplanDefs ? String(naplanDefs.time) : String(exam.defaultTime);
+              const finalQuestions = naplanDefs ? naplanDefs.questions : exam.defaultQuestions;
+
               setFormData(prev => ({
                 ...prev,
                 subject: exam.subject,
                 title: `${exam.name} Practice Paper`,
-                instructions: `Read each question carefully. You are on a ${exam.defaultTime}-minute timer! ⏳`,
+                instructions: `Read each question carefully. You are on a ${finalTime}-minute timer! ⏳`,
                 aiPrompt: exam.promptInstruction,
-                timeLimit: String(exam.defaultTime),
+                timeLimit: finalTime,
                 examPreset: exam.id,
                 isExamPaper: true
               }));
-              setQuestionCount(exam.defaultQuestions);
+              setQuestionCount(finalQuestions);
               setIsCurriculumMode(false);
               setAssignmentType('test');
             }}
@@ -3292,6 +3485,16 @@ EXPECTED JSON SCHEMA:
           </div>
         </div>
       )}
+
+      <PaperQuotaBoosterModal
+        isOpen={showBoosterModal}
+        onClose={() => setShowBoosterModal(false)}
+        user={user}
+        currentUsage={quotaInfo.usage}
+        currentQuota={quotaInfo.limit}
+        topUpCredits={topUpCredits}
+        onCreditsUpdated={(newCredits) => setTopUpCredits(newCredits)}
+      />
 
       <CurriculumModal 
         isOpen={isCurriculumModalOpen}

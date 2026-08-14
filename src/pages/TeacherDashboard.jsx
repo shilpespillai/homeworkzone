@@ -20,7 +20,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Star,
-  Sparkles,
+  Wand2,
   MoreVertical,
   Home,
   Users,
@@ -49,7 +49,8 @@ import {
   Globe,
   FlaskConical,
   Code,
-  Coins
+  Coins,
+  RotateCcw
 } from 'lucide-react';
 import EmojiPicker from '../components/EmojiPicker';
 
@@ -986,6 +987,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   }, [activeClassroom]);
 
   const [subjectPrompts, setSubjectPrompts] = useState(DEFAULT_SUBJECT_PROMPTS);
+  const [masterPromptsMap, setMasterPromptsMap] = useState(DEFAULT_SUBJECT_PROMPTS);
   const [newSubjectName, setNewSubjectName] = useState('');
   const [isSavingPrompts, setIsSavingPrompts] = useState(false);
   const [activePromptModalSubject, setActivePromptModalSubject] = useState(null);
@@ -1115,7 +1117,10 @@ const TeacherDashboard = ({ user, onLogout }) => {
         await updateDoc(doc(db, 'teachers', user.uid), {
           subjectPrompts: updatedPrompts
         });
-        await saveMasterDefaultPromptsIfAdmin(db, user, updatedPrompts);
+        const isMasterSaved = await saveMasterDefaultPromptsIfAdmin(db, user, updatedPrompts);
+        if (isMasterSaved) {
+          setMasterPromptsMap(updatedPrompts);
+        }
       } catch (err) {
         console.error("Save Prompt Error:", err);
       }
@@ -1334,6 +1339,7 @@ Include a balanced combination of question types such as:
       if (!user?.uid) return;
       try {
         const masterPrompts = await getMasterDefaultPrompts(db);
+        setMasterPromptsMap(masterPrompts);
         const teacherDoc = await getDoc(doc(db, 'teachers', user.uid));
         if (teacherDoc.exists()) {
           const data = teacherDoc.data();
@@ -2306,13 +2312,21 @@ Include a balanced combination of question types such as:
   };
 
   const getPlanSeatLimit = (planId) => {
-    if (isAdminUser) return Infinity;
-    if (planId === 'free') {
+    const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
+    const isMaxed = simulatedPlan && simulatedPlan.endsWith('_maxed');
+    const cleanPlan = isMaxed ? simulatedPlan.replace('_maxed', '') : simulatedPlan;
+    const effectivePlan = cleanPlan || planId;
+
+    if (isAdminUser && !simulatedPlan) return Infinity;
+
+    if (isMaxed) return 0; // Immediately block student seat addition for testing maxed state!
+
+    if (effectivePlan === 'free') {
       const trialDays = getTrialDaysLeft();
-      if (trialDays >= 0) return Infinity; // Unlimited during active trial!
-      return 0; // 0 students allowed (blocked) when free trial is expired and they are unpaid
+      if (trialDays >= 0 && !simulatedPlan) return Infinity;
+      return 5;
     }
-    switch (planId) {
+    switch (effectivePlan) {
       case 'option-b-starter': return 15;
       case 'option-b-growth': return 50;
       case 'option-b-school': return 150;
@@ -2964,7 +2978,7 @@ Include a balanced combination of question types such as:
                 <div className="flex justify-between items-center">
                   <span className="text-xs font-black text-slate-500 uppercase tracking-wider">Trials Status</span>
                   <div className="w-10 h-10 bg-purple-50 text-purple-650 rounded-xl flex items-center justify-center">
-                    <Sparkles className="w-5 h-5" />
+                    <Wand2 className="w-5 h-5" />
                   </div>
                 </div>
                 <div className="space-y-1.5">
@@ -6869,37 +6883,69 @@ Include a balanced combination of question types such as:
                                    );
                                 })()}
 
-                                {/* Modal Content */}
-                                <div className="p-6 space-y-4 overflow-y-auto flex-1">
-                                   <div className="flex items-center justify-between">
-                                      <label className="text-xs font-black text-slate-700 uppercase tracking-wider">
-                                         AI Prompt Template
-                                      </label>
-                                      <button
-                                         type="button"
-                                         disabled={editingPromptContent.startsWith("Generating")}
-                                         onClick={async () => {
-                                            setEditingPromptContent("Generating premium prompt using AI... 🪄 Please wait a moment.");
-                                            try {
-                                               const generatedText = await generateContent({
-                                                  prompt: `Write a highly detailed, customized, and structured instruction prompt template for another AI to generate high-quality worksheets and questions specifically for the subject: "${activePromptModalSubject}". The generated prompt must contain subject-specific details (key concepts, terminology, question structures, and topics unique to "${activePromptModalSubject}"). It should dynamically cater to the grade and difficulty level selected. Do not write a generic template containing '{SUBJECT}'. Write a concrete prompt tailored specifically to "${activePromptModalSubject}". Output only the prompt text itself, with no explanations or markdown quotes.`,
-                                                  systemInstruction: "You are an expert AI prompt engineer. Write a highly detailed, professional, structured instruction prompt for another AI to generate high-quality worksheets and questions. Output ONLY the resulting prompt.",
-                                                  provider: "gemini"
-                                               });
-                                               if (generatedText) {
-                                                  setEditingPromptContent(generatedText.trim());
-                                               }
-                                            } catch (err) {
-                                               console.error("AI prompt generation error:", err);
-                                               setEditingPromptContent(getPremiumPromptTemplate(activePromptModalSubject));
-                                            }
-                                         }}
-                                         className="bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 font-bold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer disabled:opacity-50"
-                                      >
-                                         <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                                         <span>{editingPromptContent.startsWith("Generating") ? "Generating..." : "✨ Auto-Fill Template"}</span>
-                                      </button>
-                                   </div>
+                                  {/* Modal Content */}
+                                  <div className="p-6 space-y-4 overflow-y-auto flex-1">
+                                     {(() => {
+                                        const isMasterSubject = (() => {
+                                           if (!activePromptModalSubject) return false;
+                                           const sub = activePromptModalSubject.toLowerCase().trim();
+                                           const masterKeys = Object.keys(masterPromptsMap || {}).map(k => k.toLowerCase().trim());
+                                           const defaultKeys = Object.keys(DEFAULT_SUBJECT_PROMPTS || {}).map(k => k.toLowerCase().trim());
+                                           return masterKeys.includes(sub) || defaultKeys.includes(sub) || sub === "vocabulary";
+                                        })();
+
+                                        return (
+                                           <div className="flex items-center justify-between gap-2 flex-wrap">
+                                              <label className="text-xs font-black text-slate-700 uppercase tracking-wider">
+                                                 AI Prompt Template
+                                              </label>
+                                              <div className="flex items-center gap-2">
+                                                 {isMasterSubject ? (
+                                                    <button
+                                                       type="button"
+                                                       onClick={async () => {
+                                                          if (window.confirm(`Reset "${activePromptModalSubject}" prompt back to your original default template?`)) {
+                                                             const masterPrompts = await getMasterDefaultPrompts(db);
+                                                             const defaultText = masterPrompts[activePromptModalSubject] || masterPrompts[activePromptModalSubject.toLowerCase()] || getPremiumPromptTemplate(activePromptModalSubject);
+                                                             setEditingPromptContent(defaultText);
+                                                          }
+                                                       }}
+                                                       className="bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-bold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer"
+                                                       title="Reload the original master template prompt generated by admin"
+                                                    >
+                                                       <RotateCcw className="w-3.5 h-3.5 text-slate-600" />
+                                                       <span>Reload Master Template</span>
+                                                    </button>
+                                                 ) : (
+                                                    <button
+                                                       type="button"
+                                                       disabled={editingPromptContent.startsWith("Generating")}
+                                                       onClick={async () => {
+                                                          setEditingPromptContent("Generating premium prompt using AI... Please wait a moment.");
+                                                          try {
+                                                             const generatedText = await generateContent({
+                                                                prompt: `Write a highly detailed, customized, and structured instruction prompt template for another AI to generate high-quality worksheets and questions specifically for the subject: "${activePromptModalSubject}". The generated prompt must contain subject-specific details (key concepts, terminology, question structures, and topics unique to "${activePromptModalSubject}"). It should dynamically cater to the grade and difficulty level selected. Do not write a generic template containing '{SUBJECT}'. Write a concrete prompt tailored specifically to "${activePromptModalSubject}". Output only the prompt text itself, with no explanations or markdown quotes.`,
+                                                                systemInstruction: "You are an expert AI prompt engineer. Write a highly detailed, professional, structured instruction prompt for another AI to generate high-quality worksheets and questions. Output ONLY the resulting prompt.",
+                                                                provider: "gemini"
+                                                             });
+                                                             if (generatedText) {
+                                                                setEditingPromptContent(generatedText.trim());
+                                                             }
+                                                          } catch (err) {
+                                                             console.error("AI prompt generation error:", err);
+                                                             setEditingPromptContent(getPremiumPromptTemplate(activePromptModalSubject));
+                                                          }
+                                                       }}
+                                                       className="bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 font-bold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer disabled:opacity-50"
+                                                    >
+                                                       <Wand2 className="w-3.5 h-3.5 text-amber-600" />
+                                                       <span>{editingPromptContent.startsWith("Generating") ? "Generating..." : "Auto-Structure Template"}</span>
+                                                    </button>
+                                                 )}
+                                              </div>
+                                           </div>
+                                        );
+                                     })()}
 
                                    <textarea
                                       rows={10}
@@ -7617,7 +7663,7 @@ Include a balanced combination of question types such as:
                
                {/* Twinkling Sparkles on Top Right */}
                <div className="absolute right-[8%] top-[5%] text-amber-300 animate-star-twinkle pointer-events-none" style={{ animationDelay: '1.5s' }}>
-                  <Sparkles className="w-3.5 h-3.5 fill-amber-300 text-amber-200" />
+                  <Star className="w-3.5 h-3.5 fill-amber-300 text-amber-200" />
                </div>
 
                <img src="/logo.png?v=3" className="w-[70%] h-auto object-contain mix-blend-multiply mb-2 hover:scale-105 transition-transform duration-300" alt="Homework Zone" />

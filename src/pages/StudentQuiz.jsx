@@ -364,7 +364,13 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         onSelectAnswer={(qIdx, optionKey) => {
           const qObj = homework.questions[qIdx];
           const qId = qObj?.id !== undefined && qObj?.id !== null ? qObj.id : `idx_${qIdx}`;
-          setAnswers(prev => ({ ...prev, [qId]: optionKey, [`idx_${qIdx}`]: optionKey }));
+          setAnswers(prev => {
+            const next = { ...prev, [qId]: optionKey };
+            if (qObj?.id !== undefined && qObj?.id !== null) {
+              next[`idx_${qIdx}`] = optionKey;
+            }
+            return next;
+          });
         }}
         markedForReview={markedForReview}
         onToggleReview={(qIdx) => {
@@ -1265,12 +1271,6 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                     cleanText = cleanText.replace(/\s*\((?:Read this|Translation|In English|Meaning):?\s*[^)]+\)/gi, '').trim();
                   }
                   const effectiveSvgCode = inlineSvg || currentQuestion.svgCode;
-                  const isClockRelated = cleanText.toLowerCase().includes('clock') || cleanText.toLowerCase().includes('time');
-                  
-                  // If it's a clock question but the AI didn't specify a time, show a default 10:10 clock
-                  if (!clockTime && isClockRelated && !currentQuestion.imageUrl && !currentQuestion.chartData && !currentQuestion.geometryData && !effectiveSvgCode) {
-                    clockTime = '10:10';
-                  }
 
                   const showImage = !!currentQuestion.imageUrl;
 
@@ -1634,20 +1634,29 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                       
                       let reviewState = "";
                       let showIcon = null;
-   
+
                       if (isReviewing) {
                         if (isCorrectOption) {
-                          showIcon = <CheckCircle2 className="w-8 h-8 text-white fill-emerald-500" />;
+                          reviewState = "!bg-emerald-500 !text-white !border-4 !border-emerald-600 shadow-[0_6px_0_0_#047857] opacity-100 ring-4 ring-emerald-300 z-20";
+                          showIcon = (
+                            <div className="flex items-center gap-1.5 bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-black shadow-sm">
+                              <CheckCircle2 className="w-4 h-4 text-white" /> Correct Answer
+                            </div>
+                          );
                         } else if (isSelected) {
-                          reviewState = "opacity-50 grayscale";
-                          showIcon = <XCircle className="w-8 h-8 text-white fill-rose-500" />;
+                          reviewState = "!bg-rose-500 !text-white !border-4 !border-rose-600 shadow-[0_6px_0_0_#B91C1C] opacity-100 ring-4 ring-rose-300 z-20";
+                          showIcon = (
+                            <div className="flex items-center gap-1.5 bg-rose-700 text-white px-3 py-1.5 rounded-xl text-xs font-black shadow-sm">
+                              <XCircle className="w-4 h-4 text-white" /> Your Choice (Incorrect)
+                            </div>
+                          );
                         } else {
-                          reviewState = "opacity-50";
+                          reviewState = "opacity-35 grayscale";
                         }
                       } else if (isSelected) {
                         showIcon = <CheckCircle2 className="w-8 h-8 text-slate-800 fill-white drop-shadow-md" />;
                       }
-   
+
                       return (
                         <div key={option} className="flex gap-2">
                           <button
@@ -1694,15 +1703,38 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                         placeholder="Type your answer here..."
                       />
                     ) : (
-                      <div className="p-6 bg-slate-50 border-4 border-slate-200 rounded-[24px]">
-                        <h3 className="text-slate-500 font-bold uppercase tracking-wider text-sm mb-2">Your Answer</h3>
-                        <p className="text-xl font-black text-slate-700">{answers[currentQuestion.id] || "No answer provided"}</p>
+                      <div className="p-6 bg-rose-50 border-4 border-rose-200 rounded-[24px]">
+                        <h3 className="text-rose-600 font-bold uppercase tracking-wider text-sm mb-2">Your Answer</h3>
+                        <p className="text-xl font-black text-rose-800">
+                          {(() => {
+                            const rawAns = answers[currentQuestion.id];
+                            if (!rawAns) return "No answer provided";
+                            if (currentQuestion.options && Array.isArray(currentQuestion.options)) {
+                              const letterIdx = ['A', 'B', 'C', 'D'].indexOf(String(rawAns).trim().toUpperCase());
+                              if (letterIdx !== -1 && currentQuestion.options[letterIdx]) {
+                                return `${rawAns}. ${currentQuestion.options[letterIdx]}`;
+                              }
+                            }
+                            return String(rawAns);
+                          })()}
+                        </p>
                       </div>
                     )}
                     {isReviewing && !checkIsCorrect(currentQuestion, answers[currentQuestion.id]) && (
                       <div className="p-6 bg-emerald-50 border-4 border-emerald-200 rounded-[24px]">
                         <h3 className="text-emerald-600 font-bold uppercase tracking-wider text-sm mb-2">Correct Answer</h3>
-                        <p className="text-xl font-black text-emerald-800">{currentQuestion.answer}</p>
+                        <p className="text-xl font-black text-emerald-800">
+                          {(() => {
+                            const rawAns = currentQuestion.answer;
+                            if (currentQuestion.options && Array.isArray(currentQuestion.options)) {
+                              const letterIdx = ['A', 'B', 'C', 'D'].indexOf(String(rawAns).trim().toUpperCase());
+                              if (letterIdx !== -1 && currentQuestion.options[letterIdx]) {
+                                return `${rawAns}. ${currentQuestion.options[letterIdx]}`;
+                              }
+                            }
+                            return String(rawAns);
+                          })()}
+                        </p>
                       </div>
                     )}
                   </div>
@@ -1870,10 +1902,10 @@ const QuizResults = ({ type, score, total, percentage, feedback, questions, answ
     }
   });
   
-  // Mascot images for kids
-  const mascotPassed = "https://image.pollinations.ai/prompt/cute%20happy%20celebrating%20astronaut%20mascot%203d%20character%20award%20winner%20vibrant%20colors%20white%20background?width=400&height=400&nologo=true";
-  const mascotFailed = "https://image.pollinations.ai/prompt/cute%20determined%20little%20robot%20mascot%203d%20character%20studying%20hard%20vibrant%20colors%20white%20background?width=400&height=400&nologo=true";
-  const mascotLesson = "https://image.pollinations.ai/prompt/cute%20happy%20smart%20owl%20reading%20a%20book%20mascot%203d%20character%20vibrant%20colors%20white%20background?width=400&height=400&nologo=true";
+  // Mascot images for kids (local high-res artwork)
+  const mascotPassed = "/rocket_mascot.png";
+  const mascotFailed = "/equip_mascot.png";
+  const mascotLesson = "/images/owl.png";
 
   // Score Color
   let scoreColor = "text-rose-500";

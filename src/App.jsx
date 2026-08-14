@@ -2175,7 +2175,7 @@ const MyRewards = ({ studentName, classroom, teacher, homeworks, submissions, ge
 
          <div className="grid grid-cols-12 gap-8">
             {/* Reward Shop */}
-            <div className="col-span-12 lg:col-span-7 bg-white rounded-[32px] p-8 border border-slate-100 shadow-sm space-y-6">
+            <div className="col-span-12 bg-white rounded-[32px] p-8 border border-slate-100 shadow-sm space-y-6">
                <h2 className="text-2xl font-semibold text-[#2D3748]">Reward Shop</h2>
                <div className="space-y-4">
                   {shopItems.map((item, idx) => (
@@ -2192,23 +2192,6 @@ const MyRewards = ({ studentName, classroom, teacher, homeworks, submissions, ge
                         />
                         {idx < shopItems.length - 1 && <div className="h-px bg-slate-100 mx-4 mt-4" />}
                      </div>
-                  ))}
-               </div>
-            </div>
-
-            {/* Leaderboard */}
-            <div className="col-span-12 lg:col-span-5 bg-white rounded-[32px] p-8 border border-slate-100 shadow-sm space-y-6">
-               <h2 className="text-2xl font-semibold text-[#2D3748]">Class Leaderboard</h2>
-               <div className="space-y-2">
-                  {sortedStudents.slice(0, 5).map((row, idx) => (
-                     <LeaderboardRow 
-                        key={idx} 
-                        rank={idx + 1} 
-                        name={row.name} 
-                        students={row.points} 
-                        delay={1.5 + (idx * 0.1)} 
-                        avatarUrl={getStudentAvatar ? getStudentAvatar(row.name) : `https://api.dicebear.com/7.x/lorelei/svg?seed=${row.name}`}
-                     />
                   ))}
                </div>
             </div>
@@ -2930,7 +2913,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
               
               {/* Twinkling Sparkles on Top Right */}
               <div className="absolute right-[8%] top-[5%] text-amber-300 animate-star-twinkle pointer-events-none" style={{ animationDelay: '1.5s' }}>
-                 <Sparkles className="w-3.5 h-3.5 fill-amber-300 text-amber-200" />
+                 <Star className="w-3.5 h-3.5 fill-amber-300 text-amber-200" />
               </div>
 
               <img src="/logo.png?v=3" className="w-[70%] h-auto object-contain mix-blend-multiply hover:scale-105 transition-transform duration-300" alt="Homework Zone" />
@@ -3343,41 +3326,59 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                         classroom={classroom}
                         studentName={studentName}
                      />
-                     <PiggyBankWidget
-                        mySubmissions={mySubmissions}
-                        currentStudentProfile={currentStudentProfile}
-                        teacher={teacher}
-                        classroom={classroom}
-                        studentName={studentName}
-                     />
-                     <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm space-y-6">
-                        <div className="flex justify-between items-center">
-                           <h2 className="text-xl font-semibold text-[#2D3748]">Class Standings</h2>
-                           <select 
-                              value={standingsTimeframe}
-                              onChange={(e) => setStandingsTimeframe(e.target.value)}
-                              className="bg-slate-50 border border-slate-100 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-600 focus:outline-none cursor-pointer hover:bg-slate-100 transition-colors"
-                           >
-                              <option value="all-time">All Time</option>
-                              <option value="month">This Month</option>
-                              <option value="week">This Week</option>
-                           </select>
+                      <PiggyBankWidget
+                         mySubmissions={mySubmissions}
+                         currentStudentProfile={currentStudentProfile}
+                         teacher={teacher}
+                         classroom={classroom}
+                         studentName={studentName}
+                      />
+                      <div className="overflow-hidden rounded-[32px] border border-slate-100 shadow-lg">
+                        <div className="bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700 px-5 pt-5 pb-3">
+                           <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                 <span className="text-xl">🏆</span>
+                                 <h2 className="text-base font-black text-white tracking-wide uppercase">Class Standings</h2>
+                              </div>
+                              <select
+                                 value={standingsTimeframe}
+                                 onChange={(e) => setStandingsTimeframe(e.target.value)}
+                                 className="bg-white/20 border border-white/30 rounded-xl px-2 py-1 text-[11px] font-bold text-white focus:outline-none cursor-pointer hover:bg-white/30 transition-colors"
+                              >
+                                 <option value="all-time" className="text-slate-800">All Time</option>
+                                 <option value="month" className="text-slate-800">This Month</option>
+                                 <option value="week" className="text-slate-800">This Week</option>
+                              </select>
+                           </div>
+                           <p className="text-violet-200 text-[11px] font-medium mt-0.5">Top performers in your class</p>
                         </div>
-                        <div className="space-y-4">
-                           {standings.map((row, idx) => (
-                              <StandingRow 
-                                 key={idx}
-                                 rank={row.rank} 
-                                 name={row.name} 
-                                 students={row.students} 
-                                 progress={row.progress} 
-                                 color={row.color} 
-                                 avatarUrl={getStudentAvatar(row.name)}
-                              />
-                           ))}
+                        <div className="bg-white px-4 py-3 space-y-2">
+                           {sortedStandings.slice(0, 5).map((row, idx) => {
+                              const rowLaps = submissions.filter(s =>
+                                 (s.studentName || '').trim().toLowerCase() === row.name.trim().toLowerCase()
+                              ).length;
+                              return (
+                                 <StandingRow
+                                    key={idx}
+                                    rank={idx + 1}
+                                    name={row.name}
+                                    points={row.points}
+                                    laps={rowLaps}
+                                    avatarUrl={getStudentAvatar(row.name)}
+                                 />
+                              );
+                           })}
+                           {sortedStandings.length === 0 && (
+                              <p className="text-center text-slate-400 text-sm py-4">No scores yet!</p>
+                           )}
                         </div>
-                     </div>
-                  </div>
+                        <div className="bg-white px-4 pb-4">
+                           <button className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-orange-400 hover:from-amber-500 hover:to-orange-500 text-white font-black text-xs py-2.5 rounded-2xl shadow-md shadow-orange-200 transition-all active:scale-95">
+                              <span>🏆</span> View Weekly Winners
+                           </button>
+                        </div>
+                      </div>
+                   </div>
 
                  {/* Row 3 Left: Calendar */}
                  <div className="col-span-12 lg:col-span-8 bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm space-y-6 self-start">
@@ -4039,21 +4040,49 @@ const RankCard = ({ rank, name, detail, isAlt, avatarUrl }) => (
    </div>
 );
 
-const StandingRow = ({ rank, name, students, progress, color, avatarUrl }) => (
-   <div className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-all cursor-pointer border border-transparent hover:border-slate-100 group">
-      <div className="flex items-center gap-4">
-         <span className="text-lg font-semibold text-[#2D3748] w-6">{rank}</span>
-         <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-50 overflow-hidden">
-            <img src={avatarUrl || `https://api.dicebear.com/7.x/lorelei/svg?seed=${name}`} className="w-full h-full object-cover" alt={name} />
+const STANDING_RANK_STYLES = [
+   { bg: 'bg-amber-400',  border: 'border-amber-300', shadow: 'shadow-amber-200', rowBg: 'bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200' },
+   { bg: 'bg-slate-400',  border: 'border-slate-300', shadow: 'shadow-slate-200', rowBg: 'bg-gradient-to-r from-slate-50 to-gray-50 border border-slate-200' },
+   { bg: 'bg-orange-400', border: 'border-orange-300', shadow: 'shadow-orange-200', rowBg: 'bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200' },
+];
+
+const StandingRow = ({ rank, name, points, laps, avatarUrl }) => {
+   const style = STANDING_RANK_STYLES[rank - 1] || { bg: 'bg-indigo-100', border: 'border-indigo-200', shadow: 'shadow-indigo-100', rowBg: 'bg-white border border-slate-100' };
+   const medalEmoji = rank <= 3 ? ['🥇','🥈','🥉'][rank - 1] : null;
+   return (
+      <motion.div
+         initial={{ opacity: 0, y: 8 }}
+         animate={{ opacity: 1, y: 0 }}
+         transition={{ delay: rank * 0.08, type: 'spring', stiffness: 200, damping: 20 }}
+         className={`flex items-center gap-3 p-3 rounded-2xl ${style.rowBg} transition-all`}
+      >
+         <div className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 ${style.bg} shadow-md ${style.shadow} border-2 ${style.border}`}>
+            {medalEmoji
+               ? <span className="text-base leading-none">{medalEmoji}</span>
+               : <span className="text-xs font-black text-white">{rank}</span>
+            }
          </div>
-         <div>
-            <p className="text-sm font-semibold text-[#2D3748]">{name}</p>
-            <p className="text-[9px] font-semibold text-slate-400">Total {students} Points</p>
+         <div className="relative flex-shrink-0">
+            {rank === 1 && (
+               <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-lg z-10 drop-shadow">👑</span>
+            )}
+            <div className={`w-12 h-12 rounded-full border-[3px] ${style.border} bg-slate-100 overflow-hidden shadow-md`}>
+               <img
+                  src={avatarUrl || `https://api.dicebear.com/7.x/lorelei/svg?seed=${name}`}
+                  className="w-full h-full object-cover"
+                  alt={name}
+                  onError={e => { e.target.src = `https://api.dicebear.com/7.x/lorelei/svg?seed=${name}`; }}
+               />
+            </div>
          </div>
-      </div>
-      <span className={`text-[10px] font-semibold ${color}`}>{progress}</span>
-   </div>
-);
+         <div className="flex-1 min-w-0">
+            <p className="text-sm font-black text-slate-800 truncate">{name}</p>
+            <p className="text-xs font-bold text-violet-600">{(points || 0).toLocaleString()} <span className="text-[10px] font-semibold text-slate-400">PTS</span></p>
+            <p className="text-[10px] font-semibold text-slate-400">{laps || 0} Laps</p>
+         </div>
+      </motion.div>
+   );
+};
 
 const FeedPost = ({ author, time, content, avatarUrl }) => (
    <div className="space-y-4 group p-4 hover:bg-slate-50/50 rounded-3xl transition-all border border-transparent hover:border-slate-100">
@@ -4487,17 +4516,21 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
           <img src="/images/hero-bg-cartoon.jpg?v=5" className="absolute inset-0 w-full h-full object-cover object-[center_60%]" alt="Background" />
           
           {/* Readability gradient wash on the left */}
-          <div className="absolute inset-y-0 left-0 bg-gradient-to-r from-white/90 via-white/40 to-transparent w-[42%] z-10" />
+          <div className="absolute inset-y-0 left-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent w-[55%] md:w-[48%] z-10" />
           
           {/* Interactive content overlaid on top */}
           <div className="absolute inset-0 z-20 flex items-center p-6 md:p-10 lg:p-12">
-            <div className="max-w-[42%]">
+            <div className="max-w-[85%] sm:max-w-[65%] md:max-w-[48%] space-y-3">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-amber-100/90 border border-amber-300 rounded-full text-[11px] font-black uppercase tracking-wider text-amber-900 shadow-sm">
+                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
+                <span>Foundation (Prep/K) to Grade 12</span>
+              </div>
               <h1 className="font-display text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-tight text-slate-900">
                 Welcome to Your<br />
                 <span style={{ color: 'var(--blue)' }}>Homework Zone!</span>
               </h1>
-              <p className="mt-1 md:mt-2 text-[10px] sm:text-xs md:text-sm lg:text-base text-slate-700 font-medium leading-relaxed">
-                Fun places for learning &amp; adventure!
+              <p className="mt-1 md:mt-2 text-[10px] sm:text-xs md:text-sm lg:text-base text-slate-800 font-bold leading-relaxed">
+                Curriculum-aligned practice, fun quizzes &amp; gamified learning for <strong>every child from Foundation to Grade 12</strong>.
               </p>
               <button onClick={() => openLogin('student')} className="btn-bubble btn-primary mt-2 md:mt-4 lg:mt-6 scale-75 sm:scale-90 md:scale-100 origin-left">
                 Start Learning <span>&#8594;</span>
@@ -4506,6 +4539,32 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
           </div>
         </section>
 
+        {/* SHOUTOUT BANNER: FOUNDATION TO GRADE 12 */}
+        <div className="w-full mt-6 bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500 p-1 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+          <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-[22px] px-6 py-4 md:py-5 flex flex-col md:flex-row items-center justify-between gap-4 text-white">
+            <div className="flex items-center gap-4 text-center md:text-left">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-2xl shadow-md shrink-0 group-hover:scale-110 transition-transform">
+                🎒
+              </div>
+              <div>
+                <div className="inline-flex items-center gap-2 px-2.5 py-0.5 bg-amber-400/20 border border-amber-400/30 rounded-full text-[10px] font-black uppercase tracking-wider text-amber-300 mb-1">
+                  <Star className="w-3 h-3 fill-amber-400 text-amber-400" /> Complete School Coverage
+                </div>
+                <h3 className="text-lg md:text-2xl font-black tracking-tight text-white">
+                  Comprehensive Practice from <span className="bg-gradient-to-r from-amber-300 via-orange-300 to-rose-300 bg-clip-text text-transparent">Foundation (Prep/K) to Grade 12!</span>
+                </h3>
+                <p className="text-xs md:text-sm text-slate-300 font-medium mt-0.5">
+                  Curriculum-aligned questions, gamified rewards &amp; AI-guided feedback tailored for every age group.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <span className="px-4 py-2 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 text-xs font-extrabold text-amber-300 shadow-inner">
+                Grades F – 12 🎓
+              </span>
+            </div>
+          </div>
+        </div>
 
         {/* FEATURE CARDS */}
         <section className="grid lg:grid-cols-3 gap-5 mt-6">
@@ -4618,6 +4677,152 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
           </article>
         </section>
 
+        {/* GRADE COVERAGE SECTION: FOUNDATION TO GRADE 12 */}
+        <section className="mt-10 bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 rounded-[36px] p-1.5 shadow-xl relative overflow-hidden">
+          <div className="bg-white rounded-[32px] p-6 md:p-10 space-y-8 relative z-10">
+            
+            {/* Section Header */}
+            <div className="text-center max-w-3xl mx-auto space-y-3">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-100/80 border border-orange-200 rounded-full text-xs font-black uppercase tracking-wider text-orange-700 shadow-sm">
+                <Award className="w-4 h-4 text-orange-600" />
+                <span>Complete Learning Pathway</span>
+              </div>
+              <h2 className="font-display text-3xl md:text-5xl text-slate-900 leading-tight">
+                Tailored Practice from <span className="bg-gradient-to-r from-orange-600 to-rose-600 bg-clip-text text-transparent">Foundation to Grade 12</span>
+              </h2>
+              <p className="text-sm md:text-base font-semibold text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                Whether your child is starting their very first letters in <strong>Foundation (Prep/K)</strong> or mastering advanced calculus and chemistry in <strong>Grade 12</strong>, Homework Zone provides age-appropriate, curriculum-aligned questions for every milestone.
+              </p>
+            </div>
+
+            {/* 4 Stage Cards Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              
+              {/* Stage 1: Foundation to Grade 2 */}
+              <div className="bg-gradient-to-br from-amber-50/70 to-orange-50/50 rounded-3xl p-6 border-2 border-amber-200/80 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden">
+                <div className="space-y-4">
+                  <div className="flex justify-between items-start">
+                    <div className="w-12 h-12 bg-amber-500 text-white rounded-2xl flex items-center justify-center text-2xl shadow-md shadow-amber-200 group-hover:scale-110 transition-transform">
+                      👶
+                    </div>
+                    <span className="bg-amber-200/60 text-amber-900 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider border border-amber-300">
+                      Grades F – 2
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-xl text-slate-900">Foundation &amp; Early Years</h3>
+                    <p className="text-xs font-bold text-amber-700 mt-0.5">Foundation (Prep/K), Grade 1 &amp; Grade 2</p>
+                  </div>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Fun, highly visual learning with phonics, basic counting, shape identification, picture stories, and interactive sticker rewards.
+                  </p>
+                </div>
+                <ul className="mt-4 pt-3 border-t border-amber-200/60 space-y-2 text-xs font-semibold text-slate-700">
+                  <li className="flex items-center gap-2">✨ Early Phonics &amp; Reading</li>
+                  <li className="flex items-center gap-2">✨ Visual Number Sense &amp; Shapes</li>
+                  <li className="flex items-center gap-2">✨ Storybooks &amp; Gamified Mazes</li>
+                </ul>
+              </div>
+
+              {/* Stage 2: Upper Primary (Grades 3 - 6) */}
+              <div className="bg-gradient-to-br from-blue-50/70 to-indigo-50/50 rounded-3xl p-6 border-2 border-blue-200/80 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden">
+                <div className="space-y-4">
+                  <div className="flex justify-between items-start">
+                    <div className="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center text-2xl shadow-md shadow-blue-200 group-hover:scale-110 transition-transform">
+                      🚀
+                    </div>
+                    <span className="bg-blue-200/60 text-blue-900 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider border border-blue-300">
+                      Grades 3 – 6
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-xl text-slate-900">Upper Primary &amp; NAPLAN</h3>
+                    <p className="text-xs font-bold text-blue-700 mt-0.5">Grade 3, Grade 4, Grade 5 &amp; Grade 6</p>
+                  </div>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Core skill building in fractions, multiplication, grammar, comprehension, science facts, and official NAPLAN practice tests.
+                  </p>
+                </div>
+                <ul className="mt-4 pt-3 border-t border-blue-200/60 space-y-2 text-xs font-semibold text-slate-700">
+                  <li className="flex items-center gap-2">🔹 Fractions, Decimals &amp; Geometry</li>
+                  <li className="flex items-center gap-2">🔹 NAPLAN &amp; Competition Prep</li>
+                  <li className="flex items-center gap-2">🔹 Vocabulary &amp; Word Power</li>
+                </ul>
+              </div>
+
+              {/* Stage 3: Middle School (Grades 7 - 9) */}
+              <div className="bg-gradient-to-br from-purple-50/70 to-fuchsia-50/50 rounded-3xl p-6 border-2 border-purple-200/80 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden">
+                <div className="space-y-4">
+                  <div className="flex justify-between items-start">
+                    <div className="w-12 h-12 bg-purple-600 text-white rounded-2xl flex items-center justify-center text-2xl shadow-md shadow-purple-200 group-hover:scale-110 transition-transform">
+                      📐
+                    </div>
+                    <span className="bg-purple-200/60 text-purple-900 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider border border-purple-300">
+                      Grades 7 – 9
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-xl text-slate-900">Middle School Mastery</h3>
+                    <p className="text-xs font-bold text-purple-700 mt-0.5">Grade 7, Grade 8 &amp; Grade 9</p>
+                  </div>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Transition to abstract thinking with algebra, linear equations, physics &amp; chemistry foundations, analytical reading, and essay writing.
+                  </p>
+                </div>
+                <ul className="mt-4 pt-3 border-t border-purple-200/60 space-y-2 text-xs font-semibold text-slate-700">
+                  <li className="flex items-center gap-2">🟣 Algebra &amp; Linear Equations</li>
+                  <li className="flex items-center gap-2">🟣 Physics, Chemistry &amp; Biology</li>
+                  <li className="flex items-center gap-2">🟣 Logical Reasoning &amp; Analysis</li>
+                </ul>
+              </div>
+
+              {/* Stage 4: Senior High School (Grades 10 - 12) */}
+              <div className="bg-gradient-to-br from-emerald-50/70 to-teal-50/50 rounded-3xl p-6 border-2 border-emerald-200/80 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden">
+                <div className="space-y-4">
+                  <div className="flex justify-between items-start">
+                    <div className="w-12 h-12 bg-emerald-600 text-white rounded-2xl flex items-center justify-center text-2xl shadow-md shadow-emerald-200 group-hover:scale-110 transition-transform">
+                      🎓
+                    </div>
+                    <span className="bg-emerald-200/60 text-emerald-900 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider border border-emerald-300">
+                      Grades 10 – 12
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-xl text-slate-900">Senior STEM &amp; Exam Prep</h3>
+                    <p className="text-xs font-bold text-emerald-700 mt-0.5">Grade 10, Grade 11 &amp; Grade 12</p>
+                  </div>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Advanced calculus, trigonometry, organic chemistry, senior physics, formal proofs, and high school exam preparation.
+                  </p>
+                </div>
+                <ul className="mt-4 pt-3 border-t border-emerald-200/60 space-y-2 text-xs font-semibold text-slate-700">
+                  <li className="flex items-center gap-2">🟢 Calculus &amp; Advanced Math</li>
+                  <li className="flex items-center gap-2">🟢 Senior Science &amp; STEM</li>
+                  <li className="flex items-center gap-2">🟢 Formal Step-by-Step Proofs</li>
+                </ul>
+              </div>
+
+            </div>
+
+            {/* Bottom Trust Badge Banner */}
+            <div className="bg-gradient-to-r from-indigo-900 via-slate-900 to-purple-950 rounded-2xl p-4 md:p-6 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
+              <div className="flex items-center gap-3 text-center sm:text-left">
+                <div className="w-10 h-10 bg-amber-400 text-slate-900 rounded-full flex items-center justify-center font-black text-xl shrink-0">
+                  ⭐
+                </div>
+                <div>
+                  <h4 className="font-display text-base md:text-lg">One Single Platform for Your Child's Entire School Journey</h4>
+                  <p className="text-xs text-slate-300 font-medium">No need to buy new apps as your kids grow—Homework Zone adapts automatically to every grade level.</p>
+                </div>
+              </div>
+              <button onClick={() => openLogin('teacher')} className="px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-black text-xs uppercase tracking-wider rounded-xl shadow-md hover:scale-105 transition-all shrink-0">
+                Start Free for Your Child →
+              </button>
+            </div>
+
+          </div>
+        </section>
+
         {/* PARENT & TUTOR ADVANTAGE SECTION */}
         <section className="mt-8 bg-gradient-to-br from-indigo-50 via-white to-orange-50/30 rounded-[36px] border-4 border-indigo-100 p-8 md:p-12 shadow-md relative overflow-hidden">
           {/* Decorative shapes/emojis */}
@@ -4687,7 +4892,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                 Everything You Need for Playful Learning
              </h2>
              <p className="text-sm font-bold text-slate-500 leading-relaxed italic">
-                Choose the pricing plan that fits your classroom size. Parents and students always learn 100% free!
+                Choose the pricing plan that fits your classroom or family size. Covers Foundation to Grade 12 — Parents and students always learn 100% free!
              </p>
           </div>
 
@@ -4806,7 +5011,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                    <div className="space-y-4 relative z-10">
                      <div className="flex justify-between items-start">
                        <div className="w-12 h-12 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center border border-orange-100">
-                         <Sparkles className="w-6 h-6 text-orange-500" />
+                         <Zap className="w-6 h-6 text-orange-500" />
                        </div>
                        <span className="bg-orange-50 text-orange-700 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase border border-orange-200">
                          Trial
@@ -4822,7 +5027,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2">
                        <li className="flex items-center gap-2">✔️ Unlimited students & seats</li>
                        <li className="flex items-center gap-2">✔️ Full dashboard administrative access</li>
-                       <li className="flex items-center gap-2">✔️ Unlimited homework assignments</li>
+                       <li className="flex items-center gap-2">✔️ 5 Free AI Paper Creations included</li>
                        <li className="flex items-center gap-2">✔️ No credit card required to start</li>
                      </ul>
                    </div>
@@ -4854,7 +5059,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2">
                        <li className="flex items-center gap-2">✔️ Best for parents & micro-tutors</li>
-                       <li className="flex items-center gap-2">✔️ Scale up to 10 students maximum</li>
+                       <li className="flex items-center gap-2">✔️ 25 AI Paper Creations / month</li>
                        <li className="flex items-center gap-2">✔️ Pay only for active students ($5–$50/mo)</li>
                        <li className="flex items-center gap-2">✔️ No long term commitment</li>
                      </ul>
@@ -4893,9 +5098,9 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                        </div>
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2 border-t border-slate-100">
-                       <li className="flex items-center gap-2">✔️ Best for tuition centers (11–30 students)</li>
+                       <li className="flex items-center gap-2">✔️ 60–100 AI Paper Creations / month</li>
+                       <li className="flex items-center gap-2">✔️ Assign 1 paper to all 30 students</li>
                        <li className="flex items-center gap-2">✔️ Save up to 50% vs Option A rates</li>
-                       <li className="flex items-center gap-2">✔️ Simple flat monthly price</li>
                        <li className="flex items-center gap-2">✔️ Switch plans instantly</li>
                      </ul>
                    </div>
@@ -4941,6 +5146,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                        </div>
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2 border-t border-slate-100">
+                        <li className="flex items-center gap-2">✔️ 2,500 AI Papers / year per school</li>
                        <li className="flex items-center gap-2">✔️ Requires minimum 31 student seats</li>
                        <li className="flex items-center gap-2">✔️ Perfect for whole school setups</li>
                        <li className="flex items-center gap-2">✔️ Graduated automatic discounts</li>
@@ -4954,6 +5160,31 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
 
              </div>
 
+              {/* Paper Top-Up Booster Banner */}
+              <div className="lg:col-span-12 col-span-full w-full mt-6 bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-700 rounded-3xl p-6 md:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-white/20">
+                <div className="space-y-2 text-center md:text-left">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 rounded-full text-xs font-black uppercase tracking-wider text-amber-300">
+                    ⚡ Instant Top-Up Booster Packs
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-black">Need Extra Papers Beyond Your Plan?</h3>
+                  <p className="text-xs md:text-sm text-violet-100 font-medium max-w-xl">
+                    Never run out of AI practice papers. Buy instant 1-click Top-Up packs anytime without adding dummy student seats or changing subscriptions!
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-4 shrink-0">
+                  <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 text-center min-w-[130px]">
+                    <p className="text-xs text-violet-200 font-semibold">Mini Booster</p>
+                    <p className="text-2xl font-black text-amber-300">$2.00</p>
+                    <p className="text-[10px] font-bold text-white uppercase tracking-wider">+15 Papers</p>
+                  </div>
+                  <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 border border-amber-400/50 text-center min-w-[140px] shadow-lg relative">
+                    <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-amber-400 text-slate-900 text-[9px] font-black uppercase px-2 py-0.5 rounded-full">Best Value</span>
+                    <p className="text-xs text-violet-100 font-semibold">Mega Booster</p>
+                    <p className="text-2xl font-black text-white">$5.00</p>
+                    <p className="text-[10px] font-bold text-amber-300 uppercase tracking-wider">+50 Papers</p>
+                  </div>
+                </div>
+              </div>
           </div>
         </section>
 

@@ -947,11 +947,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (page.imageUrl) return page.imageUrl;
     if (page.image) return page.image;
     const promptText = page.imagePrompt || page.image_prompt || page.text || story.title;
-    if (promptText) {
-      const stableSeed = (story.id ? (typeof story.id === 'string' ? story.id.charCodeAt(story.id.length - 1) : story.id) : 1) * 100 + pageIdx;
-      return `https://image.pollinations.ai/prompt/${encodeURIComponent(promptText + ", cute cartoon style, child book illustration, vibrant colors")}?width=512&height=512&nologo=true&seed=${stableSeed}`;
-    }
-    return story.coverImageUrl || story.image || '';
+    return story.coverImageUrl || story.image || '/library.jpg';
   };
 
   const getStoryCover = (story) => {
@@ -960,8 +956,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
       // Cache-bust featured stories so the browser fetches the corrected image files
       return story.isFeatured ? `${story.image}?v=2` : story.image;
     }
-    const stableSeed = (story.id ? (typeof story.id === 'string' ? story.id.charCodeAt(story.id.length - 1) : story.id) : 1) * 1000;
-    return `https://image.pollinations.ai/prompt/${encodeURIComponent(story.title + ", cute cartoon cover page, child illustration, vibrant colors")}?width=512&height=512&nologo=true&seed=${stableSeed}`;
+    return '/library.jpg';
   };
 
   const getTeacherActiveModel = async () => {

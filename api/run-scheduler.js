@@ -123,22 +123,62 @@ async function callOpenAI(apiKey, prompt) {
   return JSON.parse(first !== -1 && last !== -1 ? text.substring(first, last + 1) : text);
 }
 
+async function getLiveAnthropicModelsNode(apiKey) {
+  try {
+    const res = await fetchWithRetryNode('https://api.anthropic.com/v1/models', {
+      headers: {
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01'
+      }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const rawList = data.data || [];
+      rawList.sort((a, b) => {
+        const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
+        const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
+        return timeB - timeA;
+      });
+      return rawList.map(m => m.id);
+    }
+  } catch (e) {}
+  return [];
+}
+
 async function callAnthropic(apiKey, prompt) {
-  const res = await fetchWithRetryNode('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01'
-    },
-    body: JSON.stringify({
-      model: 'claude-3-5-sonnet-20241022',
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: 4096,
-      temperature: 0.7
-    })
-  });
-  if (!res.ok) throw new Error(`Anthropic API error: ${res.status}`);
+  const liveModels = await getLiveAnthropicModelsNode(apiKey);
+  const modelsToTry = liveModels.length > 0 
+    ? liveModels 
+    : ['claude-sonnet-latest', 'claude-haiku-latest', 'claude-opus-latest'];
+
+  let res = null;
+  let lastError = null;
+
+  for (const model of modelsToTry) {
+    try {
+      res = await fetchWithRetryNode('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify({
+          model,
+          messages: [{ role: 'user', content: prompt }],
+          max_tokens: 4096,
+          temperature: 0.7
+        })
+      });
+      if (res.ok) break;
+      const errText = await res.text().catch(() => '');
+      lastError = `HTTP ${res.status} (${model}): ${errText}`;
+    } catch (e) {
+      lastError = e.message;
+    }
+  }
+
+  if (!res || !res.ok) throw new Error(`Anthropic API error: ${lastError || 'No response'}`);
   const data = await res.json();
   const text = data.content[0].text;
   const first = text.indexOf('{');

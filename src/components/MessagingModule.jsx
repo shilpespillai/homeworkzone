@@ -30,6 +30,8 @@ import {
   limit
 } from 'firebase/firestore';
 
+import { validateChatMessage, validateChatMessageAsync } from '../utils/chatSafetyGuard';
+
 const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = [], getStudentAvatar }) => {
   const [activeTab, setActiveTab] = useState('Inbox');
   const [allMessages, setAllMessages] = useState([]);
@@ -41,6 +43,8 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
   const [newSubject, setNewSubject] = useState('');
   const [newMessageBody, setNewMessageBody] = useState('');
   const [onlineUsers, setOnlineUsers] = useState({});
+  const [safetyWarning, setSafetyWarning] = useState(null);
+  const [isCheckingSafety, setIsCheckingSafety] = useState(false);
 
   const classLoungeEndRef = useRef(null);
   const classmateEndRef = useRef(null);
@@ -193,6 +197,18 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
     e.preventDefault();
     if (!newMessageBody.trim()) return;
 
+    // AI Safety Guardrail Check
+    setIsCheckingSafety(true);
+    const recipient = teacher?.displayName || 'Teacher';
+    const subjectCheck = await validateChatMessageAsync(newSubject, studentName, recipient);
+    const bodyCheck = await validateChatMessageAsync(newMessageBody, studentName, recipient);
+    setIsCheckingSafety(false);
+
+    if (!subjectCheck.isSafe || !bodyCheck.isSafe) {
+      setSafetyWarning((subjectCheck.isSafe ? bodyCheck.message : subjectCheck.message));
+      return;
+    }
+
     try {
       await addDoc(collection(db, 'messages'), {
         teacherId: teacher.uid,
@@ -221,6 +237,17 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
   // Handle reply in right pane
   const handleSendReply = async () => {
     if (!replyText.trim()) return;
+
+    // AI Safety Guardrail Check
+    setIsCheckingSafety(true);
+    const recipient = activeClassmate?.name || (activeTab === 'Class Lounge' ? 'Class Lounge' : 'Teacher');
+    const check = await validateChatMessageAsync(replyText, studentName, recipient);
+    setIsCheckingSafety(false);
+
+    if (!check.isSafe) {
+      setSafetyWarning(check.message);
+      return;
+    }
 
     try {
       if (activeTab === 'Class Lounge') {
@@ -686,6 +713,27 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Kid Safety Guardrail Alert Modal */}
+      {safetyWarning && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[9999] flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-md w-full p-8 border-2 border-amber-200 shadow-2xl text-center space-y-4 animate-in zoom-in-95 duration-200">
+            <div className="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
+              <span className="text-3xl">💛</span>
+            </div>
+            <h3 className="text-xl font-black text-slate-800">Keep It Friendly & Kind!</h3>
+            <p className="text-xs text-slate-600 font-bold leading-relaxed bg-amber-50 p-4 rounded-2xl border border-amber-100">
+              {safetyWarning}
+            </p>
+            <button
+              onClick={() => setSafetyWarning(null)}
+              className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white py-3.5 rounded-2xl font-black text-xs transition-all shadow-md shadow-orange-100"
+            >
+              Got It, I'll Edit My Message! 👍
+            </button>
           </div>
         </div>
       )}

@@ -533,7 +533,10 @@ export default function OfficialExamPaperView({
 
   const { passage, question: cleanQuestionText } = getParsedQuestionContent(currentQ);
 
-  const answeredCount = Object.keys(answers).length;
+  const answeredCount = questions.filter((q, idx) => {
+    const val = getAnswerForQuestion(q, idx);
+    return val !== undefined && val !== null && String(val).trim() !== '';
+  }).length;
   const flaggedCount = Object.keys(markedForReview).filter(k => markedForReview[k]).length;
 
   // Render Cover Page if student hasn't started yet
@@ -711,16 +714,31 @@ export default function OfficialExamPaperView({
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-medium">
                         {(q.options || []).map((opt, oIdx) => {
                           const optKey = ['A', 'B', 'C', 'D'][oIdx] || String(oIdx);
-                          const isStudentChoice = studentAns === optKey || studentAns === opt;
-                          const isRightChoice = rawCorrect === optKey || rawCorrect === opt || String(rawCorrect) === String(oIdx) || (typeof rawCorrect === 'string' && rawCorrect.trim().toLowerCase() === opt.trim().toLowerCase());
+                          
+                          const isStudentChoice = studentAns === optKey || studentAns === opt || String(studentAns) === String(oIdx) || (typeof studentAns === 'string' && studentAns.trim().toUpperCase().startsWith(optKey));
+                          
+                          const isRightChoice = rawCorrect === optKey || rawCorrect === opt || String(rawCorrect) === String(oIdx) || (typeof rawCorrect === 'string' && (rawCorrect.trim().toLowerCase() === opt.trim().toLowerCase() || rawCorrect.trim().toUpperCase().startsWith(optKey)));
 
-                          let optClass = 'bg-white border-slate-200 text-slate-700';
-                          if (isRightChoice) optClass = 'bg-emerald-100 border-emerald-400 font-bold text-emerald-900';
-                          else if (isStudentChoice) optClass = 'bg-red-100 border-red-400 font-bold text-red-900';
+                          let optClass = 'bg-white border-slate-200 text-slate-700 opacity-60';
+                          let badgeText = null;
+
+                          if (isRightChoice && isStudentChoice) {
+                            optClass = 'bg-emerald-100 border-2 border-emerald-500 font-black text-emerald-950 shadow-sm opacity-100';
+                            badgeText = <span className="ml-auto text-[10px] uppercase font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full shrink-0">Your Correct Choice ✓</span>;
+                          } else if (isStudentChoice && !isRightChoice) {
+                            optClass = 'bg-rose-100 border-2 border-rose-500 font-black text-rose-950 shadow-sm opacity-100';
+                            badgeText = <span className="ml-auto text-[10px] uppercase font-black bg-rose-600 text-white px-2 py-0.5 rounded-full shrink-0">Your Choice (Incorrect) ❌</span>;
+                          } else if (isRightChoice) {
+                            optClass = 'bg-emerald-50 border-2 border-emerald-400 font-bold text-emerald-900 opacity-100';
+                            badgeText = <span className="ml-auto text-[10px] uppercase font-black bg-emerald-700 text-white px-2 py-0.5 rounded-full shrink-0">Correct Answer ✓</span>;
+                          }
 
                           return (
-                            <div key={oIdx} className={`p-3 rounded-lg border flex items-center gap-2 ${optClass}`}>
-                              <span className="font-black">({optKey})</span> {opt}
+                            <div key={oIdx} className={`p-3 rounded-lg border flex items-center justify-between gap-2 ${optClass}`}>
+                              <div className="flex items-center gap-2">
+                                <span className="font-black">({optKey})</span> {opt}
+                              </div>
+                              {badgeText}
                             </div>
                           );
                         })}

@@ -24,14 +24,15 @@ Number of Questions: {QUESTION_COUNT}
 
 Instructions:
 
+• Calibrate all questions against official past-year released examination papers (${new Date().getFullYear() - 6}–${new Date().getFullYear()} active releases) for cognitive depth, difficulty tier, section structure, and current syllabus specifications.
+• Zero Hallucinations: Guarantee 100% mathematical, logical, and factual accuracy. All calculations, dates, geometry dimensions, and scientific concepts must be verified.
+• Zero Self-Answering / Answer Leaking: NEVER leak or reveal the correct answer inside the question text stem! Question text must contain ONLY the problem statement.
 • Create engaging, age-appropriate questions that match the student's grade level.
 • Questions should progressively increase in difficulty.
 • Cover all important concepts within the specified topic.
 • Avoid repeating similar questions.
 • Use clear and simple language suitable for the selected grade.
-• Make the worksheet enjoyable and educational.
-• Ensure every question has only one correct answer.
-• Do not include ambiguous questions.
+• Ensure every question has only one correct answer without ambiguity.
 • Use real-world examples wherever appropriate.
 • Mix question types to maintain student engagement.
 

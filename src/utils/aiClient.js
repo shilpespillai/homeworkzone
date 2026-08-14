@@ -42,13 +42,14 @@ export const fetchWithRetry = async (url, options, maxRetries = 3, initialDelay 
  * still sufficient so we only bump to Opus for the STEM subjects.
  */
 export const getModelForGrade = (grade, subject, baseProvider) => {
-  // Only apply tiering when the user has selected Claude/Anthropic
-  const isAnthropic = baseProvider === 'anthropic' ||
-    baseProvider === 'claude-haiku' ||
-    baseProvider === 'claude-sonnet' ||
-    baseProvider === 'claude-opus';
+  // For NAPLAN, Selective, ICAS, SAT, and AMC Exams -> Always use Claude Sonnet for high reasoning & diagram JSON precision!
+  const isCompetitiveExam = /naplan|selective|icas|sat|olympiad|amc/i.test(`${subject} ${grade}`);
+  if (isCompetitiveExam) return 'claude-sonnet';
 
-  if (!isAnthropic) return baseProvider;
+  const provider = (baseProvider || localStorage.getItem('hwz_active_ai') || 'anthropic').toLowerCase();
+
+  // If user explicitly chose OpenAI
+  if (provider === 'openai') return 'openai';
 
   // Extract numeric grade (0 = Foundation)
   const gradeNum = grade ? parseInt(String(grade).replace(/\D/g, ''), 10) : 0;
@@ -66,17 +67,40 @@ export const getModelForGrade = (grade, subject, baseProvider) => {
 };
 
 export const generateContent = async ({ prompt, systemInstruction, responseMimeType, provider }) => {
-  const res = await fetch('/api/generate-content', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider }),
-  });
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(`Cloud AI generation failed: ${errorText}`);
+  try {
+    const res = await fetch('/api/generate-content', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.text) return data.text;
+    }
+  } catch (err) {
+    console.warn(`[AI Client] Primary generation failed with ${provider}. Retrying with backup engine...`);
   }
-  const data = await res.json();
-  return data.text;
+
+  // Client-side fail-safe retry using default backup engine
+  if (provider !== 'gemini') {
+    try {
+      const fallbackRes = await fetch('/api/generate-content', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider: 'gemini' }),
+      });
+      if (fallbackRes.ok) {
+        const data = await fallbackRes.json();
+        if (data.text) return data.text;
+      }
+    } catch (fallbackErr) {
+      console.error(`[AI Client] Backup engine also encountered issue:`, fallbackErr);
+    }
+  }
+
+  throw new Error("Our learning engine is briefly recalibrating content. Please try again in a moment.");
 };
