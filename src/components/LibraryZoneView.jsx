@@ -1467,6 +1467,146 @@ const STORIES = [
     ]
   },
   {
+    id: 'the_princess_and_the_pea',
+    title: "The Princess and the Pea",
+    subtitle: "A story about truth and looking beyond appearances",
+    genre: "Classic Fairy Tale",
+    emoji: "👑🛏️",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/the_princess_and_the_pea.png",
+    moral: "Do not judge people only by appearances. Honesty, sincerity, and inner character reveal the true nobility of a person. 👑✨",
+    summary: "A thoughtful prince searches far and wide for a genuine, kind-hearted princess. On a stormy night, a storm-soaked young woman seeks shelter at the castle claiming to be a princess. To test her sensitivity and truthfulness, the Queen places a single tiny pea beneath twenty thick mattresses and twenty feather beds. The visitor's honest, gentle response the next morning reveals her genuine character, leading to a joyful royal wedding.",
+    vocabHighlights: [
+      { word: "Sensitivity", partOfSpeech: "Noun", definition: "The quality or condition of being sensitive; quick to detect or respond to slight changes or feelings.", pronunciation: "sen-si-tiv-i-tee", fact: "The princess had such delicate sensitivity that she felt a tiny pea under twenty mattresses!" },
+      { word: "Mattress", partOfSpeech: "Noun", definition: "A fabric case filled with resilient material used for sleeping on.", pronunciation: "mat-ris", fact: "The Queen commanded the servants to stack twenty mattresses high upon the royal bed." },
+      { word: "Truthfulness", partOfSpeech: "Noun", definition: "The quality of telling or expressing the truth; honesty.", pronunciation: "trooth-fuhl-nis", fact: "Her truthfulness and humble honesty won the prince's heart immediately." },
+      { word: "Sincere", partOfSpeech: "Adjective", definition: "Free from pretense or deceit; proceeding from genuine feelings.", pronunciation: "sin-seer", fact: "The prince sought a sincere companion whose inner character shone brighter than gold." },
+      { word: "Nobility", partOfSpeech: "Noun", definition: "The quality of being noble in character, mind, or moral excellence.", pronunciation: "noh-bil-i-tee", fact: "True nobility is shown through kindness, honesty, and respect for all people." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "The Prince's Quest",
+        text: "A thoughtful prince wished to marry a kind and honest princess. 'How will I recognise a true princess?' asked the prince. The Queen smiled: 'Character reveals itself in unexpected ways.'",
+        imageUrl: "/the_princess_and_the_pea.png"
+      },
+      {
+        pageNumber: 2,
+        title: "Searching Foreign Kingdoms",
+        text: "The prince travelled through many kingdoms and met many princesses, but none felt genuine: 'I seek someone sincere and kind.'",
+        imageUrl: "/the_princess_and_the_pea.png"
+      },
+      {
+        pageNumber: 3,
+        title: "Returning Home",
+        text: "After a long and fruitless search, the disappointed prince returned home. 'I have not found the right person,' he sighed. 'Do not lose hope,' comforted the Queen.",
+        imageUrl: "/the_princess_and_the_pea.png"
+      },
+      {
+        pageNumber: 4,
+        title: "The Midnight Storm",
+        text: "One night, a tremendous storm shook the royal castle with booming thunder: BOOM! Torrential rain poured across the kingdom.",
+        imageUrl: "/the_princess_and_the_pea.png"
+      },
+      {
+        pageNumber: 5,
+        title: "A Knock at the Gate",
+        text: "A soaked young woman knocked urgently at the castle gate: 'Please let me shelter here. I am a princess.' The royal guard invited her inside out of the pouring rain.",
+        imageUrl: "/the_princess_and_the_pea.png"
+      },
+      {
+        pageNumber: 6,
+        title: "A Royal Guest",
+        text: "The Queen welcomed the shivering visitor warmly with dry towels, but quietly thought: 'You may stay with us tonight. I will arrange a gentle test to see if her claim is true.'",
+        imageUrl: "/the_princess_and_the_pea.png"
+      },
+      {
+        pageNumber: 7,
+        title: "The Secret Pea",
+        text: "The Queen entered the royal bedchamber and secretly placed one tiny green pea directly onto the wooden bed frame: 'This little pea will reveal the truth.'",
+        imageUrl: "/the_princess_and_the_pea.png"
+      },
+      {
+        pageNumber: 8,
+        title: "The Towering Bed",
+        text: "She stacked twenty thick mattresses and twenty soft feather beds high above the pea. 'Prepare the tallest bed in the castle!' ordered the Queen.",
+        imageUrl: "/the_princess_and_the_pea.png"
+      },
+      {
+        pageNumber: 9,
+        title: "Climbing to Sleep",
+        text: "The princess climbed a wooden ladder all the way to the top of the towering bed: 'Thank you for your kindness. Good night!'",
+        imageUrl: "/the_princess_and_the_pea.png"
+      },
+      {
+        pageNumber: 10,
+        title: "A Restless Night",
+        text: "All night long, the princess tossed and turned beneath the moonlight: 'Something hard beneath this bed is keeping me awake.'",
+        imageUrl: "/the_princess_and_the_pea.png"
+      },
+      {
+        pageNumber: 11,
+        title: "Morning Breakfast",
+        text: "The next morning at breakfast, the Queen inquired about her guest's rest: 'Did you sleep comfortably?' The visitor replied politely: 'I am afraid I barely slept.'",
+        imageUrl: "/the_princess_and_the_pea.png"
+      },
+      {
+        pageNumber: 12,
+        title: "An Honest Answer",
+        text: "The princess honestly described her uncomfortable night: 'Something hard beneath the mattresses troubled me, and I could hardly close my eyes.'",
+        imageUrl: "/the_princess_and_the_pea.png"
+      },
+      {
+        pageNumber: 13,
+        title: "The Pea Revealed",
+        text: "The Queen smiled and revealed the tiny pea: 'You felt this tiny pea through twenty mattresses and feather beds!' The princess said: 'I only told you the truth.'",
+        imageUrl: "/the_princess_and_the_pea.png"
+      },
+      {
+        pageNumber: 14,
+        title: "True Character",
+        text: "The prince admired the visitor's honesty, modesty, and delicate grace: 'Your truthfulness matters more than appearances.' 'Kindness and honesty matter to me too,' she smiled.",
+        imageUrl: "/the_princess_and_the_pea.png"
+      },
+      {
+        pageNumber: 15,
+        title: "The Proposal",
+        text: "The prince knelt and asked the princess to share a future with him: 'Will you marry me?' The princess answered joyfully: 'Yes, with all my heart.'",
+        imageUrl: "/the_princess_and_the_pea.png"
+      },
+      {
+        pageNumber: 16,
+        title: "Happily Ever After",
+        text: "The kingdom celebrated with a grand royal wedding. The famous pea was placed inside a glass case in the royal museum, and the prince and princess lived happily ever after.",
+        imageUrl: "/the_princess_and_the_pea.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "Why did the Queen place a tiny pea under twenty mattresses?",
+        options: ["To test if the storm-soaked visitor was truly a sensitive and genuine princess", "To play a practical joke on the guest", "To help her sleep better", "Because she was storing peas for winter"],
+        answer: "To test if the storm-soaked visitor was truly a sensitive and genuine princess",
+        explanation: "The Queen arranged the gentle test to see if the visitor possessed the true sensitivity and honesty of a genuine princess."
+      },
+      {
+        id: 2,
+        question: "How did the princess describe her night of sleep to the Queen?",
+        options: ["She honestly explained that something hard beneath the mattresses kept her awake", "She lied and claimed she slept peacefully", "She said she did not go to bed at all", "She complained about the rain outside"],
+        answer: "She honestly explained that something hard beneath the mattresses kept her awake",
+        explanation: "Instead of giving a polite false answer, the princess was completely honest about her uncomfortable night."
+      },
+      {
+        id: 3,
+        question: "What is the central moral lesson of 'The Princess and the Pea'?",
+        options: ["Do not judge people only by appearances; honesty and character reveal the truth", "Never sleep on tall beds", "Stormy nights always bring guests", "Peas should always be kept in glass cases"],
+        answer: "Do not judge people only by appearances; honesty and character reveal the truth",
+        explanation: "The story illustrates that true nobility and worth come from inner honesty, sincerity, and character rather than outward appearances."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -2047,7 +2187,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -2171,10 +2311,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'goldilocks_and_the_three_bears') return 999999999999988;
     if (String(s.id) === 'jack_and_the_beanstalk') return 999999999999987;
     if (String(s.id) === 'the_ugly_duckling') return 999999999999986;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999985;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999984;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999983;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999982;
+    if (String(s.id) === 'the_princess_and_the_pea') return 999999999999985;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999984;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999983;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999982;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999981;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
