@@ -2215,6 +2215,158 @@ const STORIES = [
     ]
   },
   {
+    id: 'the_bremen_town_musicians',
+    title: "The Bremen Town Musicians",
+    subtitle: "A story about friendship, teamwork and finding a new home",
+    genre: "Classic Fairy Tale",
+    emoji: "🎶🐴🐶",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/the_bremen_town_musicians.png",
+    moral: "Together, our different strengths become powerful. True friends help one another find courage, purpose and a place to belong. 🎶🏡✨",
+    summary: "An aging donkey, hound, cat, and rooster set off together to become musicians in the town of Bremen. When darkness falls in the deep forest, they spot a warm cottage where three robbers are eating a grand feast. Standing on each other's backs to form a tall tower, the four friends belt out a thunderous chorus that scares the robbers away forever, finding friendship, safety, and a cozy home of their own.",
+    vocabHighlights: [
+      { word: "Musician", partOfSpeech: "Noun", definition: "A person who plays a musical instrument or sings, especially as a profession.", pronunciation: "myoo-zish-uhn", fact: "The four animal friends formed their own band and set out to become town musicians!" },
+      { word: "Remarkable", partOfSpeech: "Adjective", definition: "Worthy of attention; striking or extraordinary.", pronunciation: "ri-mahr-kuh-buhl", fact: "By balancing on top of each other, they formed a remarkable four-story animal tower." },
+      { word: "Abandoned", partOfSpeech: "Adjective", definition: "Having been deserted or left behind.", pronunciation: "uh-ban-duhnd", fact: "The frightened robbers ran into the forest and left an abandoned feast on the table." },
+      { word: "Thunderous", partOfSpeech: "Adjective", definition: "Making a loud, deep, reverberating noise like thunder.", pronunciation: "thuhn-der-uhs", fact: "When all four animals sang together, they produced a thunderous concert that shook the windows." },
+      { word: "Purpose", partOfSpeech: "Noun", definition: "The reason for which something is done or created or for which a person exists; determination.", pronunciation: "pur-puhs", fact: "By supporting each other, the old friends found new purpose, joy, and a place to belong." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "A New Journey to Bremen",
+        text: "An old donkey decided to seek a new life in Bremen. 'I can become a town musician!' he said optimistically.",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 2,
+        title: "Meeting the Hound",
+        text: "Along the road, the donkey met an old hunting dog resting by a fence. 'Come to Bremen and make music with me,' invited the donkey.",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 3,
+        title: "A Homeless Cat Joins In",
+        text: "Next, they found an old cat who needed a home. 'May I join your band?' purred the friendly cat.",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 4,
+        title: "The Rooster's Powerful Voice",
+        text: "A rooster with a powerful voice became their fourth musician: 'Cock-a-doodle-doo! I will sing loud and clear!'",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 5,
+        title: "Setting Off Together",
+        text: "The four new companions set off down the country road together: 'Our band will be wonderful!' beamed the donkey.",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 6,
+        title: "Practising Harmony",
+        text: "They practised their unusual music along the way with barks, brays, and crows: 'We each have a special voice,' said the donkey.",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 7,
+        title: "Nightfall in the Woods",
+        text: "By nightfall, the tired travellers needed food and shelter: 'Let us find somewhere warm to sleep,' they agreed.",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 8,
+        title: "A Light in the Forest",
+        text: "The rooster flew up to a branch and spotted a warm light shining through the trees: 'There is a cottage ahead!'",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 9,
+        title: "The Robbers' Feast",
+        text: "Inside the cottage window, three robbers enjoyed a grand feast: 'That food smells delicious,' whispered the hungry friends.",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 10,
+        title: "A Clever Concert Plan",
+        text: "The friends invented a clever way to frighten the robbers away: 'We will perform our music together!'",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 11,
+        title: "The Four-Story Tower",
+        text: "They carefully climbed into one remarkable tower: dog on donkey, cat on dog, rooster on cat. 'Ready, everyone?' asked the rooster.",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 12,
+        title: "The Thunderous Symphony",
+        text: "The four musicians made the loudest music the forest had ever heard: 'Hee-haw! Woof! Meow! Cock-a-doodle-doo!' through the glass window.",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 13,
+        title: "Frightened Robbers Flee",
+        text: "Certain that a giant woodland monster had arrived, the terrified robbers ran into the dark forest: 'That cottage is haunted!'",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 14,
+        title: "Feasting with Gratitude",
+        text: "The hungry friends sat around the table and enjoyed the abandoned feast: 'Teamwork tastes wonderful!' cheered the hound.",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 15,
+        title: "A Cozy Bed for Everyone",
+        text: "Each musician found a comfortable place to sleep near the warm fireplace: 'This already feels like home,' purred the cat.",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 16,
+        title: "The Robber Returns",
+        text: "Later that night, one robber crept back quietly to investigate: 'I will see what is inside the cottage.'",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 17,
+        title: "The Midnight Surprise",
+        text: "The musicians sprang up in the dark and surprised him with claws, teeth, and a thunderous 'Cock-a-doodle-doo!'",
+        imageUrl: "/the_bremen_town_musicians.png"
+      },
+      {
+        pageNumber: 18,
+        title: "A True Home Found",
+        text: "The robbers never returned, and the four happy friends stayed together forever: 'We found something better than Bremen—a home!'",
+        imageUrl: "/the_bremen_town_musicians.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "Which four animals joined together to form the band of musicians?",
+        options: ["A donkey, a dog, a cat, and a rooster", "A lion, a tiger, a bear, and an owl", "A horse, a sheep, a goat, and a goose", "A wolf, a fox, a hare, and a crow"],
+        answer: "A donkey, a dog, a cat, and a rooster",
+        explanation: "The story features an old donkey, a faithful hound, a stray cat, and a lively rooster who journey together."
+      },
+      {
+        id: 2,
+        question: "How did the four friends frighten the robbers away from the cottage?",
+        options: ["By standing on each other's backs to form a tower and singing loudly together", "By setting off fireworks", "By wearing monster masks", "By rolling heavy rocks against the door"],
+        answer: "By standing on each other's backs to form a tower and singing loudly together",
+        explanation: "They stacked on top of one another to appear like a giant creature and made a thunderous chorus through the window."
+      },
+      {
+        id: 3,
+        question: "What is the central moral lesson of 'The Bremen Town Musicians'?",
+        options: ["Together, our different strengths become powerful; true friends help one another find courage, purpose, and a home", "Never travel through forests at night", "Robbers always like soup", "Music should only be played in big cities"],
+        answer: "Together, our different strengths become powerful; true friends help one another find courage, purpose, and a home",
+        explanation: "The fable teaches that by combining our unique strengths and standing united, we can overcome any obstacle and find a place to belong."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -2779,7 +2931,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'the_elves_and_the_shoemaker', 'the_emperors_new_clothes', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'the_elves_and_the_shoemaker', 'the_emperors_new_clothes', 'the_bremen_town_musicians', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -2881,10 +3033,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'the_gingerbread_man') return 999999999999983;
     if (String(s.id) === 'the_elves_and_the_shoemaker') return 999999999999982;
     if (String(s.id) === 'the_emperors_new_clothes') return 999999999999981;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999980;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999979;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999978;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999977;
+    if (String(s.id) === 'the_bremen_town_musicians') return 999999999999980;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999979;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999978;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999977;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999976;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
