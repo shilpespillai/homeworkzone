@@ -2063,6 +2063,158 @@ const STORIES = [
     ]
   },
   {
+    id: 'the_emperors_new_clothes',
+    title: "The Emperor's New Clothes",
+    subtitle: "A story about honesty, pride and speaking the truth",
+    genre: "Classic Fairy Tale",
+    emoji: "👑✨",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/the_emperors_new_clothes.png",
+    moral: "Honesty is wiser than pretending. Have the courage to speak the truth, even when others are afraid. 👑🌟",
+    summary: "A vain Emperor who cares more about fine robes than ruling wisely is tricked by two clever swindlers who claim to weave magical cloth invisible to foolish people. Afraid of seeming incompetent, the Minister, courtiers, and even the Emperor pretend to see the magnificent fabric. During a grand royal procession, the entire crowd plays along until one innocent, brave child shouts the honest truth: the Emperor is wearing no clothes at all!",
+    vocabHighlights: [
+      { word: "Swindler", partOfSpeech: "Noun", definition: "A person who uses deception to deprive someone of money or possessions; a fraud.", pronunciation: "swin-dler", fact: "The two swindlers tricked the royal court by pretending to weave magical fabric on empty looms." },
+      { word: "Magnificent", partOfSpeech: "Adjective", definition: "Extremely beautiful, elaborate, or impressive.", pronunciation: "mag-nif-uh-suhnt", fact: "The Emperor spent all his gold hoping to wear the most magnificent royal robes in the world." },
+      { word: "Incompetent", partOfSpeech: "Adjective", definition: "Not having or showing the necessary skills to do something successfully.", pronunciation: "in-kom-pi-tuhnt", fact: "The court ministers were terrified of being labeled incompetent, so they lied about what they saw." },
+      { word: "Procession", partOfSpeech: "Noun", definition: "A number of people or vehicles moving forward in an orderly formal manner, especially as part of a ceremony.", pronunciation: "pruh-sesh-uhn", fact: "The grand procession paraded through the town square with cheering crowds." },
+      { word: "Integrity", partOfSpeech: "Noun", definition: "The quality of being honest and having strong moral principles.", pronunciation: "in-teg-ri-tee", fact: "The young child showed true integrity by speaking the truth when everyone else pretended." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "A Love of Fashion",
+        text: "The Emperor cared more about fine clothes than ruling wisely. 'Which magnificent coat shall I wear today?' he asked admiringly.",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 2,
+        title: "Two Clever Tricksters",
+        text: "Two clever swindlers arrived at the palace with an extraordinary claim: 'We can weave the finest cloth in the world.'",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 3,
+        title: "A Magical Claim",
+        text: "They claimed foolish people could not see their magical fabric. The Emperor was intrigued: 'Only wise people can see its beauty.'",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 4,
+        title: "Gold for the Work",
+        text: "The delighted Emperor paid them bags of heavy gold coins to begin at once: 'Make me a splendid royal outfit!'",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 5,
+        title: "Empty Looms",
+        text: "The swindlers set up looms and pretended to weave on thin air. 'Such dazzling colours!' they exclaimed to the guards.",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 6,
+        title: "The Minister Visits",
+        text: "The Emperor sent his trusted Prime Minister to inspect the cloth. Looking at the empty loom, the Minister panicked: 'I cannot see anything!'",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 7,
+        title: "Afraid to be Honest",
+        text: "The worried Minister was afraid to tell the truth lest he seem foolish: 'The pattern is truly remarkable,' he lied.",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 8,
+        title: "A False Report",
+        text: "The Minister returned to the throne room and praised the cloth he had never seen: 'Your Majesty, the fabric is magnificent.'",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 9,
+        title: "The Emperor Looks",
+        text: "The Emperor visited the weavers himself but saw nothing at all. He worried: 'Am I not wise enough to see it?'",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 10,
+        title: "Pride Takes Over",
+        text: "Too proud to admit the truth, the Emperor pretended: 'What wonderful colours! What exquisite embroidery!'",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 11,
+        title: "Pretend Tailoring",
+        text: "All night before the grand parade, the swindlers pretended to cut and sew with empty scissors: 'The royal outfit is almost finished.'",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 12,
+        title: "The Invisible Outfit",
+        text: "The swindlers pretended to dress the Emperor in invisible robes: 'The outfit is as light as air, Your Majesty.'",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 13,
+        title: "Praise in the Mirror",
+        text: "Everyone praised the invisible outfit because nobody wanted to seem foolish: 'You look magnificent, Your Majesty.'",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 14,
+        title: "The Parade Begins",
+        text: "The Emperor proudly began his grand parade through the city streets: 'Let everyone admire my new clothes!'",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 15,
+        title: "The Crowd Pretends",
+        text: "The townspeople lined the street and pretended they could see the marvellous outfit: 'What beautiful fabric!' they cheered.",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 16,
+        title: "One Honest Voice",
+        text: "Then one honest child in the crowd pointed and spoke clearly: 'The Emperor is not wearing any royal clothes!'",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 17,
+        title: "The Truth Spreads",
+        text: "The simple truth spread through the laughing crowd like wildfire: 'The child is right! He has nothing on!'",
+        imageUrl: "/the_emperors_new_clothes.png"
+      },
+      {
+        pageNumber: 18,
+        title: "A Wiser Emperor",
+        text: "The Emperor blushed, but chose honesty over pride and learned an important lifelong lesson. He thanked the child: 'Thank you for telling me the truth.'",
+        imageUrl: "/the_emperors_new_clothes.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "Why did the Minister and the Emperor pretend they could see the invisible fabric?",
+        options: ["Because they were afraid of being seen as foolish or unfit for their jobs", "Because the cloth glowed in the dark", "Because they wanted to surprise the crowd", "Because the weavers threatened them"],
+        answer: "Because they were afraid of being seen as foolish or unfit for their jobs",
+        explanation: "The swindlers claimed that only wise people could see the fabric, so everyone pretended to see it to avoid appearing foolish."
+      },
+      {
+        id: 2,
+        question: "Who finally had the courage to speak the truth during the grand royal parade?",
+        options: ["An honest young child in the crowd", "The Minister of State", "The Queen", "The Emperor's guard"],
+        answer: "An honest young child in the crowd",
+        explanation: "While all the adults pretended out of fear, an innocent child spoke the simple truth that the Emperor had no clothes on."
+      },
+      {
+        id: 3,
+        question: "What is the central moral lesson of 'The Emperor's New Clothes'?",
+        options: ["Honesty is wiser than pretending; have the courage to speak the truth even when others are afraid", "Always buy expensive silk robes", "Parades should only be held in the summer", "Weavers make the best advisors"],
+        answer: "Honesty is wiser than pretending; have the courage to speak the truth even when others are afraid",
+        explanation: "The fable teaches that pride and peer pressure lead people to pretend, but true wisdom and integrity come from speaking the truth."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -2627,7 +2779,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'the_elves_and_the_shoemaker', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'the_elves_and_the_shoemaker', 'the_emperors_new_clothes', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -2728,10 +2880,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'hansel_and_gretel') return 999999999999984;
     if (String(s.id) === 'the_gingerbread_man') return 999999999999983;
     if (String(s.id) === 'the_elves_and_the_shoemaker') return 999999999999982;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999981;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999980;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999979;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999978;
+    if (String(s.id) === 'the_emperors_new_clothes') return 999999999999981;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999980;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999979;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999978;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999977;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
