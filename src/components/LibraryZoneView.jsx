@@ -583,6 +583,110 @@ const STORIES = [
     ]
   },
   {
+    id: 'monkey_and_the_crocodile',
+    title: "The Monkey and the Crocodile",
+    subtitle: "A story about clever thinking and friendship",
+    genre: "Classic Fable",
+    emoji: "🐒",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/monkey_and_the_crocodile.png",
+    moral: "Quick thinking can save us from danger. Choose your friends wisely. 🥭",
+    summary: "A generous monkey lives in a fruit tree by a wide river and shares sweet berries with a crocodile every day. But when the crocodile's greedy wife demands to eat the monkey's heart, the crocodile tries to trap his friend mid-river. Using his calm wits and quick thinking, the monkey convinces the crocodile that his heart is safely stored back in the tree, escaping unharmed!",
+    vocabHighlights: [
+      { word: "Clever", partOfSpeech: "Adjective", definition: "Quick to understand, learn, and devise ingenious solutions to problems.", pronunciation: "klev-er", fact: "The clever monkey thought of a brilliant excuse in just seconds!" },
+      { word: "Generous", partOfSpeech: "Adjective", definition: "Showing a readiness to give more of something, like food or kindness, than is necessary.", pronunciation: "jen-er-uhs", fact: "The monkey was generous and happily shared his fruit with the crocodile every day." },
+      { word: "Betrayal", partOfSpeech: "Noun", definition: "The act of being disloyal or breaking trust with a friend or group.", pronunciation: "bih-tray-uhl", fact: "The crocodile's betrayal broke the friendship forever." },
+      { word: "Presence of Mind", partOfSpeech: "Noun", definition: "The ability to remain calm, think clearly, and act sensibly in a sudden crisis or danger.", pronunciation: "prez-uhns uv mynd", fact: "Having presence of mind allowed the monkey to stay calm and save his life." },
+      { word: "Foolish", partOfSpeech: "Adjective", definition: "Lacking good sense or judgment; unwise and easily tricked.", pronunciation: "foo-lish", fact: "The foolish crocodile realized too late that nobody can leave their heart behind!" }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "The Fruit Tree",
+        text: "A clever monkey lived in a lush fruit tree beside a wide, sparkling river. 'These fruits are delicious!' he thought as he picked a sweet berry.",
+        imageUrl: "/monkey_and_the_crocodile.png"
+      },
+      {
+        pageNumber: 2,
+        title: "A Tired Visitor",
+        text: "One day, a tired crocodile rested beneath the tree. The monkey called down, 'Would you like some fruit?' The crocodile smiled: 'Yes, please!'",
+        imageUrl: "/monkey_and_the_crocodile.png"
+      },
+      {
+        pageNumber: 3,
+        title: "A Growing Friendship",
+        text: "The monkey shared fruit every day, and they became good friends. 'Thank you, my friend!' said the crocodile. 'You are always welcome!' replied the monkey.",
+        imageUrl: "/monkey_and_the_crocodile.png"
+      },
+      {
+        pageNumber: 4,
+        title: "Sharing with His Wife",
+        text: "The crocodile took some sweet fruit home across the river to his wife. 'My monkey friend gave them to me,' he explained. 'These fruits taste wonderful!' she beamed.",
+        imageUrl: "/monkey_and_the_crocodile.png"
+      },
+      {
+        pageNumber: 5,
+        title: "A Greedy Demand",
+        text: "The greedy wife imagined that the monkey's heart must taste even sweeter: 'Bring me the monkey's heart!' The crocodile gasped: 'But he is my friend!'",
+        imageUrl: "/monkey_and_the_crocodile.png"
+      },
+      {
+        pageNumber: 6,
+        title: "An Invitation",
+        text: "Sadly, the crocodile returned and invited the monkey to visit his home: 'Climb onto my back. I will carry you across.' The monkey cheered: 'What a kind invitation!'",
+        imageUrl: "/monkey_and_the_crocodile.png"
+      },
+      {
+        pageNumber: 7,
+        title: "The Truth Revealed",
+        text: "In the middle of the deep river, the crocodile revealed the truth: 'My wife wants your heart!' The monkey was shocked: 'My heart?'",
+        imageUrl: "/monkey_and_the_crocodile.png"
+      },
+      {
+        pageNumber: 8,
+        title: "A Clever Plan",
+        text: "The frightened monkey stayed calm and quickly formed a clever plan: 'I left my heart in the tree branches. Take me back to get it!'",
+        imageUrl: "/monkey_and_the_crocodile.png"
+      },
+      {
+        pageNumber: 9,
+        title: "Leaping to Safety",
+        text: "The foolish crocodile swam back to the shore. With a mighty BOING, the monkey leapt safely high into the fruit tree: 'I am safe!'",
+        imageUrl: "/monkey_and_the_crocodile.png"
+      },
+      {
+        pageNumber: 10,
+        title: "The Lesson",
+        text: "From a high branch, the monkey told the crocodile the truth: 'No one can leave their heart behind!' The crocodile hung his head: 'I have been foolish.' MORAL: Quick thinking can save us from danger. Choose your friends wisely.",
+        imageUrl: "/monkey_and_the_crocodile.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "How did the monkey and the crocodile become friends at the start of the story?",
+        options: ["The monkey shared delicious fruit with the crocodile every day", "They raced each other across the river", "They built a raft together", "The crocodile saved the monkey from a snake"],
+        answer: "The monkey shared delicious fruit with the crocodile every day",
+        explanation: "The generous monkey dropped sweet fruit from his tree to the resting crocodile every day."
+      },
+      {
+        id: 2,
+        question: "How did the monkey escape when the crocodile revealed the truth mid-river?",
+        options: ["He tricked the crocodile into thinking he had left his heart in the tree", "He jumped off and swam to shore", "A giant bird picked him up", "He threw fruit at the crocodile"],
+        answer: "He tricked the crocodile into thinking he had left his heart in the tree",
+        explanation: "Using his quick wits, the monkey convinced the crocodile that monkeys keep their hearts safely stored on tree branches."
+      },
+      {
+        id: 3,
+        question: "What is the moral of 'The Monkey and the Crocodile'?",
+        options: ["Quick thinking can save us from danger; choose your friends wisely", "Always swim in shallow water", "Never share food with animals", "Trees are safer than rivers"],
+        answer: "Quick thinking can save us from danger; choose your friends wisely",
+        explanation: "The story teaches us to stay calm and use quick thinking in danger, and to be careful whom we trust as friends."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -1163,7 +1267,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -1280,10 +1384,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'hare_and_the_hound') return 999999999999995;
     if (String(s.id) === 'fox_and_the_grapes') return 999999999999994;
     if (String(s.id) === 'honest_woodcutter') return 999999999999993;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999992;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999991;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999990;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999989;
+    if (String(s.id) === 'monkey_and_the_crocodile') return 999999999999992;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999991;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999990;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999989;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999988;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
