@@ -194,6 +194,93 @@ export const getNaplanUmbrella = (subject, title) => {
    return title || 'Other Topics';
 };
 
+// --- Subcategory resolver for Exam Arena suites ---
+export const getExamSubcategory = (hw, programKey) => {
+   const title = (hw?.title || '').toLowerCase();
+   const subject = (hw?.subject || '').toLowerCase();
+   const topic = (hw?.topic || '').toLowerCase();
+   const fullText = `${title} ${subject} ${topic}`;
+
+   // 1. NAPLAN Breakdown: MATHS, READING, LANGUAGE CONVENTIONS
+   if (programKey === 'NAPLAN Suite' || fullText.includes('naplan')) {
+      if (/reading|comprehension|passage|text|story/i.test(fullText)) {
+         return 'READING';
+      }
+      if (/language\s*convention|convention|grammar|punct|spell|vocab|word|writing|persuasive|narrative|literacy/i.test(fullText)) {
+         return 'LANGUAGE CONVENTIONS';
+      }
+      if (/math|numera|calc|algebra|geometry|shape|number|fraction|data|measure|arithmetic/i.test(fullText)) {
+         return 'MATHS';
+      }
+      if (subject.includes('english') || subject.includes('read') || subject.includes('vocab')) return 'READING';
+      if (subject.includes('math') || subject.includes('numeracy')) return 'MATHS';
+      return 'MATHS';
+   }
+
+   // 2. Classroom Assessments Breakdown: MATHS, ENGLISH, SCIENCE
+   if (programKey === 'Classroom Assessments' || !programKey) {
+      if (/math|numera|calc|algebra|geometry|fraction|arithmetic|number|shape|equation|decimal|percent/i.test(fullText)) {
+         return 'MATHS';
+      }
+      if (/english|read|comprehension|vocab|language\s*convention|convention|spell|grammar|punct|literacy|writing|phonic|word/i.test(fullText)) {
+         return 'ENGLISH';
+      }
+      if (/science|bio|chem|physic|earth|space|nature|stem|lab/i.test(fullText)) {
+         return 'SCIENCE';
+      }
+      if (subject.includes('math')) return 'MATHS';
+      if (subject.includes('english') || subject.includes('read') || subject.includes('vocab') || subject.includes('spell') || subject.includes('grammar')) return 'ENGLISH';
+      if (subject.includes('science')) return 'SCIENCE';
+      return subject ? subject.toUpperCase() : 'GENERAL';
+   }
+
+   // 3. ICAS Global Competitions Breakdown
+   if (programKey === 'ICAS Competitions' || fullText.includes('icas')) {
+      if (/math/i.test(fullText)) return 'MATHEMATICS';
+      if (/english|reading|comprehension|spelling|writing/i.test(fullText)) return 'ENGLISH';
+      if (/science/i.test(fullText)) return 'SCIENCE';
+      if (/digital|computer|tech/i.test(fullText)) return 'DIGITAL TECHNOLOGIES';
+      return subject ? subject.toUpperCase() : 'GENERAL';
+   }
+
+   // 4. STEM Olympiads Breakdown
+   if (programKey === 'STEM Olympiads' || fullText.includes('olympiad')) {
+      if (/math|imo|amc|seamo|sasmo/i.test(fullText)) return 'MATH OLYMPIADS';
+      if (/science|nso|bio|chem|physic/i.test(fullText)) return 'SCIENCE OLYMPIADS';
+      if (/english|ieo/i.test(fullText)) return 'ENGLISH OLYMPIADS';
+      return 'STEM OLYMPIADS';
+   }
+
+   // 5. SAT & College Prep
+   if (programKey === 'SAT & College Prep') {
+      if (/math/i.test(fullText)) return 'MATH';
+      if (/read|write|verbal|english/i.test(fullText)) return 'READING & WRITING';
+      return 'GENERAL PREP';
+   }
+
+   // 6. Selective & 11+ Entrance
+   if (programKey === 'Selective & 11+ Plus') {
+      if (/math|numerical/i.test(fullText)) return 'MATHEMATICS';
+      if (/read|comprehension|english|verbal/i.test(fullText)) return 'READING & VERBAL REASONING';
+      if (/thinking|non-verbal|logic|abstract|spatial/i.test(fullText)) return 'THINKING SKILLS & REASONING';
+      return 'ENTRANCE PAPERS';
+   }
+
+   return getNaplanUmbrella(hw.subject, hw.title);
+};
+
+export const sortSubcategoryTopics = (topics, programKey) => {
+   if (programKey === 'NAPLAN Suite') {
+      const order = { 'MATHS': 1, 'READING': 2, 'LANGUAGE CONVENTIONS': 3 };
+      return [...topics].sort((a, b) => (order[a] || 99) - (order[b] || 99));
+   }
+   if (programKey === 'Classroom Assessments') {
+      const order = { 'MATHS': 1, 'ENGLISH': 2, 'SCIENCE': 3 };
+      return [...topics].sort((a, b) => (order[a] || 99) - (order[b] || 99));
+   }
+   return topics;
+};
+
 // --- Custom Blob Chart Component ---
 const BlobChart = ({ value }) => (
   <div className="relative w-48 h-48 flex-center">
@@ -896,16 +983,14 @@ export const resolveExamProgram = (hw) => {
   const text = `${preset} ${title} ${subject} ${topic}`;
 
   if (text.includes('naplan')) {
-    const yrMatch = text.match(/year\s*([3579])|grade\s*([3579])|\b([3579])\b/);
-    const yr = yrMatch ? `Year ${yrMatch[1] || yrMatch[2] || yrMatch[3]}` : 'National';
     return {
-      key: `NAPLAN ${yr}`.trim(),
-      name: `NAPLAN ${yr} Suite`.trim(),
+      key: 'NAPLAN Suite',
+      name: 'NAPLAN National Suite',
       flag: '🇦🇺',
       region: 'Australia & New Zealand',
       badge: 'National Assessment',
       subtitle: 'NAPLAN SUITE:',
-      topic: 'Language & Numeracy',
+      topic: 'Maths, Reading & Language Conventions',
       bg: 'bg-[#065f46]',
       reportBg: 'bg-gradient-to-br from-emerald-600 to-teal-800 shadow-emerald-700/30',
       pillBg: 'bg-[#34d399]',
@@ -994,16 +1079,15 @@ export const resolveExamProgram = (hw) => {
     };
   }
 
-  // Fallback for Classroom/School tests
-  const subName = hw?.subject || 'Classroom';
+  // Fallback for ALL Classroom/School tests under one single umbrella
   return {
-    key: `${subName} Tests`,
-    name: `${subName} Tests & Quizzes`,
+    key: 'Classroom Assessments',
+    name: 'Classroom Tests & Assessments',
     flag: '🏫',
-    region: 'Classroom Assessments',
-    badge: 'Term Assessment',
-    subtitle: `${subName.toUpperCase()} EXAM:`,
-    topic: 'Chapter & Term Test',
+    region: 'School & Term Assessments',
+    badge: 'Classroom Assessment',
+    subtitle: 'CLASSROOM EXAMS:',
+    topic: 'Maths, English & Science',
     bg: 'bg-[#831843]',
     reportBg: 'bg-gradient-to-br from-pink-700 to-rose-900 shadow-pink-800/30',
     pillBg: 'bg-[#f472b6]',
@@ -1523,7 +1607,15 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
 
                {/* Topic Tabs */}
                {(() => {
-                  const orderedTopics = [...new Set(displayedHomeworks.map(hw => getNaplanUmbrella(hw.subject, hw.title)))];
+                  const getHwTopic = (hw) => {
+                     if (mode === 'test') {
+                        return getExamSubcategory(hw, subjectFilter);
+                     }
+                     return getNaplanUmbrella(hw.subject, hw.title);
+                  };
+
+                  const rawTopics = [...new Set(displayedHomeworks.map(hw => getHwTopic(hw)))];
+                  const orderedTopics = mode === 'test' ? sortSubcategoryTopics(rawTopics, subjectFilter) : rawTopics;
                   if (orderedTopics.length === 0) return null;
                   return (
                      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pt-2">
@@ -1531,7 +1623,7 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
                            onClick={() => setActiveTopicTab('All')}
                            className={`px-4 py-1.5 rounded-full text-[13px] font-bold whitespace-nowrap transition-colors ${activeTopicTab === 'All' ? 'bg-[#14532d] text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
                         >
-                           All Topics
+                           All {mode === 'test' ? 'Sections' : 'Topics'}
                         </button>
                         {orderedTopics.map(topic => (
                            <button
@@ -1552,14 +1644,22 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
                {displayedHomeworks.length > 0 ? (
                   <div className="flex flex-col gap-8">
                      {(() => {
+                        const getHwTopic = (hw) => {
+                           if (mode === 'test') {
+                              return getExamSubcategory(hw, subjectFilter);
+                           }
+                           return getNaplanUmbrella(hw.subject, hw.title);
+                        };
+
                         const groupsMap = displayedHomeworks.reduce((acc, hw) => {
-                           const t = getNaplanUmbrella(hw.subject, hw.title);
+                           const t = getHwTopic(hw);
                            if (!acc[t]) acc[t] = [];
                            acc[t].push(hw);
                            return acc;
                         }, {});
                         
-                        const orderedTopics = [...new Set(displayedHomeworks.map(hw => getNaplanUmbrella(hw.subject, hw.title)))];
+                        const rawTopics = [...new Set(displayedHomeworks.map(hw => getHwTopic(hw)))];
+                        const orderedTopics = mode === 'test' ? sortSubcategoryTopics(rawTopics, subjectFilter) : rawTopics;
                         const topicsToRender = activeTopicTab === 'All' ? orderedTopics : [activeTopicTab];
 
                         return topicsToRender.map(topic => {
