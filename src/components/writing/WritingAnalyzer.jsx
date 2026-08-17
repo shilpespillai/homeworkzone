@@ -267,7 +267,8 @@ Analyze this draft for Grade ${grade} standards. Provide:
 5. 4 dynamic, topic-tailored sentence starters and transition words.`;
 
     try {
-      const providerModel = genreKey === 'narrative' ? 'gemini' : getModelForGrade(grade, 'English', 'anthropic');
+      // Use Google Gemini Flash across all writing formats (Persuasive, Narrative, Informative, and Essays)
+      const providerModel = 'gemini';
       const responseText = await generateContent({
         prompt,
         systemInstruction,

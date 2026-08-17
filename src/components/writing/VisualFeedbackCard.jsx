@@ -61,7 +61,7 @@ export default function VisualFeedbackCard({
   };
 
   return (
-    <div className="w-full bg-slate-100 p-3 md:p-6 rounded-3xl border-2 border-slate-300 shadow-2xl space-y-6 font-sans">
+    <div id="printable-feedback-card" className="w-full bg-slate-100 p-3 md:p-6 rounded-3xl border-2 border-slate-300 shadow-2xl space-y-6 font-sans">
       {/* 1. MAIN 3-COLUMN VISUAL CONTAINER */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         

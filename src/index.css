@@ -254,3 +254,48 @@ html, body {
 .animate-float-reverse {
   animation: float-reverse 5s ease-in-out infinite;
 }
+
+/* ==========================================================================
+   PRINT / PDF STYLES - Isolates the Exemplar Feedback Card for Clean PDF Export
+   ========================================================================== */
+@media print {
+  /* Hide whole app shell, sidebar, navbar, buttons, banners */
+  body * {
+    visibility: hidden !important;
+  }
+
+  /* Make ONLY the printable feedback card visible */
+  #printable-feedback-card,
+  #printable-feedback-card * {
+    visibility: visible !important;
+  }
+
+  /* Position card to occupy the entire printed page */
+  #printable-feedback-card {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Hide print buttons and interactive triggers */
+  .no-print,
+  button,
+  header,
+  nav,
+  aside {
+    display: none !important;
+  }
+
+  @page {
+    size: A4 landscape;
+    margin: 6mm 8mm;
+  }
+}
