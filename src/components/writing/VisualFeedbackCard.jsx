@@ -17,8 +17,13 @@ export default function VisualFeedbackCard({
     exemplarParagraphs = [], 
     annotations = [], 
     diagnosticChecks = {}, 
-    wordReplacements = [] 
+    wordReplacements = [],
+    customStarters,
+    customLinkingWords
   } = analysisData;
+
+  const displayStarters = customStarters && customStarters.length > 0 ? customStarters : genre.starters;
+  const displayLinkingWords = customLinkingWords || genre.linkingWords;
 
   // Helper to colorize text with highlights
   const renderExemplarParagraph = (paragraphText, paraIdx) => {
@@ -156,7 +161,7 @@ export default function VisualFeedbackCard({
             USE BETTER SENTENCE STARTERS
           </div>
           <div className="space-y-2">
-            {genre.starters.map((starter, idx) => (
+            {displayStarters.map((starter, idx) => (
               <div key={idx} className="flex items-center gap-2 text-xs font-bold text-amber-950">
                 <ArrowRight className="w-3.5 h-3.5 text-amber-600 shrink-0" />
                 <span>{starter}</span>
@@ -174,19 +179,19 @@ export default function VisualFeedbackCard({
             <div className="bg-white p-2 rounded-xl border border-rose-200">
               <div className="font-black text-rose-700 mb-1">Adding</div>
               <div className="text-[11px] text-slate-700 leading-relaxed font-semibold">
-                {genre.linkingWords.adding.join(', ')}
+                {(displayLinkingWords.adding || []).join(', ')}
               </div>
             </div>
             <div className="bg-white p-2 rounded-xl border border-rose-200">
               <div className="font-black text-rose-700 mb-1">Explaining</div>
               <div className="text-[11px] text-slate-700 leading-relaxed font-semibold">
-                {genre.linkingWords.explaining.join(', ')}
+                {(displayLinkingWords.explaining || []).join(', ')}
               </div>
             </div>
             <div className="bg-white p-2 rounded-xl border border-rose-200">
               <div className="font-black text-rose-700 mb-1">Contrasting</div>
               <div className="text-[11px] text-slate-700 leading-relaxed font-semibold">
-                {genre.linkingWords.contrasting.join(', ')}
+                {(displayLinkingWords.contrasting || []).join(', ')}
               </div>
             </div>
           </div>

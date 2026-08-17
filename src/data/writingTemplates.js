@@ -241,6 +241,9 @@ export const WRITING_GENRES = {
           'Cohesive transitions between body paragraphs.',
           'Synthesized conclusion reinforcing broader significance.'
         ]
+      }
+    ]
+  }
 };
 
 /**

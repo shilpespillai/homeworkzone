@@ -93,7 +93,13 @@ Output STRICT JSON matching this schema:
   },
   "wordReplacements": [
     { "weakWord": "string", "replacements": ["string", "string"] }
-  ]
+  ],
+  "customStarters": ["string (3-5 topic-tailored sentence starters)"],
+  "customLinkingWords": {
+    "adding": ["string"],
+    "explaining": ["string"],
+    "contrasting": ["string"]
+  }
 }`;
 
     const prompt = `Target Grade: ${grade}
@@ -107,12 +113,14 @@ ${studentDraft}
 
 Analyze this draft for Grade ${grade} standards. Provide:
 1. An improved, highly polished exemplar version of the student's text.
-2. Annotations highlighting specific upgrades (opening statement, specific reasons, better details/examples, stronger words, powerful conclusion).
+2. Annotations highlighting specific upgrades (opening statement, specific reasons/actions, better details/examples, stronger words, powerful conclusion).
 3. Boolean checklist evaluations matching category item counts (${activeGenre.checklistCategories.map(c => `${c.id}:${c.items.length}`).join(', ')}).
-4. 3-4 weak or repetitive words found in the student draft with 2-3 strong synonym replacements.`;
+4. 3-4 weak or repetitive words found in the student draft with 2-3 strong synonym replacements.
+5. 4 dynamic, topic-tailored sentence starters and transition words.`;
 
     try {
-      const providerModel = getModelForGrade(grade, 'English', 'anthropic');
+      // Use Gemini Flash for Narrative, and grade-tiered routing for other genres
+      const providerModel = genreKey === 'narrative' ? 'gemini' : getModelForGrade(grade, 'English', 'anthropic');
       const responseText = await generateContent({
         prompt,
         systemInstruction,
