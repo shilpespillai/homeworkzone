@@ -479,6 +479,110 @@ const STORIES = [
     ]
   },
   {
+    id: 'honest_woodcutter',
+    title: "The Honest Woodcutter",
+    subtitle: "A story about honesty and reward",
+    genre: "Classic Fable",
+    emoji: "🪓",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/honest_woodcutter.png",
+    moral: "Honesty is always the best policy. Truthfulness earns trust and lasting rewards. 🪵",
+    summary: "A poor woodcutter accidentally drops his iron axe into a deep river. A magical water spirit appears and tests his integrity by offering him a golden axe, then a silver axe. The woodcutter honestly refuses both, claiming only his humble iron axe. Impressed by his truthfulness, the spirit rewards him with all three axes!",
+    vocabHighlights: [
+      { word: "Honesty", partOfSpeech: "Noun", definition: "The quality of being fair, truthful, and morally upright without cheating or lying.", pronunciation: "on-uh-stee", fact: "Honesty builds lasting trust that no amount of gold can buy!" },
+      { word: "Magnificent", partOfSpeech: "Adjective", definition: "Extremely beautiful, elaborate, or impressive in appearance.", pronunciation: "mag-nif-uh-suhnt", fact: "The golden axe sparkled with magnificent light beneath the water." },
+      { word: "Refused", partOfSpeech: "Verb", definition: "Indicated unwillingness to accept, take, or agree to something.", pronunciation: "rih-fyoozd", fact: "The woodcutter refused the gold axe because it did not belong to him." },
+      { word: "Praised", partOfSpeech: "Verb", definition: "Expressed warm approval, admiration, or commendation for someone's good deeds.", pronunciation: "prayzd", fact: "The river spirit praised the woodcutter for his unwavering truthfulness." },
+      { word: "Truthfulness", partOfSpeech: "Noun", definition: "The practice or habit of telling the truth and being authentic.", pronunciation: "trooth-fuhl-nis", fact: "Truthfulness brings peace of mind and unexpected blessings!" }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "Working by the River",
+        text: "A poor but honest woodcutter worked beside a deep river. 'I must finish my work before sunset,' he thought as he chopped the wood.",
+        imageUrl: "/honest_woodcutter.png"
+      },
+      {
+        pageNumber: 2,
+        title: "The Axe Falls In",
+        text: "Suddenly, his iron axe slipped from his hands and fell into the water with a loud SPLASH! 'Oh no! My only axe!' he cried in despair.",
+        imageUrl: "/honest_woodcutter.png"
+      },
+      {
+        pageNumber: 3,
+        title: "The Magical River Spirit",
+        text: "The woodcutter sat sadly by the river. A magical glowing river spirit appeared and asked, 'Why are you crying?' The woodcutter replied, 'My axe fell into the river.'",
+        imageUrl: "/honest_woodcutter.png"
+      },
+      {
+        pageNumber: 4,
+        title: "The Golden Axe",
+        text: "The river spirit dived into the water and returned holding a magnificent golden axe. 'Is this golden axe yours?' she asked. 'No. That is not mine,' the woodcutter replied honestly.",
+        imageUrl: "/honest_woodcutter.png"
+      },
+      {
+        pageNumber: 5,
+        title: "The Silver Axe",
+        text: "Next, the river spirit brought up a shining silver axe from the riverbed. 'Is this silver axe yours?' she asked. 'No. That is not mine either,' said the woodcutter.",
+        imageUrl: "/honest_woodcutter.png"
+      },
+      {
+        pageNumber: 6,
+        title: "The Iron Axe",
+        text: "Finally, the spirit raised an ordinary iron axe from the water. The woodcutter's eyes lit up with joy: 'Yes! That is my axe!'",
+        imageUrl: "/honest_woodcutter.png"
+      },
+      {
+        pageNumber: 7,
+        title: "Impressed by Honesty",
+        text: "The river spirit was deeply impressed by the woodcutter's honesty. 'You refused gold and silver. Why?' she asked. 'Because they did not belong to me,' he answered.",
+        imageUrl: "/honest_woodcutter.png"
+      },
+      {
+        pageNumber: 8,
+        title: "A Deserved Reward",
+        text: "The spirit smiled warmly and praised the truthful woodcutter: 'Your honesty deserves a great reward.'",
+        imageUrl: "/honest_woodcutter.png"
+      },
+      {
+        pageNumber: 9,
+        title: "All Three Axes",
+        text: "The spirit gifted him the golden, silver, and iron axes: 'Keep all three axes.' The woodcutter beamed: 'Thank you! I will always be honest.'",
+        imageUrl: "/honest_woodcutter.png"
+      },
+      {
+        pageNumber: 10,
+        title: "Returning Home with Joy",
+        text: "The grateful woodcutter returned home with joy and peace in his heart. His honesty brought him an unexpected reward. MORAL: Honesty is always the best policy. Truthfulness earns trust and lasting rewards.",
+        imageUrl: "/honest_woodcutter.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "What happened when the woodcutter was chopping wood beside the river?",
+        options: ["His only iron axe slipped from his hands and fell into the water", "He broke his wooden cart", "He found a hidden treasure chest", "A storm began to blow"],
+        answer: "His only iron axe slipped from his hands and fell into the water",
+        explanation: "The woodcutter's iron axe slipped from his hands and fell into the deep river."
+      },
+      {
+        id: 2,
+        question: "Why did the woodcutter refuse the golden and silver axes?",
+        options: ["Because they did not belong to him", "He thought they were too heavy", "He did not like shiny metals", "He was afraid of the spirit"],
+        answer: "Because they did not belong to him",
+        explanation: "The honest woodcutter refused the golden and silver axes because he only wanted what was rightfully his."
+      },
+      {
+        id: 3,
+        question: "How did the river spirit reward the woodcutter's truthfulness?",
+        options: ["She gave him all three axes: gold, silver, and iron", "She built him a new house", "She gave him a bag of magical seeds", "She turned him into a prince"],
+        answer: "She gave him all three axes: gold, silver, and iron",
+        explanation: "Because of his honesty, the river spirit rewarded him with the gold axe, silver axe, and his own iron axe."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -1059,7 +1163,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -1175,10 +1279,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'dog_and_his_reflection') return 999999999999996;
     if (String(s.id) === 'hare_and_the_hound') return 999999999999995;
     if (String(s.id) === 'fox_and_the_grapes') return 999999999999994;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999993;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999992;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999991;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999990;
+    if (String(s.id) === 'honest_woodcutter') return 999999999999993;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999992;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999991;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999990;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999989;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
