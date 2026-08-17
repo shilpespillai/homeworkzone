@@ -77,7 +77,7 @@ export default function WritingAnalyzer() {
     setIsAnalyzing(true);
     setErrorMsg(null);
 
-    const systemInstruction = `You are an expert NAPLAN & English Writing AI Assessor. Analyze student writing drafts and generate an upgraded exemplar version, targeted callouts, checklist evaluations, and vocabulary upgrades.
+    const systemInstruction = `You are an expert English Writing & Essay Assessor. Analyze student writing drafts and generate an upgraded exemplar version, targeted callouts, checklist evaluations, and vocabulary upgrades.
 Output STRICT JSON matching this schema:
 {
   "improvedTitle": "string",
@@ -148,7 +148,7 @@ Analyze this draft for Grade ${grade} standards. Provide:
         <div className="flex flex-wrap justify-between items-center gap-4">
           <div className="space-y-1">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-400/20 text-yellow-300 text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="w-4 h-4" /> ⚡ AI Writing & Essay Studio
+              <Sparkles className="w-4 h-4" /> Writing & Essay Studio
             </div>
             <h1 className="text-2xl md:text-4xl font-black tracking-tight text-white">
               Visual Writing Analysis & Exemplar Card
@@ -271,7 +271,7 @@ Analyze this draft for Grade ${grade} standards. Provide:
             {isAnalyzing ? (
               <>
                 <RefreshCcw className="w-4 h-4 animate-spin" />
-                <span>Analyzing Draft with AI...</span>
+                <span>Analyzing Writing & Formatting Exemplar...</span>
               </>
             ) : (
               <>
@@ -289,10 +289,10 @@ Analyze this draft for Grade ${grade} standards. Provide:
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
               <CheckCircle className="w-6 h-6 text-emerald-500" />
-              <span>Generated Feedback Card</span>
+              <span>Generated Exemplar Feedback Card</span>
             </h2>
-            <span className="text-xs font-black text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-300">
-              ⚡ Analyzed in ~350 tokens
+            <span className="text-xs font-black text-indigo-700 bg-indigo-100 px-3 py-1 rounded-full border border-indigo-300 flex items-center gap-1">
+              <Sparkles className="w-3.5 h-3.5 text-indigo-600" /> Interactive Feedback Card
             </span>
           </div>
 

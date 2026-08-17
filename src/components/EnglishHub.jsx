@@ -54,12 +54,12 @@ export default function EnglishHub({ topicName }) {
   const [quizScore, setQuizScore] = useState(null);
 
   function getTabFromTopic(topic) {
-    if (topic?.includes('Essay Studio') || topic?.includes('AI Writing') || topic?.includes('NAPLAN') || topic?.includes('Visual') || topic?.includes('Feedback')) return 'visual-feedback';
+    if (topic?.includes('Essay') || topic?.includes('Visual') || topic?.includes('Feedback') || topic?.includes('Exemplar')) return 'visual-feedback';
     if (topic?.includes('Grammar') || topic?.includes('Guide')) return 'grammar';
     if (topic?.includes('Vocabulary') || topic?.includes('Spelling')) return 'vocab';
     if (topic?.includes('Reading') || topic?.includes('Comprehension')) return 'reading';
     if (topic?.includes('Sentence') || topic?.includes('Punctuation')) return 'punctuation';
-    if (topic?.includes('Writing') || topic?.includes('Creative') || topic?.includes('Narrative')) return 'writing';
+    if (topic?.includes('Creative') || topic?.includes('Narrative') || topic?.includes('Writing')) return 'writing';
     if (topic?.includes('Parts') || topic?.includes('Tenses')) return 'parts';
     if (topic?.includes('Quiz') || topic?.includes('Master')) return 'quiz';
     return 'grammar';
