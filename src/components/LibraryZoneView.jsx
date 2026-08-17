@@ -271,6 +271,110 @@ const STORIES = [
     ]
   },
   {
+    id: 'hare_and_the_hound',
+    title: "The Hare and the Hound",
+    subtitle: "A story about effort and motivation",
+    genre: "Classic Fable",
+    emoji: "🐇",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/hare_and_the_hound.png",
+    moral: "Strong motivation can overcome greater strength. We try hardest when something truly matters. 🌾",
+    summary: "When a swift hunting hound spots a young hare on a sunny hillside, an intense chase begins across the meadow and up a steep hill. Despite the hound's superior strength and speed, the hare gathers every ounce of energy and escapes. When an old shepherd asks why the stronger hound gave up, the hound wisely replies: 'I was running for my dinner. The hare was running for his life!'",
+    vocabHighlights: [
+      { word: "Motivation", partOfSpeech: "Noun", definition: "The reason, desire, or driving force behind someone's effort and actions.", pronunciation: "moh-tuh-vay-shun", fact: "The hare had the greatest motivation of all — protecting his own life!" },
+      { word: "Exhausted", partOfSpeech: "Adjective", definition: "Completely drained of physical energy and strength; extremely tired.", pronunciation: "ig-zaw-stid", fact: "After running up the steep hill, the hound was exhausted and could not take another step." },
+      { word: "Startled", partOfSpeech: "Adjective", definition: "Sudden feeling of surprise, alarm, or shock.", pronunciation: "star-tulld", fact: "The startled hare sprang into action the moment he heard the hound's footsteps!" },
+      { word: "Determination", partOfSpeech: "Noun", definition: "Firmness of purpose and resolve to achieve a difficult goal without giving up.", pronunciation: "dih-tur-muh-nay-shun", fact: "With pure determination, the hare leapt over rocks and pushed past his limits." },
+      { word: "Perseverance", partOfSpeech: "Noun", definition: "Continued effort to accomplish something despite difficulty or exhaustion.", pronunciation: "pur-suh-veer-uhns", fact: "The hare's perseverance enabled him to reach the safety of the hilltop." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "A Peaceful Morning",
+        text: "One peaceful morning, a young hare nibbled grass on a sunny hillside. 'What a lovely morning!' he thought contentedly.",
+        imageUrl: "/hare_and_the_hound.png"
+      },
+      {
+        pageNumber: 2,
+        title: "Spotted Across the Meadow",
+        text: "A hunting hound spotted the hare from across the meadow. 'There is my dinner!' the hound barked excitedly.",
+        imageUrl: "/hare_and_the_hound.png"
+      },
+      {
+        pageNumber: 3,
+        title: "The Chase Begins",
+        text: "The hound charged forward with a mighty WHOOSH, and the startled hare raced away. 'I must escape!' the hare cried.",
+        imageUrl: "/hare_and_the_hound.png"
+      },
+      {
+        pageNumber: 4,
+        title: "Gaining Ground",
+        text: "The powerful hound quickly began to gain on the hare. 'You cannot outrun me!' shouted the hound as his paws pounded the dirt.",
+        imageUrl: "/hare_and_the_hound.png"
+      },
+      {
+        pageNumber: 5,
+        title: "Darting Through Bushes",
+        text: "The frightened hare darted between bushes and leapt over sharp stones. 'My life depends on this!' the hare said with all his heart.",
+        imageUrl: "/hare_and_the_hound.png"
+      },
+      {
+        pageNumber: 6,
+        title: "Up the Steep Hill",
+        text: "The chase continued up a steep and winding hill. 'I am getting tired!' panted the hound. 'Keep running!' whispered the hare to himself.",
+        imageUrl: "/hare_and_the_hound.png"
+      },
+      {
+        pageNumber: 7,
+        title: "One Final Burst",
+        text: "The hare gathered every bit of strength for one final burst of speed. 'I will not give up!' he declared as he soared up the slope.",
+        imageUrl: "/hare_and_the_hound.png"
+      },
+      {
+        pageNumber: 8,
+        title: "The Hound Stops",
+        text: "The exhausted hound slowed down and finally stopped on the path. 'I cannot run another step!' he gasped, out of breath.",
+        imageUrl: "/hare_and_the_hound.png"
+      },
+      {
+        pageNumber: 9,
+        title: "The Shepherd's Question",
+        text: "A shepherd had watched the chase from beside the path. 'You are stronger and faster, yet the hare escaped!' said the shepherd.",
+        imageUrl: "/hare_and_the_hound.png"
+      },
+      {
+        pageNumber: 10,
+        title: "The Power of Motivation",
+        text: "The hound looked at the shepherd and explained the difference: 'I was running for my dinner. The hare was running for his life!' MORAL: Strong motivation can overcome greater strength. We try hardest when something truly matters.",
+        imageUrl: "/hare_and_the_hound.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "Why was the hunting hound chasing the young hare?",
+        options: ["He wanted the hare for his dinner", "To play a game of tag", "To guide the hare home", "To show off to the shepherd"],
+        answer: "He wanted the hare for his dinner",
+        explanation: "The hound spotted the hare across the meadow and thought: 'There is my dinner!'"
+      },
+      {
+        id: 2,
+        question: "How was the smaller hare able to escape the bigger and faster hound?",
+        options: ["The hare ran with all his strength because his life depended on it", "The hound fell into a river", "The shepherd caught the hound", "The hare hid inside a cave"],
+        answer: "The hare ran with all his strength because his life depended on it",
+        explanation: "The hare gave every ounce of energy and determination because he was running for his life."
+      },
+      {
+        id: 3,
+        question: "What did the hound tell the shepherd at the end of the chase?",
+        options: ["'I was running for my dinner. The hare was running for his life!'", "'I let the hare win on purpose'", "'The hill was too cold for me'", "'I was not hungry after all'"],
+        answer: "'I was running for my dinner. The hare was running for his life!'",
+        explanation: "The hound explained that the hare's motivation to survive was much greater than his motivation for a meal."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -851,7 +955,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -965,10 +1069,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'lion_and_the_mouse') return 999999999999998;
     if (String(s.id) === 'tortoise_and_the_hare') return 999999999999997;
     if (String(s.id) === 'dog_and_his_reflection') return 999999999999996;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999995;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999994;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999993;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999992;
+    if (String(s.id) === 'hare_and_the_hound') return 999999999999995;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999994;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999993;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999992;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999991;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
