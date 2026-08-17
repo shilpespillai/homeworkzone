@@ -1187,6 +1187,146 @@ const STORIES = [
     ]
   },
   {
+    id: 'jack_and_the_beanstalk',
+    title: "Jack and the Beanstalk",
+    subtitle: "A story about courage and wise choices",
+    genre: "Classic Fairy Tale",
+    emoji: "🌱🏰",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/jack_and_the_beanstalk.png",
+    moral: "Courage should be guided by honesty. Always use your strengths and cleverness to help others and right past wrongs. ✨🌿",
+    summary: "When poor Jack trades his family's cow for five magic beans, a gigantic beanstalk grows overnight high into the clouds. Jack climbs into the sky to explore a castle where a fearsome giant hoards stolen treasures. With bravery, quick wit, and a noble heart, Jack retrieves the villagers' stolen gold, the golden hen, and the magical harp, chopping down the beanstalk to keep his family and village safe and prosperous.",
+    vocabHighlights: [
+      { word: "Courage", partOfSpeech: "Noun", definition: "The ability to do something that frightens one; bravery.", pronunciation: "kur-ij", fact: "Jack showed tremendous courage when climbing the massive beanstalk high above the clouds." },
+      { word: "Beanstalk", partOfSpeech: "Noun", definition: "The stem of a bean plant, especially the fast-growing giant bean vine in fairy tales.", pronunciation: "been-stawk", fact: "The magic beans sprouted overnight into an enormous green beanstalk." },
+      { word: "Enchanted", partOfSpeech: "Adjective", definition: "Filled with or under the influence of magical powers.", pronunciation: "en-chan-tid", fact: "The giant kept an enchanted golden harp that played beautiful melodies on command." },
+      { word: "Prospered", partOfSpeech: "Verb", definition: "Flourished physically, financially, or socially; succeeded.", pronunciation: "pros-perd", fact: "Jack and his village prospered honestly after returning the stolen treasures." },
+      { word: "Retrieve", partOfSpeech: "Verb", definition: "To get or bring something back from somewhere.", pronunciation: "ri-treev", fact: "Jack carefully retrieved the stolen gold and golden hen to return them to their rightful owners." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "Milky-White the Cow",
+        text: "Jack lived with his mother and their gentle cow, Milky-White. 'We have very little food left,' sighed Mother. 'I will help, Mother,' promised Jack.",
+        imageUrl: "/jack_and_the_beanstalk.png"
+      },
+      {
+        pageNumber: 2,
+        title: "To the Market",
+        text: "Mother asked Jack to sell the cow at the village market. 'Please get a fair price for Milky-White,' she said. 'I will do my best,' Jack replied.",
+        imageUrl: "/jack_and_the_beanstalk.png"
+      },
+      {
+        pageNumber: 3,
+        title: "Five Magic Beans",
+        text: "On the road, a mysterious trader offered Jack five magic beans. 'These beans can change your fortune,' said the trader. 'They really are magic?' asked Jack in wonder.",
+        imageUrl: "/jack_and_the_beanstalk.png"
+      },
+      {
+        pageNumber: 4,
+        title: "Returning Home",
+        text: "Jack traded the cow for the beans and hurried home. 'Look, Mother! I brought magic beans.' Mother cried in dismay: 'Beans? We needed money!'",
+        imageUrl: "/jack_and_the_beanstalk.png"
+      },
+      {
+        pageNumber: 5,
+        title: "The Giant Beanstalk",
+        text: "Mother threw the beans outside. During the night, they began to grow with a deep RUMBLE! A giant beanstalk reached high into the clouds.",
+        imageUrl: "/jack_and_the_beanstalk.png"
+      },
+      {
+        pageNumber: 6,
+        title: "Climbing Above the Clouds",
+        text: "At sunrise, Jack bravely climbed the enormous beanstalk. 'I wonder what is above the clouds,' he thought as he climbed higher and higher.",
+        imageUrl: "/jack_and_the_beanstalk.png"
+      },
+      {
+        pageNumber: 7,
+        title: "The Cloud Castle",
+        text: "At the top, Jack discovered a huge castle and met the giant's kind wife. 'Please help me. I am far from home,' Jack asked. 'Quick! Come inside,' she whispered.",
+        imageUrl: "/jack_and_the_beanstalk.png"
+      },
+      {
+        pageNumber: 8,
+        title: "Fee-Fi-Fo-Fum",
+        text: "The ground shook as the enormous giant entered the castle, booming: 'FEE-FI-FO-FUM!' His wife quickly reassured him: 'It must be the wind.'",
+        imageUrl: "/jack_and_the_beanstalk.png"
+      },
+      {
+        pageNumber: 9,
+        title: "The Stolen Gold",
+        text: "From his hiding place inside a cup, Jack saw the giant counting stolen gold. 'The villagers' gold belongs to me now!' roared the giant. Jack thought: 'That gold should be returned.'",
+        imageUrl: "/jack_and_the_beanstalk.png"
+      },
+      {
+        pageNumber: 10,
+        title: "Retrieving the Gold",
+        text: "When the giant fell sound asleep, Jack quietly retrieved the heavy bag of gold. 'I will return this to the village,' he resolved.",
+        imageUrl: "/jack_and_the_beanstalk.png"
+      },
+      {
+        pageNumber: 11,
+        title: "The Golden Hen",
+        text: "Jack later climbed back and discovered a magical golden hen. 'This is the hen stolen from my family!' Jack gasped as the hen clucked gently.",
+        imageUrl: "/jack_and_the_beanstalk.png"
+      },
+      {
+        pageNumber: 12,
+        title: "Golden Eggs",
+        text: "The hen laid a shining golden egg whenever the giant commanded: 'Lay!' — CLINK! Jack whispered: 'I must take her home safely.'",
+        imageUrl: "/jack_and_the_beanstalk.png"
+      },
+      {
+        pageNumber: 13,
+        title: "The Enchanted Harp",
+        text: "On another visit, Jack found an enchanted golden harp. The harp pleaded: 'Please take me away from this castle.' 'I will help you,' Jack said.",
+        imageUrl: "/jack_and_the_beanstalk.png"
+      },
+      {
+        pageNumber: 14,
+        title: "A Cry for Help",
+        text: "As Jack carried the harp away, its magic suddenly made it cry out: 'Master! Someone is taking me!' 'Oh no!' cried Jack.",
+        imageUrl: "/jack_and_the_beanstalk.png"
+      },
+      {
+        pageNumber: 15,
+        title: "The Great Chase",
+        text: "The furious giant woke up and chased Jack down the swaying beanstalk. 'Stop!' bellowed the giant. Jack scrambled swiftly: 'I must reach the ground!'",
+        imageUrl: "/jack_and_the_beanstalk.png"
+      },
+      {
+        pageNumber: 16,
+        title: "Safe and Prosperous",
+        text: "Jack reached the bottom and chopped the beanstalk down. The giant landed safely in a haystack and fled forever. Jack, his mother, and the villagers prospered honestly.",
+        imageUrl: "/jack_and_the_beanstalk.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "What did Jack trade his family's cow, Milky-White, for?",
+        options: ["Five magic beans", "A bag of gold coins", "A golden harp", "A bag of flour"],
+        answer: "Five magic beans",
+        explanation: "A mysterious trader on the road offered Jack five magic beans in exchange for Milky-White."
+      },
+      {
+        id: 2,
+        question: "What magical treasures did the giant hoard inside his cloud castle?",
+        options: ["Stolen gold, a golden egg-laying hen, and an enchanted harp", "A flying broom and crystal ball", "A magic carpet and golden lamp", "A talking mirror and poison apple"],
+        answer: "Stolen gold, a golden egg-laying hen, and an enchanted harp",
+        explanation: "Jack discovered the giant counting stolen village gold, commanding a golden egg-laying hen, and possessing an enchanted harp."
+      },
+      {
+        id: 3,
+        question: "What is the central moral lesson of the story?",
+        options: ["Courage should be guided by honesty, and strengths should be used to help others", "Never trade with villagers", "Beans are better than money", "Always hide inside teacups"],
+        answer: "Courage should be guided by honesty, and strengths should be used to help others",
+        explanation: "The story illustrates that true bravery involves doing the right thing, helping others, and returning what was wrongfully taken."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -1767,7 +1907,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -1889,10 +2029,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'three_little_pigs') return 999999999999990;
     if (String(s.id) === 'little_red_riding_hood') return 999999999999989;
     if (String(s.id) === 'goldilocks_and_the_three_bears') return 999999999999988;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999987;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999986;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999985;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999984;
+    if (String(s.id) === 'jack_and_the_beanstalk') return 999999999999987;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999986;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999985;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999984;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999983;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
