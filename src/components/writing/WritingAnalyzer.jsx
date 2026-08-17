@@ -306,10 +306,10 @@ Analyze this draft for Grade ${grade} standards. Provide:
               <Sparkles className="w-4 h-4" /> Writing & Essay Studio
             </div>
             <h1 className="text-2xl md:text-4xl font-black tracking-tight text-white">
-              Visual Writing Analysis & Exemplar Card
+              Make Your Writing Shine! 🌟
             </h1>
             <p className="text-indigo-200 text-xs md:text-sm font-medium">
-              Submit your creative story, persuasive piece, informative report, or academic essay to receive an interactive visual exemplar report instantly.
+              Write your story, persuasive piece, or essay below and click the button to see great examples, helpful tips, and smart word upgrades!
             </p>
           </div>
 
@@ -442,12 +442,12 @@ Analyze this draft for Grade ${grade} standards. Provide:
             {isAnalyzing ? (
               <>
                 <RefreshCcw className="w-4 h-4 animate-spin" />
-                <span>Analyzing Writing & Formatting Exemplar...</span>
+                <span>Checking & Leveling Up Your Writing...</span>
               </>
             ) : (
               <>
                 <Sparkles className="w-4 h-4 text-yellow-300" />
-                <span>Generate Visual Exemplar Report</span>
+                <span>Check & Level-Up My Writing! ✨</span>
               </>
             )}
           </button>
@@ -460,7 +460,7 @@ Analyze this draft for Grade ${grade} standards. Provide:
           <div className="flex flex-wrap justify-between items-center gap-3">
             <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
               <CheckCircle className="w-6 h-6 text-emerald-500" />
-              <span>Generated Exemplar Feedback Card</span>
+              <span>Your Level-Up Feedback Card</span>
             </h2>
             <div className="flex items-center gap-2">
               <button
