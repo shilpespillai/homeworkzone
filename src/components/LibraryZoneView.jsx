@@ -1759,6 +1759,158 @@ const STORIES = [
     ]
   },
   {
+    id: 'the_gingerbread_man',
+    title: "The Gingerbread Man",
+    subtitle: "A story about speed, pride and careful thinking",
+    genre: "Classic Fairy Tale",
+    emoji: "🍪🦊",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/the_gingerbread_man.png",
+    moral: "Being quick is useful, but careful thinking is wiser. Do not let pride make you trust a stranger too easily. 🦊🍪",
+    summary: "An old woman bakes a delicious gingerbread man who magically springs to life and dashes away! Boasting of his incredible speed, he outruns the old couple, a farm boy, a hungry cow, and a galloping horse. But when he reaches a wide, rushing river, a sly fox offers him a ride across. Overconfident and too trusting, the Gingerbread Man moves from tail to back, then to head, and finally onto the fox's nose, where the clever fox ends the race!",
+    vocabHighlights: [
+      { word: "Boastful", partOfSpeech: "Adjective", definition: "Showing excessive pride and self-satisfaction in one's achievements or abilities.", pronunciation: "bohst-fuhl", fact: "The Gingerbread Man's boastful taunts made him careless about who he trusted." },
+      { word: "Overconfident", partOfSpeech: "Adjective", definition: "Excessively confident; having too much certainty in one's own power or safety.", pronunciation: "oh-ver-kon-fi-duhnt", fact: "Being overconfident led him directly into the sly fox's trap." },
+      { word: "Cunning", partOfSpeech: "Adjective", definition: "Having or showing skill in achieving one's ends by deceit or evasion; crafty.", pronunciation: "kuhn-ing", fact: "The cunning fox pretended to be helpful to get the treat closer to his mouth!" },
+      { word: "Dashed", partOfSpeech: "Verb", definition: "Ran or moved with sudden great haste and speed.", pronunciation: "dasht", fact: "The Gingerbread Man dashed right out the cottage door the moment the oven opened." },
+      { word: "Prudence", partOfSpeech: "Noun", definition: "The quality of being prudent; acting with care, wisdom, and thought for the future.", pronunciation: "proo-duhns", fact: "Prudence and careful thinking are far more valuable than pure speed." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "A Special Morning Treat",
+        text: "One morning, an old woman decided to bake a special treat. 'I will make a gingerbread man!' she smiled happily.",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 2,
+        title: "Decorating with Care",
+        text: "She shaped the dough and decorated it carefully with frosting buttons. The old man admired her work: 'He looks wonderful!'",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 3,
+        title: "Into the Warm Oven",
+        text: "The old woman placed the gingerbread man into the warm brick oven. 'Soon he will be ready,' she said.",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 4,
+        title: "Sprang to Life!",
+        text: "When the oven door opened, the Gingerbread Man sprang up to life! 'Time to run!' he laughed.",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 5,
+        title: "Dashing Out the Door",
+        text: "He dashed out of the cottage before anyone could stop him. 'Run, run, as fast as you can!' he chanted loudly.",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 6,
+        title: "The Farm Boy's Chase",
+        text: "A farm boy saw the little runner race past. 'Stop! Come back!' called the boy. 'You cannot catch me!' shouted the Gingerbread Man.",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 7,
+        title: "Past the Hungry Cow",
+        text: "Next, he hurried past a hungry cow by the fence. 'You smell delicious!' mooed the cow. 'You cannot catch me!' he boasted.",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 8,
+        title: "The Horse Joins the Race",
+        text: "Then a galloping brown horse joined the chase: 'Wait for me!' The runner giggled: 'I am too fast!'",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 9,
+        title: "The Grand Village Chase",
+        text: "Soon, the whole village was running after him. 'You cannot catch me, I'm the Gingerbread Man!' he sang proudly.",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 10,
+        title: "Blocked by the Wide River",
+        text: "At last, a wide and rushing river blocked his path. 'Oh dear! I cannot swim,' he worried.",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 11,
+        title: "A Fox's Offer",
+        text: "A sly fox appeared from behind the trees and offered to help: 'Ride on my tail, and I will carry you across.'",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 12,
+        title: "Climbing on the Tail",
+        text: "The Gingerbread Man climbed onto the bushy red tail as they entered the water: 'Keep me safe and dry.'",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 13,
+        title: "Rising Waters",
+        text: "The river water rose higher around the swimming fox. 'Move onto my back,' suggested the fox calmly.",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 14,
+        title: "Onto the Fox's Head",
+        text: "The fox claimed the water was becoming even deeper: 'Climb onto my head so you stay dry.'",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 15,
+        title: "One Final Suggestion",
+        text: "Near the far bank, the fox made one final suggestion: 'Step onto my nose so you stay dry.' The Gingerbread Man climbed right onto his snout.",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 16,
+        title: "The Sly Smile",
+        text: "The Gingerbread Man finally noticed the fox's sly smile and realized his mistake: 'Perhaps I trusted too quickly.'",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 17,
+        title: "Oh, Crumbs!",
+        text: "With a sudden quick toss into the air, the clever fox caught the treat and ended the race. 'Oh, crumbs!' gasped the Gingerbread Man.",
+        imageUrl: "/the_gingerbread_man.png"
+      },
+      {
+        pageNumber: 18,
+        title: "The Final Lesson",
+        text: "The Gingerbread Man was never seen running down the lane again. MORAL: Being quick is useful, but careful thinking is wiser. Do not let pride make you trust a stranger too easily.",
+        imageUrl: "/the_gingerbread_man.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "Why did the Gingerbread Man need help to cross the wide river?",
+        options: ["Because gingerbread gets soggy in water and he could not swim", "Because he was tired from running", "Because he forgot his shoes", "Because the river was frozen"],
+        answer: "Because gingerbread gets soggy in water and he could not swim",
+        explanation: "The Gingerbread Man knew he would dissolve or sink in the water, so he needed a way to cross while staying completely dry."
+      },
+      {
+        id: 2,
+        question: "How did the sly fox trick the Gingerbread Man into moving closer to his mouth?",
+        options: ["By claiming the water was getting deeper at each step", "By singing a lullaby", "By promising him a pot of gold", "By telling him a funny joke"],
+        answer: "By claiming the water was getting deeper at each step",
+        explanation: "The fox pretended the river was getting deeper so the Gingerbread Man would move from tail to back, then to head, and finally onto his nose."
+      },
+      {
+        id: 3,
+        question: "What is the central moral lesson of 'The Gingerbread Man'?",
+        options: ["Being quick is useful, but careful thinking is wiser; do not let pride make you trust strangers too easily", "Always run as fast as you can", "Baking cookies is dangerous", "Foxes are the fastest runners in the forest"],
+        answer: "Being quick is useful, but careful thinking is wiser; do not let pride make you trust strangers too easily",
+        explanation: "The story teaches us that boastfulness and overconfidence can cloud our judgment, and that careful wisdom is more important than speed."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -2314,22 +2466,6 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
   const [quizFeedback, setQuizFeedback] = useState(null); // 'correct' | 'wrong' | null
   const [earnedStars, setEarnedStars] = useState(0);
-
-  // --- AI Story & Puzzle Generator States ---
-  const [customStories, setCustomStories] = useState([]);
-  const [customPuzzles, setCustomPuzzles] = useState([]);
-  const [isGeneratingStory, setIsGeneratingStory] = useState(false);
-  const [isGeneratingPuzzles, setIsGeneratingPuzzles] = useState(false);
-  
-  // UI States
-  const [showAiWriter, setShowAiWriter] = useState(false);
-  const [storyTopic, setStoryTopic] = useState('');
-  const [storyGenre, setStoryGenre] = useState('Adventure');
-  const [puzzleTopic, setPuzzleTopic] = useState('Addition');
-  const [aiError, setAiError] = useState('');
-  const [imageLoading, setImageLoading] = useState(true);
-  const [imageSrcError, setImageSrcError] = useState(false);
-
   // Resolve grade level from classroom name (e.g. "Grade 2" -> 2)
   const getGradeLevel = () => {
     if (!classroom?.name) return 3; // Default to Grade 3 if undefined
@@ -2339,7 +2475,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -2377,71 +2513,44 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
           // 1. If teacher who created it is viewing, show all books created by this teacher
           if (teacher?.uid && b.teacherId === teacher.uid) return true;
 
-          // 2. Class-scoped filtering:
-          // Match if book is assigned to all ('all' or empty), or matches student's classroom ID/name, or created by student's teacher
-          const currentClassId = classroom?.id;
-          const currentClassName = classroom?.name;
-          
-          const classMatch = !b.classId || b.classId === 'all' || 
-            (currentClassId && String(b.classId) === String(currentClassId)) ||
-            (currentClassName && String(b.classId) === String(currentClassName));
-            
-          const teacherMatch = teacher?.uid && b.teacherId === teacher.uid;
-
-          // 3. Individual student targeting (if teacher selected specific students)
-          let studentMatch = true;
-          if (b.targetStudentIds && Array.isArray(b.targetStudentIds) && b.targetStudentIds.length > 0) {
-            const sid = currentStudentProfile?.id || currentStudentProfile?.studentId;
-            studentMatch = sid ? b.targetStudentIds.includes(sid) : true;
+          // 2. Otherwise apply classroom / student target filtering
+          if (b.assignedClassrooms && b.assignedClassrooms.length > 0) {
+            if (classroom?.id && !b.assignedClassrooms.includes(classroom.id)) return false;
           }
-
-          return (classMatch || teacherMatch) && studentMatch;
+          if (b.assignedStudents && b.assignedStudents.length > 0) {
+            if (studentName && !b.assignedStudents.includes(studentName)) return false;
+          }
+          return true;
         });
-
         setTeacherAssignedBooks(filtered);
       }, (err) => {
-        console.warn("Could not load teacher assigned books in realtime:", err);
+        console.warn("Custom library books snapshot error:", err);
       });
-
       return () => unsubscribe();
-    } catch (err) {
-      console.warn("Error setting up books listener:", err);
+    } catch (e) {
+      console.warn("Custom library books listener failed:", e);
     }
-  }, [classroom?.id, classroom?.name, teacher?.uid, currentStudentProfile?.id]);
+  }, [classroom, studentName, teacher]);
 
-  // State for tracked deleted story IDs
-  const [deletedStoryIds, setDeletedStoryIds] = useState(() => {
+  const [customStories, setCustomStories] = useState(() => {
     try {
-      const saved = localStorage.getItem('hwz_deleted_stories');
+      const saved = localStorage.getItem('hz_custom_library_books');
       return saved ? JSON.parse(saved) : [];
     } catch (e) {
       return [];
     }
   });
 
-  const handleDeleteStory = async (storyId, e) => {
-    if (e) e.stopPropagation();
-    if (!window.confirm("Are you sure you want to delete this story from the Library?")) return;
-
-    if (selectedStory?.id === storyId) {
-      setSelectedStory(null);
+  const handleDeleteStory = async (storyId) => {
+    if (!window.confirm("Are you sure you want to delete this story? This will permanently remove it from the Library.")) {
+      return;
     }
-
-    const updatedDeleted = [...deletedStoryIds, String(storyId)];
-    setDeletedStoryIds(updatedDeleted);
-    try {
-      localStorage.setItem('hwz_deleted_stories', JSON.stringify(updatedDeleted));
-    } catch (err) {}
-
     setCustomStories(prev => {
-      const filtered = prev.filter(s => String(s.id) !== String(storyId));
-      try {
-        const key = studentName ? `hwz_custom_stories_${studentName}` : 'hwz_custom_stories';
-        localStorage.setItem(key, JSON.stringify(filtered));
-      } catch (err) {}
-      return filtered;
+      const updated = prev.filter(s => String(s.id) !== String(storyId));
+      localStorage.setItem('hz_custom_library_books', JSON.stringify(updated));
+      return updated;
     });
-
+    setTeacherAssignedBooks(prev => prev.filter(s => String(s.id) !== String(storyId)));
     try {
       const { deleteDoc, doc } = await import('firebase/firestore');
       await deleteDoc(doc(db, 'custom_library_books', String(storyId)));
@@ -2465,10 +2574,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'the_ugly_duckling') return 999999999999986;
     if (String(s.id) === 'the_princess_and_the_pea') return 999999999999985;
     if (String(s.id) === 'hansel_and_gretel') return 999999999999984;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999983;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999982;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999981;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999980;
+    if (String(s.id) === 'the_gingerbread_man') return 999999999999983;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999982;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999981;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999980;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999979;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
