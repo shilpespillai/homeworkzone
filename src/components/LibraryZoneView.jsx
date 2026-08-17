@@ -1047,6 +1047,146 @@ const STORIES = [
     ]
   },
   {
+    id: 'goldilocks_and_the_three_bears',
+    title: "Goldilocks and the Three Bears",
+    subtitle: "A story about respect and permission",
+    genre: "Classic Fairy Tale",
+    emoji: "🐻🥣",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/goldilocks_and_the_three_bears.png",
+    moral: "Respect other people's homes and belongings. Always ask permission before using things that are not yours. 🏡✨",
+    summary: "When the Three Bears leave their forest cottage while their porridge cools, a curious girl named Goldilocks wanders inside without permission. After trying their porridge, chairs, and beds, she falls asleep in Baby Bear's cozy bed. When the bears return and discover what happened, Goldilocks learns a memorable lesson about respect, manners, and always asking for permission.",
+    vocabHighlights: [
+      { word: "Permission", partOfSpeech: "Noun", definition: "Official or polite consent to do something.", pronunciation: "per-mish-uhn", fact: "Always asking for permission shows high respect for other people's property." },
+      { word: "Porridge", partOfSpeech: "Noun", definition: "A dish consisting of oatmeal or another cereal boiled in water or milk.", pronunciation: "por-ij", fact: "The Three Bears prepared three warm bowls of porridge for breakfast." },
+      { word: "Belongings", partOfSpeech: "Noun", definition: "A person's movable possessions and property.", pronunciation: "bi-lawng-ingz", fact: "We should always take good care of other people's belongings and never use them without asking." },
+      { word: "Apologised", partOfSpeech: "Verb", definition: "Expressed regret or asked for forgiveness for something done wrong.", pronunciation: "uh-pol-uh-jahyzd", fact: "Goldilocks apologised sincerely to the bears before leaving their cottage." },
+      { word: "Respect", partOfSpeech: "Noun", definition: "Due regard for the feelings, wishes, rights, or traditions of others.", pronunciation: "ri-spekt", fact: "Respect is a core value that helps everyone feel safe and valued." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "Breakfast Porridge",
+        text: "Papa Bear, Mama Bear and Baby Bear made porridge for breakfast. 'The porridge is too hot,' said Baby Bear.",
+        imageUrl: "/goldilocks_and_the_three_bears.png"
+      },
+      {
+        pageNumber: 2,
+        title: "A Morning Walk",
+        text: "The three bears went for a walk in the forest while their porridge cooled down. 'Let us walk in the forest,' suggested Baby Bear. 'Good idea!' agreed Mama Bear.",
+        imageUrl: "/goldilocks_and_the_three_bears.png"
+      },
+      {
+        pageNumber: 3,
+        title: "Discovering the Cottage",
+        text: "Goldilocks became lost in the woods and discovered the bears' lovely cottage. 'What a pretty cottage!' she remarked.",
+        imageUrl: "/goldilocks_and_the_three_bears.png"
+      },
+      {
+        pageNumber: 4,
+        title: "Entering Without Permission",
+        text: "She knocked on the front door, but nobody answered. 'Hello? Is anyone home?' Goldilocks entered the house without permission.",
+        imageUrl: "/goldilocks_and_the_three_bears.png"
+      },
+      {
+        pageNumber: 5,
+        title: "Papa Bear's Porridge",
+        text: "On the kitchen table, Goldilocks tasted Papa Bear's large bowl of porridge. 'This porridge is too hot!' she exclaimed.",
+        imageUrl: "/goldilocks_and_the_three_bears.png"
+      },
+      {
+        pageNumber: 6,
+        title: "Mama Bear's Porridge",
+        text: "Next, she tasted Mama Bear's medium bowl of porridge. 'This porridge is too cold!' she said.",
+        imageUrl: "/goldilocks_and_the_three_bears.png"
+      },
+      {
+        pageNumber: 7,
+        title: "Baby Bear's Porridge",
+        text: "Then she tasted Baby Bear's little bowl of porridge. 'This porridge is just right!' she smiled, and ate it all up.",
+        imageUrl: "/goldilocks_and_the_three_bears.png"
+      },
+      {
+        pageNumber: 8,
+        title: "Papa Bear's Chair",
+        text: "Goldilocks walked into the parlour and sat in Papa Bear's large wooden rocking chair. 'This chair is too hard!' she complained.",
+        imageUrl: "/goldilocks_and_the_three_bears.png"
+      },
+      {
+        pageNumber: 9,
+        title: "Mama Bear's Chair",
+        text: "She tried Mama Bear's green cushioned armchair, but it sank too deep and felt too soft.",
+        imageUrl: "/goldilocks_and_the_three_bears.png"
+      },
+      {
+        pageNumber: 10,
+        title: "Baby Bear's Broken Chair",
+        text: "Baby Bear's little red chair felt right: 'This chair is just right!' But suddenly—CRACK! The chair broke into pieces.",
+        imageUrl: "/goldilocks_and_the_three_bears.png"
+      },
+      {
+        pageNumber: 11,
+        title: "Papa Bear's Bed",
+        text: "Feeling sleepy, Goldilocks went upstairs. She tried Papa Bear's large blue bed. 'This bed is too hard!' she said.",
+        imageUrl: "/goldilocks_and_the_three_bears.png"
+      },
+      {
+        pageNumber: 12,
+        title: "Mama Bear's Bed",
+        text: "Then she tried Mama Bear's green quilted bed. 'This bed is too soft!' she sighed.",
+        imageUrl: "/goldilocks_and_the_three_bears.png"
+      },
+      {
+        pageNumber: 13,
+        title: "Baby Bear's Cozy Bed",
+        text: "Baby Bear's small red quilted bed felt perfect: 'This bed is just right.' Goldilocks nestled down and fell fast asleep.",
+        imageUrl: "/goldilocks_and_the_three_bears.png"
+      },
+      {
+        pageNumber: 14,
+        title: "The Bears Return",
+        text: "The three bears returned from their walk and discovered the mess. 'Someone tasted our porridge!' said Papa Bear. 'Someone tried our chairs!' cried Mama Bear. 'Someone ate mine and broke my chair!' sobbed Baby Bear.",
+        imageUrl: "/goldilocks_and_the_three_bears.png"
+      },
+      {
+        pageNumber: 15,
+        title: "Discovered Upstairs",
+        text: "Upstairs in the bedroom, the bears found Goldilocks sleeping in Baby Bear's bed. 'Someone is sleeping in my bed!' shouted Baby Bear. Goldilocks woke up startled: 'Oh! The bears are home!'",
+        imageUrl: "/goldilocks_and_the_three_bears.png"
+      },
+      {
+        pageNumber: 16,
+        title: "A Heartfelt Apology",
+        text: "Goldilocks realised her mistake and apologised sincerely before leaving the cottage: 'I am so sorry for entering without permission.' She promised to always respect other people's homes and belongings.",
+        imageUrl: "/goldilocks_and_the_three_bears.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "Why did Goldilocks enter the bears' cottage?",
+        options: ["She was lost and entered without permission after knocking", "The bears invited her for breakfast", "She lived next door with her family", "She was delivering a package"],
+        answer: "She was lost and entered without permission after knocking",
+        explanation: "Goldilocks was lost in the woods and entered the cottage on her own when nobody answered the door."
+      },
+      {
+        id: 2,
+        question: "Which bowl of porridge, chair, and bed did Goldilocks find 'just right'?",
+        options: ["Baby Bear's", "Papa Bear's", "Mama Bear's", "The woodcutter's"],
+        answer: "Baby Bear's",
+        explanation: "Baby Bear's porridge, small chair, and cozy bed were all 'just right' for Goldilocks."
+      },
+      {
+        id: 3,
+        question: "What important moral lesson does the story teach?",
+        options: ["Respect other people's homes and belongings, and always ask for permission", "Bears love cold porridge", "Always sleep in other people's beds", "Never go for morning walks"],
+        answer: "Respect other people's homes and belongings, and always ask for permission",
+        explanation: "The story reminds us that we must always respect others' property and ask for permission before using things that do not belong to us."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -1627,7 +1767,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -1748,10 +1888,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'clever_rabbit_and_the_lion') return 999999999999991;
     if (String(s.id) === 'three_little_pigs') return 999999999999990;
     if (String(s.id) === 'little_red_riding_hood') return 999999999999989;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999988;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999987;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999986;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999985;
+    if (String(s.id) === 'goldilocks_and_the_three_bears') return 999999999999988;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999987;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999986;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999985;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999984;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
