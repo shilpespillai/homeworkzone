@@ -2823,6 +2823,128 @@ const STORIES = [
     ]
   },
   {
+    id: 'the_monkey_and_the_wedge',
+    title: "The Monkey and the Wedge",
+    subtitle: "A Panchatantra tale about curiosity, caution and understanding before acting",
+    genre: "Panchatantra Classic",
+    emoji: "🐒🪵🪓",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/the_monkey_and_the_wedge.png",
+    moral: "Do not interfere in work you do not understand. Curiosity becomes wisdom when we pause, learn and ask before acting. 🐒🪵✨",
+    summary: "Two skilled carpenters building a temple near the forest split a large timber log and insert a wooden wedge to hold the split open safely before leaving for lunch. A curious monkey wanders into the quiet worksite and becomes fascinated by the wedge. Ignoring common sense and lacking understanding of carpentry, he pulls and wiggles the wedge until it breaks free. The split log snaps shut, pinching his tail. The kind returning carpenters gently free him, and the monkey learns a lifelong lesson never to meddle in affairs he does not understand.",
+    vocabHighlights: [
+      { word: "Wedge", partOfSpeech: "Noun", definition: "A piece of wood or metal with a thick end that tapers to a thin edge, used to hold open, split, or secure objects.", pronunciation: "wej", fact: "Carpenters use wooden wedges to keep large logs from clamping shut while sawing." },
+      { word: "Meddle", partOfSpeech: "Verb", definition: "Interfere in or busy oneself with something that is not one's concern or business.", pronunciation: "med-l", fact: "The monkey promised himself that he would never meddle with dangerous tools again." },
+      { word: "Caution", partOfSpeech: "Noun", definition: "Care taken to avoid danger or mistakes; prudence.", pronunciation: "kaw-shuhn", fact: "True wisdom means balancing natural curiosity with caution and safety." },
+      { word: "Skilled", partOfSpeech: "Adjective", definition: "Having or showing the knowledge, ability, or training to perform a task well.", pronunciation: "skild", fact: "The skilled craftsmen worked patiently to build a magnificent wooden temple." },
+      { word: "Interfere", partOfSpeech: "Verb", definition: "Involve oneself in a situation without invitation, necessity, or understanding.", pronunciation: "in-ter-feer", fact: "It is dangerous to interfere with heavy machinery or tools without proper training." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "Carpenters at Work",
+        text: "Two skilled carpenters were building a temple near the forest: 'Measure carefully before you cut,' the master carpenter instructed.",
+        imageUrl: "/the_monkey_and_the_wedge.png"
+      },
+      {
+        pageNumber: 2,
+        title: "The Split Log",
+        text: "A wooden wedge held open a carefully split log. 'This wedge keeps the timber safely apart,' explained the builder.",
+        imageUrl: "/the_monkey_and_the_wedge.png"
+      },
+      {
+        pageNumber: 3,
+        title: "Midday Lunch Break",
+        text: "At midday, the carpenters left their work and went to eat: 'We will finish the log after lunch,' they agreed.",
+        imageUrl: "/the_monkey_and_the_wedge.png"
+      },
+      {
+        pageNumber: 4,
+        title: "A Curious Visitor",
+        text: "A curious monkey wandered into the quiet worksite: 'What have the carpenters left behind?' he wondered.",
+        imageUrl: "/the_monkey_and_the_wedge.png"
+      },
+      {
+        pageNumber: 5,
+        title: "Catching Attention",
+        text: "The bright-topped wedge immediately caught his attention: 'Why is this little piece of wood here?' he asked himself.",
+        imageUrl: "/the_monkey_and_the_wedge.png"
+      },
+      {
+        pageNumber: 6,
+        title: "Lack of Understanding",
+        text: "He examined the log but did not understand the carpenter's work: 'It looks easy to remove.'",
+        imageUrl: "/the_monkey_and_the_wedge.png"
+      },
+      {
+        pageNumber: 7,
+        title: "Overcome by Curiosity",
+        text: "Curiosity pushed aside the Monkey's common sense: 'I will discover what happens!' he declared.",
+        imageUrl: "/the_monkey_and_the_wedge.png"
+      },
+      {
+        pageNumber: 8,
+        title: "Pulling the Wedge",
+        text: "The Monkey began pulling the wedge from side to side: 'It is starting to move!' he grinned.",
+        imageUrl: "/the_monkey_and_the_wedge.png"
+      },
+      {
+        pageNumber: 9,
+        title: "Wiggling Looser",
+        text: "The wedge grew looser with every hard pull: 'Just a little more!' cheered the monkey.",
+        imageUrl: "/the_monkey_and_the_wedge.png"
+      },
+      {
+        pageNumber: 10,
+        title: "Careless Position",
+        text: "The Monkey sat astride the log and did not notice where his tail had fallen: 'I have nearly done it!'",
+        imageUrl: "/the_monkey_and_the_wedge.png"
+      },
+      {
+        pageNumber: 11,
+        title: "The Log Snaps Shut",
+        text: "When the wedge came free, the heavy log snapped closed and pinched his tail! 'Oh! I should not have touched it!' he squealed.",
+        imageUrl: "/the_monkey_and_the_wedge.png"
+      },
+      {
+        pageNumber: 12,
+        title: "A Helping Hand",
+        text: "The returning carpenters heard the commotion and quickly freed the frightened Monkey: 'Be still. We will help you.'",
+        imageUrl: "/the_monkey_and_the_wedge.png"
+      },
+      {
+        pageNumber: 13,
+        title: "A Wise Lesson Learned",
+        text: "The Monkey left safely with a lesson he would never forget: 'I will not meddle with work I do not understand!'",
+        imageUrl: "/the_monkey_and_the_wedge.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "Why did the carpenters place a wooden wedge inside the split log?",
+        options: ["To keep the split open safely while sawing the timber", "To feed the forest animals", "To balance the temple roof", "To mark where they stopped for lunch"],
+        answer: "To keep the split open safely while sawing the timber",
+        explanation: "The wedge was used as a safety tool to prevent the split log from snapping shut while the carpenters worked on it."
+      },
+      {
+        id: 2,
+        question: "What happened when the monkey pulled the wedge out of the log?",
+        options: ["The log snapped shut and pinched his tail", "The log turned into gold", "The temple fell down", "The wedge flew into the river"],
+        answer: "The log snapped shut and pinched his tail",
+        explanation: "Because the monkey didn't understand how the wedge functioned and wasn't careful, the heavy timber closed on his tail."
+      },
+      {
+        id: 3,
+        question: "What is the central moral lesson of 'The Monkey and the Wedge'?",
+        options: ["Do not interfere in work you do not understand; curiosity becomes wisdom when we pause, learn, and ask first", "Never build temples near trees", "Monkeys should always carry saws", "Logs are only for sitting"],
+        answer: "Do not interfere in work you do not understand; curiosity becomes wisdom when we pause, learn, and ask first",
+        explanation: "This classic Panchatantra fable teaches that meddling in matters or tools without knowledge and caution can lead to avoidable trouble."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -3387,7 +3509,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'the_elves_and_the_shoemaker', 'the_emperors_new_clothes', 'the_bremen_town_musicians', 'the_little_red_hen', 'stone_soup', 'the_lion_and_the_bull', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'the_elves_and_the_shoemaker', 'the_emperors_new_clothes', 'the_bremen_town_musicians', 'the_little_red_hen', 'stone_soup', 'the_lion_and_the_bull', 'the_monkey_and_the_wedge', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -3493,10 +3615,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'the_little_red_hen') return 999999999999979;
     if (String(s.id) === 'stone_soup') return 999999999999978;
     if (String(s.id) === 'the_lion_and_the_bull') return 999999999999977;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999976;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999975;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999974;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999973;
+    if (String(s.id) === 'the_monkey_and_the_wedge') return 999999999999976;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999975;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999974;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999973;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999972;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
