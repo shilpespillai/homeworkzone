@@ -2671,6 +2671,158 @@ const STORIES = [
     ]
   },
   {
+    id: 'the_lion_and_the_bull',
+    title: "The Lion and the Bull",
+    subtitle: "A Panchatantra tale about friendship, jealousy and dangerous rumours",
+    genre: "Panchatantra Classic",
+    emoji: "🦁🐂🌿",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/the_lion_and_the_bull.png",
+    moral: "Never let rumours destroy a true friendship. Verify what you hear, speak honestly, and beware of those who create conflict for personal gain. 🦁🐂✨",
+    summary: "When the mighty bull Sanjivaka is separated from his caravan during a storm, his deep bellow echoes through the forest. Pingalaka, the Lion King, is terrified by the unknown roar until his clever jackal minister, Damanaka, introduces them. The Lion and the Bull become inseparable, wise companions. Jealous of their bond and losing influence, Damanaka plots deceitful lies, whispering to Pingalaka that the Bull wants his throne and telling Sanjivaka that the Lion plans an ambush. Tricked by unverified rumours rather than open communication, their cherished friendship is tragically lost.",
+    vocabHighlights: [
+      { word: "Confront", partOfSpeech: "Verb", definition: "Meet someone face to face with hostile or argumentative intent; face up to and deal with a problem.", pronunciation: "kuhn-fruhnt", fact: "Instead of talking peacefully, fear caused the two friends to confront one another in anger." },
+      { word: "Deceitful", partOfSpeech: "Adjective", definition: "Guilty of or involving deceit; misleading others through falsehoods.", pronunciation: "dih-seet-fuhl", fact: "Damanaka used deceitful rumours to poison the trust between the Lion and the Bull." },
+      { word: "Bellow", partOfSpeech: "Verb / Noun", definition: "Emit a deep, loud roar, typically in pain or anger; a loud deep sound.", pronunciation: "bel-oh", fact: "Sanjivaka's mighty bellow echoed across the hills and startled all the woodland creatures." },
+      { word: "Jealousy", partOfSpeech: "Noun", definition: "A feeling of envy or resentment towards someone because of their achievements or relationships.", pronunciation: "jel-uh-see", fact: "Damanaka's bitter jealousy led him to plot against a peaceful friendship." },
+      { word: "Verify", partOfSpeech: "Verb", definition: "Make sure or demonstrate that something is true, accurate, or justified.", pronunciation: "ver-uh-fahy", fact: "Wise leaders always verify the facts before believing harmful rumours." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "A Faithful Companion",
+        text: "A merchant travelled through the dense forest with his faithful, strong bull, Sanjivaka: 'Steady, my strong friend,' the merchant said.",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 2,
+        title: "Separated by the Storm",
+        text: "A fierce monsoon storm separated Sanjivaka from the merchant's caravan. The merchant called in vain: 'Sanjivaka! Where are you?'",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 3,
+        title: "Restoring Strength",
+        text: "Fresh green grass and cool river water soon made the lonely bull strong and healthy again: 'This peaceful river has restored my strength.'",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 4,
+        title: "The Mighty Bellow",
+        text: "One bright morning, Sanjivaka's mighty bellow echoed deep through the forest: 'Moooo!' shaking the tree branches.",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 5,
+        title: "The Lion King's Fear",
+        text: "Pingalaka, the Lion King, had never heard such a booming sound in his kingdom: 'What enormous creature could make that roar?' he wondered in fear.",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 6,
+        title: "The Jackals Observe",
+        text: "The jackals Damanaka and Karataka noticed their king's hidden fear. Karataka warned: 'We should not interfere without understanding.'",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 7,
+        title: "Damanaka's Offer",
+        text: "Damanaka saw an opportunity to gain power and offered to investigate: 'My King, I will discover the source of the mysterious sound.'",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 8,
+        title: "Finding the Peaceful Bull",
+        text: "Damanaka found that the frightening creature was only a gentle, peaceful bull grazing by the river: 'The Lion King wishes to meet you.'",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 9,
+        title: "A Peaceful Introduction",
+        text: "Damanaka introduced Sanjivaka to Pingalaka. The bull bowed politely: 'I come as a humble friend, not an enemy.'",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 10,
+        title: "An Inseparable Bond",
+        text: "The Lion and the Bull soon became trusted companions. Pingalaka smiled: 'Your wisdom brings peace to my royal court.'",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 11,
+        title: "Growing Wiser Together",
+        text: "Day after day, the two friends shared stories and council. Pingalaka realized: 'True friends help each other grow wiser.'",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 12,
+        title: "A Schemer's Jealousy",
+        text: "Damanaka grew jealous because the Lion no longer sought his advice. Karataka warned him: 'Do not destroy a friendship for your own gain.'",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 13,
+        title: "Poisoning the King's Mind",
+        text: "Damanaka falsely whispered to Pingalaka that Sanjivaka was ambitious: 'The Bull is secretly planning to steal your throne.'",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 14,
+        title: "Lying to the Bull",
+        text: "Then Damanaka hurried to Sanjivaka with another lie: 'The Lion King no longer trusts you and plans to attack you.'",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 15,
+        title: "Doubts and Silence",
+        text: "Instead of speaking honestly to each other, both friends allowed fear and suspicion to grow: 'Has my friend truly betrayed me?'",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 16,
+        title: "The Painful Confrontation",
+        text: "Misled by Damanaka, the frightened friends confronted one another: 'Why are you plotting against me?' cried Pingalaka. 'I believed you meant to harm me!' wept Sanjivaka.",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 17,
+        title: "A Friendship Shattered",
+        text: "Before the truth could be uncovered, their precious friendship was tragically destroyed. Pingalaka wept: 'What have I done?'",
+        imageUrl: "/the_lion_and_the_bull.png"
+      },
+      {
+        pageNumber: 18,
+        title: "The Bitter Truth",
+        text: "Pingalaka finally understood that Damanaka's deceit had caused the tragedy. Karataka said solemnly: 'Rumours must never replace an honest conversation.'",
+        imageUrl: "/the_lion_and_the_bull.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "Why was Damanaka the jackal jealous of Sanjivaka the bull?",
+        options: ["Because the Lion King spent all his time with the Bull and no longer sought Damanaka's advice", "Because the Bull ate all the grass", "Because the Bull could roar louder", "Because the Bull took his crown"],
+        answer: "Because the Lion King spent all his time with the Bull and no longer sought Damanaka's advice",
+        explanation: "Damanaka felt ignored and lost his influence in the court when Pingalaka and Sanjivaka became close friends."
+      },
+      {
+        id: 2,
+        question: "What should the Lion and the Bull have done instead of believing Damanaka's lies?",
+        options: ["Spoken openly and honestly with each other to verify the truth", "Left the forest immediately", "Asked the other jackal to fight", "Kept quiet and hidden in a cave"],
+        answer: "Spoken openly and honestly with each other to verify the truth",
+        explanation: "The story teaches that open, honest communication and verifying facts prevents misunderstanding and protects friendships."
+      },
+      {
+        id: 3,
+        question: "What is the central moral lesson of 'The Lion and the Bull'?",
+        options: ["Never let rumours destroy a true friendship; verify what you hear and speak honestly", "Lions should never befriend bulls", "Monsoons are dangerous in the forest", "Jackals make the best messengers"],
+        answer: "Never let rumours destroy a true friendship; verify what you hear and speak honestly",
+        explanation: "This famous Panchatantra fable teaches us to beware of gossip and deceit, and to always have honest conversations with our friends."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -3235,7 +3387,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'the_elves_and_the_shoemaker', 'the_emperors_new_clothes', 'the_bremen_town_musicians', 'the_little_red_hen', 'stone_soup', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'the_elves_and_the_shoemaker', 'the_emperors_new_clothes', 'the_bremen_town_musicians', 'the_little_red_hen', 'stone_soup', 'the_lion_and_the_bull', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -3340,10 +3492,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'the_bremen_town_musicians') return 999999999999980;
     if (String(s.id) === 'the_little_red_hen') return 999999999999979;
     if (String(s.id) === 'stone_soup') return 999999999999978;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999977;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999976;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999975;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999974;
+    if (String(s.id) === 'the_lion_and_the_bull') return 999999999999977;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999976;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999975;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999974;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999973;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
