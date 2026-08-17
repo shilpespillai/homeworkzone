@@ -1327,6 +1327,146 @@ const STORIES = [
     ]
   },
   {
+    id: 'the_ugly_duckling',
+    title: "The Ugly Duckling",
+    subtitle: "A story about growth, kindness and belonging",
+    genre: "Classic Fairy Tale",
+    emoji: "🦆🦢",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/the_ugly_duckling.png",
+    moral: "Do not judge others by their appearance. Growth takes time, and kindness always matters. Everyone has inner beauty and a place where they belong. 🦢💖",
+    summary: "Born looking different from his yellow duckling siblings, a gentle grey duckling faces teasing and unkindness on the farm. He journeys out into the world through the cold winter, surviving hardship with the help of a kind farmer. When spring arrives, he discovers his true reflection in the shining lake—a magnificent white swan—and finds genuine love, acceptance, and belonging.",
+    vocabHighlights: [
+      { word: "Belonging", partOfSpeech: "Noun", definition: "A feeling of being happy, comfortable, and accepted in a particular place or group.", pronunciation: "bi-lawng-ing", fact: "Finding a place of true belonging made the young swan feel peaceful and cherished." },
+      { word: "Graceful", partOfSpeech: "Adjective", definition: "Having or showing grace or elegance in movement or form.", pronunciation: "grays-fuhl", fact: "The magnificent white swans glided across the calm lake in a graceful dance." },
+      { word: "Reflection", partOfSpeech: "Noun", definition: "An image seen in a mirror or shiny surface such as clear water.", pronunciation: "ri-flek-shuhn", fact: "Looking into the shining water, he saw his stunning reflection as a regal swan." },
+      { word: "Perseverance", partOfSpeech: "Noun", definition: "Persistence in doing something despite difficulty or delay in achieving success.", pronunciation: "pur-suh-veer-uhns", fact: "The little duckling showed brave perseverance through the freezing winter." },
+      { word: "Compassion", partOfSpeech: "Noun", definition: "Sympathy and concern for the sufferings or misfortunes of others.", pronunciation: "kuhm-pash-uhn", fact: "The kind farmer treated the freezing bird with great compassion and warmth." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "Eggs Begin to Hatch",
+        text: "Mother Duck waited patiently by the barn as her nest of eggs began to hatch. 'Welcome, my little ducklings!' she quacked happily.",
+        imageUrl: "/the_ugly_duckling.png"
+      },
+      {
+        pageNumber: 2,
+        title: "The Final Egg",
+        text: "The largest and final egg opened, revealing a big grey duckling. 'Hello, Mother!' chirped the duckling. Mother Duck smiled: 'Welcome, my special little one.'",
+        imageUrl: "/the_ugly_duckling.png"
+      },
+      {
+        pageNumber: 3,
+        title: "Looking Different",
+        text: "The bright yellow ducklings noticed their new sibling looked different. 'You do not look like us,' they said. 'I cannot help being different,' he replied softly.",
+        imageUrl: "/the_ugly_duckling.png"
+      },
+      {
+        pageNumber: 4,
+        title: "Mother's Warm Embrace",
+        text: "Mother Duck lovingly gathered every duckling close, sheltering them beneath her warm wings and teaching them that every child is cherished.",
+        imageUrl: "/the_ugly_duckling.png"
+      },
+      {
+        pageNumber: 5,
+        title: "Teasing in the Farmyard",
+        text: "At the farmyard, some unkind animals laughed at the grey duckling. 'What a strange-looking duckling!' squawked a hen. The duckling wondered: 'Why are they being unkind?'",
+        imageUrl: "/the_ugly_duckling.png"
+      },
+      {
+        pageNumber: 6,
+        title: "Searching for Belonging",
+        text: "Feeling lonely and unwanted, the grey duckling waddled away from the farmyard. 'Somewhere, I will find a place to belong,' he whispered with hope.",
+        imageUrl: "/the_ugly_duckling.png"
+      },
+      {
+        pageNumber: 7,
+        title: "Kind Friends on the Marsh",
+        text: "Two friendly wild ducks welcomed the tired duckling among the reeds. 'You may stay here tonight,' they offered. 'Thank you for being kind,' he smiled.",
+        imageUrl: "/the_ugly_duckling.png"
+      },
+      {
+        pageNumber: 8,
+        title: "Swans in the Sunset",
+        text: "One golden evening, a flock of beautiful white swans flew gracefully across the sunset sky. 'They are the most graceful birds I have ever seen,' gasped the duckling.",
+        imageUrl: "/the_ugly_duckling.png"
+      },
+      {
+        pageNumber: 9,
+        title: "Winter Arrives",
+        text: "Freezing winter arrived, covering the lake and fields in thick white snow. Shivering in the frost, the duckling told himself: 'It is cold, but I must keep going.'",
+        imageUrl: "/the_ugly_duckling.png"
+      },
+      {
+        pageNumber: 10,
+        title: "The Kind Farmer's Rescue",
+        text: "A kind farmer found the freezing duckling by the icy bank and gently carried him home in a soft blanket. 'You are safe here,' comforted the farmer.",
+        imageUrl: "/the_ugly_duckling.png"
+      },
+      {
+        pageNumber: 11,
+        title: "Growing Strong in the Barn",
+        text: "Throughout the long winter, the duckling rested in the cozy barn, ate nutritious grain, and grew bigger and stronger each day.",
+        imageUrl: "/the_ugly_duckling.png"
+      },
+      {
+        pageNumber: 12,
+        title: "Spring by the Lake",
+        text: "When warm spring arrived, the young bird spread his magnificent wings and flew back to the sparkling lake filled with blooming water lilies.",
+        imageUrl: "/the_ugly_duckling.png"
+      },
+      {
+        pageNumber: 13,
+        title: "A Surprising Reflection",
+        text: "He looked down into the clear water and saw the reflection of a magnificent white swan with elegant feathers. 'Is that really my reflection?' he gasped.",
+        imageUrl: "/the_ugly_duckling.png"
+      },
+      {
+        pageNumber: 14,
+        title: "Welcomed by Swans",
+        text: "Three majestic swans glided across the water to greet him. 'Welcome, young swan!' they sang. 'At last, I have found my family,' he rejoiced.",
+        imageUrl: "/the_ugly_duckling.png"
+      },
+      {
+        pageNumber: 15,
+        title: "Forgiveness and Understanding",
+        text: "Mother Duck and the farmyard ducklings visited the lake and recognized him. 'We were wrong to tease you,' they admitted. 'I forgive you,' the swan said gently.",
+        imageUrl: "/the_ugly_duckling.png"
+      },
+      {
+        pageNumber: 16,
+        title: "True Beauty and Worth",
+        text: "The young swan finally realized his true value: 'Being different never made me less valuable.' He lived happily among friends who loved and accepted him for who he was.",
+        imageUrl: "/the_ugly_duckling.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "Why was the grey duckling teased in the farmyard?",
+        options: ["Because he looked larger and different from the other yellow ducklings", "Because he could not swim", "Because he did not like eating corn", "Because he flew too fast"],
+        answer: "Because he looked larger and different from the other yellow ducklings",
+        explanation: "The farm animals judged the duckling by his outward appearance because he didn't look like the yellow ducklings."
+      },
+      {
+        id: 2,
+        question: "What did the duckling discover about himself when spring arrived?",
+        options: ["He had grown into a magnificent, graceful white swan", "He turned into a golden eagle", "He remained a little grey duckling", "He became a farm rooster"],
+        answer: "He had grown into a magnificent, graceful white swan",
+        explanation: "Looking into the clear lake water, the bird saw his reflection and realized he was a beautiful swan all along."
+      },
+      {
+        id: 3,
+        question: "What is the central moral lesson of 'The Ugly Duckling'?",
+        options: ["Do not judge others by appearance; growth takes time and everyone is worthy", "Only yellow ducklings are special", "Winter is too cold for birds", "Never leave your birthplace"],
+        answer: "Do not judge others by appearance; growth takes time and everyone is worthy",
+        explanation: "The story teaches us to treat everyone with kindness and that our true worth and beauty shine through with time and character."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -1907,7 +2047,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -2030,10 +2170,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'little_red_riding_hood') return 999999999999989;
     if (String(s.id) === 'goldilocks_and_the_three_bears') return 999999999999988;
     if (String(s.id) === 'jack_and_the_beanstalk') return 999999999999987;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999986;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999985;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999984;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999983;
+    if (String(s.id) === 'the_ugly_duckling') return 999999999999986;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999985;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999984;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999983;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999982;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
