@@ -791,6 +791,110 @@ const STORIES = [
     ]
   },
   {
+    id: 'three_little_pigs',
+    title: "The Three Little Pigs",
+    subtitle: "A story about hard work and preparation",
+    genre: "Classic Fairy Tale",
+    emoji: "🐷",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/three_little_pigs.png",
+    moral: "Hard work and preparation bring safety. Do a job properly the first time. 🧱",
+    summary: "Three little pig brothers set out into the world to build homes of their own. The first pig builds quickly out of straw and the second out of sticks so they can play. But the wise third pig works patiently to build a sturdy brick house. When the Big Bad Wolf huffs and puffs and blows down the straw and stick houses, all three pigs find safety inside the impenetrable brick house!",
+    vocabHighlights: [
+      { word: "Preparation", partOfSpeech: "Noun", definition: "The action or process of making ready or being made ready for use or consideration.", pronunciation: "prep-uh-ray-shun", fact: "Proper preparation gives us safety and confidence when unexpected storms arrive!" },
+      { word: "Patiently", partOfSpeech: "Adverb", definition: "In a way that shows tolerance of delays, problems, or suffering without becoming annoyed or anxious.", pronunciation: "pay-shuhnt-lee", fact: "The third pig worked patiently brick by brick until his house was completely secure." },
+      { word: "Sturdy", partOfSpeech: "Adjective", definition: "Strongly and solidly built, able to withstand heavy forces or rough use.", pronunciation: "stur-dee", fact: "The sturdy brick house didn't shake a single millimeter when the wolf puffed!" },
+      { word: "Protected", partOfSpeech: "Adjective", definition: "Kept safe from harm, injury, damage, or danger.", pronunciation: "pruh-tek-tid", fact: "All three brother pigs were safe and protected together by the warm hearth." },
+      { word: "Diligence", partOfSpeech: "Noun", definition: "Careful and persistent work or effort.", pronunciation: "dil-i-juhns", fact: "Diligence means doing a job thoroughly and correctly the very first time!" }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "Setting Out",
+        text: "Three little pigs set out to build homes of their own. 'Let us each build a safe and cosy house!' they agreed happily.",
+        imageUrl: "/three_little_pigs.png"
+      },
+      {
+        pageNumber: 2,
+        title: "The Straw House",
+        text: "The first pig quickly built a house from dry golden straw: 'This was quick and easy! Now I can play!'",
+        imageUrl: "/three_little_pigs.png"
+      },
+      {
+        pageNumber: 3,
+        title: "The Stick House",
+        text: "The second pig built a house from wooden sticks: 'My stick house will keep me safe and warm!'",
+        imageUrl: "/three_little_pigs.png"
+      },
+      {
+        pageNumber: 4,
+        title: "The Brick House",
+        text: "The third pig worked patiently and built a sturdy brick house: 'A strong house is worth the extra work and effort.'",
+        imageUrl: "/three_little_pigs.png"
+      },
+      {
+        pageNumber: 5,
+        title: "A Hungry Visitor",
+        text: "A hungry wolf arrived at the straw house and knocked on the door: 'Little pig, little pig, let me come in!' The pig called: 'Not by the hair on my chinny-chin-chin!'",
+        imageUrl: "/three_little_pigs.png"
+      },
+      {
+        pageNumber: 6,
+        title: "HUFF! PUFF! WHOOSH!",
+        text: "The wolf huffed and puffed until the straw house blew completely down! 'I must run to my brother's house!' squealed the first pig.",
+        imageUrl: "/three_little_pigs.png"
+      },
+      {
+        pageNumber: 7,
+        title: "Blowing Down Sticks",
+        text: "The wolf blew down the stick house too! 'I will blow this house down too!' roared the wolf. The pigs yelled: 'Run to the brick house!'",
+        imageUrl: "/three_little_pigs.png"
+      },
+      {
+        pageNumber: 8,
+        title: "Built with Care",
+        text: "The wolf huffed and puffed with all his might, but the brick house would not move. 'Why won't this house fall?' howled the wolf. 'Because it was built with care!' cheered the pigs.",
+        imageUrl: "/three_little_pigs.png"
+      },
+      {
+        pageNumber: 9,
+        title: "Down the Chimney",
+        text: "The wolf climbed down the chimney, but the pigs were ready: 'Quick! Put the warm pot below!' The wolf landed with a loud YOWL!",
+        imageUrl: "/three_little_pigs.png"
+      },
+      {
+        pageNumber: 10,
+        title: "Safe and Sound",
+        text: "The startled wolf ran far away into the forest, never to return. The three pigs lived happily together in the strong brick house. 'Hard work protected us!' MORAL: Hard work and preparation bring safety. Do a job properly the first time.",
+        imageUrl: "/three_little_pigs.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "Which material did the third pig use to build his house?",
+        options: ["Strong red bricks", "Dry straw", "Wooden sticks", "Mud and leaves"],
+        answer: "Strong red bricks",
+        explanation: "The third pig patiently worked hard to build a sturdy house made of solid bricks."
+      },
+      {
+        id: 2,
+        question: "Why was the wolf unable to blow down the third pig's house?",
+        options: ["Because it was built patiently and sturdily with bricks", "Because the wind stopped blowing", "Because the wolf was too tired to blow", "Because the house was made of iron"],
+        answer: "Because it was built patiently and sturdily with bricks",
+        explanation: "The brick house was strong and carefully constructed, so the wolf's huffing and puffing could not move it."
+      },
+      {
+        id: 3,
+        question: "What is the main moral of 'The Three Little Pigs'?",
+        options: ["Hard work and preparation bring safety; do a job properly the first time", "Always build houses in the woods", "Straw is the best material for quick shelter", "Wolves love warm soup"],
+        answer: "Hard work and preparation bring safety; do a job properly the first time",
+        explanation: "The fairy tale teaches that taking the time to do hard work and prepare thoroughly protects us from danger."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -1371,7 +1475,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -1490,10 +1594,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'honest_woodcutter') return 999999999999993;
     if (String(s.id) === 'monkey_and_the_crocodile') return 999999999999992;
     if (String(s.id) === 'clever_rabbit_and_the_lion') return 999999999999991;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999990;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999989;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999988;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999987;
+    if (String(s.id) === 'three_little_pigs') return 999999999999990;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999989;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999988;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999987;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999986;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
