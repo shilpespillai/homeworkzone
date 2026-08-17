@@ -1911,6 +1911,158 @@ const STORIES = [
     ]
   },
   {
+    id: 'the_elves_and_the_shoemaker',
+    title: "The Elves and the Shoemaker",
+    subtitle: "A story about kindness, gratitude and helping others",
+    genre: "Classic Fairy Tale",
+    emoji: "👞✨",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/the_elves_and_the_shoemaker.png",
+    moral: "Kindness and hard work can change lives. Always remember to thank those who help you. 👞🌟",
+    summary: "A hardworking, honest shoemaker and his wife fall on hard times with only enough leather left for one last pair of shoes. During the night, two little magical elves quietly visit the workshop and craft the finest shoes the town has ever seen. As the shop begins to prosper, the grateful couple secretly watches by candlelight and decides to repay the elves' kindness with warm stitched clothes and tiny handcrafted shoes for Christmas Eve.",
+    vocabHighlights: [
+      { word: "Gratitude", partOfSpeech: "Noun", definition: "The quality of being thankful; readiness to show appreciation for kindness received.", pronunciation: "grat-i-tood", fact: "The shoemaker and his wife felt deep gratitude and wanted to repay the helpful elves!" },
+      { word: "Prosper", partOfSpeech: "Verb", definition: "Succeed in material terms; be financially successful and flourish.", pronunciation: "pros-per", fact: "Thanks to the beautiful craftsmanship, the little shoemaker shop began to prosper." },
+      { word: "Craftsmanship", partOfSpeech: "Noun", definition: "Skill in a particular craft or the quality of design and work shown in something made by hand.", pronunciation: "krafts-muhn-ship", fact: "The shoes were stitched with such extraordinary craftsmanship that customers paid generous prices." },
+      { word: "Generous", partOfSpeech: "Adjective", definition: "Showing a readiness to give more of something, especially money, than is strictly necessary or expected.", pronunciation: "jen-er-uhs", fact: "The first customer was so impressed that he paid a very generous price for the shoes." },
+      { word: "Workbench", partOfSpeech: "Noun", definition: "A sturdy wooden table at which a carpenter, shoemaker, or artisan works.", pronunciation: "wurk-bench", fact: "The shoemaker cut his leather neatly on the workbench before going to sleep." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "The Last Piece of Leather",
+        text: "A kind shoemaker and his wife had very little money. 'We have enough leather for only one pair of shoes,' said the shoemaker sadly.",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 2,
+        title: "Preparing for Tomorrow",
+        text: "The shoemaker prepared his last piece of leather on his workbench before bedtime. 'I will sew these shoes tomorrow,' he said.",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 3,
+        title: "Midnight Visitors",
+        text: "At midnight, two little elves quietly entered the dark workshop through the window. 'Let us help the shoemaker,' they whispered.",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 4,
+        title: "Deft Little Hands",
+        text: "Their quick hands stitched and shaped the leather beautifully with hammers and thread: 'These shoes will be our finest work!'",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 5,
+        title: "A Wonderful Morning Surprise",
+        text: "In the morning, the finished shoes were waiting neatly on the workbench. The wife gasped in amazement: 'Who could have made them?'",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 6,
+        title: "The Generous Customer",
+        text: "A customer came in, loved the shoes, and paid a generous price: 'These are the finest shoes I have ever seen!'",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 7,
+        title: "Leather for Two More Pairs",
+        text: "With the money, the couple bought enough leather to make two more pairs. 'Perhaps our luck is changing,' smiled the shoemaker.",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 8,
+        title: "Left Overnight",
+        text: "The shoemaker cut out the two pairs and left them on the table overnight: 'I wonder what morning will bring.'",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 9,
+        title: "The Elves Return",
+        text: "At midnight, the two friendly elves returned to the workshop. 'There is more work tonight!' they laughed happily.",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 10,
+        title: "Complete by Dawn",
+        text: "By dawn, two beautiful new pairs of shoes were complete down to the last stitch: 'Finished just in time!' whispered the elves.",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 11,
+        title: "The Shop Prospers",
+        text: "People from all over town admired the shoes, and the little shop began to prosper. 'We can finally live comfortably,' said the shoemaker.",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 12,
+        title: "A Night to Watch",
+        text: "The shoemaker and his wife wondered who their secret helpers were. 'Tonight, let us quietly watch,' suggested the wife.",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 13,
+        title: "Secret Helpers Discovered",
+        text: "Hidden behind a curtain by candlelight, the couple saw the two hardworking elves: 'So they are our secret helpers!'",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 14,
+        title: "A Plan to Thank Them",
+        text: "The couple wanted to thank the elves for their wonderful kindness. 'Let us make them warm clothes and new shoes,' smiled the wife.",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 15,
+        title: "Crafting Tiny Gifts",
+        text: "They carefully stitched tiny coats, trousers, and leather boots: 'These tiny shoes are nearly ready,' said the shoemaker.",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 16,
+        title: "Christmas Eve Surprise",
+        text: "On Christmas Eve, instead of leather, they placed the gifts on the workbench: 'I hope the elves know how grateful we are.'",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 17,
+        title: "Delight and Joy",
+        text: "At midnight, the elves arrived and were delighted by their new green and red clothes: 'These gifts were made for us! What wonderful friends!'",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      },
+      {
+        pageNumber: 18,
+        title: "Dancing into the Night",
+        text: "The happy elves dressed up, danced out the door, and the prosperous shop remained full of joy forever. 'Thank you, dear friends!' waved the couple.",
+        imageUrl: "/the_elves_and_the_shoemaker.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "Who visited the workshop at midnight to make the beautiful shoes?",
+        options: ["Two kind and hardworking little elves", "The town mayor", "A friendly customer", "A woodland fairy"],
+        answer: "Two kind and hardworking little elves",
+        explanation: "Two little elves quietly entered the workshop every night at midnight to help the poor shoemaker."
+      },
+      {
+        id: 2,
+        question: "How did the shoemaker and his wife thank the elves on Christmas Eve?",
+        options: ["They made them warm stitched clothes and tiny pairs of shoes", "They left out bowls of porridge", "They gave them bags of gold coins", "They closed the workshop"],
+        answer: "They made them warm stitched clothes and tiny pairs of shoes",
+        explanation: "To show their gratitude, the wife sewed warm clothes and the shoemaker crafted tiny boots for both elves."
+      },
+      {
+        id: 3,
+        question: "What is the central moral lesson of 'The Elves and the Shoemaker'?",
+        options: ["Kindness and hard work can change lives; always remember to thank those who help you", "Never work at night", "Leather is the most valuable material", "Elves only work on Christmas Eve"],
+        answer: "Kindness and hard work can change lives; always remember to thank those who help you",
+        explanation: "The story teaches us that selfless kindness brings prosperity and that true gratitude means giving back to those who assist us in times of need."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -2475,7 +2627,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'the_elves_and_the_shoemaker', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -2575,10 +2727,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'the_princess_and_the_pea') return 999999999999985;
     if (String(s.id) === 'hansel_and_gretel') return 999999999999984;
     if (String(s.id) === 'the_gingerbread_man') return 999999999999983;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999982;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999981;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999980;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999979;
+    if (String(s.id) === 'the_elves_and_the_shoemaker') return 999999999999982;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999981;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999980;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999979;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999978;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
