@@ -63,10 +63,10 @@ export default function VisualFeedbackCard({
   return (
     <div id="printable-feedback-card" className="w-full bg-slate-100 p-3 md:p-6 rounded-3xl border-2 border-slate-300 shadow-2xl space-y-6 font-sans">
       {/* 1. MAIN 3-COLUMN VISUAL CONTAINER */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 main-columns-grid">
         
         {/* LEFT COLUMN: WHAT THE STUDENT WROTE */}
-        <div className="lg:col-span-4 bg-amber-50/80 rounded-2xl border-2 border-slate-300 shadow-md overflow-hidden flex flex-col">
+        <div className="lg:col-span-4 student-draft-col bg-amber-50/80 rounded-2xl border-2 border-slate-300 shadow-md overflow-hidden flex flex-col">
           {/* Header */}
           <div className="bg-red-600 text-white font-black text-xs md:text-sm uppercase tracking-wider py-2.5 px-4 text-center border-b-2 border-red-700">
             WHAT THE STUDENT WROTE ({grade})
@@ -82,7 +82,7 @@ export default function VisualFeedbackCard({
         </div>
 
         {/* CENTER COLUMN: HOW TO MAKE IT A GREAT EXEMPLAR */}
-        <div className="lg:col-span-5 bg-white rounded-2xl border-2 border-emerald-500/30 shadow-md p-5 flex flex-col space-y-4 relative">
+        <div className="lg:col-span-5 exemplar-col bg-white rounded-2xl border-2 border-emerald-500/30 shadow-md p-5 flex flex-col space-y-4 relative">
           {/* Header Banner */}
           <div className="bg-emerald-600 text-white font-black text-xs md:text-sm uppercase tracking-wider py-2 px-4 rounded-xl text-center shadow-sm flex items-center justify-between">
             <span>HOW TO MAKE IT A GREAT {grade.toUpperCase()} {genre.id.toUpperCase()}</span>
@@ -113,7 +113,7 @@ export default function VisualFeedbackCard({
         </div>
 
         {/* RIGHT COLUMN: WHAT TO IMPROVE CHECKLIST */}
-        <div className="lg:col-span-3 bg-sky-50 rounded-2xl border-2 border-sky-200 shadow-md p-4 space-y-4">
+        <div className="lg:col-span-3 checklist-col bg-sky-50 rounded-2xl border-2 border-sky-200 shadow-md p-4 space-y-4">
           <div className="bg-sky-600 text-white font-black text-xs md:text-sm uppercase tracking-wider py-2 px-3 rounded-xl text-center">
             WHAT TO IMPROVE
           </div>
@@ -153,7 +153,7 @@ export default function VisualFeedbackCard({
       </div>
 
       {/* 2. BOTTOM SECTION (3 REFERENCE BOXES) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bottom-boxes-grid">
 
         {/* BOX 1: USE BETTER SENTENCE STARTERS */}
         <div className="bg-amber-50 rounded-2xl border-2 border-amber-300 p-4 space-y-3 shadow-sm">

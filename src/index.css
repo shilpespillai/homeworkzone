@@ -259,12 +259,28 @@ html, body {
    PRINT / PDF STYLES - Isolates the Exemplar Feedback Card for Clean PDF Export
    ========================================================================== */
 @media print {
-  /* Hide whole app shell, sidebar, navbar, buttons, banners */
+  /* Enforce exact background colors, borders, and gradients in print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  html, body {
+    background: #f1f5f9 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Hide app shell, navbar, sidebar, buttons, modals */
   body * {
     visibility: hidden !important;
   }
 
-  /* Make ONLY the printable feedback card visible */
+  /* Make ONLY the printable feedback card and all its contents visible */
   #printable-feedback-card,
   #printable-feedback-card * {
     visibility: visible !important;
@@ -277,15 +293,89 @@ html, body {
     top: 0 !important;
     width: 100% !important;
     margin: 0 !important;
-    padding: 0 !important;
-    background: white !important;
-    border: none !important;
+    padding: 8px !important;
+    background: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
     box-shadow: none !important;
-    border-radius: 0 !important;
-    page-break-inside: avoid !important;
+    border-radius: 16px !important;
+    box-sizing: border-box !important;
   }
 
-  /* Hide print buttons and interactive triggers */
+  /* Force side-by-side 3-column top grid */
+  #printable-feedback-card .main-columns-grid {
+    display: grid !important;
+    grid-template-columns: 3.4fr 5.2fr 3.4fr !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  /* Force side-by-side 3-box bottom grid */
+  #printable-feedback-card .bottom-boxes-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1.2fr 1fr !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  /* Typography & spacing compacting for perfect A4 Landscape fit */
+  #printable-feedback-card .font-serif {
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+  }
+
+  #printable-feedback-card .text-xs {
+    font-size: 9px !important;
+    line-height: 1.25 !important;
+  }
+
+  #printable-feedback-card .text-sm {
+    font-size: 10px !important;
+    line-height: 1.35 !important;
+  }
+
+  #printable-feedback-card .text-base {
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
+
+  #printable-feedback-card .text-xl,
+  #printable-feedback-card .text-2xl {
+    font-size: 13px !important;
+  }
+
+  #printable-feedback-card .p-5 {
+    padding: 6px 8px !important;
+  }
+
+  #printable-feedback-card .p-4 {
+    padding: 5px 6px !important;
+  }
+
+  #printable-feedback-card .p-3 {
+    padding: 4px 6px !important;
+  }
+
+  #printable-feedback-card .p-2 {
+    padding: 2px 4px !important;
+  }
+
+  #printable-feedback-card .space-y-4 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 4px !important;
+  }
+
+  #printable-feedback-card .space-y-6 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 6px !important;
+  }
+
+  #printable-feedback-card .space-y-3 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 3px !important;
+  }
+
+  #printable-feedback-card .space-y-2 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 2px !important;
+  }
+
+  /* Hide interactive buttons and headers in print mode */
   .no-print,
   button,
   header,
@@ -296,6 +386,7 @@ html, body {
 
   @page {
     size: A4 landscape;
-    margin: 6mm 8mm;
+    margin: 4mm 6mm;
   }
 }
+
