@@ -45,6 +45,7 @@ import {
   Share2,
   Zap,
   Clock,
+  Timer,
   Flame,
   Trophy,
   Plus,
