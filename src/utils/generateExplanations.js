@@ -31,14 +31,16 @@ export async function generateExplanations(questions, subject = 'general', provi
       `ID: ${q.id}\nQuestion: "${q.text}"\nOptions: ${JSON.stringify(q.options)}\nCorrect Answer: "${q.answer}"\nSubtopic: "${q.subtopic || ''}"`
     ).join('\n\n');
 
-    const prompt = `You are a friendly and accurate teacher preparing short explanations for a ${subject} quiz.
+    const prompt = `You are a dedicated, expert teacher preparing clear, step-by-step explanations and worked methods for a ${subject} assessment.
 
-For EACH question below, write a very concise, direct explanation (maximum 2 sentences). Focus only on why the correct answer is right and the basic calculation or concept. Do NOT write long paragraphs, step-by-step guides, or analyze incorrect options. Keep it short and to the point.
+For EACH question below, write a clear, educational, step-by-step explanation showing the exact method, formula, and logic used to arrive at the correct answer:
+- For Mathematics / Science calculations: Clearly break down each step (e.g. Step 1: Calculate unit rate or value. Step 2: Perform the comparison or arithmetic operation. Step 3: Conclude with the final result).
+- For English / Grammar / Reading / Vocabulary: State the underlying grammatical rule or textual evidence clearly so the student learns why the answer is correct.
+- Write 2 to 4 informative, helpful sentences that explain the solution clearly.
 
 ${mathInstruction}
 
 CRITICAL FORMATTING RULES:
-- Keep the explanation extremely short and concise (under 2 sentences).
 - CRITICAL: You must output a valid JSON object. Do NOT use literal actual newlines inside your explanation strings. If you need a newline, use the exact characters "\\n".
 - ABSOLUTELY NO DOUBLE QUOTES inside the explanation strings! Use single quotes (' ') instead if you need to quote something. Unescaped double quotes will crash the JSON parser.
 
@@ -52,8 +54,8 @@ ${questionsFormatted}
 Return ONLY a valid JSON object where keys are the exact question IDs (as strings) and values are the explanation strings.
 Example:
 {
-  "1": "The correct answer is 12 because 3 × 4 = 12.",
-  "2": "Photosynthesis occurs in chloroplasts because they contain chlorophyll to capture sunlight."
+  "1": "Step 1: Calculate the cost per juice box for Pack A ($6.00 ÷ 4 = $1.50). Step 2: Calculate the cost per juice box for Pack B ($7.80 ÷ 6 = $1.30). Step 3: Find the difference ($1.50 - $1.30 = $0.20). Therefore, the difference is $0.20.",
+  "2": "Photosynthesis occurs in the chloroplasts of plant cells because they contain the green pigment chlorophyll, which captures sunlight to produce glucose and oxygen."
 }
 
 CRITICAL: Use the EXACT question ID numbers as keys.`;

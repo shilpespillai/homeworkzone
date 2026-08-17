@@ -8786,7 +8786,6 @@ Include a balanced combination of question types such as:
                                 ) : profileSubmissionHomework?.questions ? (
                                    <div className="space-y-8">
                                       {profileSubmissionHomework.questions.map((q, qIdx) => {
-                                         const qId = q.id !== undefined && q.id !== null ? q.id : (qIdx + 1);
                                          const studentSelection = 
                                            selectedProfileSubmission.answers?.[q.id] ?? 
                                            selectedProfileSubmission.answers?.[String(q.id)] ?? 
@@ -8826,8 +8825,41 @@ Include a balanced combination of question types such as:
                                                {q.options && q.options.length > 0 ? (
                                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                      {q.options.map((opt, optIdx) => {
-                                                        const isStudentSelection = checkIsCorrect({ answer: opt, questionType: 'text' }, studentSelection) || opt === studentSelection || String(opt).trim().toLowerCase() === String(studentSelection || '').trim().toLowerCase();
-                                                        const isActualCorrect = checkIsCorrect({ answer: opt, questionType: 'text' }, actualAnswer) || opt === actualAnswer || String(opt).trim().toLowerCase() === String(actualAnswer || '').trim().toLowerCase();
+                                                        const optLetter = String.fromCharCode(65 + optIdx);
+                                                        const optLetterLower = optLetter.toLowerCase();
+                                                        const cleanStudentSel = String(studentSelection ?? '').trim().toLowerCase();
+                                                        const cleanOpt = String(opt ?? '').trim().toLowerCase();
+                                                        const cleanActual = String(actualAnswer ?? '').trim().toLowerCase();
+
+                                                        const isStudentSelection = Boolean(
+                                                          studentSelection !== undefined && studentSelection !== null && cleanStudentSel !== '' && (
+                                                            cleanStudentSel === optLetterLower ||
+                                                            cleanStudentSel === String(optIdx) ||
+                                                            cleanStudentSel === String(optIdx + 1) ||
+                                                            cleanStudentSel === cleanOpt ||
+                                                            checkIsCorrect({ answer: opt, questionType: 'text' }, studentSelection) ||
+                                                            cleanOpt.startsWith(cleanStudentSel) ||
+                                                            cleanStudentSel.startsWith(cleanOpt) ||
+                                                            cleanStudentSel === `${optLetterLower}. ${cleanOpt}` ||
+                                                            cleanStudentSel === `${optLetterLower}) ${cleanOpt}` ||
+                                                            cleanStudentSel === `${optLetterLower} - ${cleanOpt}`
+                                                          )
+                                                        );
+
+                                                        const isActualCorrect = Boolean(
+                                                          actualAnswer !== undefined && actualAnswer !== null && cleanActual !== '' && (
+                                                            cleanActual === optLetterLower ||
+                                                            cleanActual === String(optIdx) ||
+                                                            cleanActual === String(optIdx + 1) ||
+                                                            cleanActual === cleanOpt ||
+                                                            checkIsCorrect({ answer: opt, questionType: 'text' }, actualAnswer) ||
+                                                            cleanOpt.startsWith(cleanActual) ||
+                                                            cleanActual.startsWith(cleanOpt) ||
+                                                            cleanActual === `${optLetterLower}. ${cleanOpt}` ||
+                                                            cleanActual === `${optLetterLower}) ${cleanOpt}` ||
+                                                            cleanActual === `${optLetterLower} - ${cleanOpt}`
+                                                          )
+                                                        );
                                                         
                                                         let optionClasses = "px-5 py-3.5 rounded-xl border flex items-center gap-4 transition-all ";
                                                         
@@ -8842,7 +8874,7 @@ Include a balanced combination of question types such as:
                                                         return (
                                                            <div key={optIdx} className={optionClasses}>
                                                               <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-[11px] font-black ${isActualCorrect ? 'bg-emerald-300 text-emerald-900' : isStudentSelection && !isActualCorrect ? 'bg-rose-300 text-rose-900' : 'bg-slate-100 text-slate-500'}`}>
-                                                                 {String.fromCharCode(65 + optIdx)}
+                                                                 {optLetter}
                                                               </div>
                                                               <span className="text-[13px] font-bold flex-1">{opt}</span>
                                                               {isActualCorrect && (

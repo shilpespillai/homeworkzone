@@ -493,6 +493,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
           const qIdStr = String(q.id).trim();
           explanations[q.id] = preGenerated[q.id] || preGenerated[qIdStr]
             || Object.entries(preGenerated).find(([k]) => k.toString() === qIdStr)?.[1]
+            || q.explanation || q.solution || q.workedSolution || q.workedLogic
             || `The correct answer is "${q.answer}".`;
         });
       } else {
@@ -516,7 +517,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         }
 
         wrongQuestions.forEach(q => {
-          explanations[q.id] = `The correct answer is "${q.answer}".`;
+          explanations[q.id] = q.explanation || q.solution || q.workedSolution || q.workedLogic || `The correct answer is "${q.answer}".`;
         });
       }
       
