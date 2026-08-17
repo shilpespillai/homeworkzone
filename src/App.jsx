@@ -3882,6 +3882,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
              activeNav !== 'Learning: Reading Comprehension' &&
              activeNav !== 'Learning: Sentence Types & Punctuation' &&
              activeNav !== 'Learning: Creative Writing Studio' &&
+             activeNav !== 'Learning: NAPLAN Visual Writing Feedback' &&
              activeNav !== 'Learning: English' &&
              activeNav !== 'Learning: Body and Functions' && 
              activeNav !== 'Learning: Types of Teeth & Functions' && 
