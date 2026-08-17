@@ -2367,6 +2367,158 @@ const STORIES = [
     ]
   },
   {
+    id: 'the_little_red_hen',
+    title: "The Little Red Hen",
+    subtitle: "A story about hard work, responsibility and earning rewards",
+    genre: "Classic Fable",
+    emoji: "🌾🍞🐔",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/the_little_red_hen.png",
+    moral: "Rewards are earned through effort and responsibility. When everyone helps with the work, everyone can share the result. 🌾🍞✨",
+    summary: "When the hardworking Little Red Hen discovers a few grains of wheat, she asks her barnyard friends—the Cat, Dog, and Duck—for help at every step: planting the seeds, harvesting the crop, threshing the grain, milling the flour, kneading the dough, and baking the bread. Each time, they all reply 'Not I!' But when the warm, golden loaf is baked, everyone volunteers to eat it. The wise Hen reminds them that true rewards belong to those who share the effort.",
+    vocabHighlights: [
+      { word: "Harvest", partOfSpeech: "Verb / Noun", definition: "The process or period of gathering in crops.", pronunciation: "hahr-vist", fact: "The Little Red Hen harvested all the golden wheat stalks with her sickle when they were fully grown." },
+      { word: "Thresh", partOfSpeech: "Verb", definition: "Separate grain from a plant, typically with a flail or mechanical tool.", pronunciation: "thresh", fact: "Threshing was hard work, but the Hen carefully separated every seed from the chaff." },
+      { word: "Responsibility", partOfSpeech: "Noun", definition: "The state or fact of having a duty to deal with something or of having control over someone.", pronunciation: "ri-spon-suh-bil-i-tee", fact: "Taking responsibility for our tasks ensures that we learn, grow, and achieve our goals." },
+      { word: "Knead", partOfSpeech: "Verb", definition: "Work moistened flour or clay into dough or paste with the hands.", pronunciation: "need", fact: "The Hen mixed the flour with water and kneaded the dough smoothly on the table." },
+      { word: "Effort", partOfSpeech: "Noun", definition: "A vigorous or determined attempt; the exertion of physical or mental energy.", pronunciation: "ef-ert", fact: "Great achievements and delicious rewards always require dedicated effort and teamwork." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "Grains of Wheat",
+        text: "One morning, the Little Red Hen found some grains of wheat. 'These seeds could grow into something wonderful!' she clucked happily.",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 2,
+        title: "Asking the Cat",
+        text: "The Hen asked the lazy Cat to help plant the wheat: 'Will you help me plant these seeds?' The Cat purred: 'Not I.'",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 3,
+        title: "Asking the Dog",
+        text: "Next, she asked the Dog resting in the barnyard: 'Will you help me plant the wheat?' The Dog barked: 'Not I.'",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 4,
+        title: "Asking the Duck",
+        text: "Then, the Hen asked the Duck swimming by the pond: 'Will you help me plant the wheat?' The Duck quacked: 'Not I.'",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 5,
+        title: "Planting Every Seed",
+        text: "So the Little Red Hen planted every seed herself in the soil: 'Then I will do it,' she said cheerfully.",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 6,
+        title: "Growing Tall and Golden",
+        text: "With sunshine, rain and patient daily care, the wheat grew tall, strong, and golden in the summer breeze.",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 7,
+        title: "Time to Harvest",
+        text: "When the wheat was ripe, the Hen asked for help again: 'Who will help me cut the wheat?' All three replied: 'Not I.'",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 8,
+        title: "Cutting the Wheat",
+        text: "The Little Red Hen harvested all the heavy wheat bundles herself: 'Then I will do it,' she sighed.",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 9,
+        title: "Threshing the Grain",
+        text: "The grain still had to be separated from the stalks: 'Who will help me thresh the wheat?' Once again, all three said: 'Not I.'",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 10,
+        title: "Threshing Alone",
+        text: "Once again, the Hen completed the hard threshing work alone on the barn floor: 'Then I will do it.'",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 11,
+        title: "Carrying to the Mill",
+        text: "Next, the heavy grain needed to be ground into flour: 'Who will help me carry the grain?' 'Not I,' said the Cat, Dog, and Duck.",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 12,
+        title: "Returning with White Flour",
+        text: "The Hen carried the sack of grain to the windmill and returned with a heavy bag of pure white flour.",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 13,
+        title: "Making the Dough",
+        text: "The Hen was ready to turn the flour into dough: 'Who will help me mix the dough?' 'Not I,' chorused all three friends.",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 14,
+        title: "Kneading with Care",
+        text: "The Little Red Hen mixed and kneaded the dough herself until it was round and smooth: 'Then I will do it.'",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 15,
+        title: "Ready for the Oven",
+        text: "At last, the bread was ready for the wood-fired oven: 'Who will help me bake the bread?' 'Not I,' said the three animals.",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 16,
+        title: "Fresh Warm Bread",
+        text: "Soon, the freshly baked warm bread filled the farmhouse with a wonderful, mouth-watering aroma: 'The bread is ready!'",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 17,
+        title: "Eager to Eat",
+        text: "Now all three friends were eager to help: 'Who will help me eat the bread?' 'I will!' cried the Cat, Dog, and Duck.",
+        imageUrl: "/the_little_red_hen.png"
+      },
+      {
+        pageNumber: 18,
+        title: "A Lesson in Sharing",
+        text: "The Hen enjoyed the delicious bread she had worked so hard to make: 'Those who share the work may share the reward.' From that day on, everyone helped!",
+        imageUrl: "/the_little_red_hen.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "How did the Cat, Dog, and Duck answer whenever the Little Red Hen asked for help?",
+        options: ["'Not I.'", "'We will help right away!'", "'Ask the farmer.'", "'Only after lunch.'"],
+        answer: "'Not I.'",
+        explanation: "Every time the Hen asked for help planting, harvesting, threshing, or baking, all three animals refused by saying 'Not I.'"
+      },
+      {
+        id: 2,
+        question: "When did the three animals finally want to help the Little Red Hen?",
+        options: ["When the warm, fresh bread was ready to be eaten", "When it was time to plant the seeds", "When it started raining", "When they were carrying the flour from the mill"],
+        answer: "When the warm, fresh bread was ready to be eaten",
+        explanation: "The three friends only offered to help when the hard work was finished and the delicious loaf of bread was on the table."
+      },
+      {
+        id: 3,
+        question: "What is the central moral lesson of 'The Little Red Hen'?",
+        options: ["Rewards are earned through effort and responsibility; when everyone helps with the work, everyone can share the result", "Hens make better bread than ducks", "Wheat only grows in sunny weather", "Cats prefer sleeping on straw"],
+        answer: "Rewards are earned through effort and responsibility; when everyone helps with the work, everyone can share the result",
+        explanation: "The story teaches us the value of hard work, personal responsibility, and that those who participate in the effort deserve to enjoy the rewards."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -2931,7 +3083,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'the_elves_and_the_shoemaker', 'the_emperors_new_clothes', 'the_bremen_town_musicians', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'the_elves_and_the_shoemaker', 'the_emperors_new_clothes', 'the_bremen_town_musicians', 'the_little_red_hen', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -3034,10 +3186,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'the_elves_and_the_shoemaker') return 999999999999982;
     if (String(s.id) === 'the_emperors_new_clothes') return 999999999999981;
     if (String(s.id) === 'the_bremen_town_musicians') return 999999999999980;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999979;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999978;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999977;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999976;
+    if (String(s.id) === 'the_little_red_hen') return 999999999999979;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999978;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999977;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999976;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999975;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
