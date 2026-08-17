@@ -1441,34 +1441,7 @@ EXPECTED JSON SCHEMA:
         : '';
       const isVocab = formData.subject === 'Vocabulary' || (formData.subject || '').toLowerCase().includes('vocab') || (topic || '').toLowerCase().includes('vocab');
 
-      let prompt = isVocab ? `You are an expert Vocabulary Curriculum Director and Word Learning Coach.
-        Your mission is to teach students 10 to 15 NEW vocabulary words every week through an INFORMATION-FIRST "Weekly Word Spotlight & Learning Guide", followed by direct contextual application exercises.
-        DO NOT generate a standard multiple-choice quiz of random words!
-        
-        Subject: ${formData.subject}
-        Topic: ${topic}
-        Target Language: ${langObj.name} (${langObj.nativeName})
-        Specific Content Instructions: ${injectedPrompt}
-        ${langRule}
-        ${previousQuestionsBlock}
-        
-        YOUR JSON RESPONSE MUST PROVIDE:
-        1. "passage": A comprehensive, beautifully structured "Weekly Word Spotlight & Learning Guide" teaching 10-15 new grade-appropriate vocabulary words.
-           For EVERY word in "passage", you MUST include:
-           - 📌 Word & Part of Speech
-           - 🔊 Phonetics / Pronunciation
-           - 💡 Clear Kid-Friendly Definition
-           - 🔍 Root / Etymology (Where the word comes from)
-           - 👯 Synonyms & Antonyms
-           - 📖 Example Sentence in an authentic real-world context
-           - 💡 Usage Memory Hook / Tip
-        2. "questions": An array of ${questionCount} application exercises that help the student actively PRACTICE and APPLY the exact 6-8 words taught in the guide above.
-           - Ask direct application questions such as:
-             * Fill-in-the-blank sentences: e.g., "Liam took a _______ step onto the icy sidewalk." (Options: cautious, reckless, furious, timid - where cautious is the target word from the guide)
-             * Synonym/Antonym identification: e.g., "Which word from this week's learning guide is an antonym for 'reckless'?"
-             * Definition matching: e.g., "Which word from this week's guide means 'being very careful to avoid danger'?"
-           - DO NOT write self-answering questions or confusing trick questions like "Which sentence effectively uses X".
-        ` : `You are an expert curriculum designer. 
+      let prompt = `You are an expert curriculum designer and education specialist.${isVocab ? `\nSPECIAL VOCABULARY MISSION: You are an expert Vocabulary Curriculum Director and Word Learning Coach. Your mission is to teach students 10 to 15 NEW vocabulary words every week through an INFORMATION-FIRST "Weekly Word Spotlight & Learning Guide" in "passage", followed by direct contextual application exercises in "questions".` : ''} 
         Create a ${questionCount}-question multiple-choice quiz for students about the following topic:
         Subject: ${formData.subject}
         Topic: ${topic}
@@ -1527,6 +1500,7 @@ EXPECTED JSON SCHEMA:
            - MANDATORY WEEKLY WORD SPOTLIGHT IN "passage": You MUST populate the root-level "passage" string key with an INFORMATION-FIRST "Weekly Word Spotlight & Learning Guide" for 6 to 8 new vocabulary words appropriate for the requested grade level.
            - For EVERY word in the learning guide, you MUST detail: 📌 Word & Part of Speech, 🔊 Phonetics / Pronunciation, 💡 Kid-Friendly Definition, 🔍 Root / Etymology, 👯 Synonyms & Antonyms, 📖 Authentic Example Sentence in Context, and 💡 Memory Hook.
            - APPLICATION OVER TRICK QUIZZES: Questions MUST test direct contextual application (e.g., Fill-in-the-blank sentences: 'Liam took a _______ step' where student picks 'cautious'; or Synonym/Antonym matching). DO NOT write tricky multiple-choice questions like 'Which sentence effectively uses cautious to show a character being very careful?'. The student is learning these words this week—make the questions reinforce word meaning and contextual use!
+           - CRITICAL MANDATORY ANTI-LEAK RULE FOR VOCABULARY FILL-IN-THE-BLANK: In fill-in-the-blank sentences, replace the target answer word with '_______' (7 underscores). DO NOT write the answer word directly into the sentence! The question sentence MUST NOT reveal or contain the answer word!
         
          CRITICAL MANDATORY QUESTION TEXT RULE:
          Every single question object in the "questions" array MUST have an explicit, plain-text question stem in the "text" property (e.g., "Which number represents 8 tens of thousands?", "What is the value of the underlined digit?", "Which fraction is shaded?"). NEVER put SVG code or clock tags as the ONLY content of the "text" property without a plain-text question sentence! Every question MUST have a clear, human-readable text question sentence.
@@ -1716,21 +1690,7 @@ EXPECTED JSON SCHEMA:
           .replace(/\{DIFFICULTY\}/gi, formData.difficulty || 'Medium')
           .replace(/\{QUESTION_COUNT\}/gi, String(targetCount));
 
-        return isVocab ? `You are an expert Vocabulary Curriculum Director and Word Learning Coach.
-        Your mission is to teach students 10 to 15 NEW vocabulary words every week through an INFORMATION-FIRST "Weekly Word Spotlight & Learning Guide", followed by direct contextual application exercises.
-        DO NOT generate a standard multiple-choice quiz of random words!
-        
-        Subject: ${formData.subject}
-        Topic: ${topic}
-        Target Language: ${langObj.name} (${langObj.nativeName})
-        Specific Content Instructions: ${countInjected}
-        ${langRule}
-        ${previousQuestionsBlock}
-        
-        YOUR JSON RESPONSE MUST PROVIDE:
-        1. "passage": A comprehensive, beautifully structured "Weekly Word Spotlight & Learning Guide" teaching 10-15 new grade-appropriate vocabulary words.
-        2. "questions": An array of ${targetCount} application exercises that help the student actively PRACTICE and APPLY the exact words taught in the guide above.
-        ` : `You are an expert curriculum designer. 
+        return `You are an expert curriculum designer and education specialist.${isVocab ? `\nSPECIAL VOCABULARY MISSION: You are an expert Vocabulary Curriculum Director and Word Learning Coach. Your mission is to teach students 10 to 15 NEW vocabulary words every week through an INFORMATION-FIRST "Weekly Word Spotlight & Learning Guide" in "passage", followed by direct contextual application exercises in "questions".` : ''} 
         Create a ${targetCount}-question multiple-choice quiz for students about the following topic:
         Subject: ${formData.subject}
         Topic: ${topic}

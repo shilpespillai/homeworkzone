@@ -266,15 +266,16 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
         const snap = await getDoc(docRef);
         if (snap.exists()) {
           const hwData = snap.data();
-          // Normalize questions array to guarantee non-empty question text for all existing & new papers
+          // Normalize questions array to guarantee non-empty question text and unique IDs for all existing & new papers
           if (hwData.questions && Array.isArray(hwData.questions)) {
             hwData.questions = hwData.questions.map((q, idx) => {
+              const qId = q.id !== undefined && q.id !== null ? q.id : (idx + 1);
               let textStr = q.text || q.question || q.questionText || q.prompt || q.title || q.content || '';
               const stripped = textStr.replace(/<svg[\s\S]*?<\/svg>/gi, '').replace(/\[CLOCK:.*?\]/gi, '').trim();
               if (!textStr || textStr.trim() === '' || !stripped) {
                 textStr = q.subtopic ? `Question ${idx + 1} (${q.subtopic}): Select the correct answer below` : `Question ${idx + 1}: Select the correct answer from the choices below:`;
               }
-              return { ...q, text: textStr };
+              return { ...q, id: qId, text: textStr };
             });
           }
           setHomework(hwData);
@@ -413,7 +414,13 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
 
   const handleSelect = (qId, option) => {
     if (isSubmitted) return;
-    setAnswers({ ...answers, [qId]: option });
+    const resolvedId = qId !== undefined && qId !== null ? qId : (currentIdx + 1);
+    setAnswers(prev => ({
+      ...prev,
+      [resolvedId]: option,
+      [String(resolvedId)]: option,
+      [`idx_${currentIdx}`]: option
+    }));
   };
 
   async function handleSubmit() {
@@ -424,8 +431,12 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
     
     if (homework.type !== 'lesson') {
       homework.questions.forEach((q, idx) => {
-        const qId = q?.id !== undefined && q?.id !== null ? q.id : `idx_${idx}`;
-        const ans = answers[qId] !== undefined ? answers[qId] : answers[`idx_${idx}`];
+        const qId = q?.id !== undefined && q?.id !== null ? q.id : (idx + 1);
+        const ans = answers[qId] !== undefined 
+          ? answers[qId] 
+          : (answers[String(qId)] !== undefined 
+              ? answers[String(qId)] 
+              : answers[`idx_${idx}`]);
         if (checkIsCorrect(q, ans)) correctCount++;
       });
     } else {
@@ -444,8 +455,12 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
           : "Don't give up! Review the core concepts and try again. 🦾";
 
     const wrongQuestions = homework.type === 'lesson' ? [] : homework.questions.filter((q, idx) => {
-      const qId = q?.id !== undefined && q?.id !== null ? q.id : `idx_${idx}`;
-      const ans = answers[qId] !== undefined ? answers[qId] : answers[`idx_${idx}`];
+      const qId = q?.id !== undefined && q?.id !== null ? q.id : (idx + 1);
+      const ans = answers[qId] !== undefined 
+        ? answers[qId] 
+        : (answers[String(qId)] !== undefined 
+            ? answers[String(qId)] 
+            : answers[`idx_${idx}`]);
       return !checkIsCorrect(q, ans);
     });
     let explanations = {};
@@ -1066,7 +1081,8 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                          ) : (
                            <div className="flex flex-col gap-3 max-w-2xl">
                              {q.options.map((opt, i) => {
-                               const isSelected = answers[q.id] === opt;
+                               const qKey = q.id !== undefined && q.id !== null ? q.id : (index + 1);
+                               const isSelected = answers[qKey] === opt || answers[String(qKey)] === opt || answers[`idx_${index}`] === opt;
                                const isCorrectOption = q.answer === opt;
                                
                                let bgClass = "bg-slate-50 hover:bg-slate-100 border-slate-200";
@@ -1095,10 +1111,10 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                                  <label key={opt} className={`flex items-center gap-4 p-4 rounded-2xl border-2 transition-all cursor-pointer ${isReviewing ? 'cursor-default' : 'active:translate-y-1 active:shadow-none'} ${bgClass}`}>
                                    <input 
                                      type="radio" 
-                                     name={`q-${q.id}`} 
+                                     name={`q-${qKey}`} 
                                      value={opt}
                                      checked={isSelected}
-                                     onChange={() => { if (!isReviewing) handleSelect(q.id, opt) }}
+                                     onChange={() => { if (!isReviewing) handleSelect(qKey, opt) }}
                                      disabled={isReviewing}
                                      className="sr-only"
                                    />
@@ -1617,7 +1633,8 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                         ? option.replace(/\s*\([A-Za-z\s,-]+\)$/, '').trim()
                         : option;
 
-                      const isSelected = answers[currentQuestion.id] === option;
+                      const qKey = currentQuestion.id !== undefined && currentQuestion.id !== null ? currentQuestion.id : (currentIdx + 1);
+                      const isSelected = answers[qKey] === option || answers[String(qKey)] === option || answers[`idx_${currentIdx}`] === option;
                       const isCorrectOption = currentQuestion.answer === option;
                       
                       const colorStyles = [
@@ -1660,7 +1677,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                       return (
                         <div key={option} className="flex gap-2">
                           <button
-                            onClick={() => { if (!isReviewing) handleSelect(currentQuestion.id, option); }}
+                            onClick={() => { if (!isReviewing) handleSelect(qKey, option); }}
                             className={`group relative flex-1 p-4 md:p-5 text-left rounded-[24px] transition-all flex items-center justify-between ${isReviewing ? 'cursor-default' : 'active:translate-y-[6px] hover:brightness-105 active:shadow-none'} ${baseColor} ${activeState} ${reviewState}`}
                           >
                             <div className="flex items-center gap-4">
