@@ -687,6 +687,110 @@ const STORIES = [
     ]
   },
   {
+    id: 'clever_rabbit_and_the_lion',
+    title: "The Clever Rabbit and the Lion",
+    subtitle: "A story about intelligence and courage",
+    genre: "Classic Fable",
+    emoji: "🐰",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/clever_rabbit_and_the_lion.png",
+    moral: "Intelligence can overcome great strength. Think calmly before you act. 🧠",
+    summary: "When a fierce, arrogant lion terrorizes the animals of the forest, a clever little rabbit uses wisdom instead of brute force. The rabbit arrives late and tells the lion that another rival lion challenged his authority. Leading the furious king to an old deep well, the lion attacks his own reflection in the water, plunging into the well and freeing all the forest animals forever!",
+    vocabHighlights: [
+      { word: "Intelligence", partOfSpeech: "Noun", definition: "The ability to acquire, understand, and apply knowledge, wisdom, and skills.", pronunciation: "in-tel-uh-juhns", fact: "The clever rabbit proved that intelligence is more powerful than physical muscle!" },
+      { word: "Courage", partOfSpeech: "Noun", definition: "Strength in the face of pain, fear, or danger; bravery.", pronunciation: "kur-ij", fact: "It took great courage for the small rabbit to stand calmly before the roaring lion." },
+      { word: "Rival", partOfSpeech: "Noun", definition: "A person or thing competing with another for the same objective or for superiority.", pronunciation: "ry-vuhl", fact: "The proud lion could not tolerate the idea of having any rival in the forest." },
+      { word: "Furious", partOfSpeech: "Adjective", definition: "Extremely angry, full of uncontrollable fury and rage.", pronunciation: "fyoor-ee-uhs", fact: "Blinded by furious anger, the lion jumped into the well without thinking." },
+      { word: "Wisdom", partOfSpeech: "Noun", definition: "The quality of having experience, knowledge, and good judgment.", pronunciation: "wiz-duhm", fact: "Wisdom allows the smallest and gentlest creatures to solve the biggest challenges!" }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "A Fierce Forest King",
+        text: "A fierce lion frightened every animal in the forest. 'I am the strongest animal here!' he roared with pride.",
+        imageUrl: "/clever_rabbit_and_the_lion.png"
+      },
+      {
+        pageNumber: 2,
+        title: "A Brave Plan",
+        text: "The animals bravely approached the lion with a plan: 'Please stop hunting us all day. One animal will visit you each day.' The lion agreed: 'Very well. Do not keep me waiting!'",
+        imageUrl: "/clever_rabbit_and_the_lion.png"
+      },
+      {
+        pageNumber: 3,
+        title: "The Rabbit's Turn",
+        text: "One day, a small but clever rabbit was chosen to visit the lion. 'Strength will not save us. I need a clever plan,' thought the rabbit calmly.",
+        imageUrl: "/clever_rabbit_and_the_lion.png"
+      },
+      {
+        pageNumber: 4,
+        title: "Arriving Late",
+        text: "The rabbit walked very slowly and arrived late. The lion growled angrily: 'Why have you kept me waiting?' The rabbit bowed: 'Your Majesty, another lion stopped me on the way!'",
+        imageUrl: "/clever_rabbit_and_the_lion.png"
+      },
+      {
+        pageNumber: 5,
+        title: "Show Me This Rival!",
+        text: "The angry lion demanded to know where his rival lived: 'Show me this other lion at once!' The rabbit smiled: 'Follow me, Your Majesty.'",
+        imageUrl: "/clever_rabbit_and_the_lion.png"
+      },
+      {
+        pageNumber: 6,
+        title: "The Old Deep Well",
+        text: "The clever rabbit led the lion to an old, deep stone well: 'The other lion is hiding down there at the bottom.'",
+        imageUrl: "/clever_rabbit_and_the_lion.png"
+      },
+      {
+        pageNumber: 7,
+        title: "The Reflection Roars",
+        text: "The lion looked into the well and saw his own reflection in the water. 'How dare you challenge me!' roared the lion. The echo roared back: ROAR!",
+        imageUrl: "/clever_rabbit_and_the_lion.png"
+      },
+      {
+        pageNumber: 8,
+        title: "The Leap",
+        text: "Believing the reflection was his dangerous rival, the furious lion leaped into the well with a giant SPLASH! 'I will defeat you!' he cried.",
+        imageUrl: "/clever_rabbit_and_the_lion.png"
+      },
+      {
+        pageNumber: 9,
+        title: "Trapped by Anger",
+        text: "The lion was trapped deep inside the well water, while the clever rabbit remained completely safe. 'Your anger has defeated you,' said the rabbit.",
+        imageUrl: "/clever_rabbit_and_the_lion.png"
+      },
+      {
+        pageNumber: 10,
+        title: "Forest Celebration",
+        text: "The rabbit returned, and all the forest animals celebrated their freedom: 'Hooray for the clever rabbit! Wisdom is stronger than force.' MORAL: Intelligence can overcome great strength. Think calmly before you act.",
+        imageUrl: "/clever_rabbit_and_the_lion.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "Why did the clever rabbit arrive late to see the lion?",
+        options: ["He took his time to plan a clever trick to defeat the lion", "He got lost in the forest", "He overslept under a tree", "He stopped to eat carrots"],
+        answer: "He took his time to plan a clever trick to defeat the lion",
+        explanation: "The rabbit walked slowly on purpose so the lion would become angry and fall for his clever trap."
+      },
+      {
+        id: 2,
+        question: "What did the lion see when he looked down into the deep well?",
+        options: ["His own reflection in the clear water", "A real rival lion", "A swimming fish", "A bag of treasure"],
+        answer: "His own reflection in the clear water",
+        explanation: "The lion saw his own reflection in the water and mistook it for another lion challenging his power."
+      },
+      {
+        id: 3,
+        question: "What is the main moral of 'The Clever Rabbit and the Lion'?",
+        options: ["Intelligence can overcome great strength; think calmly before you act", "Lions are always gentle", "Never drink water from deep wells", "Rabbits are the fastest runners"],
+        answer: "Intelligence can overcome great strength; think calmly before you act",
+        explanation: "The fable teaches that wisdom and quick intelligence can conquer even the strongest brute force."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -1267,7 +1371,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -1385,10 +1489,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'fox_and_the_grapes') return 999999999999994;
     if (String(s.id) === 'honest_woodcutter') return 999999999999993;
     if (String(s.id) === 'monkey_and_the_crocodile') return 999999999999992;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999991;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999990;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999989;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999988;
+    if (String(s.id) === 'clever_rabbit_and_the_lion') return 999999999999991;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999990;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999989;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999988;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999987;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
