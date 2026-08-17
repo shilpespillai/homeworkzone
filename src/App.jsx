@@ -1450,7 +1450,10 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
 const MissionReportModal = ({ submission, homework, onClose }) => {
    if (!submission || !homework) return null;
 
-   const incorrectQuestions = homework.questions.filter((q) => submission.answers && !checkIsCorrect(q, submission.answers[q.id]));
+   const incorrectQuestions = (homework.questions || []).filter((q, qIdx) => {
+      const studentAns = submission.answers?.[q.id] ?? submission.answers?.[String(q.id)] ?? submission.answers?.[`idx_${qIdx}`] ?? submission.answers?.[qIdx + 1] ?? submission.answers?.[qIdx];
+      return !checkIsCorrect(q, studentAns);
+   });
 
    const formatExplanation = (text) => {
       if (!text) return null;
@@ -1483,9 +1486,19 @@ const MissionReportModal = ({ submission, homework, onClose }) => {
                   <p className="text-center text-green-500 font-black text-xl py-10">Perfect! You got everything right. 🌟</p>
                ) : (
                   incorrectQuestions.map((q, idx) => {
-                     const studentAnsText = submission.answers[q.id] || "No Answer";
-                     const correctAnsText = q.answer;
-                     const explanationText = submission.wrongAnswersExplanations ? submission.wrongAnswersExplanations[q.id] : "";
+                     const studentAnsText = submission.answers?.[q.id] ?? submission.answers?.[String(q.id)] ?? submission.answers?.[`idx_${idx}`] ?? submission.answers?.[idx + 1] ?? submission.answers?.[idx] ?? "(No answer provided)";
+                     const correctAnsText = q.answer !== undefined ? q.answer : (q.correctAnswer !== undefined ? q.correctAnswer : '');
+                     const explanationText = 
+                        submission.wrongAnswersExplanations?.[q.id] ||
+                        submission.wrongAnswersExplanations?.[String(q.id)] ||
+                        submission.wrongAnswersExplanations?.[`idx_${idx}`] ||
+                        submission.wrongAnswersExplanations?.[idx + 1] ||
+                        homework.questionExplanations?.[q.id] ||
+                        homework.questionExplanations?.[String(q.id)] ||
+                        homework.questionExplanations?.[`idx_${idx}`] ||
+                        homework.questionExplanations?.[idx + 1] ||
+                        q.explanation ||
+                        `The correct answer is "${correctAnsText}".`;
                      
                      return (
                         <div key={idx} className="bg-slate-50 border-2 border-slate-100 rounded-[24px] p-6">
@@ -1503,7 +1516,7 @@ const MissionReportModal = ({ submission, homework, onClose }) => {
                            {explanationText && (
                               <div className="mt-4 bg-purple-50 border border-purple-200 rounded-xl p-6">
                                  <span className="text-[10px] font-black uppercase text-purple-500 tracking-wider block mb-3 flex items-center gap-2">
-                                    <span>📝</span> Teacher Feedback
+                                    <span>📝</span> Explanation & Feedback
                                  </span>
                                  <div className="text-purple-800 font-medium text-sm">
                                     {formatExplanation(explanationText)}

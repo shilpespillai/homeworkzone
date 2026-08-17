@@ -96,6 +96,7 @@ import AgenticHelpAssistant from '../components/AgenticHelpAssistant';
 import InternationalExamHubView from '../components/InternationalExamHubView';
 import { encryptText, decryptText } from '../utils/crypto';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
+import { checkIsCorrect } from '../utils/checkIsCorrect';
 import { SUPER_USER_EMAILS } from '../utils/defaultPrompts';
 
 const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
@@ -8413,63 +8414,115 @@ Include a balanced combination of question types such as:
                              <div className="w-10 h-10 border-4 border-blue-200 border-t-[#EA580C] rounded-full animate-spin" />
                           </div>
                        ) : reviewHomework?.questions ? (
-                           <div className="space-y-8">
-                              {reviewHomework.questions.map((q, qIdx) => {
-                                 const studentSelection = selectedSubmission.answers?.[q.id];
-                                 const actualAnswer = q.answer;
-                                 
-                                 return (
-                                    <div key={q.id || qIdx} className="bg-[#f8f9fa] rounded-[24px] p-6 lg:p-8 space-y-5">
-                                       <p className="text-[15px] font-bold text-slate-800 tracking-tight">
-                                          <span className="text-green-700 font-black mr-2">Q{qIdx + 1}.</span> 
-                                          {q.text}
-                                       </p>
-                                       
-                                       {q.options && q.options.length > 0 ? (
-                                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                             {q.options.map((opt, optIdx) => {
-                                                const isStudentSelection = opt === studentSelection;
-                                                const isActualCorrect = opt === actualAnswer;
-                                                
-                                                let optionClasses = "px-5 py-3.5 rounded-xl border flex items-center gap-4 transition-all ";
-                                                
-                                                if (isActualCorrect) {
-                                                   optionClasses += "bg-[#d1f5d3] border-emerald-300 text-emerald-900";
-                                                } else if (isStudentSelection && !isActualCorrect) {
-                                                   optionClasses += "bg-rose-50 border-rose-200 text-rose-900";
-                                                } else {
-                                                   optionClasses += "bg-white border-slate-200 text-slate-600";
-                                                }
+                            <div className="space-y-8">
+                               {reviewHomework.questions.map((q, qIdx) => {
+                                  const qId = q.id !== undefined && q.id !== null ? q.id : (qIdx + 1);
+                                  const studentSelection = 
+                                    selectedSubmission.answers?.[q.id] ?? 
+                                    selectedSubmission.answers?.[String(q.id)] ?? 
+                                    selectedSubmission.answers?.[`idx_${qIdx}`] ?? 
+                                    selectedSubmission.answers?.[qIdx + 1] ?? 
+                                    selectedSubmission.answers?.[qIdx];
 
-                                                return (
-                                                   <div key={optIdx} className={optionClasses}>
-                                                      <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-[11px] font-black ${isActualCorrect ? 'bg-emerald-200/60 text-emerald-800' : isStudentSelection && !isActualCorrect ? 'bg-rose-200/60 text-rose-800' : 'bg-slate-50 text-slate-500'}`}>
-                                                         {String.fromCharCode(65 + optIdx)}
-                                                      </div>
-                                                      <span className="text-[13px] font-bold flex-1">{opt}</span>
-                                                   </div>
-                                                );
-                                             })}
-                                          </div>
-                                       ) : (
-                                          <div className="flex flex-col gap-3">
-                                            <div className={`p-4 rounded-xl border-2 ${studentSelection === actualAnswer ? 'bg-[#d1f5d3] border-emerald-300 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'}`}>
-                                              <p className="text-xs font-black uppercase mb-1 opacity-60">Student Answer</p>
-                                              <p className="font-bold">{studentSelection || '(No answer provided)'}</p>
-                                            </div>
-                                            {studentSelection !== actualAnswer && (
-                                              <div className="p-4 rounded-xl border-2 bg-emerald-50 border-emerald-200 text-emerald-900">
-                                                <p className="text-xs font-black uppercase mb-1 opacity-60">Correct Answer</p>
-                                                <p className="font-bold">{actualAnswer}</p>
+                                  const actualAnswer = q.answer !== undefined ? q.answer : (q.correctAnswer !== undefined ? q.correctAnswer : '');
+                                  const isCorrect = checkIsCorrect(q, studentSelection);
+
+                                  const explanationText = 
+                                    selectedSubmission.wrongAnswersExplanations?.[q.id] ||
+                                    selectedSubmission.wrongAnswersExplanations?.[String(q.id)] ||
+                                    selectedSubmission.wrongAnswersExplanations?.[`idx_${qIdx}`] ||
+                                    selectedSubmission.wrongAnswersExplanations?.[qIdx + 1] ||
+                                    reviewHomework.questionExplanations?.[q.id] ||
+                                    reviewHomework.questionExplanations?.[String(q.id)] ||
+                                    reviewHomework.questionExplanations?.[`idx_${qIdx}`] ||
+                                    reviewHomework.questionExplanations?.[qIdx + 1] ||
+                                    q.explanation ||
+                                    `The correct answer is "${actualAnswer}".`;
+                                  
+                                  return (
+                                     <div key={q.id || qIdx} className={`rounded-[24px] p-6 lg:p-8 space-y-5 border-2 ${isCorrect ? 'bg-[#f8fafc] border-emerald-100' : 'bg-rose-50/40 border-rose-200'}`}>
+                                        <div className="flex items-start justify-between gap-4">
+                                           <p className="text-[15px] font-bold text-slate-800 tracking-tight flex-1">
+                                              <span className={`font-black mr-2 px-2 py-0.5 rounded-lg text-xs ${isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
+                                                 Q{qIdx + 1}
+                                              </span> 
+                                              {q.text}
+                                           </p>
+                                           <span className={`px-3 py-1 rounded-full text-xs font-black shrink-0 ${isCorrect ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}`}>
+                                              {isCorrect ? '✓ Correct' : '✕ Incorrect'}
+                                           </span>
+                                        </div>
+                                        
+                                        {q.options && q.options.length > 0 ? (
+                                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                              {q.options.map((opt, optIdx) => {
+                                                 const isStudentSelection = checkIsCorrect({ answer: opt, questionType: 'text' }, studentSelection) || opt === studentSelection || String(opt).trim().toLowerCase() === String(studentSelection || '').trim().toLowerCase();
+                                                 const isActualCorrect = checkIsCorrect({ answer: opt, questionType: 'text' }, actualAnswer) || opt === actualAnswer || String(opt).trim().toLowerCase() === String(actualAnswer || '').trim().toLowerCase();
+                                                 
+                                                 let optionClasses = "px-5 py-3.5 rounded-xl border flex items-center gap-4 transition-all ";
+                                                 
+                                                 if (isActualCorrect) {
+                                                    optionClasses += "bg-[#d1f5d3] border-emerald-400 text-emerald-900 shadow-sm";
+                                                 } else if (isStudentSelection && !isActualCorrect) {
+                                                    optionClasses += "bg-rose-100 border-rose-300 text-rose-900 shadow-sm";
+                                                 } else {
+                                                    optionClasses += "bg-white border-slate-200 text-slate-600";
+                                                 }
+
+                                                 return (
+                                                    <div key={optIdx} className={optionClasses}>
+                                                       <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-[11px] font-black ${isActualCorrect ? 'bg-emerald-300 text-emerald-900' : isStudentSelection && !isActualCorrect ? 'bg-rose-300 text-rose-900' : 'bg-slate-100 text-slate-500'}`}>
+                                                          {String.fromCharCode(65 + optIdx)}
+                                                       </div>
+                                                       <span className="text-[13px] font-bold flex-1">{opt}</span>
+                                                       {isActualCorrect && (
+                                                          <span className="text-[9px] uppercase tracking-wider font-black text-emerald-800 bg-emerald-200/80 px-2 py-0.5 rounded-md">
+                                                             Correct Answer
+                                                          </span>
+                                                       )}
+                                                       {isStudentSelection && !isActualCorrect && (
+                                                          <span className="text-[9px] uppercase tracking-wider font-black text-rose-800 bg-rose-200/80 px-2 py-0.5 rounded-md">
+                                                             Student's Answer
+                                                          </span>
+                                                       )}
+                                                    </div>
+                                                 );
+                                              })}
+                                           </div>
+                                        ) : (
+                                           <div className="flex flex-col gap-3">
+                                             <div className={`p-4 rounded-xl border-2 ${isCorrect ? 'bg-[#d1f5d3] border-emerald-300 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'}`}>
+                                               <p className="text-xs font-black uppercase mb-1 opacity-60">Student Answer</p>
+                                               <p className="font-bold">{studentSelection || '(No answer provided)'}</p>
+                                             </div>
+                                             {!isCorrect && (
+                                               <div className="p-4 rounded-xl border-2 bg-emerald-50 border-emerald-200 text-emerald-900">
+                                                 <p className="text-xs font-black uppercase mb-1 opacity-60">Correct Answer</p>
+                                                 <p className="font-bold">{actualAnswer}</p>
+                                               </div>
+                                             )}
+                                           </div>
+                                        )}
+
+                                        {/* Explanation Card when answer is incorrect */}
+                                        {!isCorrect && (
+                                           <div className="bg-amber-50/90 border border-amber-200 p-5 rounded-2xl flex gap-3 text-left mt-4 shadow-sm">
+                                              <div className="w-9 h-9 bg-amber-100 rounded-xl flex items-center justify-center border border-amber-200 shrink-0">
+                                                 <Info className="w-5 h-5 text-amber-700" />
                                               </div>
-                                            )}
-                                          </div>
-                                       )}
-                                    </div>
-                                 );
-                              })}
-                           </div>
-                       ) : (
+                                              <div className="space-y-1 flex-1">
+                                                 <p className="text-[10px] font-black uppercase tracking-widest text-amber-800">💡 Explanation & Method</p>
+                                                 <p className="text-xs font-bold text-amber-900 leading-relaxed whitespace-pre-line">
+                                                    {explanationText}
+                                                 </p>
+                                              </div>
+                                           </div>
+                                        )}
+                                     </div>
+                                  );
+                               })}
+                            </div>
+                        ) : (
                           <div className="py-20 text-center text-[#166534] italic font-bold">
                              Homework data not available.
                           </div>
@@ -8733,49 +8786,86 @@ Include a balanced combination of question types such as:
                                 ) : profileSubmissionHomework?.questions ? (
                                    <div className="space-y-8">
                                       {profileSubmissionHomework.questions.map((q, qIdx) => {
-                                         const studentSelection = selectedProfileSubmission.answers?.[q.id];
-                                         const actualAnswer = q.answer;
+                                         const qId = q.id !== undefined && q.id !== null ? q.id : (qIdx + 1);
+                                         const studentSelection = 
+                                           selectedProfileSubmission.answers?.[q.id] ?? 
+                                           selectedProfileSubmission.answers?.[String(q.id)] ?? 
+                                           selectedProfileSubmission.answers?.[`idx_${qIdx}`] ?? 
+                                           selectedProfileSubmission.answers?.[qIdx + 1] ?? 
+                                           selectedProfileSubmission.answers?.[qIdx];
+
+                                         const actualAnswer = q.answer !== undefined ? q.answer : (q.correctAnswer !== undefined ? q.correctAnswer : '');
+                                         const isCorrect = checkIsCorrect(q, studentSelection);
+
+                                         const explanationText = 
+                                           selectedProfileSubmission.wrongAnswersExplanations?.[q.id] ||
+                                           selectedProfileSubmission.wrongAnswersExplanations?.[String(q.id)] ||
+                                           selectedProfileSubmission.wrongAnswersExplanations?.[`idx_${qIdx}`] ||
+                                           selectedProfileSubmission.wrongAnswersExplanations?.[qIdx + 1] ||
+                                           profileSubmissionHomework.questionExplanations?.[q.id] ||
+                                           profileSubmissionHomework.questionExplanations?.[String(q.id)] ||
+                                           profileSubmissionHomework.questionExplanations?.[`idx_${qIdx}`] ||
+                                           profileSubmissionHomework.questionExplanations?.[qIdx + 1] ||
+                                           q.explanation ||
+                                           `The correct answer is "${actualAnswer}".`;
                                          
                                          return (
-                                            <div key={q.id || qIdx} className="bg-[#f8f9fa] rounded-[24px] p-6 lg:p-8 space-y-5">
-                                               <p className="text-[15px] font-bold text-slate-800 tracking-tight">
-                                                  <span className="text-green-700 font-black mr-2">Q{qIdx + 1}.</span> 
-                                                  {q.text}
-                                               </p>
+                                            <div key={q.id || qIdx} className={`rounded-[24px] p-6 lg:p-8 space-y-5 border-2 ${isCorrect ? 'bg-[#f8fafc] border-emerald-100' : 'bg-rose-50/40 border-rose-200'}`}>
+                                               <div className="flex items-start justify-between gap-4">
+                                                  <p className="text-[15px] font-bold text-slate-800 tracking-tight flex-1">
+                                                     <span className={`font-black mr-2 px-2 py-0.5 rounded-lg text-xs ${isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
+                                                        Q{qIdx + 1}
+                                                     </span> 
+                                                     {q.text}
+                                                  </p>
+                                                  <span className={`px-3 py-1 rounded-full text-xs font-black shrink-0 ${isCorrect ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}`}>
+                                                     {isCorrect ? '✓ Correct' : '✕ Incorrect'}
+                                                  </span>
+                                               </div>
                                                
                                                {q.options && q.options.length > 0 ? (
                                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                      {q.options.map((opt, optIdx) => {
-                                                        const isStudentSelection = opt === studentSelection;
-                                                        const isActualCorrect = opt === actualAnswer;
+                                                        const isStudentSelection = checkIsCorrect({ answer: opt, questionType: 'text' }, studentSelection) || opt === studentSelection || String(opt).trim().toLowerCase() === String(studentSelection || '').trim().toLowerCase();
+                                                        const isActualCorrect = checkIsCorrect({ answer: opt, questionType: 'text' }, actualAnswer) || opt === actualAnswer || String(opt).trim().toLowerCase() === String(actualAnswer || '').trim().toLowerCase();
                                                         
                                                         let optionClasses = "px-5 py-3.5 rounded-xl border flex items-center gap-4 transition-all ";
                                                         
                                                         if (isActualCorrect) {
-                                                           optionClasses += "bg-[#d1f5d3] border-emerald-300 text-emerald-900";
+                                                           optionClasses += "bg-[#d1f5d3] border-emerald-400 text-emerald-900 shadow-sm";
                                                         } else if (isStudentSelection && !isActualCorrect) {
-                                                           optionClasses += "bg-rose-50 border-rose-200 text-rose-900";
+                                                           optionClasses += "bg-rose-100 border-rose-300 text-rose-900 shadow-sm";
                                                         } else {
                                                            optionClasses += "bg-white border-slate-200 text-slate-600";
                                                         }
 
                                                         return (
                                                            <div key={optIdx} className={optionClasses}>
-                                                              <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-[11px] font-black ${isActualCorrect ? 'bg-emerald-200/60 text-emerald-800' : isStudentSelection && !isActualCorrect ? 'bg-rose-200/60 text-rose-800' : 'bg-slate-50 text-slate-500'}`}>
+                                                              <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-[11px] font-black ${isActualCorrect ? 'bg-emerald-300 text-emerald-900' : isStudentSelection && !isActualCorrect ? 'bg-rose-300 text-rose-900' : 'bg-slate-100 text-slate-500'}`}>
                                                                  {String.fromCharCode(65 + optIdx)}
                                                               </div>
                                                               <span className="text-[13px] font-bold flex-1">{opt}</span>
+                                                              {isActualCorrect && (
+                                                                 <span className="text-[9px] uppercase tracking-wider font-black text-emerald-800 bg-emerald-200/80 px-2 py-0.5 rounded-md">
+                                                                    Correct Answer
+                                                                 </span>
+                                                              )}
+                                                              {isStudentSelection && !isActualCorrect && (
+                                                                 <span className="text-[9px] uppercase tracking-wider font-black text-rose-800 bg-rose-200/80 px-2 py-0.5 rounded-md">
+                                                                    Student's Answer
+                                                                 </span>
+                                                              )}
                                                            </div>
                                                         );
                                                      })}
                                                   </div>
                                                ) : (
                                                   <div className="flex flex-col gap-3">
-                                                    <div className={`p-4 rounded-xl border-2 ${studentSelection === actualAnswer ? 'bg-[#d1f5d3] border-emerald-300 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'}`}>
+                                                    <div className={`p-4 rounded-xl border-2 ${isCorrect ? 'bg-[#d1f5d3] border-emerald-300 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'}`}>
                                                       <p className="text-xs font-black uppercase mb-1 opacity-60">Student Answer</p>
                                                       <p className="font-bold">{studentSelection || '(No answer provided)'}</p>
                                                     </div>
-                                                    {studentSelection !== actualAnswer && (
+                                                    {!isCorrect && (
                                                       <div className="p-4 rounded-xl border-2 bg-emerald-50 border-emerald-200 text-emerald-900">
                                                         <p className="text-xs font-black uppercase mb-1 opacity-60">Correct Answer</p>
                                                         <p className="font-bold">{actualAnswer}</p>
@@ -8784,15 +8874,16 @@ Include a balanced combination of question types such as:
                                                   </div>
                                                )}
 
-                                               {studentSelection !== actualAnswer && (
-                                                  <div className="bg-green-50 border border-green-200 p-5 rounded-2xl flex gap-3 text-left mt-4">
-                                                     <div className="w-9 h-9 bg-white rounded-xl flex items-center justify-center border border-green-200 shrink-0">
-                                                        <Info className="w-5 h-5 text-green-600" />
+                                               {/* Explanation Card when answer is incorrect */}
+                                               {!isCorrect && (
+                                                  <div className="bg-amber-50/90 border border-amber-200 p-5 rounded-2xl flex gap-3 text-left mt-4 shadow-sm">
+                                                     <div className="w-9 h-9 bg-amber-100 rounded-xl flex items-center justify-center border border-amber-200 shrink-0">
+                                                        <Info className="w-5 h-5 text-amber-700" />
                                                      </div>
-                                                     <div className="space-y-1">
-                                                        <p className="text-[9px] font-black uppercase tracking-widest text-green-500">Explanation</p>
-                                                        <p className="text-xs font-bold text-green-700 leading-relaxed whitespace-pre-line">
-                                                           {selectedProfileSubmission.wrongAnswersExplanations?.[q.id] || `The correct answer is "${q.answer}".`}
+                                                     <div className="space-y-1 flex-1">
+                                                        <p className="text-[10px] font-black uppercase tracking-widest text-amber-800">💡 Explanation & Method</p>
+                                                        <p className="text-xs font-bold text-amber-900 leading-relaxed whitespace-pre-line">
+                                                           {explanationText}
                                                         </p>
                                                      </div>
                                                   </div>
