@@ -871,6 +871,146 @@ const getHomeworkDate = (hw) => {
   return new Date();
 };
 
+export const isExamAssignment = (hw) => {
+  if (!hw) return false;
+  if (hw.type === 'test' || hw.isExamPaper === true || !!hw.examPreset) return true;
+  const title = (hw.title || '').toLowerCase();
+  const subject = (hw.subject || '').toLowerCase();
+  const topic = (hw.topic || '').toLowerCase();
+  
+  const examKeywords = [
+    'naplan', 'icas', 'sat ', 'sat:', 'act ', 'act:', 'gmat', 'psle',
+    'selective', 'acer', 'cat4', '11+', '13+', 'gcse', 'olympiad',
+    'imo', 'nso', 'ieo', 'amc 8', 'amc 10', 'amc 12', 'seamo', 'sasmo',
+    'common entrance', 'exam paper', 'mock exam', 'practice exam'
+  ];
+  return examKeywords.some(k => title.includes(k) || subject.includes(k) || topic.includes(k));
+};
+
+export const resolveExamProgram = (hw) => {
+  const preset = (hw?.examPreset || '').toLowerCase();
+  const title = (hw?.title || '').toLowerCase();
+  const subject = (hw?.subject || '').toLowerCase();
+  const topic = (hw?.topic || '').toLowerCase();
+  const text = `${preset} ${title} ${subject} ${topic}`;
+
+  if (text.includes('naplan')) {
+    const yrMatch = text.match(/year\s*([3579])|grade\s*([3579])|\b([3579])\b/);
+    const yr = yrMatch ? `Year ${yrMatch[1] || yrMatch[2] || yrMatch[3]}` : 'National';
+    return {
+      key: `NAPLAN ${yr}`.trim(),
+      name: `NAPLAN ${yr} Suite`.trim(),
+      flag: '🇦🇺',
+      region: 'Australia & New Zealand',
+      badge: 'National Assessment',
+      subtitle: 'NAPLAN SUITE:',
+      topic: 'Language & Numeracy',
+      bg: 'bg-[#065f46]',
+      reportBg: 'bg-gradient-to-br from-emerald-600 to-teal-800 shadow-emerald-700/30',
+      pillBg: 'bg-[#34d399]',
+      pillText: 'text-emerald-950',
+      img: '/fallback_globe.png'
+    };
+  }
+  if (text.includes('icas')) {
+    return {
+      key: 'ICAS Competitions',
+      name: 'ICAS Global Competitions',
+      flag: '🌏',
+      region: 'Asia & International',
+      badge: 'UNSW Global',
+      subtitle: 'GLOBAL COMPETITIONS:',
+      topic: 'ICAS Benchmark Papers',
+      bg: 'bg-[#581c87]',
+      reportBg: 'bg-gradient-to-br from-purple-600 to-indigo-800 shadow-purple-700/30',
+      pillBg: 'bg-[#c084fc]',
+      pillText: 'text-purple-950',
+      img: '/subject_olympiad.png'
+    };
+  }
+  if (text.includes('sat') || text.includes('act') || text.includes('gmat')) {
+    return {
+      key: 'SAT & College Prep',
+      name: 'SAT / ACT College Prep',
+      flag: '🇺🇸',
+      region: 'USA & Canada',
+      badge: 'College Board Prep',
+      subtitle: 'STANDARDIZED EXAM:',
+      topic: 'Reading, Writing & Math',
+      bg: 'bg-[#1e3a8a]',
+      reportBg: 'bg-gradient-to-br from-blue-700 to-indigo-900 shadow-blue-800/30',
+      pillBg: 'bg-[#60a5fa]',
+      pillText: 'text-blue-950',
+      img: '/subject_math.png'
+    };
+  }
+  if (text.includes('11+') || text.includes('13+') || text.includes('gcse') || text.includes('selective') || text.includes('acer') || text.includes('cat4')) {
+    return {
+      key: 'Selective & 11+ Plus',
+      name: 'Selective & 11+ Entrance',
+      flag: '🇬🇧',
+      region: 'Grammar & Selective Entry',
+      badge: 'Selective School Entry',
+      subtitle: 'ENTRANCE EXAM:',
+      topic: 'Verbal & Non-Verbal Skills',
+      bg: 'bg-[#312e81]',
+      reportBg: 'bg-gradient-to-br from-indigo-700 to-purple-900 shadow-indigo-800/30',
+      pillBg: 'bg-[#a5b4fc]',
+      pillText: 'text-indigo-950',
+      img: '/subject_logical_reasoning.png'
+    };
+  }
+  if (text.includes('olympiad') || text.includes('imo') || text.includes('nso') || text.includes('ieo') || text.includes('seamo') || text.includes('sasmo') || text.includes('amc')) {
+    return {
+      key: 'STEM Olympiads',
+      name: 'STEM & Math Olympiads',
+      flag: '🏆',
+      region: 'Global Competitions',
+      badge: 'Olympiad Challenge',
+      subtitle: 'STEM COMPETITION:',
+      topic: 'Advanced Reasoning & Math',
+      bg: 'bg-[#9a3412]',
+      reportBg: 'bg-gradient-to-br from-orange-600 to-amber-800 shadow-orange-700/30',
+      pillBg: 'bg-[#fbbf24]',
+      pillText: 'text-amber-950',
+      img: '/fallback_trophy.png'
+    };
+  }
+  if (text.includes('psle')) {
+    return {
+      key: 'Singapore PSLE',
+      name: 'Singapore PSLE Papers',
+      flag: '🇸🇬',
+      region: 'Singapore MOE',
+      badge: 'National Examination',
+      subtitle: 'NATIONAL EXAM:',
+      topic: 'Math, Science & English',
+      bg: 'bg-[#991b1b]',
+      reportBg: 'bg-gradient-to-br from-red-600 to-rose-800 shadow-red-700/30',
+      pillBg: 'bg-[#f87171]',
+      pillText: 'text-red-950',
+      img: '/subject_science.png'
+    };
+  }
+
+  // Fallback for Classroom/School tests
+  const subName = hw?.subject || 'Classroom';
+  return {
+    key: `${subName} Tests`,
+    name: `${subName} Tests & Quizzes`,
+    flag: '🏫',
+    region: 'Classroom Assessments',
+    badge: 'Term Assessment',
+    subtitle: `${subName.toUpperCase()} EXAM:`,
+    topic: 'Chapter & Term Test',
+    bg: 'bg-[#831843]',
+    reportBg: 'bg-gradient-to-br from-pink-700 to-rose-900 shadow-pink-800/30',
+    pillBg: 'bg-[#f472b6]',
+    pillText: 'text-pink-950',
+    img: '/subject_math.png'
+  };
+};
+
 const getSubjectAesthetics = (sub) => {
   const s = (sub || '').toLowerCase();
   if (s.includes('math')) {
@@ -1026,8 +1166,10 @@ const getSubjectAesthetics = (sub) => {
   };
 };
 
-const SubjectDashboardCard = ({ subject, assignments, submissions, studentName, onSelect }) => {
-  const aes = getSubjectAesthetics(subject);
+const SubjectDashboardCard = ({ subject, assignments, submissions, studentName, onSelect, isExamMode = false }) => {
+  const sampleHw = assignments[0] || { subject };
+  const examInfo = isExamMode ? resolveExamProgram(sampleHw) : null;
+  const aes = isExamMode ? examInfo : getSubjectAesthetics(subject);
   
   const total = assignments.length;
   let completed = 0;
@@ -1043,26 +1185,48 @@ const SubjectDashboardCard = ({ subject, assignments, submissions, studentName, 
   
   const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
   let pillLabel = `${pct}% Done`;
-  if (pct === 0 && inProgress === 0) pillLabel = "New";
+  if (pct === 0 && inProgress === 0) pillLabel = isExamMode ? "Ready to Begin" : "New";
   else if (pct === 0 && inProgress > 0) pillLabel = "In Progress";
   
   return (
     <div 
       onClick={() => onSelect(subject)}
-      className={`${aes.bg} rounded-[32px] w-full min-h-[400px] relative overflow-hidden flex flex-col items-center p-4 md:p-6 shadow-xl cursor-pointer hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 group`}
+      className={`${aes.bg} rounded-[32px] w-full min-h-[400px] relative overflow-hidden flex flex-col items-center p-4 md:p-6 shadow-xl cursor-pointer hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 group border-2 ${isExamMode ? 'border-white/20' : 'border-transparent'}`}
     >
-      <div className="absolute top-4 left-4 bg-white/20 p-2 rounded-lg backdrop-blur-sm">
-         <Book className="w-5 h-5 text-white" />
+      {/* Top Left Badge */}
+      <div className="absolute top-4 left-4 bg-white/20 px-2.5 py-1 rounded-lg backdrop-blur-sm flex items-center gap-1.5 shadow-sm">
+         {isExamMode ? (
+           <>
+             <span className="text-sm">{examInfo?.flag || '🏆'}</span>
+             <span className="text-white font-black text-[10px] uppercase tracking-wider">{examInfo?.badge || 'Official Exam'}</span>
+           </>
+         ) : (
+           <Book className="w-4 h-4 text-white" />
+         )}
       </div>
+
+      {/* Top Right Timed Badge (for Exam Mode) */}
+      {isExamMode && (
+         <div className="absolute top-4 right-4 bg-black/30 px-2.5 py-1 rounded-lg backdrop-blur-sm flex items-center gap-1 text-[10px] font-black text-amber-300 shadow-sm">
+            <Timer className="w-3 h-3 text-amber-300" />
+            <span>Mock Suite</span>
+         </div>
+      )}
       
       <div className="w-full h-[200px] mt-10 md:mt-8 rounded-[24px] overflow-hidden bg-white/10 shadow-inner flex-center relative">
-         <img src={aes.img} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={aes.title} />
+         <img src={aes.img} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={aes.title || aes.name} />
       </div>
       
       <div className="mt-6 text-center w-full flex flex-col items-center flex-1">
-         <h4 className="text-white/90 font-black tracking-widest text-xs md:text-sm mb-1">{aes.title}</h4>
-         <h3 className="text-white font-black text-lg md:text-xl leading-tight mb-1">{aes.subtitle}</h3>
-         <p className="text-white/90 font-bold text-sm md:text-base leading-tight mb-4">{aes.topic}</p>
+         <h4 className="text-white/90 font-black tracking-widest text-xs md:text-sm mb-1 uppercase">
+            {isExamMode ? (examInfo?.region || 'EXAM ARENA') : aes.title}
+         </h4>
+         <h3 className="text-white font-black text-lg md:text-xl leading-tight mb-1">
+            {isExamMode ? examInfo?.name : aes.subtitle}
+         </h3>
+         <p className="text-white/90 font-bold text-sm md:text-base leading-tight mb-4">
+            {isExamMode ? `${total} ${total === 1 ? 'Exam Paper' : 'Exam Papers'}` : aes.topic}
+         </p>
          
          <div className="flex justify-center gap-3 w-full mb-4">
             <div className="flex flex-col items-center bg-white/20 rounded-xl px-3 py-1">
@@ -1115,9 +1279,10 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
                const cleanStudentId = studentName?.trim().toLowerCase();
                const hwList = hwSnap.docs.map(doc => {
                   const data = doc.data();
-                  const isNaplan = (data.title || '').toLowerCase().includes('naplan') || (data.subject || '').toLowerCase().includes('naplan');
-                  if (isNaplan && data.type !== 'test') {
+                  const isExam = isExamAssignment(data);
+                  if (isExam && data.type !== 'test') {
                      data.type = 'test';
+                     data.isExamPaper = true;
                   }
                   return { id: doc.id, ...data };
                })
@@ -1140,6 +1305,9 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
                      if (hw.assignType === 'students' && hw.assignedStudentIds) {
                         return Array.isArray(hw.assignedStudentIds) && hw.assignedStudentIds.map(id => id.trim().toLowerCase()).includes(cleanStudentId);
                      }
+                     // Mode-based segregation:
+                     if (mode === 'test' && !isExamAssignment(hw)) return false;
+                     if (mode === 'homework' && isExamAssignment(hw)) return false;
                      return true;
                   });
                 
@@ -1170,7 +1338,7 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
          setLoading(false);
       };
       fetchData();
-   }, [studentName, initialHomeworks, initialSubmissions]);
+   }, [studentName, initialHomeworks, initialSubmissions, mode]);
 
    const uniqueMonths = useMemo(() => {
       const monthsMap = {};
@@ -1190,18 +1358,25 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
       });
    }, [homeworks]);
 
-   // Build subject groupings for the grid
-   const subjectsMap = {};
+   // Build groupings for the grid
+   const groupingsMap = {};
    homeworks.forEach(hw => {
-      const sub = hw.subject || 'General';
-      if (!subjectsMap[sub]) subjectsMap[sub] = [];
-      subjectsMap[sub].push(hw);
+      let groupKey = hw.subject || 'General';
+      if (mode === 'test') {
+         groupKey = resolveExamProgram(hw).key;
+      }
+      if (!groupingsMap[groupKey]) groupingsMap[groupKey] = [];
+      groupingsMap[groupKey].push(hw);
    });
-   const availableSubjects = Object.keys(subjectsMap).sort();
+   const availableSubjects = Object.keys(groupingsMap).sort();
 
    let baseFilteredHomeworks = homeworks;
    if (subjectFilter !== 'All Subjects') {
-      baseFilteredHomeworks = baseFilteredHomeworks.filter(hw => hw.subject?.toLowerCase() === subjectFilter.toLowerCase());
+      if (mode === 'test') {
+         baseFilteredHomeworks = baseFilteredHomeworks.filter(hw => resolveExamProgram(hw).key === subjectFilter);
+      } else {
+         baseFilteredHomeworks = baseFilteredHomeworks.filter(hw => hw.subject?.toLowerCase() === subjectFilter.toLowerCase());
+      }
    }
    if (monthFilter !== 'All Months') {
       baseFilteredHomeworks = baseFilteredHomeworks.filter(hw => {
@@ -1250,25 +1425,34 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
          {/* Header area */}
          <div className="flex items-center justify-between px-2 pt-4">
             <div className="flex items-center gap-4 relative z-10">
-               <div className="w-16 h-16 bg-orange-500 rounded-[20px] shadow-[0_6px_0_0_#c2410c] flex-center transform -rotate-6">
-                 <Book className="w-8 h-8 text-white" />
+               <div className={`w-16 h-16 ${mode === 'test' ? 'bg-[#4338ca] shadow-[0_6px_0_0_#312e81]' : 'bg-orange-500 shadow-[0_6px_0_0_#c2410c]'} rounded-[20px] flex-center transform -rotate-6`}>
+                 {mode === 'test' ? <Award className="w-8 h-8 text-white" /> : <Book className="w-8 h-8 text-white" />}
                </div>
                <div className="flex flex-col">
                   <h1 className="text-4xl font-black text-[#14532d] tracking-tighter uppercase">{title}</h1>
+                  {mode === 'test' && subjectFilter === 'All Subjects' && (
+                     <p className="text-xs font-bold text-slate-500 mt-0.5">
+                        Official standardized mocks, national assessments & computer-based exam suites
+                     </p>
+                  )}
                   {subjectFilter !== 'All Subjects' && (
                      <button 
                         onClick={() => { setSubjectFilter('All Subjects'); setActiveTopicTab('All'); }}
-                        className="text-orange-500 font-black text-sm flex items-center gap-1 hover:text-orange-600 transition-colors mt-1 w-fit"
+                        className={`${mode === 'test' ? 'text-indigo-600 hover:text-indigo-700' : 'text-orange-500 hover:text-orange-600'} font-black text-sm flex items-center gap-1 transition-colors mt-1 w-fit`}
                      >
-                        ← Back to Assignments Grid
+                        ← Back to {mode === 'test' ? 'Exam Arena Grid' : 'Assignments Grid'}
                      </button>
                   )}
                </div>
             </div>
-            {/* Decorative Stars */}
+            {/* Decorative Stars / Trophy */}
             <div className="relative w-40 h-24 hidden md:block z-0">
-               <div className="absolute right-0 bottom-0 text-[80px] leading-none z-10 animate-float drop-shadow-xl">⭐</div>
-               <div className="absolute right-12 bottom-2 text-5xl z-0">📚</div>
+               <div className="absolute right-0 bottom-0 text-[80px] leading-none z-10 animate-float drop-shadow-xl">
+                  {mode === 'test' ? '🏆' : '⭐'}
+               </div>
+               <div className="absolute right-12 bottom-2 text-5xl z-0">
+                  {mode === 'test' ? '⏱️' : '📚'}
+               </div>
                <div className="absolute left-4 top-4 text-amber-300 animate-pulse">✨</div>
             </div>
          </div>
@@ -1282,15 +1466,18 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
                   <SubjectDashboardCard 
                      key={sub}
                      subject={sub}
-                     assignments={subjectsMap[sub]}
+                     assignments={groupingsMap[sub] || []}
                      submissions={submissions}
                      studentName={studentName}
                      onSelect={setSubjectFilter}
+                     isExamMode={mode === 'test'}
                   />
                ))}
                {availableSubjects.length === 0 && (
                   <div className="col-span-full text-center py-20 bg-white rounded-[32px] border-2 border-dashed border-slate-200">
-                     <p className="text-xl font-black text-slate-300">No assignments found!</p>
+                     <p className="text-xl font-black text-slate-300">
+                        {mode === 'test' ? 'No exam papers assigned yet!' : 'No assignments found!'}
+                     </p>
                   </div>
                )}
             </div>
@@ -3703,11 +3890,11 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
            )}
 
            {activeNav === 'My Homework' && (
-              <MyHomework studentName={studentName} teacher={teacher} homeworks={homeworks.filter(hw => hw.type !== 'test')} submissions={mySubmissions} onStartMission={(id, pastSubmission) => setActiveMission({ id, pastSubmission })} title="My Assignments" mode="homework" />
+              <MyHomework studentName={studentName} teacher={teacher} homeworks={homeworks.filter(hw => !isExamAssignment(hw))} submissions={mySubmissions} onStartMission={(id, pastSubmission) => setActiveMission({ id, pastSubmission })} title="My Assignments" mode="homework" />
            )}
 
            {activeNav === 'Exam Arena' && (
-              <MyHomework studentName={studentName} teacher={teacher} homeworks={homeworks.filter(hw => hw.type === 'test')} submissions={mySubmissions} onStartMission={(id, pastSubmission) => setActiveMission({ id, pastSubmission })} title="Exam Arena" mode="test" />
+              <MyHomework studentName={studentName} teacher={teacher} homeworks={homeworks.filter(hw => isExamAssignment(hw))} submissions={mySubmissions} onStartMission={(id, pastSubmission) => setActiveMission({ id, pastSubmission })} title="Exam Arena" mode="test" />
            )}
 
            {activeNav === 'Mission Reports' && (
