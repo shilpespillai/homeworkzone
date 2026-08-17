@@ -54,7 +54,7 @@ export default function EnglishHub({ topicName }) {
   const [quizScore, setQuizScore] = useState(null);
 
   function getTabFromTopic(topic) {
-    if (topic?.includes('NAPLAN') || topic?.includes('Visual') || topic?.includes('Feedback')) return 'visual-feedback';
+    if (topic?.includes('Essay Studio') || topic?.includes('AI Writing') || topic?.includes('NAPLAN') || topic?.includes('Visual') || topic?.includes('Feedback')) return 'visual-feedback';
     if (topic?.includes('Grammar') || topic?.includes('Guide')) return 'grammar';
     if (topic?.includes('Vocabulary') || topic?.includes('Spelling')) return 'vocab';
     if (topic?.includes('Reading') || topic?.includes('Comprehension')) return 'reading';

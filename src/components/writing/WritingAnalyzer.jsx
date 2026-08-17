@@ -148,13 +148,13 @@ Analyze this draft for Grade ${grade} standards. Provide:
         <div className="flex flex-wrap justify-between items-center gap-4">
           <div className="space-y-1">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-400/20 text-yellow-300 text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="w-4 h-4" /> AI NAPLAN & Essay Writing Assistant
+              <Sparkles className="w-4 h-4" /> ⚡ AI Writing & Essay Studio
             </div>
             <h1 className="text-2xl md:text-4xl font-black tracking-tight text-white">
               Visual Writing Analysis & Exemplar Card
             </h1>
             <p className="text-indigo-200 text-xs md:text-sm font-medium">
-              Submit your writing topic or draft to receive a color-coded exemplar feedback report instantly.
+              Submit your creative story, persuasive piece, informative report, or academic essay to receive an interactive visual exemplar report instantly.
             </p>
           </div>
 

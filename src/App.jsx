@@ -3074,7 +3074,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                                     { name: 'Reading Comprehension', emoji: '📖' },
                                     { name: 'Sentence Types & Punctuation', emoji: '✍️' },
                                     { name: 'Creative Writing Studio', emoji: '🎨' },
-                                    { name: 'NAPLAN Visual Writing Feedback', emoji: '⚡' }
+                                    { name: 'AI Writing & Essay Studio', emoji: '⚡' }
                                  ].map((topic) => (
                                     <button
                                        key={topic.name}
@@ -3869,7 +3869,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
               activeNav === 'Learning: Reading Comprehension' ||
               activeNav === 'Learning: Sentence Types & Punctuation' ||
               activeNav === 'Learning: Creative Writing Studio' ||
-              activeNav === 'Learning: NAPLAN Visual Writing Feedback' ||
+              activeNav === 'Learning: AI Writing & Essay Studio' ||
               activeNav === 'Learning: English') && (
                <EnglishHub topicName={activeNav.replace('Learning: ', '')} />
             )}
@@ -3882,7 +3882,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
              activeNav !== 'Learning: Reading Comprehension' &&
              activeNav !== 'Learning: Sentence Types & Punctuation' &&
              activeNav !== 'Learning: Creative Writing Studio' &&
-             activeNav !== 'Learning: NAPLAN Visual Writing Feedback' &&
+             activeNav !== 'Learning: AI Writing & Essay Studio' &&
              activeNav !== 'Learning: English' &&
              activeNav !== 'Learning: Body and Functions' && 
              activeNav !== 'Learning: Types of Teeth & Functions' && 

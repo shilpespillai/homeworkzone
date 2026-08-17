@@ -6,8 +6,8 @@
 export const WRITING_GENRES = {
   persuasive: {
     id: 'persuasive',
-    name: 'NAPLAN Persuasive Writing',
-    badge: 'Grade 3–9 NAPLAN Persuasive',
+    name: 'Persuasive Writing & Essays',
+    badge: 'Persuasive Writing (Grade 3–12)',
     icon: '🗣️',
     description: 'Convince the reader to agree with your position using strong reasons, emotive words, and evidence.',
     starters: [
@@ -66,8 +66,8 @@ export const WRITING_GENRES = {
   },
   narrative: {
     id: 'narrative',
-    name: 'NAPLAN Narrative Writing',
-    badge: 'Grade 3–9 NAPLAN Story',
+    name: 'Creative Narrative & Stories',
+    badge: 'Narrative & Creative (Grade 3–12)',
     icon: '📖',
     description: 'Tell an engaging story with a clear setting, character development, complication, and resolution.',
     starters: [
@@ -126,8 +126,8 @@ export const WRITING_GENRES = {
   },
   informative: {
     id: 'informative',
-    name: 'NAPLAN Informative Report',
-    badge: 'Grade 3–9 Informative / Report',
+    name: 'Informative & Research Reports',
+    badge: 'Informative & Reports (Grade 3–12)',
     icon: '📊',
     description: 'Provide clear, factual information about a topic using subheadings, technical terms, and evidence.',
     starters: [
@@ -186,8 +186,8 @@ export const WRITING_GENRES = {
   },
   essay: {
     id: 'essay',
-    name: 'High School Essay (PEEL / TEEL)',
-    badge: 'Grade 7–12 Academic Essay',
+    name: 'High School & Academic Essays',
+    badge: 'Analytical & PEEL Essay (Grade 7–12)',
     icon: '🎓',
     description: 'Construct a formal analytical essay structured around a clear thesis and PEEL/TEEL body paragraphs.',
     starters: [
