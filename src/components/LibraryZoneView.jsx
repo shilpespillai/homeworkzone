@@ -167,6 +167,110 @@ const STORIES = [
     ]
   },
   {
+    id: 'dog_and_his_reflection',
+    title: "The Dog and His Reflection",
+    subtitle: "A story about greed and gratitude",
+    genre: "Classic Fable",
+    emoji: "🐶",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/dog_and_his_reflection.png",
+    moral: "If you are greedy, you may lose what you already have. Be grateful for what is yours. 🦴",
+    summary: "One morning, a cheerful dog found a large, juicy bone. While crossing a wooden bridge over a stream, he saw his own reflection in the clear water and thought it was another dog with a bigger bone. When he opened his mouth to bark, his bone dropped into the water and sank out of sight!",
+    vocabHighlights: [
+      { word: "Reflection", partOfSpeech: "Noun", definition: "An image or likeness seen in a mirror or in clear, still water.", pronunciation: "rih-flek-shun", fact: "The dog saw his own reflection in the clear stream, but thought it was a rival dog!" },
+      { word: "Grateful", partOfSpeech: "Adjective", definition: "Feeling or showing appreciation and thankfulness for what one already has.", pronunciation: "grayt-fuhl", fact: "Being grateful for what you have protects you from the traps of greed." },
+      { word: "Greedy", partOfSpeech: "Adjective", definition: "Having an excessive or selfish desire for more than one needs or possesses.", pronunciation: "gree-dee", fact: "The greedy dog wanted both bones, but ended up losing the only one he had!" },
+      { word: "Ashamed", partOfSpeech: "Adjective", definition: "Feeling guilty, embarrassed, or remorseful over a foolish or wrong action.", pronunciation: "uh-shaymd", fact: "The dog walked home hungry and ashamed after realizing his foolish mistake." },
+      { word: "Vanished", partOfSpeech: "Verb", definition: "Disappeared suddenly or ceased to be visible.", pronunciation: "van-isht", fact: "When the water rippled, the dog's reflection vanished instantly!" }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "A Wonderful Treat",
+        text: "One morning, a cheerful dog found a large, juicy bone. 'What a wonderful treat!' he thought happily as he wagged his tail.",
+        imageUrl: "/dog_and_his_reflection.png"
+      },
+      {
+        pageNumber: 2,
+        title: "Carrying It Home",
+        text: "He proudly carried the bone home in his mouth. 'I will enjoy this all by myself!' he promised himself.",
+        imageUrl: "/dog_and_his_reflection.png"
+      },
+      {
+        pageNumber: 3,
+        title: "The Wooden Bridge",
+        text: "On the way, the dog reached a narrow wooden bridge over a stream. 'I must cross carefully,' he thought, stepping onto the planks.",
+        imageUrl: "/dog_and_his_reflection.png"
+      },
+      {
+        pageNumber: 4,
+        title: "Looking Below",
+        text: "Halfway across, he looked down into the clear water. 'What is that below me?' he wondered.",
+        imageUrl: "/dog_and_his_reflection.png"
+      },
+      {
+        pageNumber: 5,
+        title: "Another Dog?",
+        text: "He saw his own reflection, but thought it was another dog. 'That dog has a bone too!' he said to himself.",
+        imageUrl: "/dog_and_his_reflection.png"
+      },
+      {
+        pageNumber: 6,
+        title: "A Greedy Wish",
+        text: "To the greedy dog, the reflected bone looked even bigger. 'I want that bigger bone!' he thought eagerly.",
+        imageUrl: "/dog_and_his_reflection.png"
+      },
+      {
+        pageNumber: 7,
+        title: "Growling in the Water",
+        text: "He growled at the dog in the water. The reflection growled back. 'Give me your bone!' he snapped.",
+        imageUrl: "/dog_and_his_reflection.png"
+      },
+      {
+        pageNumber: 8,
+        title: "WOOF!",
+        text: "The dog opened his mouth to bark. 'WOOF!' In that very moment, his bone slipped from his jaws.",
+        imageUrl: "/dog_and_his_reflection.png"
+      },
+      {
+        pageNumber: 9,
+        title: "SPLASH!",
+        text: "SPLASH! The bone fell into the stream and sank out of sight. 'Oh no! My bone!' cried the dog in shock.",
+        imageUrl: "/dog_and_his_reflection.png"
+      },
+      {
+        pageNumber: 10,
+        title: "A Hard Lesson",
+        text: "The reflection vanished, and the dog walked home hungry and ashamed. 'I lost what I had because I wanted more.' MORAL: If you are greedy, you may lose what you already have. Be grateful for what is yours.",
+        imageUrl: "/dog_and_his_reflection.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "What did the cheerful dog find one morning?",
+        options: ["A large, juicy bone", "A shiny ball", "A bag of coins", "A delicious fish"],
+        answer: "A large, juicy bone",
+        explanation: "One morning, the dog found a large, juicy bone and proudly carried it home in his mouth."
+      },
+      {
+        id: 2,
+        question: "What did the dog see in the stream while crossing the wooden bridge?",
+        options: ["His own reflection in the clear water", "A swimming fish", "A fierce crocodile", "Another real dog"],
+        answer: "His own reflection in the clear water",
+        explanation: "The dog looked down into the clear water and saw his own reflection, but mistook it for another dog with a bone."
+      },
+      {
+        id: 3,
+        question: "Why did the dog lose his bone?",
+        options: ["He opened his mouth to bark greedily at his reflection", "A bird snatched it away", "He dropped it in the mud", "He buried it in the forest"],
+        answer: "He opened his mouth to bark greedily at his reflection",
+        explanation: "When the dog opened his mouth to bark and demand the other dog's bone, his own bone slipped from his jaws and sank into the stream."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -747,7 +851,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -860,10 +964,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'two_friends_one_heart') return 999999999999999;
     if (String(s.id) === 'lion_and_the_mouse') return 999999999999998;
     if (String(s.id) === 'tortoise_and_the_hare') return 999999999999997;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999996;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999995;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999994;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999993;
+    if (String(s.id) === 'dog_and_his_reflection') return 999999999999996;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999995;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999994;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999993;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999992;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
