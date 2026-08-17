@@ -375,6 +375,110 @@ const STORIES = [
     ]
   },
   {
+    id: 'fox_and_the_grapes',
+    title: "The Fox and the Grapes",
+    subtitle: "A story about disappointment and excuses",
+    genre: "Classic Fable",
+    emoji: "🦊",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/fox_and_the_grapes.png",
+    moral: "It is easy to dislike what we cannot have. A wise person accepts disappointment honestly instead of making excuses. 🍇",
+    summary: "On a sunny afternoon, a hungry fox wanders through the countryside and spots bunches of ripe, purple grapes hanging high above him. He tries jumping with all his might, and even rolls a stone beneath the vine to stand on, but the grapes remain just out of reach. Exhausted and embarrassed, the fox walks away pretending: 'They are probably sour anyway!'",
+    vocabHighlights: [
+      { word: "Disappointment", partOfSpeech: "Noun", definition: "The feeling of sadness or displeasure caused by the non-fulfillment of one's hopes or expectations.", pronunciation: "dis-uh-point-muhnt", fact: "Learning to handle disappointment with honesty is a sign of true maturity." },
+      { word: "Excuses", partOfSpeech: "Noun", definition: "Reasons or explanations given to justify a fault, failure, or shortcoming.", pronunciation: "ik-skyoo-siz", fact: "Instead of making excuses about sour grapes, admitting defeat helps you grow!" },
+      { word: "Tempting", partOfSpeech: "Adjective", definition: "Appealing, attractive, or inviting, making one want to have or enjoy it.", pronunciation: "temp-ting", fact: "The juicy purple grapes looked so tempting to the hungry fox!" },
+      { word: "Exhausted", partOfSpeech: "Adjective", definition: "Completely drained of physical energy and strength; extremely weary.", pronunciation: "ig-zaw-stid", fact: "After jumping over and over again, the fox sat beneath the vine completely exhausted." },
+      { word: "Sour", partOfSpeech: "Adjective", definition: "Having an acid, tart taste like lemon or vinegar; unpleasant.", pronunciation: "sow-er", fact: "The phrase 'sour grapes' comes directly from this famous Aesop fable!" }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "A Hungry Afternoon",
+        text: "One sunny afternoon, a hungry fox wandered through the countryside. 'I must find something tasty!' he said to himself.",
+        imageUrl: "/fox_and_the_grapes.png"
+      },
+      {
+        pageNumber: 2,
+        title: "Ripe Purple Grapes",
+        text: "He spotted ripe purple grapes hanging high above him on a leafy vine. 'Those grapes look sweet and juicy!' he thought eagerly.",
+        imageUrl: "/fox_and_the_grapes.png"
+      },
+      {
+        pageNumber: 3,
+        title: "The First Leap",
+        text: "The fox ran and made his first leap. His jaws snapped shut on empty air. 'Almost!' he puffed, landing back on his paws.",
+        imageUrl: "/fox_and_the_grapes.png"
+      },
+      {
+        pageNumber: 4,
+        title: "Jumping Higher",
+        text: "He tried again, jumping even higher toward the vine. 'I can reach them this time!' he cheered as he soared into the air.",
+        imageUrl: "/fox_and_the_grapes.png"
+      },
+      {
+        pageNumber: 5,
+        title: "The Clever Stone Plan",
+        text: "The fox rolled a large stone beneath the vine and climbed carefully on top. 'This clever plan will work!' he grinned proudly.",
+        imageUrl: "/fox_and_the_grapes.png"
+      },
+      {
+        pageNumber: 6,
+        title: "THUMP!",
+        text: "His paws slipped on the mossy rock, and he tumbled safely into the soft grass with a loud THUMP! 'Oof!' groaned the fox.",
+        imageUrl: "/fox_and_the_grapes.png"
+      },
+      {
+        pageNumber: 7,
+        title: "One Final Jump",
+        text: "He gathered all his strength for one enormous final jump. 'One last try!' he shouted, springing high into the sky.",
+        imageUrl: "/fox_and_the_grapes.png"
+      },
+      {
+        pageNumber: 8,
+        title: "Out of Breath",
+        text: "The exhausted fox sat beneath the vine, panting with his tongue out. 'Why can't I reach them?' he sighed.",
+        imageUrl: "/fox_and_the_grapes.png"
+      },
+      {
+        pageNumber: 9,
+        title: "Making Excuses",
+        text: "Too embarrassed to admit defeat, he lifted his nose proudly into the air: 'I didn't want them anyway. They are probably sour!'",
+        imageUrl: "/fox_and_the_grapes.png"
+      },
+      {
+        pageNumber: 10,
+        title: "The Lesson of Sour Grapes",
+        text: "The fox walked away into the sunset, but the grapes were truly ripe and sweet. He only called them sour because he could not reach them. MORAL: It is easy to dislike what we cannot have. A wise person accepts disappointment honestly instead of making excuses.",
+        imageUrl: "/fox_and_the_grapes.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "What did the hungry fox spot hanging high on the vine?",
+        options: ["Ripe, sweet purple grapes", "Bright red apples", "Golden yellow bananas", "Juicy green pears"],
+        answer: "Ripe, sweet purple grapes",
+        explanation: "The fox spotted a tempting bunch of ripe purple grapes hanging high in the countryside."
+      },
+      {
+        id: 2,
+        question: "What clever idea did the fox try to get closer to the grapes?",
+        options: ["He rolled a stone beneath the vine to stand on", "He climbed a nearby ladder", "He asked a bird for help", "He threw a stick at the vine"],
+        answer: "He rolled a stone beneath the vine to stand on",
+        explanation: "The fox rolled a stone under the vine and climbed on top to jump from a higher point."
+      },
+      {
+        id: 3,
+        question: "Why did the fox say the grapes were 'probably sour'?",
+        options: ["He was embarrassed that he could not reach them and made an excuse", "He tasted one and it was bitter", "A bird told him they were spoiled", "He prefers salty food"],
+        answer: "He was embarrassed that he could not reach them and made an excuse",
+        explanation: "The fox was too proud to admit defeat, so he made the excuse that the grapes were sour anyway."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -955,7 +1059,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -1070,10 +1174,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'tortoise_and_the_hare') return 999999999999997;
     if (String(s.id) === 'dog_and_his_reflection') return 999999999999996;
     if (String(s.id) === 'hare_and_the_hound') return 999999999999995;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999994;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999993;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999992;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999991;
+    if (String(s.id) === 'fox_and_the_grapes') return 999999999999994;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999993;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999992;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999991;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999990;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
