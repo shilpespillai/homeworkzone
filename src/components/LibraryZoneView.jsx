@@ -895,6 +895,158 @@ const STORIES = [
     ]
   },
   {
+    id: 'little_red_riding_hood',
+    title: "Little Red Riding Hood",
+    subtitle: "A story about safety and wise choices",
+    genre: "Classic Fairy Tale",
+    emoji: "👧🧺",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/little_red_riding_hood.png",
+    moral: "Be cautious with strangers and always listen to the safety advice of trusted adults. 🛡️",
+    summary: "When Little Red Riding Hood is sent through the forest with a basket of food for her grandmother, she meets a sly wolf and strays from the path. The wolf races ahead to Grandmother's cottage, but with the help of a brave woodcutter, Grandmother and Red are saved, teaching Red the vital lesson of staying on the safe path and not trusting strangers.",
+    vocabHighlights: [
+      { word: "Cautious", partOfSpeech: "Adjective", definition: "Careful to avoid potential problems, mistakes, or dangers.", pronunciation: "kaw-shuhs", fact: "Being cautious means keeping our promises and staying mindful of our surroundings." },
+      { word: "Stranger", partOfSpeech: "Noun", definition: "A person whom one does not know or with whom one is not familiar.", pronunciation: "strayn-jer", fact: "We should never share private family details or our destination with strangers." },
+      { word: "Shortcut", partOfSpeech: "Noun", definition: "A quicker alternative route than the standard path.", pronunciation: "short-kuht", fact: "The sly wolf took a fast shortcut through the woods to reach Grandmother's house first." },
+      { word: "Woodcutter", partOfSpeech: "Noun", definition: "A person whose job is felling trees and cutting wood in the forest.", pronunciation: "wood-kut-er", fact: "The brave woodcutter stayed alert and rushed in right on time to save Grandmother and Red." },
+      { word: "Advice", partOfSpeech: "Noun", definition: "Guidance or recommendations offered with regard to prudent future action.", pronunciation: "ad-vys", fact: "Listening to the wise safety advice of parents and trusted adults keeps us safe from harm." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "Packing the Basket",
+        text: "Little Red Riding Hood's mother packed a basket of fresh food for Grandmother. 'Please take this food to Grandmother,' Mother said gently.",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 2,
+        title: "Important Advice",
+        text: "Before she left, Mother gave her important advice: 'Stay on the path and do not talk to strangers.' Red promised: 'I promise, Mother.'",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 3,
+        title: "Into the Sunny Forest",
+        text: "Little Red Riding Hood happily entered the sunny forest with her basket. 'Grandmother will love these treats!' she smiled.",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 4,
+        title: "A Sly Watcher",
+        text: "A sly wolf watched her quietly from behind the forest trees. 'I wonder where she is going,' thought the wolf.",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 5,
+        title: "Meeting on the Path",
+        text: "The wolf stepped onto the path and spoke politely: 'Good morning. Where are you going?' Red replied: 'To visit my grandmother.'",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 6,
+        title: "Revealing the Secret",
+        text: "Without thinking, Red told the stranger where Grandmother lived: 'Her cottage is beyond the old oak tree.' 'How interesting!' said the wolf.",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 7,
+        title: "The Meadow of Flowers",
+        text: "The wolf pointed toward a meadow filled with bright wildflowers: 'Grandmother would love some flowers.' Red cheered: 'What a lovely idea!'",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 8,
+        title: "Taking a Shortcut",
+        text: "While Red left the safe path to gather flowers, the wolf took a secret shortcut. 'I will reach the cottage first!' cackled the wolf.",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 9,
+        title: "Knocking at the Door",
+        text: "The wolf arrived at Grandmother's cottage and knocked. Grandmother asked: 'Who is there?' The wolf disguised his voice: 'It is Little Red Riding Hood.'",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 10,
+        title: "Locked in the Cupboard",
+        text: "The wolf rushed inside and locked Grandmother safely in a cupboard! 'Let me out!' cried Grandmother. 'Stay quiet!' growled the wolf.",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 11,
+        title: "The Disguise",
+        text: "The wolf put on Grandmother's cap and climbed into her bed. 'Now I will wait for Little Red,' the wolf chuckled slyly.",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 12,
+        title: "Arriving at the Cottage",
+        text: "Little Red Riding Hood finally arrived and entered the cottage: 'Grandmother, are you feeling better?' The wolf whispered: 'Come closer, my dear.'",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 13,
+        title: "What Big Ears!",
+        text: "Red noticed that Grandmother looked very different. 'Grandmother, what big ears you have!' 'All the better to hear you with,' answered the wolf.",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 14,
+        title: "What Big Eyes!",
+        text: "Red stepped closer and looked carefully. 'Grandmother, what big eyes you have!' 'All the better to see you with,' replied the wolf.",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 15,
+        title: "What Big Teeth!",
+        text: "At last, Red realised that the figure in bed was the wolf! 'What big teeth you have!' The wolf sprang up: 'All the better to frighten you with!'",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 16,
+        title: "A Cry for Help",
+        text: "Red cried for help at the top of her lungs! 'Help!' A nearby woodcutter heard her voice: 'That came from Grandmother's cottage!'",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 17,
+        title: "The Woodcutter's Rescue",
+        text: "The brave woodcutter rushed inside with his axe. 'Leave them alone!' he ordered. The frightened wolf fled out the window: 'I am leaving!' WHOOSH!",
+        imageUrl: "/little_red_riding_hood.png"
+      },
+      {
+        pageNumber: 18,
+        title: "Safe and Apologetic",
+        text: "The woodcutter freed Grandmother from the cupboard, and Red apologised with a grateful hug. Woodcutter: 'We are safe now.' Red: 'I should have listened. I will be more careful.' MORAL: Be cautious with strangers. Listen to the safety advice of trusted adults.",
+        imageUrl: "/little_red_riding_hood.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "What important advice did Mother give Little Red Riding Hood before she left?",
+        options: ["Stay on the path and do not talk to strangers", "Pick every flower in the forest", "Find a shortcut through the dark woods", "Give all her food to animals"],
+        answer: "Stay on the path and do not talk to strangers",
+        explanation: "Mother warned Red to remain on the safe path and never talk to strangers."
+      },
+      {
+        id: 2,
+        question: "How was the wolf able to reach Grandmother's cottage before Little Red Riding Hood?",
+        options: ["The wolf took a shortcut while Red wandered off to pick flowers", "The wolf flew on a magic carpet", "Red stopped to take a long nap", "Grandmother invited the wolf first"],
+        answer: "The wolf took a shortcut while Red wandered off to pick flowers",
+        explanation: "While Red was distracted picking flowers off the path, the wolf sprinted down a shortcut to arrive first."
+      },
+      {
+        id: 3,
+        question: "Who rescued Grandmother and Little Red Riding Hood from the wolf?",
+        options: ["A brave nearby woodcutter", "A forest ranger", "The village baker", "A flock of birds"],
+        answer: "A brave nearby woodcutter",
+        explanation: "The woodcutter heard Red's cries for help and rushed inside to scare the wolf away and free Grandmother."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -1475,7 +1627,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -1595,10 +1747,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'monkey_and_the_crocodile') return 999999999999992;
     if (String(s.id) === 'clever_rabbit_and_the_lion') return 999999999999991;
     if (String(s.id) === 'three_little_pigs') return 999999999999990;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999989;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999988;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999987;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999986;
+    if (String(s.id) === 'little_red_riding_hood') return 999999999999989;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999988;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999987;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999986;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999985;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
