@@ -3073,7 +3073,8 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                                     { name: 'Vocabulary & Word Power', emoji: '🔤' },
                                     { name: 'Reading Comprehension', emoji: '📖' },
                                     { name: 'Sentence Types & Punctuation', emoji: '✍️' },
-                                    { name: 'Creative Writing Studio', emoji: '🎨' }
+                                    { name: 'Creative Writing Studio', emoji: '🎨' },
+                                    { name: 'NAPLAN Visual Writing Feedback', emoji: '⚡' }
                                  ].map((topic) => (
                                     <button
                                        key={topic.name}
@@ -3868,6 +3869,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
               activeNav === 'Learning: Reading Comprehension' ||
               activeNav === 'Learning: Sentence Types & Punctuation' ||
               activeNav === 'Learning: Creative Writing Studio' ||
+              activeNav === 'Learning: NAPLAN Visual Writing Feedback' ||
               activeNav === 'Learning: English') && (
                <EnglishHub topicName={activeNav.replace('Learning: ', '')} />
             )}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   BookOpen, 
   Sparkles, 
@@ -34,6 +34,7 @@ import {
   Heart
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import WritingAnalyzer from './writing/WritingAnalyzer';
 
 export default function EnglishHub({ topicName }) {
   const [activeTab, setActiveTab] = useState(
@@ -53,13 +54,23 @@ export default function EnglishHub({ topicName }) {
   const [quizScore, setQuizScore] = useState(null);
 
   function getTabFromTopic(topic) {
+    if (topic?.includes('NAPLAN') || topic?.includes('Visual') || topic?.includes('Feedback')) return 'visual-feedback';
     if (topic?.includes('Grammar') || topic?.includes('Guide')) return 'grammar';
     if (topic?.includes('Vocabulary') || topic?.includes('Spelling')) return 'vocab';
     if (topic?.includes('Reading') || topic?.includes('Comprehension')) return 'reading';
     if (topic?.includes('Sentence') || topic?.includes('Punctuation')) return 'punctuation';
     if (topic?.includes('Writing') || topic?.includes('Creative') || topic?.includes('Narrative')) return 'writing';
+    if (topic?.includes('Parts') || topic?.includes('Tenses')) return 'parts';
+    if (topic?.includes('Quiz') || topic?.includes('Master')) return 'quiz';
     return 'grammar';
   }
+
+  // Sync activeTab whenever the sidebar changes the topicName prop
+  useEffect(() => {
+    if (topicName) {
+      setActiveTab(getTabFromTopic(topicName));
+    }
+  }, [topicName]);
 
   const openImageModal = (src, title, subtitle) => {
     setActiveModalImage({ src, title, subtitle });
@@ -503,30 +514,7 @@ export default function EnglishHub({ topicName }) {
         </div>
       </div>
 
-      {/* Navigation Tabs */}
-      <div className="flex gap-2 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
-        {[
-          { id: 'grammar', label: 'Grammar Guide Poster', icon: '📜' },
-          { id: 'reading', label: 'Reading Comprehension', icon: '📖' },
-          { id: 'writing', label: 'Creative Narrative Writing Studio', icon: '🎨' },
-          { id: 'parts', label: 'Parts of Speech & Tenses', icon: '📝' },
-          { id: 'vocab', label: 'Vocabulary & Word Power', icon: '🔤' },
-          { id: 'punctuation', label: 'Sentence Types & Punctuation', icon: '✍️' },
-          { id: 'quiz', label: 'English Master Quiz', icon: '🏆' }
-        ].map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`px-5 py-3 rounded-2xl font-black text-xs flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
-              activeTab === tab.id
-                ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/20 scale-102'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-            }`}
-          >
-            <span>{tab.icon}</span> {tab.label}
-          </button>
-        ))}
-      </div>
+
 
       {/* ==================================== TAB 1: GRAMMAR GUIDE POSTER ==================================== */}
       {activeTab === 'grammar' && (
@@ -1133,6 +1121,11 @@ export default function EnglishHub({ topicName }) {
           </div>
 
         </div>
+      )}
+
+      {/* ==================================== TAB: NAPLAN VISUAL WRITING FEEDBACK ==================================== */}
+      {activeTab === 'visual-feedback' && (
+        <WritingAnalyzer />
       )}
 
       {/* ==================================== TAB 4: PARTS OF SPEECH & TENSES ==================================== */}
