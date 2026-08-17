@@ -6368,13 +6368,24 @@ export default function App() {
   const confirmStyle = useMemo(() => {
     if (!confirmModal.message) return {};
     const msg = confirmModal.message.toLowerCase();
+    if (msg.includes('exit') || msg.includes('dashboard') || msg.includes('leave') || msg.includes('return') || msg.includes('🏠') || msg.includes('🚪')) {
+      return {
+        icon: '🏠',
+        bg: 'bg-amber-50 border border-amber-100',
+        accent: 'bg-rose-500 hover:bg-rose-600 shadow-rose-100 text-white',
+        title: 'Return to Dashboard? 🏠',
+        btnText: 'Yes, Exit to Lobby',
+        cancelText: '🚀 Keep Going!'
+      };
+    }
     if (msg.includes('delete') || msg.includes('remove') || msg.includes('🗑️') || msg.includes('trash')) {
       return {
         icon: '🗑️',
         bg: 'bg-rose-50 border border-rose-100',
         accent: 'bg-rose-500 hover:bg-rose-600 shadow-rose-100 text-white',
         title: 'Delete Confirmation',
-        btnText: 'Yes, Delete'
+        btnText: 'Yes, Delete',
+        cancelText: 'Cancel'
       };
     }
     if (msg.includes('reset') || msg.includes('🔄')) {
@@ -6383,7 +6394,8 @@ export default function App() {
         bg: 'bg-blue-50 border border-blue-100',
         accent: 'bg-blue-500 hover:bg-blue-600 shadow-blue-100 text-white',
         title: 'Reset Progress',
-        btnText: 'Yes, Reset'
+        btnText: 'Yes, Reset',
+        cancelText: 'Cancel'
       };
     }
     return {
@@ -6391,7 +6403,8 @@ export default function App() {
       bg: 'bg-amber-50 border border-amber-100',
       accent: 'bg-amber-500 hover:bg-amber-600 shadow-amber-100 text-white',
       title: 'Confirm Action',
-      btnText: 'Yes, Confirm'
+      btnText: 'Yes, Confirm',
+      cancelText: 'Cancel'
     };
   }, [confirmModal.message]);
 
@@ -6662,7 +6675,7 @@ export default function App() {
                   onClick={handleCancel}
                   className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-500 py-3.5 px-6 rounded-2xl font-black text-sm active:scale-95 transition-all"
                 >
-                  Cancel
+                  {confirmStyle.cancelText || 'Cancel'}
                 </button>
               </div>
             </motion.div>

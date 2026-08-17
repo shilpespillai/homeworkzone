@@ -213,6 +213,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
   const [feedback, setFeedback] = useState(initialSubmission ? initialSubmission.feedback : '');
   const [wrongAnswersExplanations, setWrongAnswersExplanations] = useState(initialSubmission?.wrongAnswersExplanations || {});
   const [loading, setLoading] = useState(true);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
 
   const formatTime = (totalSeconds) => {
     const mins = Math.floor(totalSeconds / 60);
@@ -667,11 +668,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                 const exitText = isExamOrTest ? 'Exit Exam 🚪' : assignmentType === 'lesson' ? 'Exit Lesson 🚪' : assignmentType === 'quiz' ? 'Exit Quiz 🚪' : 'Exit Homework 🚪';
                 return (
                   <button
-                    onClick={async () => {
-                      if (window.confirm("Are you sure you want to exit and return to the dashboard? 🏠")) {
-                        if (onComplete) onComplete();
-                      }
-                    }}
+                    onClick={() => setShowExitConfirm(true)}
                     className="bg-rose-500 hover:bg-rose-600 active:scale-95 text-white font-extrabold text-xs px-3.5 py-1.5 rounded-full shadow-sm transition-all flex items-center gap-1.5 cursor-pointer ml-2"
                     title={`Exit ${isExamOrTest ? 'exam' : assignmentType} and return to dashboard`}
                   >
@@ -684,7 +681,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
 
           <div className="flex justify-between items-center p-6 gap-4 border-b border-slate-100/80">
             <div className="flex flex-col gap-1.5">
-              <button onClick={isReviewing ? () => setIsReviewing(false) : onComplete} className="flex items-center gap-1 text-slate-400 hover:text-slate-700 font-black text-[10px] uppercase tracking-widest transition-colors">
+              <button onClick={isReviewing ? () => setIsReviewing(false) : () => setShowExitConfirm(true)} className="flex items-center gap-1 text-slate-400 hover:text-slate-700 font-black text-[10px] uppercase tracking-widest transition-colors">
                 <ChevronLeft className="w-3.5 h-3.5" /> 
                 <span>{isReviewing ? "Back to Results" : "Back to Hub"}</span>
               </button>
@@ -1881,6 +1878,76 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
           )}
         </footer>
       )}
+
+      {/* Kid-Friendly Exit Confirmation Modal */}
+      <AnimatePresence>
+        {showExitConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-md"
+            onClick={() => setShowExitConfirm(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.85, y: 25, rotate: -1 }}
+              animate={{ scale: 1, y: 0, rotate: 0 }}
+              exit={{ scale: 0.85, y: 25, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 350, damping: 25 }}
+              className="bg-gradient-to-b from-white via-white to-amber-50/40 rounded-[36px] border-4 border-amber-200/90 max-w-md w-full p-6 md:p-8 space-y-6 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)] relative overflow-hidden text-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Playful Top Mascot Badge */}
+              <div className="relative mx-auto w-24 h-24 mb-1">
+                <div className="absolute inset-0 bg-amber-200/60 rounded-full blur-xl animate-pulse" />
+                <div className="relative w-24 h-24 bg-gradient-to-tr from-amber-400 to-orange-400 rounded-3xl flex items-center justify-center text-5xl shadow-[0_8px_0_0_#C2410C] border-2 border-white/50 rotate-3 transform hover:rotate-6 transition-transform">
+                  🎒
+                </div>
+                <span className="absolute -top-2 -right-2 text-2xl animate-bounce">✨</span>
+                <span className="absolute -bottom-1 -left-2 text-2xl animate-bounce" style={{ animationDelay: '0.2s' }}>🌟</span>
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight font-display">
+                  Taking a Break? 🏠
+                </h3>
+                <p className="text-sm md:text-base font-bold text-slate-600 leading-relaxed px-2">
+                  Are you sure you want to return to the dashboard? Don&apos;t worry, your adventure will be waiting for you! 🌟
+                </p>
+              </div>
+
+              {/* Progress pill */}
+              {displayQuestions && displayQuestions.length > 0 && (
+                <div className="bg-amber-100/70 border border-amber-200 rounded-2xl py-2 px-4 inline-flex items-center gap-2 text-xs font-black text-amber-900 shadow-inner">
+                  <span>🎯 Question {currentIdx + 1} of {displayQuestions.length} in progress</span>
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowExitConfirm(false)}
+                  className="w-full sm:flex-1 py-4 px-6 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-2xl font-black text-base shadow-[0_6px_0_0_#047857] active:shadow-none active:translate-y-[6px] transition-all cursor-pointer flex items-center justify-center gap-2 group"
+                >
+                  <span>🚀 Keep Going!</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowExitConfirm(false);
+                    if (onComplete) onComplete();
+                  }}
+                  className="w-full sm:flex-1 py-4 px-6 bg-slate-100 hover:bg-rose-50 text-slate-600 hover:text-rose-600 border-2 border-slate-200 hover:border-rose-200 rounded-2xl font-black text-sm shadow-[0_4px_0_0_#CBD5E1] hover:shadow-[0_4px_0_0_#FECDD3] active:shadow-none active:translate-y-[4px] transition-all cursor-pointer flex items-center justify-center gap-2"
+                >
+                  <span>🚪 Yes, Exit</span>
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

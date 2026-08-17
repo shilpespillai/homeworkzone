@@ -76,6 +76,7 @@ export default function OfficialExamPaperView({
   const [showScratchpad, setShowScratchpad] = useState(false);
   const [scratchNotes, setScratchNotes] = useState('');
   const [showConfirmSubmit, setShowConfirmSubmit] = useState(false);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
 
   const totalQuestions = questions.length;
   const currentQ = questions[currentIdx] || {};
@@ -813,12 +814,7 @@ export default function OfficialExamPaperView({
             const exitText = assignmentType === 'exam' ? 'Exit Exam' : assignmentType === 'lesson' ? 'Exit Lesson' : assignmentType === 'quiz' ? 'Exit Quiz' : 'Exit Homework';
             return (
               <button
-                onClick={async () => {
-                  if (window.confirm(`Are you sure you want to exit the ${assignmentType} and return to the dashboard? 🏠`)) {
-                    if (onExit) onExit();
-                    else if (onFinishExam) onFinishExam();
-                  }
-                }}
+                onClick={() => setShowExitConfirm(true)}
                 className="py-1.5 px-3.5 bg-rose-600 hover:bg-rose-500 active:scale-95 text-white rounded-lg text-xs font-black flex items-center gap-1.5 transition-all shadow-md cursor-pointer ml-1"
                 title={`Exit ${assignmentType} and return to dashboard`}
               >
@@ -995,6 +991,66 @@ export default function OfficialExamPaperView({
                 className="flex-1 py-3 bg-slate-950 hover:bg-slate-800 text-white font-black text-xs rounded-xl uppercase tracking-wider"
               >
                 Confirm & Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Kid-Friendly Exit Confirmation Modal */}
+      {showExitConfirm && (
+        <div 
+          className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-md animate-fadeIn"
+          onClick={() => setShowExitConfirm(false)}
+        >
+          <div
+            className="bg-gradient-to-b from-white via-white to-amber-50/40 rounded-[36px] border-4 border-amber-200/90 max-w-md w-full p-6 md:p-8 space-y-6 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)] relative overflow-hidden text-center transform transition-all"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Playful Top Mascot Badge */}
+            <div className="relative mx-auto w-24 h-24 mb-1">
+              <div className="absolute inset-0 bg-amber-200/60 rounded-full blur-xl animate-pulse" />
+              <div className="relative w-24 h-24 bg-gradient-to-tr from-amber-400 to-orange-400 rounded-3xl flex items-center justify-center text-5xl shadow-[0_8px_0_0_#C2410C] border-2 border-white/50 rotate-3 transform hover:rotate-6 transition-transform">
+                🎒
+              </div>
+              <span className="absolute -top-2 -right-2 text-2xl animate-bounce">✨</span>
+              <span className="absolute -bottom-1 -left-2 text-2xl animate-bounce" style={{ animationDelay: '0.2s' }}>🌟</span>
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight font-display">
+                Exit Exam Paper? 🏠
+              </h3>
+              <p className="text-sm md:text-base font-bold text-slate-600 leading-relaxed px-2">
+                Are you sure you want to return to the dashboard? Your progress is recorded and you can return anytime! 🌟
+              </p>
+            </div>
+
+            {/* Progress pill */}
+            <div className="bg-amber-100/70 border border-amber-200 rounded-2xl py-2 px-4 inline-flex items-center gap-2 text-xs font-black text-amber-900 shadow-inner">
+              <span>🎯 Answered {answeredCount} of {totalQuestions} Questions</span>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setShowExitConfirm(false)}
+                className="w-full sm:flex-1 py-4 px-6 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-2xl font-black text-base shadow-[0_6px_0_0_#047857] active:shadow-none active:translate-y-[6px] transition-all cursor-pointer flex items-center justify-center gap-2 group"
+              >
+                <span>🚀 Keep Going!</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setShowExitConfirm(false);
+                  if (onExit) onExit();
+                  else if (onFinishExam) onFinishExam();
+                }}
+                className="w-full sm:flex-1 py-4 px-6 bg-slate-100 hover:bg-rose-50 text-slate-600 hover:text-rose-600 border-2 border-slate-200 hover:border-rose-200 rounded-2xl font-black text-sm shadow-[0_4px_0_0_#CBD5E1] hover:shadow-[0_4px_0_0_#FECDD3] active:shadow-none active:translate-y-[4px] transition-all cursor-pointer flex items-center justify-center gap-2"
+              >
+                <span>🚪 Yes, Exit</span>
               </button>
             </div>
           </div>
