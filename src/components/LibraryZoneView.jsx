@@ -2519,6 +2519,158 @@ const STORIES = [
     ]
   },
   {
+    id: 'stone_soup',
+    title: "Stone Soup",
+    subtitle: "A story about sharing, cooperation and building community",
+    genre: "Classic Folklore",
+    emoji: "🍲🪨🥕",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/stone_soup.png",
+    moral: "When everyone contributes a little, there can be enough for all. Sharing and cooperation can build a stronger community. 🍲🪨✨",
+    summary: "Three hungry travellers arrive in a wary village where residents keep their doors closed and claim their cupboards are bare. To bring everyone together, the travellers place three smooth stones into a giant kettle of boiling water in the town square, announcing they are cooking magical 'Stone Soup.' Intrigued by the curiosity, villagers gradually step forward to contribute salt, carrots, potatoes, beans, cabbage, and herbs. Soon, a rich, fragrant feast is born from the shared contributions of the entire community.",
+    vocabHighlights: [
+      { word: "Cooperation", partOfSpeech: "Noun", definition: "The process of working together to the same end.", pronunciation: "koh-op-uh-rey-shuhn", fact: "By practicing cooperation, the villagers transformed a pot of plain water into a nutritious feast." },
+      { word: "Contribute", partOfSpeech: "Verb", definition: "Give something in order to help achieve or provide something.", pronunciation: "kuhn-trib-yoot", fact: "Each villager contributed one small ingredient from their garden or pantry." },
+      { word: "Abundance", partOfSpeech: "Noun", definition: "A very large quantity of something; plentifulness of the good things of life.", pronunciation: "uh-buhn-duhns", fact: "When everyone pooled their small resources together, scarcity turned into abundance." },
+      { word: "Generosity", partOfSpeech: "Noun", definition: "The quality of being kind and plentiful in giving to others.", pronunciation: "jen-uh-ros-i-tee", fact: "Generosity unlocked the hearts of the villagers and brought the whole town together." },
+      { word: "Simmer", partOfSpeech: "Verb", definition: "Stay just below the boiling point while bubbling gently.", pronunciation: "sim-er", fact: "The kettle gently simmered over the warm fire, blending all the fresh garden flavors together." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "Arrival in the Village",
+        text: "Three hungry travellers arrived at a quiet village after a long journey: 'Perhaps someone will share a little food,' they hoped.",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 2,
+        title: "Fear of Scarcity",
+        text: "The villagers feared they did not have enough food to share with strangers: 'Our cupboards are almost empty,' they said.",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 3,
+        title: "Asking the Elder",
+        text: "Rowan politely asked the village Elder for something to eat: 'Could you spare a small meal?' The Elder replied: 'I am sorry, but I have nothing to give.'",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 4,
+        title: "A Clever Idea",
+        text: "The travellers thought of a clever way to bring everyone together: 'We will make stone soup!'",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 5,
+        title: "The Pot in the Square",
+        text: "They filled a large iron pot with water over a fire in the village square. A curious child asked: 'What are you making?'",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 6,
+        title: "Three Clean Stones",
+        text: "The travellers added three smooth, clean stones to the pot: 'The finest stone soup in all the land!' Rowan announced.",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 7,
+        title: "Gathering Curiosity",
+        text: "The wonderful idea soon attracted the whole village: 'Can soup truly be made from stones?' they wondered.",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 8,
+        title: "A Pinch of Salt",
+        text: "Timo tasted the broth and said: 'A pinch of salt would improve it.' A woman smiled: 'I can bring some from my kitchen!'",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 9,
+        title: "Fresh Sweet Carrots",
+        text: "The Farmer contributed a basket of fresh orange carrots: 'These will add sweetness and crunch to the pot.'",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 10,
+        title: "Hearty Potatoes",
+        text: "The Elder remembered a stash of potatoes in her cupboard: 'These will make the soup hearty and rich.'",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 11,
+        title: "A Cup of Beans",
+        text: "The Child ran home and found a cup of dried beans to share: 'I want to help too!' he cheered.",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 12,
+        title: "Crisp Green Cabbage",
+        text: "The Baker arrived and added some crisp green cabbage: 'Now it looks like a royal feast!'",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 13,
+        title: "Fresh Garden Herbs",
+        text: "A generous handful of fresh garden herbs completed the recipe: 'The soup smells absolutely wonderful,' said the child.",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 14,
+        title: "Simmering Together",
+        text: "Everyone waited happily together while the stone soup gently simmered: 'Good things grow when everyone contributes,' noted the Elder.",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 15,
+        title: "An Irresistible Aroma",
+        text: "Soon, a delicious, mouthwatering aroma filled the village square: 'It smells better than any soup before!'",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 16,
+        title: "Setting the Grand Table",
+        text: "Together, they prepared a long table with bowls and fresh bread: 'There is plenty when we share,' Rowan smiled.",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 17,
+        title: "A Joyful Community Feast",
+        text: "The villagers and travellers sat side by side and shared a joyful feast: 'This is the best soup I have ever tasted!'",
+        imageUrl: "/stone_soup.png"
+      },
+      {
+        pageNumber: 18,
+        title: "The Wisdom of Sharing",
+        text: "The village discovered that generosity could turn little things into abundance: 'You taught us the joy of sharing!'",
+        imageUrl: "/stone_soup.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "Why did the travellers say they were making soup from stones?",
+        options: ["To inspire curiosity and encourage the villagers to contribute their own ingredients", "Because stones taste delicious when boiled", "Because they had forgotten their cooking pots", "Because the king ordered them to cook stones"],
+        answer: "To inspire curiosity and encourage the villagers to contribute their own ingredients",
+        explanation: "The travellers used the curiosity of 'Stone Soup' to overcome fear and encourage each villager to share a small ingredient from their home."
+      },
+      {
+        id: 2,
+        question: "What happened when each villager contributed one small ingredient to the pot?",
+        options: ["The pot turned into a rich, delicious feast that fed the entire village", "The soup burned", "There was not enough food for everyone", "The stones dissolved into salt"],
+        answer: "The pot turned into a rich, delicious feast that fed the entire village",
+        explanation: "By combining carrots, potatoes, beans, cabbage, salt, and herbs, their small individual contributions created a hearty feast for all."
+      },
+      {
+        id: 3,
+        question: "What is the central moral lesson of 'Stone Soup'?",
+        options: ["When everyone contributes a little, there can be enough for all; sharing and cooperation build strong communities", "Never talk to hungry travellers", "Always hide vegetables in the cellar", "Soup must only be cooked by elders"],
+        answer: "When everyone contributes a little, there can be enough for all; sharing and cooperation build strong communities",
+        explanation: "The classic tale demonstrates that sharing and mutual cooperation transform scarcity into abundance and bring people together in harmony."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -3083,7 +3235,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'the_elves_and_the_shoemaker', 'the_emperors_new_clothes', 'the_bremen_town_musicians', 'the_little_red_hen', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'the_elves_and_the_shoemaker', 'the_emperors_new_clothes', 'the_bremen_town_musicians', 'the_little_red_hen', 'stone_soup', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -3187,10 +3339,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'the_emperors_new_clothes') return 999999999999981;
     if (String(s.id) === 'the_bremen_town_musicians') return 999999999999980;
     if (String(s.id) === 'the_little_red_hen') return 999999999999979;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999978;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999977;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999976;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999975;
+    if (String(s.id) === 'stone_soup') return 999999999999978;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999977;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999976;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999975;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999974;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
