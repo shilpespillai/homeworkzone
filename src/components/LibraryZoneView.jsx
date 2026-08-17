@@ -1607,6 +1607,158 @@ const STORIES = [
     ]
   },
   {
+    id: 'hansel_and_gretel',
+    title: "Hansel and Gretel",
+    subtitle: "A story about courage, cleverness and staying together",
+    genre: "Classic Fairy Tale",
+    emoji: "🍞🏠",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/hansel_and_gretel.png",
+    moral: "Courage and clever thinking can guide us through difficult times. Stay together, help one another, and never lose hope. 🌟✨",
+    summary: "When food runs scarce, Hansel and Gretel find themselves lost in the deep woods after hungry birds eat their breadcrumb trail. They discover a magical cottage made of sweet confections, but are captured by a wicked witch. Working bravely together, Hansel outsmarts the witch with a small bone and Gretel cleverly traps the witch in her own oven, breaking the spell and reuniting the joyful family at home.",
+    vocabHighlights: [
+      { word: "Courage", partOfSpeech: "Noun", definition: "The ability to do something that frightens one; bravery.", pronunciation: "kur-ij", fact: "Hansel and Gretel showed incredible courage when facing challenges in the dark forest!" },
+      { word: "Cleverness", partOfSpeech: "Noun", definition: "The quality of being intelligent, ingenious, or quick-witted.", pronunciation: "klev-er-nis", fact: "Hansel's idea to use white pebbles to mark the trail was a brilliant display of cleverness." },
+      { word: "Captive", partOfSpeech: "Noun / Adjective", definition: "A person who has been taken prisoner or confined against their will.", pronunciation: "kap-tiv", fact: "Though kept captive, Gretel remained calm and searched for a smart way to escape." },
+      { word: "Confection", partOfSpeech: "Noun", definition: "A dish or delicacy made with sweet ingredients such as sugar, candy, and cake.", pronunciation: "kuhn-fek-shuhn", fact: "The gingerbread house was a tempting confection made entirely of treats and frosting." },
+      { word: "Perseverance", partOfSpeech: "Noun", definition: "Persistence in doing something despite difficulty or delay in achieving success.", pronunciation: "pur-suh-veer-uhns", fact: "By never losing hope and helping each other, the brother and sister persevered through every test." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        title: "A Father's Worry",
+        text: "A poor woodcutter worried because there was very little food. 'How will I feed my family?' he wondered anxiously.",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 2,
+        title: "A Troubling Plan",
+        text: "That night, Hansel and Gretel heard a troubling plan through the doorway: 'Tomorrow, we must go deep into the forest.'",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 3,
+        title: "White Pebbles in the Moonlight",
+        text: "Hansel quietly collected shiny white pebbles to mark the way home. 'Do not worry, Gretel. I have a plan,' he whispered reassuringly.",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 4,
+        title: "Marking the Path",
+        text: "As they walked into the woods, Hansel dropped white pebbles along the path. 'What are you doing?' asked his father. 'Making sure we can find our way,' replied Hansel.",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 5,
+        title: "Alone in the Forest",
+        text: "When darkness fell, the children found themselves alone by a campfire. 'How will we get home?' asked Gretel. Hansel smiled: 'The moon will show us the way.'",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 6,
+        title: "The Pebbles Shine",
+        text: "The shining pebbles gleamed in the moonlight and led Hansel and Gretel safely home. 'Your plan worked!' cheered Gretel happily.",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 7,
+        title: "The Breadcrumb Trail",
+        text: "On their next journey into the woods, Hansel used breadcrumbs instead of stones: 'These crumbs will mark our path.'",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 8,
+        title: "The Trail Disappears",
+        text: "Hungry woodland birds flew down and ate every single crumb. Gretel gasped: 'The trail has disappeared!'",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 9,
+        title: "Wandering for Three Days",
+        text: "For three long days, the brother and sister wandered through the deep forest. 'We must stay together,' encouraged Hansel warmly.",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 10,
+        title: "The House of Sweets",
+        text: "At last, they discovered an enchanting little house made entirely of gingerbread, frosting, and sweets. 'It looks delicious!' they cried.",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 11,
+        title: "An Invitation Inside",
+        text: "An old woman opened the cottage door and invited the hungry children inside: 'Come in, dears. I have plenty of treats to share.'",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 12,
+        title: "The Wicked Trap",
+        text: "The old woman was actually a wicked witch who planned to keep them captive. 'You cannot leave my house!' cackled the witch as she locked Hansel in a wooden cage.",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 13,
+        title: "Gretel's Secret Courage",
+        text: "Gretel worked quietly around the kitchen while searching for a way to escape. 'Be brave, Hansel. I will help us,' she promised.",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 14,
+        title: "The Clever Bone Trick",
+        text: "Hansel fooled the short-sighted witch by holding out a little bone instead of his finger. The witch grumbled: 'Why are you still so thin?'",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 15,
+        title: "Gretel's Clever Question",
+        text: "Gretel pretended she did not understand how the large bread oven worked: 'Please show me how to look inside.' The witch leaned forward to demonstrate.",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 16,
+        title: "The Spell is Broken",
+        text: "Gretel quickly pushed the witch inside and shut the heavy iron door! The witch's spell broke immediately, and Hansel was set free. 'You saved us!' exclaimed Hansel with a big hug.",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 17,
+        title: "The Friendly Swan",
+        text: "A friendly, graceful white swan carried the children safely across a wide river. 'Thank you, kind swan,' they waved in gratitude.",
+        imageUrl: "/hansel_and_gretel.png"
+      },
+      {
+        pageNumber: 18,
+        title: "Reunited at Home",
+        text: "Their father welcomed them home with open arms, and the family was joyfully together again. 'I am so sorry. I will never leave you again,' promised their father with tears of joy.",
+        imageUrl: "/hansel_and_gretel.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        id: 1,
+        question: "How did Hansel mark the trail so the children could find their way home on their first trip?",
+        options: ["By dropping shiny white pebbles that gleamed in the moonlight", "By carving arrows into the trees", "By dropping breadcrumbs", "By following a friendly bird"],
+        answer: "By dropping shiny white pebbles that gleamed in the moonlight",
+        explanation: "Hansel collected shiny white pebbles and dropped them along the path so they could follow them home in the moonlight."
+      },
+      {
+        id: 2,
+        question: "How did Hansel trick the short-sighted witch when she checked if he was ready?",
+        options: ["He held out a small chicken bone instead of his finger", "He hid behind a curtain", "He wore gloves", "He asked Gretel to answer for him"],
+        answer: "He held out a small chicken bone instead of his finger",
+        explanation: "Because the witch had poor eyesight, Hansel held out a dry bone so she thought he was still too thin."
+      },
+      {
+        id: 3,
+        question: "What is the central moral lesson of 'Hansel and Gretel'?",
+        options: ["Courage, clever thinking, and staying together guide us through difficult times", "Never eat sweets in the forest", "Birds always eat breadcrumbs", "Swans are the fastest animals"],
+        answer: "Courage, clever thinking, and staying together guide us through difficult times",
+        explanation: "The story shows that by remaining brave, using intelligence, and supporting one another, we can overcome hardships and find our way home."
+      }
+    ]
+  },
+  {
     id: 'boy_who_cried_wolf',
     title: "The Boy Who Cried Wolf",
     subtitle: "A story about honesty and trust",
@@ -2187,7 +2339,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -2312,10 +2464,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'jack_and_the_beanstalk') return 999999999999987;
     if (String(s.id) === 'the_ugly_duckling') return 999999999999986;
     if (String(s.id) === 'the_princess_and_the_pea') return 999999999999985;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999984;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999983;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999982;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999981;
+    if (String(s.id) === 'hansel_and_gretel') return 999999999999984;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999983;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999982;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999981;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999980;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
