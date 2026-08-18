@@ -275,10 +275,12 @@ export default function CuriousMindHub() {
                       className="w-full h-full object-cover select-none pointer-events-none"
                     />
                     
-                    {/* Overlay dynamic Let's Learn button for goosebumps since the custom thumbnail has no built-in button */}
-                    {topic.id === 'goosebumps' ? (
+                    {/* Overlay dynamic Let's Learn buttons for custom thumbnails with no built-in buttons */}
+                    {topic.id === 'goosebumps' || topic.id === 'baby_teeth' ? (
                       <div className="absolute bottom-4 left-5">
-                        <span className="flex items-center gap-1.5 text-[10px] font-black py-2 px-4 rounded-full text-white bg-orange-500 hover:bg-orange-600 transition-all shadow-sm">
+                        <span className={`flex items-center gap-1.5 text-[10px] font-black py-2 px-4 rounded-full text-white transition-all shadow-sm ${
+                          topic.id === 'goosebumps' ? 'bg-orange-500 hover:bg-orange-600' : 'bg-blue-500 hover:bg-blue-600'
+                        }`}>
                           Let's Learn! <ArrowRight className="w-3 h-3" />
                         </span>
                       </div>
