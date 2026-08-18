@@ -28,6 +28,74 @@ import DynamicBlockStructure from './DynamicBlockStructure';
 import EarlyMathVisualizer from './EarlyMathVisualizer';
 import DynamicVennDiagram from './DynamicVennDiagram';
 import PassageViewer from './PassageViewer';
+
+const cleanOptionText = (text) => {
+  if (typeof text !== 'string') return text;
+  const match = text.match(/^\([A-D]\)\s*(.+)$/i) || 
+                text.match(/^\(?[A-D]\s*[\)\.\-]\s+(.+)$/i) || 
+                text.match(/^[A-D]\s+(.+)$/i);
+  if (match) return match[1].trim();
+  return text.trim();
+};
+
+const getOptionLetterPrefix = (text) => {
+  if (typeof text !== 'string') return null;
+  const match = text.match(/^\(?([A-D])\)?\s*[\)\.\-]?\s*/i);
+  return match ? match[1].toUpperCase() : null;
+};
+
+const getCorrectLetter = (rawCorrect) => {
+  if (!rawCorrect) return null;
+  const str = String(rawCorrect).trim();
+  if (/^\(?[A-D]\)?$/i.test(str)) {
+    return str.replace(/[\(\)]/g, '').toUpperCase();
+  }
+  const match = str.match(/^\(?([A-D])\)?\s*[\)\.\-]\s+/i);
+  if (match) return match[1].toUpperCase();
+  return null;
+};
+
+const checkChoiceCorrect = (opt, optKey, rawCorrect) => {
+  if (!rawCorrect) return false;
+  const cleanCorrect = cleanOptionText(String(rawCorrect));
+  const cleanOpt = cleanOptionText(String(opt));
+  
+  if (cleanOpt.toLowerCase() === cleanCorrect.toLowerCase()) return true;
+  
+  const correctLetter = getCorrectLetter(rawCorrect);
+  if (correctLetter) {
+    const origPrefix = getOptionLetterPrefix(opt);
+    if (origPrefix) {
+      return origPrefix === correctLetter;
+    }
+    return optKey === correctLetter;
+  }
+  
+  return false;
+};
+
+const checkChoiceIsStudentAnswer = (opt, optKey, studentAns) => {
+  if (studentAns === undefined || studentAns === null) return false;
+  const sAns = String(studentAns).trim();
+  const optStr = String(opt).trim();
+  
+  if (sAns.toLowerCase() === optStr.toLowerCase()) return true;
+  
+  const cleanStudent = cleanOptionText(sAns);
+  const cleanOpt = cleanOptionText(optStr);
+  if (cleanStudent.toLowerCase() === cleanOpt.toLowerCase()) return true;
+  
+  const studentLetter = getCorrectLetter(studentAns);
+  if (studentLetter) {
+    const origPrefix = getOptionLetterPrefix(opt);
+    if (origPrefix) {
+      return origPrefix === studentLetter;
+    }
+    return optKey === studentLetter;
+  }
+  
+  return false;
+};
 import InteractiveSorting from './InteractiveSorting';
 import InteractiveMatching from './InteractiveMatching';
 import InteractiveFractionColoring from './InteractiveFractionColoring';
@@ -716,13 +784,12 @@ export default function OfficialExamPaperView({
                         {(q.options || []).map((opt, oIdx) => {
                           const optKey = ['A', 'B', 'C', 'D'][oIdx] || String(oIdx);
                           
-                          const isStudentChoice = studentAns === optKey || studentAns === opt || String(studentAns) === String(oIdx) || (typeof studentAns === 'string' && studentAns.trim().toUpperCase().startsWith(optKey));
-                          
-                          const isRightChoice = rawCorrect === optKey || rawCorrect === opt || String(rawCorrect) === String(oIdx) || (typeof rawCorrect === 'string' && (rawCorrect.trim().toLowerCase() === opt.trim().toLowerCase() || rawCorrect.trim().toUpperCase().startsWith(optKey)));
-
+                          const isStudentChoice = checkChoiceIsStudentAnswer(opt, optKey, studentAns);
+                          const isRightChoice = checkChoiceCorrect(opt, optKey, rawCorrect);
+ 
                           let optClass = 'bg-white border-slate-200 text-slate-700 opacity-60';
                           let badgeText = null;
-
+ 
                           if (isRightChoice && isStudentChoice) {
                             optClass = 'bg-emerald-100 border-2 border-emerald-500 font-black text-emerald-950 shadow-sm opacity-100';
                             badgeText = <span className="ml-auto text-[10px] uppercase font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full shrink-0">Your Correct Choice ✓</span>;
@@ -733,11 +800,11 @@ export default function OfficialExamPaperView({
                             optClass = 'bg-emerald-50 border-2 border-emerald-400 font-bold text-emerald-900 opacity-100';
                             badgeText = <span className="ml-auto text-[10px] uppercase font-black bg-emerald-700 text-white px-2 py-0.5 rounded-full shrink-0">Correct Answer ✓</span>;
                           }
-
+ 
                           return (
                             <div key={oIdx} className={`p-3 rounded-lg border flex items-center justify-between gap-2 ${optClass}`}>
                               <div className="flex items-center gap-2">
-                                <span className="font-black">({optKey})</span> {opt}
+                                <span className="font-black">({optKey})</span> {cleanOptionText(opt)}
                               </div>
                               {badgeText}
                             </div>

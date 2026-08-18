@@ -28,6 +28,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
 import { doc, getDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { playSuccess, playFail } from '../utils/audio';
+
+const cleanOptionText = (text) => {
+  if (typeof text !== 'string') return text;
+  const match = text.match(/^\([A-D]\)\s*(.+)$/i) || 
+                text.match(/^\(?[A-D]\s*[\)\.\-]\s+(.+)$/i) || 
+                text.match(/^[A-D]\s+(.+)$/i);
+  if (match) return match[1].trim();
+  return text.trim();
+};
 import { triggerConfetti } from '../utils/confetti';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
 import DynamicChart from '../components/DynamicChart';
@@ -1132,7 +1141,7 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                                      {typeof opt === 'string' && opt.trim().startsWith('<svg') ? (
                                        <div dangerouslySetInnerHTML={{ __html: opt }} className="w-full flex justify-center overflow-hidden" />
                                      ) : (
-                                       opt
+                                       cleanOptionText(opt)
                                      )}
                                    </div>
                                  </label>
@@ -1627,9 +1636,11 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                 ) : currentQuestion.options && currentQuestion.options.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mt-6">
                     {currentQuestion.options.map((option, i) => {
-                      const cleanOptText = typeof option === 'string' && (/[\u0900-\u097F]/.test(option) || /[^\x00-\x7F]/.test(option))
-                        ? option.replace(/\s*\([A-Za-z\s,-]+\)$/, '').trim()
-                        : option;
+                      const cleanOptText = cleanOptionText(
+                        typeof option === 'string' && (/[\u0900-\u097F]/.test(option) || /[^\x00-\x7F]/.test(option))
+                          ? option.replace(/\s*\([A-Za-z\s,-]+\)$/, '').trim()
+                          : option
+                      );
 
                       const qKey = currentQuestion.id !== undefined && currentQuestion.id !== null ? currentQuestion.id : (currentIdx + 1);
                       const isSelected = answers[qKey] === option || answers[String(qKey)] === option || answers[`idx_${currentIdx}`] === option;

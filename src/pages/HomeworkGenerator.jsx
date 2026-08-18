@@ -34,6 +34,15 @@ import {
   Globe
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+
+const cleanOptionText = (text) => {
+  if (typeof text !== 'string') return text;
+  const match = text.match(/^\([A-D]\)\s*(.+)$/i) || 
+                text.match(/^\(?[A-D]\s*[\)\.\-]\s+(.+)$/i) || 
+                text.match(/^[A-D]\s+(.+)$/i);
+  if (match) return match[1].trim();
+  return text.trim();
+};
 import { INTERNATIONAL_EXAMS, getNaplanDefaults } from '../data/examPresets';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, getDocs, query, where, orderBy, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
@@ -255,17 +264,17 @@ export const sanitizeQuestionData = (q) => {
     const cleanedOptions = options.map(opt => {
       if (typeof opt !== 'string') return opt;
       if (/[\u0900-\u097F]/.test(opt) || /[^\x00-\x7F]/.test(opt)) {
-        return opt.replace(/\s*\([A-Za-z\s,-]+\)$/, '').trim();
+        return cleanOptionText(opt.replace(/\s*\([A-Za-z\s,-]+\)$/, '').trim());
       }
-      return opt;
+      return cleanOptionText(opt);
     });
 
     if (answer && typeof answer === 'string') {
       const matchIdx = options.findIndex(o => o === answer);
       if (matchIdx !== -1) {
         answer = cleanedOptions[matchIdx];
-      } else if (/[\u0900-\u097F]/.test(answer) || /[^\x00-\x7F]/.test(answer)) {
-        answer = answer.replace(/\s*\([A-Za-z\s,-]+\)$/, '').trim();
+      } else {
+        answer = cleanOptionText(answer);
       }
     }
 
