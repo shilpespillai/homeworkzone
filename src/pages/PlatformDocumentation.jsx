@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { 
   LayoutDashboard, BookOpen, Calendar, Trophy, BarChart, MessageSquare, 
-  Settings, Award, Compass, User, CreditCard, FileText, Download 
+  Settings, Award, Compass, User, CreditCard, FileText, Download, ArrowLeft 
 } from 'lucide-react';
 
 export default function PlatformDocumentation() {
@@ -13,9 +14,19 @@ export default function PlatformDocumentation() {
     <div className="min-h-screen bg-white">
       {/* Non-printable Header Action */}
       <div className="print:hidden bg-indigo-50 border-b border-indigo-100 px-8 py-4 flex justify-between items-center sticky top-0 z-50">
-        <div>
-          <h2 className="text-xl font-black text-indigo-900">Platform Documentation</h2>
-          <p className="text-sm font-medium text-indigo-700">Intensive Guide for Teachers and Students</p>
+        <div className="flex items-center gap-4">
+          <Link 
+            to="/" 
+            className="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl font-bold text-sm shadow-sm transition-transform active:scale-95 cursor-pointer"
+          >
+            <ArrowLeft className="w-4 h-4 text-slate-600" />
+            Back to Home
+          </Link>
+          <div className="w-[1px] h-8 bg-slate-200/80" />
+          <div>
+            <h2 className="text-xl font-black text-indigo-900">Platform Documentation</h2>
+            <p className="text-sm font-medium text-indigo-700">Intensive Guide for Teachers and Students</p>
+          </div>
         </div>
         <button 
           onClick={handlePrint}
