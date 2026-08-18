@@ -275,8 +275,17 @@ export default function CuriousMindHub() {
                       className="w-full h-full object-cover select-none pointer-events-none"
                     />
                     
-                    {/* Hotspot/overlay styled border for the "Let's Learn!" button at the bottom-left */}
-                    <div className="absolute bottom-3.5 left-4 w-32 h-9 rounded-full border-2 border-transparent group-hover:border-white/40 cursor-pointer transition-all flex items-center justify-center bg-black/0 hover:bg-white/10 active:scale-95" />
+                    {/* Overlay dynamic Let's Learn button for goosebumps since the custom thumbnail has no built-in button */}
+                    {topic.id === 'goosebumps' ? (
+                      <div className="absolute bottom-4 left-5">
+                        <span className="flex items-center gap-1.5 text-[10px] font-black py-2 px-4 rounded-full text-white bg-orange-500 hover:bg-orange-600 transition-all shadow-sm">
+                          Let's Learn! <ArrowRight className="w-3 h-3" />
+                        </span>
+                      </div>
+                    ) : (
+                      /* Hotspot/overlay styled border for the "Let's Learn!" button at the bottom-left */
+                      <div className="absolute bottom-3.5 left-4 w-32 h-9 rounded-full border-2 border-transparent group-hover:border-white/40 cursor-pointer transition-all flex items-center justify-center bg-black/0 hover:bg-white/10 active:scale-95" />
+                    )}
                   </motion.div>
                 ))}
               </div>
