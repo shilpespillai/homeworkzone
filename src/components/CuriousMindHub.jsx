@@ -214,49 +214,13 @@ export default function CuriousMindHub() {
               exit={{ opacity: 0, y: -15 }}
               className="space-y-6"
             >
-              {/* Mockup Header Banner */}
-              <div className="bg-gradient-to-r from-sky-50 via-white to-orange-50 border-4 border-slate-100 rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm relative overflow-hidden">
-                {/* Floating graphic elements */}
-                <div className="absolute top-8 left-1/3 text-2xl opacity-30 animate-pulse">❓</div>
-                <div className="absolute bottom-6 left-1/2 text-3xl opacity-30 animate-bounce">🔍</div>
-                <div className="absolute top-10 right-1/4 text-2xl opacity-20 animate-spin">💡</div>
-                
-                {/* Left: Pixar Boy illustration */}
-                <div className="relative w-44 h-44 shrink-0 flex items-center justify-center">
-                  <img 
-                    src="/curious_header_boy.png" 
-                    alt="Explorer Boy" 
-                    className="w-full h-full object-contain drop-shadow-md"
-                  />
-                </div>
-
-                {/* Center Content */}
-                <div className="flex-1 text-center space-y-3 z-10">
-                  <div className="inline-flex items-center gap-1.5 bg-amber-100 border border-amber-200 text-amber-900 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
-                    <span>💡</span> Curious Mind Academy <span>💡</span>
-                  </div>
-                  
-                  <h1 className="text-4xl md:text-5xl font-black text-slate-800 leading-none tracking-tight">
-                    Let's Explore the <br />
-                    <span className="font-extrabold inline-block drop-shadow-sm scale-105 transform">
-                      {renderColorfulText("Unbelievable!")}
-                    </span> 🧠✨
-                  </h1>
-                  
-                  <p className="text-xs md:text-sm text-slate-500 font-semibold max-w-xl mx-auto leading-relaxed">
-                    Have you ever wondered why things happen the way they do? <br />
-                    Click on any curious question below to unlock the secrets of our amazing world!
-                  </p>
-                </div>
-
-                {/* Right: Fuzzy Purple Monster */}
-                <div className="relative w-44 h-44 shrink-0 flex items-center justify-center">
-                  <img 
-                    src="/curious_header_monster.png" 
-                    alt="Monster Buddy" 
-                    className="w-full h-full object-contain drop-shadow-md"
-                  />
-                </div>
+              {/* Recreated Header Banner from the single image */}
+              <div className="w-full rounded-[2.5rem] overflow-hidden shadow-md border-4 border-slate-100 bg-white">
+                <img 
+                  src="/curious_header_banner.png" 
+                  alt="Curious Mind Academy Banner" 
+                  className="w-full h-auto block select-none pointer-events-none"
+                />
               </div>
 
               {/* Grid of 6 Cards */}
@@ -276,10 +240,12 @@ export default function CuriousMindHub() {
                     />
                     
                     {/* Overlay dynamic Let's Learn buttons for custom thumbnails with no built-in buttons */}
-                    {topic.id === 'goosebumps' || topic.id === 'baby_teeth' ? (
+                    {topic.id === 'goosebumps' || topic.id === 'baby_teeth' || topic.id === 'cry' ? (
                       <div className="absolute bottom-4 left-5">
                         <span className={`flex items-center gap-1.5 text-[10px] font-black py-2 px-4 rounded-full text-white transition-all shadow-sm ${
-                          topic.id === 'goosebumps' ? 'bg-orange-500 hover:bg-orange-600' : 'bg-blue-500 hover:bg-blue-600'
+                          topic.id === 'goosebumps' ? 'bg-orange-500 hover:bg-orange-600' :
+                          topic.id === 'baby_teeth' ? 'bg-blue-500 hover:bg-blue-600' :
+                          'bg-cyan-500 hover:bg-cyan-600'
                         }`}>
                           Let's Learn! <ArrowRight className="w-3 h-3" />
                         </span>
