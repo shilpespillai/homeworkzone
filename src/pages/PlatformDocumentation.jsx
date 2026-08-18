@@ -216,6 +216,37 @@ export default function PlatformDocumentation() {
             The Student Dashboard is designed as a highly engaging, gamified learning environment. It encourages daily practice through rewards, virtual companions, and interactive learning modules.
           </p>
 
+          {/* Onboarding & Login Setup Guide */}
+          <div className="bg-orange-50 border border-orange-200 rounded-3xl p-6 md:p-8 mb-10 space-y-6 page-break-inside-avoid">
+            <h3 className="text-2xl font-black text-orange-950 flex items-center gap-2">
+              🔑 Student Onboarding & Login Setup
+            </h3>
+            <p className="text-sm text-orange-900 font-semibold leading-relaxed">
+              To keep logins safe and simple for younger students, Homework Zone does not require kids to have an email address or password to get started. Instead, onboarding is a simple two-step process:
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-orange-950">
+              <div className="p-4 bg-white/80 rounded-2xl border border-orange-200/60 space-y-2">
+                <span className="font-black text-base text-orange-600 block">1. CREATE STUDENTS (Teacher/Parent)</span>
+                <p className="leading-relaxed">
+                  The teacher or parent first registers the student by adding their name to a class roster on the Teacher Dashboard (under <strong>My Classes → Add Students</strong>). The system automatically registers the student name on the approved roster list.
+                </p>
+              </div>
+              <div className="p-4 bg-white/80 rounded-2xl border border-orange-200/60 space-y-2">
+                <span className="font-black text-base text-orange-600 block">2. STUDENTS LOG IN (Student)</span>
+                <p className="leading-relaxed">
+                  To log in, the student simply inputs their unique 6-character <strong>Teacher Code</strong> (visible on the Teacher Dashboard) and their registered name/username. This safe two-step flow prevents any bot logins and avoids password loss struggles!
+                </p>
+              </div>
+            </div>
+            <div className="border-2 border-orange-100 rounded-2xl overflow-hidden bg-white">
+              <img 
+                src="/student_login_guide.jpg" 
+                alt="Student Onboarding and Login Guide" 
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          </div>
+
           <div className="space-y-8">
             <DocItem 
               icon={<LayoutDashboard className="w-6 h-6 text-red-500" />}
