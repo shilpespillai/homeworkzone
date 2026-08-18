@@ -3481,6 +3481,8 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   const [storyPage, setStoryPage] = useState(0);
   const [highlightedVocabWord, setHighlightedVocabWord] = useState(null);
   const [readerViewMode, setReaderViewMode] = useState('grid'); // 'grid' | 'single'
+  const [imageLoading, setImageLoading] = useState(false);
+  const [imageSrcError, setImageSrcError] = useState(false);
 
   useEffect(() => {
     setHighlightedVocabWord(null);
