@@ -290,6 +290,26 @@ export default function CuriousMindHub() {
                   </div>
                 </div>
 
+                {/* Visual Infographic Sheet */}
+                <div className="bg-amber-50/40 p-4 md:p-6 rounded-[2rem] border-4 border-amber-100 flex flex-col items-center justify-center space-y-4 shadow-sm">
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl">🖼️</span>
+                    <span className="text-xs font-black text-amber-800 uppercase tracking-widest">Infographic Reference Guide</span>
+                  </div>
+                  <div className="relative rounded-2xl overflow-hidden border-4 border-white shadow-lg max-w-4xl w-full group">
+                    <img 
+                      src="/curious_goosebumps.png" 
+                      alt="Why Do Humans Get Goosebumps Infographic" 
+                      className="w-full h-auto object-cover transition-transform duration-500 hover:scale-[1.02]"
+                    />
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                      <span className="bg-white/95 text-slate-800 font-black px-4 py-2 rounded-2xl text-xs shadow-md">
+                        Scroll down for interactive steps & quiz! 👇
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Main Infographic Grid Layout */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                   
