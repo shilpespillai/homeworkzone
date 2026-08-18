@@ -3584,6 +3584,15 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     }
   });
 
+  const [customPuzzles, setCustomPuzzles] = useState(() => {
+    try {
+      const saved = localStorage.getItem('hz_custom_puzzles');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
   const handleDeleteStory = async (storyId) => {
     if (window.confirmCustom) {
       if (!(await window.confirmCustom("Are you sure you want to delete this story? This will permanently remove it from the Library. 🗑️"))) {
