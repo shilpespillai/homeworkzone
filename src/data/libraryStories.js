@@ -3318,6 +3318,66 @@ export const STORIES = [
         hint: 'Look at how Dantila invited Gorambha to his home to make amends on Page 13 and 14.'
       }
     ]
+  },
+  {
+    id: 'the_crow_and_the_snake',
+    title: 'The Crow and the Snake',
+    subtitle: 'A Panchatantra tale about courage, planning and using wisdom against danger',
+    genre: 'Panchatantra',
+    emoji: '🐍',
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: '/the_crow_and_the_snake.png',
+    moral: 'Intelligence and careful planning can overcome greater strength. Face danger calmly, seek wise advice, and avoid reckless confrontation.',
+    summary: 'A pair of crows living in a banyan tree lose their eggs to a dangerous black cobra. Realising they cannot defeat the cobra directly, they seek advice from a wise jackal. The jackal suggests a clever plan: steal the Queen\'s ruby necklace and drop it into the cobra\'s nest. The palace guards follow the crows to recover the necklace and safely relocate the cobra. The crows are left to raise their family in peace.',
+    vocabHighlights: [
+      { word: 'Unguarded', partOfSpeech: 'Adjective', definition: 'Not watched or protected; vulnerable to danger or attack.', pronunciation: 'un-GAHR-did', fact: 'The cobra took the eggs when the nest was left unguarded.' },
+      { word: 'Reckless', partOfSpeech: 'Adjective', definition: 'Doing something without thinking about the dangers or consequences; not caring about risk.', pronunciation: 'REK-lis', fact: 'Fighting the snake directly would have been reckless. Instead, they used a smart plan.' },
+      { word: 'Intelligence', partOfSpeech: 'Noun', definition: 'The ability to acquire and apply knowledge and skills; thinking smartly.', pronunciation: 'in-TEL-ih-juns', fact: 'Wisdom and intelligence proved to be much more powerful than the cobra\'s strength.' },
+      { word: 'Relocate', partOfSpeech: 'Verb', definition: 'To move to a new place.', pronunciation: 'ree-LOH-kayt', fact: 'The guards relocated the cobra safely in a basket to a place far away from the banyan tree.' },
+      { word: 'Confrontation', partOfSpeech: 'Noun', definition: 'A hostile or argumentative meeting or situation between opposing parties.', pronunciation: 'kon-frun-TAY-shun', fact: 'By using the necklace, the crows avoided a dangerous direct confrontation with the snake.' }
+    ],
+    pages: [
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Cover', text: 'The Crow and the Snake — A Panchatantra tale about courage, planning and using wisdom against danger.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 1 — A Respected Home', text: 'A pair of crows made their home in a tall banyan tree. "This strong branch will keep our nest safe," they chirped.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 2 — The Nest', text: 'Soon, two precious eggs rested inside the nest. "We will protect them together," the crows promised each other.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 3 — Searching for Food', text: 'One morning, both crows flew away to search for food. "We will return quickly," they called out.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 4 — The Cobra', text: 'A black cobra living beneath the tree noticed the unguarded nest. "The nest is empty now," it hissed, slithering up the trunk.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 5 — Eggs Disappear', text: 'When the crows returned, their two eggs had disappeared. "Our eggs are gone!" they cried in despair.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 6 — The Culprit', text: 'The crows realised that the cobra beneath the tree was responsible. "We cannot face such a dangerous snake directly," they sighed.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 7 — Seeking Counsel', text: 'The worried crows asked a wise jackal for help. "How can we protect our future family?" they asked.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 8 — A Clever Idea', text: 'The jackal suggested a clever plan that avoided fighting. "Use the cobra\'s hiding place to reveal the danger," the jackal advised.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 9 — Waiting', text: 'The crows watched the nearby palace garden carefully. "We must wait for the right moment," they whispered.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 10 — The Necklace', text: 'The Queen removed her ruby necklace and placed it beside the pond. "I will keep it safely here," she told her maids.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 11 — The Thief', text: 'The Male Crow lifted the necklace and flew toward the banyan tree. "My necklace!" the Queen cried out in alarm.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 12 — The Chase', text: 'Two palace guards followed the crows through the forest. "Follow the ruby pendant!" they shouted as they ran.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 13 — Dropping the Jewelry', text: 'The Crow dropped the necklace into the cobra\'s hiding place. "Now the danger will be discovered," the crow thought.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 14 — Finding the Snake', text: 'The guards found both the necklace and the cobra. "We must remove the snake safely," they realized.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 15 — Catching the Cobra', text: 'Working together, the guards gently secured the cobra in a basket. "Keep the basket steady," one guard instructed.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 16 — Necklace Recovered', text: 'The Queen\'s necklace was recovered without damage. "The ruby is safe," the guards smiled.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 17 — Safe Relocation', text: 'The guards released the cobra far away from the crows\' tree. "You can live safely here," they told the snake.' },
+      { imageUrl: '/the_crow_and_the_snake.png', title: 'Page 18 — A Peaceful Future', text: 'In time, the crows raised two chicks safely in their peaceful home. "Wisdom protected our family," they chirped happily.' }
+    ],
+    comprehensionQuestions: [
+      {
+        question: 'Who did the crows ask for help when they couldn\'t defeat the cobra directly?',
+        options: ['A wise jackal', 'The palace guards', 'Another strong bird', 'The Queen'],
+        correctAnswer: 'A wise jackal',
+        hint: 'Check which animal the crows visited for advice on Page 7.'
+      },
+      {
+        question: 'What object did the crow steal to lead the guards to the cobra\'s nest?',
+        options: ['A gold coin', 'The Queen\'s ruby necklace', 'A royal crown', 'A silver key'],
+        correctAnswer: 'The Queen\'s ruby necklace',
+        hint: 'Look at what the Queen placed beside the garden pond on Page 10.'
+      },
+      {
+        question: 'What did the palace guards do with the cobra?',
+        options: ['They hurt the cobra', 'They relocated it safely far away in a basket', 'They left it in the banyan tree', 'They took it to the palace garden'],
+        correctAnswer: 'They relocated it safely far away in a basket',
+        hint: 'Read what the guards did to the cobra on Page 15 and 17.'
+      }
+    ]
   }
 ];
 export const STORIES_EASY = [
