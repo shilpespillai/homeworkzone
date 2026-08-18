@@ -3502,6 +3502,17 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
   const [quizFeedback, setQuizFeedback] = useState(null); // 'correct' | 'wrong' | null
   const [earnedStars, setEarnedStars] = useState(0);
+
+  // --- AI Story Generator State ---
+  const [storyTopic, setStoryTopic] = useState('');
+  const [storyGenre, setStoryGenre] = useState('Adventure');
+  const [isGeneratingStory, setIsGeneratingStory] = useState(false);
+  const [aiError, setAiError] = useState('');
+
+  // --- AI Puzzle Generator State ---
+  const [puzzleTopic, setPuzzleTopic] = useState('');
+  const [isGeneratingPuzzles, setIsGeneratingPuzzles] = useState(false);
+
   // Resolve grade level from classroom name (e.g. "Grade 2" -> 2)
   const getGradeLevel = () => {
     if (!classroom?.name) return 3; // Default to Grade 3 if undefined
