@@ -114,18 +114,34 @@ export default async function handler(req, res) {
     let provider = (reqProvider || process.env.SYSTEM_ACTIVE_AI || 'anthropic').toLowerCase();
     const cacheKey = await sha256(provider + prompt);
     
-    if (!admin.apps.length) {
-      admin.initializeApp({
-        credential: admin.credential.cert({
-          projectId: process.env.FIREBASE_PROJECT_ID,
-          clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-          privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\n/g, '\n'),
-        }),
-      });
+    let db = null;
+    try {
+      if (process.env.FIREBASE_PROJECT_ID && process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY) {
+        if (!admin.apps.length) {
+          admin.initializeApp({
+            credential: admin.credential.cert({
+              projectId: process.env.FIREBASE_PROJECT_ID,
+              clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+              privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n')?.replace(/\n/g, '\n'),
+            }),
+          });
+        }
+        db = admin.firestore();
+      } else {
+        console.warn(`[AI Proxy] Missing Firebase Admin environment variables. Bypassing Firestore cache.`);
+      }
+    } catch (dbErr) {
+      console.warn(`[AI Proxy] Firebase admin initialization failed:`, dbErr.message);
     }
-    const db = admin.firestore();
 
-    const cached = await getCache(db, cacheKey);
+    let cached = null;
+    if (db) {
+      try {
+        cached = await getCache(db, cacheKey);
+      } catch (cacheErr) {
+        console.warn(`[AI Proxy] Failed to lookup cache:`, cacheErr.message);
+      }
+    }
     if (cached) return res.status(200).json({ text: cached });
 
     let apiKey = '', modelName = '', endpoint = '', headers = {}, bodyObj = {};
@@ -240,7 +256,13 @@ export default async function handler(req, res) {
       if (first !== -1 && last !== -1) textResult = textResult.substring(first, last + 1);
     }
 
-    await setCache(db, cacheKey, textResult, responseMimeType === 'application/json' ? 24 : 6);
+    if (db) {
+      try {
+        await setCache(db, cacheKey, textResult, responseMimeType === 'application/json' ? 24 : 6);
+      } catch (cacheErr) {
+        console.warn(`[AI Proxy] Failed to save cache:`, cacheErr.message);
+      }
+    }
     return res.status(200).json({ text: textResult });
   } catch (err) {
     console.error('[AI Proxy Error]', err);
