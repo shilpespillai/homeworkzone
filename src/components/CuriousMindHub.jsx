@@ -25,84 +25,37 @@ export default function CuriousMindHub() {
   };
 
   // Playful custom-styled cards matching mockup
+  // Playful cards using whole mockup cropped images
   const topics = [
     {
       id: 'goosebumps',
       title: 'Why Do Humans Get Goosebumps?',
-      emoji: '🥶',
-      ageRange: 'AGES 6-12',
-      color: 'bg-orange-500 hover:bg-orange-600',
-      bgColor: 'bg-orange-50/30',
-      borderColor: 'border-orange-100 hover:border-orange-300',
-      textColor: 'text-orange-600',
-      buttonBg: 'bg-orange-500 hover:bg-orange-600',
-      summary: 'Goosebumps are tiny reactions of your body that help protect you and keep you warm!',
-      characterImage: '/curious_card_goosebumps.png'
+      cardImage: '/curious_whole_goosebumps.png'
     },
     {
       id: 'baby_teeth',
       title: 'Why Do Kids Lose Their Baby Teeth?',
-      emoji: '🦷',
-      ageRange: 'AGES 5-10',
-      color: 'bg-blue-500 hover:bg-blue-600',
-      bgColor: 'bg-blue-50/30',
-      borderColor: 'border-blue-100 hover:border-blue-300',
-      textColor: 'text-blue-600',
-      buttonBg: 'bg-blue-500 hover:bg-blue-600',
-      summary: 'Losing baby teeth is a normal and healthy part of growing up to make space for permanent teeth!',
-      characterImage: '/curious_card_teeth.png'
+      cardImage: '/curious_whole_teeth.png'
     },
     {
       id: 'constipation',
       title: 'Why Do We Get Constipated?',
-      emoji: '💩',
-      ageRange: 'AGES 6-12',
-      color: 'bg-emerald-500 hover:bg-emerald-600',
-      bgColor: 'bg-emerald-50/30',
-      borderColor: 'border-emerald-100 hover:border-emerald-300',
-      textColor: 'text-emerald-600',
-      buttonBg: 'bg-emerald-500 hover:bg-emerald-600',
-      summary: 'Learn what causes constipation and how to keep your tummy happy and healthy!',
-      characterImage: '/curious_card_constipation.png'
+      cardImage: '/curious_whole_constipation.png'
     },
     {
       id: 'cry',
       title: 'Why Do We Cry?',
-      emoji: '😢',
-      ageRange: 'AGES 5-12',
-      color: 'bg-cyan-500 hover:bg-cyan-600',
-      bgColor: 'bg-cyan-50/30',
-      borderColor: 'border-cyan-100 hover:border-cyan-300',
-      textColor: 'text-cyan-600',
-      buttonBg: 'bg-cyan-500 hover:bg-cyan-600',
-      summary: 'Crying is your body\'s natural superpower! Discover types of tears and why they help us.',
-      characterImage: '/curious_card_cry.png'
+      cardImage: '/curious_whole_cry.png'
     },
     {
       id: 'forget',
       title: 'Why Do We Forget Things?',
-      emoji: '🧠',
-      ageRange: 'AGES 7-12',
-      color: 'bg-pink-500 hover:bg-pink-600',
-      bgColor: 'bg-pink-50/30',
-      borderColor: 'border-pink-100 hover:border-pink-300',
-      textColor: 'text-pink-600',
-      buttonBg: 'bg-pink-500 hover:bg-pink-600',
-      summary: 'Forgetting is normal! Learn how your brain\'s memory library works and how to remember better.',
-      characterImage: '/curious_card_forget.png'
+      cardImage: '/curious_whole_forget.png'
     },
     {
       id: 'dream',
       title: 'Why Do We Dream?',
-      emoji: '💤',
-      ageRange: 'AGES 6-12',
-      color: 'bg-indigo-500 hover:bg-indigo-600',
-      bgColor: 'bg-indigo-50/30',
-      borderColor: 'border-indigo-100 hover:border-indigo-300',
-      textColor: 'text-indigo-600',
-      buttonBg: 'bg-indigo-500 hover:bg-indigo-600',
-      summary: 'Dreaming is your brain\'s superpower! Find out what happens when you sleep.',
-      characterImage: '/curious_card_dream.png'
+      cardImage: '/curious_whole_dream.png'
     }
   ];
 
@@ -311,49 +264,19 @@ export default function CuriousMindHub() {
                 {topics.map((topic) => (
                   <motion.div
                     key={topic.id}
-                    whileHover={{ scale: 1.025, y: -4 }}
+                    whileHover={{ scale: 1.03, y: -4 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setSelectedTopicId(topic.id)}
-                    className={`relative rounded-[2rem] border-4 p-5 transition-all bg-white shadow-sm flex flex-row items-center justify-between gap-3 overflow-hidden group cursor-pointer ${topic.borderColor}`}
+                    className="relative rounded-[2rem] overflow-hidden shadow-md cursor-pointer border-4 border-white hover:border-slate-300 transition-all aspect-[292/185]"
                   >
-                    {/* Left half: Details */}
-                    <div className="flex-1 space-y-3 z-10 flex flex-col justify-between h-full">
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className={`inline-block px-2.5 py-0.5 rounded-full text-[9px] font-black tracking-wider uppercase ${topic.badgeColor}`}>
-                            {topic.ageRange}
-                          </span>
-                          <span className="text-xl select-none group-hover:scale-110 transition-transform">
-                            {topic.emoji}
-                          </span>
-                        </div>
-                        
-                        <h3 className="text-base font-black text-slate-800 leading-snug group-hover:text-slate-900 transition-colors">
-                          {topic.title}
-                        </h3>
-                        
-                        <p className="text-[10px] text-slate-500 font-bold leading-relaxed line-clamp-3">
-                          {topic.summary}
-                        </p>
-                      </div>
-
-                      <div>
-                        <button className={`flex items-center gap-1 text-[10px] font-black py-1.5 px-4 rounded-full text-white transition-all shadow-sm ${topic.buttonBg}`}>
-                          Let's Learn! <ArrowRight className="w-3 h-3" />
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Right half: Cute Character Image */}
-                    <div className="w-24 h-24 shrink-0 flex items-center justify-center relative">
-                      {/* Accent cloud-like glow behind character */}
-                      <div className="absolute inset-0 bg-slate-50 rounded-full opacity-60 scale-95 blur-xs group-hover:scale-105 transition-all" />
-                      <img 
-                        src={topic.characterImage} 
-                        alt={topic.title} 
-                        className="w-full h-full object-contain relative z-10 transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
+                    <img 
+                      src={topic.cardImage} 
+                      alt={topic.title} 
+                      className="w-full h-full object-cover select-none pointer-events-none"
+                    />
+                    
+                    {/* Hotspot/overlay styled border for the "Let's Learn!" button at the bottom-left */}
+                    <div className="absolute bottom-3.5 left-4 w-32 h-9 rounded-full border-2 border-transparent group-hover:border-white/40 cursor-pointer transition-all flex items-center justify-center bg-black/0 hover:bg-white/10 active:scale-95" />
                   </motion.div>
                 ))}
               </div>
