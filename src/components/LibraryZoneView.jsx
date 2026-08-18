@@ -991,14 +991,18 @@ Schema:
                     </div>
 
                     {/* Page Text Content */}
-                    <div className="p-5 md:p-7 space-y-3">
-                      {currentPage.title && (
-                        <h4 className="text-lg md:text-xl font-black text-amber-300 drop-shadow">{currentPage.title}</h4>
-                      )}
-                      <p className="text-sm md:text-base text-slate-200 leading-relaxed font-medium">
-                        {currentPage.text}
-                      </p>
-                    </div>
+                    {(currentPage.title || currentPage.text) && (
+                      <div className="p-5 md:p-7 space-y-3">
+                        {currentPage.title && (
+                          <h4 className="text-lg md:text-xl font-black text-amber-300 drop-shadow">{currentPage.title}</h4>
+                        )}
+                        {currentPage.text && (
+                          <p className="text-sm md:text-base text-slate-200 leading-relaxed font-medium">
+                            {currentPage.text}
+                          </p>
+                        )}
+                      </div>
+                    )}
 
                     {/* Navigation arrows on sides */}
                     {storyPage > 0 && (
