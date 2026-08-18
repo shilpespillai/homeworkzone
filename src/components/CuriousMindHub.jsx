@@ -203,7 +203,7 @@ export default function CuriousMindHub() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans p-4 md:p-8 rounded-[40px] shadow-inner select-none">
-      <div className="max-w-6xl mx-auto space-y-8">
+      <div className="w-full space-y-8">
         
         {/* Main Landing View */}
         <AnimatePresence mode="wait">
@@ -349,7 +349,7 @@ export default function CuriousMindHub() {
                   <div className={`absolute top-0 left-0 right-0 h-3 bg-gradient-to-r ${activeDetails.accentColor}`} />
 
                   {/* Visual Infographic Sheet */}
-                  <div className="relative rounded-2xl overflow-hidden border-4 border-slate-100 shadow-md max-w-4xl mx-auto w-full group mt-2">
+                  <div className="relative rounded-2xl overflow-hidden border-4 border-slate-100 shadow-md w-full group mt-2">
                     <img 
                       src={activeDetails.image} 
                       alt="Curious Mind Infographic" 
