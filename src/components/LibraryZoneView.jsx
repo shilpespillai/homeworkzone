@@ -3566,6 +3566,15 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     }
   }, [classroom, studentName, teacher]);
 
+  const [deletedStoryIds, setDeletedStoryIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem('hz_deleted_story_ids');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
   const [customStories, setCustomStories] = useState(() => {
     try {
       const saved = localStorage.getItem('hz_custom_library_books');
@@ -3576,9 +3585,18 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   });
 
   const handleDeleteStory = async (storyId) => {
-    if (!window.confirm("Are you sure you want to delete this story? This will permanently remove it from the Library.")) {
+    if (window.confirmCustom) {
+      if (!(await window.confirmCustom("Are you sure you want to delete this story? This will permanently remove it from the Library. 🗑️"))) {
+        return;
+      }
+    } else if (!window.confirm("Are you sure you want to delete this story? This will permanently remove it from the Library.")) {
       return;
     }
+    setDeletedStoryIds(prev => {
+      const updated = [...prev, String(storyId)];
+      localStorage.setItem('hz_deleted_story_ids', JSON.stringify(updated));
+      return updated;
+    });
     setCustomStories(prev => {
       const updated = prev.filter(s => String(s.id) !== String(storyId));
       localStorage.setItem('hz_custom_library_books', JSON.stringify(updated));
