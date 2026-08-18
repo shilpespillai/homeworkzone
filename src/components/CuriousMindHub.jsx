@@ -8,73 +8,101 @@ export default function CuriousMindHub() {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isAnswered, setIsAnswered] = useState(false);
 
-  // Curious Questions List
+  // Helper to render "Unbelievable!" in playful colors matching mockup
+  const renderColorfulText = (text) => {
+    const colors = [
+      'text-orange-500', 'text-amber-500', 'text-emerald-500', 
+      'text-sky-500', 'text-indigo-500', 'text-purple-500', 'text-pink-500'
+    ];
+    return text.split('').map((char, index) => {
+      const colorClass = colors[index % colors.length];
+      return (
+        <span key={index} className={colorClass}>
+          {char}
+        </span>
+      );
+    });
+  };
+
+  // Playful custom-styled cards matching mockup
   const topics = [
     {
       id: 'goosebumps',
       title: 'Why Do Humans Get Goosebumps?',
       emoji: '🥶',
-      color: 'from-amber-400 to-orange-500',
-      bgColor: 'bg-orange-50',
-      borderColor: 'border-orange-200',
+      ageRange: 'AGES 6-12',
+      color: 'bg-orange-500 hover:bg-orange-600',
+      bgColor: 'bg-orange-50/30',
+      borderColor: 'border-orange-100 hover:border-orange-300',
       textColor: 'text-orange-600',
+      buttonBg: 'bg-orange-500 hover:bg-orange-600',
       summary: 'Goosebumps are tiny reactions of your body that help protect you and keep you warm!',
-      ageRange: 'Ages 6-12'
+      characterImage: '/curious_card_goosebumps.png'
     },
     {
       id: 'baby_teeth',
       title: 'Why Do Kids Lose Their Baby Teeth?',
       emoji: '🦷',
-      color: 'from-blue-400 to-sky-500',
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-200',
+      ageRange: 'AGES 5-10',
+      color: 'bg-blue-500 hover:bg-blue-600',
+      bgColor: 'bg-blue-50/30',
+      borderColor: 'border-blue-100 hover:border-blue-300',
       textColor: 'text-blue-600',
+      buttonBg: 'bg-blue-500 hover:bg-blue-600',
       summary: 'Losing baby teeth is a normal and healthy part of growing up to make space for permanent teeth!',
-      ageRange: 'Ages 5-10'
+      characterImage: '/curious_card_teeth.png'
     },
     {
       id: 'constipation',
       title: 'Why Do We Get Constipated?',
       emoji: '💩',
-      color: 'from-emerald-400 to-teal-500',
-      bgColor: 'bg-emerald-50',
-      borderColor: 'border-emerald-200',
+      ageRange: 'AGES 6-12',
+      color: 'bg-emerald-500 hover:bg-emerald-600',
+      bgColor: 'bg-emerald-50/30',
+      borderColor: 'border-emerald-100 hover:border-emerald-300',
       textColor: 'text-emerald-600',
+      buttonBg: 'bg-emerald-500 hover:bg-emerald-600',
       summary: 'Learn what causes constipation and how to keep your tummy happy and healthy!',
-      ageRange: 'Ages 6-12'
+      characterImage: '/curious_card_constipation.png'
     },
     {
       id: 'cry',
       title: 'Why Do We Cry?',
       emoji: '😢',
-      color: 'from-cyan-400 to-blue-500',
-      bgColor: 'bg-cyan-50',
-      borderColor: 'border-cyan-200',
+      ageRange: 'AGES 5-12',
+      color: 'bg-cyan-500 hover:bg-cyan-600',
+      bgColor: 'bg-cyan-50/30',
+      borderColor: 'border-cyan-100 hover:border-cyan-300',
       textColor: 'text-cyan-600',
+      buttonBg: 'bg-cyan-500 hover:bg-cyan-600',
       summary: 'Crying is your body\'s natural superpower! Discover types of tears and why they help us.',
-      ageRange: 'Ages 5-12'
+      characterImage: '/curious_card_cry.png'
     },
     {
       id: 'forget',
       title: 'Why Do We Forget Things?',
       emoji: '🧠',
-      color: 'from-pink-400 to-rose-500',
-      bgColor: 'bg-pink-50',
-      borderColor: 'border-pink-200',
+      ageRange: 'AGES 7-12',
+      color: 'bg-pink-500 hover:bg-pink-600',
+      bgColor: 'bg-pink-50/30',
+      borderColor: 'border-pink-100 hover:border-pink-300',
       textColor: 'text-pink-600',
+      buttonBg: 'bg-pink-500 hover:bg-pink-600',
       summary: 'Forgetting is normal! Learn how your brain\'s memory library works and how to remember better.',
-      ageRange: 'Ages 7-12'
+      characterImage: '/curious_card_forget.png'
     },
     {
       id: 'dream',
       title: 'Why Do We Dream?',
       emoji: '💤',
-      color: 'from-indigo-400 to-purple-500',
-      bgColor: 'bg-indigo-50',
-      borderColor: 'border-indigo-200',
+      ageRange: 'AGES 6-12',
+      color: 'bg-indigo-500 hover:bg-indigo-600',
+      bgColor: 'bg-indigo-50/30',
+      borderColor: 'border-indigo-100 hover:border-indigo-300',
       textColor: 'text-indigo-600',
+      buttonBg: 'bg-indigo-500 hover:bg-indigo-600',
       summary: 'Dreaming is your brain\'s superpower! Find out what happens when you sleep.',
-      ageRange: 'Ages 6-12'
+      characterImage: '/curious_card_dream.png'
     }
   ];
 
@@ -218,86 +246,184 @@ export default function CuriousMindHub() {
     setIsAnswered(false);
   };
 
-  // Get active details
   const activeDetails = selectedTopicId ? TOPIC_DETAILS[selectedTopicId] : null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-orange-50 font-sans p-6 pb-20 rounded-3xl">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-slate-50 font-sans p-4 md:p-8 rounded-[40px] shadow-inner select-none">
+      <div className="max-w-6xl mx-auto space-y-8">
         
-        {/* Main List View */}
+        {/* Main Landing View */}
         <AnimatePresence mode="wait">
           {!selectedTopicId ? (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="space-y-8"
+              exit={{ opacity: 0, y: -15 }}
+              className="space-y-6"
             >
-              {/* Header */}
-              <div className="text-center space-y-4">
-                <motion.div
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                  className="inline-block bg-amber-100 text-amber-800 px-4 py-1.5 rounded-full text-xs font-black tracking-widest uppercase shadow-sm border border-amber-200"
-                >
-                  💡 Curious Mind Academy 💡
-                </motion.div>
+              {/* Mockup Header Banner */}
+              <div className="bg-gradient-to-r from-sky-50 via-white to-orange-50 border-4 border-slate-100 rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm relative overflow-hidden">
+                {/* Floating graphic elements */}
+                <div className="absolute top-8 left-1/3 text-2xl opacity-30 animate-pulse">❓</div>
+                <div className="absolute bottom-6 left-1/2 text-3xl opacity-30 animate-bounce">🔍</div>
+                <div className="absolute top-10 right-1/4 text-2xl opacity-20 animate-spin">💡</div>
                 
-                <h1 className="text-4xl md:text-5xl font-black text-slate-800 tracking-tight leading-none drop-shadow-sm font-bubble">
-                  Let's Explore the <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500">Unbelievable!</span> 🧠✨
-                </h1>
-                
-                <p className="text-sm md:text-base text-slate-600 max-w-xl mx-auto font-medium">
-                  Have you ever wondered why things happen the way they do? Click on any curious question below to unlock the secrets of our amazing world!
-                </p>
+                {/* Left: Pixar Boy illustration */}
+                <div className="relative w-44 h-44 shrink-0 flex items-center justify-center">
+                  <img 
+                    src="/curious_header_boy.png" 
+                    alt="Explorer Boy" 
+                    className="w-full h-full object-contain drop-shadow-md"
+                  />
+                </div>
+
+                {/* Center Content */}
+                <div className="flex-1 text-center space-y-3 z-10">
+                  <div className="inline-flex items-center gap-1.5 bg-amber-100 border border-amber-200 text-amber-900 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
+                    <span>💡</span> Curious Mind Academy <span>💡</span>
+                  </div>
+                  
+                  <h1 className="text-4xl md:text-5xl font-black text-slate-800 leading-none tracking-tight">
+                    Let's Explore the <br />
+                    <span className="font-extrabold inline-block drop-shadow-sm scale-105 transform">
+                      {renderColorfulText("Unbelievable!")}
+                    </span> 🧠✨
+                  </h1>
+                  
+                  <p className="text-xs md:text-sm text-slate-500 font-semibold max-w-xl mx-auto leading-relaxed">
+                    Have you ever wondered why things happen the way they do? <br />
+                    Click on any curious question below to unlock the secrets of our amazing world!
+                  </p>
+                </div>
+
+                {/* Right: Fuzzy Purple Monster */}
+                <div className="relative w-44 h-44 shrink-0 flex items-center justify-center">
+                  <img 
+                    src="/curious_header_monster.png" 
+                    alt="Monster Buddy" 
+                    className="w-full h-full object-contain drop-shadow-md"
+                  />
+                </div>
               </div>
 
-              {/* Grid of Topics */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-                {topics.map((topic) => {
-                  return (
-                    <motion.div
-                      key={topic.id}
-                      whileHover={{ scale: 1.03, y: -5 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => setSelectedTopicId(topic.id)}
-                      className={`relative overflow-hidden rounded-3xl border-4 p-6 transition-all bg-white shadow-md ${topic.borderColor} cursor-pointer hover:shadow-xl`}
-                    >
-                      {/* Floating Emoji */}
-                      <div className="absolute top-4 right-4 text-4xl select-none animate-bounce" style={{ animationDuration: '3s' }}>
-                        {topic.emoji}
-                      </div>
-
-                      {/* Content */}
-                      <div className="space-y-4 pr-12">
-                        <span className="inline-block bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-[10px] font-black tracking-wider uppercase">
-                          {topic.ageRange}
-                        </span>
+              {/* Grid of 6 Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {topics.map((topic) => (
+                  <motion.div
+                    key={topic.id}
+                    whileHover={{ scale: 1.025, y: -4 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setSelectedTopicId(topic.id)}
+                    className={`relative rounded-[2rem] border-4 p-5 transition-all bg-white shadow-sm flex flex-row items-center justify-between gap-3 overflow-hidden group cursor-pointer ${topic.borderColor}`}
+                  >
+                    {/* Left half: Details */}
+                    <div className="flex-1 space-y-3 z-10 flex flex-col justify-between h-full">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className={`inline-block px-2.5 py-0.5 rounded-full text-[9px] font-black tracking-wider uppercase ${topic.badgeColor}`}>
+                            {topic.ageRange}
+                          </span>
+                          <span className="text-xl select-none group-hover:scale-110 transition-transform">
+                            {topic.emoji}
+                          </span>
+                        </div>
                         
-                        <h3 className="text-xl font-black text-slate-800 leading-tight">
+                        <h3 className="text-base font-black text-slate-800 leading-snug group-hover:text-slate-900 transition-colors">
                           {topic.title}
                         </h3>
                         
-                        <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                        <p className="text-[10px] text-slate-500 font-bold leading-relaxed line-clamp-3">
                           {topic.summary}
                         </p>
-
-                        <div className={`text-xs font-black flex items-center gap-1 ${topic.textColor} group`}>
-                          Let's Learn! <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-                        </div>
                       </div>
 
-                      {/* Decorative colored strip */}
-                      <div className={`absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r ${topic.color}`} />
-                    </motion.div>
-                  );
-                })}
+                      <div>
+                        <button className={`flex items-center gap-1 text-[10px] font-black py-1.5 px-4 rounded-full text-white transition-all shadow-sm ${topic.buttonBg}`}>
+                          Let's Learn! <ArrowRight className="w-3 h-3" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Right half: Cute Character Image */}
+                    <div className="w-24 h-24 shrink-0 flex items-center justify-center relative">
+                      {/* Accent cloud-like glow behind character */}
+                      <div className="absolute inset-0 bg-slate-50 rounded-full opacity-60 scale-95 blur-xs group-hover:scale-105 transition-all" />
+                      <img 
+                        src={topic.characterImage} 
+                        alt={topic.title} 
+                        className="w-full h-full object-contain relative z-10 transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                  </motion.div>
+                ))}
               </div>
+
+              {/* Bottom Footer Section */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Left Card: 3 Features */}
+                <div className="md:col-span-2 bg-white border-4 border-slate-100 rounded-[2rem] p-5 flex flex-col sm:flex-row items-center justify-around gap-4 shadow-sm">
+                  
+                  {/* Feature 1 */}
+                  <div className="flex items-center gap-3 text-left">
+                    <span className="text-2xl p-2 rounded-2xl bg-sky-50">🔍</span>
+                    <div>
+                      <span className="text-xs font-black text-slate-800 block">Be Curious</span>
+                      <span className="text-[10px] font-bold text-slate-400 block leading-tight">Ask questions and<br />explore more!</span>
+                    </div>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="hidden sm:block h-8 w-0.5 bg-slate-100" />
+
+                  {/* Feature 2 */}
+                  <div className="flex items-center gap-3 text-left">
+                    <span className="text-2xl p-2 rounded-2xl bg-orange-50">🚀</span>
+                    <div>
+                      <span className="text-xs font-black text-slate-800 block">Learn Smart</span>
+                      <span className="text-[10px] font-bold text-slate-400 block leading-tight">Fun facts, easy<br />explanations!</span>
+                    </div>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="hidden sm:block h-8 w-0.5 bg-slate-100" />
+
+                  {/* Feature 3 */}
+                  <div className="flex items-center gap-3 text-left">
+                    <span className="text-2xl p-2 rounded-2xl bg-amber-50">🏆</span>
+                    <div>
+                      <span className="text-xs font-black text-slate-800 block">Earn Rewards</span>
+                      <span className="text-[10px] font-bold text-slate-400 block leading-tight">Keep learning and<br />earn points!</span>
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* Right Card: Keep Exploring! */}
+                <div className="bg-amber-50/50 border-4 border-amber-200 rounded-[2rem] p-5 flex items-center justify-between gap-4 shadow-sm relative overflow-hidden group">
+                  <div className="text-left space-y-1 z-10">
+                    <div className="flex items-center gap-1.5 text-xs font-black text-amber-900">
+                      <span>⭐</span> Keep Exploring!
+                    </div>
+                    <p className="text-[10px] font-bold text-amber-700 leading-tight">
+                      There's always something<br />new to discover!
+                    </p>
+                  </div>
+                  
+                  {/* Star Character */}
+                  <div className="w-16 h-16 shrink-0 relative flex items-center justify-center z-10">
+                    <img 
+                      src="/curious_footer_star.png" 
+                      alt="Happy Star" 
+                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                </div>
+              </div>
+
             </motion.div>
           ) : (
             
-            // Detail View (Goosebumps, Teeth, Constipation, Cry, Forget, Dream)
+            // Detail View (Infographic & Quiz)
             activeDetails && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
