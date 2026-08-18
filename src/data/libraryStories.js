@@ -3438,6 +3438,61 @@ export const STORIES = [
         hint: 'Look at the Lion\'s decision on Page 18 and what he said about being a true King.'
       }
     ]
+  },
+  {
+    id: 'the_heron_and_the_crab',
+    title: 'The Heron and the Crab',
+    subtitle: 'A Panchatantra tale about false promises, courage and clever thinking',
+    genre: 'Panchatantra',
+    emoji: '🦀',
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: '/the_heron_and_the_crab.png',
+    moral: 'Do not trust promises without examining the truth. Courage and clever thinking can expose deception and protect others.',
+    summary: 'An old Heron, finding it difficult to catch food, devises a scheme. He lies to the pond creatures that their lotus pond will soon dry up, and offers to carry them to a larger lake. The frightened fish believe him, but the Heron leaves them trapped in a tiny rocky pool instead. When the Crab asks to be carried, he notices the trapped fish from above. Realizing the Heron\'s deception, the clever Crab uses his sharp claws to force the Heron to return the fish safely and leave in shame.',
+    vocabHighlights: [
+      { word: 'Pretend', partOfSpeech: 'Verb', definition: 'To behave as if something is true when it is not, to trick or make believe.', pronunciation: 'pree-TEND', fact: 'The Heron stood beside the pond pretending to be upset to make the fish believe his lie.' },
+      { word: 'Deception', partOfSpeech: 'Noun', definition: 'The act of hiding the truth or tricking someone.', pronunciation: 'dih-SEP-shun', fact: 'The clever Crab used his courage to expose the Heron\'s deception and save the fish.' },
+      { word: 'Expose', partOfSpeech: 'Verb', definition: 'To reveal or show the truth about something, especially when it is hidden or bad.', pronunciation: 'ik-SPOHZ', fact: 'By demanding the truth, the Crab was able to expose the Heron\'s wily scheme.' },
+      { word: 'Examine', partOfSpeech: 'Verb', definition: 'To look at or check something very carefully to find the truth.', pronunciation: 'ig-ZAM-in', fact: 'We should always examine promises carefully before we choose to trust them.' },
+      { word: 'Lotus', partOfSpeech: 'Noun', definition: 'A type of beautiful water plant with large floating leaves and pink or white flowers.', pronunciation: 'LOH-tus', fact: 'The crab and the fish lived peacefully in a beautiful lotus pond.' }
+    ],
+    pages: [
+      { imageUrl: '/the_heron_and_the_crab.png', title: 'Cover', text: 'The Heron and the Crab — A Panchatantra tale about false promises, courage and clever thinking.' },
+      { imageUrl: '/the_heron_and_the_crab.png', title: 'Page 1 — The Lotus Pond', text: 'A crab and four fish lived peacefully in a beautiful lotus pond. "Our pond gives us everything we need," they said.' },
+      { imageUrl: '/the_heron_and_the_crab.png', title: 'Page 2 — The Old Heron', text: 'An old Heron found it difficult to catch enough food. "I need an easier way to find a meal," he thought.' },
+      { imageUrl: '/the_heron_and_the_crab.png', title: 'Page 3 — Upset', text: 'The next morning, the Heron stood beside the pond pretending to be upset. "Why do you look so worried?" the Crab asked.' },
+      { imageUrl: '/the_heron_and_the_crab.png', title: 'Page 4 — The Claim', text: 'The Heron claimed that the pond would soon dry up. "This pond will soon have no water," he warned them.' },
+      { imageUrl: '/the_heron_and_the_crab.png', title: 'Page 5 — The Offer', text: 'He offered to carry everyone to a large lake beyond the hill. "I can take each of you to a safer home," the Heron smiled.' },
+      { imageUrl: '/the_heron_and_the_crab.png', title: 'Page 6 — Accepting', text: 'Believing his kind words, the frightened fish accepted his offer. "Please take us to the new lake," they pleaded.' },
+      { imageUrl: '/the_heron_and_the_crab.png', title: 'Page 7 — The Trip', text: 'The Heron began carrying the fish away one at a time. "Travel safely, my friend," the Crab called out.' },
+      { imageUrl: '/the_heron_and_the_crab.png', title: 'Page 8 — The Rocky Pool', text: 'Instead of a great lake, the Heron left the fish in a tiny rocky pool. "This is not the lake you promised," the fish gasped.' },
+      { imageUrl: '/the_heron_and_the_crab.png', title: 'Page 9 — Trapped', text: 'Soon, all four fish were trapped in the hidden pool. "Now they cannot escape," the Heron whispered.' },
+      { imageUrl: '/the_heron_and_the_crab.png', title: 'Page 10 — The Crab\'s Turn', text: 'Finally, the Crab asked to be taken to the new lake. "Please carry me to my friends," the Crab requested.' },
+      { imageUrl: '/the_heron_and_the_crab.png', title: 'Page 11 — The Discovery', text: 'From above, the Crab saw his four friends trapped among the rocks. "You have deceived everyone!" the Crab realised.' },
+      { imageUrl: '/the_heron_and_the_crab.png', title: 'Page 12 — Confrontation', text: 'The clever Crab stopped the Heron and demanded the truth. "Return every fish to our pond!" the Crab ordered, pinching the Heron\'s neck.' },
+      { imageUrl: '/the_heron_and_the_crab.png', title: 'Page 13 — Shame', text: 'The Heron returned all four fish and left the pond in shame. "I am sorry for my deception," the Heron apologised.' }
+    ],
+    comprehensionQuestions: [
+      {
+        question: 'How did the Heron trick the fish into leaving their lotus pond?',
+        options: ['He offered them delicious food', 'He claimed the pond would soon dry up', 'He asked them to play a game', 'He said a monster was coming'],
+        correctAnswer: 'He claimed the pond would soon dry up',
+        hint: 'Read what the Heron told the creatures about the water on Page 5.'
+      },
+      {
+        question: 'Where did the Heron actually leave the fish instead of the promised lake?',
+        options: ['In a deeper lotus pond', 'In a tiny rocky pool', 'On the grassy hill', 'At the palace garden'],
+        correctAnswer: 'In a tiny rocky pool',
+        hint: 'Check Page 9 to see where the fish found themselves trapped.'
+      },
+      {
+        question: 'How did the Crab save the fish and expose the Heron\'s lie?',
+        options: ['He swam to the new lake to get help', 'He saw the trapped fish from above and used his claws to demand the truth', 'He built a wall to block the Heron', 'He called the palace guards'],
+        correctAnswer: 'He saw the trapped fish from above and used his claws to demand the truth',
+        hint: 'Look at the Crab\'s discovery on Page 12 and his action on Page 13.'
+      }
+    ]
   }
 ];
 export const STORIES_EASY = [
