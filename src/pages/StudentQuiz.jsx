@@ -1664,18 +1664,10 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
                       if (isReviewing) {
                         if (isCorrectOption) {
                           reviewState = "!bg-emerald-500 !text-white !border-4 !border-emerald-600 shadow-[0_6px_0_0_#047857] opacity-100 ring-4 ring-emerald-300 z-20";
-                          showIcon = (
-                            <div className="flex items-center gap-1.5 bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-black shadow-sm">
-                              <CheckCircle2 className="w-4 h-4 text-white" /> Correct Answer
-                            </div>
-                          );
+                          showIcon = null;
                         } else if (isSelected) {
                           reviewState = "!bg-rose-500 !text-white !border-4 !border-rose-600 shadow-[0_6px_0_0_#B91C1C] opacity-100 ring-4 ring-rose-300 z-20";
-                          showIcon = (
-                            <div className="flex items-center gap-1.5 bg-rose-700 text-white px-3 py-1.5 rounded-xl text-xs font-black shadow-sm">
-                              <XCircle className="w-4 h-4 text-white" /> Your Choice (Incorrect)
-                            </div>
-                          );
+                          showIcon = null;
                         } else {
                           reviewState = "opacity-35 grayscale";
                         }
