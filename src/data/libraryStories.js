@@ -3493,6 +3493,67 @@ export const STORIES = [
         hint: 'Look at the Crab\'s discovery on Page 12 and his action on Page 13.'
       }
     ]
+  },
+  {
+    id: 'the_lion_and_the_carpenter',
+    title: 'The Lion and the Carpenter',
+    subtitle: 'A Panchatantra tale about friendship, promises and choosing companions wisely',
+    genre: 'Panchatantra',
+    emoji: '🦁',
+    isFeatured: true,
+    isSingleComicSheet: false,
+    image: '/the_lion_and_the_carpenter_1.png',
+    moral: 'Choose your companions wisely. Bad company can damage even a good friendship. Trust grows through honesty, promises and respectful actions.',
+    summary: 'A kind Carpenter and his Wife work in the forest and make friends with a powerful Lion named Spotless. Spotless promises to protect them and they share delicious meals under one condition: that the Lion visits alone. However, the Lion\'s greedy followers—a Jackal and a Crow—plan to steal their food. Spotless refuses to betray his friends, but requests to share his food. When the Carpenter and his Wife see the Lion accompanied by the wily jackal and crow, they become cautious and hide in a tree. The Carpenter explains that bad company destroys trust. Spotless realizes his mistake, sends the greedy pair away, and restores the trust with his human friends.',
+    vocabHighlights: [
+      { word: 'Companion', partOfSpeech: 'Noun', definition: 'A person or animal that spends time with or travels with another.', pronunciation: 'kum-PAN-yun', fact: 'The Lion\'s companions, the jackal and the crow, made the humans feel unsafe.' },
+      { word: 'Wisely', partOfSpeech: 'Adverb', definition: 'In a way that shows experience, knowledge, and good judgment.', pronunciation: 'WYZE-lee', fact: 'We must choose our friends wisely to protect our trust.' },
+      { word: 'Cautious', partOfSpeech: 'Adjective', definition: 'Avoiding unnecessary risks or mistakes; being careful.', pronunciation: 'KAW-shus', fact: 'The Carpenter and his Wife became cautious when they saw the Lion\'s new companions.' },
+      { word: 'Unusual', partOfSpeech: 'Adjective', definition: 'Not common, rare, or unique.', pronunciation: 'un-YOO-zhoo-ul', fact: 'The Lion and the Carpenter formed an unusual but strong friendship.' },
+      { word: 'Respectful', partOfSpeech: 'Adjective', definition: 'Showing politeness, care, and honor toward someone or something.', pronunciation: 'rih-SPEKT-ful', fact: 'Trust grows when we make promises and show respectful actions toward others.' }
+    ],
+    pages: [
+      { imageUrl: '/the_lion_and_the_carpenter_1.png', title: 'Cover', text: 'The Lion and the Carpenter — A Panchatantra tale about friendship, promises and choosing companions wisely.' },
+      { imageUrl: '/the_lion_and_the_carpenter_1.png', title: 'Page 1 — Forest Workers', text: 'Each day, a kind Carpenter and his Wife worked in the forest. "I packed enough lunch for both of us," she said.' },
+      { imageUrl: '/the_lion_and_the_carpenter_1.png', title: 'Page 2 — Meeting Spotless', text: 'One morning, they came face to face with a powerful Lion. "Stay calm. I will speak kindly," the Carpenter reassured.' },
+      { imageUrl: '/the_lion_and_the_carpenter_1.png', title: 'Page 3 — Sharing Lunch', text: 'The brave Carpenter welcomed the Lion instead of running away. "Come, friend. Please share our lunch," they invited.' },
+      { imageUrl: '/the_lion_and_the_carpenter_2.png', title: 'Page 4 — Sweet Cakes', text: 'The Lion enjoyed the wonderful food they offered. "These sweet cakes are delicious!" he purred.' },
+      { imageUrl: '/the_lion_and_the_carpenter_2.png', title: 'Page 5 — Protection Promise', text: 'Grateful for their kindness, Spotless promised to protect them. "You are safe in my forest," he said.' },
+      { imageUrl: '/the_lion_and_the_carpenter_2.png', title: 'Page 6 — The Condition', text: 'The Carpenter agreed to share lunch under one condition: "Please visit us alone each day."' },
+      { imageUrl: '/the_lion_and_the_carpenter_2.png', title: 'Page 7 — Growing Friendship', text: 'Day after day, their unusual friendship grew. "There is plenty for everyone," they agreed.' },
+      { imageUrl: '/the_lion_and_the_carpenter_3.png', title: 'Page 8 — No More Hunting', text: 'With delicious meals to enjoy, the Lion stopped hunting. "Friendship is better than hunting," Spotless thought.' },
+      { imageUrl: '/the_lion_and_the_carpenter_3.png', title: 'Page 9 — Curious Followers', text: 'The Lion\'s two followers wondered where he went each day. "Why do you return so happy?" the Jackal asked.' },
+      { imageUrl: '/the_lion_and_the_carpenter_3.png', title: 'Page 10 — Revealing the Secret', text: 'At last, Spotless told them about his new friend. "A kind Carpenter shares his lunch," the Lion explained.' },
+      { imageUrl: '/the_lion_and_the_carpenter_3.png', title: 'Page 11 — The Greedy Plan', text: 'The greedy followers formed an unkind plan. "We could steal all his food!" they schemed.' },
+      { imageUrl: '/the_lion_and_the_carpenter_4.png', title: 'Page 12 — Spotless Refuses', text: 'Spotless immediately refused to betray the Carpenter. "No! I promised to protect him," the Lion growled.' },
+      { imageUrl: '/the_lion_and_the_carpenter_4.png', title: 'Page 13 — Request to Share', text: 'The Lion decided to request extra food for his followers. "Come peacefully, and I will ask him to share."' },
+      { imageUrl: '/the_lion_and_the_carpenter_4.png', title: 'Page 14 — Unexpected Visitors', text: 'From far away, the couple saw the unexpected visitors. "The Lion has brought dangerous company," they gasped.' },
+      { imageUrl: '/the_lion_and_the_carpenter_4.png', title: 'Page 15 — Cautious Friends', text: 'Remembering the Lion\'s promise, they became cautious. "Let us wait safely in this tree," the Carpenter decided.' },
+      { imageUrl: '/the_lion_and_the_carpenter_5.png', title: 'Page 16 — Under the Tree', text: 'Spotless could not understand why they were afraid. "Why are you hiding, my friends?" the Lion asked.' },
+      { imageUrl: '/the_lion_and_the_carpenter_5.png', title: 'Page 17 — Trust Destroyed', text: 'The Carpenter explained that bad company destroys trust. "Your companions make us feel unsafe," the Carpenter called down.' },
+      { imageUrl: '/the_lion_and_the_carpenter_5.png', title: 'Page 18 — Sending them Away', text: 'The Lion understood his mistake and sent the greedy pair away. "A promise means respecting a friend\'s fears," he realised.' },
+      { imageUrl: '/the_lion_and_the_carpenter_5.png', title: 'Moral', text: 'Moral: Choose your companions wisely. Bad company can damage even a good friendship. Trust grows through honesty, promises and respectful actions.' }
+    ],
+    comprehensionQuestions: [
+      {
+        question: 'What was the condition the Carpenter set for sharing lunch with the Lion?',
+        options: ['The Lion must bring them gifts', 'The Lion must visit alone each day', 'The Lion must help them chop wood', 'The Lion must find new caves'],
+        correctAnswer: 'The Lion must visit alone each day',
+        hint: 'Check Page 6 to see what the Carpenter requested before sharing.'
+      },
+      {
+        question: 'Why did the Carpenter and his Wife hide in the tree when the Lion visited?',
+        options: ['They wanted to play hide and seek', 'The Lion brought dangerous company (the jackal and the crow)', 'They had finished their lunch', 'They were afraid of the storm'],
+        correctAnswer: 'The Lion brought dangerous company (the jackal and the crow)',
+        hint: 'Look at Page 14 to see how the couple felt about the Lion\'s unexpected visitors.'
+      },
+      {
+        question: 'What is the main moral of the story?',
+        options: ['Never share your lunch in the forest', 'Choose your companions wisely, as bad company destroys trust', 'Lions make bad friends', 'Always climb trees when you see a crow'],
+        correctAnswer: 'Choose your companions wisely, as bad company destroys trust',
+        hint: 'Read the Moral panel on the last page of the storybook.'
+      }
+    ]
   }
 ];
 export const STORIES_EASY = [
