@@ -1,4 +1,4 @@
-﻿// ================================================================
+// ================================================================
 //  LIBRARY STORIES & PUZZLES DATA
 // ================================================================
 
@@ -3201,6 +3201,61 @@ export const STORIES = [
       {
         text: "Mia searched the gear tunnels and found the key wedged between two giant wheels, where a mischievous wind had blown it. Using her mechanical wrench, she carefully freed the key and wound the Great Heart-Spring. With a loud *TICK-TOCK*, the golden towers began to spin again, saving the kingdom!",
         imagePrompt: "a beautiful golden castle in the clouds with spinning brass gears and flags waving, sparkling under a bright sun"
+      }
+    ]
+  },
+  {
+    id: 'jackal_and_the_drum',
+    title: 'The Jackal and the Drum',
+    subtitle: 'A Panchatantra tale about courage, curiosity and looking beyond noise',
+    genre: 'Panchatantra',
+    emoji: '🥁',
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: '/the_jackal_and_the_drum.png',
+    moral: 'Do not be frightened by noise or appearances. Investigate carefully and understand the truth before making a decision.',
+    summary: 'A hungry jackal named Gomaya hears a terrifying boom in the forest. Instead of running away, he gathers his courage and investigates — only to find it was just a dry branch hitting an old drum. The story teaches that curiosity and bravery overcome fear.',
+    vocabHighlights: [
+      { word: 'Investigate', partOfSpeech: 'Verb', definition: 'To examine or look into something carefully in order to find the truth.', pronunciation: 'in-VES-tih-gayt', fact: 'Gomaya chose to investigate the scary sound instead of running — and discovered the truth!' },
+      { word: 'Thunderous', partOfSpeech: 'Adjective', definition: 'Very loud, like a clap of thunder; producing a deep, powerful noise.', pronunciation: 'THUN-der-us', fact: 'The drum made a thunderous boom when the branch hit it — it sounded far more dangerous than it really was.' },
+      { word: 'Cautious', partOfSpeech: 'Adjective', definition: 'Being careful to avoid danger or mistakes; not taking unnecessary risks.', pronunciation: 'KAW-shus', fact: 'Gomaya moved cautiously toward the drum — brave AND careful at the same time!' },
+      { word: 'Imagination', partOfSpeech: 'Noun', definition: 'The ability to form pictures or ideas in your mind, especially of things not present or real.', pronunciation: 'ih-maj-ih-NAY-shun', fact: 'Gomaya\'s imagination made the empty drum seem like a monster — but reality was far less scary!' },
+      { word: 'Curiosity', partOfSpeech: 'Noun', definition: 'A strong desire to know or learn about something; eagerness to explore and find answers.', pronunciation: 'kyoor-ee-OS-ih-tee', fact: 'It was Gomaya\'s curiosity that saved him from living in fear of a harmless drum forever.' }
+    ],
+    pages: [
+      { imageUrl: '/the_jackal_and_the_drum.png', title: 'Cover', text: 'The Jackal and the Drum — A Panchatantra tale about courage, curiosity and looking beyond noise.' },
+      { imageUrl: '/the_jackal_and_the_drum.png', title: 'Page 1 — A Hungry Jackal', text: 'A hungry jackal named Gomaya wandered through the forest searching for food. "I hope I find something before nightfall," he said to himself.' },
+      { imageUrl: '/the_jackal_and_the_drum.png', title: 'Page 2 — The Deserted Camp', text: 'Near the forest, Gomaya discovered a deserted camp. "Who left all these things behind?" he wondered, sniffing the air cautiously.' },
+      { imageUrl: '/the_jackal_and_the_drum.png', title: 'Page 3 — Wind in the Trees', text: 'A strong wind swept through the trees and moved a dry branch hanging above an old drum that sat beneath a great tree.' },
+      { imageUrl: '/the_jackal_and_the_drum.png', title: 'Page 4 — A Terrible Sound', text: 'The branch struck the drum and made a deep, thunderous sound — BOOM! The noise echoed through the whole forest and made Gomaya freeze.' },
+      { imageUrl: '/the_jackal_and_the_drum.png', title: 'Page 5 — Hiding in Fear', text: 'Gomaya\'s heart hammered. He imagined that a huge creature was hiding nearby. "What if a monster made that sound?" he trembled.' },
+      { imageUrl: '/the_jackal_and_the_drum.png', title: 'Page 6 — Ready to Run', text: 'For a moment, the frightened jackal wanted to run away as fast as his legs could carry him. "Perhaps I should leave at once," he thought.' },
+      { imageUrl: '/the_jackal_and_the_drum.png', title: 'Page 7 — A Second Thought', text: 'Then Gomaya paused. He decided that fear should not control him. "I must learn what caused this noise," he told himself bravely.' },
+      { imageUrl: '/the_jackal_and_the_drum.png', title: 'Page 8 — Moving Closer', text: 'Step by careful step, Gomaya crept closer to where the sound had come from. "I will investigate cautiously," he reminded himself.' },
+      { imageUrl: '/the_jackal_and_the_drum.png', title: 'Page 9 — The Sound Returns', text: 'The wind blew again, and the branch struck the drum — BOOM! This time, Gomaya watched closely. "The branch is making the sound!" he gasped.' },
+      { imageUrl: '/the_jackal_and_the_drum.png', title: 'Page 10 — No Monster at All', text: 'There was no monster — only an empty drum sitting beneath a tree. "My imagination made it seem dangerous," Gomaya said, feeling relieved.' },
+      { imageUrl: '/the_jackal_and_the_drum.png', title: 'Page 11 — A Hopeful Guess', text: 'The large drum made Gomaya wonder what might be inside. "Perhaps it contains a great feast!" he said hopefully, his tail wagging.' },
+      { imageUrl: '/the_jackal_and_the_drum.png', title: 'Page 12 — Looking Inside', text: 'Gomaya carefully lifted a loose edge of the drum and peered inside. "Let me see what it holds," he murmured with bright, curious eyes.' },
+      { imageUrl: '/the_jackal_and_the_drum.png', title: 'Page 13 — Empty but Wiser', text: 'The drum was empty — but Gomaya had discovered something far more valuable. "A loud noise does not always mean great danger," he smiled wisely.' }
+    ],
+    comprehensionQuestions: [
+      {
+        question: 'What made the loud booming sound that frightened Gomaya?',
+        options: ['A monster hiding behind a tree', 'A dry branch hitting an old drum', 'Gomaya banging on the drum', 'Thunder from a storm'],
+        correctAnswer: 'A dry branch hitting an old drum',
+        hint: 'Look at what the wind moved above the drum in the forest.'
+      },
+      {
+        question: 'What did Gomaya decide to do when he first felt afraid?',
+        options: ['He ran away immediately and never returned', 'He hid and cried for help', 'He felt afraid but chose to bravely investigate', 'He called for help from other animals'],
+        correctAnswer: 'He felt afraid but chose to bravely investigate',
+        hint: 'Gomaya had a second thought — what did courage lead him to do?'
+      },
+      {
+        question: 'What did Gomaya find inside the drum?',
+        options: ['A great feast of food', 'A small sleeping monster', 'Gold and treasure', 'Nothing — it was completely empty'],
+        correctAnswer: 'Nothing — it was completely empty',
+        hint: 'The drum looked big and scary on the outside, but what was the truth inside?'
       }
     ]
   }

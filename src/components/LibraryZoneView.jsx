@@ -82,7 +82,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   };
   const studentGrade = getGradeLevel();
 
-  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'the_elves_and_the_shoemaker', 'the_emperors_new_clothes', 'the_bremen_town_musicians', 'the_little_red_hen', 'stone_soup', 'the_lion_and_the_bull', 'the_monkey_and_the_wedge', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
+  const FEATURED_IDS = ['two_friends_one_heart', 'lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'honest_woodcutter', 'monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'three_little_pigs', 'little_red_riding_hood', 'goldilocks_and_the_three_bears', 'jack_and_the_beanstalk', 'the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'the_elves_and_the_shoemaker', 'the_emperors_new_clothes', 'the_bremen_town_musicians', 'the_little_red_hen', 'stone_soup', 'the_lion_and_the_bull', 'the_monkey_and_the_wedge', 'jackal_and_the_drum', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper', 'sonic_and_shadow'];
 
   const getBaseStories = () => {
     let list = STORIES;
@@ -216,10 +216,11 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     if (String(s.id) === 'stone_soup') return 999999999999978;
     if (String(s.id) === 'the_lion_and_the_bull') return 999999999999977;
     if (String(s.id) === 'the_monkey_and_the_wedge') return 999999999999976;
-    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999975;
-    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999974;
-    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999973;
-    if (String(s.id) === 'sonic_and_shadow') return 999999999999972;
+    if (String(s.id) === 'jackal_and_the_drum') return 999999999999975;
+    if (String(s.id) === 'boy_who_cried_wolf') return 999999999999974;
+    if (String(s.id) === 'crow_and_the_pitcher') return 999999999999973;
+    if (String(s.id) === 'ant_and_the_grasshopper') return 999999999999972;
+    if (String(s.id) === 'sonic_and_shadow') return 999999999999971;
     if (s.isFeatured) return 999999999999990;
     if (s.createdAt) {
       if (typeof s.createdAt === 'number') return s.createdAt;
@@ -799,7 +800,7 @@ Schema:
                 {(() => {
                   const GENRE_COLLECTIONS = [
                     { label: 'All Stories', emoji: '✨', ids: null },
-                    { label: 'Panchatantra', emoji: '🐘', ids: ['monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'honest_woodcutter', 'the_lion_and_the_bull', 'the_monkey_and_the_wedge'] },
+                    { label: 'Panchatantra', emoji: '🐘', ids: ['monkey_and_the_crocodile', 'clever_rabbit_and_the_lion', 'honest_woodcutter', 'the_lion_and_the_bull', 'the_monkey_and_the_wedge', 'jackal_and_the_drum'] },
                     { label: "Aesop's Fables", emoji: '🐾', ids: ['lion_and_the_mouse', 'tortoise_and_the_hare', 'dog_and_his_reflection', 'hare_and_the_hound', 'fox_and_the_grapes', 'boy_who_cried_wolf', 'crow_and_the_pitcher', 'ant_and_the_grasshopper'] },
                     { label: 'Fairy Tales', emoji: '🧚', ids: ['the_ugly_duckling', 'the_princess_and_the_pea', 'hansel_and_gretel', 'the_gingerbread_man', 'the_elves_and_the_shoemaker', 'the_emperors_new_clothes', 'the_bremen_town_musicians', 'jack_and_the_beanstalk', 'goldilocks_and_the_three_bears', 'little_red_riding_hood', 'three_little_pigs'] },
                     { label: 'Featured', emoji: '🌟', ids: ['two_friends_one_heart', 'stone_soup', 'the_little_red_hen', 'sonic_and_shadow'] },
