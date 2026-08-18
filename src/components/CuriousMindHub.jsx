@@ -55,7 +55,7 @@ export default function CuriousMindHub() {
     {
       id: 'dream',
       title: 'Why Do We Dream?',
-      cardImage: '/curious_whole_dream.png'
+      cardImage: '/curious_whole_dream.jpg'
     }
   ];
 
@@ -240,11 +240,12 @@ export default function CuriousMindHub() {
                     />
                     
                     {/* Overlay dynamic Let's Learn buttons for custom thumbnails with no built-in buttons */}
-                    {topic.id === 'goosebumps' || topic.id === 'baby_teeth' || topic.id === 'cry' ? (
+                    {topic.id === 'goosebumps' || topic.id === 'baby_teeth' || topic.id === 'cry' || topic.id === 'dream' ? (
                       <div className="absolute bottom-4 left-5">
                         <span className={`flex items-center gap-1.5 text-[10px] font-black py-2 px-4 rounded-full text-white transition-all shadow-sm ${
                           topic.id === 'goosebumps' ? 'bg-orange-500 hover:bg-orange-600' :
                           topic.id === 'baby_teeth' ? 'bg-blue-500 hover:bg-blue-600' :
+                          topic.id === 'dream' ? 'bg-purple-600 hover:bg-purple-700' :
                           'bg-cyan-500 hover:bg-cyan-600'
                         }`}>
                           Let's Learn! <ArrowRight className="w-3 h-3" />
