@@ -3258,6 +3258,66 @@ export const STORIES = [
         hint: 'The drum looked big and scary on the outside, but what was the truth inside?'
       }
     ]
+  },
+  {
+    id: 'merchant_and_the_sweeper',
+    title: 'The Merchant and the Sweeper',
+    subtitle: 'A Panchatantra tale about respect, rumours and making amends',
+    genre: 'Panchatantra',
+    emoji: '🧹',
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: '/the_merchant_and_the_sweeper.png',
+    moral: 'Treat every person with dignity and respect. Do not believe rumours without evidence, and repair mistakes with a sincere apology.',
+    summary: 'Dantila, a respected merchant, publicly insults Gorambha, a palace sweeper, after he accidentally sits on a reserved chair. Gorambha spreads a false rumour about Dantila to the King, causing Dantila to lose royal favour. Realising his mistake, Dantila apologises sincerely to Gorambha, who then cleanses Dantila\'s name with another absurd claim. Trust is restored, teaching everyone the value of respect.',
+    vocabHighlights: [
+      { word: 'Humiliate', partOfSpeech: 'Verb', definition: 'To make someone feel ashamed or foolish by injuring their dignity or self-respect.', pronunciation: 'hyoo-MIL-ee-ayt', fact: 'Dantila humiliated Gorambha at the party, which wounded Gorambha\'s heart.' },
+      { word: 'Rumour', partOfSpeech: 'Noun', definition: 'A story or report of uncertain or doubtful truth that is spread among people.', pronunciation: 'ROO-mer', fact: 'Gorambha spread a false rumour about Dantila to get revenge, which shows how harmful gossip can be!' },
+      { word: 'Absurd', partOfSpeech: 'Adjective', definition: 'Wildly unreasonable, illogical, or inappropriate.', pronunciation: 'ab-SURD', fact: 'Gorambha\'s second claim about the King eating cucumbers in the washroom was so absurd that it proved the first rumour was also false.' },
+      { word: 'Reconcile', partOfSpeech: 'Verb', definition: 'To restore friendly relations between people after a disagreement or argument.', pronunciation: 'REK-un-syle', fact: 'Dantila and Gorambha were able to reconcile after Dantila offered a sincere apology and gifts of respect.' },
+      { word: 'Dignity', partOfSpeech: 'Noun', definition: 'The state or quality of being worthy of honour or respect.', pronunciation: 'DIG-nih-tee', fact: 'Every person deserves to be treated with dignity, no matter what job they do.' }
+    ],
+    pages: [
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Cover', text: 'The Merchant and the Sweeper — A Panchatantra tale about respect, rumours and making amends.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 1 — A Respected Merchant', text: 'Dantila was a successful merchant trusted by both the city and the King. "Your service to the kingdom is valuable," the King said.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 2 — A Grand Celebration', text: 'Dantila invited everyone in the city to a magnificent celebration. "Your Majesties, welcome to my home," he greeted.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 3 — Gorambha Arrives', text: 'Gorambha, a hardworking palace sweeper, also attended the celebration. "Thank you for inviting me," Gorambha smiled.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 4 — The Reserved Seat', text: 'By mistake, Gorambha sat in a seat reserved for royal guests. "That chair has been reserved," a guest called out.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 5 — Words That Hurt', text: 'Embarrassed, Dantila spoke harshly and asked Gorambha to leave. "You must leave the celebration!" he demanded in front of everyone.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 6 — A Wounded Heart', text: 'Gorambha could not forget the public insult. "He treated me as though I had no dignity," he whispered, feeling deeply hurt.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 7 — Early Morning Work', text: 'One morning, Gorambha worked sweeping the palace floor while the King rested nearby.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 8 — A False Murmur', text: 'Gorambha murmured a false rumour where the King could hear. "Dantila behaves far too boldly around the Queen," he muttered.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 9 — The King Questions Him', text: 'The startled King immediately demanded an explanation. "What did you just say?" "Forgive me. I was sleepy and spoke nonsense," Gorambha replied.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 10 — Doubt Takes Root', text: 'Although Gorambha withdrew his words, suspicion entered the King\'s mind. "Could Dantila have betrayed my trust?" the King wondered.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 11 — Turned Away', text: 'The next day, Dantila was unexpectedly refused entry to the palace. "I am sorry. The King will not receive you," the guard said.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 12 — Understanding the Cause', text: 'Seeing Gorambha nearby, Dantila understood how deeply his harsh words had hurt. "I must repair the disrespect I caused," he realised.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 13 — A Sincere Invitation', text: 'Dantila invited Gorambha to speak with him privately. "Please come in. I owe you an apology," Dantila said warmly.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 14 — Making Amends', text: 'The Merchant apologised sincerely and offered gifts of respect. "I was wrong to humiliate you," he said. "Your honest apology matters," replied Gorambha.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 15 — Gorambha Reflects', text: 'Gorambha accepted the apology and decided to correct the harm he had caused. "Now I must reveal that my rumour was unreliable," he resolved.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 16 — An Absurd Claim', text: 'The next morning, Gorambha deliberately murmured something absurd: "The King eats cucumbers in the royal washroom."' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 17 — The King Realises', text: 'The impossible claim made the King reconsider the earlier rumour. "That is completely untrue!" he barked. "Forgive me. I must speak nonsense when I am sleepy," Gorambha smiled.' },
+      { imageUrl: '/the_merchant_and_the_sweeper.png', title: 'Page 18 — Trust Restored', text: 'The King restored Dantila\'s honour, and both men learned to treat others carefully. "Welcome back, Dantila!" "I will show respect to everyone," they agreed.' }
+    ],
+    comprehensionQuestions: [
+      {
+        question: 'Why did Dantila get angry and ask Gorambha to leave the celebration?',
+        options: ['Gorambha accidentally sat in a reserved royal seat', 'Gorambha was late to the party', 'Gorambha was making too much noise', 'Gorambha brought a bad gift'],
+        correctAnswer: 'Gorambha accidentally sat in a reserved royal seat',
+        hint: 'Check what Gorambha did by mistake on Page 4.'
+      },
+      {
+        question: 'What false rumour did Gorambha spread about Dantila?',
+        options: ['That Dantila was stealing gold', 'That Dantila behaved too boldly around the Queen', 'That Dantila did not like the King', 'That Dantila wanted to leave the kingdom'],
+        correctAnswer: 'That Dantila behaved too boldly around the Queen',
+        hint: 'Read what Gorambha murmured while sweeping near the sleeping King on Page 8.'
+      },
+      {
+        question: 'How did Dantila and Gorambha resolve their conflict?',
+        options: ['Dantila complained to the King', 'Dantila apologised sincerely and offered gifts of respect', 'Gorambha left the city forever', 'They had another big argument'],
+        correctAnswer: 'Dantila apologised sincerely and offered gifts of respect',
+        hint: 'Look at how Dantila invited Gorambha to his home to make amends on Page 13 and 14.'
+      }
+    ]
   }
 ];
 export const STORIES_EASY = [
