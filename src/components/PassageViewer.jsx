@@ -272,17 +272,17 @@ export default function PassageViewer({
 
                   {/* Dedicated Synonyms & Antonyms Column */}
                   <td className="p-3.5 px-4 font-normal text-slate-700 leading-relaxed border-r border-slate-200/60 align-top">
-                    {cleanPrefixHeader(item.synonyms) || 'Sprint, bolted, rushed, darted'}
+                    {cleanPrefixHeader(item.synonyms) || '-'}
                   </td>
-
+ 
                   {/* Why Writers Love This Column */}
                   <td className="p-3.5 px-4 font-normal text-slate-700 leading-relaxed border-r border-slate-200/60 align-top">
-                    {cleanPrefixHeader(item.whyWritersLoveIt) || 'Adds vivid description and energy to your writing.'}
+                    {cleanPrefixHeader(item.whyWritersLoveIt) || '-'}
                   </td>
-
+ 
                   {/* Replace Boring Words Column */}
                   <td className="p-3.5 px-4 font-normal text-slate-700 leading-relaxed border-r border-slate-200/60 align-top">
-                    {cleanPrefixHeader(item.replaceBoringWords) || 'Ran, went fast, hurried'}
+                    {cleanPrefixHeader(item.replaceBoringWords) || '-'}
                   </td>
 
                   {/* Quick Writing Tips Column */}
