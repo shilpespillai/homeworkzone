@@ -3378,6 +3378,61 @@ export const STORIES = [
         hint: 'Read what the guards did to the cobra on Page 15 and 17.'
       }
     ]
+  },
+  {
+    id: 'the_camel_and_the_lion',
+    title: 'The Camel and the Lion',
+    subtitle: 'A Panchatantra tale about true loyalty and wily companions',
+    genre: 'Panchatantra',
+    emoji: '🐫',
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: '/the_camel_and_the_lion.png',
+    moral: 'Beware of the plots of wicked friends. True loyalty must not be blinded by wily companions.',
+    summary: 'A lost camel named Ustrasakata is protected by the Lion King. When a drought strikes and the Lion is too weak to hunt, his greedy ministers (the crow and the jackal) plot to eat the camel. They trick the camel into offering himself to the Lion as food. The wily ministers kill the poor camel, leaving the Lion to regret his trust in wicked advisors.',
+    vocabHighlights: [
+      { word: 'Minister', partOfSpeech: 'Noun', definition: 'A person who is given a specific job or role to help run a kingdom or advise a ruler.', pronunciation: 'MIN-is-ter', fact: 'The crow and the jackal acted as wily ministers to the Lion King.' },
+      { word: 'Protection', partOfSpeech: 'Noun', definition: 'The act of keeping someone or something safe from harm or danger.', pronunciation: 'pruh-TEK-shun', fact: 'The Lion King promised Kathanaka safety and protection inside his forest kingdom.' },
+      { word: 'Drought', partOfSpeech: 'Noun', definition: 'A long period of time with little or no rain, causing food to become scarce.', pronunciation: 'drowt', fact: 'A severe drought hit the jungle, leaving all the animals starving and weak.' },
+      { word: 'Scheme', partOfSpeech: 'Verb', definition: 'To make a secret, wily plan to trick or deceive others for one\'s own benefit.', pronunciation: 'skeem', fact: 'The greedy ministers schemed together to trick the camel and get food.' },
+      { word: 'Loyalty', partOfSpeech: 'Noun', definition: 'A strong feeling of support, trust, and faithfulness toward a friend or leader.', pronunciation: 'LOY-ul-tee', fact: 'The camel showed genuine loyalty by offering himself to the Lion, but his trust was taken advantage of by bad companions.' }
+    ],
+    pages: [
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Cover', text: 'The Camel and the Lion — A Panchatantra tale about true loyalty and wily companions.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 1 — Lost in the Jungle', text: 'A friendly camel named Ustrasakata wandered alone in the thick, unfamiliar jungle.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 2 — The Ministers', text: 'The Jungle King, a strong Lion, ruled the forest and hunted with his wily ministers, a Crow and a Jackal.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 3 — Safe Harbor', text: 'The Lion met the lost camel. Seeing he was harmless, the kind King offered him protection and shelter.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 4 — A Safe Home', text: 'The camel lived happily and safely in the Lion\'s kingdom, feeling grateful for his new friends.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 5 — The Drought', text: 'A great drought hit the forest. The grass dried up, water vanished, and the animals began to starve.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 6 — The Plot', text: 'Desperate for food, the greedy ministers began to scheme. They wanted to trick the camel to eat him.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 7 — The Mock Offers', text: 'The Crow and the Jackal offered themselves to the Lion as food, pretending to be loyal.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 8 — Rejected Offers', text: 'As planned, the Lion refused their offers, saying they were too small to feed the group.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 9 — The Camel\'s Turn', text: 'Believing their act, the loyal camel stepped forward. "Master, eat me! I am large and useless," he offered.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 10 — Agreement', text: 'The wily ministers agreed quickly to the camel\'s plan, hiding their sneaky grins.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 11 — The Attack', text: 'The Crow and the Jackal fell upon the poor camel, taking advantage of his kind heart.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 12 — A Feast', text: 'The Lion, tricked by his ministers, joined in the feast on the camel meat to survive the hunger.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 13 — Deep Regret', text: 'Afterwards, the Lion realised the trick. He sat in his cave, deeply regretting his acts and his trust in wicked ministers.' }
+    ],
+    comprehensionQuestions: [
+      {
+        question: 'Why did the camel offer himself to the Lion King as food?',
+        options: ['He wanted to return to his old home', 'He was loyal and wanted to save the starving Lion', 'He did not like the other animals', 'He wanted to run away'],
+        correctAnswer: 'He was loyal and wanted to save the starving Lion',
+        hint: 'Think about how the camel felt when he saw the King hungry on Page 9.'
+      },
+      {
+        question: 'Who planned the trick to eat the camel?',
+        options: ['The Lion King', 'The wily ministers (the crow and the jackal)', 'Other camels', 'The palace guards'],
+        correctAnswer: 'The wily ministers (the crow and the jackal)',
+        hint: 'Check Page 6 to see who was plotting behind the Lion\'s back.'
+      },
+      {
+        question: 'What is the moral of the story?',
+        options: ['Never eat cucumbers in the washroom', 'Beware of the plots of wicked friends', 'Crows are better than jackals', 'Always travel in groups'],
+        correctAnswer: 'Beware of the plots of wicked friends',
+        hint: 'Look at the final Moral panel on the bottom-right of the storybook.'
+      }
+    ]
   }
 ];
 export const STORIES_EASY = [
