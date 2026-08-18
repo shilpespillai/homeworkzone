@@ -119,6 +119,7 @@ import RocksHub from './components/RocksHub';
 import UnitsOfMeasurementHub from './components/UnitsOfMeasurementHub';
 import TuitionPayment from './pages/TuitionPayment';
 import PlatformDocumentation from './pages/PlatformDocumentation';
+import CuriousMindHub from './components/CuriousMindHub';
 
 // Helper to generate a clean, boutique 6-digit code
 const generateTeacherCode = () => {
@@ -2530,6 +2531,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
   }, [activeNav]);
   const [activeMission, setActiveMission] = useState(null);
   const [learningExpanded, setLearningExpanded] = useState(true);
+  const [curiousExpanded, setCuriousExpanded] = useState(true);
   const [mathsExpanded, setMathsExpanded] = useState(true);
   const [scienceExpanded, setScienceExpanded] = useState(true);
   const [englishExpanded, setEnglishExpanded] = useState(true);
@@ -3260,7 +3262,40 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                         exit={{ height: 0, opacity: 0 }}
                         className="pl-4 mt-1 space-y-2 overflow-hidden text-left"
                      >
-                        {/* Umbrella 1: MATHS */}
+                         {/* Umbrella 0: CURIOUS MIND */}
+                         <div className="space-y-1">
+                            <button
+                               onClick={() => setCuriousExpanded(!curiousExpanded)}
+                               className="w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-[11px] font-black text-amber-700 bg-amber-50/70 hover:bg-amber-100/60 uppercase tracking-wider cursor-pointer"
+                            >
+                               <span className="flex items-center gap-1.5">🧠 CURIOUS MIND</span>
+                               <span className="text-[9px]">{curiousExpanded ? '▲' : '▼'}</span>
+                            </button>
+
+                            {curiousExpanded && (
+                               <div className="pl-2 space-y-0.5 border-l-2 border-amber-200 ml-2">
+                                  {[
+                                     { name: 'Curious Questions', emoji: '💡' }
+                                  ].map((concept) => (
+                                     <button
+                                        key={concept.name}
+                                        onClick={() => {
+                                           setActiveNav(`Learning: ${concept.name}`);
+                                        }}
+                                        className={`w-full text-left px-3 py-2 rounded-xl text-[11px] font-black transition-all flex items-center justify-between cursor-pointer ${
+                                           activeNav === `Learning: ${concept.name}`
+                                              ? 'bg-amber-100 text-amber-800 font-extrabold shadow-sm'
+                                              : 'text-[#166534] hover:text-[#14532d] hover:bg-slate-50/60'
+                                        }`}
+                                     >
+                                        <span>{concept.emoji} {concept.name}</span>
+                                     </button>
+                                  ))}
+                               </div>
+                            )}
+                         </div>
+
+                         {/* Umbrella 1: MATHS */}
                         <div className="space-y-1">
                            <button
                               onClick={() => setMathsExpanded(!mathsExpanded)}
@@ -4080,6 +4115,10 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
                />
             )}
 
+            {activeNav === 'Learning: Curious Questions' && (
+               <CuriousMindHub />
+            )}
+
             {activeNav === 'Learning: Body and Functions' && (
                <BodyAndFunctionsHub />
             )}
@@ -4176,6 +4215,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
             )}
 
             {activeNav.startsWith('Learning: ') && 
+             activeNav !== 'Learning: Curious Questions' &&
              activeNav !== 'Learning: Formula Sheet' &&
              activeNav !== 'Learning: Grammar Guide & Rules' &&
              activeNav !== 'Learning: Parts of Speech & Tenses' &&
