@@ -3382,55 +3382,60 @@ export const STORIES = [
   {
     id: 'the_camel_and_the_lion',
     title: 'The Camel and the Lion',
-    subtitle: 'A Panchatantra tale about true loyalty and wily companions',
+    subtitle: 'A Panchatantra tale about trust, promises and dangerous advisers',
     genre: 'Panchatantra',
     emoji: '🐫',
     isFeatured: true,
     isSingleComicSheet: true,
     image: '/the_camel_and_the_lion.png',
-    moral: 'Beware of the plots of wicked friends. True loyalty must not be blinded by wily companions.',
-    summary: 'A lost camel named Ustrasakata is protected by the Lion King. When a drought strikes and the Lion is too weak to hunt, his greedy ministers (the crow and the jackal) plot to eat the camel. They trick the camel into offering himself to the Lion as food. The wily ministers kill the poor camel, leaving the Lion to regret his trust in wicked advisors.',
+    moral: 'Beware of advisers who manipulate trust for selfish gain. Keep your promises, think independently, and do not mistake flattery for friendship.',
+    summary: 'A merchant\'s camel named Krathanaka gets separated during a storm and wanders into a forest ruled by Madotkata the Lion. The Lion promises to protect the Camel, and they become trusted friends. When the Lion is injured and his three advisers (the Crow, the Jackal, and the Leopard) grow hungry, they plot to feed on the camel. They stage dishonest offers to sacrifice themselves to the Lion, leading the honest Camel to do the same. However, the Lion recognizes their trick, refuses to eat the Camel, and honors his promise of protection.',
     vocabHighlights: [
-      { word: 'Minister', partOfSpeech: 'Noun', definition: 'A person who is given a specific job or role to help run a kingdom or advise a ruler.', pronunciation: 'MIN-is-ter', fact: 'The crow and the jackal acted as wily ministers to the Lion King.' },
-      { word: 'Protection', partOfSpeech: 'Noun', definition: 'The act of keeping someone or something safe from harm or danger.', pronunciation: 'pruh-TEK-shun', fact: 'The Lion King promised Kathanaka safety and protection inside his forest kingdom.' },
-      { word: 'Drought', partOfSpeech: 'Noun', definition: 'A long period of time with little or no rain, causing food to become scarce.', pronunciation: 'drowt', fact: 'A severe drought hit the jungle, leaving all the animals starving and weak.' },
-      { word: 'Scheme', partOfSpeech: 'Verb', definition: 'To make a secret, wily plan to trick or deceive others for one\'s own benefit.', pronunciation: 'skeem', fact: 'The greedy ministers schemed together to trick the camel and get food.' },
-      { word: 'Loyalty', partOfSpeech: 'Noun', definition: 'A strong feeling of support, trust, and faithfulness toward a friend or leader.', pronunciation: 'LOY-ul-tee', fact: 'The camel showed genuine loyalty by offering himself to the Lion, but his trust was taken advantage of by bad companions.' }
+      { word: 'Adviser', partOfSpeech: 'Noun', definition: 'A person who gives advice or suggestions to help someone make decisions.', pronunciation: 'ad-VY-zer', fact: 'The Lion King had three advisers: the Crow, the Jackal, and the Leopard.' },
+      { word: 'Separate', partOfSpeech: 'Verb', definition: 'To move or keep apart.', pronunciation: 'SEP-uh-rayt', fact: 'A sudden storm separated Krathanaka from the merchant\'s caravan.' },
+      { word: 'Dishonest', partOfSpeech: 'Adjective', definition: 'Not honest; intending to trick, cheat, or deceive others.', pronunciation: 'dis-ON-ist', fact: 'The advisers made dishonest offers to sacrifice themselves, knowing the Lion would refuse.' },
+      { word: 'Sacrifice', partOfSpeech: 'Verb', definition: 'To give up something valuable for the sake of others or for a good cause.', pronunciation: 'SAK-rih-fise', fact: 'Krathanaka was willing to sacrifice himself to save the Lion from starving.' },
+      { word: 'Manipulate', partOfSpeech: 'Verb', definition: 'To control or influence someone in a clever or unfair way to get what you want.', pronunciation: 'muh-NIP-yoo-layt', fact: 'The wily advisers tried to manipulate the Camel\'s trust for their own selfish gain.' }
     ],
     pages: [
-      { imageUrl: '/the_camel_and_the_lion.png', title: 'Cover', text: 'The Camel and the Lion — A Panchatantra tale about true loyalty and wily companions.' },
-      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 1 — Lost in the Jungle', text: 'A friendly camel named Ustrasakata wandered alone in the thick, unfamiliar jungle.' },
-      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 2 — The Ministers', text: 'The Jungle King, a strong Lion, ruled the forest and hunted with his wily ministers, a Crow and a Jackal.' },
-      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 3 — Safe Harbor', text: 'The Lion met the lost camel. Seeing he was harmless, the kind King offered him protection and shelter.' },
-      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 4 — A Safe Home', text: 'The camel lived happily and safely in the Lion\'s kingdom, feeling grateful for his new friends.' },
-      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 5 — The Drought', text: 'A great drought hit the forest. The grass dried up, water vanished, and the animals began to starve.' },
-      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 6 — The Plot', text: 'Desperate for food, the greedy ministers began to scheme. They wanted to trick the camel to eat him.' },
-      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 7 — The Mock Offers', text: 'The Crow and the Jackal offered themselves to the Lion as food, pretending to be loyal.' },
-      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 8 — Rejected Offers', text: 'As planned, the Lion refused their offers, saying they were too small to feed the group.' },
-      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 9 — The Camel\'s Turn', text: 'Believing their act, the loyal camel stepped forward. "Master, eat me! I am large and useless," he offered.' },
-      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 10 — Agreement', text: 'The wily ministers agreed quickly to the camel\'s plan, hiding their sneaky grins.' },
-      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 11 — The Attack', text: 'The Crow and the Jackal fell upon the poor camel, taking advantage of his kind heart.' },
-      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 12 — A Feast', text: 'The Lion, tricked by his ministers, joined in the feast on the camel meat to survive the hunger.' },
-      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 13 — Deep Regret', text: 'Afterwards, the Lion realised the trick. He sat in his cave, deeply regretting his acts and his trust in wicked ministers.' }
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Cover', text: 'The Camel and the Lion — A Panchatantra tale about trust, promises and dangerous advisers.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 1 — The Caravan', text: 'A merchant travelled with his faithful Camel, Krathanaka. "Stay close, my friend," the merchant advised.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 2 — The Storm', text: 'A sudden storm separated the Camel from the caravan. "I must find shelter," Krathanaka said, fighting the wind.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 3 — The Forest', text: 'Krathanaka wandered into a forest ruled by a powerful Lion. "Perhaps someone here can guide me," he hoped.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 4 — Discovery', text: 'The Lion\'s three advisers discovered the lost Camel. "Come and meet our King," they invited.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 5 — Meeting the King', text: 'The advisers brought Krathanaka before Madotkata the Lion. "I am lost and mean no harm," the Camel said.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 6 — The Promise', text: 'The Lion welcomed the peaceful Camel and promised to protect him. "You are safe in my forest," the King declared.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 7 — Trusted Friends', text: 'The Lion and Camel soon became trusted friends, spending peaceful days in the woods together.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 8 — An Injured King', text: 'One day, the Lion hurt his paw while chasing prey. "I must rest until my paw heals," the Lion sighed.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 9 — Starving Court', text: 'Without the Lion\'s hunting, everyone in the forest court grew hungry. "We need to find food soon," the Crow whispered.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 10 — The Order', text: 'The Lion asked his advisers to search the forest for food. "Find a meal, but do not harm our friend," he commanded.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 11 — The Plan', text: 'Instead of searching, the advisers formed a dishonest plan. "We will persuade the Camel to offer himself," the Jackal schemed.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 12 — Refusal', text: 'The Jackal suggested using the Camel as food, but the Lion refused. "I gave him my protection," the King growled.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 13 — Deceiving the Camel', text: 'The advisers told the trusting Camel that the Lion might starve. "Only a great sacrifice can save our King," they lied.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 14 — The Crow\'s Offer', text: 'The Crow pretended to offer himself, knowing the Lion would refuse. "My King, you may eat me," the Crow chirped.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 15 — The Leopard\'s Offer', text: 'Next, the Leopard made the same dishonest offer. "Take me instead," the Leopard said, bowing low.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 16 — The Jackal\'s Offer', text: 'Then the Jackal pretended to sacrifice himself. "I will give myself for the King," the Jackal pleaded.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 17 — True Loyalty', text: 'Believing their performance, Krathanaka offered himself honestly. "If it will save my friend, I volunteer," he said.' },
+      { imageUrl: '/the_camel_and_the_lion.png', title: 'Page 18 — Honour Restored', text: 'The Lion recognised the trick and chose to honour his promise. "A true King does not betray a protected friend," he proclaimed, exposing the wily advisers.' }
     ],
     comprehensionQuestions: [
       {
-        question: 'Why did the camel offer himself to the Lion King as food?',
-        options: ['He wanted to return to his old home', 'He was loyal and wanted to save the starving Lion', 'He did not like the other animals', 'He wanted to run away'],
-        correctAnswer: 'He was loyal and wanted to save the starving Lion',
-        hint: 'Think about how the camel felt when he saw the King hungry on Page 9.'
+        question: 'Why did Krathanaka get separated from the merchant\'s caravan?',
+        options: ['He ran away to find the forest', 'A sudden storm separated him', 'He wanted to live with the Lion', 'He fell asleep and was left behind'],
+        correctAnswer: 'A sudden storm separated him',
+        hint: 'Read what happened to Krathanaka on Page 2.'
       },
       {
-        question: 'Who planned the trick to eat the camel?',
-        options: ['The Lion King', 'The wily ministers (the crow and the jackal)', 'Other camels', 'The palace guards'],
-        correctAnswer: 'The wily ministers (the crow and the jackal)',
-        hint: 'Check Page 6 to see who was plotting behind the Lion\'s back.'
+        question: 'What did the wily advisers do when the Lion asked them to search for food?',
+        options: ['They went hunting in the mountains', 'They made a dishonest plan to trick the Camel', 'They brought back fresh fruit', 'They ran away to another forest'],
+        correctAnswer: 'They made a dishonest plan to trick the Camel',
+        hint: 'Check Page 11 to see what the Crow, Jackal, and Leopard plotted instead of searching.'
       },
       {
-        question: 'What is the moral of the story?',
-        options: ['Never eat cucumbers in the washroom', 'Beware of the plots of wicked friends', 'Crows are better than jackals', 'Always travel in groups'],
-        correctAnswer: 'Beware of the plots of wicked friends',
-        hint: 'Look at the final Moral panel on the bottom-right of the storybook.'
+        question: 'What did the Lion King do when Krathanaka offered himself as food?',
+        options: ['He ate the Camel with his advisers', 'He recognised the trick and honoured his promise of protection', 'He asked the Camel to leave the forest', 'He went hunting with the Camel'],
+        correctAnswer: 'He recognised the trick and honoured his promise of protection',
+        hint: 'Look at the Lion\'s decision on Page 18 and what he said about being a true King.'
       }
     ]
   }
