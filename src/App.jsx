@@ -5345,7 +5345,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2">
                        <li className="flex items-center gap-2">✔️ Unlimited students & seats</li>
                        <li className="flex items-center gap-2">✔️ Full dashboard administrative access</li>
-                       <li className="flex items-center gap-2">✔️ 5 Free AI Paper Creations included</li>
+                       <li className="flex items-center gap-2">✔️ 5 Free Paper Creations included</li>
                        <li className="flex items-center gap-2">✔️ No credit card required to start</li>
                      </ul>
                    </div>
@@ -5377,7 +5377,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2">
                        <li className="flex items-center gap-2">✔️ Best for parents & micro-tutors</li>
-                       <li className="flex items-center gap-2">✔️ 25 AI Paper Creations / month</li>
+                       <li className="flex items-center gap-2">✔️ 25 Paper Creations / month</li>
                        <li className="flex items-center gap-2">✔️ Pay only for active students ($5–$50/mo)</li>
                        <li className="flex items-center gap-2">✔️ No long term commitment</li>
                      </ul>
@@ -5408,15 +5408,15 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                      <div className="space-y-2 pt-2">
                        <div className="flex justify-between items-center text-xs md:text-sm font-normal text-slate-800">
                          <span>Starter (11–20 students)</span>
-                         <span className="font-semibold text-slate-900">$45 / mo</span>
+                         <span className="font-semibold text-slate-900">$50 / mo</span>
                        </div>
                        <div className="flex justify-between items-center text-xs md:text-sm font-normal text-slate-800">
                          <span>Growth (21–30 students)</span>
-                         <span className="font-semibold text-slate-900">$75 / mo</span>
+                         <span className="font-semibold text-slate-900">$80 / mo</span>
                        </div>
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2 border-t border-slate-100">
-                       <li className="flex items-center gap-2">✔️ 60–100 AI Paper Creations / month</li>
+                       <li className="flex items-center gap-2">✔️ 60–100 Paper Creations / month</li>
                        <li className="flex items-center gap-2">✔️ Assign 1 paper to all 30 students</li>
                        <li className="flex items-center gap-2">✔️ Save up to 50% vs Option A rates</li>
                        <li className="flex items-center gap-2">✔️ Switch plans instantly</li>
@@ -5452,19 +5452,19 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                        </div>
                        <div className="flex justify-between text-xs md:text-sm font-normal text-slate-800">
                          <span>101–500 students</span>
-                         <span className="font-semibold text-slate-900">$18 / student / yr</span>
+                         <span className="font-semibold text-slate-900">$20 / student / yr</span>
                        </div>
                        <div className="flex justify-between text-xs md:text-sm font-normal text-slate-800">
                          <span>501–1,000 students</span>
-                         <span className="font-semibold text-slate-900">$12 / student / yr</span>
+                         <span className="font-semibold text-slate-900">$16 / student / yr</span>
                        </div>
                        <div className="flex justify-between text-xs md:text-sm font-normal text-slate-800">
                          <span>1,001+ students</span>
-                         <span className="font-semibold text-slate-900">$8 / student / yr</span>
+                         <span className="font-semibold text-slate-900">$14 / student / yr</span>
                        </div>
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2 border-t border-slate-100">
-                        <li className="flex items-center gap-2">✔️ 2,500 AI Papers / year per school</li>
+                        <li className="flex items-center gap-2">✔️ 2,500 Papers / year per school</li>
                        <li className="flex items-center gap-2">✔️ Requires minimum 31 student seats</li>
                        <li className="flex items-center gap-2">✔️ Perfect for whole school setups</li>
                        <li className="flex items-center gap-2">✔️ Graduated automatic discounts</li>
@@ -5486,7 +5486,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                   </div>
                   <h3 className="text-xl md:text-2xl font-black">Need Extra Papers Beyond Your Plan?</h3>
                   <p className="text-xs md:text-sm text-violet-100 font-medium max-w-xl">
-                    Never run out of AI practice papers. Buy instant 1-click Top-Up packs anytime without adding dummy student seats or changing subscriptions!
+                    Never run out of practice papers. Buy instant 1-click Top-Up packs anytime without adding dummy student seats or changing subscriptions!
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center gap-4 shrink-0">
@@ -5578,7 +5578,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                   <Star className="w-5 h-5 fill-current" />
                 </div>
                 <p className="text-slate-700 leading-relaxed mb-8 italic">
-                  "The AI homework generator saves me literally hours every week. I can instantly create reading comprehension tasks tailored to my class."
+                  "The homework generator saves me literally hours every week. I can instantly create reading comprehension tasks tailored to my class."
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center font-bold text-purple-600 text-lg">
