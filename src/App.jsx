@@ -5007,6 +5007,87 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
           </article>
         </section>
 
+        {/* HOW IT WORKS SECTION */}
+        <section id="how-it-works" className="mt-12 bg-white rounded-[36px] p-8 md:p-12 border border-slate-100 shadow-sm relative overflow-hidden">
+          <div className="max-w-6xl mx-auto space-y-10 relative z-10">
+            
+            {/* Header */}
+            <div className="text-center max-w-3xl mx-auto space-y-3">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50 border border-blue-100 rounded-full text-xs font-black uppercase tracking-wider text-blue-700 shadow-sm">
+                <span>Four Simple Steps</span>
+              </div>
+              <h2 className="font-display text-3xl md:text-5xl text-slate-900 leading-tight">
+                How It Works
+              </h2>
+              <p className="text-sm md:text-base font-semibold text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                See how Homework Zone simplifies homework creation, motivates students, and tracks growth.
+              </p>
+            </div>
+
+            {/* 4-Step Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              
+              {/* Step 1 */}
+              <div className="bg-gradient-to-br from-blue-50/50 to-indigo-50/20 rounded-3xl p-6 border border-blue-100/50 flex flex-col justify-between hover:shadow-md transition-shadow relative">
+                <div className="absolute -top-3 -left-3 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-black text-lg border-4 border-white shadow-md">
+                  1
+                </div>
+                <div className="space-y-4 pt-2">
+                  <div className="text-3xl">🎒</div>
+                  <h3 className="font-display text-lg text-slate-900">Onboard Students</h3>
+                  <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                    Add student names in the dashboard. Each student gets a secure, password-free login combination using your unique 6-letter Teacher Code.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 2 */}
+              <div className="bg-gradient-to-br from-amber-50/50 to-orange-50/20 rounded-3xl p-6 border border-amber-100/50 flex flex-col justify-between hover:shadow-md transition-shadow relative">
+                <div className="absolute -top-3 -left-3 w-10 h-10 bg-amber-500 text-white rounded-full flex items-center justify-center font-black text-lg border-4 border-white shadow-md">
+                  2
+                </div>
+                <div className="space-y-4 pt-2">
+                  <div className="text-3xl">✍️</div>
+                  <h3 className="font-display text-lg text-slate-900">Select &amp; Generate</h3>
+                  <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                    Choose from standard syllabus topics or write any custom prompt. Instantly generate curriculum-aligned practice worksheets and tests.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div className="bg-gradient-to-br from-emerald-50/50 to-teal-50/20 rounded-3xl p-6 border border-emerald-100/50 flex flex-col justify-between hover:shadow-md transition-shadow relative">
+                <div className="absolute -top-3 -left-3 w-10 h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center font-black text-lg border-4 border-white shadow-md">
+                  3
+                </div>
+                <div className="space-y-4 pt-2">
+                  <div className="text-3xl">🎮</div>
+                  <h3 className="font-display text-lg text-slate-900">Gamified Play</h3>
+                  <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                    Students log in to their dashboard, solve quizzes, traverse Adventure Mazes, collect gold coins, and customize their virtual pet companion!
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 4 */}
+              <div className="bg-gradient-to-br from-purple-50/50 to-fuchsia-50/20 rounded-3xl p-6 border border-purple-100/50 flex flex-col justify-between hover:shadow-md transition-shadow relative">
+                <div className="absolute -top-3 -left-3 w-10 h-10 bg-purple-600 text-white rounded-full flex items-center justify-center font-black text-lg border-4 border-white shadow-md">
+                  4
+                </div>
+                <div className="space-y-4 pt-2">
+                  <div className="text-3xl">📊</div>
+                  <h3 className="font-display text-lg text-slate-900">Real-Time Reports</h3>
+                  <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                    Track scores, micro-skills progress, and growth stats automatically. Instantly spot strengths and focus areas to boost learning.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+
         {/* GRADE COVERAGE SECTION: FOUNDATION TO GRADE 12 */}
         <section id="grade-coverage" className="mt-10 bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 rounded-[36px] p-1.5 shadow-xl relative overflow-hidden">
           <div className="bg-white rounded-[32px] p-6 md:p-10 space-y-8 relative z-10">
@@ -5429,7 +5510,6 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2 border-t border-slate-100">
                        <li className="flex items-center gap-2">✔️ 60–100 Paper Creations / month</li>
-                       <li className="flex items-center gap-2">✔️ Assign 1 paper to all 30 students</li>
                        <li className="flex items-center gap-2">✔️ Save up to 50% vs Option A rates</li>
                        <li className="flex items-center gap-2">✔️ Switch plans instantly</li>
                      </ul>
