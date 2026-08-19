@@ -1404,7 +1404,10 @@ EXPECTED JSON SCHEMA:
         ? `${formData.aiPrompt || ''}\n\nCRITICAL INSTRUCTION: You must strictly generate questions focusing only on the following micro-skills: "${skillTitles}". Distribute the questions evenly across these topics. This is for ${resolvedGrade} at a ${formData.difficulty || 'Medium'} complexity level.`
         : (formData.aiPrompt || formData.title);
 
-      const injectedPrompt = (rawInjected || '')
+      const sanitizedInjected = (rawInjected || '')
+        .replace(/\b\d+\s+(questions?|qs?)\b/gi, '{QUESTION_COUNT} questions');
+
+      const injectedPrompt = sanitizedInjected
         .replace(/\{SUBJECT\}/gi, formData.subject || '')
         .replace(/\{GRADE\}/gi, resolvedGrade || 'Age-Appropriate')
         .replace(/\{TOPIC\}/gi, topic || '')
