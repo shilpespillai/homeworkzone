@@ -53,6 +53,7 @@ import {
   RotateCcw
 } from 'lucide-react';
 import EmojiPicker from '../components/EmojiPicker';
+import { calcOptionCAnnual } from '../utils/pricingConfig';
 
 import { 
   LineChart, 
@@ -2358,17 +2359,7 @@ Include a balanced combination of question types such as:
   };
 
   const calculateOptionCAnnual = (seats) => {
-    let cost = 0;
-    if (seats <= 50) {
-      cost = seats * 12;
-    } else if (seats <= 200) {
-      cost = (50 * 12) + ((seats - 50) * 8);
-    } else if (seats <= 1000) {
-      cost = (50 * 12) + (150 * 8) + ((seats - 200) * 5);
-    } else {
-      cost = (50 * 12) + (150 * 8) + (800 * 5) + ((seats - 1000) * 3);
-    }
-    return cost;
+    return calcOptionCAnnual(seats);
   };
 
   const handleStripeSession = async (planId, action = 'checkout') => {
