@@ -300,6 +300,18 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
     }
   };
 
+  if (classroom?.chatDisabled) {
+    return (
+      <div className="flex flex-col items-center justify-center p-12 bg-white rounded-[32px] border-4 border-slate-100 shadow-sm text-center space-y-4 max-w-lg mx-auto mt-12 select-none">
+        <div className="text-6xl">🔒</div>
+        <h3 className="text-2xl font-black text-slate-800">Messaging is Paused</h3>
+        <p className="text-sm font-bold text-slate-400">
+          Your teacher has paused messaging for this classroom. Focus on your active missions and quizzes! ✨
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-[100%] mx-auto py-4 font-sans relative">
       {/* Container */}

@@ -2712,9 +2712,19 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
            }
         }
         
-        if (actualClassroom?.id) {
+        let latestClassroom = actualClassroom;
+        if (actualClassroom?.id && teacherUid) {
+           const classDocRef = doc(db, 'teachers', teacherUid, 'classrooms', actualClassroom.id);
+           const classDocSnap = await getDoc(classDocRef);
+           if (classDocSnap.exists()) {
+              latestClassroom = { id: classDocSnap.id, ...classDocSnap.data() };
+              setClassroom(latestClassroom);
+           }
+        }
+
+        if (latestClassroom?.id) {
            // Fetch homeworks for this class
-           const hwQ = query(collection(db, 'homeworks'), where('assignedClassId', '==', actualClassroom.id));
+           const hwQ = query(collection(db, 'homeworks'), where('assignedClassId', '==', latestClassroom.id));
            const hwSnap = await getDocs(hwQ);
            const cleanStudentId = studentName?.trim().toLowerCase();
            const hwList = hwSnap.docs.map(doc => {
@@ -2756,13 +2766,13 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
            setHomeworks(hwList);
         }
         
-        if (actualClassroom?.id && teacherUid) {
+        if (latestClassroom?.id && teacherUid) {
            // Fetch classroom student rosters
-           const studentsSnap = await getDocs(collection(db, 'teachers', teacherUid, 'classrooms', actualClassroom.id, 'students'));
+           const studentsSnap = await getDocs(collection(db, 'teachers', teacherUid, 'classrooms', latestClassroom.id, 'students'));
            setClassroomStudents(studentsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
            
            // Direct student profile fetch
-           const studentRef = doc(db, 'teachers', teacherUid, 'classrooms', actualClassroom.id, 'students', studentName?.trim().toLowerCase());
+           const studentRef = doc(db, 'teachers', teacherUid, 'classrooms', latestClassroom.id, 'students', studentName?.trim().toLowerCase());
            const studentSnap = await getDoc(studentRef);
            if (studentSnap.exists()) {
               setCurrentStudentProfile(studentSnap.data());
@@ -2774,9 +2784,9 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
         }
         
          // 🚀 Hardened Scalable Query: Parallel class-filtered and student-filtered queries!
-         if (actualClassroom?.id) {
-            const cleanName = studentName?.trim();
-            const subQ1 = query(collection(db, 'submissions'), where('classId', '==', actualClassroom.id));
+         if (latestClassroom?.id) {
+             const cleanName = studentName?.trim();
+             const subQ1 = query(collection(db, 'submissions'), where('classId', '==', latestClassroom.id));
             const subQ2 = query(collection(db, 'submissions'), where('studentName', '==', cleanName));
             const subQ3 = query(collection(db, 'submissions'), where('studentName', '==', toTitleCase(cleanName)));
             const subQ4 = query(collection(db, 'submissions'), where('studentName', '==', cleanName.toLowerCase()));
@@ -2796,7 +2806,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
             snap4.docs.forEach(doc => combinedMap[doc.id] = { id: doc.id, ...doc.data() });
             snap5.docs.forEach(doc => combinedMap[doc.id] = { id: doc.id, ...doc.data() });
             
-            const subList = Object.values(combinedMap).filter(sub => !sub.classId || sub.classId === actualClassroom.id);
+            const subList = Object.values(combinedMap).filter(sub => !sub.classId || sub.classId === latestClassroom.id);
             setSubmissions(subList);
          } else {
             setSubmissions([]);
@@ -3230,7 +3240,9 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
            <SidebarNavItem icon={<Trophy className="w-5 h-5" />} label="Mission Reports" active={activeNav === 'Mission Reports'} color="text-emerald-500" onClick={() => setActiveNav('Mission Reports')} />
            <SidebarNavItem icon={<User className="w-5 h-5" />} label="My Profile" active={activeNav === 'My Profile'} color="text-green-500" onClick={() => setActiveNav('My Profile')} />
             <SidebarNavItem icon={<Compass className="w-5 h-5" />} label="Adventure Maze" active={activeNav === 'Adventure Maze'} color="text-amber-500" onClick={() => setActiveNav('Adventure Maze')} />
-           <SidebarNavItem icon={<img src="/ic-messages.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Messages" />} label="My Messages" active={activeNav === 'My Messages'} color="text-cyan-500" onClick={() => setActiveNav('My Messages')} badge={unreadMessageCount} />
+           {!classroom?.chatDisabled && (
+              <SidebarNavItem icon={<img src="/ic-messages.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Messages" />} label="My Messages" active={activeNav === 'My Messages'} color="text-cyan-500" onClick={() => setActiveNav('My Messages')} badge={unreadMessageCount} />
+           )}
            <SidebarNavItem icon={<img src="/ic-rewards.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Rewards" />} label="My Rewards" active={activeNav === 'My Rewards'} color="text-orange-500" onClick={() => setActiveNav('My Rewards')} />
            <SidebarNavItem icon={<CreditCard className="w-5 h-5" />} label="Tuition & Fees" active={activeNav === 'Tuition & Fees'} color="text-green-500" onClick={() => setActiveNav('Tuition & Fees')} />
            <SidebarNavItem icon={<FileText className="w-5 h-5" />} label="Child Report" active={activeNav === 'Child Report'} color="text-rose-500" onClick={() => setActiveNav('Child Report')} />

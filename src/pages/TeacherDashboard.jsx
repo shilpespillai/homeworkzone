@@ -775,12 +775,14 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [showAddClassModal, setShowAddClassModal] = useState(false);
   const [selectedSubjects, setSelectedSubjects] = useState([]);
   const [customSubjectInput, setCustomSubjectInput] = useState('');
+  const [newChatDisabled, setNewChatDisabled] = useState(false);
   
   const [showEditClassModal, setShowEditClassModal] = useState(false);
   const [editingClass, setEditingClass] = useState(null);
   const [editClassName, setEditClassName] = useState('');
   const [selectedEditSubjects, setSelectedEditSubjects] = useState([]);
   const [customEditSubjectInput, setCustomEditSubjectInput] = useState('');
+  const [editChatDisabled, setEditChatDisabled] = useState(false);
 
   const [allStudents, setAllStudents] = useState([]);
   const todayBirthdayStudents = useMemo(() => {
@@ -1617,12 +1619,14 @@ Include a balanced combination of question types such as:
         name: newClassName.trim(),
         createdAt: new Date().toISOString(),
         teacherUid: user.uid,
-        subjects: selectedSubjects
+        subjects: selectedSubjects,
+        chatDisabled: newChatDisabled
       });
       
       console.log("Class created successfully:", classId);
       setNewClassName('');
       setSelectedSubjects([]);
+      setNewChatDisabled(false);
       await fetchClassrooms();
       setShowAddClassModal(false);
       alert("Class created successfully! 🎨✨¨");
@@ -1645,13 +1649,15 @@ Include a balanced combination of question types such as:
       
       await updateDoc(classRef, {
         name: editClassName.trim(),
-        subjects: selectedEditSubjects
+        subjects: selectedEditSubjects,
+        chatDisabled: editChatDisabled
       });
       
       console.log("Class updated successfully:", editingClass.id);
       setEditingClass(null);
       setEditClassName('');
       setSelectedEditSubjects([]);
+      setEditChatDisabled(false);
       setShowEditClassModal(false);
       await fetchClassrooms();
       alert("Class updated successfully! ✨¨");
@@ -4169,6 +4175,7 @@ Include a balanced combination of question types such as:
                               setEditingClass(room);
                               setEditClassName(room.name);
                               setSelectedEditSubjects(room.subjects || []);
+                              setEditChatDisabled(room.chatDisabled || false);
                               setShowEditClassModal(true);
                            }}
                             onView={() => { 
@@ -8231,6 +8238,19 @@ Include a balanced combination of question types such as:
                   </div>
                 </div>
 
+                <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-[20px] mb-2 mt-4 select-none">
+                  <div>
+                    <label className="text-xs font-black text-slate-700 block">Disable Chat / Messaging</label>
+                    <span className="text-[9px] font-bold text-slate-400">Prevent students from sending or viewing chat messages</span>
+                  </div>
+                  <input 
+                    type="checkbox"
+                    checked={newChatDisabled}
+                    onChange={(e) => setNewChatDisabled(e.target.checked)}
+                    className="w-5 h-5 accent-orange-600 rounded cursor-pointer"
+                  />
+                </div>
+
                 <div className="flex items-center gap-4 pt-4">
                   <button 
                     onClick={handleAddClassroom}
@@ -8332,6 +8352,19 @@ Include a balanced combination of question types such as:
                       Add
                     </button>
                   </div>
+                </div>
+
+                <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-[20px] mb-2 mt-4 select-none">
+                  <div>
+                    <label className="text-xs font-black text-slate-700 block">Disable Chat / Messaging</label>
+                    <span className="text-[9px] font-bold text-slate-400">Prevent students from sending or viewing chat messages</span>
+                  </div>
+                  <input 
+                    type="checkbox"
+                    checked={editChatDisabled}
+                    onChange={(e) => setEditChatDisabled(e.target.checked)}
+                    className="w-5 h-5 accent-orange-600 rounded cursor-pointer"
+                  />
                 </div>
 
                 <div className="flex items-center gap-4 pt-4">
