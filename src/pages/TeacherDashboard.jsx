@@ -40,6 +40,7 @@ import {
   ArrowDownRight,
   FileText,
   CreditCard,
+  Loader2,
   Save,
   CheckCircle,
   DollarSign,
@@ -7965,6 +7966,24 @@ Include a balanced combination of question types such as:
          case 'Tuition Fees': {
             return (
                <div className="px-10 py-10 space-y-8 min-h-[calc(100vh-64px)] pb-40">
+                  {/* Stripe Loading Overlay */}
+                  {isRedirectingStripe && (
+                    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
+                      <div className="bg-white rounded-[40px] p-10 max-w-sm w-full shadow-2xl flex flex-col items-center text-center space-y-6 animate-in fade-in zoom-in duration-300">
+                        <div className="relative w-24 h-24 flex items-center justify-center">
+                          <Loader2 className="w-24 h-24 text-blue-100 animate-spin absolute" strokeWidth={3} />
+                          <Loader2 className="w-24 h-24 text-blue-600 animate-spin absolute" style={{ animationDuration: '2s', animationDirection: 'reverse' }} strokeWidth={2} strokeDasharray="50 100" />
+                          <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center relative z-10 shadow-inner">
+                            <Lock className="w-6 h-6 text-blue-600" strokeWidth={2.5} />
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <h3 className="text-2xl font-black text-slate-800 tracking-tight">Secure Checkout</h3>
+                          <p className="text-xs font-bold text-slate-400">Connecting to Stripe banking portal...</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                   {/* Header */}
                   <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                      <div>
