@@ -2635,7 +2635,7 @@ Include a balanced combination of question types such as:
 
     return (
         <div className="px-10 py-10 space-y-8 min-h-[calc(100vh-64px)] pb-40">
-          <AdminPricingSettings />
+          
         {/* Header */}
         <div>
           <h1 className="text-4xl font-black text-[#14532d] tracking-tight flex items-center gap-3">
