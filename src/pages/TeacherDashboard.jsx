@@ -2912,7 +2912,7 @@ Include a balanced combination of question types such as:
                 {[
                   { id: 'option-b-starter', name: 'Starter (11-20 students)', price: 50, seats: 20 },
                   { id: 'option-b-growth', name: 'Growth (21-30 students)', price: 80, seats: 30 },
-                  { id: 'option-b-school', name: 'School (31-150 students)', price: 99, seats: 150 },
+                  
                 ].map((tier) => (
                   <div key={tier.id} className="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl">
                     <div>
