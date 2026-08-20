@@ -24,6 +24,7 @@ import {
   Flag,
   Volume2
 } from 'lucide-react';
+import TextWithTables from '../components/TextWithTables';
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
 import { doc, getDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';

@@ -34,6 +34,7 @@ import {
   Globe,
   Lock
 } from 'lucide-react';
+import TextWithTables from '../components/TextWithTables';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const cleanOptionText = (text) => {
@@ -3484,7 +3485,7 @@ EXPECTED JSON SCHEMA:
                                   const { text: cleanText, clockTime, inlineSvg } = parseQuestionText(q.text);
                                   return (
                                     <>
-                                      <p className="font-bold text-slate-800 text-sm mb-4 whitespace-pre-wrap"><span className="text-green-600 mr-2">Q{idx + 1}.</span> {cleanText}</p>
+                                      <div className="font-bold text-slate-800 text-sm mb-4 flex gap-2"><span className="text-green-600">Q{idx + 1}.</span> <div className="flex-1"><TextWithTables text={cleanText} /></div></div>
                                       {clockTime && (
                                         <div className="mb-4 transform scale-75 origin-top-left">
                                           <ClockFace timeStr={clockTime} />

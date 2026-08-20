@@ -18,6 +18,7 @@ import {
   X,
   LogOut
 } from 'lucide-react';
+import TextWithTables from './TextWithTables';
 import DynamicChart from './DynamicChart';
 import DynamicGeometry from './DynamicGeometry';
 import DynamicGridMap from './DynamicGridMap';
@@ -936,7 +937,7 @@ export default function OfficialExamPaperView({
 
           {/* Question Text */}
           <div className="text-base md:text-lg font-extrabold leading-relaxed text-slate-900 bg-slate-50 border-l-4 border-amber-500 p-4 rounded-r-xl shadow-sm my-4">
-            {cleanQuestionText || currentQ?.text || currentQ?.question || currentQ?.questionText || currentQ?.prompt || currentQ?.title || currentQ?.subtopic || `Question ${currentIdx + 1}: Select the correct answer from the options below:`}
+            <TextWithTables text={cleanQuestionText || currentQ?.text || currentQ?.question || currentQ?.questionText || currentQ?.prompt || currentQ?.title || currentQ?.subtopic || `Question ${currentIdx + 1}: Select the correct answer from the options below:`} />
           </div>
 
           {/* Question Input (Multiple Choice / Short Answer Text / Interactive) */}
