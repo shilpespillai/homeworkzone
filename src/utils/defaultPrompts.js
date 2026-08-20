@@ -87,24 +87,29 @@ export const getMasterDefaultPrompts = async (db) => {
     // 1. Try system doc first
     const sysDoc = await getDoc(doc(db, 'system', 'default_subject_prompts'));
     if (sysDoc.exists() && sysDoc.data().subjectPrompts) {
-      const merged = { ...masterPrompts, ...sysDoc.data().subjectPrompts };
-      if (!merged.vocabulary || merged.vocabulary.includes('Vocabulary & Word Power')) {
-        merged.vocabulary = getVocabularyPromptTemplate();
+      let adminPrompts = sysDoc.data().subjectPrompts;
+      // Filter out any explicitly nulled keys
+      Object.keys(adminPrompts).forEach(k => { if (adminPrompts[k] === null) delete adminPrompts[k]; });
+      
+      if (!adminPrompts.vocabulary || adminPrompts.vocabulary.includes('Vocabulary & Word Power')) {
+        adminPrompts.vocabulary = getVocabularyPromptTemplate();
       }
-      return merged;
+      return adminPrompts;
     }
 
-    // 2. Query shilpeshpillai81@gmail.com teacher doc
+    // 2. Query shilpeshpillai81@gmail.com teacher doc (Legacy fallback)
     const q = query(collection(db, 'teachers'), where('email', '==', ADMIN_EMAIL));
     const snap = await getDocs(q);
     if (!snap.empty) {
       const adminData = snap.docs[0].data();
       if (adminData.subjectPrompts) {
-        const merged = { ...masterPrompts, ...adminData.subjectPrompts };
-        if (!merged.vocabulary || merged.vocabulary.includes('Vocabulary & Word Power')) {
-          merged.vocabulary = getVocabularyPromptTemplate();
+        let adminPrompts = adminData.subjectPrompts;
+        Object.keys(adminPrompts).forEach(k => { if (adminPrompts[k] === null) delete adminPrompts[k]; });
+        
+        if (!adminPrompts.vocabulary || adminPrompts.vocabulary.includes('Vocabulary & Word Power')) {
+          adminPrompts.vocabulary = getVocabularyPromptTemplate();
         }
-        return merged;
+        return adminPrompts;
       }
     }
   } catch (err) {

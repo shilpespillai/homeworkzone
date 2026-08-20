@@ -50,7 +50,8 @@ import {
   FlaskConical,
   Code,
   Coins,
-  RotateCcw
+  RotateCcw,
+  Sparkles
 } from 'lucide-react';
 import EmojiPicker from '../components/EmojiPicker';
 import { calcOptionCAnnual } from '../utils/pricingConfig';
@@ -79,6 +80,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { DEFAULT_SUBJECT_PROMPTS, getPremiumPromptTemplate, getMasterDefaultPrompts, saveMasterDefaultPromptsIfAdmin } from '../utils/defaultPrompts';
 import { db } from '../firebase';
+import { checkCanGeneratePaper } from '../utils/quotaManager';
 
 const toTitleCase = (str) => {
   if (!str) return '';
@@ -89,7 +91,7 @@ const toTitleCase = (str) => {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 };
-import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where, onSnapshot, addDoc, collectionGroup, updateDoc, limit } from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where, onSnapshot, addDoc, collectionGroup, updateDoc, limit, getDocsFromServer } from 'firebase/firestore';
 import HomeworkGenerator from './HomeworkGenerator';
 import HomeworkScheduler from './HomeworkScheduler';
 import TestReportsDashboard from '../components/TestReportsDashboard';
@@ -283,7 +285,7 @@ const BirthdayCelebration = ({ students }) => {
             <div className="absolute top-2 left-4 text-xl animate-ping select-none">ðŸ¬</div>
             <div className="absolute top-6 right-12 text-2xl animate-bounce select-none">✨¨</div>
             <div className="absolute bottom-3 left-1/3 text-lg animate-pulse select-none">🎈</div>
-            <div className="absolute bottom-2 right-1/4 text-xl animate-bounce select-none">ðŸ§</div>
+            <div className="absolute bottom-2 right-1/4 text-xl animate-bounce select-none">🧠</div>
             <div className="absolute top-1/2 left-10 text-lg animate-bounce select-none">🎉</div>
          </div>
          
@@ -554,29 +556,53 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const fetchAdminData = async () => {
     setAdminLoading(true);
     try {
-      const studentQuery = query(collectionGroup(db, 'students'));
-      const studentSnap = await getDocs(studentQuery);
-      const studentCounts = {};
-      studentSnap.forEach(doc => {
-        const parts = doc.ref.path.split('/');
-        const teacherId = parts[1];
-        if (teacherId) {
-          studentCounts[teacherId] = (studentCounts[teacherId] || 0) + 1;
-        }
-      });
-
+      const activeTeacherClassrooms = {};
       const classQuery = query(collectionGroup(db, 'classrooms'));
-      const classSnap = await getDocs(classQuery);
+      const classSnap = await getDocsFromServer(classQuery);
       const classCounts = {};
       classSnap.forEach(doc => {
         const parts = doc.ref.path.split('/');
         const teacherId = parts[1];
+        const classroomId = doc.id;
         if (teacherId) {
           classCounts[teacherId] = (classCounts[teacherId] || 0) + 1;
+          if (!activeTeacherClassrooms[teacherId]) {
+            activeTeacherClassrooms[teacherId] = new Set();
+          }
+          activeTeacherClassrooms[teacherId].add(classroomId);
         }
       });
 
-      const teachersSnap = await getDocs(collection(db, 'teachers'));
+      const studentQuery = query(collectionGroup(db, 'students'));
+      const studentSnap = await getDocsFromServer(studentQuery);
+      const studentCounts = {};
+      studentSnap.forEach(doc => {
+        const parts = doc.ref.path.split('/');
+        if (parts.length === 6 && parts[0] === 'teachers' && parts[2] === 'classrooms' && parts[4] === 'students') {
+          const teacherId = parts[1];
+          const classroomId = parts[3];
+          const teacherActiveClasses = activeTeacherClassrooms[teacherId];
+          if (teacherActiveClasses && teacherActiveClasses.has(classroomId)) {
+            studentCounts[teacherId] = (studentCounts[teacherId] || 0) + 1;
+          }
+        }
+      });
+
+      const homeworkSnap = await getDocsFromServer(collection(db, 'homeworks'));
+      const homeworkCounts = {};
+      const subjectByTeacher = {}; // { teacherId: { Maths: 3, English: 2, ... } }
+      homeworkSnap.forEach(doc => {
+        const data = doc.data();
+        const teacherId = data.teacherId;
+        if (teacherId) {
+          homeworkCounts[teacherId] = (homeworkCounts[teacherId] || 0) + 1;
+          const subj = (data.subject || 'Other').trim();
+          if (!subjectByTeacher[teacherId]) subjectByTeacher[teacherId] = {};
+          subjectByTeacher[teacherId][subj] = (subjectByTeacher[teacherId][subj] || 0) + 1;
+        }
+      });
+
+      const teachersSnap = await getDocsFromServer(collection(db, 'teachers'));
       const teachersList = [];
 
       teachersSnap.forEach(docSnap => {
@@ -584,6 +610,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
         const teacherId = docSnap.id;
         const studentCount = studentCounts[teacherId] || 0;
         const classCount = classCounts[teacherId] || 0;
+        const homeworkCount = homeworkCounts[teacherId] || 0;
         const billing = data.billing || { planId: 'free', status: 'none', quantity: 0 };
 
         const rawCreated = billing?.createdAt || data?.createdAt || data?.billing?.createdAt;
@@ -610,8 +637,11 @@ const TeacherDashboard = ({ user, onLogout }) => {
           teacherCode: data.teacherCode || 'N/A',
           createdAt: data.createdAt || billing.createdAt || new Date().toISOString(),
           billing,
+          location: data.location || null,
           studentCount,
           classCount,
+          homeworkCount,
+          subjectCounts: subjectByTeacher[teacherId] || {},
           trialDaysLeft,
           activePlanId,
           isPaid,
@@ -647,8 +677,8 @@ const TeacherDashboard = ({ user, onLogout }) => {
     if (planId === 'option-a') {
       return studentCount * 1.50;
     }
-    if (planId === 'option-b-starter') return 15;
-    if (planId === 'option-b-growth') return 45;
+    if (planId === 'option-b-starter') return 50;
+    if (planId === 'option-b-growth') return 80;
     if (planId === 'option-b-school') return 99;
     if (planId === 'option-c') {
       return calculateOptionCAnnual(studentCount) / 12;
@@ -688,6 +718,19 @@ const TeacherDashboard = ({ user, onLogout }) => {
           setDoc(doc(db, 'teachers', user.uid), { createdAt: new Date().toISOString() }, { merge: true })
             .catch(err => console.error("Error setting createdAt:", err));
         }
+        
+        // Auto-capture location metadata for regional reports if missing
+        if (!data.location) {
+          try {
+            const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
+            const locale = navigator.language || 'Unknown';
+            setDoc(doc(db, 'teachers', user.uid), { location: { timeZone, locale } }, { merge: true })
+              .catch(err => console.error("Error setting location:", err));
+          } catch (e) {
+            console.error("Could not capture location metadata", e);
+          }
+        }
+
         if (data.billing) {
           setTeacherBilling(data.billing);
           if (!data.billing.createdAt) {
@@ -1327,13 +1370,13 @@ Include a balanced combination of question types such as:
           },
           activeAi: activeAi
         }, { merge: true });
-        alert("AI Configuration saved securely to Cloud and locally! ðŸ§ 🔒");
+        alert("AI Configuration saved securely to Cloud and locally! 🧠 🔒");
       } catch (err) {
         console.error("Save AI settings to Firestore failed:", err);
         alert("AI Configuration saved locally, but failed to sync to Cloud. ⚠️ï¸");
       }
     } else {
-      alert("AI Configuration saved locally! ðŸ§ 🔒");
+      alert("AI Configuration saved locally! 🧠 🔒");
     }
     setShowAiSettings(false);
   };
@@ -1352,7 +1395,7 @@ Include a balanced combination of question types such as:
             localStorage.setItem('hwz_active_ai', data.activeAi);
           }
           if (data.subjectPrompts) {
-            setSubjectPrompts({ ...masterPrompts, ...data.subjectPrompts });
+            setSubjectPrompts(data.subjectPrompts);
           } else {
             setSubjectPrompts(masterPrompts);
           }
@@ -1602,13 +1645,13 @@ Include a balanced combination of question types such as:
       return;
     }
 
-    const activePlanId = (teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free';
-    const trialDays = getTrialDaysLeft();
-    if (activePlanId === 'free') {
-      if (trialDays < 0) {
-        setShowUpgradeAlert(true);
-        return;
-      }
+    const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
+    const activePlanId = simulatedPlan || ((teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free');
+    
+    const isFree = activePlanId === 'free' || activePlanId === 'free_trial' || activePlanId === 'free_expired';
+    if (isFree && classrooms.length >= 2) {
+      setShowUpgradeAlert(true);
+      return;
     }
 
     setIsAddingClass(true);
@@ -1729,7 +1772,8 @@ Include a balanced combination of question types such as:
     if (!studentName.trim() || !user?.uid || !activeClassroom) return;
 
     // Check billing limit before adding
-    const activePlanId = (teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free';
+    const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
+    const activePlanId = simulatedPlan || ((teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free');
     const limit = getPlanSeatLimit(activePlanId);
     if (allStudents.length >= limit) {
       setShowUpgradeAlert(true);
@@ -1894,12 +1938,33 @@ Include a balanced combination of question types such as:
   }, [user?.uid, classrooms]);
 
   const syncStudentQuotaLocks = async (studentsList) => {
-    if (!user?.uid || !teacherBilling) return;
+    if (!user?.uid) return;
     
-    const activePlanId = (teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free';
+    const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
+    const activePlanId = simulatedPlan || ((teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free');
     const limit = getPlanSeatLimit(activePlanId);
     
-    // studentsList is already sorted from the snapshot
+    // Check if any lock status has changed in-memory
+    let localChanged = false;
+    const updatedList = studentsList.map((student, index) => {
+      const shouldBeLocked = index >= limit;
+      if (!!student.isQuotaLocked !== shouldBeLocked) {
+        localChanged = true;
+        return { ...student, isQuotaLocked: shouldBeLocked };
+      }
+      return student;
+    });
+
+    if (localChanged) {
+      setAllStudents(updatedList);
+    }
+
+    if (simulatedPlan) {
+      // If simulating, keep it completely local/client-side and do NOT write to database
+      return;
+    }
+    
+    // Write to Firestore only for real plan actions
     const updates = [];
     studentsList.forEach((student, index) => {
       const shouldBeLocked = index >= limit;
@@ -1912,7 +1977,7 @@ Include a balanced combination of question types such as:
     });
 
     if (updates.length > 0) {
-      console.log(`Syncing quota locks for ${updates.length} students...`);
+      console.log(`Syncing real quota locks for ${updates.length} students to Firestore...`);
       try {
          for (const update of updates) {
            await setDoc(update.ref, { isQuotaLocked: update.shouldBeLocked }, { merge: true });
@@ -1924,7 +1989,7 @@ Include a balanced combination of question types such as:
   };
 
   useEffect(() => {
-    if (allStudents.length > 0 && teacherBilling) {
+    if (allStudents.length > 0) {
        syncStudentQuotaLocks(allStudents);
     }
   }, [allStudents.length, teacherBilling]);
@@ -2112,7 +2177,7 @@ Include a balanced combination of question types such as:
   const handleDeleteStudent = async (e, studentId, studentName, classId) => {
     e.stopPropagation();
     const targetClassId = classId || activeClassroom?.id;
-    if (!user?.uid || !targetClassId || !(await window.confirmCustom(`Remove ${studentName} from the class? ðŸŽ`))) return;
+    if (!user?.uid || !targetClassId || !(await window.confirmCustom(`Remove ${studentName} from the class? 🍊`))) return;
     
     try {
       // 1. Delete student profile doc in classroom
@@ -2199,7 +2264,7 @@ Include a balanced combination of question types such as:
         customBadges: [...currentBadges, newBadge]
       }, { merge: true });
 
-      alert(`Badge "${badgeName}" awarded successfully to ${selectedStudentForBadge.name}! 🎖️ï¸✨¨`);
+      alert(`Badge "${badgeName}" awarded successfully to ${selectedStudentForBadge.name}! 🎖️✨¨`);
       setShowAwardBadgeModal(false);
       setBadgeName('');
       setBadgeDesc('');
@@ -2274,10 +2339,36 @@ Include a balanced combination of question types such as:
     }
   };
 
+  const [isCancellingSub, setIsCancellingSub] = useState(false);
+  const handleCancelSubscription = async () => {
+    if (!teacherBilling?.stripeSubscriptionId) return;
+    if (!window.confirm("Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.")) return;
+    
+    setIsCancellingSub(true);
+    try {
+      const response = await fetch('/api/cancel-subscription', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subscriptionId: teacherBilling.stripeSubscriptionId })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Failed to cancel');
+      
+      // Update local state immediately for UI responsiveness
+      setTeacherBilling(prev => ({ ...prev, cancelAtPeriodEnd: true }));
+      alert("Your subscription has been canceled. You will have access until the end of your current billing cycle.");
+    } catch (err) {
+      console.error(err);
+      alert("Error canceling subscription: " + err.message);
+    } finally {
+      setIsCancellingSub(false);
+    }
+  };
+
   const handleSendRemediationMsg = async () => {
     if (!remediationModalStudent) return;
     if (!remediationMessageContent.trim()) {
-      alert("Please write a message first! ðŸ“");
+      alert("Please write a message first! 📝");
       return;
     }
     setIsSendingRemediationMsg(true);
@@ -2327,18 +2418,19 @@ Include a balanced combination of question types such as:
 
     if (isAdminUser && !simulatedPlan) return Infinity;
 
-    if (isMaxed) return 0; // Immediately block student seat addition for testing maxed state!
+    if (isMaxed) return allStudents.length || 0; // Blocks new additions without locking existing students!
 
-    if (effectivePlan === 'free') {
-      const trialDays = getTrialDaysLeft();
-      if (trialDays >= 0 && !simulatedPlan) return Infinity;
+    if (effectivePlan === 'free_expired' || effectivePlan === 'free_trial' || effectivePlan === 'free') {
       return 5;
     }
     switch (effectivePlan) {
-      case 'option-b-starter': return 15;
-      case 'option-b-growth': return 50;
+      case 'option-b-starter': return 20;
+      case 'option-b-growth': return 30;
       case 'option-b-school': return 150;
       case 'option-a':
+      case 'option_a_elastic': {
+        return (teacherBilling && teacherBilling.quantity) ? teacherBilling.quantity : 10;
+      }
       case 'option-c':
         return Infinity;
       default: return 5;
@@ -2512,22 +2604,20 @@ Include a balanced combination of question types such as:
   };
 
   const renderBillingTab = () => {
-    const activePlanId = (teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free';
+    const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
+    const activePlanId = simulatedPlan || ((teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free');
     const limit = getPlanSeatLimit(activePlanId);
     
     // Calculator variables
-    const optionAAnnual = calcSeats * 1.5 * 12;
+    const optionAAnnual = calcSeats * 5.00 * 12;
     let optionBPlanName = '';
     let optionBAnnual = Infinity;
-    if (calcSeats <= 15) {
+    if (calcSeats >= 11 && calcSeats <= 20) {
       optionBPlanName = 'Option B (Starter)';
-      optionBAnnual = 15 * 12;
-    } else if (calcSeats <= 50) {
+      optionBAnnual = 50 * 12;
+    } else if (calcSeats >= 21 && calcSeats <= 30) {
       optionBPlanName = 'Option B (Growth)';
-      optionBAnnual = 45 * 12;
-    } else if (calcSeats <= 150) {
-      optionBPlanName = 'Option B (School)';
-      optionBAnnual = 99 * 12;
+      optionBAnnual = 80 * 12;
     }
     const optionCAnnual = calculateOptionCAnnual(calcSeats);
 
@@ -2595,9 +2685,9 @@ Include a balanced combination of question types such as:
             </div>
 
             <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 min-w-[200px]">
-              <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block">Classroom Capacity</span>
+              <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block">Student Seats</span>
               <div className="text-3xl font-black text-slate-800 mt-1">
-                {allStudents.length} <span className="text-sm font-bold text-slate-400">/ {limit === Infinity ? 'âˆž' : limit} students</span>
+                {allStudents.length} <span className="text-sm font-bold text-slate-400">/ {limit === Infinity ? '∞' : limit} students</span>
               </div>
               <div className="progress mt-2 h-1.5 bg-slate-200 rounded-full overflow-hidden">
                 <div 
@@ -2611,15 +2701,28 @@ Include a balanced combination of question types such as:
           {teacherBilling?.stripeCustomerId && (
             <div className="pt-4 border-t border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <p className="text-xs text-slate-400 font-bold">
-                Manage payment details, update invoice billing emails, or cancel subscription inside Stripe's customer portal.
+                {teacherBilling.cancelAtPeriodEnd 
+                  ? "Your subscription is scheduled to cancel at the end of the billing period."
+                  : "Manage payment details, update invoice billing emails, or cancel your subscription."}
               </p>
-              <button
-                onClick={() => handleStripeSession(null, 'portal')}
-                disabled={isRedirectingStripe}
-                className="flex items-center gap-2 px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl font-bold text-xs shadow-sm transition-all"
-              >
-                {isRedirectingStripe ? 'Opening Portal...' : 'Manage Billing & Invoices 💳'}
-              </button>
+              <div className="flex gap-3">
+                {teacherBilling.stripeSubscriptionId && !teacherBilling.cancelAtPeriodEnd && teacherBilling.status === 'active' && (
+                  <button
+                    onClick={handleCancelSubscription}
+                    disabled={isCancellingSub}
+                    className="flex items-center gap-2 px-6 py-3 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-2xl font-bold text-xs shadow-sm transition-all"
+                  >
+                    {isCancellingSub ? 'Canceling...' : 'Unsubscribe 🚫'}
+                  </button>
+                )}
+                <button
+                  onClick={() => handleStripeSession(null, 'portal')}
+                  disabled={isRedirectingStripe}
+                  className="flex items-center gap-2 px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl font-bold text-xs shadow-sm transition-all"
+                >
+                  {isRedirectingStripe ? 'Opening Portal...' : 'Manage Billing 💳'}
+                </button>
+              </div>
             </div>
           )}
         </div>
@@ -2690,14 +2793,14 @@ Include a balanced combination of question types such as:
               </div>
               <div className="space-y-3 pt-2">
                 {[
-                  { id: 'option-b-starter', name: 'Starter (Up to 15 students)', price: 15 },
-                  { id: 'option-b-growth', name: 'Growth (Up to 50 students)', price: 45 },
-                  { id: 'option-b-school', name: 'School (Up to 150 students)', price: 99 },
+                  { id: 'option-b-starter', name: 'Starter (11–20 students)', price: 50, seats: 20 },
+                  { id: 'option-b-growth', name: 'Growth (21–30 students)', price: 80, seats: 30 },
+                  { id: 'option-b-school', name: 'School (31–150 students)', price: 99, seats: 150 },
                 ].map((tier) => (
                   <div key={tier.id} className="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl">
                     <div>
                       <p className="text-xs font-bold text-slate-700">{tier.name}</p>
-                      <p className="text-[10px] font-medium text-slate-400">${(tier.price / (tier.id === 'option-b-starter' ? 15 : tier.id === 'option-b-growth' ? 50 : 150)).toFixed(2)} / student equivalent</p>
+                      <p className="text-[10px] font-medium text-slate-400">${(tier.price / tier.seats).toFixed(2)} / student equivalent</p>
                     </div>
                     <button
                       onClick={() => handleStripeSession(tier.id)}
@@ -2735,20 +2838,20 @@ Include a balanced combination of question types such as:
               <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 space-y-1">
                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Graduated Tiers (Annual)</span>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
-                  <span>1–50 students</span>
-                  <span>$12 / student</span>
+                  <span>31–100 students</span>
+                  <span>$24 / student / yr</span>
                 </div>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
-                  <span>51–200 students</span>
-                  <span>$8 / student</span>
+                  <span>101–500 students</span>
+                  <span>$20 / student / yr</span>
                 </div>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
-                  <span>201–1000 students</span>
-                  <span>$5 / student</span>
+                  <span>501–1,000 students</span>
+                  <span>$16 / student / yr</span>
                 </div>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
-                  <span>1001+ students</span>
-                  <span>$3 / student</span>
+                  <span>1,001+ students</span>
+                  <span>$14 / student / yr (Capped)</span>
                 </div>
               </div>
             </div>
@@ -2857,6 +2960,7 @@ Include a balanced combination of question types such as:
 
     const totalMRR = adminTeachers.reduce((sum, t) => sum + t.mrr, 0);
     const conversionRate = totalTeachers > 0 ? ((paidCount / totalTeachers) * 100).toFixed(1) : 0;
+    const totalHomeworks = adminTeachers.reduce((sum, t) => sum + (t.homeworkCount || 0), 0);
 
     const filtered = adminTeachers.filter(t => {
       const matchesSearch = 
@@ -2928,7 +3032,7 @@ Include a balanced combination of question types such as:
           </div>
         ) : (
           <div className="space-y-8">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
               <div className="bg-white border-4 border-orange-100 rounded-[32px] p-6 space-y-4 shadow-lg relative overflow-hidden group">
                 <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-orange-50 rounded-full blur-xl group-hover:scale-150 transition-transform" />
                 <div className="flex justify-between items-center">
@@ -2968,6 +3072,20 @@ Include a balanced combination of question types such as:
                 <div className="space-y-1">
                   <h3 className="text-3xl font-black text-blue-655">{conversionRate}%</h3>
                   <p className="text-[10px] font-bold text-slate-400">{paidCount} paid / {totalTeachers} total users</p>
+                </div>
+              </div>
+
+              <div className="bg-white border-4 border-violet-100 rounded-[32px] p-6 space-y-4 shadow-lg relative overflow-hidden group">
+                <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-violet-50 rounded-full blur-xl group-hover:scale-150 transition-transform" />
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-black text-slate-500 uppercase tracking-wider">Total Papers Created</span>
+                  <div className="w-10 h-10 bg-violet-50 text-violet-600 rounded-xl flex items-center justify-center">
+                    <FileText className="w-5 h-5" />
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-3xl font-black text-violet-700">{totalHomeworks}</h3>
+                  <p className="text-[10px] font-bold text-slate-400">Total generated assignments</p>
                 </div>
               </div>
 
@@ -3072,6 +3190,7 @@ Include a balanced combination of question types such as:
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none" onClick={() => handleAdminSort('teacherCode')}>Code</th>
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none" onClick={() => handleAdminSort('createdAt')}>Registered</th>
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none text-center" onClick={() => handleAdminSort('studentCount')}>Students</th>
+                      <th className="p-4 cursor-pointer hover:text-purple-700 select-none text-center" onClick={() => handleAdminSort('homeworkCount')}>Papers</th>
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none" onClick={() => handleAdminSort('activePlanId')}>Plan Model</th>
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none text-right" onClick={() => handleAdminSort('mrr')}>Est. MRR</th>
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none text-center" onClick={() => handleAdminSort('conversionStatus')}>Conversion Status</th>
@@ -3081,7 +3200,7 @@ Include a balanced combination of question types such as:
                   <tbody>
                     {sorted.length === 0 ? (
                       <tr>
-                        <td colSpan="7" className="p-8 text-center text-slate-400 font-bold">
+                        <td colSpan="9" className="p-8 text-center text-slate-400 font-bold">
                           No teachers match the filters.
                         </td>
                       </tr>
@@ -3098,6 +3217,9 @@ Include a balanced combination of question types such as:
                           </td>
                           <td className="p-4 text-center font-bold text-slate-800">
                             {teacher.studentCount} <span className="text-[10px] text-slate-400 font-medium">({teacher.classCount} classes)</span>
+                          </td>
+                          <td className="p-4 text-center font-bold text-slate-800">
+                            {teacher.homeworkCount}
                           </td>
                           <td className="p-4">
                             <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase border ${
@@ -3165,6 +3287,630 @@ Include a balanced combination of question types such as:
             </div>
           </div>
         )}
+
+        {/* ───────────────────────────────────────────────────── */}
+        {/* REPORT 1: MRR TREND CHART                            */}
+        {/* ───────────────────────────────────────────────────── */}
+        {(() => {
+          const now = new Date();
+          const monthLabels = [];
+          const mrrByMonth = [];
+          for (let i = 11; i >= 0; i--) {
+            const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            monthLabels.push(d.toLocaleString('default', { month: 'short', year: '2-digit' }));
+            // Estimate: teachers whose billing started on or before this month and are still active
+            const monthEnd = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+            const mrr = adminTeachers.reduce((sum, t) => {
+              if (!t.isPaid) return sum;
+              const start = t.billing?.createdAt ? new Date(t.billing.createdAt) : null;
+              const end = t.billing?.currentPeriodEnd ? new Date(t.billing.currentPeriodEnd) : null;
+              if (start && start <= monthEnd && (!end || end >= d)) return sum + t.mrr;
+              return sum;
+            }, 0);
+            mrrByMonth.push(mrr);
+          }
+          const maxMRR = Math.max(...mrrByMonth, 1);
+          const chartH = 120;
+          const chartW = 700;
+          const pts = mrrByMonth.map((v, i) => {
+            const x = (i / (mrrByMonth.length - 1)) * (chartW - 40) + 20;
+            const y = chartH - 20 - ((v / maxMRR) * (chartH - 30));
+            return { x, y, v };
+          });
+          const pathD = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+          const areaD = `${pathD} L ${pts[pts.length-1].x} ${chartH - 20} L ${pts[0].x} ${chartH - 20} Z`;
+          return (
+            <div className="bg-white rounded-[28px] border border-slate-100 shadow-sm p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-black uppercase text-emerald-600 bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-full tracking-widest inline-block">Revenue Trend</span>
+                  <h3 className="text-xl font-black text-slate-800 mt-1">📈 MRR Over Time (12 Months)</h3>
+                </div>
+                <div className="text-right">
+                  <p className="text-3xl font-black text-emerald-600">${mrrByMonth[mrrByMonth.length - 1].toFixed(0)}</p>
+                  <p className="text-[10px] font-bold text-slate-400">Current Month MRR</p>
+                </div>
+              </div>
+              <div className="overflow-x-auto">
+                <svg viewBox={`0 0 ${chartW} ${chartH + 20}`} className="w-full" style={{ minWidth: 400 }}>
+                  {/* Grid lines */}
+                  {[0, 0.25, 0.5, 0.75, 1].map((pct, i) => {
+                    const y = chartH - 20 - pct * (chartH - 30);
+                    return (
+                      <g key={i}>
+                        <line x1="20" y1={y} x2={chartW - 20} y2={y} stroke="#f1f5f9" strokeWidth="1" />
+                        <text x="14" y={y + 4} fontSize="7" fill="#94a3b8" textAnchor="end">${(maxMRR * pct).toFixed(0)}</text>
+                      </g>
+                    );
+                  })}
+                  {/* Area fill */}
+                  <path d={areaD} fill="url(#mrrGrad)" opacity="0.3" />
+                  <defs>
+                    <linearGradient id="mrrGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#10b981" />
+                      <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  {/* Line */}
+                  <path d={pathD} fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  {/* Points */}
+                  {pts.map((p, i) => (
+                    <g key={i}>
+                      <circle cx={p.x} cy={p.y} r="4" fill="#10b981" />
+                      <text x={p.x} y={chartH + 10} fontSize="7" fill="#64748b" textAnchor="middle">{monthLabels[i]}</text>
+                    </g>
+                  ))}
+                </svg>
+              </div>
+              <div className="flex gap-6 pt-2 border-t border-slate-50">
+                <div>
+                  <p className="text-xs font-black text-slate-800">${mrrByMonth.reduce((a,b)=>a+b,0).toFixed(0)}</p>
+                  <p className="text-[10px] font-bold text-slate-400">12-Month Total</p>
+                </div>
+                <div>
+                  <p className="text-xs font-black text-slate-800">${(mrrByMonth[mrrByMonth.length-1] * 12).toFixed(0)}</p>
+                  <p className="text-[10px] font-bold text-slate-400">Projected ARR</p>
+                </div>
+                <div>
+                  <p className={`text-xs font-black ${mrrByMonth[mrrByMonth.length-1] >= mrrByMonth[mrrByMonth.length-2] ? 'text-emerald-600' : 'text-rose-600'}`}>
+                    {mrrByMonth[mrrByMonth.length-2] > 0 ? `${mrrByMonth[mrrByMonth.length-1] >= mrrByMonth[mrrByMonth.length-2] ? '+' : ''}${(((mrrByMonth[mrrByMonth.length-1] - mrrByMonth[mrrByMonth.length-2]) / mrrByMonth[mrrByMonth.length-2]) * 100).toFixed(1)}%` : 'N/A'}
+                  </p>
+                  <p className="text-[10px] font-bold text-slate-400">Month-over-Month</p>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* ───────────────────────────────────────────────────── */}
+        {/* REPORT 2: TOP REVENUE GENERATORS                     */}
+        {/* ───────────────────────────────────────────────────── */}
+        {(() => {
+          const topRevenue = [...adminTeachers]
+            .filter(t => t.mrr > 0)
+            .sort((a, b) => b.mrr - a.mrr)
+            .slice(0, 10);
+          const totalMRRAll = adminTeachers.reduce((s, t) => s + t.mrr, 0);
+          const planLabel = id => {
+            if (id === 'option-a') return 'Per-Student';
+            if (id === 'option-b-starter') return 'Starter';
+            if (id === 'option-b-growth') return 'Growth';
+            if (id === 'option-b-school') return 'School';
+            if (id === 'option-c') return 'Annual';
+            return 'Free';
+          };
+          const planColor = id => {
+            if (id === 'option-b-school' || id === 'option-c') return 'bg-violet-100 text-violet-700';
+            if (id === 'option-b-growth') return 'bg-blue-100 text-blue-700';
+            if (id === 'option-b-starter') return 'bg-sky-100 text-sky-700';
+            if (id === 'option-a') return 'bg-emerald-100 text-emerald-700';
+            return 'bg-slate-100 text-slate-500';
+          };
+          return (
+            <div className="bg-white rounded-[28px] border border-slate-100 shadow-sm p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-black uppercase text-violet-600 bg-violet-50 border border-violet-100 px-3 py-1 rounded-full tracking-widest inline-block">Revenue Leaders</span>
+                  <h3 className="text-xl font-black text-slate-800 mt-1">🏆 Top Revenue Generators</h3>
+                </div>
+                <p className="text-[10px] font-bold text-slate-400">Top 10 by Monthly Revenue</p>
+              </div>
+              {topRevenue.length === 0 ? (
+                <p className="text-sm text-slate-400 font-bold text-center py-8">No paid subscribers yet</p>
+              ) : (
+                <div className="space-y-2">
+                  {topRevenue.map((t, idx) => {
+                    const pct = totalMRRAll > 0 ? ((t.mrr / totalMRRAll) * 100).toFixed(1) : 0;
+                    const barW = totalMRRAll > 0 ? (t.mrr / topRevenue[0].mrr) * 100 : 0;
+                    return (
+                      <div key={t.id} className="flex items-center gap-3 group">
+                        <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0 ${idx === 0 ? 'bg-amber-400 text-white' : idx === 1 ? 'bg-slate-300 text-white' : idx === 2 ? 'bg-orange-300 text-white' : 'bg-slate-100 text-slate-500'}`}>
+                          {idx + 1}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-xs font-black text-slate-800 truncate">{t.name}</span>
+                            <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-full ${planColor(t.activePlanId)}`}>{planLabel(t.activePlanId)}</span>
+                            <span className="text-[9px] font-bold text-slate-400 ml-auto flex-shrink-0">{t.studentCount} students · {pct}% of MRR</span>
+                          </div>
+                          <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                            <div className="h-full bg-gradient-to-r from-violet-500 to-purple-400 rounded-full transition-all duration-700" style={{ width: `${barW}%` }} />
+                          </div>
+                        </div>
+                        <div className="text-sm font-black text-emerald-600 flex-shrink-0 w-16 text-right">${t.mrr.toFixed(2)}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              <div className="pt-3 border-t border-slate-50 flex gap-6">
+                <div>
+                  <p className="text-xs font-black text-slate-800">${topRevenue.reduce((s,t)=>s+t.mrr,0).toFixed(2)}</p>
+                  <p className="text-[10px] font-bold text-slate-400">Top-10 MRR Total</p>
+                </div>
+                <div>
+                  <p className="text-xs font-black text-slate-800">{totalMRRAll > 0 ? ((topRevenue.reduce((s,t)=>s+t.mrr,0)/totalMRRAll)*100).toFixed(1) : 0}%</p>
+                  <p className="text-[10px] font-bold text-slate-400">Of Total MRR</p>
+                </div>
+                <div>
+                  <p className="text-xs font-black text-slate-800">{topRevenue.length > 0 ? `$${(topRevenue.reduce((s,t)=>s+t.mrr,0)/topRevenue.length).toFixed(2)}` : '$0'}</p>
+                  <p className="text-[10px] font-bold text-slate-400">Avg MRR per Top-10</p>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* ───────────────────────────────────────────────────── */}
+        {/* REPORT 3: TOP PAPER CREATORS                         */}
+        {/* ───────────────────────────────────────────────────── */}
+        {(() => {
+          const topCreators = [...adminTeachers]
+            .filter(t => (t.homeworkCount || 0) > 0)
+            .sort((a, b) => (b.homeworkCount || 0) - (a.homeworkCount || 0))
+            .slice(0, 10);
+          const maxHW = topCreators[0]?.homeworkCount || 1;
+          return (
+            <div className="bg-white rounded-[28px] border border-slate-100 shadow-sm p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-black uppercase text-orange-600 bg-orange-50 border border-orange-100 px-3 py-1 rounded-full tracking-widest inline-block">Engagement Leaders</span>
+                  <h3 className="text-xl font-black text-slate-800 mt-1">📝 Top Paper Creators</h3>
+                </div>
+                <p className="text-[10px] font-bold text-slate-400">Most Engaged Teachers</p>
+              </div>
+              {topCreators.length === 0 ? (
+                <p className="text-sm text-slate-400 font-bold text-center py-8">No homework data yet</p>
+              ) : (
+                <div className="space-y-2">
+                  {topCreators.map((t, idx) => {
+                    const barW = (t.homeworkCount / maxHW) * 100;
+                    const createdDate = t.createdAt ? new Date(t.createdAt) : null;
+                    const weeksActive = createdDate ? Math.max(1, Math.floor((new Date() - createdDate) / (7 * 24 * 60 * 60 * 1000))) : 1;
+                    const perWeek = (t.homeworkCount / weeksActive).toFixed(1);
+                    return (
+                      <div key={t.id} className="flex items-center gap-3">
+                        <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0 ${idx === 0 ? 'bg-amber-400 text-white' : idx === 1 ? 'bg-slate-300 text-white' : idx === 2 ? 'bg-orange-300 text-white' : 'bg-slate-100 text-slate-500'}`}>
+                          {idx + 1}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-xs font-black text-slate-800 truncate">{t.name}</span>
+                            {t.isPaid
+                              ? <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700">Paid</span>
+                              : t.trialDaysLeft >= 0
+                                ? <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700">Trial</span>
+                                : <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-rose-100 text-rose-700">Expired</span>
+                            }
+                            <span className="text-[9px] font-bold text-slate-400 ml-auto flex-shrink-0">{perWeek}/wk · {t.studentCount} students</span>
+                          </div>
+                          <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                            <div className="h-full bg-gradient-to-r from-orange-500 to-amber-400 rounded-full transition-all duration-700" style={{ width: `${barW}%` }} />
+                          </div>
+                        </div>
+                        <div className="text-sm font-black text-orange-600 flex-shrink-0 w-10 text-right">{t.homeworkCount}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              <div className="pt-3 border-t border-slate-50 grid grid-cols-3 gap-4">
+                <div>
+                  <p className="text-xs font-black text-slate-800">{adminTeachers.reduce((s,t)=>s+(t.homeworkCount||0),0)}</p>
+                  <p className="text-[10px] font-bold text-slate-400">Total Papers Created</p>
+                </div>
+                <div>
+                  <p className="text-xs font-black text-slate-800">{adminTeachers.filter(t=>t.homeworkCount>0).length}</p>
+                  <p className="text-[10px] font-bold text-slate-400">Active Creators</p>
+                </div>
+                <div>
+                  <p className="text-xs font-black text-slate-800">
+                    {adminTeachers.filter(t=>t.homeworkCount>0).length > 0
+                      ? (adminTeachers.reduce((s,t)=>s+(t.homeworkCount||0),0) / adminTeachers.filter(t=>t.homeworkCount>0).length).toFixed(1)
+                      : 0}
+                  </p>
+                  <p className="text-[10px] font-bold text-slate-400">Avg Papers/Teacher</p>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* ───────────────────────────────────────────────────── */}
+        {/* REPORT 4: TRIAL FUNNEL & CHURN RISK                  */}
+        {/* ───────────────────────────────────────────────────── */}
+        {(() => {
+          const total = adminTeachers.length;
+          const paid = adminTeachers.filter(t => t.isPaid).length;
+          const activeTrial = adminTeachers.filter(t => !t.isPaid && t.trialDaysLeft >= 0).length;
+          const expiredUnconverted = adminTeachers.filter(t => !t.isPaid && t.trialDaysLeft < 0).length;
+          const highRisk = adminTeachers.filter(t => !t.isPaid && t.trialDaysLeft >= 0 && t.trialDaysLeft <= 2 && (t.homeworkCount || 0) === 0);
+          const medRisk = adminTeachers.filter(t => !t.isPaid && t.trialDaysLeft > 2 && t.trialDaysLeft <= 5);
+          const convRate = total > 0 ? ((paid / total) * 100).toFixed(1) : 0;
+          const funnelSteps = [
+            { label: 'Total Signups', count: total, color: 'bg-slate-400', pct: 100 },
+            { label: 'Active Trial', count: activeTrial, color: 'bg-amber-400', pct: total > 0 ? (activeTrial/total)*100 : 0 },
+            { label: 'Converted Paid', count: paid, color: 'bg-emerald-500', pct: total > 0 ? (paid/total)*100 : 0 },
+            { label: 'Expired (Lost)', count: expiredUnconverted, color: 'bg-rose-400', pct: total > 0 ? (expiredUnconverted/total)*100 : 0 },
+          ];
+          return (
+            <div className="bg-white rounded-[28px] border border-slate-100 shadow-sm p-6 space-y-5">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-black uppercase text-rose-600 bg-rose-50 border border-rose-100 px-3 py-1 rounded-full tracking-widest inline-block">Funnel Analysis</span>
+                  <h3 className="text-xl font-black text-slate-800 mt-1">🔻 Trial Funnel & Churn Risk</h3>
+                </div>
+                <div className="text-right">
+                  <p className="text-3xl font-black text-emerald-600">{convRate}%</p>
+                  <p className="text-[10px] font-bold text-slate-400">Conversion Rate</p>
+                </div>
+              </div>
+              {/* Funnel bars */}
+              <div className="space-y-2">
+                {funnelSteps.map((s, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <span className="text-[10px] font-black text-slate-500 w-32 flex-shrink-0">{s.label}</span>
+                    <div className="flex-1 bg-slate-100 rounded-full h-5 overflow-hidden">
+                      <div className={`h-full ${s.color} rounded-full flex items-center justify-end pr-2 transition-all duration-700`} style={{ width: `${Math.max(s.pct, 2)}%` }}>
+                        <span className="text-[9px] font-black text-white">{s.count}</span>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-bold text-slate-400 w-10 text-right">{s.pct.toFixed(0)}%</span>
+                  </div>
+                ))}
+              </div>
+              {/* Churn Risk Alerts */}
+              {(highRisk.length > 0 || medRisk.length > 0) && (
+                <div className="space-y-2 pt-2 border-t border-slate-50">
+                  <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">⚠️ At-Risk Teachers — Reach Out Now</p>
+                  {highRisk.map(t => (
+                    <div key={t.id} className="flex items-center gap-3 bg-rose-50 border border-rose-100 rounded-2xl px-4 py-2.5">
+                      <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <span className="text-xs font-black text-rose-800 truncate block">{t.name}</span>
+                        <span className="text-[9px] font-bold text-rose-500">{t.email} · Trial expires in {t.trialDaysLeft}d · 0 papers created</span>
+                      </div>
+                      <span className="text-[9px] font-black bg-rose-200 text-rose-700 px-2 py-0.5 rounded-full flex-shrink-0">🔴 HIGH RISK</span>
+                    </div>
+                  ))}
+                  {medRisk.map(t => (
+                    <div key={t.id} className="flex items-center gap-3 bg-amber-50 border border-amber-100 rounded-2xl px-4 py-2.5">
+                      <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <span className="text-xs font-black text-amber-800 truncate block">{t.name}</span>
+                        <span className="text-[9px] font-bold text-amber-600">{t.email} · Trial expires in {t.trialDaysLeft}d</span>
+                      </div>
+                      <span className="text-[9px] font-black bg-amber-200 text-amber-700 px-2 py-0.5 rounded-full flex-shrink-0">🟡 MED RISK</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })()}
+
+        {/* ───────────────────────────────────────────────────── */}
+        {/* REPORT 5: UPCOMING RENEWALS CALENDAR (30-day)        */}
+        {/* ───────────────────────────────────────────────────── */}
+        {(() => {
+          const now = new Date();
+          const in30 = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+          const renewals = adminTeachers
+            .filter(t => t.isPaid && t.billing?.currentPeriodEnd)
+            .map(t => ({ ...t, renewDate: new Date(t.billing.currentPeriodEnd) }))
+            .filter(t => t.renewDate >= now && t.renewDate <= in30)
+            .sort((a, b) => a.renewDate - b.renewDate);
+          const expiringTrials = adminTeachers
+            .filter(t => !t.isPaid && t.trialDaysLeft >= 0 && t.trialDaysLeft <= 30)
+            .sort((a, b) => a.trialDaysLeft - b.trialDaysLeft);
+          const cancelledPaid = adminTeachers
+            .filter(t => t.billing?.status === 'canceled' && t.billing?.currentPeriodEnd)
+            .map(t => ({ ...t, endDate: new Date(t.billing.currentPeriodEnd) }))
+            .filter(t => t.endDate >= now)
+            .sort((a, b) => a.endDate - b.endDate);
+          const renewalRevenue = renewals.reduce((s, t) => s + t.mrr, 0);
+          return (
+            <div className="bg-white rounded-[28px] border border-slate-100 shadow-sm p-6 space-y-5">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-black uppercase text-blue-600 bg-blue-50 border border-blue-100 px-3 py-1 rounded-full tracking-widest inline-block">30-Day Outlook</span>
+                  <h3 className="text-xl font-black text-slate-800 mt-1">📅 Renewals & Expiry Calendar</h3>
+                </div>
+                <div className="text-right">
+                  <p className="text-3xl font-black text-blue-600">${renewalRevenue.toFixed(0)}</p>
+                  <p className="text-[10px] font-bold text-slate-400">Revenue Renewing in 30d</p>
+                </div>
+              </div>
+
+              {/* Renewals */}
+              <div className="space-y-2">
+                <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">✅ Paid Renewals ({renewals.length})</p>
+                {renewals.length === 0 && <p className="text-xs text-slate-400 font-bold">No renewals in next 30 days</p>}
+                {renewals.map(t => {
+                  const daysUntil = Math.ceil((t.renewDate - now) / (1000 * 60 * 60 * 24));
+                  return (
+                    <div key={t.id} className="flex items-center gap-3 bg-emerald-50 border border-emerald-100 rounded-2xl px-4 py-2.5">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <span className="text-xs font-black text-emerald-800 truncate block">{t.name}</span>
+                        <span className="text-[9px] font-bold text-emerald-600">Renews {t.renewDate.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' })} · {t.studentCount} students</span>
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <p className="text-xs font-black text-emerald-700">${t.mrr.toFixed(2)}/mo</p>
+                        <p className="text-[9px] font-bold text-emerald-500">in {daysUntil}d</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Expiring Trials */}
+              {expiringTrials.length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">⏳ Trials Expiring ({expiringTrials.length})</p>
+                  {expiringTrials.map(t => (
+                    <div key={t.id} className="flex items-center gap-3 bg-amber-50 border border-amber-100 rounded-2xl px-4 py-2.5">
+                      <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <span className="text-xs font-black text-amber-800 truncate block">{t.name}</span>
+                        <span className="text-[9px] font-bold text-amber-600">{t.email} · {t.homeworkCount} papers · {t.studentCount} students</span>
+                      </div>
+                      <span className={`text-[9px] font-black px-2 py-0.5 rounded-full flex-shrink-0 ${t.trialDaysLeft <= 2 ? 'bg-rose-200 text-rose-700' : 'bg-amber-200 text-amber-700'}`}>
+                        {t.trialDaysLeft}d left
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Cancellations */}
+              {cancelledPaid.length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">🚫 Cancellations (access until period end)</p>
+                  {cancelledPaid.map(t => (
+                    <div key={t.id} className="flex items-center gap-3 bg-rose-50 border border-rose-100 rounded-2xl px-4 py-2.5">
+                      <span className="w-2 h-2 rounded-full bg-rose-500 flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <span className="text-xs font-black text-rose-800 truncate block">{t.name}</span>
+                        <span className="text-[9px] font-bold text-rose-500">Access until {t.endDate.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' })}</span>
+                      </div>
+                      <p className="text-xs font-black text-rose-600 flex-shrink-0">-${t.mrr.toFixed(2)}/mo lost</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })()}
+
+        {/* ───────────────────────────────────────────────────── */}
+        {/* REPORT 6: REVENUE BY SUBJECT                         */}
+        {/* ───────────────────────────────────────────────────── */}
+        {(() => {
+          const subjStats = {};
+          adminTeachers.forEach(t => {
+            const subjects = Object.keys(t.subjectCounts || {});
+            const totalHw = t.homeworkCount || 1;
+            subjects.forEach(s => {
+              const subjName = s || 'Other';
+              if (!subjStats[subjName]) subjStats[subjName] = { count: 0, hw: 0, mrr: 0, paidTeachers: 0 };
+              subjStats[subjName].count += 1;
+              subjStats[subjName].hw += t.subjectCounts[s];
+              if (t.isPaid) {
+                subjStats[subjName].paidTeachers += 1;
+                subjStats[subjName].mrr += t.mrr * (t.subjectCounts[s] / totalHw);
+              }
+            });
+          });
+          const topSubjects = Object.entries(subjStats)
+            .sort((a, b) => b[1].mrr - a[1].mrr)
+            .slice(0, 8);
+            
+          const totalAttributedMRR = topSubjects.reduce((s, a) => s + a[1].mrr, 0);
+
+          return (
+            <div className="bg-white rounded-[28px] border border-slate-100 shadow-sm p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-black uppercase text-pink-600 bg-pink-50 border border-pink-100 px-3 py-1 rounded-full tracking-widest inline-block">Content Attribution</span>
+                  <h3 className="text-xl font-black text-slate-800 mt-1">📚 Revenue by Subject</h3>
+                </div>
+                <div className="text-right">
+                  <p className="text-[10px] font-bold text-slate-400">Attributed by % of total papers</p>
+                </div>
+              </div>
+              
+              {topSubjects.length === 0 ? (
+                <p className="text-sm text-slate-400 font-bold text-center py-8">No subject data available</p>
+              ) : (
+                <div className="space-y-3 mt-4">
+                  {topSubjects.map(([subj, stats], idx) => {
+                    const pct = totalAttributedMRR > 0 ? ((stats.mrr / totalAttributedMRR) * 100).toFixed(1) : 0;
+                    return (
+                      <div key={subj} className="flex flex-col gap-1">
+                        <div className="flex items-center justify-between text-xs font-black">
+                          <span className="text-slate-800 flex items-center gap-2">
+                            <span className={`w-2 h-2 rounded-full ${idx === 0 ? 'bg-pink-500' : idx < 3 ? 'bg-purple-400' : 'bg-slate-300'}`}></span>
+                            {subj}
+                          </span>
+                          <span className="text-pink-600">${stats.mrr.toFixed(2)} <span className="text-[9px] text-slate-400 font-bold">({pct}%)</span></span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                            <div className="h-full bg-gradient-to-r from-pink-400 to-purple-400 rounded-full" style={{ width: `${pct}%` }} />
+                          </div>
+                          <span className="text-[9px] font-bold text-slate-400 w-32 text-right">
+                            {stats.paidTeachers} paid users · {stats.hw} papers
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })()}
+
+        {/* ───────────────────────────────────────────────────── */}
+        {/* REPORT 7: ENGAGEMENT-TO-REVENUE CORRELATION          */}
+        {/* ───────────────────────────────────────────────────── */}
+        {(() => {
+          const buckets = [
+            { label: '0 Papers', min: 0, max: 0, teachers: 0, paid: 0, mrr: 0 },
+            { label: '1-5 Papers', min: 1, max: 5, teachers: 0, paid: 0, mrr: 0 },
+            { label: '6-20 Papers', min: 6, max: 20, teachers: 0, paid: 0, mrr: 0 },
+            { label: '21+ Papers', min: 21, max: 99999, teachers: 0, paid: 0, mrr: 0 },
+          ];
+          adminTeachers.forEach(t => {
+            const count = t.homeworkCount || 0;
+            const b = buckets.find(b => count >= b.min && count <= b.max);
+            if (b) {
+              b.teachers++;
+              if (t.isPaid) {
+                b.paid++;
+                b.mrr += t.mrr;
+              }
+            }
+          });
+
+          return (
+            <div className="bg-white rounded-[28px] border border-slate-100 shadow-sm p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-black uppercase text-indigo-600 bg-indigo-50 border border-indigo-100 px-3 py-1 rounded-full tracking-widest inline-block">Engagement Analytics</span>
+                  <h3 className="text-xl font-black text-slate-800 mt-1">⚡ Engagement vs Conversion</h3>
+                </div>
+                <div className="text-right">
+                  <p className="text-[10px] font-bold text-slate-400">Value of user activity</p>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+                {buckets.map((b, i) => {
+                  const convRate = b.teachers > 0 ? ((b.paid / b.teachers) * 100).toFixed(1) : 0;
+                  return (
+                    <div key={i} className="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex flex-col items-center text-center space-y-2">
+                      <h4 className="text-xs font-black text-slate-800 bg-white border border-slate-200 px-3 py-1 rounded-full">{b.label}</h4>
+                      <div className="py-2">
+                        <p className="text-2xl font-black text-indigo-600">{convRate}%</p>
+                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Conversion</p>
+                      </div>
+                      <div className="w-full h-px bg-slate-200 my-1"></div>
+                      <div className="w-full flex justify-between px-1">
+                        <div className="text-left">
+                          <p className="text-[10px] font-black text-slate-700">${b.mrr.toFixed(0)}</p>
+                          <p className="text-[8px] font-bold text-slate-400 uppercase">MRR</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-[10px] font-black text-slate-700">{b.paid}/{b.teachers}</p>
+                          <p className="text-[8px] font-bold text-slate-400 uppercase">Paid Users</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* ───────────────────────────────────────────────────── */}
+        {/* REPORT 5: REVENUE BY REGION / LOCALE                 */}
+        {/* ───────────────────────────────────────────────────── */}
+        {(() => {
+          const regions = {};
+          
+          const mapTimeZoneToRegion = (tz) => {
+             if (!tz || tz === 'Unknown') return 'Unknown / Global';
+             if (tz.includes('Australia') || tz.includes('Pacific/Auckland')) return 'Australia & Oceania';
+             if (tz.includes('America/')) return 'North America';
+             if (tz.includes('Europe/') || tz.includes('London')) return 'Europe & UK';
+             if (tz.includes('Asia/')) return 'Asia';
+             if (tz.includes('Africa/')) return 'Africa';
+             return tz.split('/')[0] || 'Unknown / Global';
+          };
+
+          adminTeachers.forEach(t => {
+             // Fallback to billing country if Stripe ever adds it, else use the timezone we capture on load
+             let regionName = 'Unknown / Global';
+             if (t.billing?.country) {
+                regionName = t.billing.country;
+             } else if (t.location?.timeZone) {
+                regionName = mapTimeZoneToRegion(t.location.timeZone);
+             }
+
+             if (!regions[regionName]) regions[regionName] = { mrr: 0, count: 0 };
+             
+             // Count any teacher towards the region, not just paid ones
+             if (t.isPaid) {
+               regions[regionName].mrr += t.mrr;
+               regions[regionName].count++;
+             }
+          });
+
+          const sorted = Object.entries(regions)
+            .filter(a => a[1].mrr > 0)
+            .sort((a,b) => b[1].mrr - a[1].mrr);
+
+          return (
+            <div className="bg-white rounded-[28px] border border-slate-100 shadow-sm p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-black uppercase text-cyan-600 bg-cyan-50 border border-cyan-100 px-3 py-1 rounded-full tracking-widest inline-block">Geographic Data</span>
+                  <h3 className="text-xl font-black text-slate-800 mt-1">🌍 Revenue by Region</h3>
+                </div>
+                <div className="text-right">
+                  <p className="text-[10px] font-bold text-slate-400">Based on billing data</p>
+                </div>
+              </div>
+              
+              {sorted.length === 0 ? (
+                <p className="text-sm text-slate-400 font-bold text-center py-8">No regional revenue data yet</p>
+              ) : (
+                <div className="grid grid-cols-2 gap-4 mt-2">
+                  {sorted.map(([country, stats], i) => (
+                    <div key={country} className="flex items-center gap-3 bg-cyan-50/30 border border-cyan-100/50 rounded-2xl p-3">
+                      <div className="text-2xl">{country === 'Unknown / Global' ? '🌐' : '📍'}</div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-black text-slate-800 truncate">{country}</p>
+                        <p className="text-[9px] font-bold text-slate-400">{stats.count} paid subscriptions</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-black text-cyan-600">${stats.mrr.toFixed(2)}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className="bg-slate-50 rounded-xl p-3 text-[10px] font-bold text-slate-500 flex gap-2 items-start mt-4">
+                <span>💡</span>
+                <p>Regions are automatically inferred from the teacher's browser timezone when they log in to the dashboard.</p>
+              </div>
+            </div>
+          );
+        })()}
+
       </div>
     );
   };
@@ -3426,8 +4172,71 @@ Include a balanced combination of question types such as:
              const chartCounts = chartData.map(bucket => bucket.length);
              const timePeriodLabel = dashboardTimeFilter === 'Daily' ? 'week' : (dashboardTimeFilter === 'Weekly' ? 'month' : 'year');
 
+                          const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
+             const activePlanId = simulatedPlan || ((teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free');
+             const seatLimit = getPlanSeatLimit(activePlanId);
+             const cleanPlanIdForClass = activePlanId ? activePlanId.replace('_maxed', '') : 'free';
+             const classLimit = (isAdminUser && !simulatedPlan) ? Infinity : ((cleanPlanIdForClass === 'free' || cleanPlanIdForClass === 'free_trial' || cleanPlanIdForClass === 'free_expired') ? 2 : Infinity);
+             
+             const quotaInfo = checkCanGeneratePaper({
+                user,
+                isAdmin: isAdminUser,
+                isSuperUser: false,
+                activePlanId,
+                allHomeworks,
+                topUpCredits: teacherData?.topUpCredits || 0
+             });
+
              return (
                 <div className="px-6 py-6 space-y-6 pb-20 relative min-h-[calc(100vh-64px)] bg-[#FAF9FF]">
+
+                   {/* Limits & Quotas Status Bar */}
+                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white border border-[#E9E3FF] p-6 rounded-[32px] shadow-sm">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-xl animate-pulse">
+                          🏫
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Classrooms Remaining</span>
+                          <span className="text-lg font-black text-slate-800">
+                            {classLimit === Infinity ? 'Unlimited (∞)' : `${Math.max(0, classLimit - classrooms.length)} / ${classLimit} Left`}
+                          </span>
+                          <span className="text-[10px] text-slate-500 font-medium block">
+                            {classrooms.length} created
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center text-xl animate-pulse">
+                          👥
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Student Seats Remaining</span>
+                          <span className="text-lg font-black text-slate-800">
+                            {seatLimit === Infinity ? 'Unlimited (∞)' : `${Math.max(0, seatLimit - allStudents.length)} / ${seatLimit} Left`}
+                          </span>
+                          <span className="text-[10px] text-slate-500 font-medium block">
+                            {allStudents.length} seats filled
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-2xl bg-pink-50 border border-pink-100 flex items-center justify-center text-xl animate-pulse">
+                          📄
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Papers Remaining</span>
+                          <span className="text-lg font-black text-slate-800">
+                            {quotaInfo.isUnlimited ? 'Unlimited (∞)' : `${Math.max(0, quotaInfo.limit - quotaInfo.usage)} / ${quotaInfo.limit} Left`}
+                          </span>
+                          <span className="text-[10px] text-slate-500 font-medium block">
+                            {quotaInfo.usage} papers generated
+                          </span>
+                        </div>
+                      </div>
+                   </div>
                    {/* Top Summary Banner */}
                    <div className="flex items-center justify-between">
                        <div className="space-y-1">
@@ -4126,7 +4935,14 @@ Include a balanced combination of question types such as:
           }
 
          case 'My Classes':
-            return (
+            {
+             const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
+             const activePlanId = simulatedPlan || ((teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free');
+             const cleanPlanIdForClass = activePlanId ? activePlanId.replace('_maxed', '') : 'free';
+             const classLimit = (isAdminUser && !simulatedPlan) ? Infinity : ((cleanPlanIdForClass === 'free' || cleanPlanIdForClass === 'free_trial' || cleanPlanIdForClass === 'free_expired') ? 2 : Infinity);
+             const isClassLimitReached = classrooms.length >= classLimit;
+
+             return (
                <div className="px-10 py-10 space-y-12 relative min-h-[calc(100vh-64px)] pb-40">
                   <div className="flex items-center justify-between">
                      <div>
@@ -4135,11 +4951,22 @@ Include a balanced combination of question types such as:
                      </div>
                      <div className="flex items-center gap-6">
                         <button 
-                          onClick={() => setShowAddClassModal(true)}
-                          className="bg-gradient-to-r from-[#EA580C] to-[#EA580C] text-white px-8 py-4 rounded-3xl font-black text-sm shadow-xl shadow-orange-100 flex items-center gap-3 hover:scale-105 transition-all"
-                        >
-                           <Plus className="w-5 h-5" /> Create Class
-                        </button>
+                           onClick={() => {
+                             if (isClassLimitReached) {
+                               setShowUpgradeAlert(true);
+                             } else {
+                               setShowAddClassModal(true);
+                             }
+                           }}
+                           className={`px-8 py-4 rounded-3xl font-black text-sm shadow-xl flex items-center gap-3 transition-all ${
+                             isClassLimitReached 
+                               ? 'bg-slate-300 text-slate-500 cursor-not-allowed shadow-none border border-slate-200' 
+                               : 'bg-gradient-to-r from-[#EA580C] to-[#EA580C] text-white shadow-orange-100 hover:scale-105 cursor-pointer'
+                           }`}
+                         >
+                            {isClassLimitReached ? <Lock className="w-5 h-5" /> : <Plus className="w-5 h-5" />} 
+                            {isClassLimitReached ? `Limit Reached (${classrooms.length}/${classLimit} Classes)` : 'Create Class'}
+                         </button>
                         <div className="w-32 h-32 relative">
                            <img src="/dino-reading.png" className="w-full h-full object-contain mix-blend-multiply drop-shadow-xl" alt="Mascot" />
                            <div className="absolute -top-2 -right-2">
@@ -4193,7 +5020,13 @@ Include a balanced combination of question types such as:
                   <GrassBorder />
                </div>
             );
+          }
          case 'Students': {
+             const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
+             const activePlanId = simulatedPlan || ((teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free');
+             const limit = getPlanSeatLimit(activePlanId);
+             const isSeatLimitReached = allStudents.length >= limit;
+
             const filteredStudents = students.filter(s => {
                return s.name.toLowerCase().includes(searchQuery.toLowerCase());
             });
@@ -4215,20 +5048,35 @@ Include a balanced combination of question types such as:
                       <div className="flex items-center gap-6">
                          <div className="relative">
                             <input 
-                               type="text"
-                               placeholder={`Add student to ${activeClassroom?.name}...`}
-                               value={newStudent}
-                               onChange={(e) => setNewStudent(e.target.value)}
-                               onKeyDown={(e) => e.key === 'Enter' && handleAddStudent()}
-                               className="bg-white border-2 border-[#EA580C]/20 rounded-[24px] py-4 px-8 text-sm font-bold text-blue-900 placeholder-blue-300 focus:border-[#EA580C] outline-none transition-all shadow-sm min-w-[300px]"
-                            />
-                            <button 
-                               onClick={handleAddStudent}
-                               disabled={isAdding || !newStudent.trim()}
-                               className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#EA580C] text-white p-2 rounded-xl shadow-lg shadow-orange-100 hover:scale-105 transition-all disabled:opacity-30"
-                            >
-                               <Plus className="w-5 h-5" />
-                            </button>
+                                type="text"
+                                disabled={isSeatLimitReached}
+                                placeholder={isSeatLimitReached ? "Seat limit reached." : `Add student to ${activeClassroom?.name}...`}
+                                value={newStudent}
+                                onChange={(e) => setNewStudent(e.target.value)}
+                                onKeyDown={(e) => e.key === 'Enter' && !isSeatLimitReached && handleAddStudent()}
+                                className={`rounded-[24px] py-4 pl-8 pr-16 text-sm font-bold placeholder-blue-300 outline-none transition-all shadow-sm min-w-[300px] border-2 ${
+                                  isSeatLimitReached 
+                                    ? 'bg-slate-50 border-slate-200 text-slate-400 cursor-not-allowed' 
+                                    : 'bg-white border-[#EA580C]/20 text-blue-900 focus:border-[#EA580C]'
+                                }`}
+                             />
+                             <button 
+                                onClick={() => {
+                                  if (isSeatLimitReached) {
+                                    setShowUpgradeAlert(true);
+                                  } else {
+                                    handleAddStudent();
+                                  }
+                                }}
+                                disabled={isAdding || (!newStudent.trim() && !isSeatLimitReached)}
+                                className={`absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-xl transition-all ${
+                                  isSeatLimitReached 
+                                    ? 'bg-slate-300 text-slate-500 cursor-pointer shadow-none' 
+                                    : 'bg-[#EA580C] text-white shadow-lg shadow-orange-100 hover:scale-105 disabled:opacity-30'
+                                }`}
+                             >
+                                {isSeatLimitReached ? <Lock className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+                             </button>
                          </div>
                          <div className="w-24 h-24">
                             <img src="/dino-reading.png" className="w-full h-full object-contain mix-blend-multiply drop-shadow-xl" alt="Mascot" />
@@ -4388,7 +5236,7 @@ Include a balanced combination of question types such as:
                         })}
                         {filteredStudents.length === 0 && (
                            <div className="py-20 text-center text-[#166534] italic font-bold">
-                              No students found. ðŸ”
+                              No students found. 🔍
                            </div>
                         )}
                      </div>
@@ -5088,7 +5936,7 @@ Include a balanced combination of question types such as:
                      speedBadge = 'Paced Solver â±ï¸';
                      badgeColor = 'bg-emerald-50 text-emerald-600 border border-emerald-100';
                   } else {
-                     speedBadge = 'Deep Thinker ðŸ§ ';
+                     speedBadge = 'Deep Thinker 🧠 ';
                      badgeColor = 'bg-[#FFEDD5] text-[#EA580C] border border-[#FED7AA]';
                   }
                }
@@ -6267,7 +7115,7 @@ Include a balanced combination of question types such as:
                const badges = (student.customBadges || []).map(b => ({
                   name: b.name || b.label,
                   desc: b.desc || b.description,
-                  icon: b.icon || '🎖️ï¸',
+                  icon: b.icon || '🎖️',
                   color: b.color || 'bg-yellow-50 text-yellow-600 border-yellow-100',
                   isCustom: true
                }));
@@ -6282,7 +7130,7 @@ Include a balanced combination of question types such as:
                   badges.push({ name: 'Science Explorer', desc: 'Scored 80%+ in Science', icon: '🚀', color: 'bg-emerald-50 text-emerald-600 border-emerald-100' });
                }
                if (englishAvg >= 80) {
-                  badges.push({ name: 'Super Writer', desc: 'Scored 80%+ in English', icon: 'ðŸ“', color: 'bg-amber-50 text-amber-600 border-amber-100' });
+                  badges.push({ name: 'Super Writer', desc: 'Scored 80%+ in English', icon: '📝', color: 'bg-amber-50 text-amber-600 border-amber-100' });
                }
                if (completedCount >= 3) {
                   badges.push({ name: 'Homework Hero', desc: 'Completed 3+ quizzes', icon: 'ðŸ†', color: 'bg-green-50 text-green-600 border-green-200' });
@@ -6414,7 +7262,7 @@ Include a balanced combination of question types such as:
                                        const getScoreFeedback = (score) => {
                                           if (score >= 85) return `Outstanding effort in ${subject}! 🚀`;
                                           if (score >= 70) return `Great work in ${subject}! 🌟`;
-                                          if (score >= 50) return `Good progress in ${subject}! ðŸ‘`;
+                                          if (score >= 50) return `Good progress in ${subject}! 👍`;
                                           return `Completed ${subject} quiz • Keep practicing! 💪`;
                                        };
 
@@ -6466,7 +7314,7 @@ Include a balanced combination of question types such as:
                         {[
                            { name: 'Maths Whiz', desc: 'Scored 80% or more in Mathematics homework quizzes.', icon: '⚠️¡', color: 'bg-blue-50 border-blue-100 text-blue-600' },
                            { name: 'Science Explorer', desc: 'Scored 80% or more in Science homework quizzes.', icon: '🚀', color: 'bg-emerald-50 border-emerald-100 text-emerald-600' },
-                           { name: 'Super Writer', desc: 'Scored 80% or more in English homework quizzes.', icon: 'ðŸ“', color: 'bg-amber-50 border-amber-100 text-amber-600' },
+                           { name: 'Super Writer', desc: 'Scored 80% or more in English homework quizzes.', icon: '📝', color: 'bg-amber-50 border-amber-100 text-amber-600' },
                            { name: 'Homework Hero', desc: 'Completed at least 3 homework assignments.', icon: 'ðŸ†', color: 'bg-green-50 border-green-200 text-green-600' },
                            { name: 'Rising Star', desc: 'Earned by student after submitting their first homework quiz.', icon: 'â­', color: 'bg-rose-50 border-rose-100 text-rose-600' }
                         ].map((badge) => {
@@ -7591,7 +8439,7 @@ Include a balanced combination of question types such as:
 
                         {studentRoster.length === 0 && (
                            <div className="py-20 text-center text-[#166534] italic font-bold">
-                              No students found. ðŸ”
+                              No students found. 🔍
                            </div>
                         )}
                      </div>
@@ -7705,7 +8553,7 @@ Include a balanced combination of question types such as:
             <div className="bg-orange-50/50 rounded-[32px] p-8 relative group overflow-hidden border border-orange-200/50">
                <div className="absolute top-2 left-2 w-3 h-3 bg-white rounded-full opacity-40" />
                <p className="text-[11px] font-bold text-orange-900 leading-tight text-center relative z-10 italic">
-                  Guiding every student<br/>to their best! ðŸŽ
+                  Guiding every student<br/>to their best! 🌟
                </p>
                <div className="mt-4 flex-center">
                   <img src="/mascot.png" className="w-36 h-36 object-contain animate-float mix-blend-multiply drop-shadow-xl" alt="Mascot" />
@@ -7722,7 +8570,7 @@ Include a balanced combination of question types such as:
               return (
                  <div className="bg-amber-50 border border-amber-200 text-amber-800 px-6 py-3 rounded-2xl mb-4 flex items-center justify-between shadow-sm animate-pulse">
                     <div className="flex items-center gap-3">
-                       <span className="text-xl">⚠️ï¸ </span>
+                       <AlertCircle className="w-5 h-5 text-amber-600" />
                        <p className="text-sm font-bold">
                           You have {lockedCount} {lockedCount === 1 ? 'student' : 'students'} locked due to your current seat limit.
                        </p>
@@ -7872,15 +8720,15 @@ Include a balanced combination of question types such as:
                               <option value="space">Cosmic Space Maze 🚀</option>
                               <option value="island">Adventure Island ðŸï¸</option>
                               <option value="sports">Sports Track ðŸƒ</option>
-                              <option value="undersea">Undersea Voyage ðŸŒŠ</option>
+                              <option value="undersea">Undersea Voyage 🌊</option>
                               <option value="candyland">Candyland Adventure ðŸ¬</option>
                               <option value="dinosaur">Dinosaur Safari 🦖</option>
                               <option value="pirate">Pirate Treasure Hunt ðŸ´â€â˜ ï¸</option>
-                              <option value="haunted">Haunted Castle ðŸ‘»</option>
+                              <option value="haunted">Haunted Castle 👍»</option>
                               <option value="winter">Winter Wonderland â›„</option>
-                              <option value="jungle">Jungle Explorer ðŸŒ´</option>
+                              <option value="jungle">Jungle Explorer 🌴</option>
                               <option value="desert">Desert Mirage ðŸœï¸</option>
-                              <option value="cyber">Cyber City ðŸ¤–</option>
+                              <option value="cyber">Cyber City 🤖</option>
                               <option value="magic">Magic School 🪄</option>
                            </select>
                         </div>
@@ -7966,7 +8814,7 @@ Include a balanced combination of question types such as:
                         <div>
                            <label className="text-[10px] font-black text-blue-400 uppercase tracking-widest block mb-3">Choose Badge Icon</label>
                            <div className="grid grid-cols-6 gap-3">
-                              {['ðŸ†', '🎨', 'ðŸ§ª', 'ðŸ¤', '🌟', 'ðŸ§ ', 'â¤ï¸', '⚠️¡', '🚀', 'ðŸŒ±', '📚', '🎖️ï¸'].map(emoji => (
+                              {['ðŸ†', '🎨', '🧠ª', 'ðŸ¤', '🌟', '🧠 ', 'â¤ï¸', '⚠️¡', '🚀', 'ðŸŒ±', '📚', '🎖️'].map(emoji => (
                                  <button
                                     key={emoji}
                                     type="button"
@@ -8008,7 +8856,7 @@ Include a balanced combination of question types such as:
                               value={badgeName} 
                               onChange={(e) => setBadgeName(e.target.value)} 
                               className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3.5 px-5 text-sm font-bold text-[#14532d] focus:outline-none focus:border-[#EA580C] transition-all"
-                              placeholder="e.g. Maths Genius ðŸ“"
+                              placeholder="e.g. Maths Genius 📝"
                               required
                            />
                         </div>
@@ -8651,7 +9499,7 @@ Include a balanced combination of question types such as:
                  speedBadge = 'Paced Solver â±ï¸';
                  badgeColorClass = 'bg-emerald-50 text-emerald-600 border border-emerald-100';
               } else {
-                 speedBadge = 'Deep Thinker ðŸ§ ';
+                 speedBadge = 'Deep Thinker 🧠 ';
                  badgeColorClass = 'bg-[#FFEDD5] text-[#EA580C] border border-[#FED7AA]';
               }
            }
@@ -9330,7 +10178,7 @@ Include a balanced combination of question types such as:
                                        }}
                                        className="py-4 px-6 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-2xl text-xs font-black transition-all flex items-center justify-center gap-2"
                                      >
-                                       <span>ðŸ–¨ï¸</span> Print
+                                       <span>🖨️</span> Print
                                      </button>
                                    </div>
                                  </div>
@@ -9413,7 +10261,8 @@ Include a balanced combination of question types such as:
        {/* Upgrade Alert Modal */}
        <AnimatePresence>
          {showUpgradeAlert && (() => {
-           const activePlanId = (teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free';
+            const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
+            const activePlanId = simulatedPlan || ((teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free');
            const limit = getPlanSeatLimit(activePlanId);
            const trialDays = getTrialDaysLeft();
            const isTrialExpired = (activePlanId === 'free' && trialDays < 0);

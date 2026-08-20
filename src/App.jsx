@@ -1360,7 +1360,7 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
          if (savedStudent && savedStudent.classroom) {
             try {
                // Fetch homeworks
-               const hwQ = query(collection(db, 'homeworks'), where('assignedClassId', '==', savedStudent.classroom.id));
+               const hwQ = query(collection(db, 'homeworks'), where('teacherId', '==', savedStudent.teacher.uid), where('assignedClassId', '==', savedStudent.classroom.id));
                const hwSnap = await getDocs(hwQ);
                const cleanStudentId = studentName?.trim().toLowerCase();
                const hwList = hwSnap.docs.map(doc => {
@@ -1407,8 +1407,8 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
 
                 // Server-filtered parallel queries
                 const cleanName = studentName?.trim();
-                const subQ1 = query(collection(db, 'submissions'), where('studentName', '==', cleanName));
-                const subQ2 = query(collection(db, 'submissions'), where('studentName', '==', toTitleCase(cleanName)));
+                const subQ1 = query(collection(db, 'submissions'), where('teacherId', '==', savedStudent.teacher.uid), where('studentName', '==', cleanName));
+                const subQ2 = query(collection(db, 'submissions'), where('teacherId', '==', savedStudent.teacher.uid), where('studentName', '==', toTitleCase(cleanName)));
                 
                 const [snap1, snap2] = await Promise.all([getDocs(subQ1), getDocs(subQ2)]);
                 const combinedMap = {};
@@ -1871,8 +1871,8 @@ const MissionReports = ({ studentName, teacher, submissions: initialSubmissions,
       const fetchSubmissions = async () => {
          try {
              const cleanName = studentName?.trim();
-             const q1 = query(collection(db, 'submissions'), where('studentName', '==', cleanName));
-             const q2 = query(collection(db, 'submissions'), where('studentName', '==', toTitleCase(cleanName)));
+             const q1 = query(collection(db, 'submissions'), where('teacherId', '==', teacher?.uid), where('studentName', '==', cleanName));
+             const q2 = query(collection(db, 'submissions'), where('teacherId', '==', teacher?.uid), where('studentName', '==', toTitleCase(cleanName)));
              
              const [snap1, snap2] = await Promise.all([getDocs(q1), getDocs(q2)]);
              const combinedMap = {};
@@ -2522,8 +2522,9 @@ const isDateInCurrentMonth = (date) => {
 };
 
 // --- Student Dashboard (Equip Final Redesign) ---
-const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
+const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, onLogout }) => {
   const navigate = useNavigate();
+  const [classroom, setClassroom] = useState(initialClassroom);
   const [activeNav, setActiveNav] = useState('Dashboard');
   const activeNavRef = useRef(activeNav);
   useEffect(() => {
@@ -2549,6 +2550,9 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
   // Real-time listener for new messages
   useEffect(() => {
     if (!teacher?.uid || !classroom?.id || !studentName) return;
+    // Reset on every listener restart (e.g. classroom chatDisabled toggled)
+    // so the first snapshot batch is not treated as "new" messages
+    isInitialLoadRef.current = true;
     // We query by teacherId to ensure we only get messages for this teacher's students.
     // Then we filter by recipient in memory to catch both direct messages (classId could be null) 
     // and class announcements.
@@ -2724,7 +2728,7 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
 
         if (latestClassroom?.id) {
            // Fetch homeworks for this class
-           const hwQ = query(collection(db, 'homeworks'), where('assignedClassId', '==', latestClassroom.id));
+           const hwQ = query(collection(db, 'homeworks'), where('teacherId', '==', teacherUid), where('assignedClassId', '==', latestClassroom.id));
            const hwSnap = await getDocs(hwQ);
            const cleanStudentId = studentName?.trim().toLowerCase();
            const hwList = hwSnap.docs.map(doc => {
@@ -2786,11 +2790,11 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
          // 🚀 Hardened Scalable Query: Parallel class-filtered and student-filtered queries!
          if (latestClassroom?.id) {
              const cleanName = studentName?.trim();
-             const subQ1 = query(collection(db, 'submissions'), where('classId', '==', latestClassroom.id));
-            const subQ2 = query(collection(db, 'submissions'), where('studentName', '==', cleanName));
-            const subQ3 = query(collection(db, 'submissions'), where('studentName', '==', toTitleCase(cleanName)));
-            const subQ4 = query(collection(db, 'submissions'), where('studentName', '==', cleanName.toLowerCase()));
-            const subQ5 = query(collection(db, 'submissions'), where('studentName', '==', cleanName.toUpperCase()));
+             const subQ1 = query(collection(db, 'submissions'), where('teacherId', '==', teacherUid), where('classId', '==', latestClassroom.id));
+            const subQ2 = query(collection(db, 'submissions'), where('teacherId', '==', teacherUid), where('studentName', '==', cleanName));
+            const subQ3 = query(collection(db, 'submissions'), where('teacherId', '==', teacherUid), where('studentName', '==', toTitleCase(cleanName)));
+            const subQ4 = query(collection(db, 'submissions'), where('teacherId', '==', teacherUid), where('studentName', '==', cleanName.toLowerCase()));
+            const subQ5 = query(collection(db, 'submissions'), where('teacherId', '==', teacherUid), where('studentName', '==', cleanName.toUpperCase()));
             
             const [snap1, snap2, snap3, snap4, snap5] = await Promise.all([
                getDocs(subQ1), 
@@ -2841,6 +2845,29 @@ const StudentDashboard = ({ teacher, studentName, classroom, onLogout }) => {
          return () => unsubscribe();
       }
    }, [studentName, classroom, teacher, onLogout]);
+
+   useEffect(() => {
+      const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student'));
+      const actualClassroom = classroom || savedStudent?.classroom;
+      const actualTeacher = teacher || savedStudent?.teacher;
+      if (actualClassroom?.id && actualTeacher?.uid) {
+         const classRef = doc(db, 'teachers', actualTeacher.uid, 'classrooms', actualClassroom.id);
+         const unsubscribe = onSnapshot(classRef, (snapshot) => {
+            if (snapshot.exists()) {
+               setClassroom({ id: snapshot.id, ...snapshot.data() });
+            }
+         }, (err) => {
+            console.error("Classroom onSnapshot error:", err);
+         });
+         return () => unsubscribe();
+      }
+   }, [classroom?.id, teacher?.uid]);
+
+   useEffect(() => {
+      if (classroom?.chatDisabled && activeNav === 'My Messages') {
+         setActiveNav('Dashboard');
+      }
+   }, [classroom?.chatDisabled, activeNav]);
 
   const getStudentAvatar = (name) => {
      const cleanName = name?.trim().toLowerCase();
@@ -5436,7 +5463,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                        $0 <span className="text-sm font-normal text-slate-500">/ 7 days</span>
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2">
-                       <li className="flex items-center gap-2">✔️ Unlimited students & seats</li>
+                       <li className="flex items-center gap-2">✔️ Max 5 students & 2 classes</li>
                        <li className="flex items-center gap-2">✔️ Full dashboard administrative access</li>
                        <li className="flex items-center gap-2">✔️ 5 Free Paper Creations included</li>
                        <li className="flex items-center gap-2">✔️ No credit card required to start</li>
@@ -6565,6 +6592,10 @@ export default function App() {
     window.showToast = ({ message, type = 'info', onClick }) => {
       const id = Date.now() + Math.random().toString(36).substr(2, 9);
       setToasts(prev => [...prev, { id, message, type, onClick }]);
+      // Self-contained timer: each toast dismisses itself after 5 seconds
+      setTimeout(() => {
+        setToasts(prev => prev.filter(t => t.id !== id));
+      }, 5000);
     };
 
     window.confirmCustom = (message) => {

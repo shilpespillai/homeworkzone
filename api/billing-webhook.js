@@ -57,11 +57,20 @@ export default async function handler(req, res) {
     // ─── Event Handling ──────────────────────────────────────────────────────
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object;
-      const { teacherId, planId } = session.metadata || {};
+      const { teacherId, planId, type, credits } = session.metadata || {};
       const customerId = session.customer;
       const subscriptionId = session.subscription;
 
-      if (teacherId && subscriptionId) {
+      if (type === 'booster') {
+        const boosterCredits = parseInt(credits, 10) || 0;
+        if (teacherId && boosterCredits > 0) {
+          console.log(`[Billing Webhook] Booster payment completed for teacher: ${teacherId}, credits: ${boosterCredits}`);
+          await db.collection('teachers').doc(teacherId).update({
+            topUpCredits: admin.firestore.FieldValue.increment(boosterCredits)
+          });
+          console.log(`[Billing Webhook] Incremented topUpCredits by ${boosterCredits} for teacher: ${teacherId}`);
+        }
+      } else if (teacherId && subscriptionId) {
         console.log(`[Billing Webhook] Checkout completed for teacher: ${teacherId}, Sub: ${subscriptionId}`);
 
         // Fetch the full subscription details from Stripe
@@ -79,6 +88,7 @@ export default async function handler(req, res) {
           status: subscription.status,
           quantity,
           currentPeriodEnd,
+          cancelAtPeriodEnd: subscription.cancel_at_period_end === true,
           updatedAt: new Date().toISOString(),
         };
 
@@ -123,6 +133,7 @@ export default async function handler(req, res) {
             status: 'canceled',
             quantity: 0,
             currentPeriodEnd: '',
+            cancelAtPeriodEnd: false,
             updatedAt: new Date().toISOString(),
           };
         } else {
@@ -133,6 +144,7 @@ export default async function handler(req, res) {
             status: subscription.status,
             quantity,
             currentPeriodEnd,
+            cancelAtPeriodEnd: subscription.cancel_at_period_end === true,
             updatedAt: new Date().toISOString(),
           };
         }

@@ -31,7 +31,8 @@ import {
   Coins,
   Leaf,
   Lightbulb,
-  Globe
+  Globe,
+  Lock
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -475,6 +476,17 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       }
     };
     fetchTopUpCredits();
+  }, [user?.uid]);
+
+  useEffect(() => {
+    if (!user?.uid) return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('booster_success') === 'true') {
+      const addedCredits = parseInt(params.get('credits'), 10) || 15;
+      alert(`🎉 Success! +${addedCredits} Paper Credits have been purchased and added to your account!`);
+      const cleanUrl = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
+    }
   }, [user?.uid]);
 
   const activePlanId = (teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free';
@@ -2117,60 +2129,107 @@ EXPECTED JSON SCHEMA:
               {/* Card 1: Homework */}
               <button 
                 onClick={() => {
-                  setFormData(prev => ({
-                    ...prev,
-                    isExamPaper: false,
-                    examPreset: null,
-                    title: '',
-                    instructions: 'Read each question carefully and select the best answer! 🚀'
-                  }));
-                  setAssignmentType('homework');
+                  if (hasReachedLimit) {
+                    if (activePlanId === 'free') setShowUpgradeModal(true);
+                    else setShowBoosterModal(true);
+                  } else {
+                    setFormData(prev => ({
+                      ...prev,
+                      isExamPaper: false,
+                      examPreset: null,
+                      title: '',
+                      instructions: 'Read each question carefully and select the best answer! 🚀'
+                    }));
+                    setAssignmentType('homework');
+                  }
                 }} 
-                className="h-72 bg-gradient-to-br from-white via-pink-50/40 to-rose-100/30 rounded-[40px] border-2 border-pink-200/80 shadow-xl hover:shadow-2xl hover:shadow-pink-200/50 flex flex-col items-center justify-center gap-5 hover:-translate-y-2 transition-all hover:border-pink-400 group cursor-pointer p-6 text-center relative overflow-hidden"
+                className={`h-72 rounded-[40px] border-2 shadow-xl hover:shadow-2xl flex flex-col items-center justify-center gap-5 transition-all p-6 text-center relative overflow-hidden ${
+                  hasReachedLimit 
+                    ? 'bg-slate-50 border-slate-200 opacity-65 cursor-pointer' 
+                    : 'bg-gradient-to-br from-white via-pink-50/40 to-rose-100/30 border-pink-200/80 hover:shadow-pink-200/50 hover:-translate-y-2 hover:border-pink-400 group cursor-pointer'
+                }`}
               >
-                <div className="w-24 h-24 bg-gradient-to-tr from-pink-500 via-rose-500 to-amber-400 rounded-full flex items-center justify-center shadow-lg shadow-pink-500/30 group-hover:scale-110 transition-transform ring-4 ring-pink-100">
-                  <Pencil className="w-11 h-11 text-white drop-shadow-md" />
+                <div className={`w-24 h-24 rounded-full flex items-center justify-center shadow-lg ring-4 ${
+                  hasReachedLimit 
+                    ? 'bg-slate-300 text-slate-500 ring-slate-100 shadow-none' 
+                    : 'bg-gradient-to-tr from-pink-500 via-rose-500 to-amber-400 text-white ring-pink-100 shadow-pink-500/30 group-hover:scale-110 transition-transform'
+                }`}>
+                  {hasReachedLimit ? <Lock className="w-11 h-11 drop-shadow-md" /> : <Pencil className="w-11 h-11 drop-shadow-md" />}
                 </div>
                 <div className="space-y-1">
-                  <span className="text-2xl font-black text-slate-800 group-hover:text-pink-600 transition-colors block">Homework</span>
-                  <span className="text-xs font-bold text-pink-600/90 block bg-pink-100/60 px-3 py-1 rounded-full">Fun & Engaging Assignments 🎨</span>
+                  <span className={`text-2xl font-black transition-colors block ${hasReachedLimit ? 'text-slate-500' : 'text-slate-800 group-hover:text-pink-600'}`}>Homework</span>
+                  <span className={`text-xs font-bold block px-3 py-1 rounded-full ${hasReachedLimit ? 'bg-slate-200 text-slate-500' : 'bg-pink-100/60 text-pink-600/90'}`}>
+                    {hasReachedLimit ? '🔒 Paper Limit Reached' : 'Fun & Engaging Assignments 🎨'}
+                  </span>
                 </div>
               </button>
               
               {/* Card 2: Test Builder */}
               <button 
                 onClick={() => {
-                  setFormData(prev => ({
-                    ...prev,
-                    isExamPaper: false,
-                    examPreset: null,
-                    title: '',
-                    instructions: 'Read each question carefully. You are on a timer! ⏳'
-                  }));
-                  setAssignmentType('test');
+                  if (hasReachedLimit) {
+                    if (activePlanId === 'free') setShowUpgradeModal(true);
+                    else setShowBoosterModal(true);
+                  } else {
+                    setFormData(prev => ({
+                      ...prev,
+                      isExamPaper: false,
+                      examPreset: null,
+                      title: '',
+                      instructions: 'Read each question carefully. You are on a timer! ⏳'
+                    }));
+                    setAssignmentType('test');
+                  }
                 }} 
-                className="h-72 bg-gradient-to-br from-white via-emerald-50/40 to-teal-100/30 rounded-[40px] border-2 border-emerald-200/80 shadow-xl hover:shadow-2xl hover:shadow-emerald-200/50 flex flex-col items-center justify-center gap-5 hover:-translate-y-2 transition-all hover:border-emerald-400 group cursor-pointer p-6 text-center relative overflow-hidden"
+                className={`h-72 rounded-[40px] border-2 shadow-xl hover:shadow-2xl flex flex-col items-center justify-center gap-5 transition-all p-6 text-center relative overflow-hidden ${
+                  hasReachedLimit 
+                    ? 'bg-slate-50 border-slate-200 opacity-65 cursor-pointer' 
+                    : 'bg-gradient-to-br from-white via-emerald-50/40 to-teal-100/30 border-emerald-200/80 hover:shadow-emerald-200/50 hover:-translate-y-2 hover:border-emerald-400 group cursor-pointer'
+                }`}
               >
-                <div className="w-24 h-24 bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-400 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:scale-110 transition-transform ring-4 ring-emerald-100">
-                  <BookOpen className="w-11 h-11 text-white drop-shadow-md" />
+                <div className={`w-24 h-24 rounded-full flex items-center justify-center shadow-lg ring-4 ${
+                  hasReachedLimit 
+                    ? 'bg-slate-300 text-slate-500 ring-slate-100 shadow-none' 
+                    : 'bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-400 text-white ring-emerald-100 shadow-emerald-500/30 group-hover:scale-110 transition-transform'
+                }`}>
+                  {hasReachedLimit ? <Lock className="w-11 h-11 drop-shadow-md" /> : <BookOpen className="w-11 h-11 drop-shadow-md" />}
                 </div>
                 <div className="space-y-1">
-                  <span className="text-2xl font-black text-slate-800 group-hover:text-emerald-700 transition-colors block">Test Builder</span>
-                  <span className="text-xs font-bold text-emerald-700/90 block bg-emerald-100/60 px-3 py-1 rounded-full">Timed Quizzes & Standard Tests ⏳</span>
+                  <span className={`text-2xl font-black transition-colors block ${hasReachedLimit ? 'text-slate-500' : 'text-slate-800 group-hover:text-emerald-700'}`}>Test Builder</span>
+                  <span className={`text-xs font-bold block px-3 py-1 rounded-full ${hasReachedLimit ? 'bg-slate-200 text-slate-500' : 'bg-emerald-100/60 text-emerald-700/90'}`}>
+                    {hasReachedLimit ? '🔒 Paper Limit Reached' : 'Timed Quizzes & Standard Tests ⏳'}
+                  </span>
                 </div>
               </button>
 
               {/* Card 3: International Exam Builder */}
               <button 
-                onClick={() => setAssignmentType('exam_hub')} 
-                className="h-72 bg-gradient-to-br from-white via-purple-50/60 to-amber-50/50 rounded-[40px] border-2 border-purple-200/90 shadow-xl hover:shadow-2xl hover:shadow-purple-200/60 flex flex-col items-center justify-center gap-5 hover:-translate-y-2 transition-all hover:border-purple-400 group cursor-pointer p-6 text-center relative overflow-hidden"
+                onClick={() => {
+                  if (hasReachedLimit) {
+                    if (activePlanId === 'free') setShowUpgradeModal(true);
+                    else setShowBoosterModal(true);
+                  } else {
+                    setAssignmentType('exam_hub');
+                  }
+                }} 
+                className={`h-72 rounded-[40px] border-2 shadow-xl hover:shadow-2xl flex flex-col items-center justify-center gap-5 transition-all p-6 text-center relative overflow-hidden ${
+                  hasReachedLimit 
+                    ? 'bg-slate-50 border-slate-200 opacity-65 cursor-pointer' 
+                    : 'bg-gradient-to-br from-white via-purple-50/60 to-amber-50/50 border-purple-200/90 hover:shadow-purple-200/60 hover:-translate-y-2 hover:border-purple-400 group cursor-pointer'
+                }`}
               >
-                <div className="w-24 h-24 bg-gradient-to-tr from-purple-600 via-violet-600 to-amber-400 rounded-full flex items-center justify-center shadow-lg shadow-purple-500/30 group-hover:scale-110 transition-transform ring-4 ring-purple-100">
-                  <Globe className="w-11 h-11 text-amber-300 drop-shadow-md stroke-[2.2]" />
+                <div className={`w-24 h-24 rounded-full flex items-center justify-center shadow-lg ring-4 ${
+                  hasReachedLimit 
+                    ? 'bg-slate-300 text-slate-500 ring-slate-100 shadow-none' 
+                    : 'bg-gradient-to-tr from-purple-600 via-violet-600 to-amber-400 text-amber-300 ring-purple-100 shadow-purple-500/30 group-hover:scale-110 transition-transform'
+                }`}>
+                  {hasReachedLimit ? <Lock className="w-11 h-11 drop-shadow-md text-slate-500" /> : <Globe className="w-11 h-11 text-amber-300 drop-shadow-md stroke-[2.2]" />}
                 </div>
                 <div className="space-y-1">
-                  <span className="text-xl font-black text-slate-800 group-hover:text-purple-700 transition-colors block">International Exam Builder</span>
-                  <span className="text-[10px] text-purple-800 font-extrabold block bg-purple-100/70 px-3 py-1 rounded-full border border-purple-200/60">NSW Selective, ACER, ICAS, SAT, NAPLAN & 11+ 🌐</span>
+                  <span className={`text-xl font-black transition-colors block ${hasReachedLimit ? 'text-slate-500' : 'text-slate-800 group-hover:text-purple-700'}`}>International Exam Builder</span>
+                  <span className={`text-[10px] font-extrabold block px-3 py-1 rounded-full border ${hasReachedLimit ? 'bg-slate-200 text-slate-500 border-slate-300' : 'bg-purple-100/70 text-purple-800 border-purple-200/60'}`}>
+                    {hasReachedLimit ? '🔒 Paper Limit Reached' : 'NSW Selective, ACER, ICAS, SAT, NAPLAN & 11+ 🌐'}
+                  </span>
                 </div>
               </button>
             </div>
@@ -2430,12 +2489,23 @@ EXPECTED JSON SCHEMA:
                 {/* Magic Generate Button */}
                 <button
                   type="button"
-                  onClick={handleGenerateBook}
+                  onClick={() => {
+                    if (hasReachedLimit) {
+                      if (activePlanId === 'free') setShowUpgradeModal(true);
+                      else setShowBoosterModal(true);
+                    } else {
+                      handleGenerateBook();
+                    }
+                  }}
                   disabled={isGeneratingBook}
-                  className="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-indigo-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  className={`w-full py-4 rounded-2xl font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                    hasReachedLimit 
+                      ? 'bg-slate-300 text-slate-500 cursor-pointer shadow-none' 
+                      : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-500/20'
+                  }`}
                 >
-                  {isGeneratingBook ? <Loader2 className="w-5 h-5 animate-spin" /> : <Wand2 className="w-5 h-5 text-yellow-300" />}
-                  {isGeneratingBook ? (bookGenStatus || 'Crafting Pixar Storybook...') : 'Magic Generate Storybook 🪄'}
+                  {isGeneratingBook ? <Loader2 className="w-5 h-5 animate-spin" /> : hasReachedLimit ? <Lock className="w-5 h-5" /> : <Wand2 className="w-5 h-5 text-yellow-300" />}
+                  {isGeneratingBook ? (bookGenStatus || 'Crafting Pixar Storybook...') : hasReachedLimit ? '🔒 Paper Limit Reached' : 'Magic Generate Storybook 🪄'}
                 </button>
               </div>
             </>
@@ -2777,7 +2847,39 @@ EXPECTED JSON SCHEMA:
                            ))}
                        </div>
                        <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
-                         <button onClick={handleGenerateAI} className="text-xs text-green-600 font-bold hover:underline px-4 py-2 bg-green-50 rounded-lg">Regenerate</button>
+                         <button 
+                      onClick={() => {
+                        if (hasReachedLimit) {
+                          if (activePlanId === 'free') setShowUpgradeModal(true);
+                          else setShowBoosterModal(true);
+                        } else {
+                          handleGenerateAI();
+                        }
+                      }}
+                      disabled={isGenerating}
+                      className={`w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                        hasReachedLimit 
+                          ? 'bg-slate-300 text-slate-500 cursor-pointer shadow-none' 
+                          : 'bg-[#EA580C] hover:bg-[#C2410C] text-white shadow-lg shadow-orange-100/50'
+                      }`}
+                    >
+                      {isGenerating ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Generating Questions...
+                        </>
+                      ) : hasReachedLimit ? (
+                        <>
+                          <Lock className="w-4 h-4" />
+                          🔒 Paper Limit Reached
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-4 h-4" />
+                          Auto-Generate Questions
+                        </>
+                      )}
+                    </button>
                          <button onClick={() => {setGeneratedQuestions(null); setIsAiAccepted(false);}} className="text-xs text-rose-500 font-bold hover:underline px-4 py-2 bg-rose-50 rounded-lg">Clear Questions</button>
                        </div>
                      </div>
@@ -3251,9 +3353,20 @@ EXPECTED JSON SCHEMA:
             {isSavingDraft ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Save as Draft 📝'}
           </button>
           <button 
-            onClick={handlePublish}
+            onClick={() => {
+              if (hasReachedLimit) {
+                if (activePlanId === 'free') setShowUpgradeModal(true);
+                else setShowBoosterModal(true);
+              } else {
+                handlePublish();
+              }
+            }}
             disabled={isPublishing}
-            className="bg-[#2ecc71] hover:bg-[#27ae60] text-white font-black px-10 py-4 rounded-2xl flex items-center gap-3 transition-colors shadow-[0_4px_0_0_#219653] hover:translate-y-1 hover:shadow-none disabled:opacity-50"
+            className={`font-black px-10 py-4 rounded-2xl flex items-center gap-3 transition-colors disabled:opacity-50 ${
+              hasReachedLimit 
+                ? 'bg-slate-300 text-slate-500 cursor-pointer shadow-none' 
+                : 'bg-[#2ecc71] hover:bg-[#27ae60] text-white shadow-[0_4px_0_0_#219653] hover:translate-y-1 hover:shadow-none'
+            }`}
           >
             {isPublishing ? <Loader2 className="w-5 h-5 animate-spin" /> : (
               formData.isExamPaper || formData.examPreset

@@ -55,6 +55,43 @@ export default async function handler(req, res) {
       }
     }
 
+    // Handle Booster one-time checkout
+    const isBooster = planId === 'booster-mini' || planId === 'booster-mega';
+    if (isBooster) {
+      const credits = planId === 'booster-mini' ? 15 : 50;
+      const amount = planId === 'booster-mini' ? 200 : 500;
+      const name = planId === 'booster-mini' ? 'HomeworkZone Mini Booster (+15 Papers)' : 'HomeworkZone Mega Booster (+50 Papers)';
+
+      const session = await stripe.checkout.sessions.create({
+        customer: stripeCustomerId,
+        payment_method_types: ['card'],
+        mode: 'payment',
+        line_items: [
+          {
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name,
+                description: 'One-time paper top-up credits',
+              },
+              unit_amount: amount,
+            },
+            quantity: 1,
+          },
+        ],
+        success_url: `${successUrl}?session_id={CHECKOUT_SESSION_ID}&booster_success=true&credits=${credits}`,
+        cancel_url: cancelUrl,
+        metadata: {
+          teacherId,
+          planId,
+          type: 'booster',
+          credits,
+        },
+      });
+
+      return res.status(200).json({ url: session.url, sessionId: session.id });
+    }
+
     // 2. Resolve Price ID based on the planId
     let lookupKey = '';
     let productDetails = {};

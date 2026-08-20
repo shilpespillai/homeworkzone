@@ -13,19 +13,19 @@ export const PLAN_QUOTAS = {
  * Calculates the monthly/period paper quota for a user
  */
 export const getBaseQuotaForPlan = (planId, studentCount = 1) => {
-  if (!planId || planId === 'free') return PLAN_QUOTAS.free.base;
+  if (!planId || planId === 'free' || planId === 'free_trial' || planId === 'free_expired') return PLAN_QUOTAS.free.base;
   if (planId === 'admin' || planId === 'superuser') return Infinity;
 
-  if (planId === 'option_a_elastic' || planId === 'parents' || planId === 'starter') {
+  if (planId === 'option-a' || planId === 'option_a_elastic' || planId === 'parents' || planId === 'starter') {
     return PLAN_QUOTAS.option_a_elastic.base;
   }
-  if (planId === 'option_b_tuition_growth' || planId === 'growth') {
+  if (planId === 'option_b_tuition_growth' || planId === 'growth' || planId === 'option-b-growth') {
     return PLAN_QUOTAS.option_b_tuition_growth.base;
   }
-  if (planId === 'option_b_tuition' || planId === 'tuition' || planId === 'tutor') {
+  if (planId === 'option_b_tuition' || planId === 'tuition' || planId === 'tutor' || planId === 'option-b-starter') {
     return PLAN_QUOTAS.option_b_tuition_starter.base;
   }
-  if (planId === 'option_c_school' || planId === 'school') {
+  if (planId === 'option_c_school' || planId === 'school' || planId === 'option-b-school' || planId === 'option-c') {
     return PLAN_QUOTAS.option_c_school.base;
   }
 
@@ -82,12 +82,12 @@ export const checkCanGeneratePaper = ({
   }
 
   const baseQuota = getBaseQuotaForPlan(effectivePlan);
-  const totalLimit = isMaxed ? baseQuota : baseQuota + (topUpCredits || 0);
+  const totalLimit = baseQuota + (topUpCredits || 0);
 
   let usage = 0;
   if (isMaxed) {
-    usage = totalLimit;
-  } else if (effectivePlan === 'free') {
+    usage = baseQuota;
+  } else if (effectivePlan === 'free' || effectivePlan === 'free_trial' || effectivePlan === 'free_expired') {
     usage = Array.isArray(allHomeworks) ? allHomeworks.length : 0;
   } else {
     usage = getMonthlyUsageCount(allHomeworks);
@@ -101,7 +101,7 @@ export const checkCanGeneratePaper = ({
     remaining,
     limit: totalLimit,
     baseQuota,
-    topUpCredits: isMaxed ? 0 : (topUpCredits || 0),
+    topUpCredits: topUpCredits || 0,
     usage,
     isUnlimited: false
   };

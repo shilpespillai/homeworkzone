@@ -109,7 +109,7 @@ export const executeRecurringGeneration = async (sched, teacherUid, teacherCode)
       if (data.displayName) resolvedTeacherName = data.displayName;
       if (data.activeAi) activeModel = data.activeAi;
       if (data.subjectPrompts) {
-        teacherPrompts = { ...teacherPrompts, ...data.subjectPrompts };
+        teacherPrompts = data.subjectPrompts;
         Object.keys(teacherPrompts).forEach(k => {
           if (teacherPrompts[k] === null) delete teacherPrompts[k];
         });
