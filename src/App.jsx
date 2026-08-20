@@ -5129,152 +5129,17 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
         </section>
 
         {/* GRADE COVERAGE SECTION: FOUNDATION TO GRADE 12 */}
-        <section id="grade-coverage" className="mt-10 bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 rounded-[36px] p-1.5 shadow-xl relative overflow-hidden">
-          <div className="bg-white rounded-[32px] p-6 md:p-10 space-y-8 relative z-10">
-            
-            {/* Section Header */}
-            <div className="text-center max-w-3xl mx-auto space-y-3">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-100/80 border border-orange-200 rounded-full text-xs font-black uppercase tracking-wider text-orange-700 shadow-sm">
-                <Award className="w-4 h-4 text-orange-600" />
-                <span>Complete Learning Pathway</span>
-              </div>
-              <h2 className="font-display text-3xl md:text-5xl text-slate-900 leading-tight">
-                Tailored Practice from <span className="bg-gradient-to-r from-orange-600 to-rose-600 bg-clip-text text-transparent">Foundation to Grade 12</span>
-              </h2>
-              <p className="text-sm md:text-base font-semibold text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                Whether your child is starting their very first letters in <strong>Foundation (Prep/K)</strong> or mastering advanced calculus and chemistry in <strong>Grade 12</strong>, Homework Zone provides age-appropriate, curriculum-aligned questions for every milestone.
-              </p>
-            </div>
+        <section id="grade-coverage" className="mt-10">
+            <button onClick={() => openLogin('teacher')} className="w-full block transition-transform hover:scale-[1.01] duration-300 focus:outline-none">
+              <img 
+                src="/tailored-practice.png" 
+                alt="Tailored Practice from Foundation to Grade 12" 
+                className="w-full h-auto object-contain shadow-2xl rounded-[24px] md:rounded-[36px] border border-slate-100" 
+              />
+            </button>
+          </section>
 
-            {/* 4 Stage Cards Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              
-              {/* Stage 1: Foundation to Grade 2 */}
-              <div className="bg-gradient-to-br from-amber-50/70 to-orange-50/50 rounded-3xl p-6 border-2 border-amber-200/80 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden">
-                <div className="space-y-4">
-                  <div className="flex justify-between items-start">
-                    <div className="w-12 h-12 bg-amber-500 text-white rounded-2xl flex items-center justify-center text-2xl shadow-md shadow-amber-200 group-hover:scale-110 transition-transform">
-                      👶
-                    </div>
-                    <span className="bg-amber-200/60 text-amber-900 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider border border-amber-300">
-                      Grades F – 2
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="font-display text-xl text-slate-900">Foundation &amp; Early Years</h3>
-                    <p className="text-xs font-bold text-amber-700 mt-0.5">Foundation (Prep/K), Grade 1 &amp; Grade 2</p>
-                  </div>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    Fun, highly visual learning with phonics, basic counting, shape identification, picture stories, and interactive sticker rewards.
-                  </p>
-                </div>
-                <ul className="mt-4 pt-3 border-t border-amber-200/60 space-y-2 text-xs font-semibold text-slate-700">
-                  <li className="flex items-center gap-2">✨ Early Phonics &amp; Reading</li>
-                  <li className="flex items-center gap-2">✨ Visual Number Sense &amp; Shapes</li>
-                  <li className="flex items-center gap-2">✨ Storybooks &amp; Gamified Mazes</li>
-                </ul>
-              </div>
-
-              {/* Stage 2: Upper Primary (Grades 3 - 6) */}
-              <div className="bg-gradient-to-br from-blue-50/70 to-indigo-50/50 rounded-3xl p-6 border-2 border-blue-200/80 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden">
-                <div className="space-y-4">
-                  <div className="flex justify-between items-start">
-                    <div className="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center text-2xl shadow-md shadow-blue-200 group-hover:scale-110 transition-transform">
-                      🚀
-                    </div>
-                    <span className="bg-blue-200/60 text-blue-900 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider border border-blue-300">
-                      Grades 3 – 6
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="font-display text-xl text-slate-900">Upper Primary &amp; NAPLAN</h3>
-                    <p className="text-xs font-bold text-blue-700 mt-0.5">Grade 3, Grade 4, Grade 5 &amp; Grade 6</p>
-                  </div>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    Core skill building in fractions, multiplication, grammar, comprehension, science facts, and official NAPLAN practice tests.
-                  </p>
-                </div>
-                <ul className="mt-4 pt-3 border-t border-blue-200/60 space-y-2 text-xs font-semibold text-slate-700">
-                  <li className="flex items-center gap-2">🔹 Fractions, Decimals &amp; Geometry</li>
-                  <li className="flex items-center gap-2">🔹 NAPLAN &amp; Competition Prep</li>
-                  <li className="flex items-center gap-2">🔹 Vocabulary &amp; Word Power</li>
-                </ul>
-              </div>
-
-              {/* Stage 3: Middle School (Grades 7 - 9) */}
-              <div className="bg-gradient-to-br from-purple-50/70 to-fuchsia-50/50 rounded-3xl p-6 border-2 border-purple-200/80 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden">
-                <div className="space-y-4">
-                  <div className="flex justify-between items-start">
-                    <div className="w-12 h-12 bg-purple-600 text-white rounded-2xl flex items-center justify-center text-2xl shadow-md shadow-purple-200 group-hover:scale-110 transition-transform">
-                      📐
-                    </div>
-                    <span className="bg-purple-200/60 text-purple-900 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider border border-purple-300">
-                      Grades 7 – 9
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="font-display text-xl text-slate-900">Middle School Mastery</h3>
-                    <p className="text-xs font-bold text-purple-700 mt-0.5">Grade 7, Grade 8 &amp; Grade 9</p>
-                  </div>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    Transition to abstract thinking with algebra, linear equations, physics &amp; chemistry foundations, analytical reading, and essay writing.
-                  </p>
-                </div>
-                <ul className="mt-4 pt-3 border-t border-purple-200/60 space-y-2 text-xs font-semibold text-slate-700">
-                  <li className="flex items-center gap-2">🟣 Algebra &amp; Linear Equations</li>
-                  <li className="flex items-center gap-2">🟣 Physics, Chemistry &amp; Biology</li>
-                  <li className="flex items-center gap-2">🟣 Logical Reasoning &amp; Analysis</li>
-                </ul>
-              </div>
-
-              {/* Stage 4: Senior High School (Grades 10 - 12) */}
-              <div className="bg-gradient-to-br from-emerald-50/70 to-teal-50/50 rounded-3xl p-6 border-2 border-emerald-200/80 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden">
-                <div className="space-y-4">
-                  <div className="flex justify-between items-start">
-                    <div className="w-12 h-12 bg-emerald-600 text-white rounded-2xl flex items-center justify-center text-2xl shadow-md shadow-emerald-200 group-hover:scale-110 transition-transform">
-                      🎓
-                    </div>
-                    <span className="bg-emerald-200/60 text-emerald-900 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider border border-emerald-300">
-                      Grades 10 – 12
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="font-display text-xl text-slate-900">Senior STEM &amp; Exam Prep</h3>
-                    <p className="text-xs font-bold text-emerald-700 mt-0.5">Grade 10, Grade 11 &amp; Grade 12</p>
-                  </div>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    Advanced calculus, trigonometry, organic chemistry, senior physics, formal proofs, and high school exam preparation.
-                  </p>
-                </div>
-                <ul className="mt-4 pt-3 border-t border-emerald-200/60 space-y-2 text-xs font-semibold text-slate-700">
-                  <li className="flex items-center gap-2">🟢 Calculus &amp; Advanced Math</li>
-                  <li className="flex items-center gap-2">🟢 Senior Science &amp; STEM</li>
-                  <li className="flex items-center gap-2">🟢 Formal Step-by-Step Proofs</li>
-                </ul>
-              </div>
-
-            </div>
-
-            {/* Bottom Trust Badge Banner */}
-            <div className="bg-gradient-to-r from-indigo-900 via-slate-900 to-purple-950 rounded-2xl p-4 md:p-6 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
-              <div className="flex items-center gap-3 text-center sm:text-left">
-                <div className="w-10 h-10 bg-amber-400 text-slate-900 rounded-full flex items-center justify-center font-black text-xl shrink-0">
-                  ⭐
-                </div>
-                <div>
-                  <h4 className="font-display text-base md:text-lg">One Single Platform for Your Child's Entire School Journey</h4>
-                  <p className="text-xs text-slate-300 font-medium">No need to buy new apps as your kids grow—Homework Zone adapts automatically to every grade level.</p>
-                </div>
-              </div>
-              <button onClick={() => openLogin('teacher')} className="px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-black text-xs uppercase tracking-wider rounded-xl shadow-md hover:scale-105 transition-all shrink-0">
-                Start Free for Your Child →
-              </button>
-            </div>
-
-          </div>
-        </section>
-
-        {/* PARENT & TUTOR ADVANTAGE SECTION */}
+          {/* PARENT & TUTOR ADVANTAGE SECTION */}
         <section className="mt-8 bg-gradient-to-br from-indigo-50 via-white to-orange-50/30 rounded-[36px] border-4 border-indigo-100 p-8 md:p-12 shadow-md relative overflow-hidden">
           {/* Decorative shapes/emojis */}
           <div className="absolute top-6 right-8 text-5xl opacity-80 select-none animate-pulse">💡</div>
