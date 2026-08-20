@@ -54,7 +54,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import EmojiPicker from '../components/EmojiPicker';
-import { calcOptionCAnnual } from '../utils/pricingConfig';
+import { calcOptionCAnnual, fetchPricing, savePricing } from '../utils/pricingConfig';
 
 import { 
   LineChart, 
@@ -675,7 +675,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
     if (!billing || !['active', 'trialing'].includes(billing.status)) return 0;
     const planId = billing.planId;
     if (planId === 'option-a') {
-      return studentCount * 1.50;
+      return studentCount * 5.00;
     }
     if (planId === 'option-b-starter') return 50;
     if (planId === 'option-b-growth') return 80;
@@ -779,7 +779,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
 
   useEffect(() => {
     if (allGradeFees[selectedTuitionGrade]) {
-      setTuitionPackages(allGradeFees[selectedTuitionGrade]);
+      setTuitionPackages(allGradeFees[selectedTuitionGrade].map(pkg => ({ ...pkg, icon: DEFAULT_PACKAGES.find(d => d.id === pkg.id)?.icon || pkg.icon })));
     } else {
       setTuitionPackages(DEFAULT_PACKAGES.map(pkg => ({ ...pkg, amount: 0 })));
     }
@@ -2634,7 +2634,8 @@ Include a balanced combination of question types such as:
     const savings = Math.max(0, optionAAnnual - cheapestAmount);
 
     return (
-      <div className="px-10 py-10 space-y-8 min-h-[calc(100vh-64px)] pb-40">
+        <div className="px-10 py-10 space-y-8 min-h-[calc(100vh-64px)] pb-40">
+          <AdminPricingSettings />
         {/* Header */}
         <div>
           <h1 className="text-4xl font-black text-[#14532d] tracking-tight flex items-center gap-3">
