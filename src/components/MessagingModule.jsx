@@ -200,12 +200,12 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
     // AI Safety Guardrail Check
     setIsCheckingSafety(true);
     const recipient = teacher?.displayName || 'Teacher';
-    const subjectCheck = await validateChatMessageAsync(newSubject, studentName, recipient);
-    const bodyCheck = await validateChatMessageAsync(newMessageBody, studentName, recipient);
+    const combinedText = `Subject: ${newSubject}\nMessage: ${newMessageBody}`;
+    const safetyCheck = await validateChatMessageAsync(combinedText, studentName, recipient);
     setIsCheckingSafety(false);
 
-    if (!subjectCheck.isSafe || !bodyCheck.isSafe) {
-      setSafetyWarning((subjectCheck.isSafe ? bodyCheck.message : subjectCheck.message));
+    if (!safetyCheck.isSafe) {
+      setSafetyWarning(safetyCheck.message);
       return;
     }
 
