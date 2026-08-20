@@ -2875,10 +2875,10 @@ Include a balanced combination of question types such as:
                 $5.00 <span className="text-xs font-bold text-slate-400">/ student / month</span>
               </div>
               <ul className="text-xs text-slate-500 font-bold space-y-2.5">
-                <li className="flex items-center gap-2">✨”ï¸ Pay only for active students</li>
-                <li className="flex items-center gap-2">✨”ï¸ Scales automatically as you add/remove</li>
-                <li className="flex items-center gap-2">✨”ï¸ No long term annual commitment</li>
-                <li className="flex items-center gap-2">✨”ï¸ Perfect for tutor/mid-semester setups</li>
+                <li className="flex items-center gap-2">✨ Pay only for active students</li>
+                <li className="flex items-center gap-2">📈 Scales automatically as you add/remove</li>
+                <li className="flex items-center gap-2">🔓 No long term annual commitment</li>
+                <li className="flex items-center gap-2">🎯 Perfect for tutor/mid-semester setups</li>
               </ul>
             </div>
             <button
@@ -2909,9 +2909,9 @@ Include a balanced combination of question types such as:
               </div>
               <div className="space-y-3 pt-2">
                 {[
-                  { id: 'option-b-starter', name: 'Starter (11–20 students)', price: 50, seats: 20 },
-                  { id: 'option-b-growth', name: 'Growth (21–30 students)', price: 80, seats: 30 },
-                  { id: 'option-b-school', name: 'School (31–150 students)', price: 99, seats: 150 },
+                  { id: 'option-b-starter', name: 'Starter (11-20 students)', price: 50, seats: 20 },
+                  { id: 'option-b-growth', name: 'Growth (21-30 students)', price: 80, seats: 30 },
+                  { id: 'option-b-school', name: 'School (31-150 students)', price: 99, seats: 150 },
                 ].map((tier) => (
                   <div key={tier.id} className="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl">
                     <div>
@@ -2954,15 +2954,15 @@ Include a balanced combination of question types such as:
               <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 space-y-1">
                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Graduated Tiers (Annual)</span>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
-                  <span>31–100 students</span>
+                  <span>31-100 students</span>
                   <span>$24 / student / yr</span>
                 </div>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
-                  <span>101–500 students</span>
+                  <span>101-500 students</span>
                   <span>$20 / student / yr</span>
                 </div>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
-                  <span>501–1,000 students</span>
+                  <span>501-1,000 students</span>
                   <span>$16 / student / yr</span>
                 </div>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
@@ -2990,8 +2990,8 @@ Include a balanced combination of question types such as:
         <div className="bg-white rounded-[32px] border border-slate-100 shadow-sm p-7 space-y-6">
           <div className="border-b border-slate-50 pb-4">
             <h3 className="text-xl font-black text-slate-800 flex items-center gap-2">
-              🧮 Interactive Plan Calculator
-            </h3>
+                🧮 Interactive Plan Calculator
+              </h3>
             <p className="text-xs text-slate-400 font-bold mt-1">
               Slide to select your expected student intake. We will calculate the total cost across all options and recommend the cheapest plan!
             </p>
@@ -3041,7 +3041,7 @@ Include a balanced combination of question types such as:
 
               {/* Recommendation Alert */}
               <div className="bg-orange-50/70 border border-orange-200/50 rounded-2xl p-5 flex items-start gap-4">
-                <div className="text-2xl mt-0.5">ðŸ†</div>
+                <div className="text-2xl mt-0.5">💡</div>
                 <div>
                   <h4 className="text-sm font-black text-orange-900">Cheapest Choice: {cheapestName}</h4>
                   <p className="text-xs text-orange-700 font-medium mt-1">
