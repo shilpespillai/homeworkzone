@@ -757,8 +757,8 @@ const TeacherDashboard = ({ user, onLogout }) => {
   // ── Tuition Fees State ──────────────────────────────────────────────
   const DEFAULT_PACKAGES = [
     { id: 'weekly',  label: 'Weekly Tuition',  description: 'Cover one week of personalised tuition sessions.',       icon: '📅', amount: 50  },
-    { id: 'monthly', label: 'Monthly Tuition', description: 'Full month of homework help & learning support.',          icon: '🌟', amount: 180 },
-    { id: 'term',    label: 'Term Package',    description: 'Best value — a full school term of guided study.',        icon: 'ðŸ†', amount: 500 },
+    { id: 'monthly', label: 'Monthly Tuition', description: 'Full month of homework help & learning support.',          icon: '🚀', amount: 180 },
+    { id: 'term',    label: 'Term Package',    description: 'Best value — a full school term of guided study.',        icon: '🏆', amount: 500 },
     { id: 'resources', label: 'Resources Fee', description: 'Worksheets, materials & learning resource pack.',         icon: '📚', amount: 100 },
   ];
   const [tuitionPackages, setTuitionPackages] = useState(DEFAULT_PACKAGES);

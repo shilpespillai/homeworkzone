@@ -56,12 +56,12 @@ const resolveGradeFromClassroomName = (classroomName) => {
 // ─── Main TuitionPayment Component (Informational Only) ────────────────────────
 const TuitionPayment = ({ studentName, teacher, classroom }) => {
   const DEFAULT_PACKAGES = [
+  const DEFAULT_PACKAGES = [
     { id: 'weekly',    label: 'Weekly Tuition',  description: 'One week of personalised tuition sessions.',        icon: '📅', amount: 50,  color: 'bg-blue-400',    gradient: 'bg-gradient-to-br from-green-50 to-orange-50' },
-    { id: 'monthly',   label: 'Monthly Tuition', description: 'Full month of homework help & learning support.',   icon: '🌟', amount: 180, color: 'bg-green-500',  gradient: 'bg-gradient-to-br from-green-50 to-orange-50' },
+    { id: 'monthly',   label: 'Monthly Tuition', description: 'Full month of homework help & learning support.',   icon: '🚀', amount: 180, color: 'bg-green-500',  gradient: 'bg-gradient-to-br from-green-50 to-orange-50' },
     { id: 'term',      label: 'Term Package',    description: 'Best value — a full school term of guided study.',  icon: '🏆', amount: 500, color: 'bg-amber-400',   gradient: 'bg-gradient-to-br from-amber-50 to-orange-50' },
     { id: 'resources', label: 'Resources Fee',   description: 'Worksheets, materials & learning resource pack.',  icon: '📚', amount: 100, color: 'bg-emerald-400', gradient: 'bg-gradient-to-br from-emerald-50 to-teal-50' },
   ];
-
   const STYLE_MAP = {
     weekly:    { color: 'bg-blue-400',    gradient: 'bg-gradient-to-br from-green-50 to-orange-50' },
     monthly:   { color: 'bg-green-500',  gradient: 'bg-gradient-to-br from-green-50 to-orange-50' },
