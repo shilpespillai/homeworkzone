@@ -56,40 +56,34 @@ const PaperQuotaBoosterModal = ({
 
     setIsProcessing(true);
     try {
-      if (user?.uid) {
-        const teacherRef = doc(db, 'teachers', user.uid);
-        await updateDoc(teacherRef, {
-          topUpCredits: increment(pack.credits)
-        });
+      if (!user?.uid || !user?.email) {
+         throw new Error("User email or ID missing");
       }
 
-      const updatedCredits = (topUpCredits || 0) + pack.credits;
-
-      // Update parent state
-      if (onCreditsUpdated) {
-        onCreditsUpdated(updatedCredits);
-      }
-
-      setSuccessMessage(`Success! +${pack.credits} Paper Credits added to your account 🎉`);
-      setTimeout(() => {
-        setSuccessMessage(null);
-        setIsProcessing(false);
-        onClose();
-      }, 1800);
+      const res = await fetch('/api/billing-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          teacherId: user.uid,
+          email: user.email,
+          planId: `booster-${pack.id}`,
+          successUrl: `${window.location.origin}/dashboard?booster_success=true`,
+          cancelUrl: `${window.location.origin}/dashboard`,
+          action: 'checkout'
+        })
+      });
+      
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to create checkout session');
+      
+      window.location.href = data.url;
     } catch (err) {
-      console.error("Error adding top-up credits:", err);
-      // Local state fallback
-      if (onCreditsUpdated) {
-        onCreditsUpdated((topUpCredits || 0) + pack.credits);
-      }
-      setSuccessMessage(`+${pack.credits} Paper Credits added!`);
-      setTimeout(() => {
-        setSuccessMessage(null);
-        setIsProcessing(false);
-        onClose();
-      }, 1500);
+      console.error("Stripe Checkout Error:", err);
+      alert('Failed to connect to Stripe. Please try again.');
+      setIsProcessing(false);
     }
   };
+
 
   return (
     <AnimatePresence>
