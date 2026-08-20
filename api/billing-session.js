@@ -1,6 +1,20 @@
 import Stripe from 'stripe';
+import admin from 'firebase-admin';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+
+// Initialize Firebase Admin
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    }),
+  });
+}
+const db = admin.firestore();
 
 export default async function handler(req, res) {
   // CORS headers
@@ -93,59 +107,80 @@ export default async function handler(req, res) {
     }
 
     // 2. Resolve Price ID based on the planId
+    
+    // Fetch live pricing from Firestore
+    let pricing = {
+      optionA_perStudentPerMonth: 5.00,
+      optionB_starter_price: 50,
+      optionB_growth_price: 80,
+      optionB_school_price: 99,
+      optionC_tier1_rate: 24,
+      optionC_tier2_rate: 20,
+      optionC_tier3_rate: 16,
+      optionC_tier4_rate: 14,
+    };
+    try {
+      const snap = await db.collection('system').doc('pricing').get();
+      if (snap.exists) {
+        pricing = { ...pricing, ...snap.data() };
+      }
+    } catch (err) {
+      console.warn('Failed to fetch pricing from DB, using fallback defaults', err);
+    }
+
     let lookupKey = '';
     let productDetails = {};
 
-    switch (planId) {
+        switch (planId) {
       case 'option-a':
-        lookupKey = 'hz_option_a_monthly';
+        lookupKey = 'hz_option_a_monthly_v' + Math.round(pricing.optionA_perStudentPerMonth * 100);
         productDetails = {
           name: 'HomeworkZone Monthly License (Option A)',
           billing_scheme: 'per_unit',
-          unit_amount: 150, // $1.50
+          unit_amount: Math.round(pricing.optionA_perStudentPerMonth * 100),
           interval: 'month',
         };
         break;
       case 'option-b-starter':
-        lookupKey = 'hz_option_b_starter_monthly';
+        lookupKey = 'hz_option_b_starter_monthly_v' + Math.round(pricing.optionB_starter_price * 100);
         productDetails = {
           name: 'HomeworkZone Starter Plan (Option B)',
           billing_scheme: 'per_unit',
-          unit_amount: 1500, // $15.00
+          unit_amount: Math.round(pricing.optionB_starter_price * 100),
           interval: 'month',
         };
         break;
       case 'option-b-growth':
-        lookupKey = 'hz_option_b_growth_monthly';
+        lookupKey = 'hz_option_b_growth_monthly_v' + Math.round(pricing.optionB_growth_price * 100);
         productDetails = {
           name: 'HomeworkZone Growth Plan (Option B)',
           billing_scheme: 'per_unit',
-          unit_amount: 4500, // $45.00
+          unit_amount: Math.round(pricing.optionB_growth_price * 100),
           interval: 'month',
         };
         break;
       case 'option-b-school':
-        lookupKey = 'hz_option_b_school_monthly';
+        lookupKey = 'hz_option_b_school_monthly_v' + Math.round(pricing.optionB_school_price * 100);
         productDetails = {
           name: 'HomeworkZone School Plan (Option B)',
           billing_scheme: 'per_unit',
-          unit_amount: 9900, // $99.00
+          unit_amount: Math.round(pricing.optionB_school_price * 100),
           interval: 'month',
         };
         break;
       case 'option-c':
-        lookupKey = 'hz_option_c_yearly';
+        lookupKey = 'hz_option_c_yearly_v' + Math.round(pricing.optionC_tier1_rate * 100);
         productDetails = {
           name: 'HomeworkZone Yearly Graduated License (Option C)',
           billing_scheme: 'tiered',
           interval: 'year',
           tiers_mode: 'graduated',
           tiers: [
-            { up_to: 50, unit_amount: 1200 }, // $12.00
-            { up_to: 200, unit_amount: 800 }, // $8.00
-            { up_to: 1000, unit_amount: 500 }, // $5.00
-            { up_to: 'inf', unit_amount: 300 }, // $3.00
-          ]
+              { up_to: 100, unit_amount: Math.round(pricing.optionC_tier1_rate * 100) },
+              { up_to: 500, unit_amount: Math.round(pricing.optionC_tier2_rate * 100) },
+              { up_to: 1000, unit_amount: Math.round(pricing.optionC_tier3_rate * 100) },
+              { up_to: 'inf', unit_amount: Math.round(pricing.optionC_tier4_rate * 100) },
+            ]
         };
         break;
       default:
