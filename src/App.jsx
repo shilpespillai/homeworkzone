@@ -5051,7 +5051,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
 
         {/* GRADE COVERAGE SECTION: FOUNDATION TO GRADE 12 */}
         <section id="grade-coverage" className="mt-10">
-            <button onClick={() => openLogin('teacher')} className="w-full max-w-5xl mx-auto block transition-transform hover:scale-[1.01] duration-300 focus:outline-none">
+            <button onClick={() => openLogin('teacher')} className="w-[95%] md:w-[85%] lg:w-[80%] max-w-[1600px] mx-auto block transition-transform hover:scale-[1.01] duration-300 focus:outline-none">
               <img 
                 src="/tailored-practice.png" 
                 alt="Tailored Practice from Foundation to Grade 12" 
