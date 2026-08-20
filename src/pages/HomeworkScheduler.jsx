@@ -33,6 +33,8 @@ import CurriculumModal from '../components/CurriculumModal';
 import { curriculum } from '../data/curriculum';
 import { sanitizeQuestionData, getCurriculumSubjectKey } from './HomeworkGenerator';
 import { DEFAULT_SUBJECT_PROMPTS, getMasterDefaultPrompts } from '../utils/defaultPrompts';
+import { checkCanGeneratePaper } from '../utils/quotaManager';
+import PaperQuotaBoosterModal from '../components/PaperQuotaBoosterModal';
 
 // Module-level lock to prevent double-execution (e.g. from React StrictMode double mounts or rapid mount cycles)
 const activeAutomationsLock = typeof window !== 'undefined'
@@ -155,36 +157,40 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
   });
 
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [showBoosterModal, setShowBoosterModal] = useState(false);
+  const [topUpCredits, setTopUpCredits] = useState(0);
 
   const activePlanId = (teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free';
   const totalHomeworksCount = allHomeworks ? allHomeworks.length : 0;
 
-  const hasReachedLimit = (() => {
-    if (isAdmin) return false;
-    if (isSuperUser) return false; // Super users have unlimited access
-    if (activePlanId === 'free') {
-      return totalHomeworksCount >= 3;
-    }
-    return false; // Paid tiers have unlimited homework creation
-  })();
+  const quotaInfo = checkCanGeneratePaper({
+    user,
+    isAdmin,
+    isSuperUser,
+    activePlanId,
+    allHomeworks,
+    topUpCredits
+  });
+
+  const hasReachedLimit = !quotaInfo.canGenerate;
 
   const limitText = (() => {
-    if (isAdmin) return '';
-    if (isSuperUser) return '';
-    if (activePlanId === 'free') {
-      return `Free Tier Limit: 3 homeworks total (You've created ${totalHomeworksCount}/3)`;
-    }
-    return '';
+    if (isAdmin || isSuperUser) return '';
+    if (quotaInfo.isUnlimited) return '';
+    return `Monthly Quota: ${quotaInfo.usage} / ${quotaInfo.limit} Papers Used`;
   })();
 
   const checkLimitAndTrigger = () => {
     if (hasReachedLimit) {
-      setShowUpgradeModal(true);
+      if (activePlanId === 'free') {
+        setShowUpgradeModal(true);
+      } else {
+        setShowBoosterModal(true);
+      }
       return true;
     }
     return false;
   };
-
   const [students, setStudents] = useState([]);
   const [isLoadingStudents, setIsLoadingStudents] = useState(false);
   const [studentSearchQuery, setStudentSearchQuery] = useState('');
@@ -211,9 +217,12 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
     const loadCustomTopics = async () => {
       try {
         const teacherDoc = await getDoc(doc(db, 'teachers', user.uid));
-        if (teacherDoc.exists() && Array.isArray(teacherDoc.data().customTopics)) {
-          setCustomTopics(teacherDoc.data().customTopics);
-          localStorage.setItem('hwz_custom_topics', JSON.stringify(teacherDoc.data().customTopics));
+        if (teacherDoc.exists()) {
+          if (teacherDoc.data().topUpCredits) setTopUpCredits(teacherDoc.data().topUpCredits);
+          if (Array.isArray(teacherDoc.data().customTopics)) {
+            setCustomTopics(teacherDoc.data().customTopics);
+            localStorage.setItem('hwz_custom_topics', JSON.stringify(teacherDoc.data().customTopics));
+          }
         }
       } catch (err) {
         console.warn("Failed to fetch custom topics from Firestore:", err);
@@ -2234,6 +2243,17 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           </div>
         </div>
       </div>
+      {showBoosterModal && (
+        <PaperQuotaBoosterModal
+          isOpen={showBoosterModal}
+          onClose={() => setShowBoosterModal(false)}
+          teacherUid={user.uid}
+          teacherEmail={user.email}
+          topUpCredits={topUpCredits}
+          onCreditsUpdated={(newCredits) => setTopUpCredits(newCredits)}
+        />
+      )}
+
       {showUpgradeModal && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="bg-white rounded-3xl max-w-md w-full p-8 border-2 border-orange-100 shadow-2xl text-center relative animate-in zoom-in-95 duration-200">
