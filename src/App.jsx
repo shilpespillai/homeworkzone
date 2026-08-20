@@ -1164,6 +1164,19 @@ const getSubjectAesthetics = (sub) => {
       pillText: 'text-slate-800'
     };
   }
+    if (s.includes('critical') || s.includes('thinking')) {
+    return {
+      bg: 'bg-[#6366f1]',
+      reportBg: 'bg-gradient-to-br from-indigo-400 to-purple-600 shadow-indigo-500/30',
+      title: 'CRITICAL THINKING',
+      reportTitle: 'THINKING MISSIONS',
+      subtitle: 'LEARNING QUEST:',
+      topic: 'New Adventures!',
+      img: '/subject_logical_reasoning.png',
+      pillBg: 'bg-[#fde047]',
+      pillText: 'text-slate-800'
+    };
+  }
   if (s.includes('logical') || s.includes('reasoning')) {
     return {
       bg: 'bg-[#6366f1]',
