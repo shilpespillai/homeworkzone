@@ -2735,7 +2735,7 @@ Include a balanced combination of question types such as:
       optionBPlanName = 'Option B (Growth)';
       optionBAnnual = 80 * 12;
     }
-    const optionCAnnual = calculateOptionCAnnual(Math.max(31, calcSeats));
+    const optionCAnnual = calcSeats < 31 ? Infinity : calculateOptionCAnnual(calcSeats);
 
     let cheapestName = 'Option A (Monthly)';
     let cheapestAmount = optionAAnnual;
@@ -3054,7 +3054,7 @@ Include a balanced combination of question types such as:
                 </div>
                 <div className="flex justify-between text-xs font-bold text-slate-600">
                   <span>Option C (Graduated Yearly):</span>
-                  <span>${optionCAnnual.toLocaleString()} / year</span>
+                  <span>{optionCAnnual === Infinity ? 'Not Available' : `$${optionCAnnual.toLocaleString()} / year`}</span>
                 </div>
               </div>
 
