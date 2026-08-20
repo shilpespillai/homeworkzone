@@ -2735,7 +2735,7 @@ Include a balanced combination of question types such as:
       optionBPlanName = 'Option B (Growth)';
       optionBAnnual = 80 * 12;
     }
-    const optionCAnnual = calculateOptionCAnnual(calcSeats);
+    const optionCAnnual = calculateOptionCAnnual(Math.max(31, calcSeats));
 
     let cheapestName = 'Option A (Monthly)';
     let cheapestAmount = optionAAnnual;

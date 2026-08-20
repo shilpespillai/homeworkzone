@@ -228,11 +228,12 @@ export default async function handler(req, res) {
     }
 
     // 3. Set up line items and seat count
-    // Default to at least 1 seat, or if dynamic Option A/C, set initial quantity to studentCount (minimum 1)
     let quantity = 1;
     const isDynamic = planId === 'option-a' || planId === 'option-c';
-    if (isDynamic) {
+    if (planId === 'option-a') {
       quantity = Math.max(1, parseInt(studentCount, 10) || 1);
+    } else if (planId === 'option-c') {
+      quantity = Math.max(31, parseInt(studentCount, 10) || 31);
     }
 
     // 4. Create Stripe Checkout Session
