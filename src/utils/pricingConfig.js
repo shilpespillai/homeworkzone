@@ -107,9 +107,7 @@ export function calcOptionCAnnual(seats, pricing = DEFAULT_PRICING) {
     cost = (t1 * r1) + ((t2 - t1) * r2) + ((t3 - t2) * r3) + ((seats - t3) * r4);
   }
 
-  if (cost > 9999) {
-    cost = 9999;
-  }
+
 
   return cost;
 }

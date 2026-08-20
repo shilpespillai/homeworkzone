@@ -5323,11 +5323,11 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                        </div>
                        <div className="flex justify-between text-xs md:text-sm font-normal text-slate-800">
                          <span>1,001+ students</span>
-                         <span className="font-semibold text-slate-900">$14 / student / yr (Capped)</span>
+                         <span className="font-semibold text-slate-900">$14 / student / yr</span>
                        </div>
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2 border-t border-slate-100">
-                        <li className="flex items-center gap-2 text-emerald-700 font-extrabold">⭐ Flat-Rate Capped at $9,999/yr!</li>
+
                         <li className="flex items-center gap-2">✔️ 2,500 Papers / year per school</li>
                        <li className="flex items-center gap-2">✔️ Requires minimum 31 student seats</li>
                        <li className="flex items-center gap-2">✔️ Perfect for whole school setups</li>

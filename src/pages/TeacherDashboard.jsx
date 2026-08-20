@@ -2986,7 +2986,7 @@ Include a balanced combination of question types such as:
                 </div>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
                   <span>1,001+ students</span>
-                  <span>$14 / student / yr (Capped)</span>
+                  <span>$14 / student / yr</span>
                 </div>
               </div>
             </div>
