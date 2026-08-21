@@ -92,7 +92,7 @@ const toTitleCase = (str) => {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 };
-import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where, onSnapshot, addDoc, collectionGroup, updateDoc, limit, getDocsFromServer } from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where, onSnapshot, addDoc, collectionGroup, updateDoc, limit, getDocsFromServer, increment } from 'firebase/firestore';
 import HomeworkGenerator from './HomeworkGenerator';
 import HomeworkScheduler from './HomeworkScheduler';
 import TestReportsDashboard from '../components/TestReportsDashboard';
@@ -806,16 +806,28 @@ const TeacherDashboard = ({ user, onLogout }) => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('booster_success') === 'true') {
       const creditsAdded = parseInt(params.get('credits') || '0', 10);
-      if (creditsAdded > 0) {
-        setTeacherData(prev => ({
-          ...prev,
-          topUpCredits: (prev?.topUpCredits || 0) + creditsAdded
-        }));
-        setTimeout(() => alert(`Successfully added ${creditsAdded} papers to your quota!`), 500);
+      const sessionId = params.get('session_id');
+      
+      if (creditsAdded > 0 && sessionId && user?.uid) {
+        const processed = localStorage.getItem(`booster_${sessionId}`);
+        if (!processed) {
+          localStorage.setItem(`booster_${sessionId}`, 'true');
+          
+          setTeacherData(prev => ({
+            ...prev,
+            topUpCredits: (prev?.topUpCredits || 0) + creditsAdded
+          }));
+          
+          setDoc(doc(db, 'teachers', user.uid), {
+             topUpCredits: increment(creditsAdded)
+          }, { merge: true }).catch(console.error);
+          
+          setTimeout(() => alert(`Successfully added ${creditsAdded} papers to your quota!`), 500);
+        }
       }
       window.history.replaceState({}, document.title, window.location.pathname);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (activeTab === 'Admin Reports' && isAdminUser) {
