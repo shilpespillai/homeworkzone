@@ -767,6 +767,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   // isAdminUser → full admin (unlimited + Admin Reports tab) — shilpeshpillai81@gmail.com only
   // isSuperUser → unlimited usage only, no Admin Reports
   const isAdminUser = teacherData?.isAdmin === true || teacherData?.role === 'admin';
+  const isPromptAdmin = isAdminUser || (user?.email?.toLowerCase().trim() === 'shilpeshpillai81@gmail.com');
   const isSuperUser = SUPER_USER_EMAILS.includes((teacherData?.email || '').toLowerCase().trim()) || teacherData?.isSuperUser === true;
 
   const [adminTeachers, setAdminTeachers] = useState([]);
@@ -1318,6 +1319,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
 
   const [subjectPrompts, setSubjectPrompts] = useState(DEFAULT_SUBJECT_PROMPTS);
   const [masterPromptsMap, setMasterPromptsMap] = useState(DEFAULT_SUBJECT_PROMPTS);
+  const [promptViewMode, setPromptViewMode] = useState('personal');
   const [newSubjectName, setNewSubjectName] = useState('');
   const [isSavingPrompts, setIsSavingPrompts] = useState(false);
   const [activePromptModalSubject, setActivePromptModalSubject] = useState(null);
@@ -1431,28 +1433,41 @@ const TeacherDashboard = ({ user, onLogout }) => {
 
   const handleOpenPromptModal = (subKey) => {
     setActivePromptModalSubject(subKey);
-    setEditingPromptContent(subjectPrompts[subKey] || getPremiumPromptTemplate(subKey));
+    const currentMap = (isPromptAdmin && promptViewMode === 'global') ? masterPromptsMap : subjectPrompts;
+    setEditingPromptContent(currentMap[subKey] || getPremiumPromptTemplate(subKey));
   };
 
   const handleSaveModalPrompt = async () => {
     if (!activePromptModalSubject) return;
     setIsSavingPrompts(true);
-    const updatedPrompts = {
-      ...subjectPrompts,
-      [activePromptModalSubject]: editingPromptContent
-    };
-    setSubjectPrompts(updatedPrompts);
-    if (user?.uid) {
-      try {
-        await updateDoc(doc(db, 'teachers', user.uid), {
-          subjectPrompts: updatedPrompts
-        });
-        const isMasterSaved = await saveMasterDefaultPromptsIfAdmin(db, user, updatedPrompts);
-        if (isMasterSaved) {
-          setMasterPromptsMap(updatedPrompts);
+    
+    if (isPromptAdmin && promptViewMode === 'global') {
+      const updatedPrompts = {
+        ...masterPromptsMap,
+        [activePromptModalSubject]: editingPromptContent
+      };
+      setMasterPromptsMap(updatedPrompts);
+      if (user?.uid) {
+        try {
+          await saveMasterDefaultPromptsIfAdmin(db, user, updatedPrompts);
+        } catch (err) {
+          console.error("Save Master Prompt Error:", err);
         }
-      } catch (err) {
-        console.error("Save Prompt Error:", err);
+      }
+    } else {
+      const updatedPrompts = {
+        ...subjectPrompts,
+        [activePromptModalSubject]: editingPromptContent
+      };
+      setSubjectPrompts(updatedPrompts);
+      if (user?.uid) {
+        try {
+          await updateDoc(doc(db, 'teachers', user.uid), {
+            subjectPrompts: updatedPrompts
+          });
+        } catch (err) {
+          console.error("Save Prompt Error:", err);
+        }
       }
     }
     setIsSavingPrompts(false);
@@ -1471,11 +1486,15 @@ const TeacherDashboard = ({ user, onLogout }) => {
     if (!user?.uid) return;
     setIsSavingPrompts(true);
     try {
-      await updateDoc(doc(db, 'teachers', user.uid), {
-        subjectPrompts: subjectPrompts
-      });
-      await saveMasterDefaultPromptsIfAdmin(db, user, subjectPrompts);
-      alert("Generic Subject Prompts saved successfully! 🚀🪄");
+      if (isPromptAdmin && promptViewMode === 'global') {
+        await saveMasterDefaultPromptsIfAdmin(db, user, masterPromptsMap);
+        alert("Global Master Prompts saved successfully! 🌍🚀");
+      } else {
+        await updateDoc(doc(db, 'teachers', user.uid), {
+          subjectPrompts: subjectPrompts
+        });
+        alert("Personal Subject Prompts saved successfully! 🚀🪄");
+      }
     } catch (err) {
       console.error("Save Prompts Error:", err);
       alert("Failed to save prompts. ❌");
@@ -1523,19 +1542,31 @@ Include a balanced combination of question types such as:
 
   const handleAddSubject = async () => {
     if (!newSubjectName.trim()) {
-      alert("Please enter a subject name! 🎒");
+      alert("Please enter a subject name! 🎨");
       return;
     }
     const cleanName = newSubjectName.trim().toLowerCase();
     const displaySubject = newSubjectName.trim();
-    if (subjectPrompts[cleanName] !== undefined && subjectPrompts[cleanName] !== null) {
-      alert("This subject already exists! ⚠️ï¸");
-      return;
+    
+    if (isPromptAdmin && promptViewMode === 'global') {
+      if (masterPromptsMap[cleanName] !== undefined && masterPromptsMap[cleanName] !== null) {
+        alert("This subject already exists in Global Prompts! 💡");
+        return;
+      }
+      setMasterPromptsMap(prev => ({
+        ...prev,
+        [cleanName]: "Generating premium prompt using AI... 🪄 Please wait a moment."
+      }));
+    } else {
+      if (subjectPrompts[cleanName] !== undefined && subjectPrompts[cleanName] !== null) {
+        alert("This subject already exists in Personal Prompts! 💡");
+        return;
+      }
+      setSubjectPrompts(prev => ({
+        ...prev,
+        [cleanName]: "Generating premium prompt using AI... 🪄 Please wait a moment."
+      }));
     }
-    setSubjectPrompts(prev => ({
-      ...prev,
-      [cleanName]: "Generating premium prompt using AI... 🪄 Please wait a moment."
-    }));
     setNewSubjectName('');
 
     try {
@@ -1545,32 +1576,47 @@ Include a balanced combination of question types such as:
         provider: "gemini"
       });
       if (generatedText) {
-        setSubjectPrompts(prev => ({
-          ...prev,
-          [cleanName]: generatedText.trim()
-        }));
+        if (isPromptAdmin && promptViewMode === 'global') {
+          setMasterPromptsMap(prev => ({ ...prev, [cleanName]: generatedText.trim() }));
+        } else {
+          setSubjectPrompts(prev => ({ ...prev, [cleanName]: generatedText.trim() }));
+        }
       }
     } catch (err) {
       console.error("AI prompt generation error:", err);
-      setSubjectPrompts(prev => ({
-        ...prev,
-        [cleanName]: getPremiumPromptTemplate(cleanName)
-      }));
+      if (isPromptAdmin && promptViewMode === 'global') {
+        setMasterPromptsMap(prev => ({ ...prev, [cleanName]: getPremiumPromptTemplate(cleanName) }));
+      } else {
+        setSubjectPrompts(prev => ({ ...prev, [cleanName]: getPremiumPromptTemplate(cleanName) }));
+      }
     }
   };
 
   const handleDeleteSubject = async (subKey) => {
     if (await window.confirmCustom(`Are you sure you want to delete the generic prompt for "${subKey}"?`)) {
-      const updated = { ...subjectPrompts };
-      updated[subKey] = null;
-      setSubjectPrompts(updated);
-      if (user?.uid) {
-        try {
-          await updateDoc(doc(db, 'teachers', user.uid), {
-            subjectPrompts: updated
-          });
-        } catch (err) {
-          console.error("Failed to delete subject prompt from database:", err);
+      if (isPromptAdmin && promptViewMode === 'global') {
+        const updated = { ...masterPromptsMap };
+        updated[subKey] = null;
+        setMasterPromptsMap(updated);
+        if (user?.uid) {
+          try {
+            await saveMasterDefaultPromptsIfAdmin(db, user, updated);
+          } catch (err) {
+            console.error("Failed to delete from global master:", err);
+          }
+        }
+      } else {
+        const updated = { ...subjectPrompts };
+        updated[subKey] = null;
+        setSubjectPrompts(updated);
+        if (user?.uid) {
+          try {
+            await updateDoc(doc(db, 'teachers', user.uid), {
+              subjectPrompts: updated
+            });
+          } catch (err) {
+            console.error("Failed to delete subject prompt from database:", err);
+          }
         }
       }
     }
@@ -8003,7 +8049,8 @@ Include a balanced combination of question types such as:
              );
           }
            case 'My Prompts': {
-              const activeSubjectKeys = Object.keys(subjectPrompts).filter(k => subjectPrompts[k] !== null);
+              const currentPrompts = (isPromptAdmin && promptViewMode === 'global') ? masterPromptsMap : subjectPrompts;
+              const activeSubjectKeys = Object.keys(currentPrompts || {}).filter(k => currentPrompts[k] !== null);
 
               return (
                  <div className="px-6 sm:px-10 py-10 space-y-8 min-h-[calc(100vh-64px)] pb-40 relative font-sans">
@@ -8016,8 +8063,24 @@ Include a balanced combination of question types such as:
                              <span>Master Prompt Library</span>
                           </div>
                           <h1 className="text-2xl sm:text-3xl font-black text-[#14532d] tracking-tight">
-                             My Subject Prompts
+                             {isPromptAdmin && promptViewMode === 'global' ? 'Global Master Prompts' : 'My Subject Prompts'}
                           </h1>
+                          {isPromptAdmin && (
+                            <div className="flex bg-emerald-50/50 p-1 rounded-xl w-fit mt-2 border border-emerald-100">
+                              <button 
+                                onClick={() => setPromptViewMode('personal')} 
+                                className={`px-4 py-1.5 rounded-lg text-xs font-black transition-all ${promptViewMode === 'personal' ? 'bg-white text-emerald-700 shadow-sm border border-emerald-200' : 'text-emerald-600 hover:bg-emerald-50'}`}
+                              >
+                                Personal
+                              </button>
+                              <button 
+                                onClick={() => setPromptViewMode('global')} 
+                                className={`px-4 py-1.5 rounded-lg text-xs font-black transition-all ${promptViewMode === 'global' ? 'bg-white text-emerald-700 shadow-sm border border-emerald-200' : 'text-emerald-600 hover:bg-emerald-50'}`}
+                              >
+                                Global Master
+                              </button>
+                            </div>
+                          )}
                           <p className="text-sm font-semibold text-slate-600 max-w-2xl">
                              Configure default master AI prompts for each subject. Click any subject card to customize its prompt or generate a tailored template with AI!
                           </p>
@@ -8056,7 +8119,8 @@ Include a balanced combination of question types such as:
                           {activeSubjectKeys.map((subKey) => {
                              const style = resolveSubjectStyle(subKey);
                              const displayName = subKey.charAt(0).toUpperCase() + subKey.slice(1);
-                             const hasPrompt = !!subjectPrompts[subKey];
+                             const currentMap = (isPromptAdmin && promptViewMode === 'global') ? masterPromptsMap : subjectPrompts;
+                             const hasPrompt = !!currentMap[subKey];
 
                              return (
                                 <div
