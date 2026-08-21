@@ -67,7 +67,7 @@ const PaperQuotaBoosterModal = ({
           teacherId: user.uid,
           email: user.email,
           planId: `booster-${pack.id}`,
-          successUrl: `${window.location.origin}/dashboard/teacher?booster_success=true`,
+          successUrl: `${window.location.origin}/dashboard/teacher`,
           cancelUrl: `${window.location.origin}/dashboard/teacher`,
           action: 'checkout'
         })
