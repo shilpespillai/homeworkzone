@@ -4576,7 +4576,6 @@ const ScoreRow = ({ label, score, icon }) => (
         <div className="w-8 h-8 bg-white rounded-lg flex-center shadow-sm">{icon}</div>
         <p className="text-xs font-semibold text-slate-700">{label}</p>
      </div>
-     <p className="text-xs font-semibold text-[#EA580C]">{score}</p>
   </div>
 );
 
@@ -4589,6 +4588,8 @@ const LegendItem = ({ label, value, color }) => (
 
 // --- Landing Page ---
 const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
+  const [pricing, setPricing] = useState({ optionA_perStudentPerMonth: 5.00, optionB_starter_price: 50, optionB_growth_price: 80, optionB_school_price: 99, optionC_tier1_rate: 24 });
+  useEffect(() => { fetchPricing().then(p => { if (p) setPricing(p); }); }, []);
   const navigate = useNavigate();
 
   const [showLoginModal, setShowLoginModal] = useState(null);
