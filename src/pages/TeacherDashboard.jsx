@@ -2955,7 +2955,7 @@ Include a balanced combination of question types such as:
                 <p className="text-xs text-slate-400 font-bold">Monthly Elastic Capacity</p>
               </div>
               <div className="text-3xl font-black text-slate-800">
-                $5.00 <span className="text-xs font-bold text-slate-400">/ student / month</span>
+                ${globalPricing.optionA_perStudentPerMonth.toFixed(2)} <span className="text-xs font-bold text-slate-400">/ student / month</span>
               </div>
               <ul className="text-xs text-slate-500 font-bold space-y-2.5">
                 <li className="flex items-center gap-2">✨ Pay only for active students</li>

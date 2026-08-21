@@ -4566,10 +4566,6 @@ const SubjectBar = ({ label, value, color }) => (
      </div>
      <div className="h-2 w-full bg-slate-50 rounded-full overflow-hidden shadow-inner">
         <motion.div initial={{ width: 0 }} animate={{ width: `${value}%` }} className={`h-full rounded-full ${color}`} />
-     </div>
-  </div>
-);
-
 const ScoreRow = ({ label, score, icon }) => (
   <div className="bg-slate-50/50 p-4 rounded-2xl border border-slate-50 flex items-center justify-between hover:bg-white hover:shadow-md transition-all cursor-pointer">
      <div className="flex items-center gap-4">
@@ -5272,7 +5268,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                        <p className="text-xs text-slate-500 font-normal">Monthly Elastic Seats (For 1–10 students)</p>
                      </div>
                      <div className="text-3xl font-semibold text-slate-900">
-                       $5.00 <span className="text-sm font-normal text-slate-500">/ student / month</span>
+                       ${pricing.optionA_perStudentPerMonth.toFixed(2)} <span className="text-sm font-normal text-slate-500">/ student / month</span>
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2">
                        <li className="flex items-center gap-2">✔️ Best for parents & micro-tutors</li>
