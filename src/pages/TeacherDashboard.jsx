@@ -1318,7 +1318,6 @@ const TeacherDashboard = ({ user, onLogout }) => {
 
   const [subjectPrompts, setSubjectPrompts] = useState(DEFAULT_SUBJECT_PROMPTS);
   const [masterPromptsMap, setMasterPromptsMap] = useState(DEFAULT_SUBJECT_PROMPTS);
-  const [promptViewMode, setPromptViewMode] = useState('personal');
   const [newSubjectName, setNewSubjectName] = useState('');
   const [isSavingPrompts, setIsSavingPrompts] = useState(false);
   const [activePromptModalSubject, setActivePromptModalSubject] = useState(null);
@@ -1561,22 +1560,9 @@ Include a balanced combination of question types such as:
   };
 
   const handleDeleteSubject = async (subKey) => {
-    if (!window.confirm(`Are you sure you want to delete the prompt for "${subKey}"?`)) return;
-
-    if (isAdmin && promptViewMode === 'global') {
-      const updated = { ...masterPromptsMap };
-      updated[subKey] = null; 
-      setMasterPromptsMap(updated);
-      if (user?.uid) {
-        try {
-          await saveMasterDefaultPromptsIfAdmin(db, user, updated);
-        } catch (err) {
-          console.error("Delete Global Subject Error:", err);
-        }
-      }
-    } else {
+    if (await window.confirmCustom(`Are you sure you want to delete the generic prompt for "${subKey}"?`)) {
       const updated = { ...subjectPrompts };
-      updated[subKey] = null; 
+      updated[subKey] = null;
       setSubjectPrompts(updated);
       if (user?.uid) {
         try {
@@ -1584,9 +1570,1107 @@ Include a balanced combination of question types such as:
             subjectPrompts: updated
           });
         } catch (err) {
-          console.error("Delete Subject Error:", err);
+          console.error("Failed to delete subject prompt from database:", err);
         }
       }
+    }
+  };
+
+  const [homeworkSubject, setHomeworkSubject] = useState('English');
+  const [homeworkTitle, setHomeworkTitle] = useState('');
+  const [homeworkInstructions, setHomeworkInstructions] = useState('');
+  const [homeworkPoints, setHomeworkPoints] = useState(10);
+  const [submissions, setSubmissions] = useState([]);
+  
+  const [selectedCalendarHw, setSelectedCalendarHw] = useState(null);
+  const [showCalendarModal, setShowCalendarModal] = useState(false);
+  const [isEditingGoal, setIsEditingGoal] = useState(false);
+  const [newGoalTitle, setNewGoalTitle] = useState('Dino Pizza Party! ðŸ•');
+  const [newGoalTarget, setNewGoalTarget] = useState(1500);
+  const [newGoalTrack, setNewGoalTrack] = useState('auto');
+  const [dashboardRosterTab, setDashboardRosterTab] = useState('Support');
+
+  const fetchSubmissions = async () => {
+    if (!user?.uid) return;
+    try {
+      const q = query(
+        collection(db, 'submissions'), 
+        where('teacherId', '==', user.uid),
+        orderBy('submittedAt', 'desc')
+      );
+      const snap = await getDocs(q);
+      const subList = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setSubmissions(subList);
+    } catch (err) {
+      console.error("Fetch Submissions Error:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'Gradebook') {
+       fetchSubmissions();
+    }
+  }, [activeTab]);
+
+  const SUBJECT_ICONS = {
+    'English': '/ic-homework.png',
+    'Maths': '/ic-reports.png',
+    'Science': '/ic-students.png',
+    'Art': '/ic-rewards.png',
+    'Music': '/ic-messages.png',
+    'History': '/ic-classes.png'
+  };
+
+  const CLASS_IMAGES = [
+    '/mascot.png',
+    '/dino-reading.png',
+    '/rocket_mascot.png',
+    '/equip_mascot.png',
+    '/student_avatar.png'
+  ];
+
+  const saveAiKeys = async () => {
+    localStorage.setItem('hwz_gemini_key', aiKeys.gemini);
+    localStorage.setItem('hwz_openai_key', aiKeys.openai);
+    localStorage.setItem('hwz_anthropic_key', aiKeys.anthropic);
+    localStorage.setItem('hwz_active_ai', activeAi);
+    
+    if (user?.uid) {
+      try {
+        const teacherDoc = await getDoc(doc(db, 'teachers', user.uid));
+        const dbCode = teacherDoc.exists() ? teacherDoc.data().teacherCode : '';
+        const code = user.teacherCode || dbCode || user.uid.slice(0, 6).toUpperCase();
+        
+        const encGemini = aiKeys.gemini ? await encryptText(aiKeys.gemini, code) : '';
+        const encOpenai = aiKeys.openai ? await encryptText(aiKeys.openai, code) : '';
+        const encAnthropic = aiKeys.anthropic ? await encryptText(aiKeys.anthropic, code) : '';
+        
+        await setDoc(doc(db, 'teachers', user.uid), {
+          encryptedAiKeys: {
+            gemini: encGemini,
+            openai: encOpenai,
+            anthropic: encAnthropic
+          },
+          activeAi: activeAi
+        }, { merge: true });
+        alert("AI Configuration saved securely to Cloud and locally! 🧠 🔒");
+      } catch (err) {
+        console.error("Save AI settings to Firestore failed:", err);
+        alert("AI Configuration saved locally, but failed to sync to Cloud. ⚠️ï¸");
+      }
+    } else {
+      alert("AI Configuration saved locally! 🧠 🔒");
+    }
+    setShowAiSettings(false);
+  };
+
+  useEffect(() => {
+    const loadCloudAiSettings = async () => {
+      if (!user?.uid) return;
+      try {
+        const masterPrompts = await getMasterDefaultPrompts(db);
+        setMasterPromptsMap(masterPrompts);
+        const teacherDoc = await getDoc(doc(db, 'teachers', user.uid));
+        if (teacherDoc.exists()) {
+          const data = teacherDoc.data();
+          if (data.activeAi) {
+            setActiveAi(data.activeAi);
+            localStorage.setItem('hwz_active_ai', data.activeAi);
+          }
+          if (data.subjectPrompts) {
+            setSubjectPrompts(data.subjectPrompts);
+          } else {
+            setSubjectPrompts(masterPrompts);
+          }
+          let loadedRetention = 90;
+          let loadedPurgedAt = null;
+          if (data.dataRetentionPeriod !== undefined) {
+            loadedRetention = data.dataRetentionPeriod;
+            setDataRetentionPeriod(data.dataRetentionPeriod);
+          }
+          if (data.lastPurgedAt) {
+            loadedPurgedAt = data.lastPurgedAt;
+            setLastPurgedAt(data.lastPurgedAt);
+          }
+          const code = user.teacherCode || data.teacherCode || user.uid.slice(0, 6).toUpperCase();
+          
+          if (data.encryptedAiKeys) {
+            const decryptedGemini = await decryptText(data.encryptedAiKeys.gemini, code);
+            const decryptedOpenai = await decryptText(data.encryptedAiKeys.openai, code);
+            const decryptedAnthropic = await decryptText(data.encryptedAiKeys.anthropic, code);
+            
+            setAiKeys({
+              gemini: decryptedGemini,
+              openai: decryptedOpenai,
+              anthropic: decryptedAnthropic
+            });
+            
+            if (decryptedGemini) localStorage.setItem('hwz_gemini_key', decryptedGemini);
+            if (decryptedOpenai) localStorage.setItem('hwz_openai_key', decryptedOpenai);
+            if (decryptedAnthropic) localStorage.setItem('hwz_anthropic_key', decryptedAnthropic);
+          } else if (aiKeys.gemini || aiKeys.openai || aiKeys.anthropic) {
+            // Migrate local keys to Cloud
+            const encGemini = aiKeys.gemini ? await encryptText(aiKeys.gemini, code) : '';
+            const encOpenai = aiKeys.openai ? await encryptText(aiKeys.openai, code) : '';
+            const encAnthropic = aiKeys.anthropic ? await encryptText(aiKeys.anthropic, code) : '';
+            
+            await setDoc(doc(db, 'teachers', user.uid), {
+              encryptedAiKeys: {
+                gemini: encGemini,
+                openai: encOpenai,
+                anthropic: encAnthropic
+              },
+              activeAi: activeAi
+            }, { merge: true });
+            console.log("Legacy local storage keys migrated to encrypted cloud successfully.");
+          }
+
+          // Auto-Purge Check
+          if (loadedRetention !== -1) {
+             const now = Date.now();
+             const lastPurgeMs = loadedPurgedAt ? new Date(loadedPurgedAt).getTime() : 0;
+             const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+             if (now - lastPurgeMs > sevenDaysMs) {
+                console.log("Triggering auto-purge in background...");
+                runPurge(loadedRetention).catch(console.error);
+             }
+          }
+        }
+      } catch (err) {
+        console.error("Load cloud AI settings error:", err);
+      }
+    };
+    loadCloudAiSettings();
+  }, [user]);
+
+  const runPurge = async (retentionDays) => {
+    if (!user?.uid || retentionDays === -1) return;
+    const cutoffDate = new Date(Date.now() - retentionDays * 24 * 60 * 60 * 1000).toISOString();
+    
+    const collectionsToPurge = [
+       { name: 'homeworks', dateField: 'createdAt' },
+       { name: 'submissions', dateField: 'submittedAt' },
+       { name: 'messages', dateField: 'createdAt' }
+    ];
+
+    let totalDeleted = 0;
+
+    for (const coll of collectionsToPurge) {
+       try {
+          const q = query(
+             collection(db, coll.name),
+             where('teacherId', '==', user.uid),
+             where(coll.dateField, '<', cutoffDate),
+             limit(100)
+          );
+          
+          let hasMore = true;
+          while (hasMore) {
+             const snap = await getDocs(q);
+             if (snap.empty) {
+                hasMore = false;
+                break;
+             }
+             
+             const deletePromises = snap.docs.map(docSnap => deleteDoc(doc(db, coll.name, docSnap.id)));
+             await Promise.all(deletePromises);
+             totalDeleted += snap.docs.length;
+             
+             if (snap.docs.length < 100) {
+                hasMore = false;
+             }
+          }
+       } catch (err) {
+          console.error(`Error purging ${coll.name}:`, err);
+       }
+    }
+
+    const nowIso = new Date().toISOString();
+    setLastPurgedAt(nowIso);
+    await setDoc(doc(db, 'teachers', user.uid), {
+       lastPurgedAt: nowIso
+    }, { merge: true });
+    
+    return totalDeleted;
+  };
+
+  useEffect(() => {
+    if (user?.uid) {
+      fetchClassrooms();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user?.uid && activeClassroom) {
+      fetchStudents();
+    }
+  }, [user, activeClassroom, activeTab]);
+
+  const isInitialMessagesLoadRef = React.useRef(true);
+  const teacherChatEndRef = React.useRef(null);
+
+  useEffect(() => {
+    if (!user?.uid) return;
+    const messagesRef = collection(db, 'messages');
+    const q = query(
+      messagesRef, 
+      where('teacherId', '==', user.uid),
+      orderBy('createdAt', 'desc'),
+      limit(100)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const allMsgs = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })).sort((a, b) => {
+         const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+         const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+         return dateB - dateA;
+      });
+      
+      snapshot.docChanges().forEach(change => {
+        if (change.type === 'added' && !isInitialMessagesLoadRef.current) {
+          const msg = change.doc.data();
+          if (!msg.isRead && msg.recipientId === user.uid) {
+            if (window.showToast) {
+              window.showToast({
+                message: `New message from ${msg.senderName}! 💬`,
+                type: 'info',
+                onClick: () => setActiveTab('Messages')
+              });
+            } else {
+              window.alert(`New message from ${msg.senderName}! 💬`);
+            }
+          }
+        }
+      });
+      
+      setTeacherMessages(allMsgs);
+      
+      if (isInitialMessagesLoadRef.current) {
+         isInitialMessagesLoadRef.current = false;
+      }
+    }, (err) => {
+      console.error("Error loading teacher messages:", err);
+    });
+    return () => unsubscribe();
+  }, [user]);
+
+  // Mark viewed messages as read
+  useEffect(() => {
+    if (activeTab === 'Messages') {
+      // In TeacherDashboard, currentChat falls back to the first message if activeChat isn't set
+      const currentChat = (activeChat && teacherMessages.find(m => m.id === activeChat.id))
+         ? activeChat 
+         : (teacherMessages.filter(msg => msg.senderRole === 'student')[0] || null);
+
+      if (currentChat && !currentChat.isRead && currentChat.recipientId === user?.uid) {
+        updateDoc(doc(db, 'messages', currentChat.id), { isRead: true }).catch(console.error);
+      }
+    }
+  }, [activeTab, activeChat, teacherMessages, user]);
+
+  useEffect(() => {
+    if (activeTab === 'Messages') {
+      setTimeout(() => {
+        teacherChatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 80);
+    }
+  }, [activeTab, activeChat, teacherMessages]);
+
+  const fetchClassrooms = async () => {
+    if (!user?.uid) return;
+    try {
+      console.log("TeacherDashboard: Fetching classrooms for:", user.uid);
+      const q = query(collection(db, 'teachers', user.uid, 'classrooms'));
+      const querySnapshot = await getDocs(q);
+      
+      const list = await Promise.all(querySnapshot.docs.map(async docSnapshot => {
+        const data = docSnapshot.data();
+        const studentsSnap = await getDocs(collection(db, 'teachers', user.uid, 'classrooms', docSnapshot.id, 'students'));
+        return { 
+          id: docSnapshot.id, 
+          ...data,
+          studentCount: studentsSnap.size
+        };
+      }));
+
+      const getGradeNumber = (name) => {
+        if (!name) return 999;
+        const match = name.match(/\d+/);
+        return match ? parseInt(match[0], 10) : 999;
+      };
+
+      list.sort((a, b) => {
+        const gradeA = getGradeNumber(a.name);
+        const gradeB = getGradeNumber(b.name);
+        if (gradeA !== gradeB) return gradeA - gradeB;
+        return (a.name || '').localeCompare(b.name || '');
+      });
+
+      console.log("TeacherDashboard: Classrooms updated & sorted:", list.length);
+      setClassrooms([...list]); // Use spread to force new reference
+      
+      if (list.length > 0 && !activeClassroom) {
+        setActiveClassroom(list[0]);
+      } else if (list.length === 0) {
+        setActiveClassroom(null);
+      }
+    } catch (err) {
+      console.error("TeacherDashboard: Fetch Classrooms Error:", err);
+    }
+  };
+
+  const handleAddClassroom = async () => {
+    console.log("Add Classroom triggered:", { newClassName, userId: user?.uid });
+    if (!newClassName.trim() || !user?.uid) {
+      alert("Missing class name or teacher session! ⚠️ï¸");
+      return;
+    }
+
+    const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
+    const activePlanId = simulatedPlan || ((teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free');
+    
+    const isFree = activePlanId === 'free' || activePlanId === 'free_trial' || activePlanId === 'free_expired';
+    if (isFree && classrooms.length >= 2) {
+      setShowUpgradeAlert(true);
+      return;
+    }
+
+    setIsAddingClass(true);
+    try {
+      const classId = newClassName.trim().toLowerCase().replace(/\s+/g, '-');
+      const classRef = doc(db, 'teachers', user.uid, 'classrooms', classId);
+      
+      await setDoc(classRef, {
+        name: newClassName.trim(),
+        createdAt: new Date().toISOString(),
+        teacherUid: user.uid,
+        subjects: selectedSubjects,
+        chatDisabled: newChatDisabled
+      });
+      
+      console.log("Class created successfully:", classId);
+      setNewClassName('');
+      setSelectedSubjects([]);
+      setNewChatDisabled(false);
+      await fetchClassrooms();
+      setShowAddClassModal(false);
+      alert("Class created successfully! 🎨✨¨");
+    } catch (err) {
+      console.error("Add Classroom Error:", err);
+      alert(`Oops! Failed to create class: ${err.message} âŒ`);
+    } finally {
+      setIsAddingClass(false);
+    }
+  };
+
+  const handleEditClassroom = async () => {
+    if (!editClassName.trim() || !editingClass?.id || !user?.uid) {
+      alert("Missing class name or teacher session! ⚠️ï¸");
+      return;
+    }
+
+    try {
+      const classRef = doc(db, 'teachers', user.uid, 'classrooms', editingClass.id);
+      
+      await updateDoc(classRef, {
+        name: editClassName.trim(),
+        subjects: selectedEditSubjects,
+        chatDisabled: editChatDisabled
+      });
+      
+      console.log("Class updated successfully:", editingClass.id);
+      setEditingClass(null);
+      setEditClassName('');
+      setSelectedEditSubjects([]);
+      setEditChatDisabled(false);
+      setShowEditClassModal(false);
+      await fetchClassrooms();
+      alert("Class updated successfully! ✨¨");
+    } catch (err) {
+      console.error("Edit Classroom Error:", err);
+      alert(`Oops! Failed to update class: ${err.message} âŒ`);
+    }
+  };
+
+  
+  const handleRenameClassroom = async (classId, newName) => {
+    if (!user?.uid) return;
+    try {
+      const classRef = doc(db, 'teachers', user.uid, 'classrooms', classId);
+      await setDoc(classRef, { name: newName }, { merge: true });
+      setClassrooms(prev => prev.map(c => c.id === classId ? { ...c, name: newName } : c));
+      if (activeClassroom?.id === classId) {
+         setActiveClassroom(prev => ({ ...prev, name: newName }));
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to rename class. Please try again.");
+    }
+  };
+
+  const handleDeleteClassroom = async (classId) => {
+    console.log("TeacherDashboard: Starting deletion process for:", classId);
+    if (!user?.uid) {
+      alert("Session expired. Please log in again. ⚠️ï¸");
+      return;
+    }
+    
+    try {
+      const classRef = doc(db, 'teachers', user.uid, 'classrooms', classId);
+      console.log("TeacherDashboard: Executing deleteDoc at path:", classRef.path);
+      await deleteDoc(classRef);
+      console.log("TeacherDashboard: deleteDoc successfully resolved.");
+      
+      if (activeClassroom?.id === classId) {
+        setActiveClassroom(null);
+      }
+      
+      await fetchClassrooms();
+      alert("Class deleted successfully! 🗑️ï¸✨¨");
+    } catch (err) {
+      console.error("TeacherDashboard: Delete Error:", err);
+      alert(`Oops! Delete failed: ${err.message} âŒ`);
+    }
+  };
+
+  const fetchStudents = async () => {
+    if (!user?.uid || !activeClassroom) return;
+    try {
+      const querySnapshot = await getDocs(collection(db, 'teachers', user.uid, 'classrooms', activeClassroom.id, 'students'));
+      const studentList = querySnapshot.docs.map(doc => ({
+        id: doc.id.trim(),
+        ...doc.data(),
+        email: `${doc.id.trim()}@example.com`
+      })).sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+      setStudents(studentList);
+    } catch (err) {
+      console.error("Fetch Students Error:", err);
+    }
+  };
+
+  const handleAddStudent = async () => {
+    const studentName = newStudentName || newStudent;
+    if (!studentName.trim() || !user?.uid || !activeClassroom) return;
+
+    // Check billing limit before adding
+    const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
+    const activePlanId = simulatedPlan || ((teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free');
+    const limit = getPlanSeatLimit(activePlanId);
+    if (allStudents.length >= limit) {
+      setShowUpgradeAlert(true);
+      return;
+    }
+
+    setIsAdding(true);
+    try {
+      const cleanName = toTitleCase(studentName);
+      const studentRef = doc(db, 'teachers', user.uid, 'classrooms', activeClassroom.id, 'students', cleanName.toLowerCase());
+      await setDoc(studentRef, {
+        name: cleanName,
+        addedAt: new Date().toISOString()
+      });
+      setNewStudentName('');
+      setNewStudent('');
+      fetchStudents();
+      fetchAllStudents();
+
+      // Trigger seat sync on Stripe for Option A or C
+      if (activePlanId === 'option-a' || activePlanId === 'option-c') {
+        fetch('/api/sync-seats', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ teacherId: user.uid })
+        }).catch(err => console.warn('Background seat sync failed:', err));
+      }
+    } catch (err) {
+      console.error("Add Student Error:", err);
+    }
+    setIsAdding(false);
+  };
+
+  const fetchDashboardSubmissions = async () => {
+    if (!user) return;
+    try {
+      const hwQ = query(collection(db, 'homeworks'), where('teacherId', '==', user.uid));
+      const hwSnap = await getDocs(hwQ);
+      const hwMap = {};
+      const hwList = [];
+      hwSnap.docs.forEach(d => {
+         const data = d.data();
+         hwMap[d.id] = data.assignedClassId;
+         hwList.push({ id: d.id, ...data });
+      });
+      setAllHomeworks(hwList);
+
+      const q = query(collection(db, 'submissions'), where('teacherId', '==', user.uid));
+      const snap = await getDocs(q);
+      setAllSubmissions(snap.docs.map(d => ({ 
+         id: d.id, 
+         ...d.data(),
+         classId: d.data().classId || hwMap[d.data().homeworkId] || null
+      })));
+    } catch (err) { console.error(err); }
+  };
+
+  useEffect(() => {
+    if (user) fetchDashboardSubmissions();
+  }, [user]);
+
+  useEffect(() => {
+    const now = new Date();
+    let cutoffDate = new Date();
+    if (dashboardTimeFilter === 'Daily') cutoffDate.setDate(now.getDate() - 7); // Daily shows every day of the week
+    else if (dashboardTimeFilter === 'Weekly') cutoffDate.setMonth(now.getMonth() - 1); // Weekly shows every week of the month
+    else if (dashboardTimeFilter === 'Monthly') cutoffDate.setFullYear(now.getFullYear() - 1); // Monthly shows every month of the year
+    else cutoffDate.setDate(now.getDate() - 1); // fallback
+
+    const filtered = allSubmissions.filter(s => {
+      const subDate = s.submittedAt?.toDate ? s.submittedAt.toDate() : new Date(s.submittedAt);
+      const isTimeValid = subDate >= cutoffDate;
+      const isClassValid = activeClassroom ? s.classId === activeClassroom.id : true;
+      return isTimeValid && isClassValid;
+    });
+    setTimeFilteredSubmissions(filtered);
+  }, [dashboardTimeFilter, allSubmissions, activeClassroom]);
+
+  useEffect(() => {
+    const fetchHomeworkDetails = async () => {
+      if (!selectedSubmission) return;
+      setIsFetchingReview(true);
+      try {
+        const hwDoc = await getDoc(doc(db, 'homeworks', selectedSubmission.homeworkId));
+        if (hwDoc.exists()) setReviewHomework(hwDoc.data());
+        else setReviewHomework(null);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsFetchingReview(false);
+      }
+    };
+    fetchHomeworkDetails();
+  }, [selectedSubmission]);
+
+  const fetchAllStudents = async () => {
+    if (!user?.uid || classrooms.length === 0) return;
+    try {
+      let aggregated = [];
+      for (const cls of classrooms) {
+        const studentsRef = collection(db, 'teachers', user.uid, 'classrooms', cls.id, 'students');
+        const snapshot = await getDocs(studentsRef);
+        const classStudents = snapshot.docs.map(doc => ({
+          id: doc.id.trim(),
+          ...doc.data(),
+          className: cls.name,
+          classId: cls.id,
+          email: `${doc.id.trim()}@example.com`
+        }));
+        aggregated = [...aggregated, ...classStudents];
+      }
+      setAllStudents(aggregated);
+    } catch (err) {
+      console.error("Fetch All Students Error:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (!user?.uid || classrooms.length === 0) {
+      setAllStudents([]);
+      return;
+    }
+
+    const unsubscribes = [];
+    const classStudentsMap = {};
+
+    classrooms.forEach(cls => {
+      const studentsRef = collection(db, 'teachers', user.uid, 'classrooms', cls.id, 'students');
+      
+      const unsubscribe = onSnapshot(studentsRef, (snapshot) => {
+        const list = snapshot.docs.map(doc => ({
+          id: doc.id.trim(),
+          ...doc.data(),
+          className: cls.name,
+          classId: cls.id,
+          email: `${doc.id.trim()}@example.com`
+        }));
+        classStudentsMap[cls.id] = list;
+
+        // Flatten all student lists and update allStudents state
+        const aggregated = Object.values(classStudentsMap).flat();
+        
+        // Ensure aggregated is sorted deterministically for stable quota assignment
+        aggregated.sort((a, b) => {
+           const timeA = a.addedAt ? new Date(a.addedAt).getTime() : 0;
+           const timeB = b.addedAt ? new Date(b.addedAt).getTime() : 0;
+           if (timeA !== timeB) return timeA - timeB;
+           return (a.name || '').localeCompare(b.name || '');
+        });
+
+        setAllStudents(aggregated);
+      }, (err) => {
+        console.error(`Error listening to students in class ${cls.id}:`, err);
+      });
+
+      unsubscribes.push(unsubscribe);
+    });
+
+    return () => {
+      unsubscribes.forEach(unsub => unsub());
+    };
+  }, [user?.uid, classrooms]);
+
+  const syncStudentQuotaLocks = async (studentsList) => {
+    if (!user?.uid) return;
+    
+    const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
+    const activePlanId = simulatedPlan || ((teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free');
+    const limit = getPlanSeatLimit(activePlanId);
+    
+    // Check if any lock status has changed in-memory
+    let localChanged = false;
+    const updatedList = studentsList.map((student, index) => {
+      const shouldBeLocked = index >= limit;
+      if (!!student.isQuotaLocked !== shouldBeLocked) {
+        localChanged = true;
+        return { ...student, isQuotaLocked: shouldBeLocked };
+      }
+      return student;
+    });
+
+    if (localChanged) {
+      setAllStudents(updatedList);
+    }
+
+    if (simulatedPlan) {
+      // If simulating, keep it completely local/client-side and do NOT write to database
+      return;
+    }
+    
+    // Write to Firestore only for real plan actions
+    const updates = [];
+    studentsList.forEach((student, index) => {
+      const shouldBeLocked = index >= limit;
+      if (!!student.isQuotaLocked !== shouldBeLocked) {
+        updates.push({
+          ref: doc(db, 'teachers', user.uid, 'classrooms', student.classId, 'students', student.id),
+          shouldBeLocked
+        });
+      }
+    });
+
+    if (updates.length > 0) {
+      console.log(`Syncing real quota locks for ${updates.length} students to Firestore...`);
+      try {
+         for (const update of updates) {
+           await setDoc(update.ref, { isQuotaLocked: update.shouldBeLocked }, { merge: true });
+         }
+      } catch(err) {
+         console.error("Failed to sync quota locks:", err);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (allStudents.length > 0) {
+       syncStudentQuotaLocks(allStudents);
+    }
+  }, [allStudents.length, teacherBilling]);
+
+  useEffect(() => {
+    if (activeClassroom) {
+      const filtered = allStudents
+        .filter(s => s.classId === activeClassroom.id)
+        .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+      setStudents(filtered);
+    } else {
+      setStudents([]);
+    }
+  }, [allStudents, activeClassroom]);
+
+  useEffect(() => {
+    if (user && classrooms.length > 0) {
+       fetchAllStudents();
+    }
+  }, [user, classrooms, activeTab]);
+
+  // ── Load tuition fees from Firestore ──────────────────────────────────
+  useEffect(() => {
+    if (!user?.uid) return;
+    const load = async () => {
+      try {
+        const ref = doc(db, 'teachers', user.uid, 'settings', 'tuitionFees');
+        const snap = await getDoc(ref);
+        if (snap.exists()) {
+          const data = snap.data();
+          setAllGradeFees(data);
+          if (data.currency) setTuitionCurrency(data.currency);
+        }
+      } catch (e) { console.error('Load fees error', e); }
+    };
+    load();
+  }, [user]);
+
+  // ── Listen to payments collection ──────────────────────────────────────
+  useEffect(() => {
+    if (!user?.uid) return;
+    const paymentsRef = collection(db, 'teachers', user.uid, 'payments');
+    const unsubscribe = onSnapshot(paymentsRef, (snapshot) => {
+      const list = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setPayments(list);
+    }, (err) => {
+      console.error("Error listening to payments:", err);
+    });
+    return () => unsubscribe();
+  }, [user?.uid]);
+
+  const handleSaveTuitionFees = async () => {
+    if (!user?.uid) return;
+    setIsSavingFees(true);
+    try {
+      const ref = doc(db, 'teachers', user.uid, 'settings', 'tuitionFees');
+      await setDoc(ref, { 
+        [selectedTuitionGrade]: tuitionPackages, 
+        currency: tuitionCurrency,
+        updatedAt: new Date().toISOString() 
+      }, { merge: true });
+      
+      setAllGradeFees(prev => ({
+        ...prev,
+        [selectedTuitionGrade]: tuitionPackages
+      }));
+
+      setFeesSaved(true);
+      setTimeout(() => setFeesSaved(false), 3000);
+    } catch (e) {
+      alert('Failed to save fees. Please try again.');
+      console.error(e);
+    }
+    setIsSavingFees(false);
+  };
+
+  const updatePackage = (id, field, value) => {
+    setTuitionPackages(prev => prev.map(p => p.id === id ? { ...p, [field]: value } : p));
+  };
+
+  // ── Toggle student active / paused status ──────────────────────────────────
+  const handleToggleStudentStatus = async (student) => {
+    if (!user?.uid || !student.classId) return;
+    const newStatus = student.status === 'paused' ? 'active' : 'paused';
+    const studentRef = doc(
+      db,
+      'teachers', user.uid,
+      'classrooms', student.classId,
+      'students', student.id
+    );
+    try {
+      await setDoc(studentRef, { status: newStatus }, { merge: true });
+      // Update local state immediately for instant UI feedback
+      setAllStudents(prev =>
+        prev.map(s =>
+          s.id === student.id && s.classId === student.classId
+            ? { ...s, status: newStatus }
+            : s
+        )
+      );
+    } catch (err) {
+      console.error('Toggle student status error:', err);
+      alert('Failed to update student status. Please try again.');
+    }
+  };
+
+  const handleUpdateStudentPreferredPackage = async (student, packageId) => {
+    if (!user?.uid || !student.classId) return;
+    const studentRef = doc(db, 'teachers', user.uid, 'classrooms', student.classId, 'students', student.id);
+    try {
+      await setDoc(studentRef, { preferredPackage: packageId }, { merge: true });
+    } catch (err) {
+      console.error("Error updating preferred package:", err);
+    }
+  };
+
+  const handleMarkAsPaid = async (student, packageId) => {
+    if (!user?.uid) return;
+    
+    let amount = 0;
+    let label = 'Custom Payment';
+    
+    if (packageId === 'custom') {
+      const customVal = customAmountInputs[student.id];
+      amount = parseFloat(customVal) || 0;
+      label = 'Custom Payment';
+    } else {
+      const pkg = getPackagesForStudent(student).find(p => p.id === packageId);
+      amount = pkg ? pkg.amount : 180;
+      label = pkg ? pkg.label : 'Monthly Tuition';
+    }
+    
+    const now = new Date();
+    let paidDate = now;
+    if (revenueMode === 'Monthly') {
+      paidDate = new Date(revenueYear, revenueMonth - 1, 15);
+      if (revenueYear === now.getFullYear() && revenueMonth === (now.getMonth() + 1)) {
+        paidDate = now;
+      }
+    } else {
+      paidDate = new Date(revenueYear, 5, 15);
+      if (revenueYear === now.getFullYear()) {
+        paidDate = now;
+      }
+    }
+    
+    const paymentRecord = {
+      studentName: student.name,
+      classroomId: student.classId || '',
+      classroomName: student.className || '',
+      amount: amount,
+      packageLabel: label,
+      paidAt: paidDate.toISOString(),
+      month: revenueMonth,
+      year: revenueYear,
+      teacherUid: user.uid,
+      isManual: true
+    };
+    
+    try {
+      await addDoc(collection(db, 'teachers', user.uid, 'payments'), paymentRecord);
+    } catch (err) {
+      console.error("Mark as paid error:", err);
+      alert("Could not record payment. Please try again.");
+    }
+  };
+
+  const handleMarkAsUnpaid = async (student, studentPayments) => {
+    if (!user?.uid || studentPayments.length === 0) return;
+    
+    try {
+      for (const p of studentPayments) {
+        const paymentRef = doc(db, 'teachers', user.uid, 'payments', p.id);
+        await deleteDoc(paymentRef);
+      }
+    } catch (err) {
+      console.error("Mark as unpaid error:", err);
+      alert("Could not remove payment. Please try again.");
+    }
+  };
+
+  const handleDeleteStudent = async (e, studentId, studentName, classId) => {
+    e.stopPropagation();
+    const targetClassId = classId || activeClassroom?.id;
+    if (!user?.uid || !targetClassId || !(await window.confirmCustom(`Remove ${studentName} from the class? 🍊`))) return;
+    
+    try {
+      // 1. Delete student profile doc in classroom
+      const studentRef = doc(db, 'teachers', user.uid, 'classrooms', targetClassId, 'students', studentId);
+      await deleteDoc(studentRef);
+
+      // 2. Delete check-in/tracking document
+      const checkInRef = doc(db, 'teachers', user.uid, 'students', studentId);
+      await deleteDoc(checkInRef).catch(err => console.warn("Check-in doc delete failed:", err));
+
+      // 3. Delete student homework submissions
+      const submissionsRef = collection(db, 'submissions');
+      const subQuery = query(submissionsRef, where('teacherId', '==', user.uid), where('classId', '==', targetClassId));
+      const subSnap = await getDocs(subQuery);
+      for (const subDoc of subSnap.docs) {
+        const subData = subDoc.data();
+        if (normalizeName(subData.studentName) === normalizeName(studentName)) {
+          await deleteDoc(doc(db, 'submissions', subDoc.id)).catch(err => console.warn("Submission delete failed:", err));
+        }
+      }
+
+      // 4. Delete direct messages between student and teacher
+      const messagesRef = collection(db, 'messages');
+      const msgQuery = query(messagesRef, where('teacherId', '==', user.uid));
+      const msgSnap = await getDocs(msgQuery);
+      for (const msgDoc of msgSnap.docs) {
+        const msgData = msgDoc.data();
+        const isSender = msgData.senderRole === 'student' && normalizeName(msgData.senderId) === normalizeName(studentName);
+        const isRecipient = msgData.recipientType === 'student' && normalizeName(msgData.recipientId) === normalizeName(studentName);
+        if (isSender || isRecipient) {
+          await deleteDoc(doc(db, 'messages', msgDoc.id)).catch(err => console.warn("Message delete failed:", err));
+        }
+      }
+
+      // 5. Delete payment records
+      const paymentsRef = collection(db, 'teachers', user.uid, 'payments');
+      const payQuery = query(paymentsRef, where('classroomId', '==', targetClassId));
+      const paySnap = await getDocs(payQuery);
+      for (const payDoc of paySnap.docs) {
+        const payData = payDoc.data();
+        if (normalizeName(payData.studentName) === normalizeName(studentName)) {
+          await deleteDoc(doc(db, 'teachers', user.uid, 'payments', payDoc.id)).catch(err => console.warn("Payment record delete failed:", err));
+        }
+      }
+      
+      // Refresh both states to ensure consistency
+      fetchAllStudents();
+      fetchStudents(); 
+      fetchClassrooms(); // Update counts on main dashboard
+      
+      alert(`${studentName} has been removed. ✨¨`);
+
+      // Trigger seat sync on Stripe for Option A or C
+      const activePlanId = (teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free';
+      if (activePlanId === 'option-a' || activePlanId === 'option-c') {
+        fetch('/api/sync-seats', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ teacherId: user.uid })
+        }).catch(err => console.warn('Background seat sync failed:', err));
+      }
+    } catch (err) {
+      console.error("Delete Student Error:", err);
+      alert("Oops! Failed to remove student. âŒ");
+    }
+  };
+
+  const handleAwardBadge = async () => {
+    if (!selectedStudentForBadge || !badgeName.trim() || !user?.uid) return;
+    setIsAwardingBadge(true);
+    try {
+      const targetClassId = selectedStudentForBadge.classId || activeClassroom?.id;
+      const studentId = selectedStudentForBadge.id;
+      const currentBadges = selectedStudentForBadge.customBadges || [];
+      const newBadge = {
+        name: badgeName,
+        desc: badgeDesc,
+        icon: badgeIcon,
+        color: badgeColor,
+        awardedAt: new Date().toISOString()
+      };
+      const studentRef = doc(db, 'teachers', user.uid, 'classrooms', targetClassId, 'students', studentId);
+      await setDoc(studentRef, {
+        customBadges: [...currentBadges, newBadge]
+      }, { merge: true });
+
+      alert(`Badge "${badgeName}" awarded successfully to ${selectedStudentForBadge.name}! 🎖️✨¨`);
+      setShowAwardBadgeModal(false);
+      setBadgeName('');
+      setBadgeDesc('');
+      fetchStudents();
+      fetchAllStudents();
+    } catch (err) {
+      console.error("Award Badge Error:", err);
+      alert(`Oops, awarding badge failed: ${err.message}`);
+    }
+    setIsAwardingBadge(false);
+  };
+
+  const handleSaveGoal = async () => {
+    if (!activeClassroom) return;
+    try {
+      await setDoc(doc(db, 'teachers', user.uid, 'classrooms', activeClassroom.id), {
+        goalTitle: newGoalTitle,
+        goalTarget: Number(newGoalTarget),
+        activeTrack: newGoalTrack
+      }, { merge: true });
+      
+      // Update activeClassroom locally so the UI updates instantly!
+      setActiveClassroom(prev => ({
+        ...prev,
+        goalTitle: newGoalTitle,
+        goalTarget: Number(newGoalTarget),
+        activeTrack: newGoalTrack
+      }));
+      setIsEditingGoal(false);
+      alert("Classroom collaborative goal saved successfully! 🚀");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save goal.");
+    }
+  };
+
+  const handleResetGoalProgress = async () => {
+    if (!activeClassroom) return;
+    if (!(await window.confirmCustom("Are you sure you want to reset the combined points progress for this classroom goal? 🔄\n\nThis will reset the thermometer and pizza back to 0, but will NOT delete any student grades, homework submissions, or history!"))) return;
+    
+    try {
+      // Re-calculate raw points right now so we have the absolute current total
+      const classStudents = allStudents.filter(s => s.classId === activeClassroom.id);
+      const computedStudents = classStudents.map(student => {
+         const studentSubs = allSubmissions.filter(sub => 
+            normalizeName(sub.studentName) === normalizeName(student.name) && (!sub.classId || sub.classId === activeClassroom.id)
+         );
+         const completedCount = studentSubs.length;
+         const totalScore = studentSubs.reduce((acc, sub) => acc + (sub.score || 0), 0);
+         const basePoints = 100;
+         return basePoints + (completedCount * 50) + totalScore;
+      });
+
+      const currentClassRawPoints = computedStudents.reduce((acc, points) => acc + points, 0);
+
+      // Save the raw points as the new reset offset in Firestore
+      await setDoc(doc(db, 'teachers', user.uid, 'classrooms', activeClassroom.id), {
+        goalResetPointsOffset: currentClassRawPoints
+      }, { merge: true });
+
+      // Update local activeClassroom state
+      setActiveClassroom(prev => ({
+        ...prev,
+        goalResetPointsOffset: currentClassRawPoints
+      }));
+
+      setIsEditingGoal(false);
+      alert("Goal points progress has been reset back to 0! 🔄🎒 Let's build a new adventure!");
+    } catch (err) {
+      console.error("Reset Goal Progress Error:", err);
+      alert("Oops! Failed to reset goal progress. âŒ");
+    }
+  };
+
+  const [isCancellingSub, setIsCancellingSub] = useState(false);
+  const handleCancelSubscription = async () => {
+    if (!teacherBilling?.stripeSubscriptionId) return;
+    if (!window.confirm("Are you sure you want to cancel your subscription? You will retain access until the end of your billing cycle.")) return;
+    
+    setIsCancellingSub(true);
+    try {
+      const response = await fetch('/api/cancel-subscription', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subscriptionId: teacherBilling.stripeSubscriptionId })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Failed to cancel');
+      
+      // Update local state immediately for UI responsiveness
+      setTeacherBilling(prev => ({ ...prev, cancelAtPeriodEnd: true }));
+      alert("Your subscription has been scheduled to cancel at the end of the billing cycle.");
+    } catch (err) {
+      console.error(err);
+      alert("Error canceling subscription: " + err.message);
+    } finally {
+      setIsCancellingSub(false);
+    }
+  };
+
+
+  const [isResumingSub, setIsResumingSub] = useState(false);
+  const handleResumeSubscription = async () => {
+    if (!teacherBilling?.stripeSubscriptionId) return;
+    
+    setIsResumingSub(true);
+    try {
+      const response = await fetch('/api/cancel-subscription', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subscriptionId: teacherBilling.stripeSubscriptionId, resume: true })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Failed to resume');
+      
+      // Update local state immediately for UI responsiveness
+      setTeacherBilling(prev => ({ ...prev, cancelAtPeriodEnd: false }));
+      alert("Success! Your subscription has been resumed and will renew automatically.");
+    } catch (err) {
+      console.error(err);
+      alert("Error resuming subscription: " + err.message);
+    } finally {
+      setIsResumingSub(false);
     }
   };
 
