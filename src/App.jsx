@@ -2740,47 +2740,7 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
         }
 
         if (latestClassroom?.id) {
-           // Fetch homeworks for this class
-           const hwQ = query(collection(db, 'homeworks'), where('teacherId', '==', teacherUid), where('assignedClassId', '==', latestClassroom.id));
-           const hwSnap = await getDocs(hwQ);
-           const cleanStudentId = studentName?.trim().toLowerCase();
-           const hwList = hwSnap.docs.map(doc => {
-                  const data = doc.data();
-                  const isNaplan = (data.title || '').toLowerCase().includes('naplan') || (data.subject || '').toLowerCase().includes('naplan');
-                  if (isNaplan && data.type !== 'test') {
-                     data.type = 'test';
-                  }
-                  return { id: doc.id, ...data };
-           })
-              .filter(hw => {
-                 if (hw.status === 'draft') return false;
-                 if (hw.status === 'scheduled') {
-                    if (!hw.scheduledRelease?.date) return false;
-                    try {
-                       const releaseTime = hw.scheduledRelease.time || '00:00';
-                       const releaseDateTime = new Date(`${hw.scheduledRelease.date}T${releaseTime}`);
-                       if (releaseDateTime > new Date()) return false;
-                    } catch (e) {
-                       return false;
-                    }
-                 }
-                 // Filter out student-specific homeworks that are not assigned to this student
-                 if (hw.assignType === 'student' && hw.assignedStudentId) {
-                    return hw.assignedStudentId.trim().toLowerCase() === cleanStudentId;
-                 }
-                 if (hw.assignType === 'students' && hw.assignedStudentIds) {
-                    return Array.isArray(hw.assignedStudentIds) && hw.assignedStudentIds.map(id => id.trim().toLowerCase()).includes(cleanStudentId);
-                 }
-                 return true;
-              });
-              
-           hwList.sort((a, b) => {
-              const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-              const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-              return dateB - dateA;
-           });
-           
-           setHomeworks(hwList);
+           // 🌟 Refactored to use real-time onSnapshot listener below instead of one-time getDocs!
         }
         
         if (latestClassroom?.id && teacherUid) {
@@ -2858,6 +2818,80 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
          return () => unsubscribe();
       }
    }, [studentName, classroom, teacher, onLogout]);
+
+   useEffect(() => {
+      const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student'));
+      const actualClassroom = classroom || savedStudent?.classroom;
+      const actualTeacher = teacher || savedStudent?.teacher;
+      let unsubscribe = null;
+      
+      const setupRealtimeHomeworks = async () => {
+         if (!actualClassroom?.id || !actualTeacher) return;
+         let teacherUid = actualTeacher.uid;
+         if (!teacherUid && actualTeacher.teacherCode) {
+            const teacherQ = query(collection(db, 'teachers'), where('teacherCode', '==', actualTeacher.teacherCode.toUpperCase().trim()));
+            const teacherSnap = await getDocs(teacherQ);
+            if (!teacherSnap.empty) {
+               teacherUid = teacherSnap.docs[0].id;
+            }
+         }
+         if (teacherUid && actualClassroom.id) {
+            const hwQ = query(collection(db, 'homeworks'), where('teacherId', '==', teacherUid), where('assignedClassId', '==', actualClassroom.id));
+            unsubscribe = onSnapshot(hwQ, (hwSnap) => {
+               const cleanStudentId = studentName?.trim().toLowerCase();
+               const hwList = hwSnap.docs.map(doc => {
+                  const data = doc.data();
+                  const isNaplan = (data.title || '').toLowerCase().includes('naplan') || (data.subject || '').toLowerCase().includes('naplan');
+                  if (isNaplan && data.type !== 'test') {
+                     data.type = 'test';
+                  }
+                  return { id: doc.id, ...data };
+               }).filter(hw => {
+                  if (hw.status === 'draft') return false;
+                  if (hw.status === 'scheduled') {
+                     if (!hw.scheduledRelease?.date) return false;
+                     try {
+                        const releaseTime = hw.scheduledRelease.time || '00:00';
+                        const releaseDateTime = new Date(`${hw.scheduledRelease.date}T${releaseTime}`);
+                        if (releaseDateTime > new Date()) return false;
+                     } catch (e) {
+                        return false;
+                     }
+                  }
+                  if (hw.assignType === 'student' && hw.assignedStudentId) {
+                     return hw.assignedStudentId.trim().toLowerCase() === cleanStudentId;
+                  }
+                  if (hw.assignType === 'students' && hw.assignedStudentIds) {
+                     return Array.isArray(hw.assignedStudentIds) && hw.assignedStudentIds.map(id => id.trim().toLowerCase()).includes(cleanStudentId);
+                  }
+                  return true;
+               });
+               
+               hwList.sort((a, b) => {
+                  const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                  const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                  return dateB - dateA;
+               });
+               
+               setHomeworks(hwList);
+            }, (err) => {
+               console.error("Homeworks onSnapshot error:", err);
+            });
+         }
+      };
+      
+      setupRealtimeHomeworks();
+      
+      return () => {
+         if (unsubscribe) unsubscribe();
+      };
+   }, [classroom?.id, teacher?.uid, studentName]);
+
+   useEffect(() => {
+      if (classroom?.chatDisabled && activeNav === 'My Messages') {
+         setActiveNav('Dashboard');
+      }
+   }, [classroom?.chatDisabled, activeNav]);
 
    useEffect(() => {
       const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student'));
