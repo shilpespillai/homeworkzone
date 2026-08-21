@@ -803,6 +803,21 @@ const TeacherDashboard = ({ user, onLogout }) => {
   };
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('booster_success') === 'true') {
+      const creditsAdded = parseInt(params.get('credits') || '0', 10);
+      if (creditsAdded > 0) {
+        setTeacherData(prev => ({
+          ...prev,
+          topUpCredits: (prev?.topUpCredits || 0) + creditsAdded
+        }));
+        setTimeout(() => alert(`Successfully added ${creditsAdded} papers to your quota!`), 500);
+      }
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
+
+  useEffect(() => {
     if (activeTab === 'Admin Reports' && isAdminUser) {
       fetchAdminData();
     }

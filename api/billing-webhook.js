@@ -65,9 +65,9 @@ export default async function handler(req, res) {
         const boosterCredits = parseInt(credits, 10) || 0;
         if (teacherId && boosterCredits > 0) {
           console.log(`[Billing Webhook] Booster payment completed for teacher: ${teacherId}, credits: ${boosterCredits}`);
-          await db.collection('teachers').doc(teacherId).update({
+          await db.collection('teachers').doc(teacherId).set({
             topUpCredits: admin.firestore.FieldValue.increment(boosterCredits)
-          });
+          }, { merge: true });
           console.log(`[Billing Webhook] Incremented topUpCredits by ${boosterCredits} for teacher: ${teacherId}`);
         }
       } else if (teacherId && subscriptionId) {
