@@ -2648,6 +2648,32 @@ Include a balanced combination of question types such as:
     }
   };
 
+
+  const [isResumingSub, setIsResumingSub] = useState(false);
+  const handleResumeSubscription = async () => {
+    if (!teacherBilling?.stripeSubscriptionId) return;
+    
+    setIsResumingSub(true);
+    try {
+      const response = await fetch('/api/resume-subscription', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subscriptionId: teacherBilling.stripeSubscriptionId })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Failed to resume');
+      
+      // Update local state immediately for UI responsiveness
+      setTeacherBilling(prev => ({ ...prev, cancelAtPeriodEnd: false }));
+      alert("Success! Your subscription has been resumed and will renew automatically.");
+    } catch (err) {
+      console.error(err);
+      alert("Error resuming subscription: " + err.message);
+    } finally {
+      setIsResumingSub(false);
+    }
+  };
+
   const handleSendRemediationMsg = async () => {
     if (!remediationModalStudent) return;
     if (!remediationMessageContent.trim()) {
@@ -3062,9 +3088,18 @@ Include a balanced combination of question types such as:
             {activePlanId === 'option-a' ? (
               <div className="flex flex-col gap-2">
                 {teacherBilling?.cancelAtPeriodEnd ? (
-                  <div className="w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest text-center bg-amber-50 text-amber-600 border border-amber-200">
-                    Cancels at end of cycle
-                  </div>
+                  <>
+                    <div className="w-full py-3 rounded-xl font-black text-[10px] uppercase tracking-widest text-center bg-amber-50 text-amber-600 border border-amber-200">
+                      Cancels at end of cycle
+                    </div>
+                    <button
+                      onClick={handleResumeSubscription}
+                      disabled={isResumingSub}
+                      className="w-full py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-emerald-600 bg-emerald-50 hover:bg-emerald-100 transition-all border border-emerald-100 flex items-center justify-center gap-2"
+                    >
+                      {isResumingSub ? 'Resuming...' : 'Resume Plan ♻️'}
+                    </button>
+                  </>
                 ) : (
                   <>
                     <div className="w-full py-3 rounded-xl font-black text-xs uppercase tracking-widest text-center bg-slate-100 text-slate-500 border border-slate-200">
@@ -3118,9 +3153,18 @@ Include a balanced combination of question types such as:
                     {activePlanId === tier.id ? (
                       <div className="flex flex-col gap-1 w-24">
                         {teacherBilling?.cancelAtPeriodEnd ? (
-                           <div className="px-2 py-1.5 rounded-xl text-[8px] font-black uppercase tracking-wider text-center bg-amber-50 text-amber-600 border border-amber-200">
-                             Cancels Next Cycle
-                           </div>
+                           <>
+                             <div className="px-2 py-1 rounded-xl text-[8px] font-black uppercase tracking-wider text-center bg-amber-50 text-amber-600 border border-amber-200 mb-1">
+                               Cancels
+                             </div>
+                             <button
+                               onClick={handleResumeSubscription}
+                               disabled={isResumingSub}
+                               className="px-2 py-1 rounded-xl text-[9px] font-black uppercase tracking-wider text-emerald-600 bg-emerald-50 hover:bg-emerald-100 transition-all text-center border border-emerald-100"
+                             >
+                               {isResumingSub ? '...' : 'Resume ♻️'}
+                             </button>
+                           </>
                         ) : (
                            <>
                              <div className="px-4 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-wider text-center bg-slate-100 text-slate-500">
@@ -3190,9 +3234,18 @@ Include a balanced combination of question types such as:
             {activePlanId === 'option-c' ? (
               <div className="flex flex-col gap-2">
                 {teacherBilling?.cancelAtPeriodEnd ? (
-                  <div className="w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest text-center bg-amber-50 text-amber-600 border border-amber-200">
-                    Cancels at end of cycle
-                  </div>
+                  <>
+                    <div className="w-full py-3 rounded-xl font-black text-[10px] uppercase tracking-widest text-center bg-amber-50 text-amber-600 border border-amber-200">
+                      Cancels at end of cycle
+                    </div>
+                    <button
+                      onClick={handleResumeSubscription}
+                      disabled={isResumingSub}
+                      className="w-full py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-emerald-600 bg-emerald-50 hover:bg-emerald-100 transition-all border border-emerald-100 flex items-center justify-center gap-2"
+                    >
+                      {isResumingSub ? 'Resuming...' : 'Resume Plan ♻️'}
+                    </button>
+                  </>
                 ) : (
                   <>
                     <div className="w-full py-3 rounded-xl font-black text-xs uppercase tracking-widest text-center bg-slate-100 text-slate-500 border border-slate-200">
