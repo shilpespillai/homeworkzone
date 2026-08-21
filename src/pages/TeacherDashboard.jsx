@@ -815,10 +815,10 @@ const TeacherDashboard = ({ user, onLogout }) => {
         const verifyPayment = async () => {
           setIsVerifyingPayment(true);
           try {
-            const res = await fetch('/api/verify-booster', {
+            const res = await fetch('/api/billing-session', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ sessionId, teacherId: user.uid })
+              body: JSON.stringify({ action: 'verify-booster', sessionId, teacherId: user.uid, email: user.email || 'booster@topup.com' })
             });
             const data = await res.json();
             if (data.success) {

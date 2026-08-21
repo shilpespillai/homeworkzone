@@ -40,13 +40,47 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing teacherId or email' });
     }
 
-    // ─── Stripe Customer Portal Redirect ─────────────────────────────────────
+    // 🌟🌟🌟 Stripe Customer Portal Redirect 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
     if (action === 'portal' && customerId) {
       const portalSession = await stripe.billingPortal.sessions.create({
         customer: customerId,
         return_url: successUrl, // Redirect back to dashboard
       });
       return res.status(200).json({ url: portalSession.url });
+    }
+
+    // 🌟🌟🌟 Booster Verification 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
+    if (action === 'verify-booster') {
+      const { sessionId } = req.body;
+      if (!sessionId) return res.status(400).json({ error: 'Missing sessionId' });
+      
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      if (session.payment_status !== 'paid') {
+        return res.status(400).json({ success: false, message: 'Payment not completed or failed.' });
+      }
+
+      const credits = parseInt(session.metadata?.credits || '0', 10);
+      if (!credits || session.metadata?.type !== 'booster') {
+         return res.status(400).json({ success: false, message: 'Invalid session type.' });
+      }
+
+      const sessionRef = db.collection('processed_sessions').doc(sessionId);
+      
+      await db.runTransaction(async (t) => {
+        const doc = await t.get(sessionRef);
+        if (doc.exists) {
+          return; // Already processed
+        }
+        
+        t.set(sessionRef, { processedAt: new Date().toISOString(), teacherId, credits });
+        
+        const teacherRef = db.collection('teachers').doc(teacherId);
+        t.set(teacherRef, { 
+          topUpCredits: admin.firestore.FieldValue.increment(credits) 
+        }, { merge: true });
+      });
+
+      return res.status(200).json({ success: true, credits });
     }
 
     // ─── Stripe Checkout Session ─────────────────────────────────────────────
