@@ -2625,21 +2625,21 @@ Include a balanced combination of question types such as:
   const [isCancellingSub, setIsCancellingSub] = useState(false);
   const handleCancelSubscription = async () => {
     if (!teacherBilling?.stripeSubscriptionId) return;
-    if (!window.confirm("Are you sure you want to cancel your subscription IMMEDIATELY? You will instantly revert to the Free tier and lose access to your paid features right now.")) return;
+    if (!window.confirm("Are you sure you want to cancel your subscription? You will retain access until the end of your billing cycle.")) return;
     
     setIsCancellingSub(true);
     try {
       const response = await fetch('/api/cancel-subscription', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subscriptionId: teacherBilling.stripeSubscriptionId, immediate: true })
+        body: JSON.stringify({ subscriptionId: teacherBilling.stripeSubscriptionId })
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Failed to cancel');
       
       // Update local state immediately for UI responsiveness
-      setTeacherBilling(prev => ({ ...prev, cancelAtPeriodEnd: false, status: 'canceled', planId: 'free', stripeSubscriptionId: '' }));
-      alert("Your subscription has been canceled. You have been downgraded to the Free Tier.");
+      setTeacherBilling(prev => ({ ...prev, cancelAtPeriodEnd: true }));
+      alert("Your subscription has been scheduled to cancel at the end of the billing cycle.");
     } catch (err) {
       console.error(err);
       alert("Error canceling subscription: " + err.message);
@@ -3008,15 +3008,7 @@ Include a balanced combination of question types such as:
                   : "Manage payment details, update invoice billing emails, or cancel your subscription."}
               </p>
               <div className="flex gap-3">
-                {teacherBilling.stripeSubscriptionId && !teacherBilling.cancelAtPeriodEnd && teacherBilling.status === 'active' && (
-                  <button
-                    onClick={handleCancelSubscription}
-                    disabled={isCancellingSub}
-                    className="flex items-center gap-2 px-6 py-3 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-2xl font-bold text-xs shadow-sm transition-all"
-                  >
-                    {isCancellingSub ? 'Canceling...' : 'Unsubscribe 🚫'}
-                  </button>
-                )}
+                
                 <button
                   onClick={() => handleStripeSession(null, 'portal')}
                   disabled={isRedirectingStripe}
@@ -3067,17 +3059,36 @@ Include a balanced combination of question types such as:
                 <li className="flex items-center gap-2">🎯 Perfect for tutor/mid-semester setups</li>
               </ul>
             </div>
-            <button
-              onClick={() => handleStripeSession('option-a')}
-              disabled={activePlanId === 'option-a' || isRedirectingStripe}
-              className={`w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${
-                activePlanId === 'option-a'
-                  ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                  : 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-100 hover:scale-[1.02]'
-              }`}
-            >
-              {activePlanId === 'option-a' ? 'Current Plan' : 'Choose Option A'}
-            </button>
+            {activePlanId === 'option-a' ? (
+              <div className="flex flex-col gap-2">
+                {teacherBilling?.cancelAtPeriodEnd ? (
+                  <div className="w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest text-center bg-amber-50 text-amber-600 border border-amber-200">
+                    Cancels at end of cycle
+                  </div>
+                ) : (
+                  <>
+                    <div className="w-full py-3 rounded-xl font-black text-xs uppercase tracking-widest text-center bg-slate-100 text-slate-500 border border-slate-200">
+                      Current Plan
+                    </div>
+                    <button
+                      onClick={handleCancelSubscription}
+                      disabled={isCancellingSub}
+                      className="w-full py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-rose-600 bg-rose-50 hover:bg-rose-100 transition-all border border-rose-100 flex items-center justify-center gap-2"
+                    >
+                      {isCancellingSub ? 'Canceling...' : 'Unsubscribe 🚫'}
+                    </button>
+                  </>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={() => handleStripeSession('option-a')}
+                disabled={isRedirectingStripe}
+                className="w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-100 hover:scale-[1.02]"
+              >
+                Choose Option A
+              </button>
+            )}
           </div>
 
           {/* Plan B */}
@@ -3104,17 +3115,36 @@ Include a balanced combination of question types such as:
                       <p className="text-xs font-bold text-slate-700">{tier.name}</p>
                       <p className="text-[10px] font-medium text-slate-400">${(tier.price / tier.seats).toFixed(2)} / student equivalent</p>
                     </div>
-                    <button
-                      onClick={() => handleStripeSession(tier.id)}
-                      disabled={activePlanId === tier.id || isRedirectingStripe}
-                      className={`px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all ${
-                        activePlanId === tier.id
-                          ? 'bg-slate-100 text-slate-400'
-                          : 'bg-orange-600 hover:bg-orange-700 text-white shadow-sm'
-                      }`}
-                    >
-                      {activePlanId === tier.id ? 'Current' : `$${tier.price}/mo`}
-                    </button>
+                    {activePlanId === tier.id ? (
+                      <div className="flex flex-col gap-1 w-24">
+                        {teacherBilling?.cancelAtPeriodEnd ? (
+                           <div className="px-2 py-1.5 rounded-xl text-[8px] font-black uppercase tracking-wider text-center bg-amber-50 text-amber-600 border border-amber-200">
+                             Cancels Next Cycle
+                           </div>
+                        ) : (
+                           <>
+                             <div className="px-4 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-wider text-center bg-slate-100 text-slate-500">
+                               Active
+                             </div>
+                             <button
+                               onClick={handleCancelSubscription}
+                               disabled={isCancellingSub}
+                               className="px-2 py-1 rounded-xl text-[9px] font-black uppercase tracking-wider text-rose-600 bg-rose-50 hover:bg-rose-100 transition-all text-center border border-rose-100"
+                             >
+                               {isCancellingSub ? '...' : 'Unsubscribe'}
+                             </button>
+                           </>
+                        )}
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => handleStripeSession(tier.id)}
+                        disabled={isRedirectingStripe}
+                        className="px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all bg-orange-600 hover:bg-orange-700 text-white shadow-sm"
+                      >
+                        {`${tier.price}/mo`}
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>
@@ -3157,17 +3187,36 @@ Include a balanced combination of question types such as:
                 </div>
               </div>
             </div>
-            <button
-              onClick={() => handleStripeSession('option-c')}
-              disabled={activePlanId === 'option-c' || isRedirectingStripe}
-              className={`w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${
-                activePlanId === 'option-c'
-                  ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                  : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-100 hover:scale-[1.02]'
-              }`}
-            >
-              {activePlanId === 'option-c' ? 'Current Plan' : 'Choose Option C'}
-            </button>
+            {activePlanId === 'option-c' ? (
+              <div className="flex flex-col gap-2">
+                {teacherBilling?.cancelAtPeriodEnd ? (
+                  <div className="w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest text-center bg-amber-50 text-amber-600 border border-amber-200">
+                    Cancels at end of cycle
+                  </div>
+                ) : (
+                  <>
+                    <div className="w-full py-3 rounded-xl font-black text-xs uppercase tracking-widest text-center bg-slate-100 text-slate-500 border border-slate-200">
+                      Current Plan
+                    </div>
+                    <button
+                      onClick={handleCancelSubscription}
+                      disabled={isCancellingSub}
+                      className="w-full py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-rose-600 bg-rose-50 hover:bg-rose-100 transition-all border border-rose-100 flex items-center justify-center gap-2"
+                    >
+                      {isCancellingSub ? 'Canceling...' : 'Unsubscribe 🚫'}
+                    </button>
+                  </>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={() => handleStripeSession('option-c')}
+                disabled={isRedirectingStripe}
+                className="w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-100 hover:scale-[1.02]"
+              >
+                Choose Option C
+              </button>
+            )}
           </div>
 
         </div>
