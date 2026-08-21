@@ -646,6 +646,11 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [classrooms, setClassrooms] = useState([]);
   const [activeClassroom, setActiveClassroom] = useState(null);
   const [students, setStudents] = useState([]);
+  const [globalPricing, setGlobalPricing] = useState({ optionA_perStudentPerMonth: 5, optionB_starter_price: 50, optionB_growth_price: 80, optionB_school_price: 99, optionC_tier1_rate: 24, optionC_tier2_rate: 20, optionC_tier3_rate: 16, optionC_tier4_rate: 14 });
+
+  useEffect(() => {
+    fetchPricing().then(p => { if(p) setGlobalPricing(p); });
+  }, []);
   const [newStudent, setNewStudent] = useState('');
   const [newClassName, setNewClassName] = useState('');
   const [isAdding, setIsAdding] = useState(false);
@@ -791,11 +796,11 @@ const TeacherDashboard = ({ user, onLogout }) => {
     if (!billing || !['active', 'trialing'].includes(billing.status)) return 0;
     const planId = billing.planId;
     if (planId === 'option-a') {
-      return studentCount * 5.00;
+      return studentCount * globalPricing.optionA_perStudentPerMonth;
     }
-    if (planId === 'option-b-starter') return 50;
-    if (planId === 'option-b-growth') return 80;
-    if (planId === 'option-b-school') return 99;
+    if (planId === 'option-b-starter') return globalPricing.optionB_starter_price;
+    if (planId === 'option-b-growth') return globalPricing.optionB_growth_price;
+    if (planId === 'option-b-school') return globalPricing.optionB_school_price;
     if (planId === 'option-c') {
       return calculateOptionCAnnual(studentCount) / 12;
     }
@@ -2626,7 +2631,7 @@ Include a balanced combination of question types such as:
   };
 
   const calculateOptionCAnnual = (seats) => {
-    return calcOptionCAnnual(seats);
+    return calcOptionCAnnual(seats, globalPricing);
   };
 
   const handleStripeSession = async (planId, action = 'checkout') => {
@@ -2784,7 +2789,7 @@ Include a balanced combination of question types such as:
     const limit = getPlanSeatLimit(activePlanId);
     
     // Calculator variables
-    const optionAAnnual = calcSeats * 5.00 * 12;
+    const optionAAnnual = calcSeats * globalPricing.optionA_perStudentPerMonth * 12;
     let optionBPlanName = '';
     let optionBAnnual = Infinity;
     if (calcSeats >= 11 && calcSeats <= 20) {
@@ -2987,8 +2992,8 @@ Include a balanced combination of question types such as:
               </div>
               <div className="space-y-3 pt-2">
                 {[
-                  { id: 'option-b-starter', name: 'Starter (11-20 students)', price: 50, seats: 20 },
-                  { id: 'option-b-growth', name: 'Growth (21-30 students)', price: 80, seats: 30 },
+                  { id: 'option-b-starter', name: 'Starter (11-20 students)', price: globalPricing.optionB_starter_price, seats: 20 },
+                  { id: 'option-b-growth', name: 'Growth (21-30 students)', price: globalPricing.optionB_growth_price, seats: 30 },
                   
                 ].map((tier) => (
                   <div key={tier.id} className="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl">

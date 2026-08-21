@@ -1,4 +1,5 @@
 import { checkIsCorrect } from './utils/checkIsCorrect';
+import { fetchPricing } from './utils/pricingConfig';
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Lottie from "lottie-react";
 import { BrowserRouter as Router, Routes, Route, useNavigate, Link, Navigate } from 'react-router-dom';
