@@ -72,6 +72,7 @@ import { getSmartTopicTitle } from './HomeworkScheduler';
 import InternationalExamHubView from '../components/InternationalExamHubView';
 import PaperQuotaBoosterModal from '../components/PaperQuotaBoosterModal';
 import { checkCanGeneratePaper, getBaseQuotaForPlan } from '../utils/quotaManager';
+import { fetchPricing } from '../utils/pricingConfig';
 
 export const resolveCustomSubjectStyle = (name) => {
   const s = (name || '').toLowerCase();
@@ -489,6 +490,9 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       window.history.replaceState({}, document.title, cleanUrl);
     }
   }, [user?.uid]);
+
+  const [pricingData, setPricingData] = React.useState(null);
+  React.useEffect(() => { fetchPricing().then(p => { if(p) setPricingData(p); }); }, []);
 
   const activePlanId = (teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free';
 

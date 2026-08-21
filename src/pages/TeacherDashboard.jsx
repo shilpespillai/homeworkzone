@@ -539,9 +539,9 @@ const AdminPricingSettings = () => {
     setSaving(true);
     try {
       await savePricing(pricing);
-      alert('Global Pricing Saved Successfully! Stripe checkouts will instantly use these new prices.');
+      alert('Saved! All plans now use the updated pricing, seat limits and paper quotas.');
     } catch(e) {
-      alert('Error saving pricing: ' + e.message);
+      alert('Error saving: ' + e.message);
     }
     setSaving(false);
   };
@@ -549,91 +549,124 @@ const AdminPricingSettings = () => {
   if (!pricing) return null;
 
   return (
-    <div className="bg-white border-4 border-indigo-100 rounded-[32px] p-8 space-y-6 shadow-lg mb-8">
+    <div className="bg-white border-4 border-indigo-100 rounded-[32px] p-8 space-y-8 shadow-lg mb-8">
       <div className="space-y-1">
         <h2 className="text-2xl font-black text-indigo-900 flex items-center gap-2">
           <CreditCard className="w-6 h-6" />
           Global Pricing Configuration
         </h2>
         <p className="text-xs font-bold text-slate-500">
-          Changes made here instantly update the interactive calculator and live Stripe Checkouts for all teachers across the platform.
+          Changes saved here instantly update Stripe checkouts, seat limits, and paper quotas across the entire platform.
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="space-y-2 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-          <h4 className="text-sm font-black text-blue-600">Option A (Elastic)</h4>
-          <div>
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Per Student / Month</label>
-            <div className="relative mt-1">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-              <input type="number" step="0.5" className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" value={pricing.optionA_perStudentPerMonth} onChange={(e) => setPricing({...pricing, optionA_perStudentPerMonth: Number(e.target.value)})} />
+      {/* ── Prices */}
+      <div>
+        <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">💳 Subscription Prices</h3>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="space-y-3 p-4 bg-blue-50 rounded-2xl border-2 border-blue-100">
+            <h4 className="text-sm font-black text-blue-700">Option A (Elastic)</h4>
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Per Student / Month</label>
+              <div className="relative mt-1">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
+                <input type="number" step="0.5" className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" value={pricing.optionA_perStudentPerMonth} onChange={(e) => setPricing({...pricing, optionA_perStudentPerMonth: Number(e.target.value)})} />
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-3 p-4 bg-orange-50 rounded-2xl border-2 border-orange-100">
+            <h4 className="text-sm font-black text-orange-600">Option B (Flat Tiers)</h4>
+            {[
+              { label: 'Starter (up to 20)', key: 'optionB_starter_price' },
+              { label: 'Growth (up to 30)', key: 'optionB_growth_price' },
+              { label: 'School (up to 150)', key: 'optionB_school_price' },
+            ].map(({label, key}) => (
+              <div key={key}>
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{label}</label>
+                <div className="relative mt-1">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
+                  <input type="number" step="1" className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" value={pricing[key]} onChange={(e) => setPricing({...pricing, [key]: Number(e.target.value)})} />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="space-y-3 p-4 bg-emerald-50 rounded-2xl border-2 border-emerald-100 col-span-2">
+            <h4 className="text-sm font-black text-emerald-700">Option C (Yearly Graduated)</h4>
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { label: 'Tier 1 (≤100) / yr', key: 'optionC_tier1_rate' },
+                { label: 'Tier 2 (≤500) / yr', key: 'optionC_tier2_rate' },
+                { label: 'Tier 3 (≤1000) / yr', key: 'optionC_tier3_rate' },
+                { label: 'Tier 4 (1001+) / yr', key: 'optionC_tier4_rate' },
+              ].map(({label, key}) => (
+                <div key={key}>
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{label}</label>
+                  <div className="relative mt-1">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
+                    <input type="number" step="1" className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" value={pricing[key]} onChange={(e) => setPricing({...pricing, [key]: Number(e.target.value)})} />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="space-y-2 p-4 bg-orange-50 rounded-2xl border border-orange-100">
-          <h4 className="text-sm font-black text-orange-600">Option B (Flat)</h4>
-          <div>
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Starter (0-20)</label>
-            <div className="relative mt-1">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-              <input type="number" step="1" className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" value={pricing.optionB_starter_price} onChange={(e) => setPricing({...pricing, optionB_starter_price: Number(e.target.value)})} />
+      {/* ── Seat Limits */}
+      <div>
+        <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">🪑 Seat Limits (Max Students per Plan)</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {[
+            { label: 'Free Trial', key: 'free_seatLimit', color: 'bg-slate-50 border-slate-200' },
+            { label: 'Option A', key: 'optionA_seatLimit', color: 'bg-blue-50 border-blue-200' },
+            { label: 'B Starter', key: 'optionB_starter_maxStudents', color: 'bg-orange-50 border-orange-200' },
+            { label: 'B Growth', key: 'optionB_growth_maxStudents', color: 'bg-orange-50 border-orange-200' },
+            { label: 'B School', key: 'optionB_school_maxStudents', color: 'bg-orange-50 border-orange-200' },
+            { label: 'Option C', key: null, color: 'bg-emerald-50 border-emerald-200', fixed: '∞' },
+          ].map(({ label, key, color, fixed }) => (
+            <div key={label} className={`p-3 rounded-2xl border-2 ${color} space-y-1`}>
+              <label className="text-[10px] font-black text-slate-500 uppercase tracking-wider block">{label}</label>
+              {fixed ? (
+                <div className="text-2xl font-black text-emerald-600 pt-1">{fixed}</div>
+              ) : (
+                <input type="number" step="1" min="1"
+                  className="w-full border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-black text-slate-700 bg-white"
+                  value={pricing[key] ?? ''}
+                  onChange={(e) => setPricing({...pricing, [key]: Number(e.target.value)})} />
+              )}
             </div>
-          </div>
-          <div>
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Growth (21-30)</label>
-            <div className="relative mt-1">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-              <input type="number" step="1" className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" value={pricing.optionB_growth_price} onChange={(e) => setPricing({...pricing, optionB_growth_price: Number(e.target.value)})} />
-            </div>
-          </div>
-          <div>
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">School (31-150)</label>
-            <div className="relative mt-1">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-              <input type="number" step="1" className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" value={pricing.optionB_school_price} onChange={(e) => setPricing({...pricing, optionB_school_price: Number(e.target.value)})} />
-            </div>
-          </div>
+          ))}
         </div>
+      </div>
 
-        <div className="space-y-2 p-4 bg-emerald-50 rounded-2xl border border-emerald-100 col-span-2">
-          <h4 className="text-sm font-black text-emerald-600">Option C (Yearly Graduated)</h4>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tier 1 (up to 100) / yr</label>
-              <div className="relative mt-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-                <input type="number" step="1" className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" value={pricing.optionC_tier1_rate} onChange={(e) => setPricing({...pricing, optionC_tier1_rate: Number(e.target.value)})} />
-              </div>
+      {/* ── Paper Quotas */}
+      <div>
+        <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">📄 Paper Quotas per Plan</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {[
+            { label: 'Free Trial', key: 'free_paperQuota', suffix: 'total', color: 'bg-slate-50 border-slate-200' },
+            { label: 'Option A', key: 'optionA_paperQuota', suffix: '/month', color: 'bg-blue-50 border-blue-200' },
+            { label: 'B Starter', key: 'optionB_starter_paperQuota', suffix: '/month', color: 'bg-orange-50 border-orange-200' },
+            { label: 'B Growth', key: 'optionB_growth_paperQuota', suffix: '/month', color: 'bg-orange-50 border-orange-200' },
+            { label: 'B School', key: 'optionB_school_paperQuota', suffix: '/month', color: 'bg-orange-50 border-orange-200' },
+            { label: 'Option C', key: 'optionC_paperQuota', suffix: '/year', color: 'bg-emerald-50 border-emerald-200' },
+          ].map(({ label, key, suffix, color }) => (
+            <div key={label} className={`p-3 rounded-2xl border-2 ${color} space-y-1`}>
+              <label className="text-[10px] font-black text-slate-500 uppercase tracking-wider block">{label}</label>
+              <input type="number" step="1" min="1"
+                className="w-full border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-black text-slate-700 bg-white"
+                value={pricing[key] ?? ''}
+                onChange={(e) => setPricing({...pricing, [key]: Number(e.target.value)})} />
+              <span className="text-[10px] font-bold text-slate-400 block">{suffix}</span>
             </div>
-            <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tier 2 (101-500) / yr</label>
-              <div className="relative mt-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-                <input type="number" step="1" className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" value={pricing.optionC_tier2_rate} onChange={(e) => setPricing({...pricing, optionC_tier2_rate: Number(e.target.value)})} />
-              </div>
-            </div>
-            <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tier 3 (501-1000) / yr</label>
-              <div className="relative mt-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-                <input type="number" step="1" className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" value={pricing.optionC_tier3_rate} onChange={(e) => setPricing({...pricing, optionC_tier3_rate: Number(e.target.value)})} />
-              </div>
-            </div>
-            <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tier 4 (1001+) / yr</label>
-              <div className="relative mt-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-                <input type="number" step="1" className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" value={pricing.optionC_tier4_rate} onChange={(e) => setPricing({...pricing, optionC_tier4_rate: Number(e.target.value)})} />
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
       <div className="flex justify-end pt-4 border-t border-slate-100">
-        <button onClick={handleSave} disabled={saving} className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-md transition-all active:scale-95">
+        <button onClick={handleSave} disabled={saving} className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-md transition-all active:scale-95 disabled:opacity-60">
           {saving ? 'Saving...' : 'Save Configuration'}
         </button>
       </div>
@@ -646,7 +679,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [classrooms, setClassrooms] = useState([]);
   const [activeClassroom, setActiveClassroom] = useState(null);
   const [students, setStudents] = useState([]);
-  const [globalPricing, setGlobalPricing] = useState({ optionA_perStudentPerMonth: 5, optionB_starter_price: 50, optionB_growth_price: 80, optionB_school_price: 99, optionC_tier1_rate: 24, optionC_tier2_rate: 20, optionC_tier3_rate: 16, optionC_tier4_rate: 14 });
+  const [globalPricing, setGlobalPricing] = useState({ optionA_perStudentPerMonth: 5, optionA_seatLimit: 10, optionA_paperQuota: 25, optionB_starter_price: 50, optionB_starter_maxStudents: 20, optionB_starter_paperQuota: 60, optionB_growth_price: 80, optionB_growth_maxStudents: 30, optionB_growth_paperQuota: 100, optionB_school_price: 99, optionB_school_maxStudents: 150, optionB_school_paperQuota: 150, optionC_tier1_rate: 24, optionC_tier2_rate: 20, optionC_tier3_rate: 16, optionC_tier4_rate: 14, optionC_paperQuota: 2500, free_seatLimit: 5, free_paperQuota: 5 });
 
   useEffect(() => {
     fetchPricing().then(p => { if(p) setGlobalPricing(p); });
@@ -2601,15 +2634,15 @@ Include a balanced combination of question types such as:
     if (isMaxed) return allStudents.length || 0; // Blocks new additions without locking existing students!
 
     if (effectivePlan === 'free_expired' || effectivePlan === 'free_trial' || effectivePlan === 'free') {
-      return 5;
+      return globalPricing.free_seatLimit ?? 5;
     }
     switch (effectivePlan) {
-      case 'option-b-starter': return 20;
-      case 'option-b-growth': return 30;
-      case 'option-b-school': return 150;
+      case 'option-b-starter': return globalPricing.optionB_starter_maxStudents ?? 20;
+      case 'option-b-growth': return globalPricing.optionB_growth_maxStudents ?? 30;
+      case 'option-b-school': return globalPricing.optionB_school_maxStudents ?? 150;
       case 'option-a':
       case 'option_a_elastic': {
-        return (teacherBilling && teacherBilling.quantity) ? teacherBilling.quantity : 10;
+        return globalPricing.optionA_seatLimit ?? 10;
       }
       case 'option-c':
         return Infinity;

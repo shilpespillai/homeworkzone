@@ -1,46 +1,17 @@
 // Centralized Paper Quota & Booster Manager for Homework Zone
+// All limits come from pricingConfig (Firestore-backed). Nothing is hardcoded here.
 
-export const PLAN_QUOTAS = {
-  free: { base: 5, period: 'total', label: 'Free Trial (5 Papers Total)' },
-  option_a_elastic: { base: 25, period: 'month', label: 'Option A: Elastic ($5/mo - 25 Papers/mo)' },
-  option_b_tuition_starter: { base: 60, period: 'month', label: 'Option B: Tuition Starter (60 Papers/mo)' },
-  option_b_tuition_growth: { base: 100, period: 'month', label: 'Option B: Tuition Growth (100 Papers/mo)' },
-  option_c_school: { base: 2500, period: 'year', label: 'Option C: School Year (2,500 Papers/yr)' },
-  admin: { base: Infinity, period: 'unlimited', label: 'Unlimited Admin Access' },
-};
+import { getPaperQuota, DEFAULT_PRICING } from './pricingConfig';
 
 /**
- * Calculates the monthly/period paper quota for a user
- */
-export const getBaseQuotaForPlan = (planId, studentCount = 1) => {
-  if (!planId || planId === 'free' || planId === 'free_trial' || planId === 'free_expired') return PLAN_QUOTAS.free.base;
-  if (planId === 'admin' || planId === 'superuser') return Infinity;
-
-  if (planId === 'option-a' || planId === 'option_a_elastic' || planId === 'parents' || planId === 'starter') {
-    return PLAN_QUOTAS.option_a_elastic.base;
-  }
-  if (planId === 'option_b_tuition_growth' || planId === 'growth' || planId === 'option-b-growth') {
-    return PLAN_QUOTAS.option_b_tuition_growth.base;
-  }
-  if (planId === 'option_b_tuition' || planId === 'tuition' || planId === 'tutor' || planId === 'option-b-starter') {
-    return PLAN_QUOTAS.option_b_tuition_starter.base;
-  }
-  if (planId === 'option_c_school' || planId === 'school' || planId === 'option-b-school' || planId === 'option-c') {
-    return PLAN_QUOTAS.option_c_school.base;
-  }
-
-  // Default paid fallback
-  return 25;
-};
-
-/**
- * Calculates how many papers were generated during the current billing cycle month
+ * Calculates how many papers were generated during the current billing cycle.
+ * For free plans, counts total ever. For paid plans, counts from billing cycle start.
  */
 export const getMonthlyUsageCount = (allHomeworks = [], billingCycleResetDate = null) => {
   if (!Array.isArray(allHomeworks) || allHomeworks.length === 0) return 0;
 
   const now = new Date();
-  let cycleStart = new Date(now.getFullYear(), now.getMonth(), 1); // Start of current calendar month
+  let cycleStart = new Date(now.getFullYear(), now.getMonth(), 1);
 
   if (billingCycleResetDate) {
     const reset = new Date(billingCycleResetDate);
@@ -62,7 +33,17 @@ export const getMonthlyUsageCount = (allHomeworks = [], billingCycleResetDate = 
 };
 
 /**
- * Checks if a user can generate a new paper
+ * Returns the base paper quota for a given planId, reading from pricingConfig.
+ * Pass a `pricing` object (from fetchPricing()) for live DB values.
+ * Falls back to DEFAULT_PRICING if not provided.
+ */
+export const getBaseQuotaForPlan = (planId, studentCount = 1, pricing = DEFAULT_PRICING) => {
+  return getPaperQuota(planId, pricing);
+};
+
+/**
+ * Checks if a user can generate a new paper.
+ * Pass `pricing` (from fetchPricing()) to use live DB quota values.
  */
 export const checkCanGeneratePaper = ({
   user,
@@ -70,7 +51,8 @@ export const checkCanGeneratePaper = ({
   isSuperUser = false,
   activePlanId = 'free',
   allHomeworks = [],
-  topUpCredits = 0
+  topUpCredits = 0,
+  pricing = DEFAULT_PRICING,
 }) => {
   const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
   const isMaxed = simulatedPlan && simulatedPlan.endsWith('_maxed');
@@ -81,7 +63,7 @@ export const checkCanGeneratePaper = ({
     return { canGenerate: true, remaining: Infinity, limit: Infinity, usage: 0, isUnlimited: true };
   }
 
-  const baseQuota = getBaseQuotaForPlan(effectivePlan);
+  const baseQuota = getPaperQuota(effectivePlan, pricing);
   const totalLimit = baseQuota + (topUpCredits || 0);
 
   let usage = 0;
@@ -103,6 +85,6 @@ export const checkCanGeneratePaper = ({
     baseQuota,
     topUpCredits: topUpCredits || 0,
     usage,
-    isUnlimited: false
+    isUnlimited: false,
   };
 };

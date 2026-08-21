@@ -1,37 +1,51 @@
 /**
  * pricingConfig.js
  *
- * Single source of truth for HomeworkZone plan pricing.
+ * Single source of truth for HomeworkZone plan pricing, seat limits, and paper quotas.
  * Defaults reflect the latest pricing (updated Aug 2026).
- * The admin can override these via Firestore: system/pricing
+ * The admin can override ALL values via Firestore: system/pricing
  * and they will be fetched and cached at app load.
+ *
+ * NOTHING IS HARDCODED in the app — all values flow from here.
  */
 
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
-// ─── Default pricing (hardcoded fallback) ────────────────────────────────────
+// ─── Default pricing (fallback only — always prefer Firestore values) ─────────
 
 export const DEFAULT_PRICING = {
-  // Option A: Elastic Monthly
+  // ── Option A: Elastic Monthly ─────────────────────────────────────────────
   optionA_perStudentPerMonth: 5.00,
+  optionA_seatLimit: 10,           // seats included (no Stripe quantity needed)
+  optionA_paperQuota: 25,          // papers per month
 
-  // Option B: Monthly flat tiers
-  optionB_starter_price: 50,      // up to 20 students
+  // ── Option B: Monthly Flat Tiers ─────────────────────────────────────────
+  optionB_starter_price: 50,
   optionB_starter_maxStudents: 20,
-  optionB_growth_price: 80,       // up to 30 students
-  optionB_growth_maxStudents: 30,
-  optionB_school_price: 99,       // 31–150 students (unchanged)
-  optionB_school_maxStudents: 150,
+  optionB_starter_paperQuota: 60,  // papers per month
 
-  // Option C: Schools — yearly per-student graduated tiers
-  optionC_tier1_max: 100,         // 31–100 students
-  optionC_tier1_rate: 24,         // $24/student/year (unchanged)
-  optionC_tier2_max: 500,         // 101–500 students
-  optionC_tier2_rate: 20,         // $20/student/year (up from $18)
-  optionC_tier3_max: 1000,        // 501–1,000 students
-  optionC_tier3_rate: 16,         // $16/student/year (up from $12)
-  optionC_tier4_rate: 14,         // 1,001+ students — $14/student/year (up from $8)
+  optionB_growth_price: 80,
+  optionB_growth_maxStudents: 30,
+  optionB_growth_paperQuota: 100,  // papers per month
+
+  optionB_school_price: 99,
+  optionB_school_maxStudents: 150,
+  optionB_school_paperQuota: 150,  // papers per month
+
+  // ── Option C: Yearly Graduated ────────────────────────────────────────────
+  optionC_tier1_max: 100,
+  optionC_tier1_rate: 24,
+  optionC_tier2_max: 500,
+  optionC_tier2_rate: 20,
+  optionC_tier3_max: 1000,
+  optionC_tier3_rate: 16,
+  optionC_tier4_rate: 14,
+  optionC_paperQuota: 2500,        // papers per year
+
+  // ── Free Trial ────────────────────────────────────────────────────────────
+  free_seatLimit: 5,
+  free_paperQuota: 5,              // total (lifetime, not monthly)
 };
 
 // ─── In-memory cache ─────────────────────────────────────────────────────────
@@ -75,27 +89,56 @@ export function invalidatePricingCache() {
 }
 
 /**
+ * Get the paper quota for a given plan from the pricing config.
+ * All consumers should call this instead of hardcoding values.
+ */
+export function getPaperQuota(planId, pricing = DEFAULT_PRICING) {
+  const p = { ...DEFAULT_PRICING, ...pricing };
+  if (!planId || planId === 'free' || planId === 'free_trial' || planId === 'free_expired') {
+    return p.free_paperQuota;
+  }
+  if (planId === 'admin' || planId === 'superuser') return Infinity;
+  if (planId === 'option-a' || planId === 'option_a_elastic') return p.optionA_paperQuota;
+  if (planId === 'option-b-starter') return p.optionB_starter_paperQuota;
+  if (planId === 'option-b-growth') return p.optionB_growth_paperQuota;
+  if (planId === 'option-b-school') return p.optionB_school_paperQuota;
+  if (planId === 'option-c' || planId === 'option_c_school') return p.optionC_paperQuota;
+  return p.free_paperQuota;
+}
+
+/**
+ * Get the seat limit for a given plan from the pricing config.
+ */
+export function getSeatLimit(planId, pricing = DEFAULT_PRICING) {
+  const p = { ...DEFAULT_PRICING, ...pricing };
+  if (!planId || planId === 'free' || planId === 'free_trial' || planId === 'free_expired') {
+    return p.free_seatLimit;
+  }
+  if (planId === 'admin' || planId === 'superuser') return Infinity;
+  if (planId === 'option-a' || planId === 'option_a_elastic') return p.optionA_seatLimit;
+  if (planId === 'option-b-starter') return p.optionB_starter_maxStudents;
+  if (planId === 'option-b-growth') return p.optionB_growth_maxStudents;
+  if (planId === 'option-b-school') return p.optionB_school_maxStudents;
+  if (planId === 'option-c' || planId === 'option_c_school') return Infinity;
+  return p.free_seatLimit;
+}
+
+/**
  * Calculate the annual Option C cost for a given number of seats,
  * using the provided pricing config object.
- *
- * Tier structure (31+ students):
- *   31 – tier1_max:           tier1_rate / student / year
- *   tier1_max+1 – tier2_max:  tier2_rate / student / year
- *   tier2_max+1 – tier3_max:  tier3_rate / student / year
- *   tier3_max+1+:             tier4_rate / student / year
  */
 export function calcOptionCAnnual(seats, pricing = DEFAULT_PRICING) {
   const p = { ...DEFAULT_PRICING, ...pricing };
   let cost = 0;
 
-  const t1 = p.optionC_tier1_max;    // e.g. 100
-  const t2 = p.optionC_tier2_max;    // e.g. 500
-  const t3 = p.optionC_tier3_max;    // e.g. 1000
+  const t1 = p.optionC_tier1_max;
+  const t2 = p.optionC_tier2_max;
+  const t3 = p.optionC_tier3_max;
 
-  const r1 = p.optionC_tier1_rate;   // $24
-  const r2 = p.optionC_tier2_rate;   // $20
-  const r3 = p.optionC_tier3_rate;   // $16
-  const r4 = p.optionC_tier4_rate;   // $14
+  const r1 = p.optionC_tier1_rate;
+  const r2 = p.optionC_tier2_rate;
+  const r3 = p.optionC_tier3_rate;
+  const r4 = p.optionC_tier4_rate;
 
   if (seats <= t1) {
     cost = seats * r1;
@@ -106,8 +149,6 @@ export function calcOptionCAnnual(seats, pricing = DEFAULT_PRICING) {
   } else {
     cost = (t1 * r1) + ((t2 - t1) * r2) + ((t3 - t2) * r3) + ((seats - t3) * r4);
   }
-
-
 
   return cost;
 }

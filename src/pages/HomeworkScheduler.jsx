@@ -34,6 +34,7 @@ import { curriculum } from '../data/curriculum';
 import { sanitizeQuestionData, getCurriculumSubjectKey } from './HomeworkGenerator';
 import { DEFAULT_SUBJECT_PROMPTS, getMasterDefaultPrompts } from '../utils/defaultPrompts';
 import { checkCanGeneratePaper } from '../utils/quotaManager';
+import { fetchPricing } from '../utils/pricingConfig';
 import PaperQuotaBoosterModal from '../components/PaperQuotaBoosterModal';
 
 // Module-level lock to prevent double-execution (e.g. from React StrictMode double mounts or rapid mount cycles)
@@ -160,6 +161,9 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
   const [showBoosterModal, setShowBoosterModal] = useState(false);
   const [topUpCredits, setTopUpCredits] = useState(0);
 
+  const [schedulerPricing, setSchedulerPricing] = React.useState(null);
+  React.useEffect(() => { fetchPricing().then(p => { if(p) setSchedulerPricing(p); }); }, []);
+
   const activePlanId = (teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free';
   const totalHomeworksCount = allHomeworks ? allHomeworks.length : 0;
 
@@ -169,7 +173,8 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
     isSuperUser,
     activePlanId,
     allHomeworks,
-    topUpCredits
+    topUpCredits,
+    pricing: schedulerPricing || undefined,
   });
 
   const hasReachedLimit = !quotaInfo.canGenerate;
