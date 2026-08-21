@@ -808,20 +808,22 @@ const TeacherDashboard = ({ user, onLogout }) => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('booster_success') === 'true') {
-      const sessionId = params.get('session_id');
-      
-      if (sessionId && user?.uid && !isVerifyingPayment) {
-        const verifyPayment = async () => {
-          setIsVerifyingPayment(true);
-          try {
-            const res = await fetch('/api/billing-session', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ action: 'verify-booster', sessionId, teacherId: user.uid, email: user.email || 'booster@topup.com' })
-            });
-            const data = await res.json();
-            if (data.success) {
+    const sessionId = params.get('session_id');
+    const isBooster = params.get('booster_success') === 'true';
+
+    if (sessionId && user?.uid && !isVerifyingPayment) {
+      const verifyPayment = async () => {
+        setIsVerifyingPayment(true);
+        try {
+          const action = isBooster ? 'verify-booster' : 'verify-subscription';
+          const res = await fetch('/api/billing-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action, sessionId, teacherId: user.uid, email: user.email || 'sub@topup.com' })
+          });
+          const data = await res.json();
+          if (data.success) {
+            if (isBooster) {
               const credits = data.credits || 15;
               // Visual immediate bump
               setTeacherData(prev => ({
@@ -830,25 +832,31 @@ const TeacherDashboard = ({ user, onLogout }) => {
               }));
               setBoosterSuccessData(credits);
             } else {
-              setBoosterErrorMsg(data.message || 'Still processing or failed.');
+              setTeacherData(prev => ({
+                ...prev,
+                billing: { ...prev?.billing, planId: data.planId, status: 'active' }
+              }));
+              setTimeout(() => alert('Subscription activated successfully!'), 500);
             }
-          } catch (err) {
-            console.error('Error verifying payment:', err);
-            setBoosterErrorMsg('Network error verifying payment.');
-          } finally {
-            setIsVerifyingPayment(false);
-            window.history.replaceState({}, document.title, window.location.pathname);
+          } else {
+            setBoosterErrorMsg(data.message || 'Still processing or failed.');
           }
-        };
-        
-        // Prevent double calling
-        const processed = localStorage.getItem(`verify_${sessionId}`);
-        if (!processed) {
-          localStorage.setItem(`verify_${sessionId}`, 'true');
-          verifyPayment();
-        } else {
+        } catch (err) {
+          console.error('Error verifying payment:', err);
+          setBoosterErrorMsg('Network error verifying payment.');
+        } finally {
+          setIsVerifyingPayment(false);
           window.history.replaceState({}, document.title, window.location.pathname);
         }
+      };
+      
+      // Prevent double calling
+      const processed = localStorage.getItem(`verify_${sessionId}`);
+      if (!processed) {
+        localStorage.setItem(`verify_${sessionId}`, 'true');
+        verifyPayment();
+      } else {
+        window.history.replaceState({}, document.title, window.location.pathname);
       }
     }
   }, [user]);

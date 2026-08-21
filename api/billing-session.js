@@ -83,6 +83,65 @@ export default async function handler(req, res) {
       return res.status(200).json({ success: true, credits });
     }
 
+    // 🌟🌟🌟 Subscription Verification 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
+    if (action === 'verify-subscription') {
+      const { sessionId } = req.body;
+      if (!sessionId) return res.status(400).json({ error: 'Missing sessionId' });
+      
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      if (session.payment_status !== 'paid') {
+        return res.status(400).json({ success: false, message: 'Payment not completed or failed.' });
+      }
+
+      const subscriptionId = session.subscription;
+      if (!subscriptionId) {
+         return res.status(400).json({ success: false, message: 'No subscription attached to this session.' });
+      }
+
+      const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+      const item = subscription.items.data[0];
+      const lookupKey = item?.price?.lookup_key || '';
+      
+      const map = {
+        'hz_option_a_monthly': 'option-a',
+        'hz_option_b_starter_monthly': 'option-b-starter',
+        'hz_option_b_growth_monthly': 'option-b-growth',
+        'hz_option_b_school_monthly': 'option-b-school',
+        'hz_option_c_yearly': 'option-c',
+      };
+      const resolvedPlanId = session.metadata?.planId || map[lookupKey] || 'free';
+      const quantity = item?.quantity || 1;
+      const currentPeriodEnd = new Date(subscription.current_period_end * 1000).toISOString();
+      const customerId = session.customer;
+
+      const billingData = {
+        stripeCustomerId: customerId,
+        stripeSubscriptionId: subscriptionId,
+        planId: resolvedPlanId,
+        status: subscription.status,
+        quantity,
+        currentPeriodEnd,
+        cancelAtPeriodEnd: subscription.cancel_at_period_end === true,
+        updatedAt: new Date().toISOString(),
+      };
+
+      const sessionRef = db.collection('processed_sessions').doc(sessionId);
+      
+      await db.runTransaction(async (t) => {
+        const doc = await t.get(sessionRef);
+        if (doc.exists) {
+          return; // Already processed
+        }
+        
+        t.set(sessionRef, { processedAt: new Date().toISOString(), teacherId, type: 'subscription' });
+        
+        const teacherRef = db.collection('teachers').doc(teacherId);
+        t.set(teacherRef, { billing: billingData }, { merge: true });
+      });
+
+      return res.status(200).json({ success: true, planId: resolvedPlanId });
+    }
+
     // ─── Stripe Checkout Session ─────────────────────────────────────────────
     if (!planId || !successUrl || !cancelUrl) {
       return res.status(400).json({ error: 'Missing required parameters for checkout' });
