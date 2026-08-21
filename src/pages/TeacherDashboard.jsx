@@ -818,10 +818,6 @@ const TeacherDashboard = ({ user, onLogout }) => {
             topUpCredits: (prev?.topUpCredits || 0) + creditsAdded
           }));
           
-          setDoc(doc(db, 'teachers', user.uid), {
-             topUpCredits: increment(creditsAdded)
-          }, { merge: true }).catch(console.error);
-          
           setTimeout(() => alert(`Successfully added ${creditsAdded} papers to your quota!`), 500);
         }
       }
