@@ -8,17 +8,19 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { subscriptionId, immediate } = req.body;
+    const { subscriptionId, resume } = req.body;
 
     if (!subscriptionId) {
       return res.status(400).json({ error: 'Subscription ID is required' });
     }
 
     let subscription;
-    
-    if (immediate) {
-      // Immediate cancellation (downgrades them right away)
-      subscription = await stripe.subscriptions.cancel(subscriptionId);
+    if (resume) {
+      // Resume the subscription
+      subscription = await stripe.subscriptions.update(
+        subscriptionId,
+        { cancel_at_period_end: false }
+      );
     } else {
       // Cancel at period end
       subscription = await stripe.subscriptions.update(
@@ -29,7 +31,7 @@ export default async function handler(req, res) {
 
     res.status(200).json({ success: true, subscription });
   } catch (error) {
-    console.error('Cancel Subscription Error:', error);
-    res.status(500).json({ error: 'Failed to cancel subscription' });
+    console.error('Subscription Action Error:', error);
+    res.status(500).json({ error: 'Failed to process subscription action' });
   }
 }

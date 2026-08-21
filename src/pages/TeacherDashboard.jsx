@@ -2655,10 +2655,10 @@ Include a balanced combination of question types such as:
     
     setIsResumingSub(true);
     try {
-      const response = await fetch('/api/resume-subscription', {
+      const response = await fetch('/api/cancel-subscription', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subscriptionId: teacherBilling.stripeSubscriptionId })
+        body: JSON.stringify({ subscriptionId: teacherBilling.stripeSubscriptionId, resume: true })
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Failed to resume');
