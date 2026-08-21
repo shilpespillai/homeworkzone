@@ -2625,21 +2625,21 @@ Include a balanced combination of question types such as:
   const [isCancellingSub, setIsCancellingSub] = useState(false);
   const handleCancelSubscription = async () => {
     if (!teacherBilling?.stripeSubscriptionId) return;
-    if (!window.confirm("Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.")) return;
+    if (!window.confirm("Are you sure you want to cancel your subscription IMMEDIATELY? You will instantly revert to the Free tier and lose access to your paid features right now.")) return;
     
     setIsCancellingSub(true);
     try {
       const response = await fetch('/api/cancel-subscription', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subscriptionId: teacherBilling.stripeSubscriptionId })
+        body: JSON.stringify({ subscriptionId: teacherBilling.stripeSubscriptionId, immediate: true })
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Failed to cancel');
       
       // Update local state immediately for UI responsiveness
-      setTeacherBilling(prev => ({ ...prev, cancelAtPeriodEnd: true }));
-      alert("Your subscription has been canceled. You will have access until the end of your current billing cycle.");
+      setTeacherBilling(prev => ({ ...prev, cancelAtPeriodEnd: false, status: 'canceled', planId: 'free', stripeSubscriptionId: '' }));
+      alert("Your subscription has been canceled. You have been downgraded to the Free Tier.");
     } catch (err) {
       console.error(err);
       alert("Error canceling subscription: " + err.message);
