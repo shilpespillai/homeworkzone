@@ -472,7 +472,7 @@ const StudentProfile = ({ studentName, teacher, classroom, onProfileUpdate }) =>
        }
     };
     fetchProfile();
-  }, [studentName, teacher, classroom]);
+  }, [studentName, teacher?.uid, classroom?.id]);
 
   const handleCustomPhotoUpload = (e) => {
      const file = e.target.files?.[0];
@@ -2628,7 +2628,7 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
     });
 
     return () => unsubscribe();
-  }, [teacher, classroom, studentName]);
+  }, [teacher?.uid, classroom?.id, studentName]);
   
   // Real-time presence tracking
   useEffect(() => {
@@ -2669,7 +2669,7 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
       window.removeEventListener('beforeunload', setOffline);
       setOffline();
     };
-  }, [teacher, classroom, studentName]);
+  }, [teacher?.uid, classroom?.id, studentName]);
 
   const [currentStudentProfile, setCurrentStudentProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -2797,7 +2797,7 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
 
   useEffect(() => {
      fetchData();
-  }, [studentName, classroom, activeNav, teacher]);
+  }, [studentName, classroom?.id, activeNav, teacher?.uid]);
 
   useEffect(() => {
       const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student'));
@@ -2818,7 +2818,7 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
          });
          return () => unsubscribe();
       }
-   }, [studentName, classroom, teacher, onLogout]);
+   }, [studentName, classroom?.id, teacher?.uid, onLogout]);
 
    useEffect(() => {
       const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student'));
