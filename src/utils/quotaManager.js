@@ -59,21 +59,21 @@ export const checkCanGeneratePaper = ({
   const cleanPlan = isMaxed ? simulatedPlan.replace('_maxed', '') : simulatedPlan;
   const effectivePlan = cleanPlan || activePlanId;
 
-  if ((isAdmin || isSuperUser) && !simulatedPlan) {
-    return { canGenerate: true, remaining: Infinity, limit: Infinity, usage: 0, isUnlimited: true };
-  }
-
-  const baseQuota = getPaperQuota(effectivePlan, pricing);
-  const totalLimit = baseQuota + (topUpCredits || 0);
-
   let usage = 0;
   if (isMaxed) {
-    usage = baseQuota;
-  } else if (effectivePlan === 'free' || effectivePlan === 'free_trial' || effectivePlan === 'free_expired') {
+    usage = getPaperQuota(effectivePlan, pricing);
+  } else if (effectivePlan === 'free' || effectivePlan === 'free_trial' || effectivePlan === 'free_expired' || isAdmin || isSuperUser) {
     usage = Array.isArray(allHomeworks) ? allHomeworks.length : 0;
   } else {
     usage = getMonthlyUsageCount(allHomeworks);
   }
+
+  if ((isAdmin || isSuperUser) && !simulatedPlan) {
+    return { canGenerate: true, remaining: Infinity, limit: Infinity, usage, isUnlimited: true };
+  }
+
+  const baseQuota = getPaperQuota(effectivePlan, pricing);
+  const totalLimit = baseQuota + (topUpCredits || 0);
 
   const remaining = Math.max(0, totalLimit - usage);
   const canGenerate = usage < totalLimit;
