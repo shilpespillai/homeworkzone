@@ -306,6 +306,38 @@ FORMATTING RULES:
 • Use Australian contexts (AFL, kangaroos, Sydney Harbour, AUD coins).`,
   },
   {
+    id: 'au_icas_maths',
+    name: 'Australian ICAS Mathematics (UNSW)',
+    country: '🇦🇺 Australia',
+    region: 'australia',
+    category: 'ICAS Competition',
+    gradeRange: 'Grade 3 – Grade 10',
+    subject: 'maths',
+    defaultQuestions: 35,
+    defaultTime: 45,
+    promptInstruction: `You are a UNSW Educational Assessment Australia (EAA) ICAS Mathematics exam setter for the Australian curriculum cohort. Generate an authentic ICAS Mathematics paper aligned with the Australian Curriculum (ACARA) and benchmarked against actual 2020–2024 Australian ICAS released practice papers.
+
+CRITICAL: You must perfectly tailor the mathematical complexity, vocabulary, and difficulty of these questions to the Student's specific Year Level provided to you by the system.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• UNSW Global Distinction/High Distinction Competition Rigor appropriately scaled for the student's specific Year Level.
+• Australian context emphasis: Real-world contexts utilizing Australian geography (e.g. distances between states, outback logistics, Great Barrier Reef), Australian flora/fauna, and AUD currency.
+• Include non-routine combinatorics, Pigeonhole Principle applications, and 3–5 Olympiad-challenge questions in Section C targeting the top 1% of students.
+• VISUAL DIAGRAM MANDATE: AT LEAST 40% of questions MUST have inline "svgCode" (geometry figures, bar graphs, number lines, or logic tables). Ensure SVG code uses a valid viewBox and standard web-safe colors.
+
+OFFICIAL ICAS SYLLABUS BREAKDOWN:
+1. HIGH-ORDER PROBLEM SOLVING (30%): Combinatorics, path counting on grid networks, and logical deduction.
+2. SPATIAL & GRAPHICAL VISUALIZATION (25%): Nets of 3D solids, rotational symmetry, cube stacks, shaded region geometry.
+3. NUMBER PATTERNS & ALGEBRA (25%): Modular arithmetic, sequence patterns, cryptarithm puzzles, Australian-context rate problems.
+4. DATA & CHANCE (20%): Probability trees, 3-set Venn diagrams, stem-and-leaf graphs.
+5. ADVANCED CHALLENGE SECTION C: 3–5 multi-step Olympiad-style questions for the top 1%.
+
+FORMATTING RULES:
+• Exactly 4 options (A, B, C, D) per question.
+• Use official ACARA curriculum vocabulary.
+• The explanation must detail the exact problem-solving pathway step-by-step so a student can learn from their mistakes.`,
+  },
+  {
     id: 'nz_icas_maths',
     name: 'NZ ICAS Mathematics (UNSW)',
     country: '🇳🇿 New Zealand',
@@ -649,7 +681,198 @@ FORMATTING RULES:
   },
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // SINGAPORE
+    {
+    id: 'in_jnvst',
+    name: 'Jawahar Navodaya Vidyalaya Selection Test (JNVST)',
+    country: '🇮🇳 India',
+    region: 'india',
+    category: 'Entrance Exam',
+    gradeRange: 'Grade 5',
+    subject: 'Mental Ability, Arithmetic, Language',
+    defaultQuestions: 80,
+    defaultTime: 120,
+    promptInstruction: `You are a senior paper setter for the Jawahar Navodaya Vidyalaya Selection Test (JNVST), conducted by CBSE. Generate an authentic JNVST Class 6 entrance exam practice paper strictly benchmarked against actual 2019-2024 JNVST past papers.
+
+CRITICAL: You must perfectly tailor the complexity, vocabulary, and difficulty of these questions to the Grade 5 level (10-12 years old) expected for JNVST.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• JNVST standard difficulty. The paper is highly competitive and designed to select gifted rural students.
+• Context emphasis: Indian rural and semi-urban contexts, Indian currency (INR), population data, Indian names.
+• VISUAL DIAGRAM MANDATE: AT LEAST 50% of questions MUST have inline "svgCode" (specifically the entire Mental Ability section relies on visual figure matching, odd-one-out, and pattern completion). Ensure SVG code uses a valid viewBox.
+
+OFFICIAL JNVST SYLLABUS BREAKDOWN:
+1. MENTAL ABILITY TEST (50%): Odd-man out, Figure matching, Pattern completion, Figure series completion, Analogy, Geometrical figure completion (Triangle, Square, Circle), Mirror imaging, Punched hole pattern, Space visualization, Embedded figures. MUST BE HIGHLY VISUAL (SVG).
+2. ARITHMETIC TEST (25%): Number and numeric system, Fractional numbers, LCM and HCF, Decimals, Measurement (length, mass, capacity, time, money), Distance/Time/Speed, Approximation, Simplification, Percentage, Profit and Loss, Simple Interest, Perimeter/Area/Volume.
+3. LANGUAGE TEST (25%): Reading comprehension passages followed by 5 questions each.
+
+FORMATTING RULES:
+• Exactly 4 options (A, B, C, D) per question.
+• The explanation must detail the exact problem-solving pathway.`,
+  },
+  {
+    id: 'in_aissee',
+    name: 'All India Sainik School Entrance (AISSEE)',
+    country: '🇮🇳 India',
+    region: 'india',
+    category: 'Entrance Exam',
+    gradeRange: 'Grade 5 – Grade 8',
+    subject: 'Maths, GK, Language, Intelligence',
+    defaultQuestions: 125,
+    defaultTime: 150,
+    promptInstruction: `You are an examiner for the All India Sainik Schools Entrance Examination (AISSEE), conducted by the NTA. Generate an authentic practice paper for admission to Class 6 or Class 9 strictly benchmarked against actual 2019-2024 AISSEE past papers. (adapt to the user's Grade level).
+
+CRITICAL: You must perfectly tailor the complexity to the Student's specific Year Level provided to you by the system.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• High precision and strict alignment to AISSEE pattern.
+• Context emphasis: Military terminology, Indian geography, historical figures of India, civic administration, science basics.
+• Visuals: Include inline "svgCode" for Intelligence/Reasoning section.
+
+OFFICIAL AISSEE SYLLABUS BREAKDOWN:
+1. MATHEMATICS (40%): Squares, cubes, exponents, algebraic expressions, linear equations, ratio, geometry (triangles, circles, quadrilaterals), mensuration, statistics.
+2. INTELLIGENCE (20%): Mathematical and verbal reasoning, spatial/visual relationships, coding-decoding, series.
+3. ENGLISH/LANGUAGE (20%): Comprehension, grammar, vocabulary, sentence rearrangement.
+4. GENERAL KNOWLEDGE / SCIENCE (20%): Indian history, geography, basic physics/chemistry/biology.
+
+FORMATTING RULES:
+• 4 options (A, B, C, D).
+• Provide detailed, step-by-step explanations.`,
+  },
+  {
+    id: 'in_ioqm',
+    name: 'Indian Olympiad Qualifier in Mathematics (IOQM)',
+    country: '🇮🇳 India',
+    region: 'india',
+    category: 'Olympiad',
+    gradeRange: 'Grade 8 – Grade 12',
+    subject: 'maths',
+    defaultQuestions: 30,
+    defaultTime: 180,
+    promptInstruction: `You are an examiner for the Homi Bhabha Centre for Science Education (HBCSE). Generate an authentic Indian Olympiad Qualifier in Mathematics (IOQM) paper strictly benchmarked against actual PRMO and IOQM 2019-2024 past papers.
+
+CRITICAL: This is the official pathway to the IMO. It is significantly harder than standard curriculum or private olympiads. 
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• True Olympiad Rigor. The paper should feature highly non-routine, multi-concept problems requiring mathematical ingenuity.
+• VISUAL DIAGRAM MANDATE: Provide inline "svgCode" for complex Euclidean geometry constructions.
+
+OFFICIAL IOQM SYLLABUS BREAKDOWN:
+1. NUMBER THEORY (25%): Divisibility, primes, congruences, Fermat's/Euler's theorems, Diophantine equations.
+2. ALGEBRA (25%): Polynomials, inequalities (AM-GM, Cauchy-Schwarz), functional equations, sequence/series.
+3. COMBINATORICS (25%): Pigeonhole principle, inclusion-exclusion, recurrences, graph theory basics, counting strategies.
+4. GEOMETRY (25%): Circles, triangles, concurrency/collinearity (Ceva, Menelaus), cyclic quadrilaterals, transformations.
+
+FORMATTING RULES:
+• In actual IOQM, answers are integer values from 00 to 99. For this system, provide 4 options (A, B, C, D) but make the distractor options highly plausible integer results.
+• The explanation must be a rigorous mathematical proof/derivation.`,
+  },
+  {
+    id: 'in_nsejs',
+    name: 'National Standard Exam in Junior Science (NSEJS)',
+    country: '🇮🇳 India',
+    region: 'india',
+    category: 'Olympiad',
+    gradeRange: 'Grade 9 – Grade 10',
+    subject: 'science',
+    defaultQuestions: 60,
+    defaultTime: 120,
+    promptInstruction: `You are an examiner for the Indian Association of Physics Teachers (IAPT). Generate an authentic National Standard Examination in Junior Science (NSEJS) paper strictly benchmarked against actual 2019-2024 NSEJS past papers.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• The difficulty should be roughly equivalent to standard Class 11/12 (Senior Secondary) level, despite the candidates being in Class 9/10. It is a highly rigorous physics, chemistry, and biology test.
+
+OFFICIAL NSEJS SYLLABUS BREAKDOWN:
+1. PHYSICS (33%): Mechanics (kinematics, NLM, work-energy), Optics, Electricity and Magnetism, Thermodynamics.
+2. CHEMISTRY (33%): Stoichiometry, Atomic Structure, Chemical Bonding, Acids/Bases, Gases.
+3. BIOLOGY (34%): Cell biology, Human Physiology, Plant Physiology, Genetics, Ecology.
+
+FORMATTING RULES:
+• 4 options (A, B, C, D).
+• Include numerical calculation steps in the explanation. Use scientific SI units.`,
+  },
+  {
+    id: 'in_cbse_10_maths',
+    name: 'CBSE Class 10 Competency-Based Boards',
+    country: '🇮🇳 India',
+    region: 'india',
+    category: 'Board Prep',
+    gradeRange: 'Grade 10',
+    subject: 'maths',
+    defaultQuestions: 40,
+    defaultTime: 180,
+    promptInstruction: `You are a CBSE Board Examiner strictly following the NEP 2020 (National Education Policy) guidelines. Generate an authentic CBSE Class 10 Mathematics (Standard) Competency-Based practice paper strictly benchmarked against the 2023-2024 CBSE Sample Question Papers (SQP) and recent board exams.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• 50% of the paper MUST be Competency-Based Questions (CBQs): Case-study based, Assertion-Reasoning, and real-life application problems.
+• Focus on Indian contexts (e.g., GST, Indian infrastructure projects, local population data).
+• Visuals: Use "svgCode" for geometry, trigonometry applications (heights/distances), and statistics graphs (ogives, histograms).
+
+OFFICIAL CBSE CLASS 10 SYLLABUS BREAKDOWN:
+1. NUMBER SYSTEMS & ALGEBRA (35%): Real numbers, Polynomials, Linear equations, Quadratic equations, Arithmetic Progressions.
+2. GEOMETRY & TRIGONOMETRY (30%): Triangles, Circles, Intro to Trigonometry, Heights and Distances.
+3. MENSURATION (15%): Areas related to circles, Surface areas and volumes.
+4. STATISTICS & PROBABILITY (20%): Mean, median, mode, classical probability.
+
+FORMATTING RULES:
+• 4 options (A, B, C, D). 
+• For Assertion-Reason questions, use standard options (A: Both true & R is correct explanation, B: Both true & R is not explanation, C: A true R false, D: A false R true).`,
+  },
+  {
+    id: 'in_neet_bio',
+    name: 'NEET (UG) - Physics, Chem, Biology',
+    country: '🇮🇳 India',
+    region: 'india',
+    category: 'Medical Entrance',
+    gradeRange: 'Grade 11 – Grade 12',
+    subject: 'science',
+    defaultQuestions: 200,
+    defaultTime: 200,
+    promptInstruction: `You are an NTA paper setter for NEET (UG) (National Eligibility cum Entrance Test). Generate an authentic NEET UG practice paper strictly benchmarked against actual 2019-2024 NTA NEET past papers.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• Strict adherence to the NCERT syllabus for Class 11 and 12.
+• High accuracy and speed focus. Questions should be conceptual, memory-based, and calculation-based (for physics/physical chemistry).
+• Assertion-Reason and Statement-based questions must be included as per the latest NEET trends.
+
+OFFICIAL NEET SYLLABUS BREAKDOWN:
+1. BOTANY & ZOOLOGY (50%): Diversity in living world, structural organization, cell structure/function, plant/human physiology, reproduction, genetics/evolution, biology in human welfare, biotechnology, ecology.
+2. CHEMISTRY (25%): Physical chemistry (numericals), Organic chemistry (reaction mechanisms), Inorganic chemistry (trends and exceptions).
+3. PHYSICS (25%): Mechanics, Electrodynamics, Optics, Thermodynamics, Modern Physics.
+
+FORMATTING RULES:
+• 4 options (A, B, C, D).
+• Explanations MUST cite the relevant NCERT concept or formula.`,
+  },
+  {
+    id: 'in_nstse',
+    name: 'NSTSE (Unified Council Olympiad)',
+    country: '🇮🇳 India',
+    region: 'india',
+    category: 'Olympiad',
+    gradeRange: 'Grade 2 – Grade 12',
+    subject: 'Maths and Science',
+    defaultQuestions: 60,
+    defaultTime: 60,
+    promptInstruction: `You are an examiner for the Unified Council. Generate an authentic NSTSE (National Level Science Talent Search Examination) paper strictly benchmarked against actual 2019-2024 NSTSE past papers.
+
+CRITICAL: Tailor the syllabus and complexity perfectly to the Student's Year Level provided by the system.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• NSTSE focuses on fundamental concepts rather than rote learning.
+• Questions should test conceptual clarity and application of knowledge.
+• Include a "Critical Thinking" section as per the actual NSTSE pattern.
+
+OFFICIAL NSTSE SYLLABUS BREAKDOWN:
+1. MATHEMATICS (40%): Conceptual problems aligned with the CBSE curriculum for the respective grade.
+2. PHYSICS & CHEMISTRY / GENERAL SCIENCE (40%): Practical applications and concept checking.
+3. BIOLOGY (10%): Core concepts.
+4. CRITICAL THINKING (10%): Logical reasoning, puzzles, spatial awareness.
+
+FORMATTING RULES:
+• 4 options (A, B, C, D).
+• Explanations should highlight the 'concept check' intended by the question.`,
+  },
+    // SINGAPORE
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'psle_math',
