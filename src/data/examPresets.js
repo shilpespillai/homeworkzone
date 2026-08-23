@@ -108,13 +108,13 @@ FORMATTING & DISTRACTOR RULES:
     subject: 'maths',
     defaultQuestions: 35,
     defaultTime: 40,
-    promptInstruction: `You are an official test developer for the NSW Selective High School Placement Test (Mathematical Reasoning section). Generate an authentic Mathematical Reasoning examination paper for Year 7 entry, modelled strictly on the 2022–2024 released NSW Selective Mathematical Reasoning practice papers published by the NSW Department of Education.
+    promptInstruction: `You are an official test developer for the NSW Selective High School Placement Test (Mathematical Reasoning section). Generate an authentic Mathematical Reasoning examination paper for Year 7 entry, modelled strictly on the ${new Date().getFullYear() - 5}-${new Date().getFullYear()} released NSW Selective Mathematical Reasoning practice papers published by the NSW Department of Education.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • Non-calculator high-order problem solving (NSW Selective Benchmark for Top 5% students).
 • Questions must require strategic shortcuts, consecutive number sum logic, speed-distance-time catch-up rates, and composite area heuristics rather than rote calculation.
 • VISUAL DIAGRAM MANDATE: AT LEAST 40% (4 out of every 10) of questions MUST be visual diagram-based questions containing valid, high-quality inline "svgCode" (such as geometry shapes, angle diagrams, fraction bars, coordinate grids, or tables).
-• Mirror the style of NSW Dept of Education 2024 practice paper: worded problems with Australian contexts (suburb names, cricket scores, Australian animals).
+• Mirror the style of NSW Dept of Education recent practice paper: worded problems with Australian contexts (suburb names, cricket scores, Australian animals).
 
 OFFICIAL SYLLABUS & DOMAIN BREAKDOWN (35 Questions / 40 Minutes — NO CALCULATORS PERMITTED):
 1. NUMBER & ALGEBRA (40%): Multi-step non-routine word problems, numerical sequences, and pattern rules. Operations with fractions, decimals, percentages, ratios, and proportion heuristics (e.g. before-and-after ratio transfers). Consecutive integer sums, Gauss summation methods, divisibility rules (2, 3, 5, 9, 10, 11), LCM/GCD word problems. Speed, Distance, Time & Rate Problems and In/Out Algebraic Function Machines.
@@ -136,13 +136,13 @@ FORMATTING & DISTRACTOR RULES:
     subject: 'english',
     defaultQuestions: 30,
     defaultTime: 40,
-    promptInstruction: `You are a test developer for the NSW Selective High School Placement Test (Reading section), modelled on the 2022–2024 NSW Department of Education Selective Schools Reading practice papers delivered via the Janison platform.
+    promptInstruction: `You are a test developer for the NSW Selective High School Placement Test (Reading section), modelled on the ${new Date().getFullYear() - 5}-${new Date().getFullYear()} NSW Department of Education Selective Schools Reading practice papers delivered via the Janison platform.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • Target Cohort: Top 5% academically gifted Year 5/6 students.
 • Reading passages MUST be authentic, sophisticated texts (literary fiction, non-fiction essays, poetry, scientific articles, historical excerpts) sourced or written to match the complexity of the NSW Stage 3 Extended Reading texts.
 • Questions must NOT test surface recall — they must demand inference, figurative language analysis, authorial intent, and vocabulary-in-context reasoning.
-• Mirror the 2023 NSW Selective Reading released practice paper format: 3–4 passages of varying genres, each 150–400 words, with 6–10 questions per passage.
+• Mirror the recent NSW Selective Reading released practice paper format: 3–4 passages of varying genres, each 150–400 words, with 6–10 questions per passage.
 
 OFFICIAL SYLLABUS & DOMAIN BREAKDOWN (30 Questions / 40 Minutes):
 1. LITERAL COMPREHENSION (20%): Locating specific details, facts, and events explicitly stated in the passage.
@@ -170,12 +170,12 @@ FORMATTING RULES:
     subject: 'critical_thinking',
     defaultQuestions: 35,
     defaultTime: 30,
-    promptInstruction: `You are an ACER (Australian Council for Educational Research) exam author creating the Victorian Selective Entry High School Exam (Melbourne High, Mac.Robertson Girls', Nossal, Suzanne Cory). Generate an authentic ACER-pattern General Ability (Verbal, Reading & Quantitative Reasoning) examination paper for Year 9 entry, modelled on the ACER Selective High School Placement Test structure used from 2020–2024.
+    promptInstruction: `You are an ACER (Australian Council for Educational Research) exam author creating the Victorian Selective Entry High School Exam (Melbourne High, Mac.Robertson Girls', Nossal, Suzanne Cory). Generate an authentic ACER-pattern General Ability (Verbal, Reading & Quantitative Reasoning) examination paper for Year 9 entry, modelled on the ACER Selective High School Placement Test structure used from ${new Date().getFullYear() - 5}-${new Date().getFullYear()}.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • Rapid High-Speed Cognitive Complexity (ACER Melbourne High / MacRob Standard).
 • Target high-pressure time limits (under 50 seconds per question) with multi-variable word analogies, letter-code shift ciphers, reading passage tone analysis, and high-level quantitative series.
-• Mirror the ACER 2023–2024 test format: dual ability sections (verbal + quantitative), rapid-fire questions, Australian academic vocabulary.
+• Mirror the ACER ${new Date().getFullYear() - 5}-${new Date().getFullYear()} test format: dual ability sections (verbal + quantitative), rapid-fire questions, Australian academic vocabulary.
 
 OFFICIAL SYLLABUS & DOMAIN BREAKDOWN (NO CALCULATORS ALLOWED):
 1. VERBAL REASONING & COMPREHENSION (50%): Complex Word Analogies (A : B :: C : ?), word relationships, and vocabulary in context. Letter-Code Cracking (alphabetical shift rules & cipher patterns). Deductive Syllogisms, statement assumptions, and odd-word-out categorization. Reading Comprehension & Humanities Reasoning: Analyzing short prose passages for central theme, tone, author intent, and inference.
@@ -199,7 +199,7 @@ FORMATTING RULES:
     promptInstruction: `You are an ACARA (Australian Curriculum Assessment and Reporting Authority) NAPLAN test author. Generate an authentic NAPLAN Numeracy practice examination paper aligned with the Australian Curriculum, modelled on post-2023 NAPLAN Adaptive Testing format administered via the National Assessment Platform (NAP).
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
-• ACARA National Benchmark Rigor (Mix of Band 5–8 Progressive Challenge Questions from actual 2022–2024 NAPLAN papers).
+• ACARA National Benchmark Rigor (Mix of Band 5–8 Progressive Challenge Questions from actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} NAPLAN papers).
 • Feature authentic Australian real-world contexts (AFL footy scores, BBQ measurements, Australian wildlife population data, NSW/VIC geography, AUD currency).
 • Non-calculator mental strategy required.
 • VISUAL DIAGRAM MANDATE (CRITICAL): AT LEAST 40% of questions MUST be VISUAL DIAGRAM-BASED containing valid "svgCode" (column graphs, dot plots, pie charts, geometry shapes, angle diagrams, analogue clocks, measurement rulers, or number lines).
@@ -225,7 +225,7 @@ FORMATTING RULES:
     subject: 'english',
     defaultQuestions: 30,
     defaultTime: 45,
-    promptInstruction: `You are an ACARA (Australian Curriculum Assessment and Reporting Authority) NAPLAN Reading test author. Generate an authentic NAPLAN Reading practice examination aligned with the post-2023 adaptive NAPLAN format on the National Assessment Platform (NAP), modelled on actual 2022–2024 NAPLAN Reading released items.
+    promptInstruction: `You are an ACARA (Australian Curriculum Assessment and Reporting Authority) NAPLAN Reading test author. Generate an authentic NAPLAN Reading practice examination aligned with the post-2023 adaptive NAPLAN format on the National Assessment Platform (NAP), modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} NAPLAN Reading released items.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • ACARA National Benchmark Rigor (Band 5–8 difficulty progression).
@@ -257,7 +257,7 @@ FORMATTING RULES:
     subject: 'english',
     defaultQuestions: 35,
     defaultTime: 45,
-    promptInstruction: `You are an ACARA (Australian Curriculum Assessment and Reporting Authority) NAPLAN Conventions of Language test author. Generate an authentic NAPLAN Conventions of Language practice examination aligned with the post-2023 National Assessment Platform (NAP) standards, modelled on official 2022–2024 NAPLAN released test papers.
+    promptInstruction: `You are an ACARA (Australian Curriculum Assessment and Reporting Authority) NAPLAN Conventions of Language test author. Generate an authentic NAPLAN Conventions of Language practice examination aligned with the post-2023 National Assessment Platform (NAP) standards, modelled on official ${new Date().getFullYear() - 5}-${new Date().getFullYear()} NAPLAN released test papers.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • ACARA National Benchmark Rigor (Bands 3–9 progressive challenge across Spelling, Grammar, and Punctuation).
@@ -283,14 +283,14 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 30,
     defaultTime: 60,
-    promptInstruction: `You are a question setter for the Australian Mathematics Competition (AMC), administered annually by the Australian Mathematics Trust (AMT). Generate an authentic AMC paper modelled on the Primary/Junior Division structure (Grades 3–8) from actual 2019–2024 AMC released papers.
+    promptInstruction: `You are a question setter for the Australian Mathematics Competition (AMC), administered annually by the Australian Mathematics Trust (AMT). Generate an authentic AMC paper modelled on the Primary/Junior Division structure (Grades 3–8) from actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} AMC released papers.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • AMT Competition Rigor: Questions 1–10 are accessible, Questions 11–20 are moderate-challenging, Questions 21–30 are difficult (targeting top 5–10% of competitors).
 • Every question must be solvable by elegant reasoning — no calculators needed.
 • AMC specialty: Questions that appear simple on the surface but have a clever non-obvious solution. Include the AMC trademark "twist" (e.g. what appears to be a hard computation has a slick shortcut).
 • VISUAL DIAGRAM MANDATE: AT LEAST 35% of questions MUST have inline "svgCode" geometry, grid, or number line diagrams, exactly as AMC papers present shapes, arrangements, and grids.
-• Draw from actual AMC problem types seen in 2020–2024 papers: path counting on grids, magic squares, clock arithmetic, Fibonacci-style sequences, shaded area puzzles, coin/stamp problems.
+• Draw from actual AMC problem types seen in ${new Date().getFullYear() - 5}-${new Date().getFullYear()} papers: path counting on grids, magic squares, clock arithmetic, Fibonacci-style sequences, shaded area puzzles, coin/stamp problems.
 
 OFFICIAL AMC STRUCTURE (30 Questions / 60 Minutes — NO CALCULATORS):
 Section A (Questions 1–10, 3 marks each): Straightforward problem-solving accessible to top half of year level.
@@ -315,7 +315,7 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 35,
     defaultTime: 45,
-    promptInstruction: `You are a UNSW Educational Assessment Australia (EAA) ICAS Mathematics exam setter for the Australian curriculum cohort. Generate an authentic ICAS Mathematics paper aligned with the Australian Curriculum (ACARA) and benchmarked against actual 2020–2024 Australian ICAS released practice papers.
+    promptInstruction: `You are a UNSW Educational Assessment Australia (EAA) ICAS Mathematics exam setter for the Australian curriculum cohort. Generate an authentic ICAS Mathematics paper aligned with the Australian Curriculum (ACARA) and benchmarked against actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} Australian ICAS released practice papers.
 
 CRITICAL: You must perfectly tailor the mathematical complexity, vocabulary, and difficulty of these questions to the Student's specific Year Level provided to you by the system.
 
@@ -347,7 +347,7 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 35,
     defaultTime: 45,
-    promptInstruction: `You are a UNSW Educational Assessment Australia (EAA) ICAS Mathematics exam setter for the New Zealand curriculum cohort. Generate an authentic ICAS Mathematics paper aligned with the New Zealand Mathematics Curriculum (Te Akoranga o Aotearoa) and benchmarked against actual 2020–2024 NZ ICAS released practice papers.
+    promptInstruction: `You are a UNSW Educational Assessment Australia (EAA) ICAS Mathematics exam setter for the New Zealand curriculum cohort. Generate an authentic ICAS Mathematics paper aligned with the New Zealand Mathematics Curriculum (Te Akoranga o Aotearoa) and benchmarked against actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} NZ ICAS released practice papers.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • UNSW Global Distinction/High Distinction Competition Rigor for NZ students.
@@ -376,12 +376,12 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 35,
     defaultTime: 45,
-    promptInstruction: `You are a UNSW Educational Assessment Australia (EAA) ICAS Mathematics exam setter. Generate an authentic ICAS Mathematics competition paper testing deep problem-solving, mathematical creativity, and non-routine logic, modelled on actual 2020–2024 ICAS Mathematics papers across Levels A–J.
+    promptInstruction: `You are a UNSW Educational Assessment Australia (EAA) ICAS Mathematics exam setter. Generate an authentic ICAS Mathematics competition paper testing deep problem-solving, mathematical creativity, and non-routine logic, modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} ICAS Mathematics papers across Levels A–J.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • UNSW Global Distinction / High Distinction Competition Rigor.
 • Include non-routine combinatorics, cryptarithms, Pigeonhole Principle, and a 3–5 question Section C Olympiad challenge tier designed to differentiate top 1% students.
-• Reference authentic ICAS question styles from 2021 and 2023 released papers: grid path counting, square arrangement puzzles, age algebra, clock face geometry.
+• Reference authentic ICAS question styles from recent released papers: grid path counting, square arrangement puzzles, age algebra, clock face geometry.
 • VISUAL DIAGRAM MANDATE: AT LEAST 40% of questions MUST be visual diagram-based questions containing valid, high-quality inline "svgCode" (geometry figures, bar graphs, number lines, or logic tables).
 
 OFFICIAL ICAS SYLLABUS BREAKDOWN:
@@ -405,7 +405,7 @@ FORMATTING RULES:
     subject: 'science',
     defaultQuestions: 30,
     defaultTime: 45,
-    promptInstruction: `You are a lead test developer for ICAS Science (UNSW Global). Generate an authentic ICAS Science examination paper focused strictly on scientific inquiry and experimental analysis, modelled on actual 2020–2024 ICAS Science released and practice papers.
+    promptInstruction: `You are a lead test developer for ICAS Science (UNSW Global). Generate an authentic ICAS Science examination paper focused strictly on scientific inquiry and experimental analysis, modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} ICAS Science released and practice papers.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • Scientific Inquiry & Analytical Rigor (UNSW Competition Standard).
@@ -432,7 +432,7 @@ FORMATTING RULES:
     subject: 'computer_science',
     defaultQuestions: 30,
     defaultTime: 45,
-    promptInstruction: `You are an author for ICAS Digital Technologies (UNSW Educational Assessment Australia). Generate an authentic ICAS Digital Technologies paper testing computer science and computational thinking concepts, modelled on actual 2020–2024 ICAS Digital Technologies released papers.
+    promptInstruction: `You are an author for ICAS Digital Technologies (UNSW Educational Assessment Australia). Generate an authentic ICAS Digital Technologies paper testing computer science and computational thinking concepts, modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} ICAS Digital Technologies released papers.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • Computational Thinking & Algorithmic Complexity (ICAS Competition Level).
@@ -460,7 +460,7 @@ FORMATTING RULES:
     subject: 'english',
     defaultQuestions: 35,
     defaultTime: 45,
-    promptInstruction: `You are a UNSW Educational Assessment Australia (EAA) ICAS English exam developer. Generate an authentic ICAS English competition paper, modelled on actual 2020–2024 ICAS English papers (Levels A–J). The paper combines reading comprehension, language conventions, and literary appreciation.
+    promptInstruction: `You are a UNSW Educational Assessment Australia (EAA) ICAS English exam developer. Generate an authentic ICAS English competition paper, modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} ICAS English papers (Levels A–J). The paper combines reading comprehension, language conventions, and literary appreciation.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • UNSW Global Competition Standard (targeting Distinction/High Distinction performers).
@@ -496,7 +496,7 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 35,
     defaultTime: 60,
-    promptInstruction: `You are a question setter for the Science Olympiad Foundation (SOF) International Mathematics Olympiad (IMO), one of India's most prestigious school-level mathematics competitions taken by 65 lakh+ students annually. Generate an authentic SOF IMO paper, modelled on actual 2020–2024 SOF IMO Level 1 and Level 2 question papers for the target grade level.
+    promptInstruction: `You are a question setter for the Science Olympiad Foundation (SOF) International Mathematics Olympiad (IMO), one of India's most prestigious school-level mathematics competitions taken by 65 lakh+ students annually. Generate an authentic SOF IMO paper, modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} SOF IMO Level 1 and Level 2 question papers for the target grade level.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • SOF IMO Gold Medal / International Rank Standard.
@@ -504,7 +504,7 @@ COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • Section 2 (Mathematical Reasoning): NCERT/CBSE-aligned curriculum content at the target grade, but tested at HOTS (Higher Order Thinking Skills) level — application, analysis, and synthesis.
 • Section 3 (Everyday Mathematics — Applied): Real-world maths contexts: train timetables, profit/loss scenarios, map reading, data interpretation from bar graphs and pie charts.
 • Section 4 (Achievers Section — HOT): 5–10 questions at Level 2 difficulty, targeting top 5% Achiever Rank holders. Multi-step, non-routine, competition-level reasoning.
-• Reference actual SOF IMO paper structure from 2021–2024: 4 distinct sections, exactly matching their proportions.
+• Reference actual SOF IMO paper structure from ${new Date().getFullYear() - 5}-${new Date().getFullYear()}: 4 distinct sections, exactly matching their proportions.
 
 OFFICIAL SOF IMO STRUCTURE (35 Questions / 60 Minutes):
 • Section 1 — Logical Reasoning: 5 questions (3 marks each). Pattern recognition, figure sequences, odd-one-out, analogy.
@@ -531,14 +531,14 @@ FORMATTING RULES:
     subject: 'science',
     defaultQuestions: 35,
     defaultTime: 60,
-    promptInstruction: `You are a question setter for the Science Olympiad Foundation (SOF) National Science Olympiad (NSO), India's largest school science competition. Generate an authentic SOF NSO paper modelled on actual 2020–2024 SOF NSO Level 1 papers, aligned with NCERT Science curriculum for the target grade level.
+    promptInstruction: `You are a question setter for the Science Olympiad Foundation (SOF) National Science Olympiad (NSO), India's largest school science competition. Generate an authentic SOF NSO paper modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} SOF NSO Level 1 papers, aligned with NCERT Science curriculum for the target grade level.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • SOF NSO Gold Medal Standard — testing beyond rote NCERT memorisation to application, analysis, and real-world science reasoning.
 • Section 1 (Mental Ability): IQ reasoning patterns — series, analogies, figure matrices, embedded figures, spatial visualisation.
 • Section 2 (Science): NCERT curriculum content tested at HOTS application level. Physics, Chemistry, Biology, Environmental Science as appropriate to grade.
 • Section 3 (Achievers Section): Olympiad-level challenge questions targeting top Achiever Rank holders. Cross-chapter integrated problems, experiment-based reasoning, data analysis.
-• Reference actual NSO 2022–2024 paper style: crisp scenario-based questions (40–80 words), diagram-based biology/physics questions, and data table interpretation.
+• Reference actual NSO ${new Date().getFullYear() - 5}-${new Date().getFullYear()} paper style: crisp scenario-based questions (40–80 words), diagram-based biology/physics questions, and data table interpretation.
 
 OFFICIAL SOF NSO STRUCTURE (35 Questions / 60 Minutes):
 • Section 1 — Mental Ability: 5 questions (3 marks each). Logical reasoning and IQ-style patterns.
@@ -563,7 +563,7 @@ FORMATTING RULES:
     subject: 'english',
     defaultQuestions: 35,
     defaultTime: 60,
-    promptInstruction: `You are a question setter for the Science Olympiad Foundation (SOF) International English Olympiad (IEO). Generate an authentic SOF IEO paper modelled on actual 2020–2024 SOF IEO Level 1 papers, aligned with English curriculum standards for Indian schools (CBSE/ICSE/State Boards).
+    promptInstruction: `You are a question setter for the Science Olympiad Foundation (SOF) International English Olympiad (IEO). Generate an authentic SOF IEO paper modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} SOF IEO Level 1 papers, aligned with English curriculum standards for Indian schools (CBSE/ICSE/State Boards).
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • SOF IEO Gold Medal Standard — testing grammar, vocabulary, reading comprehension, and spoken/written English skills at Olympiad depth.
@@ -571,7 +571,7 @@ COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • Section 2 (Reading): Comprehension passages testing literal, inferential, and evaluative understanding. Passages 80–250 words.
 • Section 3 (Spoken & Written Expression): Dialogue completion, picture-based description, formal/informal letter elements, error correction.
 • Section 4 (Achievers): Advanced vocabulary, complex grammar structures, extended inference from literary texts.
-• Mirror authentic IEO 2022–2024 question style: scenario-embedded grammar, contextual vocabulary, and dialogue-completion tasks.
+• Mirror authentic IEO ${new Date().getFullYear() - 5}-${new Date().getFullYear()} question style: scenario-embedded grammar, contextual vocabulary, and dialogue-completion tasks.
 
 OFFICIAL SOF IEO STRUCTURE (35 Questions / 60 Minutes):
 • Section 1 — Word & Structure Knowledge: 15 questions (1 mark each). Vocabulary, grammar, sentence structure.
@@ -597,13 +597,13 @@ FORMATTING RULES:
     subject: 'critical_thinking',
     defaultQuestions: 100,
     defaultTime: 120,
-    promptInstruction: `You are a question setter for the National Talent Search Examination (NTSE) Mental Ability Test (MAT), administered by NCERT (National Council of Educational Research and Training) for Grade 10 students across India. Generate an authentic NTSE MAT paper modelled on actual 2018–2023 Stage 1 State-level NTSE MAT papers.
+    promptInstruction: `You are a question setter for the National Talent Search Examination (NTSE) Mental Ability Test (MAT), administered by NCERT (National Council of Educational Research and Training) for Grade 10 students across India. Generate an authentic NTSE MAT paper modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} Stage 1 State-level NTSE MAT papers.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • NTSE MAT National Standard — India's premier government talent scholarship examination, with approximately 1,000 scholarships for 30 lakh+ applicants.
 • Cover the full breadth of NTSE MAT question types as published in official NCERT NTSE syllabi and past papers.
 • Questions must have one unambiguously correct answer with plausible distractors targeting common reasoning errors.
-• Mirror authentic NTSE MAT 2020–2023 question style: clean, precise language, diagram-based spatial questions, and multi-variable logic puzzles.
+• Mirror authentic NTSE MAT ${new Date().getFullYear() - 5}-${new Date().getFullYear()} question style: clean, precise language, diagram-based spatial questions, and multi-variable logic puzzles.
 
 OFFICIAL NTSE MAT DOMAIN BREAKDOWN (100 Questions / 120 Minutes):
 1. VERBAL REASONING (30%): Analogies (word relationships), Classification (odd-one-out), Series Completion (alphabet & word series), Coding-Decoding (letter/number codes), Blood Relations, Direction Sense, Ordering & Ranking.
@@ -626,13 +626,13 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 100,
     defaultTime: 120,
-    promptInstruction: `You are a question setter for the National Talent Search Examination (NTSE) Scholastic Aptitude Test (SAT), administered by NCERT for Grade 10 students. Generate an authentic NTSE SAT paper covering Science, Mathematics, and Social Science as per the official NTSE syllabus, modelled on actual 2018–2023 Stage 1 NTSE SAT papers.
+    promptInstruction: `You are a question setter for the National Talent Search Examination (NTSE) Scholastic Aptitude Test (SAT), administered by NCERT for Grade 10 students. Generate an authentic NTSE SAT paper covering Science, Mathematics, and Social Science as per the official NTSE syllabus, modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} Stage 1 NTSE SAT papers.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • NTSE SAT National Standard — questions must exceed NCERT textbook level, requiring application, analysis, and higher-order synthesis.
 • Mathematics must include non-routine problems beyond standard CBSE Grade 10 scope — challenging but solvable with Class 10 knowledge.
 • Science questions must require experimental reasoning and multi-concept integration (e.g. applying Newton's Laws to a biological scenario).
-• Mirror authentic NTSE SAT 2020–2023 question style: application-heavy, HOTS (Higher Order Thinking Skills), integrated topics.
+• Mirror authentic NTSE SAT ${new Date().getFullYear() - 5}-${new Date().getFullYear()} question style: application-heavy, HOTS (Higher Order Thinking Skills), integrated topics.
 
 OFFICIAL NTSE SAT STRUCTURE (100 Questions / 120 Minutes):
 • Mathematics (40 questions, 1 mark each): Real Numbers, Polynomials, Linear Equations, Quadratic Equations, AP/GP, Trigonometry, Coordinate Geometry, Statistics, Probability, Surface Areas & Volumes.
@@ -659,14 +659,14 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 30,
     defaultTime: 90,
-    promptInstruction: `You are a question setter for JEE Main (Joint Entrance Examination Main), administered by the National Testing Agency (NTA) for admission to IITs, NITs, and IIITs. Generate an authentic JEE Main Mathematics section paper modelled on actual January and April 2022–2024 JEE Main session papers as published by NTA.
+    promptInstruction: `You are a question setter for JEE Main (Joint Entrance Examination Main), administered by the National Testing Agency (NTA) for admission to IITs, NITs, and IIITs. Generate an authentic JEE Main Mathematics section paper modelled on actual January and April ${new Date().getFullYear() - 5}-${new Date().getFullYear()} JEE Main session papers as published by NTA.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • NTA JEE Main Standard — Paper 1 Mathematics section.
 • Questions must be at the exact difficulty calibration of real JEE Main papers: 40% moderate (direct formula application), 40% challenging (multi-step application), 20% very challenging (multi-concept integration, elegant insight required).
 • Section A (MCQ): 20 questions — classic 4-option MCQ with −1 negative marking for wrong answers, +4 for correct.
 • Section B (Numerical): 10 questions — Integer type, answer between 0–999. No options. No negative marking. Candidate attempts any 5 out of 10.
-• Mirror actual JEE Main 2023–2024 question types: complex number geometry, definite integrals using substitution/by-parts, 3D geometry with direction cosines, probability with Bayes theorem, matrix determinant properties.
+• Mirror actual JEE Main ${new Date().getFullYear() - 5}-${new Date().getFullYear()} question types: complex number geometry, definite integrals using substitution/by-parts, 3D geometry with direction cosines, probability with Bayes theorem, matrix determinant properties.
 
 OFFICIAL JEE MAIN MATHEMATICS DOMAIN BREAKDOWN:
 1. CALCULUS (30%): Limits, Continuity, Differentiability, Methods of Differentiation, Applications of Derivatives (maxima/minima, tangent/normal), Indefinite Integrals (substitution, partial fractions, by-parts), Definite Integrals (properties, area under curve), Differential Equations.
@@ -691,7 +691,7 @@ FORMATTING RULES:
     subject: 'Mental Ability, Arithmetic, Language',
     defaultQuestions: 80,
     defaultTime: 120,
-    promptInstruction: `You are a senior paper setter for the Jawahar Navodaya Vidyalaya Selection Test (JNVST), conducted by CBSE. Generate an authentic JNVST Class 6 entrance exam practice paper strictly benchmarked against actual 2019-2024 JNVST past papers.
+    promptInstruction: `You are a senior paper setter for the Jawahar Navodaya Vidyalaya Selection Test (JNVST), conducted by CBSE. Generate an authentic JNVST Class 6 entrance exam practice paper strictly benchmarked against actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} JNVST past papers.
 
 CRITICAL: You must perfectly tailor the complexity, vocabulary, and difficulty of these questions to the Grade 5 level (10-12 years old) expected for JNVST.
 
@@ -719,7 +719,7 @@ FORMATTING RULES:
     subject: 'Maths, GK, Language, Intelligence',
     defaultQuestions: 125,
     defaultTime: 150,
-    promptInstruction: `You are an examiner for the All India Sainik Schools Entrance Examination (AISSEE), conducted by the NTA. Generate an authentic practice paper for admission to Class 6 or Class 9 strictly benchmarked against actual 2019-2024 AISSEE past papers. (adapt to the user's Grade level).
+    promptInstruction: `You are an examiner for the All India Sainik Schools Entrance Examination (AISSEE), conducted by the NTA. Generate an authentic practice paper for admission to Class 6 or Class 9 strictly benchmarked against actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} AISSEE past papers. (adapt to the user's Grade level).
 
 CRITICAL: You must perfectly tailor the complexity to the Student's specific Year Level provided to you by the system.
 
@@ -748,7 +748,7 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 30,
     defaultTime: 180,
-    promptInstruction: `You are an examiner for the Homi Bhabha Centre for Science Education (HBCSE). Generate an authentic Indian Olympiad Qualifier in Mathematics (IOQM) paper strictly benchmarked against actual PRMO and IOQM 2019-2024 past papers.
+    promptInstruction: `You are an examiner for the Homi Bhabha Centre for Science Education (HBCSE). Generate an authentic Indian Olympiad Qualifier in Mathematics (IOQM) paper strictly benchmarked against actual PRMO and IOQM ${new Date().getFullYear() - 5}-${new Date().getFullYear()} past papers.
 
 CRITICAL: This is the official pathway to the IMO. It is significantly harder than standard curriculum or private olympiads. 
 
@@ -776,7 +776,7 @@ FORMATTING RULES:
     subject: 'science',
     defaultQuestions: 60,
     defaultTime: 120,
-    promptInstruction: `You are an examiner for the Indian Association of Physics Teachers (IAPT). Generate an authentic National Standard Examination in Junior Science (NSEJS) paper strictly benchmarked against actual 2019-2024 NSEJS past papers.
+    promptInstruction: `You are an examiner for the Indian Association of Physics Teachers (IAPT). Generate an authentic National Standard Examination in Junior Science (NSEJS) paper strictly benchmarked against actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} NSEJS past papers.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • The difficulty should be roughly equivalent to standard Class 11/12 (Senior Secondary) level, despite the candidates being in Class 9/10. It is a highly rigorous physics, chemistry, and biology test.
@@ -800,7 +800,7 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 40,
     defaultTime: 180,
-    promptInstruction: `You are a CBSE Board Examiner strictly following the NEP 2020 (National Education Policy) guidelines. Generate an authentic CBSE Class 10 Mathematics (Standard) Competency-Based practice paper strictly benchmarked against the 2023-2024 CBSE Sample Question Papers (SQP) and recent board exams.
+    promptInstruction: `You are a CBSE Board Examiner strictly following the NEP 2020 (National Education Policy) guidelines. Generate an authentic CBSE Class 10 Mathematics (Standard) Competency-Based practice paper strictly benchmarked against the ${new Date().getFullYear() - 5}-${new Date().getFullYear()} CBSE Sample Question Papers (SQP) and recent board exams.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • 50% of the paper MUST be Competency-Based Questions (CBQs): Case-study based, Assertion-Reasoning, and real-life application problems.
@@ -827,7 +827,7 @@ FORMATTING RULES:
     subject: 'science',
     defaultQuestions: 200,
     defaultTime: 200,
-    promptInstruction: `You are an NTA paper setter for NEET (UG) (National Eligibility cum Entrance Test). Generate an authentic NEET UG practice paper strictly benchmarked against actual 2019-2024 NTA NEET past papers.
+    promptInstruction: `You are an NTA paper setter for NEET (UG) (National Eligibility cum Entrance Test). Generate an authentic NEET UG practice paper strictly benchmarked against actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} NTA NEET past papers.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • Strict adherence to the NCERT syllabus for Class 11 and 12.
@@ -853,7 +853,7 @@ FORMATTING RULES:
     subject: 'Maths and Science',
     defaultQuestions: 60,
     defaultTime: 60,
-    promptInstruction: `You are an examiner for the Unified Council. Generate an authentic NSTSE (National Level Science Talent Search Examination) paper strictly benchmarked against actual 2019-2024 NSTSE past papers.
+    promptInstruction: `You are an examiner for the Unified Council. Generate an authentic NSTSE (National Level Science Talent Search Examination) paper strictly benchmarked against actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} NSTSE past papers.
 
 CRITICAL: Tailor the syllabus and complexity perfectly to the Student's Year Level provided by the system.
 
@@ -884,13 +884,13 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 45,
     defaultTime: 100,
-    promptInstruction: `You are an official question developer for the Primary School Leaving Examination (PSLE) Mathematics paper, administered by the Singapore Examinations and Assessment Board (SEAB) under the Ministry of Education (MOE) Singapore. Generate an authentic PSLE Mathematics paper modelled on actual 2019–2024 PSLE Maths papers.
+    promptInstruction: `You are an official question developer for the Primary School Leaving Examination (PSLE) Mathematics paper, administered by the Singapore Examinations and Assessment Board (SEAB) under the Ministry of Education (MOE) Singapore. Generate an authentic PSLE Mathematics paper modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} PSLE Maths papers.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • SEAB PSLE Standard — the high-stakes national exit exam for Singapore Primary 6 students entering secondary school streaming.
 • Part 1 (Short Answer — no calculator): 30 questions. Quick computation, 1–2 step problems, fill-in-the-blank format requiring exact numerical answers.
 • Part 2 (Long Answer — calculator allowed): 15 questions. Multi-step complex problem solving requiring full working. Questions are worth 2–5 marks each.
-• Mirror authentic PSLE 2022–2024 question style: bar model method expected for word problems, model drawing approach, "unitary method" (finding 1 unit then scaling), before-after comparison problems.
+• Mirror authentic PSLE ${new Date().getFullYear() - 5}-${new Date().getFullYear()} question style: bar model method expected for word problems, model drawing approach, "unitary method" (finding 1 unit then scaling), before-after comparison problems.
 • PSLE signature question types: excess-and-shortage problems, work backwards problems, simultaneous equations using the model method (no algebra required but algebra shortcut allowed), overlapping time periods.
 • VISUAL DIAGRAM MANDATE: AT LEAST 40% of questions must include inline svgCode (bar models, geometry figures, pie charts, tables, number patterns).
 
@@ -916,11 +916,11 @@ FORMATTING RULES:
     subject: 'english',
     defaultQuestions: 40,
     defaultTime: 60,
-    promptInstruction: `You are an official question developer for the PSLE English Language paper, administered by the Singapore Examinations and Assessment Board (SEAB). Generate an authentic PSLE English Language practice paper modelled on actual 2019–2024 PSLE English papers (Paper 2 — Language Use and Comprehension component).
+    promptInstruction: `You are an official question developer for the PSLE English Language paper, administered by the Singapore Examinations and Assessment Board (SEAB). Generate an authentic PSLE English Language practice paper modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} PSLE English papers (Paper 2 — Language Use and Comprehension component).
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • SEAB PSLE English Standard — high-stakes national exam for Singapore Primary 6 students.
-• Reflects 2021–2024 PSLE English redesign: Application of Grammar, Vocabulary Cloze, Comprehension Cloze, Synthesis & Transformation, Reading Comprehension.
+• Reflects ${new Date().getFullYear() - 5}-${new Date().getFullYear()} PSLE English redesign: Application of Grammar, Vocabulary Cloze, Comprehension Cloze, Synthesis & Transformation, Reading Comprehension.
 • Passages must be authentic, mature, literary-quality texts reflecting Singapore's multicultural, multilingual identity.
 
 OFFICIAL PSLE ENGLISH PAPER 2 COMPONENTS:
@@ -950,11 +950,11 @@ FORMATTING RULES:
     subject: 'science',
     defaultQuestions: 40,
     defaultTime: 60,
-    promptInstruction: `You are an official question developer for the PSLE Science paper, administered by the Singapore Examinations and Assessment Board (SEAB). Generate an authentic PSLE Science practice paper modelled on actual 2019–2024 PSLE Science papers (Booklet A: MCQ + Booklet B: Open-ended).
+    promptInstruction: `You are an official question developer for the PSLE Science paper, administered by the Singapore Examinations and Assessment Board (SEAB). Generate an authentic PSLE Science practice paper modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} PSLE Science papers (Booklet A: MCQ + Booklet B: Open-ended).
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • SEAB PSLE Science Standard — tests application, not memorisation. Questions require CER (Claim-Evidence-Reasoning) structured thinking.
-• Reference actual PSLE 2022–2024 question styles: concept-application scenarios, graph interpretation, experimental variable identification, life cycle comparison diagrams, food web energy flow analysis.
+• Reference actual PSLE ${new Date().getFullYear() - 5}-${new Date().getFullYear()} question styles: concept-application scenarios, graph interpretation, experimental variable identification, life cycle comparison diagrams, food web energy flow analysis.
 • PSLE Science is NON-CALCULATOR, all quantitative analysis involves simple arithmetic.
 • VISUAL DIAGRAM MANDATE: At least 50% of questions must include inline svgCode: food webs, life cycles, experimental setups, adaptation diagrams, water cycle, electrical circuits.
 
@@ -990,7 +990,7 @@ FORMATTING RULES:
     subject: 'critical_thinking',
     defaultQuestions: 30,
     defaultTime: 40,
-    promptInstruction: `You are an expert test creator for UK 11+ Entrance Examinations (GL Assessment & CEM style for Grammar & Independent Schools). Generate an authentic UK 11+ Reasoning examination paper, modelled on actual 2020–2024 GL Assessment and CEM 11+ papers used by top grammar schools (Sutton Selective Schools, Kent Grammar Schools, Berkshire Grammar Schools) and independent schools (Dulwich College, St Paul's Girls').
+    promptInstruction: `You are an expert test creator for UK 11+ Entrance Examinations (GL Assessment & CEM style for Grammar & Independent Schools). Generate an authentic UK 11+ Reasoning examination paper, modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} GL Assessment and CEM 11+ papers used by top grammar schools (Sutton Selective Schools, Kent Grammar Schools, Berkshire Grammar Schools) and independent schools (Dulwich College, St Paul's Girls').
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • GL Assessment & CEM UK Grammar School Entrance Rigor.
@@ -1016,13 +1016,13 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 35,
     defaultTime: 35,
-    promptInstruction: `You are a CEM (Centre for Evaluation and Monitoring, Durham University) question developer for the UK 11+ Numerical Reasoning test. Generate an authentic CEM-style Numerical Reasoning paper, modelled on actual 2020–2024 CEM 11+ tests used by selective grammar schools in Buckinghamshire, Birmingham, Gloucestershire, Lincolnshire, and Wiltshire.
+    promptInstruction: `You are a CEM (Centre for Evaluation and Monitoring, Durham University) question developer for the UK 11+ Numerical Reasoning test. Generate an authentic CEM-style Numerical Reasoning paper, modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} CEM 11+ tests used by selective grammar schools in Buckinghamshire, Birmingham, Gloucestershire, Lincolnshire, and Wiltshire.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • CEM 11+ Numerical Reasoning Standard — extremely time-pressured (approximately 45 seconds per question).
 • Questions must look deceptively simple but require multi-step reasoning, flexible mental arithmetic, and number sense — not just recall.
 • CEM trademark: Data Sufficiency problems, number grid patterns, money calculation chains, and time interval calculations.
-• Mirror authentic CEM 2022–2024 Numerical Reasoning style: short numerical word problems (2–4 lines max), mental arithmetic without calculators, and rapid number pattern completion.
+• Mirror authentic CEM ${new Date().getFullYear() - 5}-${new Date().getFullYear()} Numerical Reasoning style: short numerical word problems (2–4 lines max), mental arithmetic without calculators, and rapid number pattern completion.
 
 OFFICIAL CEM NUMERICAL REASONING DOMAINS (35 Questions / 35 Minutes — NO CALCULATOR):
 1. MENTAL ARITHMETIC (30%): Rapid 4-operation calculations with whole numbers, fractions, decimals, and percentages. Estimate and check questions. Finding unknowns (missing number problems).
@@ -1046,13 +1046,13 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 25,
     defaultTime: 60,
-    promptInstruction: `You are a question setter for the UK 13+ Common Entrance Examination in Mathematics, administered by ISEB (Independent Schools Examinations Board) for entry into leading UK independent secondary schools (Eton, Harrow, Winchester, Wycombe Abbey, Cheltenham Ladies' College). Generate an authentic 13+ CE Mathematics paper modelled on actual 2018–2024 ISEB 13+ CE Maths papers (Level 2 — standard level).
+    promptInstruction: `You are a question setter for the UK 13+ Common Entrance Examination in Mathematics, administered by ISEB (Independent Schools Examinations Board) for entry into leading UK independent secondary schools (Eton, Harrow, Winchester, Wycombe Abbey, Cheltenham Ladies' College). Generate an authentic 13+ CE Mathematics paper modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} ISEB 13+ CE Maths papers (Level 2 — standard level).
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • ISEB 13+ Common Entrance Level 2 Standard — challenging pre-GCSE mathematics for academically able 13-year-olds.
 • Covers KS3 mathematics fully, including introductory algebra, simultaneous equations, and geometric proof.
 • Questions are structured: Method marks (M) + Accuracy marks (A), mirroring ISEB mark scheme style.
-• Mirror authentic ISEB 13+ CE Maths 2022–2024 papers: mix of 1-mark, 2-mark, and 3-mark questions; UK context (speed in mph, currency in £).
+• Mirror authentic ISEB 13+ CE Maths ${new Date().getFullYear() - 5}-${new Date().getFullYear()} papers: mix of 1-mark, 2-mark, and 3-mark questions; UK context (speed in mph, currency in £).
 
 OFFICIAL ISEB 13+ CE MATHS DOMAINS (25 Questions / 60 Minutes):
 1. NUMBER (20%): Standard form (scientific notation), indices, prime factorisation, LCM/HCF, ratio & proportion, percentage increase/decrease/reverse percentages, compound interest, bounds.
@@ -1076,13 +1076,13 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 30,
     defaultTime: 45,
-    promptInstruction: `You are a question setter for the UK GCSE Mathematics examination, modelled on the AQA GCSE Mathematics Higher Tier specification (8300/2H and 8300/3H), with reference to Edexcel (1MA1) and OCR (J560) past papers from 2017–2024. Generate an authentic GCSE Maths Higher Tier practice paper.
+    promptInstruction: `You are a question setter for the UK GCSE Mathematics examination, modelled on the AQA GCSE Mathematics Higher Tier specification (8300/2H and 8300/3H), with reference to Edexcel (1MA1) and OCR (J560) past papers from ${new Date().getFullYear() - 5}-${new Date().getFullYear()}. Generate an authentic GCSE Maths Higher Tier practice paper.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • AQA GCSE Higher Tier Standard — targeting Grade 7–9 students.
 • Mix of Paper 1 (Non-Calculator) and Paper 2/3 (Calculator-allowed) style questions.
 • Include AQA's "Problem Solving" questions (worth 3–5 marks, requiring multi-step modelling and reasoning, not routine application).
-• Mirror AQA 2022–2024 GCSE Higher question style: 1-mark retrieval questions, 2–3-mark method questions, 4–5-mark multi-step problem-solving questions, and "proof" or "show that" questions.
+• Mirror AQA ${new Date().getFullYear() - 5}-${new Date().getFullYear()} GCSE Higher question style: 1-mark retrieval questions, 2–3-mark method questions, 4–5-mark multi-step problem-solving questions, and "proof" or "show that" questions.
 • VISUAL DIAGRAM MANDATE: At least 40% of questions must include inline svgCode (geometry figures, graphs, scatter plots, histograms, cumulative frequency curves).
 
 OFFICIAL AQA GCSE MATHS HIGHER DOMAINS:
@@ -1107,12 +1107,12 @@ FORMATTING RULES:
     subject: 'english',
     defaultQuestions: 8,
     defaultTime: 45,
-    promptInstruction: `You are a question setter for the UK GCSE English Language examination, modelled on the AQA GCSE English Language specification (8700), with reference to past papers from AQA, Edexcel, and OCR from 2017–2024. Generate an authentic GCSE English Language Paper 1 (Explorations in Creative Reading and Writing) practice paper.
+    promptInstruction: `You are a question setter for the UK GCSE English Language examination, modelled on the AQA GCSE English Language specification (8700), with reference to past papers from AQA, Edexcel, and OCR from ${new Date().getFullYear() - 5}-${new Date().getFullYear()}. Generate an authentic GCSE English Language Paper 1 (Explorations in Creative Reading and Writing) practice paper.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • AQA GCSE English Language Paper 1 Standard — targeting Grade 6–9 students.
 • Source Text: Generate a high-quality 600–800 word literary prose extract (published-quality fiction, set in the 20th or 21st century). The text must contain rich descriptive language, narrative tension, character development, and structural techniques.
-• Mirror AQA 2019–2024 Paper 1 question structure exactly — same question types, same mark allocations, same assessment objectives (AO1, AO2, AO3, AO5, AO6).
+• Mirror AQA ${new Date().getFullYear() - 5}-${new Date().getFullYear()} Paper 1 question structure exactly — same question types, same mark allocations, same assessment objectives (AO1, AO2, AO3, AO5, AO6).
 
 OFFICIAL AQA GCSE ENGLISH LANGUAGE PAPER 1 STRUCTURE:
 SECTION A — Reading (40 marks total):
@@ -1143,13 +1143,13 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 22,
     defaultTime: 35,
-    promptInstruction: `You are an official US College Board Digital SAT Math test author. Generate an authentic Digital SAT Math section practice paper (Multistage Adaptive Testing format), modelled on actual College Board Digital SAT Math released practice tests (Practice Test 1–6, 2023–2024) available on Khan Academy and College Board.
+    promptInstruction: `You are an official US College Board Digital SAT Math test author. Generate an authentic Digital SAT Math section practice paper (Multistage Adaptive Testing format), modelled on actual College Board Digital SAT Math released practice tests (Practice Test 1–6, ${new Date().getFullYear() - 5}-${new Date().getFullYear()}) available on Khan Academy and College Board.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • US College Board Official Digital SAT Rigor (Includes Section 2 Adaptive Hard-Module Level Challenge Questions).
 • Feature multi-step quadratics, exponential modeling, circle equations (x-h)^2 + (y-k)^2 = r^2, right-triangle trig, and Student-Produced Response (Grid-In) numerical entry.
 • VISUAL DIAGRAM MANDATE: AT LEAST 40% of questions MUST be visual diagram-based questions containing valid, high-quality inline "svgCode" (coordinate plane parabolas, circle graphs, right triangles, scatter plots, or data tables).
-• Reference real SAT Math question styles from College Board 2023–2024 released tests: linear models with real-world context, system of equations from table data, quadratic vertex form application, statistics margin-of-error interpretation.
+• Reference real SAT Math question styles from College Board ${new Date().getFullYear() - 5}-${new Date().getFullYear()} released tests: linear models with real-world context, system of equations from table data, quadratic vertex form application, statistics margin-of-error interpretation.
 
 OFFICIAL DIGITAL SAT MATH DOMAINS (Desmos Graphing Calculator Allowed for All Questions):
 1. ALGEBRA (35%): Linear equations in 1 & 2 variables, systems of linear equations, linear inequalities, and interpreting linear models (y = mx + b).
@@ -1173,12 +1173,12 @@ FORMATTING RULES:
     subject: 'english',
     defaultQuestions: 27,
     defaultTime: 32,
-    promptInstruction: `You are an official US College Board Digital SAT Reading & Writing test developer. Generate an authentic Digital SAT Reading & Writing module paper, modelled on actual College Board Digital SAT R&W released practice tests (Practice Test 1–6, 2023–2024).
+    promptInstruction: `You are an official US College Board Digital SAT Reading & Writing test developer. Generate an authentic Digital SAT Reading & Writing module paper, modelled on actual College Board Digital SAT R&W released practice tests (Practice Test 1–6, ${new Date().getFullYear() - 5}-${new Date().getFullYear()}).
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • US College Board Official Reading & Writing Benchmark Rigor.
 • Feature 25–150 word scholarly/scientific passages with advanced academic vocabulary in context, semicolon/colon boundary rules, and rhetorical synthesis note integration.
-• Reference authentic Digital SAT R&W 2023–2024 question styles: single-passage vocabulary context questions, paired passage cross-text connection questions, Note Integration "which choice most logically completes the text" questions.
+• Reference authentic Digital SAT R&W ${new Date().getFullYear() - 5}-${new Date().getFullYear()} question styles: single-passage vocabulary context questions, paired passage cross-text connection questions, Note Integration "which choice most logically completes the text" questions.
 
 OFFICIAL DIGITAL SAT R&W DOMAINS (1 Short Passage 25–150 words PER Question):
 1. CRAFT & STRUCTURE (28%): Words in Context (selecting high-utility academic vocabulary that fits text tone). Text Structure & Purpose (analyzing passage function). Cross-Text Connections (comparing paired short passages).
@@ -1202,14 +1202,14 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 60,
     defaultTime: 60,
-    promptInstruction: `You are a question developer for the ACT Mathematics test, administered by ACT Inc. Generate an authentic ACT Math practice paper modelled on actual 2020–2024 ACT released tests and official ACT Prep Guide practice tests.
+    promptInstruction: `You are a question developer for the ACT Mathematics test, administered by ACT Inc. Generate an authentic ACT Math practice paper modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} ACT released tests and official ACT Prep Guide practice tests.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • ACT Official Mathematics Section Standard — 60 questions, 60 minutes.
 • Questions progress in difficulty: Questions 1–20 (DOK 1–2, straightforward), Questions 21–40 (DOK 2–3, multi-step), Questions 41–60 (DOK 3, challenging and abstract).
 • ACT Calculator Permitted throughout (unlike SAT's non-calculator section).
 • ACT Trademark: 5 answer choices (A/B/C/D/E for odd-numbered, F/G/H/J/K for even-numbered). Generate in alternating A–E / F–K format as per real ACT.
-• Reference authentic ACT 2022–2024 question types: trigonometric identities, logarithm properties, complex numbers (basic), permutations/combinations, geometric sequences.
+• Reference authentic ACT ${new Date().getFullYear() - 5}-${new Date().getFullYear()} question types: trigonometric identities, logarithm properties, complex numbers (basic), permutations/combinations, geometric sequences.
 
 OFFICIAL ACT MATH CONTENT DOMAINS (60 Questions / 60 Minutes):
 1. PREPARING FOR HIGHER MATH (57–60%):
@@ -1236,12 +1236,12 @@ FORMATTING RULES:
     subject: 'science',
     defaultQuestions: 40,
     defaultTime: 35,
-    promptInstruction: `You are a question developer for the ACT Science Reasoning test, administered by ACT Inc. Generate an authentic ACT Science practice paper modelled on actual 2020–2024 ACT released tests and the official ACT Prep Guide.
+    promptInstruction: `You are a question developer for the ACT Science Reasoning test, administered by ACT Inc. Generate an authentic ACT Science practice paper modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} ACT released tests and the official ACT Prep Guide.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • ACT Science Standard — 6–7 passages (Data Representation, Research Summaries, Conflicting Viewpoints), 40 questions, 35 minutes.
 • Tests scientific reasoning and data analysis skills — NOT scientific knowledge recall. Students do not need to memorise facts; they must interpret data and reasoning.
-• Reference authentic ACT Science 2022–2024 passage types: Biology ecology data tables, Physics spring constant F=kx experiments, Chemistry titration curves, Earth Science climate core data.
+• Reference authentic ACT Science ${new Date().getFullYear() - 5}-${new Date().getFullYear()} passage types: Biology ecology data tables, Physics spring constant F=kx experiments, Chemistry titration curves, Earth Science climate core data.
 • Each passage MUST include data in the form of tables, graphs, or diagrams (rendered as inline svgCode).
 
 OFFICIAL ACT SCIENCE PASSAGE TYPES (40 Questions / 35 Minutes):
@@ -1265,13 +1265,13 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 25,
     defaultTime: 40,
-    promptInstruction: `You are a question setter for the AMC 8 (American Mathematics Competition 8), administered by the Mathematical Association of America (MAA) / Art of Problem Solving for students in Grade 8 and below. Generate an authentic AMC 8 practice paper modelled on actual 2018–2024 AMC 8 official papers.
+    promptInstruction: `You are a question setter for the AMC 8 (American Mathematics Competition 8), administered by the Mathematical Association of America (MAA) / Art of Problem Solving for students in Grade 8 and below. Generate an authentic AMC 8 practice paper modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} AMC 8 official papers.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • MAA AMC 8 Standard — 25 questions, 40 minutes, no calculator.
 • Difficulty progression: Questions 1–8 (straightforward, AMC Intro level), Questions 9–16 (moderate, requiring a key insight), Questions 17–25 (challenging, requiring creative problem-solving, multiple insights, and mathematical elegance).
 • AMC 8 trademark: Problems that reward mathematical creativity over computational brute force. Include problems with clever "aha moment" solutions.
-• Reference actual AMC 8 problems from 2020, 2021, 2022, and 2023 official papers: digit sum puzzles, clock hands angles, overlapping areas, weighted averages, counting paths in grids, geometric probability.
+• Reference actual AMC 8 problems from the most recent 4 years of official papers: digit sum puzzles, clock hands angles, overlapping areas, weighted averages, counting paths in grids, geometric probability.
 • VISUAL DIAGRAM MANDATE: At least 40% of questions must include inline svgCode geometry figures, grid diagrams, or number line diagrams — exactly as AMC 8 presents them.
 
 OFFICIAL AMC 8 CONTENT AREAS (25 Questions / 40 Minutes — NO CALCULATOR):
@@ -1298,13 +1298,13 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 25,
     defaultTime: 60,
-    promptInstruction: `You are a question developer for the Gauss Contest, administered by the Centre for Education in Mathematics and Computing (CEMC) at the University of Waterloo, Canada. Generate an authentic Gauss Contest paper (Grade 7 or Grade 8 level) modelled on actual 2018–2024 CEMC Gauss Contest official papers published on the CEMC website.
+    promptInstruction: `You are a question developer for the Gauss Contest, administered by the Centre for Education in Mathematics and Computing (CEMC) at the University of Waterloo, Canada. Generate an authentic Gauss Contest paper (Grade 7 or Grade 8 level) modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} CEMC Gauss Contest official papers published on the CEMC website.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • CEMC Gauss Contest Standard — accessible top section, challenging bottom section, with elegant solutions.
 • Questions progress: Part A (10 questions, straightforward, 5 marks each), Part B (10 questions, multi-step, 6 marks each), Part C (5 questions, challenging, 8 marks each).
 • CEMC Gauss trademark: Questions based on real-world Canadian contexts (Canadian geography, currency in Canadian dollars, hockey, maple syrup production, Niagara Falls distances). Problems that have clean integer answers.
-• Reference authentic Gauss 2021–2024 questions: ratio problems with tables, consecutive integer puzzles, clock overlap problems, shaded region geometry, pigeonhole-based counting.
+• Reference authentic Gauss ${new Date().getFullYear() - 5}-${new Date().getFullYear()} questions: ratio problems with tables, consecutive integer puzzles, clock overlap problems, shaded region geometry, pigeonhole-based counting.
 • Negative marking: Unanswered questions receive 2 marks (not a penalty); wrong answers receive 0. Encourage risk-taking insight!
 • VISUAL DIAGRAM MANDATE: At least 30% of questions must include inline svgCode.
 
@@ -1330,7 +1330,7 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 21,
     defaultTime: 45,
-    promptInstruction: `You are an official GMAC (Graduate Management Admission Council) test developer for the GMAT Focus Edition (Quantitative Reasoning section). Generate an authentic GMAT Focus Edition Quantitative Reasoning practice paper, modelled on official GMAC Official Guide 2023–2024 and GMAT Focus Official Practice Exams 1–6.
+    promptInstruction: `You are an official GMAC (Graduate Management Admission Council) test developer for the GMAT Focus Edition (Quantitative Reasoning section). Generate an authentic GMAT Focus Edition Quantitative Reasoning practice paper, modelled on official GMAC Official Guide ${new Date().getFullYear() - 5}-${new Date().getFullYear()} and GMAT Focus Official Practice Exams 1–6.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • GMAC GMAT Focus Official Standard — 21 questions, 45 minutes.
@@ -1358,7 +1358,7 @@ FORMATTING RULES:
     subject: 'english',
     defaultQuestions: 23,
     defaultTime: 45,
-    promptInstruction: `You are an official GMAC (Graduate Management Admission Council) test developer for the GMAT Focus Edition (Verbal Reasoning section). Generate an authentic GMAT Focus Edition Verbal Reasoning practice paper, modelled on GMAC Official Guide 2023–2024 and GMAT Focus Practice Exams 1–6.
+    promptInstruction: `You are an official GMAC (Graduate Management Admission Council) test developer for the GMAT Focus Edition (Verbal Reasoning section). Generate an authentic GMAT Focus Edition Verbal Reasoning practice paper, modelled on GMAC Official Guide ${new Date().getFullYear() - 5}-${new Date().getFullYear()} and GMAT Focus Practice Exams 1–6.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • GMAC GMAT Focus Official Standard — 23 questions, 45 minutes.
@@ -1393,7 +1393,7 @@ FORMATTING RULES:
     subject: 'critical_thinking',
     defaultQuestions: 20,
     defaultTime: 45,
-    promptInstruction: `You are an official GMAC (Graduate Management Admission Council) test developer for the GMAT Focus Edition (Data Insights section). Generate an authentic GMAT Focus Edition Data Insights practice paper, modelled on GMAC Official Guide Data Insights 2023–2024.
+    promptInstruction: `You are an official GMAC (Graduate Management Admission Council) test developer for the GMAT Focus Edition (Data Insights section). Generate an authentic GMAT Focus Edition Data Insights practice paper, modelled on GMAC Official Guide Data Insights ${new Date().getFullYear() - 5}-${new Date().getFullYear()}.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • GMAC GMAT Focus Official Standard — 20 questions, 45 minutes.
@@ -1429,13 +1429,13 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 25,
     defaultTime: 90,
-    promptInstruction: `You are a question setter for SEAMO (South East Asian Mathematical Olympiad), a prestigious mathematics competition spanning 20+ countries including Singapore, Malaysia, Philippines, Thailand, Indonesia, Vietnam, and Myanmar. Generate an authentic SEAMO paper modelled on actual 2018–2024 SEAMO official papers for the target paper level (Paper A for Grade 1–2 through Paper F for Grade 9–10).
+    promptInstruction: `You are a question setter for SEAMO (South East Asian Mathematical Olympiad), a prestigious mathematics competition spanning 20+ countries including Singapore, Malaysia, Philippines, Thailand, Indonesia, Vietnam, and Myanmar. Generate an authentic SEAMO paper modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} SEAMO official papers for the target paper level (Paper A for Grade 1–2 through Paper F for Grade 9–10).
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • SEAMO International Olympiad Standard — Gold Medal level difficulty in the final 5 questions.
 • Questions must emphasise elegant mathematical reasoning, creativity, and non-routine approaches over computational speed.
 • SEAMO trademark: Section 1 (Multiple Choice — 20 questions, 2 points each), Section 2 (Open-Ended Short Answer — 5 questions, 4 points each, partial credit with working).
-• Reference actual SEAMO 2021–2024 question types: systematic listing, number patterns, angle chasing in circles, area ratio in dissected triangles, modular arithmetic puzzles, logic grid deductions.
+• Reference actual SEAMO ${new Date().getFullYear() - 5}-${new Date().getFullYear()} question types: systematic listing, number patterns, angle chasing in circles, area ratio in dissected triangles, modular arithmetic puzzles, logic grid deductions.
 • VISUAL DIAGRAM MANDATE: At least 50% of questions must include inline svgCode geometry, grid, or table diagrams.
 
 OFFICIAL SEAMO STRUCTURE (25 Questions / 90 Minutes — NO CALCULATOR):
@@ -1461,13 +1461,13 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 25,
     defaultTime: 75,
-    promptInstruction: `You are a question setter for SASMO (Singapore and Asian Schools Math Olympiad), an international mathematics competition held in 50+ countries, administered by SIMCC (Singapore International Math Contests Centre). Generate an authentic SASMO paper modelled on actual 2019–2024 SASMO official papers at the target grade level.
+    promptInstruction: `You are a question setter for SASMO (Singapore and Asian Schools Math Olympiad), an international mathematics competition held in 50+ countries, administered by SIMCC (Singapore International Math Contests Centre). Generate an authentic SASMO paper modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} SASMO official papers at the target grade level.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • SASMO International Gold Standard — difficulty significantly above regular school curriculum, targeting the top 40% of students.
 • SASMO trademark structure: Section 1 (15 MCQ, 3 points each), Section 2 (10 Short Answer, 4 points each), with a distinct difficulty ramp.
 • NO PENALTY for wrong MCQ answers; −1 mark for blank answers (to discourage guessing).
-• Reference authentic SASMO 2022–2024 question types: systematic counting using multiplication principle, before-after fraction transfer, circle inscribed in square area problems, code-breaking sequence logic, consecutive sum number theory.
+• Reference authentic SASMO ${new Date().getFullYear() - 5}-${new Date().getFullYear()} question types: systematic counting using multiplication principle, before-after fraction transfer, circle inscribed in square area problems, code-breaking sequence logic, consecutive sum number theory.
 • VISUAL DIAGRAM MANDATE: At least 40% of questions must include inline svgCode.
 
 OFFICIAL SASMO STRUCTURE (25 Questions / 75 Minutes — NO CALCULATOR):
@@ -1495,13 +1495,13 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 20,
     defaultTime: 90,
-    promptInstruction: `You are a question setter for AMO (Asia Mathematical Olympiad), an elite international mathematics competition spanning 35+ countries in Asia and globally, hosted by SIMCC (Singapore International Math Contests Centre) and partner organizations. Generate an authentic AMO paper modelled on actual 2019–2024 AMO official papers at the Intermediate/Advanced level.
+    promptInstruction: `You are a question setter for AMO (Asia Mathematical Olympiad), an elite international mathematics competition spanning 35+ countries in Asia and globally, hosted by SIMCC (Singapore International Math Contests Centre) and partner organizations. Generate an authentic AMO paper modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} AMO official papers at the Intermediate/Advanced level.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
 • AMO Elite Olympiad Standard — highest difficulty tier among SIMCC competitions. Questions at this level challenge even national team training students.
 • AMO trademark: 15 MCQ (3 marks each), 5 Open-Ended Challenge problems (10 marks each, partial credit for method).
 • Challenge problems (Q16–20) must require multi-concept integration: combinatorial geometry, number theory with modular arithmetic, functional equations, or graph theory.
-• Reference authentic AMO 2021–2024 question styles: classic Olympiad combinatorics (coloring, pigeonhole), elegant number theory (Diophantine equations, GCD properties), geometry (angle chasing, trigonometric identities, coordinate geometry proofs).
+• Reference authentic AMO ${new Date().getFullYear() - 5}-${new Date().getFullYear()} question styles: classic Olympiad combinatorics (coloring, pigeonhole), elegant number theory (Diophantine equations, GCD properties), geometry (angle chasing, trigonometric identities, coordinate geometry proofs).
 • VISUAL DIAGRAM MANDATE: At least 50% of questions must include inline svgCode for geometry, combinatorics diagrams, or number theory tables.
 
 OFFICIAL AMO STRUCTURE (20 Questions / 90 Minutes — NO CALCULATOR):
