@@ -2692,7 +2692,12 @@ Include a balanced combination of question types such as:
       
       // Update local state immediately for UI responsiveness
       setTeacherBilling(prev => ({ ...prev, cancelAtPeriodEnd: true }));
-      alert("Your subscription has been scheduled to cancel at the end of the billing cycle.");
+      
+      // Force Firestore update to prevent desync if Stripe webhook fails/delays
+      await setDoc(doc(db, 'teachers', user.uid), {
+        billing: { cancelAtPeriodEnd: true }
+      }, { merge: true }).catch(err => console.error("Firestore sync error:", err));
+
     } catch (err) {
       console.error(err);
       alert("Error canceling subscription: " + err.message);
@@ -2727,6 +2732,12 @@ Include a balanced combination of question types such as:
       
       // Update local state immediately for UI responsiveness
       setTeacherBilling(prev => ({ ...prev, cancelAtPeriodEnd: false }));
+      
+      // Force Firestore update to prevent desync if Stripe webhook fails/delays
+      await setDoc(doc(db, 'teachers', user.uid), {
+        billing: { cancelAtPeriodEnd: false }
+      }, { merge: true }).catch(err => console.error("Firestore sync error:", err));
+
     } catch (err) {
       console.error(err);
       alert("Error resuming subscription: " + err.message);
