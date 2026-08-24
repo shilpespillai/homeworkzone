@@ -52,7 +52,8 @@ import {
   Code,
   Coins,
   RotateCcw,
-  Sparkles
+  Sparkles,
+  Rocket
 } from 'lucide-react';
 import EmojiPicker from '../components/EmojiPicker';
 import { calcOptionCAnnual, fetchPricing, savePricing } from '../utils/pricingConfig';
