@@ -3105,7 +3105,7 @@ Include a balanced combination of question types such as:
             </div>
           </div>
 
-          {teacherBilling?.stripeCustomerId && (
+          {(teacherBilling?.stripeCustomerId || teacherBilling?.stripeSubscriptionId || teacherBilling?.status === 'active' || teacherBilling?.status === 'trialing') && (
             <div className="pt-4 border-t border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <p className="text-xs text-slate-400 font-bold">
                 {teacherBilling.cancelAtPeriodEnd 

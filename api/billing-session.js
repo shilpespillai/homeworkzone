@@ -40,10 +40,22 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing teacherId or email' });
     }
 
-    // 🌟🌟🌟 Stripe Customer Portal Redirect 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
-    if (action === 'portal' && customerId) {
+    // 🏦 Stripe Customer Portal Redirect 🏦
+    if (action === 'portal') {
+      let activeCustomerId = customerId;
+      if (!activeCustomerId && email) {
+        const customers = await stripe.customers.list({ email, limit: 1 });
+        if (customers.data.length > 0) {
+          activeCustomerId = customers.data[0].id;
+        }
+      }
+
+      if (!activeCustomerId) {
+        return res.status(400).json({ error: 'Could not find Stripe customer to open portal.' });
+      }
+
       const portalSession = await stripe.billingPortal.sessions.create({
-        customer: customerId,
+        customer: activeCustomerId,
         return_url: successUrl, // Redirect back to dashboard
       });
       return res.status(200).json({ url: portalSession.url });
