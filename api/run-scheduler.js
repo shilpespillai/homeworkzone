@@ -274,11 +274,8 @@ async function executeSchedule(sched, teacherData, teacherCode) {
       return false;
     }
 
-    // Build prompt
-    // Cap question count to 15 to prevent Claude from hitting the 4096 max output token limit
-    // which causes truncated JSON and triggers an infinite cron retry loop.
+    // Build prompt function
     const requestedCount = sched.questionCount || 5;
-    const qCount = requestedCount > 15 ? 15 : requestedCount;
     const curriculumName = sched.curriculumName || 'ACARA';
     
     const visualRules = `
@@ -295,8 +292,9 @@ CRITICAL VISUAL RULES:
 3. For Science (or topics needing cute artistic illustrations):
    - Include a short "imagePrompt" string describing the scene.`;
 
-    let prompt = `You are an expert curriculum designer.
-Create a ${qCount}-question multiple-choice quiz for students on the following:
+    const getPromptForCount = (targetCount) => {
+      let prompt = `You are an expert curriculum designer.
+Create a ${targetCount}-question multiple-choice quiz for students on the following:
 Subject: ${sched.subject}
 Topic/Concept: ${sched.topic}
 Grade Level: ${sched.grade}
@@ -310,39 +308,71 @@ ${(sched.subject?.toLowerCase().includes('science')) ? 'ABSOLUTE NO MATHS SUMS I
 
 ${visualRules}
 
-Return ONLY a JSON object with a single key "questions" containing an array of exactly ${qCount} objects. Each object must have: "id" (number), "text" (string), "options" (array of exactly 4 strings), "answer" (string matching one option exactly), "subtopic" (string), and optionally "chartData", "geometryData", or "imagePrompt". Do not include any markdown formatting.`;
+Return ONLY a JSON object with a single key "questions" containing an array of exactly ${targetCount} objects. Each object must have: "id" (number), "text" (string), "options" (array of exactly 4 strings), "answer" (string matching one option exactly), "subtopic" (string), and optionally "chartData", "geometryData", or "imagePrompt". Do not include any markdown formatting.`;
 
-    // Apply custom teacher prompt if available
-    const normSubject = sched.subject?.toLowerCase();
-    const promptKey = teacherData.subjectPrompts
-      ? Object.keys(teacherData.subjectPrompts).find(k => k.toLowerCase() === normSubject)
-      : null;
-    if (promptKey && teacherData.subjectPrompts[promptKey]) {
-      let custom = teacherData.subjectPrompts[promptKey];
-      const replacements = {
-        topic: sched.topic, grade: sched.grade, difficulty: sched.difficulty,
-        curriculum: curriculumName, subject: sched.subject,
-        questionCount: qCount, question_count: qCount, points: sched.points || '10'
-      };
-      Object.entries(replacements).forEach(([k, v]) => {
-        custom = custom.replace(new RegExp(`\\[${k}\\]`, 'gi'), String(v || ''));
-        custom = custom.replace(new RegExp(`\\{${k}\\}`, 'gi'), String(v || ''));
-      });
-      prompt = custom + `\n\n${visualRules}\n\nReturn ONLY a JSON object with a single key "questions" containing an array of exactly ${qCount} objects. Each object must have: "id" (number), "text" (string), "options" (array of exactly 4 strings), "answer" (string matching one option exactly), "subtopic" (string), and optionally "chartData", "geometryData", or "imagePrompt". Do not include any markdown formatting.`;
+      // Apply custom teacher prompt if available
+      const normSubject = sched.subject?.toLowerCase();
+      const promptKey = teacherData.subjectPrompts
+        ? Object.keys(teacherData.subjectPrompts).find(k => k.toLowerCase() === normSubject)
+        : null;
+      if (promptKey && teacherData.subjectPrompts[promptKey]) {
+        let custom = teacherData.subjectPrompts[promptKey];
+        const replacements = {
+          topic: sched.topic, grade: sched.grade, difficulty: sched.difficulty,
+          curriculum: curriculumName, subject: sched.subject,
+          questionCount: targetCount, question_count: targetCount, points: sched.points || '10'
+        };
+        Object.entries(replacements).forEach(([k, v]) => {
+          custom = custom.replace(new RegExp(`\\[${k}\\]`, 'gi'), String(v || ''));
+          custom = custom.replace(new RegExp(`\\{${k}\\}`, 'gi'), String(v || ''));
+        });
+        prompt = custom + `\n\n${visualRules}\n\nReturn ONLY a JSON object with a single key "questions" containing an array of exactly ${targetCount} objects. Each object must have: "id" (number), "text" (string), "options" (array of exactly 4 strings), "answer" (string matching one option exactly), "subtopic" (string), and optionally "chartData", "geometryData", or "imagePrompt". Do not include any markdown formatting.`;
+      }
+      return prompt;
+    };
+
+    // Chunk size cap: Max 10 questions per batch to eliminate token truncation
+    const CHUNK_SIZE = 10;
+    const chunkCounts = [];
+    let remainingToAssign = requestedCount;
+    while (remainingToAssign > 0) {
+      const currentChunk = Math.min(remainingToAssign, CHUNK_SIZE);
+      chunkCounts.push(currentChunk);
+      remainingToAssign -= currentChunk;
     }
 
-    // Call AI
-    let result;
-    if (activeModel.includes('gpt') || activeModel === 'openai') {
-      result = await callOpenAI(apiKey, prompt);
-    } else if (activeModel.includes('anthropic') || activeModel.includes('claude')) {
-      result = await callAnthropic(apiKey, prompt);
-    } else {
-      result = await callGemini(apiKey, prompt);
+    console.log(`[Scheduler] Generating ${requestedCount} questions in ${chunkCounts.length} parallel batches...`);
+
+    const batchPromises = chunkCounts.map(async (countToGen) => {
+      const prompt = getPromptForCount(countToGen);
+      let result;
+      try {
+        if (activeModel.includes('gpt') || activeModel === 'openai') {
+          result = await callOpenAI(apiKey, prompt);
+        } else if (activeModel.includes('anthropic') || activeModel.includes('claude')) {
+          result = await callAnthropic(apiKey, prompt);
+        } else {
+          result = await callGemini(apiKey, prompt);
+        }
+        return result.questions || result;
+      } catch (err) {
+        console.warn(`[Scheduler] Batch of ${countToGen} failed:`, err.message);
+        return [];
+      }
+    });
+
+    const batchResults = await Promise.all(batchPromises);
+    let questions = [];
+    for (const rawQs of batchResults) {
+      if (Array.isArray(rawQs)) {
+        questions.push(...rawQs);
+      }
     }
 
-    const questions = result.questions || result;
-    if (!Array.isArray(questions) || questions.length === 0) {
+    // Reassign IDs to be strictly sequential
+    questions = questions.map((q, idx) => ({ ...q, id: idx + 1 }));
+
+    if (questions.length === 0) {
       await schedRef.update({ lastRun: originalLastRun });
       return false;
     }
