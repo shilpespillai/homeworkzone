@@ -2664,13 +2664,16 @@ Include a balanced combination of question types such as:
       alert("Goal points progress has been reset back to 0! 🔄🎒 Let's build a new adventure!");
     } catch (err) {
       console.error("Reset Goal Progress Error:", err);
-      alert("Oops! Failed to reset goal progress. âŒ");
+      alert("Oops! Failed to reset goal progress. â Œ");
     }
   };
 
   const [isCancellingSub, setIsCancellingSub] = useState(false);
   const handleCancelSubscription = async () => {
-    if (!teacherBilling?.stripeSubscriptionId) return;
+    if (!teacherBilling?.stripeSubscriptionId) {
+      alert("No active billing subscription found to cancel. If you are on a simulated plan, lifetime access, or manual override, cancellation does not apply.");
+      return;
+    }
     if (!window.confirm("Are you sure you want to cancel your subscription? You will retain access until the end of your billing cycle.")) return;
     
     setIsCancellingSub(true);
@@ -2697,7 +2700,10 @@ Include a balanced combination of question types such as:
 
   const [isResumingSub, setIsResumingSub] = useState(false);
   const handleResumeSubscription = async () => {
-    if (!teacherBilling?.stripeSubscriptionId) return;
+    if (!teacherBilling?.stripeSubscriptionId) {
+      alert("No active billing subscription found to resume.");
+      return;
+    }
     
     setIsResumingSub(true);
     try {
