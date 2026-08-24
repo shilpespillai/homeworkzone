@@ -2670,6 +2670,7 @@ Include a balanced combination of question types such as:
 
   const [isCancellingSub, setIsCancellingSub] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const [showUpgradeWarningModal, setShowUpgradeWarningModal] = useState(false);
 
   const handleCancelSubscription = () => {
     setShowCancelModal(true);
@@ -2839,7 +2840,7 @@ Include a balanced combination of question types such as:
     // Prevent double subscriptions by forcing active users to use the Customer Portal for upgrades
     const currentPlanId = teacherBilling?.planId || 'free';
     if (action === 'checkout' && teacherBilling?.status === 'active' && currentPlanId !== 'free' && currentPlanId !== 'free_trial' && currentPlanId !== 'free_expired') {
-      alert("You already have an active subscription! To upgrade, switch plans, or view pricing, please click the 'Manage Billing' button above. This ensures your upgrade is safely prorated.");
+      setShowUpgradeWarningModal(true);
       return;
     }
 
@@ -10804,6 +10805,54 @@ Include a balanced combination of question types such as:
            </div>
          )}
        </AnimatePresence>
+
+       {/* Upgrade Warning Modal */}
+       <AnimatePresence>
+         {showUpgradeWarningModal && (
+           <div className="fixed inset-0 bg-[#3C2E75]/40 backdrop-blur-sm z-[200] flex-center p-6">
+             <motion.div 
+               initial={{ opacity: 0, scale: 0.9 }}
+               animate={{ opacity: 1, scale: 1 }}
+               exit={{ opacity: 0, scale: 0.9 }}
+               className="max-w-md w-full bg-white rounded-[40px] p-10 space-y-6 shadow-2xl border-8 border-orange-200 relative text-center"
+             >
+               <button 
+                 onClick={() => setShowUpgradeWarningModal(false)}
+                 className="absolute top-4 right-4 w-10 h-10 bg-orange-50 hover:bg-orange-100 text-orange-400 rounded-full flex-center transition-colors"
+               >
+                 <X className="w-5 h-5" />
+               </button>
+               <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center text-4xl mx-auto mb-2 text-orange-500">
+                 <AlertTriangle className="w-10 h-10" />
+               </div>
+               <h3 className="text-2xl font-black text-orange-900">Active Subscription</h3>
+               <p className="text-sm font-bold text-orange-700 leading-relaxed">
+                 You already have an active subscription! To upgrade or switch plans, please click the <strong>Manage Billing 💳</strong> button above. This ensures your upgrade is safely prorated so you don't get double-charged.
+               </p>
+               <div className="flex flex-col gap-3 pt-2">
+                 <button 
+                   onClick={() => {
+                     setShowUpgradeWarningModal(false);
+                     handleStripeSession(null, 'portal');
+                   }}
+                   disabled={isRedirectingStripe}
+                   className="w-full bg-orange-600 hover:bg-orange-700 text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-orange-200 disabled:opacity-50"
+                 >
+                   {isRedirectingStripe ? 'Opening Portal...' : 'Go to Manage Billing 💳'}
+                 </button>
+                 <button 
+                   onClick={() => setShowUpgradeWarningModal(false)}
+                   disabled={isRedirectingStripe}
+                   className="w-full bg-slate-100 hover:bg-slate-200 text-slate-500 py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50"
+                 >
+                   Nevermind
+                 </button>
+               </div>
+             </motion.div>
+           </div>
+         )}
+       </AnimatePresence>
+
 
        {/* Cancel Subscription Modal */}
        <AnimatePresence>
