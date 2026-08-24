@@ -2669,9 +2669,14 @@ Include a balanced combination of question types such as:
   };
 
   const [isCancellingSub, setIsCancellingSub] = useState(false);
-  const handleCancelSubscription = async () => {
-    if (!window.confirm("Are you sure you want to cancel your subscription? You will retain access until the end of your billing cycle.")) return;
-    
+  const [showCancelModal, setShowCancelModal] = useState(false);
+
+  const handleCancelSubscription = () => {
+    setShowCancelModal(true);
+  };
+
+  const executeCancelSubscription = async () => {
+    setShowCancelModal(false);
     setIsCancellingSub(true);
     try {
       const response = await fetch('/api/cancel-subscription', {
@@ -10727,6 +10732,46 @@ Include a balanced combination of question types such as:
                 </div>
               </motion.div>
             </div>
+         )}
+       </AnimatePresence>
+
+       {/* Cancel Subscription Modal */}
+       <AnimatePresence>
+         {showCancelModal && (
+           <div className="fixed inset-0 bg-[#3C2E75]/40 backdrop-blur-sm z-[200] flex-center p-6">
+             <motion.div 
+               initial={{ opacity: 0, scale: 0.9 }}
+               animate={{ opacity: 1, scale: 1 }}
+               exit={{ opacity: 0, scale: 0.9 }}
+               className="max-w-md w-full bg-white rounded-[40px] p-10 space-y-6 shadow-2xl border-8 border-rose-100 relative text-center"
+             >
+               <div className="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center text-4xl mx-auto mb-2 text-rose-500">
+                 <AlertCircle className="w-10 h-10" />
+               </div>
+               <h2 className="text-2xl font-black text-slate-800 tracking-tight">
+                 Cancel Subscription?
+               </h2>
+               <p className="text-sm font-medium text-slate-500 pb-2">
+                 Are you sure you want to cancel? You will retain access to your students and classes until the end of your current billing cycle.
+               </p>
+               <div className="flex flex-col gap-3 pt-2">
+                 <button 
+                   onClick={executeCancelSubscription}
+                   disabled={isCancellingSub}
+                   className="w-full bg-rose-600 hover:bg-rose-700 text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-rose-200 disabled:opacity-50"
+                 >
+                   {isCancellingSub ? 'Canceling...' : 'Yes, Cancel Subscription'}
+                 </button>
+                 <button 
+                   onClick={() => setShowCancelModal(false)}
+                   disabled={isCancellingSub}
+                   className="w-full bg-slate-100 hover:bg-slate-200 text-slate-500 py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50"
+                 >
+                   Keep My Plan
+                 </button>
+               </div>
+             </motion.div>
+           </div>
          )}
        </AnimatePresence>
 
