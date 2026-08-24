@@ -123,7 +123,8 @@ export default async function handler(req, res) {
       };
       const resolvedPlanId = session.metadata?.planId || map[lookupKey] || 'free';
       const quantity = item?.quantity || 1;
-      const currentPeriodEnd = new Date(subscription.current_period_end * 1000).toISOString();
+      const endTs = subscription.current_period_end || subscription.billing_cycle_anchor || (Date.now() / 1000 + 30 * 24 * 3600);
+      const currentPeriodEnd = new Date(endTs * 1000).toISOString();
       const customerId = session.customer;
 
       const billingData = {
@@ -363,7 +364,9 @@ export default async function handler(req, res) {
         proration_behavior: 'create_prorations',
       });
 
-      const currentPeriodEnd = new Date(updatedSubscription.current_period_end * 1000).toISOString();
+      const endTs = updatedSubscription.current_period_end || updatedSubscription.billing_cycle_anchor || (Date.now() / 1000 + 30 * 24 * 3600);
+      const currentPeriodEnd = new Date(endTs * 1000).toISOString();
+
       await db.collection('teachers').doc(teacherId).set({
         billing: {
           planId,

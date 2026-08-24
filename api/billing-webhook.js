@@ -122,7 +122,8 @@ export default async function handler(req, res) {
         const lookupKey = item?.price?.lookup_key || '';
         const planId = getPlanIdFromLookupKey(lookupKey);
         const quantity = item?.quantity || 1;
-        const currentPeriodEnd = new Date(subscription.current_period_end * 1000).toISOString();
+        const endTs = subscription.current_period_end || subscription.billing_cycle_anchor || (Date.now() / 1000 + 30 * 24 * 3600);
+        const currentPeriodEnd = new Date(endTs * 1000).toISOString();
 
         let billingData;
         if (event.type === 'customer.subscription.deleted' || subscription.status === 'canceled') {
