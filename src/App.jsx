@@ -583,7 +583,7 @@ const StudentProfile = ({ studentName, teacher, classroom, onProfileUpdate }) =>
       {/* Premium Avatar & Mascot Picker Modal */}
       {isAvatarModalOpen && (
          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[9999] flex-center p-4">
-            <div className="bg-white rounded-[36px] border border-slate-100 max-w-lg w-full p-8 space-y-6 shadow-2xl relative">
+            <div className="bg-white rounded-[36px] border border-slate-100 max-w-lg w-full p-8 space-y-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
                <div className="flex items-center justify-between">
                   <h3 className="text-2xl font-semibold text-[#2D3748] tracking-tighter">Choose Profile Mascot 🎨</h3>
                   <button 
