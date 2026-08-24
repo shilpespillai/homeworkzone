@@ -2670,10 +2670,6 @@ Include a balanced combination of question types such as:
 
   const [isCancellingSub, setIsCancellingSub] = useState(false);
   const handleCancelSubscription = async () => {
-    if (!teacherBilling?.stripeSubscriptionId) {
-      alert("No active billing subscription found to cancel. If you are on a simulated plan, lifetime access, or manual override, cancellation does not apply.");
-      return;
-    }
     if (!window.confirm("Are you sure you want to cancel your subscription? You will retain access until the end of your billing cycle.")) return;
     
     setIsCancellingSub(true);
@@ -2681,7 +2677,10 @@ Include a balanced combination of question types such as:
       const response = await fetch('/api/cancel-subscription', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subscriptionId: teacherBilling.stripeSubscriptionId })
+        body: JSON.stringify({ 
+          subscriptionId: teacherBilling?.stripeSubscriptionId,
+          email: user?.email
+        })
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Failed to cancel');
@@ -2700,17 +2699,16 @@ Include a balanced combination of question types such as:
 
   const [isResumingSub, setIsResumingSub] = useState(false);
   const handleResumeSubscription = async () => {
-    if (!teacherBilling?.stripeSubscriptionId) {
-      alert("No active billing subscription found to resume.");
-      return;
-    }
-    
     setIsResumingSub(true);
     try {
       const response = await fetch('/api/cancel-subscription', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subscriptionId: teacherBilling.stripeSubscriptionId, resume: true })
+        body: JSON.stringify({ 
+          subscriptionId: teacherBilling?.stripeSubscriptionId, 
+          email: user?.email,
+          resume: true 
+        })
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Failed to resume');
