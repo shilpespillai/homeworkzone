@@ -3153,6 +3153,7 @@ Include a balanced combination of question types such as:
               <ul className="text-xs text-slate-500 font-bold space-y-2.5">
                 <li className="flex items-center gap-2">✨ Pay only for active students</li>
                 <li className="flex items-center gap-2">📈 Scales automatically as you add/remove</li>
+                <li className="flex items-center gap-2">📄 {globalPricing.optionA_paperQuota} papers / month included</li>
                 <li className="flex items-center gap-2">🔓 No long term annual commitment</li>
                 <li className="flex items-center gap-2">🎯 Perfect for tutor/mid-semester setups</li>
               </ul>
@@ -3213,14 +3214,15 @@ Include a balanced combination of question types such as:
               </div>
               <div className="space-y-3 pt-2">
                 {[
-                  { id: 'option-b-starter', name: 'Starter (11-20 students)', price: globalPricing.optionB_starter_price, seats: 20 },
-                  { id: 'option-b-growth', name: 'Growth (21-30 students)', price: globalPricing.optionB_growth_price, seats: 30 },
+                  { id: 'option-b-starter', name: 'Starter (11-20 students)', price: globalPricing.optionB_starter_price, seats: 20, papers: globalPricing.optionB_starter_paperQuota },
+                  { id: 'option-b-growth', name: 'Growth (21-30 students)', price: globalPricing.optionB_growth_price, seats: 30, papers: globalPricing.optionB_growth_paperQuota },
                   
                 ].map((tier) => (
                   <div key={tier.id} className="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl">
                     <div>
                       <p className="text-xs font-bold text-slate-700">{tier.name}</p>
-                      <p className="text-[10px] font-medium text-slate-400">${(tier.price / tier.seats).toFixed(2)} / student equivalent</p>
+                      <p className="text-[10px] font-medium text-slate-400 mb-1">${(tier.price / tier.seats).toFixed(2)} / student equivalent</p>
+                      <p className="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded border border-orange-100 inline-block">📄 {tier.papers} papers / mo</p>
                     </div>
                     {activePlanId === tier.id ? (
                       <div className="flex flex-col gap-1 w-24">
@@ -3300,6 +3302,10 @@ Include a balanced combination of question types such as:
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
                   <span>1,001+ students</span>
                   <span>$14 / student / yr</span>
+                </div>
+                <div className="flex justify-between items-center text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-1.5 rounded mt-2 border border-emerald-100">
+                  <span>Includes</span>
+                  <span>📄 {globalPricing.optionC_paperQuota} papers / year</span>
                 </div>
               </div>
             </div>
