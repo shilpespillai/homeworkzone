@@ -341,6 +341,41 @@ export default async function handler(req, res) {
       quantity = Math.max(31, parseInt(studentCount, 10) || 31);
     }
 
+    // 🌟 1-Click Upgrade Logic 🌟
+    if (action === 'upgrade') {
+      const teacherDoc = await db.collection('teachers').doc(teacherId).get();
+      const teacherBilling = teacherDoc.data()?.billing || {};
+      const subscriptionId = teacherBilling.stripeSubscriptionId;
+
+      if (!subscriptionId) {
+        return res.status(400).json({ error: 'No active subscription found to upgrade.' });
+      }
+
+      const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+      const subscriptionItemId = subscription.items.data[0].id;
+
+      const updatedSubscription = await stripe.subscriptions.update(subscriptionId, {
+        items: [{
+          id: subscriptionItemId,
+          price: priceId,
+          quantity: isDynamic ? quantity : 1,
+        }],
+        proration_behavior: 'create_prorations',
+      });
+
+      const currentPeriodEnd = new Date(updatedSubscription.current_period_end * 1000).toISOString();
+      await db.collection('teachers').doc(teacherId).set({
+        billing: {
+          planId,
+          quantity: isDynamic ? quantity : 1,
+          currentPeriodEnd,
+          updatedAt: new Date().toISOString()
+        }
+      }, { merge: true });
+
+      return res.status(200).json({ success: true, upgraded: true, planId });
+    }
+
     // 4. Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
       customer: stripeCustomerId,

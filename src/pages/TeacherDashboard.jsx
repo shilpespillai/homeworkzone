@@ -2670,7 +2670,8 @@ Include a balanced combination of question types such as:
 
   const [isCancellingSub, setIsCancellingSub] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
-  const [showUpgradeWarningModal, setShowUpgradeWarningModal] = useState(false);
+  const [upgradeTargetPlan, setUpgradeTargetPlan] = useState(null);
+  const [isUpgrading, setIsUpgrading] = useState(false);
 
   const handleCancelSubscription = () => {
     setShowCancelModal(true);
@@ -2836,11 +2837,41 @@ Include a balanced combination of question types such as:
     return calcOptionCAnnual(seats, globalPricing);
   };
 
+  const executeDirectUpgrade = async () => {
+    setIsUpgrading(true);
+    try {
+      const res = await fetch('/api/billing-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          teacherId: user.uid,
+          email: user.email,
+          planId: upgradeTargetPlan,
+          studentCount: allStudents.length,
+          successUrl: window.location.href.split('?')[0],
+          cancelUrl: window.location.href.split('?')[0],
+          action: 'upgrade',
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        window.location.reload(); // Refresh to show new state
+      } else {
+        alert(data.error || 'Failed to upgrade plan.');
+        setIsUpgrading(false);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Failed to upgrade plan.');
+      setIsUpgrading(false);
+    }
+  };
+
   const handleStripeSession = async (planId, action = 'checkout') => {
     // Prevent double subscriptions by forcing active users to use the Customer Portal for upgrades
     const currentPlanId = teacherBilling?.planId || 'free';
     if (action === 'checkout' && teacherBilling?.status === 'active' && currentPlanId !== 'free' && currentPlanId !== 'free_trial' && currentPlanId !== 'free_expired') {
-      setShowUpgradeWarningModal(true);
+      setUpgradeTargetPlan(planId);
       return;
     }
 
@@ -10806,43 +10837,40 @@ Include a balanced combination of question types such as:
          )}
        </AnimatePresence>
 
-       {/* Upgrade Warning Modal */}
+       {/* Upgrade Confirmation Modal */}
        <AnimatePresence>
-         {showUpgradeWarningModal && (
+         {upgradeTargetPlan && (
            <div className="fixed inset-0 bg-[#3C2E75]/40 backdrop-blur-sm z-[200] flex-center p-6">
              <motion.div 
                initial={{ opacity: 0, scale: 0.9 }}
                animate={{ opacity: 1, scale: 1 }}
                exit={{ opacity: 0, scale: 0.9 }}
-               className="max-w-md w-full bg-white rounded-[40px] p-10 space-y-6 shadow-2xl border-8 border-orange-200 relative text-center"
+               className="max-w-md w-full bg-white rounded-[40px] p-10 space-y-6 shadow-2xl border-8 border-emerald-200 relative text-center"
              >
                <button 
-                 onClick={() => setShowUpgradeWarningModal(false)}
-                 className="absolute top-4 right-4 w-10 h-10 bg-orange-50 hover:bg-orange-100 text-orange-400 rounded-full flex-center transition-colors"
+                 onClick={() => !isUpgrading && setUpgradeTargetPlan(null)}
+                 className="absolute top-4 right-4 w-10 h-10 bg-slate-50 hover:bg-slate-100 text-slate-400 rounded-full flex-center transition-colors"
                >
                  <X className="w-5 h-5" />
                </button>
-               <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center text-4xl mx-auto mb-2 text-orange-500">
-                 <AlertTriangle className="w-10 h-10" />
+               <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center text-4xl mx-auto mb-2 text-emerald-500">
+                 <Rocket className="w-10 h-10" />
                </div>
-               <h3 className="text-2xl font-black text-orange-900">Active Subscription</h3>
-               <p className="text-sm font-bold text-orange-700 leading-relaxed">
-                 You already have an active subscription! To upgrade or switch plans, please click the <strong>Manage Billing 💳</strong> button above. This ensures your upgrade is safely prorated so you don't get double-charged.
+               <h3 className="text-2xl font-black text-emerald-900">Confirm Upgrade</h3>
+               <p className="text-sm font-bold text-emerald-700 leading-relaxed">
+                 You are about to upgrade your subscription! Your unused time from your current plan will be <strong>automatically prorated</strong> and credited to this transaction.
                </p>
                <div className="flex flex-col gap-3 pt-2">
                  <button 
-                   onClick={() => {
-                     setShowUpgradeWarningModal(false);
-                     handleStripeSession(null, 'portal');
-                   }}
-                   disabled={isRedirectingStripe}
-                   className="w-full bg-orange-600 hover:bg-orange-700 text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-orange-200 disabled:opacity-50"
+                   onClick={executeDirectUpgrade}
+                   disabled={isUpgrading}
+                   className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-emerald-200 disabled:opacity-50"
                  >
-                   {isRedirectingStripe ? 'Opening Portal...' : 'Go to Manage Billing 💳'}
+                   {isUpgrading ? 'Upgrading Plan...' : 'Confirm & Upgrade'}
                  </button>
                  <button 
-                   onClick={() => setShowUpgradeWarningModal(false)}
-                   disabled={isRedirectingStripe}
+                   onClick={() => setUpgradeTargetPlan(null)}
+                   disabled={isUpgrading}
                    className="w-full bg-slate-100 hover:bg-slate-200 text-slate-500 py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50"
                  >
                    Nevermind
