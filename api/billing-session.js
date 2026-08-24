@@ -362,6 +362,8 @@ export default async function handler(req, res) {
           quantity: isDynamic ? quantity : 1,
         }],
         proration_behavior: 'create_prorations',
+        billing_cycle_anchor: 'now',
+        payment_behavior: 'error_if_incomplete',
       });
 
       const endTs = updatedSubscription.current_period_end || updatedSubscription.billing_cycle_anchor || (Date.now() / 1000 + 30 * 24 * 3600);
