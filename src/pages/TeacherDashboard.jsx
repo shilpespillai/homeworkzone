@@ -2837,7 +2837,8 @@ Include a balanced combination of question types such as:
 
   const handleStripeSession = async (planId, action = 'checkout') => {
     // Prevent double subscriptions by forcing active users to use the Customer Portal for upgrades
-    if (action === 'checkout' && teacherBilling?.status === 'active' && activePlanId !== 'free' && activePlanId !== 'free_trial' && activePlanId !== 'free_expired') {
+    const currentPlanId = teacherBilling?.planId || 'free';
+    if (action === 'checkout' && teacherBilling?.status === 'active' && currentPlanId !== 'free' && currentPlanId !== 'free_trial' && currentPlanId !== 'free_expired') {
       alert("You already have an active subscription! To upgrade, switch plans, or view pricing, please click the 'Manage Billing' button above. This ensures your upgrade is safely prorated.");
       return;
     }
