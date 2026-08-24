@@ -2327,7 +2327,7 @@ Include a balanced combination of question types such as:
   useEffect(() => {
     if (activeClassroom) {
       const filtered = allStudents
-        .filter(s => s.classId === activeClassroom.id)
+        .filter(s => s.classId === activeClassroom?.id)
         .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
       setStudents(filtered);
     } else {
@@ -2610,7 +2610,7 @@ Include a balanced combination of question types such as:
   const handleSaveGoal = async () => {
     if (!activeClassroom) return;
     try {
-      await setDoc(doc(db, 'teachers', user.uid, 'classrooms', activeClassroom.id), {
+      await setDoc(doc(db, 'teachers', user.uid, 'classrooms', activeClassroom?.id), {
         goalTitle: newGoalTitle,
         goalTarget: Number(newGoalTarget),
         activeTrack: newGoalTrack
@@ -2637,10 +2637,10 @@ Include a balanced combination of question types such as:
     
     try {
       // Re-calculate raw points right now so we have the absolute current total
-      const classStudents = allStudents.filter(s => s.classId === activeClassroom.id);
+      const classStudents = allStudents.filter(s => s.classId === activeClassroom?.id);
       const computedStudents = classStudents.map(student => {
          const studentSubs = allSubmissions.filter(sub => 
-            normalizeName(sub.studentName) === normalizeName(student.name) && (!sub.classId || sub.classId === activeClassroom.id)
+            normalizeName(sub.studentName) === normalizeName(student.name) && (!sub.classId || sub.classId === activeClassroom?.id)
          );
          const completedCount = studentSubs.length;
          const totalScore = studentSubs.reduce((acc, sub) => acc + (sub.score || 0), 0);
@@ -2651,7 +2651,7 @@ Include a balanced combination of question types such as:
       const currentClassRawPoints = computedStudents.reduce((acc, points) => acc + points, 0);
 
       // Save the raw points as the new reset offset in Firestore
-      await setDoc(doc(db, 'teachers', user.uid, 'classrooms', activeClassroom.id), {
+      await setDoc(doc(db, 'teachers', user.uid, 'classrooms', activeClassroom?.id), {
         goalResetPointsOffset: currentClassRawPoints
       }, { merge: true });
 
@@ -4455,9 +4455,9 @@ Include a balanced combination of question types such as:
                 : 0;
 
              // Classrooms student point math
-             const classStudents = allStudents.filter(s => !activeClassroom || s.classId === activeClassroom.id);
-             const classHomeworks = allHomeworks.filter(hw => hw.status === 'published' && (!activeClassroom || hw.assignedClassId === activeClassroom.id));
-             const pendingDrafts = allHomeworks.filter(hw => hw.status === 'draft' && (!activeClassroom || hw.assignedClassId === activeClassroom.id));
+             const classStudents = allStudents.filter(s => !activeClassroom || s.classId === activeClassroom?.id);
+             const classHomeworks = allHomeworks.filter(hw => hw.status === 'published' && (!activeClassroom || hw.assignedClassId === activeClassroom?.id));
+             const pendingDrafts = allHomeworks.filter(hw => hw.status === 'draft' && (!activeClassroom || hw.assignedClassId === activeClassroom?.id));
              const classSubmissions = allSubmissions.filter(sub => {
                 if (!activeClassroom) return true;
                 const hw = allHomeworks.find(h => h.id === sub.homeworkId);
@@ -4467,7 +4467,7 @@ Include a balanced combination of question types such as:
 
              const computedStudents = classStudents.map(student => {
                 const studentSubs = allSubmissions.filter(sub => 
-                   normalizeName(sub.studentName) === normalizeName(student.name) && (!sub.classId || sub.classId === activeClassroom.id)
+                   normalizeName(sub.studentName) === normalizeName(student.name) && (!sub.classId || sub.classId === activeClassroom?.id)
                 );
                 const completedCount = studentSubs.length;
                 const totalScore = studentSubs.reduce((acc, sub) => acc + (sub.score || 0), 0);
@@ -5846,9 +5846,9 @@ Include a balanced combination of question types such as:
                 </div>
              );
           case 'Gradebook': {
-            const currentSubmissions = activeClassroom ? allSubmissions.filter(s => s.classId === activeClassroom.id) : allSubmissions;
+            const currentSubmissions = activeClassroom ? allSubmissions.filter(s => s.classId === activeClassroom?.id) : allSubmissions;
             const currentStudents = activeClassroom ? students : allStudents;
-            const currentHomeworks = activeClassroom ? allHomeworks.filter(h => h.assignedClassId === activeClassroom.id) : allHomeworks;
+            const currentHomeworks = activeClassroom ? allHomeworks.filter(h => h.assignedClassId === activeClassroom?.id) : allHomeworks;
             
             // Filter submissions by homework due date if filter is active
             const filteredGradebookSubmissions = currentSubmissions.filter(sub => {
@@ -6116,9 +6116,9 @@ Include a balanced combination of question types such as:
             );
          }
          case 'Reports': {
-            const currentSubmissions = activeClassroom ? allSubmissions.filter(s => s.classId === activeClassroom.id) : allSubmissions;
-            const currentStudents = activeClassroom ? allStudents.filter(s => s.classId === activeClassroom.id) : allStudents;
-            const currentHomeworks = activeClassroom ? allHomeworks.filter(h => h.assignedClassId === activeClassroom.id) : allHomeworks;
+            const currentSubmissions = activeClassroom ? allSubmissions.filter(s => s.classId === activeClassroom?.id) : allSubmissions;
+            const currentStudents = activeClassroom ? allStudents.filter(s => s.classId === activeClassroom?.id) : allStudents;
+            const currentHomeworks = activeClassroom ? allHomeworks.filter(h => h.assignedClassId === activeClassroom?.id) : allHomeworks;
 
             if (!activeClassroom) {
                return (
@@ -7214,7 +7214,7 @@ Include a balanced combination of question types such as:
              return (
                <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 relative">
                  <TestReportsDashboard
-                   tests={allHomeworks.filter(hw => (hw.type === 'test' || hw.isExamPaper || !!hw.examPreset) && (!activeClassroom || hw.assignedClassId === activeClassroom.id))}
+                   tests={allHomeworks.filter(hw => (hw.type === 'test' || hw.isExamPaper || !!hw.examPreset) && (!activeClassroom || hw.assignedClassId === activeClassroom?.id))}
                    submissions={allSubmissions}
                    students={activeClassroom ? students : allStudents}
                  />
@@ -7606,7 +7606,7 @@ Include a balanced combination of question types such as:
             // Map each student to computed points, badges and averages based on their actual submissions
             const computedStudents = filteredStudentsList.map(student => {
                const studentSubs = allSubmissions.filter(sub => 
-                  normalizeName(sub.studentName) === normalizeName(student.name) && (!sub.classId || sub.classId === activeClassroom.id)
+                  normalizeName(sub.studentName) === normalizeName(student.name) && (!sub.classId || sub.classId === activeClassroom?.id)
                );
 
                const getSubScore = (sub) => {
@@ -7953,10 +7953,10 @@ Include a balanced combination of question types such as:
              }
 
              // Calculate classroom combined points
-             const classStudents = allStudents.filter(s => s.classId === activeClassroom.id);
+             const classStudents = allStudents.filter(s => s.classId === activeClassroom?.id);
              const computedStudents = classStudents.map(student => {
                 const studentSubs = allSubmissions.filter(sub => 
-                   normalizeName(sub.studentName) === normalizeName(student.name) && (!sub.classId || sub.classId === activeClassroom.id)
+                   normalizeName(sub.studentName) === normalizeName(student.name) && (!sub.classId || sub.classId === activeClassroom?.id)
                 );
                 const completedCount = studentSubs.length;
                 const totalScore = studentSubs.reduce((acc, sub) => acc + (sub.score || 0), 0);
@@ -8043,7 +8043,7 @@ Include a balanced combination of question types such as:
 );
           }
           case 'Calendar': {
-             const classHomeworks = allHomeworks.filter(hw => !activeClassroom || hw.assignedClassId === activeClassroom.id);
+             const classHomeworks = allHomeworks.filter(hw => !activeClassroom || hw.assignedClassId === activeClassroom?.id);
              const classSubmissions = allSubmissions.filter(sub => {
                 if (!activeClassroom) return true;
                 const hw = allHomeworks.find(h => h.id === sub.homeworkId);
@@ -9447,7 +9447,7 @@ Include a balanced combination of question types such as:
             )}
 {/* Global Calendar Reminder Modal */}
       {showCalendarModal && selectedCalendarHw && (() => {
-         const submissions = allSubmissions.filter(s => s.homeworkId === selectedCalendarHw.id && (!activeClassroom || s.classId === activeClassroom.id));
+         const submissions = allSubmissions.filter(s => s.homeworkId === selectedCalendarHw.id && (!activeClassroom || s.classId === activeClassroom?.id));
          const classStudents = allStudents.filter(s => s.classId === selectedCalendarHw.assignedClassId);
          const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
          const submittedStudentNames = new Set(submissions.map(s => normalizeName(s.studentName)));
