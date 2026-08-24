@@ -2703,7 +2703,14 @@ Include a balanced combination of question types such as:
 
 
   const [isResumingSub, setIsResumingSub] = useState(false);
-  const handleResumeSubscription = async () => {
+  const [showResumeModal, setShowResumeModal] = useState(false);
+
+  const handleResumeSubscription = () => {
+    setShowResumeModal(true);
+  };
+
+  const executeResumeSubscription = async () => {
+    setShowResumeModal(false);
     setIsResumingSub(true);
     try {
       const response = await fetch('/api/cancel-subscription', {
@@ -2720,7 +2727,6 @@ Include a balanced combination of question types such as:
       
       // Update local state immediately for UI responsiveness
       setTeacherBilling(prev => ({ ...prev, cancelAtPeriodEnd: false }));
-      alert("Success! Your subscription has been resumed and will renew automatically.");
     } catch (err) {
       console.error(err);
       alert("Error resuming subscription: " + err.message);
@@ -10732,6 +10738,46 @@ Include a balanced combination of question types such as:
                 </div>
               </motion.div>
             </div>
+         )}
+       </AnimatePresence>
+
+       {/* Resume Subscription Modal */}
+       <AnimatePresence>
+         {showResumeModal && (
+           <div className="fixed inset-0 bg-[#3C2E75]/40 backdrop-blur-sm z-[200] flex-center p-6">
+             <motion.div 
+               initial={{ opacity: 0, scale: 0.9 }}
+               animate={{ opacity: 1, scale: 1 }}
+               exit={{ opacity: 0, scale: 0.9 }}
+               className="max-w-md w-full bg-white rounded-[40px] p-10 space-y-6 shadow-2xl border-8 border-emerald-100 relative text-center"
+             >
+               <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-2 text-emerald-500">
+                 <Zap className="w-10 h-10" />
+               </div>
+               <h2 className="text-2xl font-black text-slate-800 tracking-tight">
+                 Resume Subscription?
+               </h2>
+               <p className="text-sm font-medium text-slate-500 pb-2">
+                 Your plan will be fully reinstated and will automatically renew at the end of your current billing cycle. Welcome back!
+               </p>
+               <div className="flex flex-col gap-3 pt-2">
+                 <button 
+                   onClick={executeResumeSubscription}
+                   disabled={isResumingSub}
+                   className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-emerald-200 disabled:opacity-50"
+                 >
+                   {isResumingSub ? 'Resuming...' : 'Yes, Resume Plan'}
+                 </button>
+                 <button 
+                   onClick={() => setShowResumeModal(false)}
+                   disabled={isResumingSub}
+                   className="w-full bg-slate-100 hover:bg-slate-200 text-slate-500 py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50"
+                 >
+                   Keep Canceled
+                 </button>
+               </div>
+             </motion.div>
+           </div>
          )}
        </AnimatePresence>
 
