@@ -275,7 +275,10 @@ async function executeSchedule(sched, teacherData, teacherCode) {
     }
 
     // Build prompt
-    const qCount = sched.questionCount || 5;
+    // Cap question count to 15 to prevent Claude from hitting the 4096 max output token limit
+    // which causes truncated JSON and triggers an infinite cron retry loop.
+    const requestedCount = sched.questionCount || 5;
+    const qCount = requestedCount > 15 ? 15 : requestedCount;
     const curriculumName = sched.curriculumName || 'ACARA';
     
     const visualRules = `
