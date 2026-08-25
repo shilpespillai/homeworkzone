@@ -1,0 +1,10 @@
+const fs = require('fs');
+let content = fs.readFileSync('src/utils/defaultPrompts.js', 'utf-8');
+content = content.replace(/\? CALIBRATION/g, '- CALIBRATION');
+content = content.replace(/\? FRESHNESS/g, '- FRESHNESS');
+content = content.replace(/\? ANSWER/g, '- ANSWER');
+content = content.replace(/\? ZERO/g, '- ZERO');
+content = content.replace(/\? DIAGRAMMATIC/g, '- DIAGRAMMATIC');
+content = content.replace(/\? PROGRESSIVE/g, '- PROGRESSIVE');
+content = content.replace(/\? QUESTION/g, '- QUESTION');
+fs.writeFileSync('src/utils/defaultPrompts.js', content);

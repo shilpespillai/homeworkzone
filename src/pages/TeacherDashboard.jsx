@@ -53,7 +53,8 @@ import {
   Coins,
   RotateCcw,
   Sparkles,
-  Rocket
+  Rocket,
+  Terminal
 } from 'lucide-react';
 import EmojiPicker from '../components/EmojiPicker';
 import { calcOptionCAnnual, fetchPricing, savePricing } from '../utils/pricingConfig';
@@ -83,6 +84,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { DEFAULT_SUBJECT_PROMPTS, getPremiumPromptTemplate, getMasterDefaultPrompts, saveMasterDefaultPromptsIfAdmin } from '../utils/defaultPrompts';
 import { db } from '../firebase';
 import { checkCanGeneratePaper } from '../utils/quotaManager';
+import SystemLogsTab from '../components/admin/SystemLogsTab';
 
 const toTitleCase = (str) => {
   if (!str) return '';
@@ -8996,7 +8998,9 @@ Include a balanced combination of question types such as:
          case 'Contact Us':
             return <ContactUsTab user={user} teacherData={teacherData} />;
          case 'Admin Reports':
-            return isAdminUser ? renderAdminReportsTab() : null;
+              return isAdminUser ? renderAdminReportsTab() : null;
+           case 'System Logs':
+              return isAdminUser ? <SystemLogsTab adminTeachers={adminTeachers} /> : null;
          default:
             return null;
       }
@@ -9084,7 +9088,10 @@ Include a balanced combination of question types such as:
             <SidebarItem id="Settings" label="Settings" icon={<Settings className="w-5 h-5 text-slate-500" />} active={activeTab === 'Settings'} onClick={setActiveTab} />
             <SidebarItem id="Contact Us" label="Contact Us" icon={<Mail className="w-5 h-5 text-indigo-500" />} active={activeTab === 'Contact Us'} onClick={setActiveTab} />
             {isAdminUser && (
-              <SidebarItem id="Admin Reports" label="Admin Reports" icon={<Award className="w-5 h-5 text-purple-650 animate-pulse" />} active={activeTab === 'Admin Reports'} onClick={setActiveTab} />
+              <>
+                <SidebarItem id="Admin Reports" label="Admin Reports" icon={<Award className="w-5 h-5 text-purple-650 animate-pulse" />} active={activeTab === 'Admin Reports'} onClick={setActiveTab} />
+                <SidebarItem id="System Logs" label="System Logs" icon={<Terminal className="w-5 h-5 text-rose-500" />} active={activeTab === 'System Logs'} onClick={setActiveTab} />
+              </>
             )}
          </nav>
 
@@ -11318,3 +11325,7 @@ const SubjectCard = ({ title, description, icon, color, borderColor, active, onC
 );
 
 export default TeacherDashboard;
+
+
+
+

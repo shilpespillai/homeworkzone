@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { AIProvider } from './context/AIContext'
+import { initErrorLogger } from './utils/errorLogger'
+
+// Initialize global error monitoring
+initErrorLogger();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
