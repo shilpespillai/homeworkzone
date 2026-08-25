@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
+import { collection, query, orderBy, limit, getDocs, where, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { Terminal, Clock, Monitor, User, AlertCircle, RefreshCw, Crown } from 'lucide-react';
+import { Terminal, Clock, Monitor, User, AlertCircle, RefreshCw, Crown, Trash2, CalendarX } from 'lucide-react';
 
 export default function SystemLogsTab({ adminTeachers = [] }) {
   const [logs, setLogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [purgeDays, setPurgeDays] = useState(30);
 
   const fetchLogs = async () => {
     setIsLoading(true);
@@ -23,6 +25,51 @@ export default function SystemLogsTab({ adminTeachers = [] }) {
   useEffect(() => {
     fetchLogs();
   }, []);
+
+  const handleDeleteAll = async () => {
+    if (!window.confirm("Are you sure you want to permanently delete ALL error logs? This cannot be undone.")) return;
+    
+    setIsDeleting(true);
+    try {
+      const snap = await getDocs(collection(db, 'error_logs'));
+      await Promise.all(snap.docs.map(d => deleteDoc(doc(db, 'error_logs', d.id))));
+      alert(`Successfully deleted ${snap.docs.length} logs!`);
+      fetchLogs();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete logs.");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handlePurgeOld = async () => {
+    if (!window.confirm(`Are you sure you want to delete logs older than ${purgeDays} days?`)) return;
+    
+    setIsDeleting(true);
+    try {
+      const cutoffDate = new Date();
+      cutoffDate.setDate(cutoffDate.getDate() - purgeDays);
+      
+      const q = query(collection(db, 'error_logs'), where('timestamp', '<', cutoffDate));
+      const snap = await getDocs(q);
+      
+      if (snap.empty) {
+        alert("No logs found older than " + purgeDays + " days.");
+        setIsDeleting(false);
+        return;
+      }
+      
+      await Promise.all(snap.docs.map(d => deleteDoc(doc(db, 'error_logs', d.id))));
+      alert(`Successfully purged ${snap.docs.length} old logs!`);
+      fetchLogs();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to purge logs.");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   const formatTime = (ts) => {
     if (!ts) return 'Unknown time';
@@ -59,12 +106,45 @@ export default function SystemLogsTab({ adminTeachers = [] }) {
             Real-time console errors and crash reports from active users.
           </p>
         </div>
-        <button 
-          onClick={fetchLogs}
-          className="bg-white hover:bg-slate-50 text-slate-700 font-bold px-4 py-2 rounded-xl shadow-sm border border-slate-200 flex items-center gap-2 transition-all"
-        >
-          <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} /> Refresh
-        </button>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center bg-slate-50 border border-slate-200 rounded-xl px-3 py-1 shadow-sm mr-2">
+            <span className="text-xs font-bold text-slate-500 mr-2">Purge older than:</span>
+            <select 
+              value={purgeDays} 
+              onChange={(e) => setPurgeDays(Number(e.target.value))}
+              className="bg-transparent text-sm font-black text-slate-700 outline-none cursor-pointer"
+            >
+              <option value={7}>7 Days</option>
+              <option value={14}>14 Days</option>
+              <option value={30}>30 Days</option>
+              <option value={60}>60 Days</option>
+              <option value={90}>90 Days</option>
+            </select>
+            <button 
+              onClick={handlePurgeOld}
+              disabled={isDeleting || isLoading}
+              className="ml-3 bg-white hover:bg-rose-50 text-rose-600 font-bold px-3 py-1.5 rounded-lg border border-rose-200 text-xs flex items-center gap-1.5 transition-all disabled:opacity-50"
+            >
+              <CalendarX className="w-3.5 h-3.5" /> Purge
+            </button>
+          </div>
+
+          <button 
+            onClick={handleDeleteAll}
+            disabled={isDeleting || isLoading || logs.length === 0}
+            className="bg-white hover:bg-rose-50 text-rose-600 font-bold px-4 py-2 rounded-xl shadow-sm border border-rose-200 flex items-center gap-2 transition-all disabled:opacity-50"
+          >
+            <Trash2 className="w-4 h-4" /> Clear All
+          </button>
+
+          <button 
+            onClick={fetchLogs}
+            disabled={isDeleting || isLoading}
+            className="bg-white hover:bg-slate-50 text-slate-700 font-bold px-4 py-2 rounded-xl shadow-sm border border-slate-200 flex items-center gap-2 transition-all disabled:opacity-50"
+          >
+            <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} /> Refresh
+          </button>
+        </div>
       </div>
 
       <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
