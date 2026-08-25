@@ -44,6 +44,24 @@ async function decryptApiKey(encryptedString, teacherCode) {
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────
+async function logServerError(error, context, schedId = 'unknown') {
+  try {
+    await db.collection('error_logs').add({
+      message: error.message || String(error),
+      stack: error.stack || '',
+      screen: '/api/run-scheduler',
+      userId: 'SYSTEM_CRON',
+      userEmail: 'cron@system',
+      userName: 'Background Scheduler',
+      source: `Vercel Cron (, Sched: )`,
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      status: 'new'
+    });
+  } catch (logErr) {
+    console.error('[Scheduler] Failed to write error log:', logErr.message);
+  }
+}
+
 function getLocalDateString(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -270,6 +288,7 @@ async function executeSchedule(sched, teacherData, teacherCode) {
 
     if (!apiKey) {
       console.warn(`[Scheduler] No API key resolved for model ${activeModel} (teacher: ${teacherData.teacherCode}) — reverting`);
+      await logServerError(typeof err !== 'undefined' ? err : new Error('Internal validation failed'), 'executeSchedule', sched.id);
       await schedRef.update({ lastRun: originalLastRun });
       return false;
     }
@@ -373,6 +392,7 @@ Return ONLY a JSON object with a single key "questions" containing an array of e
     questions = questions.map((q, idx) => ({ ...q, id: idx + 1 }));
 
     if (questions.length === 0) {
+      await logServerError(typeof err !== 'undefined' ? err : new Error('Internal validation failed'), 'executeSchedule', sched.id);
       await schedRef.update({ lastRun: originalLastRun });
       return false;
     }
@@ -433,7 +453,8 @@ Return ONLY a JSON object with a single key "questions" containing an array of e
   } catch (err) {
     console.error(`[Scheduler] ❌ Failed schedule ${sched.id}:`, err.message);
     // Revert lastRun so it retries on the next cron tick
-    await schedRef.update({ lastRun: originalLastRun });
+    await logServerError(typeof err !== 'undefined' ? err : new Error('Internal validation failed'), 'executeSchedule', sched.id);
+      await schedRef.update({ lastRun: originalLastRun });
     return false;
   }
 }
@@ -502,6 +523,12 @@ export default async function handler(req, res) {
     return res.status(200).json(summary);
   } catch (err) {
     console.error('[Scheduler] Fatal error:', err);
+      await logServerError(err, 'Global Fatal', 'all');
     return res.status(500).json({ error: err.message });
   }
 }
+
+
+
+
+
