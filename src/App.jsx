@@ -2807,7 +2807,13 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
          const studentRef = doc(db, 'teachers', actualTeacher.uid, 'classrooms', actualClassroom.id, 'students', studentName?.trim().toLowerCase());
          const unsubscribe = onSnapshot(studentRef, (snapshot) => {
             if (snapshot.exists()) {
-               setCurrentStudentProfile(snapshot.data());
+               const data = snapshot.data();
+               if (data.status === 'paused') {
+                  alert("Your account has been paused by your teacher. Please speak to your teacher to restore access.");
+                  onLogout();
+               } else {
+                  setCurrentStudentProfile(data);
+               }
             } else {
                // Student has been deleted from classroom/system by teacher
                console.log("Student document deleted, logging out...");
