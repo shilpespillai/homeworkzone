@@ -25,25 +25,35 @@ function devApiPlugin() {
               res.end(JSON.stringify({ error: 'VITE_GEMINI_API_KEY not set in .env.local' }));
               return;
             }
-            const model = 'gemini-2.0-flash';
-            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-            const bodyObj = {
-              contents: [{ parts: [{ text: prompt }] }],
-              generationConfig: {
-                temperature: 0.7,
-                responseMimeType: responseMimeType === 'application/json' ? 'application/json' : 'text/plain'
+            const modelsToTry = ['gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-flash-latest', 'gemini-1.5-pro'];
+            let text = '';
+            for (const model of modelsToTry) {
+              try {
+                const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+                const bodyObj = {
+                  contents: [{ parts: [{ text: prompt }] }],
+                  generationConfig: {
+                    temperature: 0.7,
+                    responseMimeType: responseMimeType === 'application/json' ? 'application/json' : 'text/plain'
+                  }
+                };
+                if (systemInstruction) {
+                  bodyObj.systemInstruction = { parts: [{ text: systemInstruction }] };
+                }
+                const aiRes = await fetch(endpoint, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(bodyObj)
+                });
+                if (aiRes.ok) {
+                  const data = await aiRes.json();
+                  text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+                  if (text) break;
+                }
+              } catch (e) {
+                console.warn(`[Dev API] Model ${model} failed, trying next...`);
               }
-            };
-            if (systemInstruction) {
-              bodyObj.systemInstruction = { parts: [{ text: systemInstruction }] };
             }
-            const aiRes = await fetch(endpoint, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(bodyObj)
-            });
-            const data = await aiRes.json();
-            let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
             if (responseMimeType === 'application/json') {
               const first = text.indexOf('{'), last = text.lastIndexOf('}');
               if (first !== -1 && last !== -1) text = text.substring(first, last + 1);

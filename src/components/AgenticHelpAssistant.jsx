@@ -118,22 +118,24 @@ export default function AgenticHelpAssistant({ setDashboardTab }) {
       const conversationHistory = newMessages.slice(-4).map(m => `${m.sender === 'user' ? 'User' : 'Zono'}: ${m.text}`).join('\n');
 
       const promptPayload = `
-Conversation History:
+=== HOMEWORKZONE MASTER KNOWLEDGE BASE ===
+${customKnowledge || DEFAULT_ZONO_KNOWLEDGE}
+
+=== RECENT CONVERSATION ===
 ${conversationHistory}
 
-User Question: "${queryText}"
+=== USER QUESTION ===
+"${queryText}"
 
-Provide a direct, concise, and fast answer based on the Knowledge Base. Use bullet points and action navigation tags if relevant.
+Answer the user's question directly and concisely based on the Knowledge Base above. Include clickable action tags like [NAVIGATE:TabName] (e.g. [NAVIGATE:My Classes], [NAVIGATE:Homework/Test Builder], [NAVIGATE:Settings]) if relevant.
 `;
-
-      const fullSystemInstruction = `${KNOWLEDGE_BASE_CONTEXT}\n\n=== DYNAMIC CUSTOM APP KNOWLEDGE ===\n${customKnowledge}`;
 
       const responseText = await generateContent({
         prompt: promptPayload,
-        systemInstruction: fullSystemInstruction,
+        systemInstruction: KNOWLEDGE_BASE_CONTEXT,
         provider: 'gemini',
-        maxTokens: 600,
-        temperature: 0.3
+        maxTokens: 800,
+        temperature: 0.4
       });
 
       setMessages(prev => [
