@@ -81,20 +81,12 @@ import {
 } from 'recharts';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import { DEFAULT_ZONO_KNOWLEDGE } from '../utils/defaultZonoKnowledge';
 import { DEFAULT_SUBJECT_PROMPTS, getPremiumPromptTemplate, getMasterDefaultPrompts, saveMasterDefaultPromptsIfAdmin } from '../utils/defaultPrompts';
 import { db } from '../firebase';
 import { checkCanGeneratePaper } from '../utils/quotaManager';
 import SystemLogsTab from '../components/admin/SystemLogsTab';
 
-const toTitleCase = (str) => {
-  if (!str) return '';
-  return str
-    .trim()
-    .toLowerCase()
-    .split(/\s+/)
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-};
 import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where, onSnapshot, addDoc, collectionGroup, updateDoc, limit, getDocsFromServer, increment } from 'firebase/firestore';
 import HomeworkGenerator from './HomeworkGenerator';
 import HomeworkScheduler from './HomeworkScheduler';
@@ -105,6 +97,17 @@ import { encryptText, decryptText } from '../utils/crypto';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
 import { checkIsCorrect } from '../utils/checkIsCorrect';
 import { SUPER_USER_EMAILS } from '../utils/defaultPrompts';
+
+
+const toTitleCase = (str) => {
+  if (!str) return '';
+  return str
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
 
 const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
 
@@ -9555,7 +9558,18 @@ Include a balanced combination of question types such as:
       {showCalendarModal && selectedCalendarHw && (() => {
          const submissions = allSubmissions.filter(s => s.homeworkId === selectedCalendarHw.id && (!activeClassroom || s.classId === activeClassroom?.id));
          const classStudents = allStudents.filter(s => s.classId === selectedCalendarHw.assignedClassId);
-         const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
+         
+const toTitleCase = (str) => {
+  if (!str) return '';
+  return str
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
+const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
          const submittedStudentNames = new Set(submissions.map(s => normalizeName(s.studentName)));
          const pendingStudents = classStudents.filter(s => !submittedStudentNames.has(normalizeName(s.name)));
 
@@ -11424,6 +11438,9 @@ const SubjectCard = ({ title, description, icon, color, borderColor, active, onC
 );
 
 export default TeacherDashboard;
+
+
+
 
 
 
