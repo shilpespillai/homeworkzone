@@ -85,16 +85,6 @@ import { DEFAULT_SUBJECT_PROMPTS, getPremiumPromptTemplate, getMasterDefaultProm
 import { db } from '../firebase';
 import { checkCanGeneratePaper } from '../utils/quotaManager';
 import SystemLogsTab from '../components/admin/SystemLogsTab';
-
-const toTitleCase = (str) => {
-  if (!str) return '';
-  return str
-    .trim()
-    .toLowerCase()
-    .split(/\s+/)
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-};
 import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where, onSnapshot, addDoc, collectionGroup, updateDoc, limit, getDocsFromServer, increment } from 'firebase/firestore';
 import HomeworkGenerator from './HomeworkGenerator';
 import HomeworkScheduler from './HomeworkScheduler';
@@ -105,6 +95,17 @@ import { encryptText, decryptText } from '../utils/crypto';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
 import { checkIsCorrect } from '../utils/checkIsCorrect';
 import { SUPER_USER_EMAILS } from '../utils/defaultPrompts';
+import { DEFAULT_ZONO_KNOWLEDGE } from '../utils/defaultZonoKnowledge';
+
+const toTitleCase = (str) => {
+  if (!str) return '';
+  return str
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
 
 const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
 
@@ -1102,6 +1103,22 @@ const TeacherDashboard = ({ user, onLogout }) => {
   // Data Management Settings
   const [dataRetentionPeriod, setDataRetentionPeriod] = useState(90); // 90 days default
   const [lastPurgedAt, setLastPurgedAt] = useState(null);
+  const [zonoKnowledgeText, setZonoKnowledgeText] = useState(DEFAULT_ZONO_KNOWLEDGE);
+  const [isSavingZono, setIsSavingZono] = useState(false);
+
+  useEffect(() => {
+    const fetchZonoKnowledge = async () => {
+      try {
+        const snap = await getDoc(doc(db, 'system', 'zono_knowledge'));
+        if (snap.exists() && snap.data()?.text) {
+          setZonoKnowledgeText(snap.data().text);
+        }
+      } catch (err) {
+        console.warn("Could not fetch Zono knowledge:", err);
+      }
+    };
+    fetchZonoKnowledge();
+  }, []);
   const [newStudentName, setNewStudentName] = useState('');
   const [showAddClassModal, setShowAddClassModal] = useState(false);
   const [selectedSubjects, setSelectedSubjects] = useState([]);
@@ -2957,6 +2974,24 @@ Include a balanced combination of question types such as:
     }
   };
 
+  const handleSaveZonoKnowledge = async () => {
+    if (!isAdminUser) return;
+    setIsSavingZono(true);
+    try {
+      await setDoc(doc(db, 'system', 'zono_knowledge'), {
+        text: zonoKnowledgeText,
+        updatedAt: new Date().toISOString(),
+        updatedBy: user?.email || 'admin'
+      });
+      alert("Zono Brain Knowledge Base saved and published live! 🦖🧠");
+    } catch (err) {
+      console.error("Save Zono Knowledge Error:", err);
+      alert("Oops! Failed to save Zono knowledge base.");
+    } finally {
+      setIsSavingZono(false);
+    }
+  };
+
   const renderSettingsTab = () => {
     return (
       <div className="px-10 py-10 space-y-10 min-h-[calc(100vh-64px)] pb-40 animate-fadeIn relative">
@@ -3040,6 +3075,75 @@ Include a balanced combination of question types such as:
             </div>
           </div>
         </div>
+
+        {/* Zono Assistant Brain & Knowledge Base Editor (Admin Only) */}
+        {isAdminUser && (
+          <div className="bg-white rounded-[40px] border border-orange-100 shadow-sm p-10 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-amber-50 rounded-full blur-3xl -mr-20 -mt-20 opacity-40 transition-opacity group-hover:opacity-70" />
+            
+            <div className="relative z-10 space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white flex items-center justify-center shadow-md">
+                    <img src="/zono.jpg" className="w-10 h-10 object-cover rounded-full" alt="Zono Brain" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h2 className="text-2xl font-black text-slate-800 tracking-tight">Zono AI Brain & Knowledge Base</h2>
+                      <span className="text-[10px] font-black uppercase text-amber-600 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full">
+                        Admin Only
+                      </span>
+                    </div>
+                    <p className="text-sm font-bold text-slate-500 mt-1">
+                      Customize instructions, rules, and app manual guidelines used by the floating Zono AI assistant.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => {
+                      if (window.confirm("Reset knowledge base back to default app manual?")) {
+                        setZonoKnowledgeText(DEFAULT_ZONO_KNOWLEDGE);
+                      }
+                    }}
+                    className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl text-xs font-black transition-all flex items-center gap-1.5"
+                    title="Reset to Default"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    Reset Default
+                  </button>
+                  <button
+                    onClick={handleSaveZonoKnowledge}
+                    disabled={isSavingZono}
+                    className="px-6 py-3 bg-[#EA580C] hover:bg-[#C2410C] text-white rounded-xl text-sm font-black transition-all shadow-md active:scale-95 flex items-center gap-2 disabled:opacity-50"
+                  >
+                    {isSavingZono ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                    {isSavingZono ? 'Saving Live...' : 'Save Knowledge Base'}
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between px-1">
+                  <label className="text-xs font-black uppercase tracking-wider text-slate-500">
+                    Knowledge Base Document (Markdown / Text)
+                  </label>
+                  <span className="text-xs font-bold text-slate-400">
+                    {zonoKnowledgeText.length} characters
+                  </span>
+                </div>
+                <textarea
+                  rows={14}
+                  value={zonoKnowledgeText}
+                  onChange={(e) => setZonoKnowledgeText(e.target.value)}
+                  placeholder="Enter custom application instructions, workflow guidelines, and manual rules for Zono..."
+                  className="w-full bg-slate-50 border-2 border-slate-200 focus:border-orange-400 focus:bg-white rounded-2xl p-5 text-xs font-mono text-slate-800 leading-relaxed outline-none transition-all resize-y"
+                />
+              </div>
+            </div>
+          </div>
+        )}
         
         <GrassBorder />
       </div>
