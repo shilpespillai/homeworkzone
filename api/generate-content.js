@@ -111,7 +111,7 @@ export default async function handler(req, res) {
     const authHeader = req.headers.authorization || '';
     const idToken = authHeader.replace('Bearer ', '').trim();
 
-    const { prompt, systemInstruction, responseMimeType, provider: reqProvider, maxTokens, temperature } = req.body;
+    const { prompt, systemInstruction, responseMimeType, provider: reqProvider, maxTokens, temperature, clientKey } = req.body;
     if (!prompt) return res.status(400).json({ error: 'Prompt is required' });
 
     let provider = (reqProvider || process.env.SYSTEM_ACTIVE_AI || 'gemini').toLowerCase();
@@ -199,9 +199,9 @@ export default async function handler(req, res) {
     let apiKey = '', modelName = '', endpoint = '', headers = {}, bodyObj = {};
 
     if (provider === 'gemini') {
-      apiKey = process.env.GEMINI_API_KEY;
+      apiKey = clientKey || process.env.GEMINI_API_KEY;
       modelName = 'gemini-1.5-flash';
-      if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY not configured' });
+      if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY not configured in environment or settings' });
       endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
       headers = { 'Content-Type': 'application/json' };
       bodyObj = {
@@ -218,7 +218,7 @@ export default async function handler(req, res) {
         bodyObj.systemInstruction = { parts: [{ text: systemInstruction }] };
       }
     } else if (provider === 'openai') {
-      apiKey = process.env.OPENAI_API_KEY;
+      apiKey = clientKey || process.env.OPENAI_API_KEY;
       modelName = 'gpt-4o';
       if (!apiKey) return res.status(500).json({ error: 'OPENAI_API_KEY not configured' });
       endpoint = 'https://api.openai.com/v1/chat/completions';
@@ -227,14 +227,14 @@ export default async function handler(req, res) {
       bodyObj = { model: modelName, messages, temperature: 0.7 };
       if (responseMimeType === 'application/json') bodyObj.response_format = { type: 'json_object' };
     } else if (provider === 'anthropic' || provider.startsWith('claude')) {
-      apiKey = process.env.ANTHROPIC_API_KEY;
+      apiKey = clientKey || process.env.ANTHROPIC_API_KEY;
       
       // Fallback to Gemini if Anthropic key is not configured
-      if (!apiKey && process.env.GEMINI_API_KEY) {
+      if (!apiKey && (process.env.GEMINI_API_KEY || clientKey)) {
         console.warn(`[AI Proxy] ANTHROPIC_API_KEY not found. Falling back to Gemini API.`);
         provider = 'gemini';
-        apiKey = process.env.GEMINI_API_KEY;
-        modelName = 'gemini-flash-latest';
+        apiKey = clientKey || process.env.GEMINI_API_KEY;
+        modelName = 'gemini-1.5-flash';
         endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
         headers = { 'Content-Type': 'application/json' };
         bodyObj = {
@@ -297,10 +297,10 @@ export default async function handler(req, res) {
     }
 
     // ULTIMATE FAIL-SAFE: If provider failed, automatically fall back to Gemini Flash!
-    if (!resAi.ok && process.env.GEMINI_API_KEY && provider !== 'gemini') {
+    if (!resAi.ok && (process.env.GEMINI_API_KEY || clientKey) && provider !== 'gemini') {
       console.warn(`[AI Proxy] Provider ${provider} (${modelName}) failed. Automatically falling back to Gemini API...`);
-      const gApiKey = process.env.GEMINI_API_KEY;
-      const gModelName = 'gemini-flash-latest';
+      const gApiKey = clientKey || process.env.GEMINI_API_KEY;
+      const gModelName = 'gemini-1.5-flash';
       const gEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/${gModelName}:generateContent?key=${gApiKey}`;
       const gHeaders = { 'Content-Type': 'application/json' };
       const gBodyObj = {
@@ -318,8 +318,9 @@ export default async function handler(req, res) {
     }
 
     if (!resAi.ok) {
-      console.error(`[AI API Error] Unable to complete generation across providers.`);
-      return res.status(500).json({ error: "Our learning engine is briefly recalibrating content. Please try again in a moment." });
+      const errText = resAi.text ? await resAi.text().catch(() => '') : '';
+      console.error(`[AI API Error] Generation failed:`, errText);
+      return res.status(502).json({ error: `AI provider error: ${errText || 'Invalid API Key or rate limit reached.'}` });
     }
 
     const data = await resAi.json();
