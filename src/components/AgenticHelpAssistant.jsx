@@ -153,7 +153,7 @@ Rules:
       const generationPromise = generateContent({
         prompt: promptPayload,
         systemInstruction: KNOWLEDGE_BASE_CONTEXT,
-        provider: 'claude-haiku',
+        provider: 'gemini',
         maxTokens: 350,
         temperature: 0.2
       });
