@@ -20,6 +20,30 @@ export default async function handler(req, res) {
         if (!admin.apps.length) admin.initializeApp({ credential: admin.credential.cert({ projectId: process.env.FIREBASE_PROJECT_ID, clientEmail: process.env.FIREBASE_CLIENT_EMAIL, privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n')?.replace(/\n/g, '\n') }) });
         const decodedToken = await admin.auth().verifyIdToken(idToken);
         if (decodedToken?.firebase?.sign_in_provider === 'anonymous') return res.status(403).json({ error: 'Forbidden' });
+        
+        // RATE LIMITING
+        const db = admin.firestore();
+        const rateLimitRef = db.collection('api_rate_limits').doc(decodedToken.uid);
+        const rateLimitDoc = await rateLimitRef.get();
+        const now = Date.now();
+        let shouldBlock = false;
+        if (!rateLimitDoc.exists) {
+          await rateLimitRef.set({ count: 1, windowStart: now });
+        } else {
+          const data = rateLimitDoc.data();
+          if (now - data.windowStart < 60000) {
+            if (data.count >= 15) shouldBlock = true;
+            else await rateLimitRef.update({ count: admin.firestore.FieldValue.increment(1) });
+          } else await rateLimitRef.set({ count: 1, windowStart: now });
+        }
+        if (shouldBlock) {
+          await db.collection('error_logs').add({
+            timestamp: new Date().toISOString(), message: `🚨 SECURITY ALERT: Image API Rate Limit Exceeded`,
+            stack: `Teacher UID: ${decodedToken.uid}\nTriggered >15 Image generations per minute.`,
+            source: 'api/generate-image', userName: decodedToken.email || decodedToken.uid, userAgent: 'Backend Security', resolved: false
+          });
+          return res.status(429).json({ error: 'Too many requests.' });
+        }
       }
     } catch(e) { return res.status(403).json({ error: 'Forbidden' }); }
     const { prompt } = req.body;

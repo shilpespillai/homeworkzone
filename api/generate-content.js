@@ -136,6 +136,46 @@ export default async function handler(req, res) {
         if (decodedToken && decodedToken.firebase && decodedToken.firebase.sign_in_provider === 'anonymous') {
           return res.status(403).json({ error: 'Forbidden: Anonymous students cannot generate AI content' });
         }
+        
+        // --- RATE LIMITING & ADMIN ALERT LOGIC ---
+        const uid = decodedToken.uid;
+        const rateLimitRef = db.collection('api_rate_limits').doc(uid);
+        const rateLimitDoc = await rateLimitRef.get();
+        const now = Date.now();
+        const WINDOW_MS = 60000; // 1 minute window
+        const MAX_REQUESTS = 15; // Max generations per minute
+
+        let shouldBlock = false;
+        if (!rateLimitDoc.exists) {
+          await rateLimitRef.set({ count: 1, windowStart: now });
+        } else {
+          const data = rateLimitDoc.data();
+          if (now - data.windowStart < WINDOW_MS) {
+            if (data.count >= MAX_REQUESTS) {
+              shouldBlock = true;
+            } else {
+              await rateLimitRef.update({ count: admin.firestore.FieldValue.increment(1) });
+            }
+          } else {
+            await rateLimitRef.set({ count: 1, windowStart: now });
+          }
+        }
+
+        if (shouldBlock) {
+          // Send alert directly to the Admin's "System Logs" tab!
+          await db.collection('error_logs').add({
+            timestamp: new Date().toISOString(),
+            message: `🚨 SECURITY ALERT: API Rate Limit Exceeded (Bot Suspected)`,
+            stack: `Teacher UID: ${uid}\nEmail: ${decodedToken.email || 'Unknown'}\nTriggered >${MAX_REQUESTS} AI generations per minute.`,
+            source: 'api/generate-content',
+            userName: decodedToken.email || uid,
+            userAgent: 'Backend Security',
+            resolved: false
+          });
+          return res.status(429).json({ error: 'Too many requests. Please wait a minute before generating more content.' });
+        }
+        // --- END RATE LIMITING ---
+
       } else {
         console.warn(`[AI Proxy] Missing Firebase Admin environment variables. Bypassing Auth & cache.`);
       }
