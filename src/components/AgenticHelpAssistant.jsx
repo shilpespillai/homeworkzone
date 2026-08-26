@@ -4,13 +4,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { generateContent } from '../utils/aiClient';
 
 const KNOWLEDGE_BASE_CONTEXT = `
-You are the official HomeworkZone App & Dashboard Knowledge Guide — an expert AI assistant built EXCLUSIVELY to answer questions about how the HomeworkZone web application works, where features are located, how to use dashboard tools, navigate tabs, and configure settings.
+You are Zono the Monster, the official HomeworkZone App & Dashboard Knowledge Guide — an expert AI assistant built EXCLUSIVELY to answer questions about how the HomeworkZone web application works, where features are located, how to use dashboard tools, navigate tabs, and configure settings.
 
 CRITICAL ABSOLUTE BOUNDARY RULE:
 • You are STRICTLY a Dashboard & App Knowledge Base Guide.
 • You MUST NEVER answer, solve, or provide solutions for student homework questions, math problems, science questions, essay writing, or quiz exercises.
 • If a user asks you to solve a math/science/homework question (e.g. "What is 15 x 12?", "Solve this fraction", "Write an essay for me"), you MUST DECLINE POLITELY with this response:
-  "I am your HomeworkZone Dashboard & App Guide! 🧭 I can help you navigate the app, create exam papers, schedule assignments, and understand test reports, but I am not designed to solve homework or test questions for students."
+  "I am Zono, your HomeworkZone Dashboard Guide! 🦖 I can help you navigate the app, create exam papers, schedule assignments, and understand test reports, but I am not designed to solve homework or test questions for students."
 
 YOUR EXCLUSIVE DOMAIN (App & Dashboard Assistance):
 
@@ -35,6 +35,10 @@ YOUR EXCLUSIVE DOMAIN (App & Dashboard Assistance):
 6. TUITION FEES & REVENUE:
 - Explaining tuition plan setups, fee tracking, invoice statuses, and revenue analytics.
 
+7. STUDENT PASSWORDS & MANAGEMENT:
+- If asked how to reset a student password or what to do if a student forgot their password, YOU MUST ALWAYS ANSWER:
+  "To reset a student's password, go to the [NAVIGATE:My Classes] tab (or Dashboard) and scroll to your Student Roster. Find the student, and click the **Key (🔑)** icon at the end of their row next to the delete button. This will reset their password, and they will be prompted to create a brand new password the next time they log in!"
+
 DIRECTIVE ON NAVIGATION ACTION TAGS:
 If appropriate to help the user locate a feature, include action tags in your response like:
 [NAVIGATE:Homework/Test Builder]
@@ -47,14 +51,14 @@ If appropriate to help the user locate a feature, include action tags in your re
 Our UI will automatically convert these tags into interactive buttons that jump the user directly to that tab!
 
 BEHAVIOR GUIDELINES:
-- Be extremely helpful, clear, polite, and encouraging.
+- Be extremely helpful, clear, polite, and encouraging. Introduce yourself as Zono the monster!
 - Format responses in clean, easy-to-read Markdown with bullet points and bold highlights.
 - Keep answers focused strictly on explaining the app and its dashboards.
 `;
 
 const SUGGESTED_QUESTIONS = [
+  "How do I reset a student's password?",
   "How do I generate an NSW Selective practice exam?",
-  "How does the Automated Curriculum Scheduler work?",
   "Where can I see Test Reports & Class Leaderboards?",
   "How do admin default prompts sync across teachers?",
   "What subjects and micro-topics are supported?"
@@ -65,7 +69,7 @@ export default function AgenticHelpAssistant({ setDashboardTab }) {
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
-      text: "👋 Hi! I'm your **HomeworkZone AI Assistant**. Ask me anything about how the app works, generating exam papers, tracking test reports, or setting up prompts!"
+      text: "👋 Rawr! I'm **Zono**, your HomeworkZone AI Dashboard Guide. Ask me anything about how the app works, resetting passwords, generating exam papers, or tracking test reports!"
     }
   ]);
   const [inputQuery, setInputQuery] = useState('');
@@ -116,7 +120,7 @@ Please answer the user's question accurately based on the HomeworkZone Knowledge
         }
       ]);
     } catch (err) {
-      console.error("AI Help Assistant Error:", err);
+      console.error("Zono Help Assistant Error:", err);
       setMessages(prev => [
         ...prev,
         {
@@ -217,15 +221,15 @@ Please answer the user's question accurately based on the HomeworkZone Knowledge
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsOpen(prev => !prev)}
           className="bg-slate-950 hover:bg-slate-900 text-white p-4 rounded-full shadow-2xl border-2 border-orange-400/80 flex items-center gap-3 group transition-all"
-          title="Ask HomeworkZone AI Assistant"
+          title="Ask Zono"
         >
           <div className="relative">
-            <Bot className="w-7 h-7 text-orange-400 group-hover:rotate-12 transition-transform" />
+            <img src="/mascot.png" className="w-9 h-9 object-contain group-hover:rotate-12 transition-transform drop-shadow-md" alt="Zono" />
             <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-slate-950 animate-ping" />
             <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-slate-950" />
           </div>
           <span className="font-black text-xs uppercase tracking-wider pr-1 hidden sm:inline text-slate-100">
-            AI Assistant
+            Ask Zono
           </span>
         </motion.button>
       </div>
@@ -244,11 +248,11 @@ Please answer the user's question accurately based on the HomeworkZone Knowledge
             <div className="bg-slate-950 text-white p-4 flex items-center justify-between border-b-2 border-slate-900">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-orange-500 to-amber-400 flex items-center justify-center shadow-md">
-                  <Bot className="w-6 h-6 text-slate-950" />
+                  <img src="/mascot.png" className="w-8 h-8 object-contain drop-shadow-sm" alt="Zono" />
                 </div>
                 <div>
                   <h3 className="font-black text-sm text-slate-100 flex items-center gap-1.5">
-                    HomeworkZone AI <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                    Zono the Guide <Sparkles className="w-3.5 h-3.5 text-amber-400" />
                   </h3>
                   <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Instant System Support Agent</p>
                 </div>
@@ -270,7 +274,7 @@ Please answer the user's question accurately based on the HomeworkZone Knowledge
                   <div key={idx} className={`flex gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}>
                     {!isUser && (
                       <div className="w-7 h-7 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center shrink-0 font-black border border-orange-200 mt-1">
-                        <Bot className="w-4 h-4" />
+                        <img src="/mascot.png" className="w-5 h-5 object-contain" alt="Zono" />
                       </div>
                     )}
 
@@ -331,3 +335,7 @@ Please answer the user's question accurately based on the HomeworkZone Knowledge
     </>
   );
 }
+
+
+
+
