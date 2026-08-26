@@ -68,8 +68,17 @@ export const getModelForGrade = (grade, subject, baseProvider) => {
 
 import { auth } from '../firebase';
 export const generateContent = async ({ prompt, systemInstruction, responseMimeType, provider, maxTokens, temperature }) => {
-  const clientKey = typeof localStorage !== 'undefined' ? (localStorage.getItem('hwz_gemini_key') || localStorage.getItem('hwz_anthropic_key') || '') : '';
-  const activeProvider = provider || 'gemini';
+  const activeProvider = provider || 'anthropic';
+  let clientKey = '';
+  if (typeof localStorage !== 'undefined') {
+    if (activeProvider.startsWith('claude') || activeProvider === 'anthropic') {
+      clientKey = localStorage.getItem('hwz_anthropic_key') || '';
+    } else if (activeProvider === 'openai') {
+      clientKey = localStorage.getItem('hwz_openai_key') || '';
+    } else if (activeProvider === 'gemini') {
+      clientKey = localStorage.getItem('hwz_gemini_key') || '';
+    }
+  }
   
   console.log(`[AI Client] 🚀 Sending generation request:`, {
     provider: activeProvider,

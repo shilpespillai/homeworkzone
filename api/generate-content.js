@@ -199,9 +199,9 @@ export default async function handler(req, res) {
     let apiKey = '', modelName = '', endpoint = '', headers = {}, bodyObj = {};
 
     if (provider === 'gemini') {
-      apiKey = clientKey || process.env.GEMINI_API_KEY;
+      apiKey = process.env.GEMINI_API_KEY || (clientKey?.startsWith('AIzaSy') ? clientKey : '');
       modelName = 'gemini-1.5-flash';
-      if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY not configured in environment or settings' });
+      if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY not configured in server environment' });
       endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
       headers = { 'Content-Type': 'application/json' };
       bodyObj = {
@@ -218,7 +218,7 @@ export default async function handler(req, res) {
         bodyObj.systemInstruction = { parts: [{ text: systemInstruction }] };
       }
     } else if (provider === 'openai') {
-      apiKey = clientKey || process.env.OPENAI_API_KEY;
+      apiKey = process.env.OPENAI_API_KEY || (clientKey?.startsWith('sk-') ? clientKey : '');
       modelName = 'gpt-4o';
       if (!apiKey) return res.status(500).json({ error: 'OPENAI_API_KEY not configured' });
       endpoint = 'https://api.openai.com/v1/chat/completions';
@@ -227,13 +227,13 @@ export default async function handler(req, res) {
       bodyObj = { model: modelName, messages, temperature: 0.7 };
       if (responseMimeType === 'application/json') bodyObj.response_format = { type: 'json_object' };
     } else if (provider === 'anthropic' || provider.startsWith('claude')) {
-      apiKey = clientKey || process.env.ANTHROPIC_API_KEY;
+      apiKey = process.env.ANTHROPIC_API_KEY || (clientKey?.startsWith('sk-ant-') ? clientKey : '');
       
       // Fallback to Gemini if Anthropic key is not configured
-      if (!apiKey && (process.env.GEMINI_API_KEY || clientKey)) {
+      if (!apiKey && process.env.GEMINI_API_KEY) {
         console.warn(`[AI Proxy] ANTHROPIC_API_KEY not found. Falling back to Gemini API.`);
         provider = 'gemini';
-        apiKey = clientKey || process.env.GEMINI_API_KEY;
+        apiKey = process.env.GEMINI_API_KEY;
         modelName = 'gemini-1.5-flash';
         endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
         headers = { 'Content-Type': 'application/json' };
@@ -245,12 +245,12 @@ export default async function handler(req, res) {
           bodyObj.systemInstruction = { parts: [{ text: systemInstruction }] };
         }
       } else if (!apiKey) {
-        return res.status(500).json({ error: 'ANTHROPIC_API_KEY not configured and GEMINI_API_KEY fallback missing' });
+        return res.status(500).json({ error: 'ANTHROPIC_API_KEY not configured on server' });
       } else {
         modelName = await resolveBestAnthropicModel(apiKey, provider);
         endpoint = 'https://api.anthropic.com/v1/messages';
         headers = { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' };
-        bodyObj = { model: modelName, messages: [{ role: 'user', content: prompt }], max_tokens: 8192, temperature: 0.7 };
+        bodyObj = { model: modelName, messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens || 4096, temperature: 0.7 };
         if (systemInstruction) bodyObj.system = systemInstruction;
       }
     } else {
