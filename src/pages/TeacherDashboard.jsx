@@ -3015,7 +3015,7 @@ Include a balanced combination of question types such as:
               <div className="relative z-10">
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-inner">
-                    <img src="/mascot.png" className="w-8 h-8 object-contain" alt="Zono" />
+                    <img src="/zono.jpg" className="w-10 h-10 object-cover rounded-full shadow-sm" alt="Zono" />
                   </div>
                   <div>
                     <h2 className="text-2xl font-black text-slate-800">Zono Master Brain Editor</h2>
@@ -11438,6 +11438,7 @@ const SubjectCard = ({ title, description, icon, color, borderColor, active, onC
 );
 
 export default TeacherDashboard;
+
 
 
 

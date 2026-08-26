@@ -246,7 +246,7 @@ Please answer the user's question accurately based on the HomeworkZone Knowledge
           title="Ask Zono"
         >
           <div className="relative">
-            <img src="/mascot.png" className="w-9 h-9 object-contain group-hover:rotate-12 transition-transform drop-shadow-md" alt="Zono" />
+            <img src="/zono.jpg" className="w-10 h-10 object-cover rounded-full group-hover:rotate-12 transition-transform shadow-md border-2 border-orange-400" alt="Zono" />
             <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-slate-950 animate-ping" />
             <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-slate-950" />
           </div>
@@ -270,7 +270,7 @@ Please answer the user's question accurately based on the HomeworkZone Knowledge
             <div className="bg-slate-950 text-white p-4 flex items-center justify-between border-b-2 border-slate-900">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-orange-500 to-amber-400 flex items-center justify-center shadow-md">
-                  <img src="/mascot.png" className="w-8 h-8 object-contain drop-shadow-sm" alt="Zono" />
+                  <img src="/zono.jpg" className="w-8 h-8 object-cover rounded-full shadow-sm border border-orange-200" alt="Zono" />
                 </div>
                 <div>
                   <h3 className="font-black text-sm text-slate-100 flex items-center gap-1.5">
@@ -296,7 +296,7 @@ Please answer the user's question accurately based on the HomeworkZone Knowledge
                   <div key={idx} className={`flex gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}>
                     {!isUser && (
                       <div className="w-7 h-7 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center shrink-0 font-black border border-orange-200 mt-1">
-                        <img src="/mascot.png" className="w-5 h-5 object-contain" alt="Zono" />
+                        <img src="/zono.jpg" className="w-6 h-6 object-cover rounded-full" alt="Zono" />
                       </div>
                     )}
 
@@ -357,6 +357,8 @@ Please answer the user's question accurately based on the HomeworkZone Knowledge
     </>
   );
 }
+
+
 
 
 
