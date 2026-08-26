@@ -2703,7 +2703,7 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
         
         // Dynamically verify teacher status based on teacherCode from Firestore
         if (actualTeacher?.teacherCode) {
-           const teacherQ = query(collection(db, 'teachers'), where('teacherCode', '==', actualTeacher.teacherCode.toUpperCase().trim()));
+           const teacherQ = query(collection(db, 'teachers'), where('teacherCode', '==', actualTeacher.teacherCode.toUpperCase().trim()), limit(1));
            const teacherSnap = await getDocs(teacherQ);
            if (!teacherSnap.empty) {
               const latestTeacherData = teacherSnap.docs[0].data();
@@ -2830,7 +2830,7 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
          if (!actualClassroom?.id || !actualTeacher) return;
          let teacherUid = actualTeacher.uid;
          if (!teacherUid && actualTeacher.teacherCode) {
-            const teacherQ = query(collection(db, 'teachers'), where('teacherCode', '==', actualTeacher.teacherCode.toUpperCase().trim()));
+            const teacherQ = query(collection(db, 'teachers'), where('teacherCode', '==', actualTeacher.teacherCode.toUpperCase().trim()), limit(1));
             const teacherSnap = await getDocs(teacherQ);
             if (!teacherSnap.empty) {
                teacherUid = teacherSnap.docs[0].id;
@@ -4780,7 +4780,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
         setShowLoginModal(null);
         navigate('/dashboard/teacher');
       } else {
-        const q = query(collection(db, 'teachers'), where('teacherCode', '==', code.toUpperCase().trim()));
+        const q = query(collection(db, 'teachers'), where('teacherCode', '==', code.toUpperCase().trim()), limit(1));
         const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
           const teacherDoc = querySnapshot.docs[0];
@@ -6632,6 +6632,8 @@ export default function App() {
     </>
   );
 }
+
+
 
 
 
