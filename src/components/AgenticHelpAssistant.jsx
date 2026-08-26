@@ -133,9 +133,8 @@ Answer the user's question directly and concisely based on the Knowledge Base ab
       const responseText = await generateContent({
         prompt: promptPayload,
         systemInstruction: KNOWLEDGE_BASE_CONTEXT,
-        provider: 'gemini',
-        maxTokens: 800,
-        temperature: 0.4
+        maxTokens: 1000,
+        temperature: 0.3
       });
 
       setMessages(prev => [
