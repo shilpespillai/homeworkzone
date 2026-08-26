@@ -133,6 +133,9 @@ export default async function handler(req, res) {
         }
         db = admin.firestore();
         decodedToken = await admin.auth().verifyIdToken(idToken);
+        if (decodedToken && decodedToken.firebase && decodedToken.firebase.sign_in_provider === 'anonymous') {
+          return res.status(403).json({ error: 'Forbidden: Anonymous students cannot generate AI content' });
+        }
         
         // --- RATE LIMITING & ADMIN ALERT LOGIC ---
         const uid = decodedToken.uid;

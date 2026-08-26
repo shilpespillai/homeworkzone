@@ -744,35 +744,6 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         const errJson = await vercelRes.json().catch(() => ({}));
         console.warn(`[OpenAI Image Studio] Vercel proxy returned status ${vercelRes.status}:`, errJson.error || 'Unknown error');
       }
-
-      // 2. Direct client fallback if VITE_OPENAI_API_KEY is defined in build environment
-      const directKey = import.meta.env.VITE_OPENAI_API_KEY;
-      if (directKey) {
-        console.log('[OpenAI Image Studio] Retrying via direct client key...');
-        const directRes = await fetch('https://api.openai.com/v1/images/generations', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${directKey}`
-          },
-          body: JSON.stringify({
-            model: 'dall-e-3',
-            prompt: promptText,
-            n: 1,
-            size: '1024x1024'
-          })
-        });
-
-        if (directRes.ok) {
-          const directData = await directRes.json();
-          if (directData?.data?.[0]?.url) {
-            console.log('[OpenAI Image Studio] ✅ Success! Direct image received.');
-            return directData.data[0].url;
-          }
-        } else {
-          console.warn('[OpenAI Image Studio] Direct key attempt failed with status:', directRes.status);
-        }
-      }
     } catch (err) {
       console.warn('[OpenAI Image Studio] Proxy call encountered error, falling back to Multi-Engine Cascade:', err);
     }
@@ -3638,3 +3609,4 @@ EXPECTED JSON SCHEMA:
     </div>
   );
 }
+
