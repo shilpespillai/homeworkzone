@@ -5316,9 +5316,7 @@ Include a balanced combination of question types such as:
                              <button
                              onClick={async () => {
                              try {
-                             const { addDoc, collection } = await import('firebase/firestore');
-                             const { db: fdb } = await import('../firebase');
-                             await addDoc(collection(fdb, 'messages'), {
+                             await addDoc(collection(db, 'messages'), {
                              teacherId: user.uid, senderId: user.uid,
                              senderName: user.displayName || 'Teacher', senderRole: 'teacher',
                              recipientType: 'student', recipientId: d.student.name, recipientName: d.student.name,
@@ -11438,6 +11436,8 @@ const SubjectCard = ({ title, description, icon, color, borderColor, active, onC
 );
 
 export default TeacherDashboard;
+
+
 
 
 
