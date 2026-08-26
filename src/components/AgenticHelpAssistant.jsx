@@ -145,9 +145,9 @@ Rules:
 - Zero fluff or redundant explanations.
 `;
 
-      // 10-second hard timeout guard to guarantee no looping
+      // 30-second timeout guard to allow serverless cold starts while preventing infinite hangs
       const timeoutPromise = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("Response timed out")), 10000)
+        setTimeout(() => reject(new Error("Response timed out")), 30000)
       );
 
       const generationPromise = generateContent({
