@@ -54,8 +54,8 @@ import {
   RotateCcw,
   Sparkles,
   Rocket,
-  Terminal
-} from 'lucide-react';
+  Terminal,
+  Key} from 'lucide-react';
 import EmojiPicker from '../components/EmojiPicker';
 import { calcOptionCAnnual, fetchPricing, savePricing } from '../utils/pricingConfig';
 
@@ -11332,6 +11332,7 @@ const SubjectCard = ({ title, description, icon, color, borderColor, active, onC
 );
 
 export default TeacherDashboard;
+
 
 
 
