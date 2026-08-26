@@ -3223,6 +3223,10 @@ Include a balanced combination of question types such as:
                   <span className="px-3 py-1 rounded-full text-xs font-black uppercase bg-emerald-100 text-emerald-700 border border-emerald-300 animate-pulse">
                     Status: Administrator
                   </span>
+                ) : teacherBilling?.cancelAtPeriodEnd ? (
+                  <span className="px-3 py-1 rounded-full text-xs font-black uppercase bg-amber-50 text-amber-700 border border-amber-200">
+                    Status: Cancels at Period End
+                  </span>
                 ) : teacherBilling && ['active', 'trialing'].includes(teacherBilling.status) ? (
                   <span className="px-3 py-1 rounded-full text-xs font-black uppercase bg-emerald-50 text-emerald-600 border border-emerald-200">
                     Status: {teacherBilling.status}
@@ -3239,6 +3243,8 @@ Include a balanced combination of question types such as:
                 <span className="text-xs font-bold text-slate-500">
                   {isAdminUser ? (
                     "Lifetime executive privilege active"
+                  ) : teacherBilling?.cancelAtPeriodEnd && teacherBilling?.currentPeriodEnd ? (
+                    `Expires: ${new Date(teacherBilling.currentPeriodEnd).toLocaleDateString()}`
                   ) : teacherBilling?.currentPeriodEnd ? (
                     `Renews: ${new Date(teacherBilling.currentPeriodEnd).toLocaleDateString()}`
                   ) : getTrialDaysLeft() >= 0 ? (
