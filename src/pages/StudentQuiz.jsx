@@ -30,14 +30,6 @@ import { db } from '../firebase';
 import { doc, getDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { playSuccess, playFail } from '../utils/audio';
 
-const cleanOptionText = (text) => {
-  if (typeof text !== 'string') return text;
-  const match = text.match(/^\([A-D]\)\s*(.+)$/i) || 
-                text.match(/^\(?[A-D]\s*[\)\.\-]\s+(.+)$/i) || 
-                text.match(/^[A-D]\s+(.+)$/i);
-  if (match) return match[1].trim();
-  return text.trim();
-};
 import { triggerConfetti } from '../utils/confetti';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
 import DynamicChart from '../components/DynamicChart';
@@ -2132,3 +2124,4 @@ const QuizResults = ({ type, score, total, percentage, feedback, questions, answ
     </div>
   );
 };
+

@@ -4,15 +4,6 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Lottie from "lottie-react";
 import { BrowserRouter as Router, Routes, Route, useNavigate, Link, Navigate } from 'react-router-dom';
 
-const toTitleCase = (str) => {
-  if (!str) return '';
-  return str
-    .trim()
-    .toLowerCase()
-    .split(/\s+/)
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-};
 import { 
   LayoutDashboard, 
   BookOpen, 
@@ -6638,6 +6629,7 @@ export default function App() {
     </>
   );
 }
+
 
 
 
