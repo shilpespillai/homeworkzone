@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { generateContent } from '../utils/aiClient';
 import { db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { DEFAULT_ZONO_KNOWLEDGE } from '../utils/defaultZonoKnowledge';
 
 const KNOWLEDGE_BASE_CONTEXT = `
 You are Zono the Monster, the official HomeworkZone App & Dashboard Knowledge Guide — an expert AI assistant built EXCLUSIVELY to answer questions about how the HomeworkZone web application works, where features are located, how to use dashboard tools, navigate tabs, and configure settings.
@@ -65,8 +66,6 @@ const SUGGESTED_QUESTIONS = [
   "How do admin default prompts sync across teachers?",
   "What subjects and micro-topics are supported?"
 ];
-
-import { DEFAULT_ZONO_KNOWLEDGE } from '../utils/defaultZonoKnowledge';
 
 export default function AgenticHelpAssistant({ setDashboardTab }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -357,6 +356,7 @@ Please answer the user's question accurately based on the HomeworkZone Knowledge
     </>
   );
 }
+
 
 
 
