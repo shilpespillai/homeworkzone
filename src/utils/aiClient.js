@@ -90,6 +90,7 @@ export const generateContent = async ({ prompt, systemInstruction, responseMimeT
       body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider: activeProvider, maxTokens, temperature, clientKey }),
     });
 
+    let serverError = '';
     if (res.ok) {
       const data = await res.json();
       if (data.text) {
@@ -97,8 +98,9 @@ export const generateContent = async ({ prompt, systemInstruction, responseMimeT
         return data.text;
       }
     } else {
-      const errText = await res.text().catch(() => '');
-      console.warn(`[AI Client] ⚠️ Server returned HTTP ${res.status}:`, errText);
+      const errJson = await res.json().catch(() => ({}));
+      serverError = errJson.error || errJson.message || `HTTP ${res.status}`;
+      console.warn(`[AI Client] ⚠️ Server returned HTTP ${res.status}:`, serverError);
     }
   } catch (err) {
     console.warn(`[AI Client] ⚠️ Network / fetch call failed for ${activeProvider}:`, err.message);
@@ -122,7 +124,7 @@ export const generateContent = async ({ prompt, systemInstruction, responseMimeT
           return data.text;
         }
       } else {
-        const fbErr = await fallbackRes.text().catch(() => '');
+        const fbErr = await fallbackRes.json().catch(() => ({}));
         console.error(`[AI Client] ❌ Fallback server returned HTTP ${fallbackRes.status}:`, fbErr);
       }
     } catch (fallbackErr) {
@@ -130,7 +132,7 @@ export const generateContent = async ({ prompt, systemInstruction, responseMimeT
     }
   }
 
-  throw new Error("Our learning engine is briefly recalibrating content. Please try again in a moment.");
+  throw new Error("Unable to connect to AI engine. Please verify your AI API Key in Settings > AI Configuration or check system logs.");
 };
 
 

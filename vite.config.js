@@ -30,7 +30,7 @@ function devApiPlugin(env) {
             }
 
             const modelsToTry = ['gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-flash-latest', 'gemini-1.5-pro'];
-            let text = '';
+            let lastErrorMsg = '';
             for (const model of modelsToTry) {
               try {
                 const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
@@ -55,16 +55,18 @@ function devApiPlugin(env) {
                   if (text) break;
                 } else {
                   const errJson = await aiRes.json().catch(() => ({}));
-                  console.warn(`[Dev API] Model ${model} returned error:`, errJson);
+                  lastErrorMsg = errJson.error?.message || `HTTP ${aiRes.status}`;
+                  console.warn(`[Dev API] Model ${model} returned error:`, lastErrorMsg);
                 }
               } catch (e) {
+                lastErrorMsg = e.message;
                 console.warn(`[Dev API] Model ${model} failed:`, e.message);
               }
             }
 
             if (!text) {
-              res.writeHead(500, { 'Content-Type': 'application/json' });
-              res.end(JSON.stringify({ error: 'Failed to generate response from Gemini API.' }));
+              res.writeHead(502, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify({ error: `Gemini API error: ${lastErrorMsg || 'API key invalid or rate limit reached.'}` }));
               return;
             }
 
