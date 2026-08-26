@@ -2434,7 +2434,7 @@ Include a balanced combination of question types such as:
   
   const handleResetStudentPassword = async (student) => {
     if (!user?.uid || !student.classId) return;
-    if (!window.confirm(`Are you sure you want to reset the password for ${student.name}?\n\nThey will be prompted to create a brand new password the next time they log in.`)) return;
+    if (!(await window.confirmCustom(`Are you sure you want to reset the password for ${student.name}?\n\nThey will be prompted to create a brand new password the next time they log in.`))) return;
     
     const studentRef = doc(
       db,
@@ -11352,6 +11352,7 @@ const SubjectCard = ({ title, description, icon, color, borderColor, active, onC
 );
 
 export default TeacherDashboard;
+
 
 
 
