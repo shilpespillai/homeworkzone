@@ -19,7 +19,6 @@ export default async function handler(req, res) {
       if (process.env.FIREBASE_PROJECT_ID) {
         if (!admin.apps.length) admin.initializeApp({ credential: admin.credential.cert({ projectId: process.env.FIREBASE_PROJECT_ID, clientEmail: process.env.FIREBASE_CLIENT_EMAIL, privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n')?.replace(/\n/g, '\n') }) });
         const decodedToken = await admin.auth().verifyIdToken(idToken);
-        if (decodedToken?.firebase?.sign_in_provider === 'anonymous') return res.status(403).json({ error: 'Forbidden' });
         
         // RATE LIMITING
         const db = admin.firestore();
