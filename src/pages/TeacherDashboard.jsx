@@ -5241,9 +5241,7 @@ Include a balanced combination of question types such as:
                              <button
                              onClick={async () => {
                              try {
-                             const { addDoc, collection } = await import('firebase/firestore');
-                             const { db: fdb } = await import('../firebase');
-                             await addDoc(collection(fdb, 'messages'), {
+                             await addDoc(collection(db, 'messages'), {
                              teacherId: user.uid, senderId: user.uid,
                              senderName: user.displayName || 'Teacher', senderRole: 'teacher',
                              recipientType: 'student', recipientId: d.student.name, recipientName: d.student.name,
@@ -7405,9 +7403,12 @@ Include a balanced combination of question types such as:
                         <div className="flex-1 overflow-y-auto divide-y divide-blue-50 custom-scrollbar">
                            {filteredMessages.length > 0 ? (
                               filteredMessages.map(msg => (
-                                 <button 
+                                 <div 
                                     key={msg.id}
+                                    role="button"
+                                    tabIndex={0}
                                     onClick={() => setActiveChat(msg)}
+                                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setActiveChat(msg); }}
                                     className={`w-full text-left p-6 flex items-center gap-4 transition-all group ${currentChat?.id === msg.id ? 'bg-blue-50/50' : 'hover:bg-blue-50/30'}`}
                                  >
                                     <img src={getStudentAvatar(messagesTab === 'Inbox' ? msg.senderName : msg.recipientName)} className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-white p-0.5 shrink-0" alt="avatar" />
@@ -7418,7 +7419,7 @@ Include a balanced combination of question types such as:
                                           </p>
                                           <div className="flex items-center gap-2">
                                              <button 
-                                                onClick={(e) => handleDeleteMessage(e, msg.id)}
+                                                onClick={(e) => { e.stopPropagation(); handleDeleteMessage(e, msg.id); }}
                                                 className="opacity-0 group-hover:opacity-100 p-1.5 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
                                                 title="Delete Message"
                                              >
@@ -7431,7 +7432,7 @@ Include a balanced combination of question types such as:
                                        </div>
                                        <p className="text-xs font-bold text-[#166534] truncate">{msg.content}</p>
                                     </div>
-                                 </button>
+                                 </div>
                               ))
                            ) : (
                               <div className="py-20 text-center text-[#166534] font-bold italic text-sm">

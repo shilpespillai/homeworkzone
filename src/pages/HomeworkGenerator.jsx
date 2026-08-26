@@ -37,14 +37,6 @@ import {
 import TextWithTables from '../components/TextWithTables';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const cleanOptionText = (text) => {
-  if (typeof text !== 'string') return text;
-  const match = text.match(/^\([A-D]\)\s*(.+)$/i) || 
-                text.match(/^\(?[A-D]\s*[\)\.\-]\s+(.+)$/i) || 
-                text.match(/^[A-D]\s+(.+)$/i);
-  if (match) return match[1].trim();
-  return text.trim();
-};
 import { INTERNATIONAL_EXAMS, getNaplanDefaults } from '../data/examPresets';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, getDocs, query, where, orderBy, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
@@ -68,7 +60,7 @@ import { ClockFace, parseQuestionText } from '../components/ClockFace';
 import CurriculumModal from '../components/CurriculumModal';
 import { curriculum } from '../data/curriculum';
 import { SUPPORTED_LANGUAGES, getLanguageObj } from '../utils/languages';
-import { getSmartTopicTitle } from './HomeworkScheduler';
+import { getSmartTopicTitle, getCurriculumSubjectKey, sanitizeQuestionData } from '../utils/homeworkShared';
 import InternationalExamHubView from '../components/InternationalExamHubView';
 import PaperQuotaBoosterModal from '../components/PaperQuotaBoosterModal';
 import { checkCanGeneratePaper, getBaseQuotaForPlan } from '../utils/quotaManager';
@@ -226,71 +218,7 @@ export const resolveCustomSubjectStyle = (name) => {
   };
 };
 
-export const getCurriculumSubjectKey = (subject) => {
-  if (!subject) return '';
-  const s = subject.toLowerCase().replace(/_/g, ' ');
-  if (s === 'computer science') return 'Computer Science';
-  if (s === 'financial literacy') return 'Financial Literacy';
-  if (s === 'environmental science') return 'Environmental Science';
-  if (s === 'critical thinking') return 'Critical Thinking';
-  if (s === 'logical reasoning') return 'Logical Reasoning';
-  if (s === 'maths' || s === 'math') return 'Maths';
-  if (s === 'english') return 'English';
-  if (s === 'science') return 'Science';
-  if (s === 'olympiad') return 'Olympiad';
 
-  return subject.split(/_|\s+/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
-};
-
-export const sanitizeQuestionData = (q) => {
-  if (!q) return q;
-  let text = q.text || '';
-  // Strip bracketed English translations like " (Read this: ...)" or " (Translation: ...)"
-  text = text.replace(/\s*\((?:Read this|Translation|In English|Meaning):?\s*[^)]+\)/gi, '').trim();
-
-  // Strip accidental answer leaks or self-answering statements from question text (e.g., "(Answer: B)", "The answer is 42", "Correct choice: C")
-  text = text
-    .replace(/\s*\(?(?:The\s+)?(?:correct\s+)?answer\s*(?:is|:|=)\s*(?:[A-D]|\d+|[^\s\)]+)\)?/gi, '')
-    .replace(/\s*\(?Correct\s+(?:choice|option|answer)\s*:\s*(?:[A-D]|\d+|[^\s\)]+)\)?/gi, '')
-    .replace(/\s*Therefore,?\s+the\s+(?:correct\s+)?answer\s+is\s+.*$/gi, '')
-    .trim();
-
-  // Guarantee question text is never empty
-  if (!text || text.trim() === '') {
-    text = q.subtopic ? `Question about ${q.subtopic}` : 'Select the correct answer from the choices below:';
-  }
-
-  let options = q.options;
-  let answer = q.answer;
-
-  if (Array.isArray(options)) {
-    const cleanedOptions = options.map(opt => {
-      if (typeof opt !== 'string') return opt;
-      if (/[\u0900-\u097F]/.test(opt) || /[^\x00-\x7F]/.test(opt)) {
-        return cleanOptionText(opt.replace(/\s*\([A-Za-z\s,-]+\)$/, '').trim());
-      }
-      return cleanOptionText(opt);
-    });
-
-    if (answer && typeof answer === 'string') {
-      const matchIdx = options.findIndex(o => o === answer);
-      if (matchIdx !== -1) {
-        answer = cleanedOptions[matchIdx];
-      } else {
-        answer = cleanOptionText(answer);
-      }
-    }
-
-    options = cleanedOptions;
-  }
-
-  return {
-    ...q,
-    text,
-    options,
-    answer
-  };
-};
 
 const resolveGradeFromClassroomName = (classroomName) => {
   if (!classroomName) return 'Grade 1';
@@ -3609,4 +3537,5 @@ EXPECTED JSON SCHEMA:
     </div>
   );
 }
+
 
