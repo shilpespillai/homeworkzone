@@ -6067,7 +6067,8 @@ const LoginPage = ({ role, onLogin }) => {
         navigate('/dashboard/teacher');
       } else {
         // Student login via Teacher Code + Name Verification
-        const q = query(collection(db, 'teachers'), where('teacherCode', '==', code.toUpperCase()));
+        try { await signInAnonymously(auth); } catch(e){} 
+          const q = query(collection(db, 'teachers'), where('teacherCode', '==', code.toUpperCase()), limit(1));
         const querySnapshot = await getDocs(q);
         
         if (!querySnapshot.empty) {
@@ -6631,6 +6632,7 @@ export default function App() {
     </>
   );
 }
+
 
 
 
