@@ -513,6 +513,27 @@ export default async function handler(req, res) {
         continue;
       }
 
+      // **SECURITY CHECK: Prevent ghost generating for expired trials**
+      const isAdmin = teacherData.isAdmin === true || teacherData.role === 'admin';
+      const billing = teacherData.billing;
+      const isPaid = billing && ['active', 'trialing'].includes(billing.status);
+      
+      let isExpired = false;
+      if (!isPaid && !isAdmin) {
+        const rawCreated = teacherData.createdAt || billing?.createdAt;
+        if (rawCreated) {
+          const diffDays = Math.floor((new Date() - new Date(rawCreated)) / (1000 * 60 * 60 * 24));
+          if (diffDays > 7) isExpired = true;
+        }
+      }
+
+      if (isExpired) {
+        console.warn(`[Scheduler] Teacher ${sched.teacherId} trial expired. Skipping schedule ${sched.id}.`);
+        skipped++;
+        continue;
+      }
+
+      // Fetch teacher's custom prompt configuration
       const teacherCode = teacherData.teacherCode || '';
       const success = await executeSchedule(sched, teacherData, teacherCode);
       if (success) generated++;
@@ -527,6 +548,7 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: err.message });
   }
 }
+
 
 
 
