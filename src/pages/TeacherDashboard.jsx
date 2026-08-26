@@ -2431,6 +2431,26 @@ Include a balanced combination of question types such as:
     }
   };
 
+  
+  const handleResetStudentPassword = async (student) => {
+    if (!user?.uid || !student.classId) return;
+    if (!window.confirm(`Are you sure you want to reset the password for ${student.name}?\n\nThey will be prompted to create a brand new password the next time they log in.`)) return;
+    
+    const studentRef = doc(
+      db,
+      'teachers', user.uid,
+      'classrooms', student.classId,
+      'students', student.id
+    );
+    try {
+      await updateDoc(studentRef, { passwordHash: null });
+      alert(`Password reset for ${student.name}! They can now log in and create a new password.`);
+    } catch (err) {
+      console.error('Reset student password error:', err);
+      alert('Failed to reset password. Please try again.');
+    }
+  };
+
   const handleUpdateStudentPreferredPackage = async (student, packageId) => {
     if (!user?.uid || !student.classId) return;
     const studentRef = doc(db, 'teachers', user.uid, 'classrooms', student.classId, 'students', student.id);
@@ -11332,6 +11352,8 @@ const SubjectCard = ({ title, description, icon, color, borderColor, active, onC
 );
 
 export default TeacherDashboard;
+
+
 
 
 
