@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { collection, query, orderBy, limit, getDocs, where, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { Terminal, Clock, Monitor, User, AlertCircle, RefreshCw, Crown, Trash2, CalendarX } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Terminal, Clock, Monitor, User, AlertCircle, RefreshCw, Crown, Trash2, CalendarX, X, AlertTriangle, CheckCircle2, Loader2 } from 'lucide-react';
 
 export default function SystemLogsTab({ adminTeachers = [] }) {
   const [logs, setLogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
   const [purgeDays, setPurgeDays] = useState(30);
+  const [confirmModal, setConfirmModal] = useState(null);
+  const [toastMessage, setToastMessage] = useState(null);
+
+  const showToast = (msg, isError = false) => {
+    setToastMessage({ text: msg, isError });
+    setTimeout(() => setToastMessage(null), 3500);
+  };
 
   const fetchLogs = async () => {
     setIsLoading(true);
@@ -26,49 +34,64 @@ export default function SystemLogsTab({ adminTeachers = [] }) {
     fetchLogs();
   }, []);
 
-  const handleDeleteAll = async () => {
-    if (!window.confirm("Are you sure you want to permanently delete ALL error logs? This cannot be undone.")) return;
-    
-    setIsDeleting(true);
-    try {
-      const snap = await getDocs(collection(db, 'error_logs'));
-      await Promise.all(snap.docs.map(d => deleteDoc(doc(db, 'error_logs', d.id))));
-      alert(`Successfully deleted ${snap.docs.length} logs!`);
-      fetchLogs();
-    } catch (err) {
-      console.error(err);
-      alert("Failed to delete logs.");
-    } finally {
-      setIsDeleting(false);
-    }
+  const handleDeleteAll = () => {
+    setConfirmModal({
+      title: "Delete All Error Logs?",
+      message: "Are you sure you want to permanently delete ALL error logs? This will wipe the crash and error history and cannot be undone.",
+      confirmText: "Yes, Delete All Logs",
+      isDestructive: true,
+      action: async () => {
+        setIsDeleting(true);
+        try {
+          const snap = await getDocs(collection(db, 'error_logs'));
+          await Promise.all(snap.docs.map(d => deleteDoc(doc(db, 'error_logs', d.id))));
+          showToast(`Successfully deleted ${snap.docs.length} error logs!`);
+          fetchLogs();
+        } catch (err) {
+          console.error(err);
+          showToast("Failed to delete error logs.", true);
+        } finally {
+          setIsDeleting(false);
+          setConfirmModal(null);
+        }
+      }
+    });
   };
 
-  const handlePurgeOld = async () => {
-    if (!window.confirm(`Are you sure you want to delete logs older than ${purgeDays} days?`)) return;
-    
-    setIsDeleting(true);
-    try {
-      const cutoffDate = new Date();
-      cutoffDate.setDate(cutoffDate.getDate() - purgeDays);
-      
-      const q = query(collection(db, 'error_logs'), where('timestamp', '<', cutoffDate));
-      const snap = await getDocs(q);
-      
-      if (snap.empty) {
-        alert("No logs found older than " + purgeDays + " days.");
-        setIsDeleting(false);
-        return;
+  const handlePurgeOld = () => {
+    setConfirmModal({
+      title: `Purge Logs Older Than ${purgeDays} Days?`,
+      message: `Are you sure you want to delete all error logs created more than ${purgeDays} days ago? Recent error reports will be preserved.`,
+      confirmText: `Purge Older Than ${purgeDays}d`,
+      isDestructive: false,
+      action: async () => {
+        setIsDeleting(true);
+        try {
+          const cutoffDate = new Date();
+          cutoffDate.setDate(cutoffDate.getDate() - purgeDays);
+          
+          const q = query(collection(db, 'error_logs'), where('timestamp', '<', cutoffDate));
+          const snap = await getDocs(q);
+          
+          if (snap.empty) {
+            showToast(`No logs found older than ${purgeDays} days.`);
+            setIsDeleting(false);
+            setConfirmModal(null);
+            return;
+          }
+          
+          await Promise.all(snap.docs.map(d => deleteDoc(doc(db, 'error_logs', d.id))));
+          showToast(`Successfully purged ${snap.docs.length} old logs!`);
+          fetchLogs();
+        } catch (err) {
+          console.error(err);
+          showToast("Failed to purge logs.", true);
+        } finally {
+          setIsDeleting(false);
+          setConfirmModal(null);
+        }
       }
-      
-      await Promise.all(snap.docs.map(d => deleteDoc(doc(db, 'error_logs', d.id))));
-      alert(`Successfully purged ${snap.docs.length} old logs!`);
-      fetchLogs();
-    } catch (err) {
-      console.error(err);
-      alert("Failed to purge logs.");
-    } finally {
-      setIsDeleting(false);
-    }
+    });
   };
 
   const formatTime = (ts) => {
@@ -221,6 +244,71 @@ export default function SystemLogsTab({ adminTeachers = [] }) {
           </table>
         </div>
       </div>
+
+      {/* Animated Confirmation Modal */}
+      <AnimatePresence>
+        {confirmModal && (
+          <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ type: 'spring', duration: 0.3, bounce: 0.15 }}
+              className="bg-white rounded-[32px] p-8 max-w-md w-full shadow-2xl border border-slate-100 relative overflow-hidden"
+            >
+              <div className="flex items-start gap-4 mb-5">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${confirmModal.isDestructive ? 'bg-rose-100 text-rose-600' : 'bg-amber-100 text-amber-600'}`}>
+                  {confirmModal.isDestructive ? <Trash2 className="w-6 h-6" /> : <AlertTriangle className="w-6 h-6" />}
+                </div>
+                <div className="flex-1 min-w-0 pt-0.5">
+                  <h3 className="text-xl font-black text-slate-800 tracking-tight">{confirmModal.title}</h3>
+                  <p className="text-xs font-bold text-slate-500 mt-1.5 leading-relaxed">{confirmModal.message}</p>
+                </div>
+                <button
+                  onClick={() => !isDeleting && setConfirmModal(null)}
+                  disabled={isDeleting}
+                  className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-400 flex items-center justify-center transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="flex items-center gap-3 pt-2">
+                <button
+                  onClick={() => setConfirmModal(null)}
+                  disabled={isDeleting}
+                  className="flex-1 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl font-black text-xs transition-colors disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmModal.action}
+                  disabled={isDeleting}
+                  className={`flex-1 py-3.5 text-white rounded-2xl font-black text-xs transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 ${confirmModal.isDestructive ? 'bg-rose-600 hover:bg-rose-700 shadow-rose-200' : 'bg-[#EA580C] hover:bg-[#C2410C] shadow-orange-200'}`}
+                >
+                  {isDeleting ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                  {isDeleting ? 'Deleting...' : confirmModal.confirmText}
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Floating Toast Notification */}
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className={`fixed bottom-6 right-6 z-[250] flex items-center gap-3 px-5 py-4 rounded-2xl shadow-xl border text-xs font-black ${toastMessage.isError ? 'bg-rose-900 text-white border-rose-800 shadow-rose-900/30' : 'bg-slate-900 text-white border-slate-800 shadow-slate-950/40'}`}
+          >
+            {toastMessage.isError ? <AlertCircle className="w-4 h-4 text-rose-400" /> : <CheckCircle2 className="w-4 h-4 text-emerald-400" />}
+            <span>{toastMessage.text}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
