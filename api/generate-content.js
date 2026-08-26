@@ -179,11 +179,10 @@ export default async function handler(req, res) {
       } else {
         console.warn(`[AI Proxy] Missing Firebase Admin environment variables. Bypassing Auth & cache.`);
       }
-    } catch (e) {
-      return res.status(403).json({ error: 'Forbidden' });
-    }
+    
     } catch (dbErr) {
-      console.warn(`[AI Proxy] Firebase admin initialization failed:`, dbErr.message);
+      console.warn(`[AI Proxy] Firebase admin / Auth failed:`, dbErr.message);
+      return res.status(403).json({ error: 'Forbidden: Invalid token' });
     }
 
     let cached = null;
