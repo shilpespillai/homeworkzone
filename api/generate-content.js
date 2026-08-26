@@ -199,18 +199,20 @@ export default async function handler(req, res) {
 
     if (provider === 'gemini') {
       apiKey = process.env.GEMINI_API_KEY;
-      modelName = 'gemini-2.0-flash';
+      modelName = 'gemini-1.5-flash';
       if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY not configured' });
       endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
       headers = { 'Content-Type': 'application/json' };
       bodyObj = {
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: { 
-          temperature: typeof temperature === 'number' ? temperature : 0.5,
-          maxOutputTokens: maxTokens || 1024,
+          temperature: typeof temperature === 'number' ? temperature : 0.7,
           responseMimeType: responseMimeType === 'application/json' ? 'application/json' : 'text/plain' 
         }
       };
+      if (maxTokens) {
+        bodyObj.generationConfig.maxOutputTokens = maxTokens;
+      }
       if (systemInstruction) {
         bodyObj.systemInstruction = { parts: [{ text: systemInstruction }] };
       }
@@ -269,6 +271,22 @@ export default async function handler(req, res) {
         console.warn(`[AI Proxy] Model ${modelName} failed. Retrying with live discovered model ${fbModel}`);
         bodyObj.model = fbModel;
         const resFb = await fetchWithRetry(endpoint, { method: 'POST', headers, body: JSON.stringify(bodyObj) }).catch(() => null);
+        if (resFb && resFb.ok) {
+          resAi = resFb;
+          modelName = fbModel;
+          break;
+        }
+      }
+    }
+
+    // Auto-retry with alternative Gemini models if primary call failed
+    if (!resAi.ok && provider === 'gemini') {
+      const geminiFallbackModels = ['gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-flash-latest', 'gemini-1.5-pro'];
+      for (const fbModel of geminiFallbackModels) {
+        if (fbModel === modelName) continue;
+        console.warn(`[AI Proxy] Gemini Model ${modelName} failed. Retrying with ${fbModel}`);
+        const fbEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/${fbModel}:generateContent?key=${apiKey}`;
+        const resFb = await fetchWithRetry(fbEndpoint, { method: 'POST', headers, body: JSON.stringify(bodyObj) }).catch(() => null);
         if (resFb && resFb.ok) {
           resAi = resFb;
           modelName = fbModel;
