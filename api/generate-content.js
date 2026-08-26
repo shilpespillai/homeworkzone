@@ -99,6 +99,49 @@ async function resolveBestAnthropicModel(apiKey, provider) {
   return `claude-${tier}-latest`;
 }
 
+let cachedGeminiModels = null;
+let lastGeminiModelFetch = 0;
+
+async function getLiveGeminiModels(apiKey) {
+  const now = Date.now();
+  if (cachedGeminiModels && (now - lastGeminiModelFetch < 3600000)) {
+    return cachedGeminiModels;
+  }
+  try {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+    if (res.ok) {
+      const data = await res.json();
+      const rawList = data.models || [];
+      const validModels = rawList
+        .filter(m => Array.isArray(m.supportedGenerationMethods) && m.supportedGenerationMethods.includes('generateContent'))
+        .map(m => m.name.replace('models/', ''));
+      
+      if (validModels.length > 0) {
+        cachedGeminiModels = validModels;
+        lastGeminiModelFetch = now;
+        console.log(`[AI Router] Discovered live active Gemini models:`, validModels.join(', '));
+        return validModels;
+      }
+    }
+  } catch (e) {
+    console.warn(`[AI Router] Dynamic Gemini model discovery failed:`, e.message);
+  }
+  return null;
+}
+
+async function resolveBestGeminiModel(apiKey, preference = 'flash') {
+  const liveModels = await getLiveGeminiModels(apiKey);
+  if (liveModels && liveModels.length > 0) {
+    const preferred = liveModels.filter(m => m.includes(preference));
+    if (preferred.length > 0) {
+      const latest = preferred.find(m => m.includes('1.5-flash') || m.includes('2.0-flash')) || preferred[0];
+      return latest;
+    }
+    return liveModels[0];
+  }
+  return 'gemini-1.5-flash';
+}
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -200,8 +243,8 @@ export default async function handler(req, res) {
 
     if (provider === 'gemini') {
       apiKey = process.env.GEMINI_API_KEY || (clientKey?.startsWith('AIzaSy') ? clientKey : '');
-      modelName = 'gemini-1.5-flash';
       if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY not configured in server environment' });
+      modelName = await resolveBestGeminiModel(apiKey, 'flash');
       endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
       headers = { 'Content-Type': 'application/json' };
       bodyObj = {
@@ -234,7 +277,7 @@ export default async function handler(req, res) {
         console.warn(`[AI Proxy] ANTHROPIC_API_KEY not found. Falling back to Gemini API.`);
         provider = 'gemini';
         apiKey = process.env.GEMINI_API_KEY;
-        modelName = 'gemini-1.5-flash';
+        modelName = await resolveBestGeminiModel(apiKey, 'flash');
         endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
         headers = { 'Content-Type': 'application/json' };
         bodyObj = {
@@ -280,12 +323,12 @@ export default async function handler(req, res) {
       }
     }
 
-    // Auto-retry with alternative Gemini models if primary call failed
+    // Auto-retry with live discovered Gemini models if primary call failed
     if (!resAi.ok && provider === 'gemini') {
-      const geminiFallbackModels = ['gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-flash-latest', 'gemini-1.5-pro'];
-      for (const fbModel of geminiFallbackModels) {
+      const liveGemini = (await getLiveGeminiModels(apiKey)) || ['gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-flash-latest', 'gemini-1.5-pro'];
+      for (const fbModel of liveGemini) {
         if (fbModel === modelName) continue;
-        console.warn(`[AI Proxy] Gemini Model ${modelName} failed. Retrying with ${fbModel}`);
+        console.warn(`[AI Proxy] Gemini Model ${modelName} failed. Retrying with live discovered ${fbModel}`);
         const fbEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/${fbModel}:generateContent?key=${apiKey}`;
         const resFb = await fetchWithRetry(fbEndpoint, { method: 'POST', headers, body: JSON.stringify(bodyObj) }).catch(() => null);
         if (resFb && resFb.ok) {
