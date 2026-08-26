@@ -31,7 +31,7 @@ import { cleanFirestorePayload } from '../utils/cleanFirestorePayload';
 import { SUPPORTED_LANGUAGES, getLanguageObj } from '../utils/languages';
 import CurriculumModal from '../components/CurriculumModal';
 import { curriculum } from '../data/curriculum';
-import { sanitizeQuestionData, getCurriculumSubjectKey, getSmartTopicTitle, cleanCategoryName } from '../utils/homeworkShared';
+import { sanitizeQuestionData, getCurriculumSubjectKey } from './HomeworkGenerator';
 import { DEFAULT_SUBJECT_PROMPTS, getMasterDefaultPrompts } from '../utils/defaultPrompts';
 import { checkCanGeneratePaper } from '../utils/quotaManager';
 import { fetchPricing } from '../utils/pricingConfig';
@@ -54,11 +54,57 @@ const GRADES = ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6'
 const DIFFICULTIES = ['Easy', 'Medium', 'Hard'];
 
 const SUBJECTS = [
-  { id: 'english', name: 'English', emoji: '??', color: 'text-orange-500', bgColor: 'bg-orange-50', borderColor: 'border-orange-200' },
-  { id: 'maths', name: 'Maths', emoji: '??', color: 'text-blue-500', bgColor: 'bg-blue-50', borderColor: 'border-blue-200' },
-  { id: 'science', name: 'Science', emoji: '??', color: 'text-green-600', bgColor: 'bg-green-50', borderColor: 'border-green-200' },
-  { id: 'olympiad', name: 'Olympiad Maths', emoji: '??', color: 'text-purple-600', bgColor: 'bg-purple-50', borderColor: 'border-purple-200' }
+  { id: 'english', name: 'English', emoji: '📚', color: 'text-orange-500', bgColor: 'bg-orange-50', borderColor: 'border-orange-200' },
+  { id: 'maths', name: 'Maths', emoji: '🔢', color: 'text-blue-500', bgColor: 'bg-blue-50', borderColor: 'border-blue-200' },
+  { id: 'science', name: 'Science', emoji: '🧪', color: 'text-green-600', bgColor: 'bg-green-50', borderColor: 'border-green-200' },
+  { id: 'olympiad', name: 'Olympiad Maths', emoji: '🏆', color: 'text-purple-600', bgColor: 'bg-purple-50', borderColor: 'border-purple-200' }
 ];
+
+export const cleanCategoryName = (cat) => {
+  if (!cat) return '';
+  // Strip leading section codes like "A.\t", "B. ", "1. ", "10.\t", "F. ", "3.1 " etc.
+  return cat.replace(/^[A-Z0-9]+(?:\.[0-9]+)*[\.\t\s]+\s*/i, '').trim();
+};
+
+export const getSmartTopicTitle = (skills) => {
+  if (!skills || skills.length === 0) return '';
+
+  const categoryMap = new Map();
+  skills.forEach(s => {
+    const rawCat = s.category || s.topicCategory || '';
+    const cleanCat = cleanCategoryName(rawCat);
+    if (cleanCat && !categoryMap.has(cleanCat)) {
+      categoryMap.set(cleanCat, rawCat);
+    }
+  });
+
+  const categories = Array.from(categoryMap.keys());
+
+  if (categories.length === 0) {
+    if (skills.length === 1) return skills[0].title;
+    return `${skills[0].title} & ${skills.length - 1} more`;
+  }
+
+  if (categories.length === 1) {
+    return categories[0];
+  }
+
+  if (categories.length === 2) {
+    const combined = `${categories[0]} & ${categories[1]}`;
+    if (combined.length <= 55) {
+      return combined;
+    }
+    return `${categories[0]} & 1 more topic`;
+  }
+
+  const combinedTwo = `${categories[0]}, ${categories[1]}`;
+  if (combinedTwo.length <= 45) {
+    return `${combinedTwo} & ${categories.length - 2} more`;
+  }
+
+  return `${categories[0]} & ${categories.length - 1} more topics`;
+};
+
 
 // Compile a prompt template by replacing keywords case-insensitively
 const compilePrompt = (customPrompt, params) => {
@@ -2280,6 +2326,3 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
     </div>
   );
 }
-
-
-

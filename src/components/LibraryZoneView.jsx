@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { db } from '../firebase';
-import { doc, getDoc, collection, getDocs, onSnapshot, deleteDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, getDocs, onSnapshot } from 'firebase/firestore';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
 import { getLanguageObj } from '../utils/languages';
 
@@ -186,6 +186,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
     });
     setTeacherAssignedBooks(prev => prev.filter(s => String(s.id) !== String(storyId)));
     try {
+      const { deleteDoc, doc } = await import('firebase/firestore');
       await deleteDoc(doc(db, 'custom_library_books', String(storyId)));
     } catch (err) {}
   };
@@ -2332,5 +2333,3 @@ Schema:
     </div>
   );
 }
-
-

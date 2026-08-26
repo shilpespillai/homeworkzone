@@ -1,30 +1,3 @@
-import InteractiveSorting from './InteractiveSorting';
-import InteractiveMatching from './InteractiveMatching';
-import InteractiveFractionColoring from './InteractiveFractionColoring';
-import InteractiveClockSetting from './InteractiveClockSetting';
-import InteractivePlaceValueBlocks from './InteractivePlaceValueBlocks';
-import InteractiveNumberLinePlotter from './InteractiveNumberLinePlotter';
-import InteractiveAngleBuilder from './InteractiveAngleBuilder';
-import InteractiveGridAreaPainter from './InteractiveGridAreaPainter';
-import InteractiveBalanceScale from './InteractiveBalanceScale';
-import InteractiveFractionWall from './InteractiveFractionWall';
-import InteractiveCoordinatePlotter from './InteractiveCoordinatePlotter';
-import InteractiveMoneyCounter from './InteractiveMoneyCounter';
-import InteractiveGeometryNet from './InteractiveGeometryNet';
-import InteractiveVennDiagram from './InteractiveVennDiagram';
-import InteractiveProbabilitySpinner from './InteractiveProbabilitySpinner';
-import InteractiveFunctionGrapher from './InteractiveFunctionGrapher';
-import InteractiveChartBuilder from './InteractiveChartBuilder';
-import InteractiveRatioMixer from './InteractiveRatioMixer';
-import InteractiveFactorTree from './InteractiveFactorTree';
-import InteractivePythagorasExplorer from './InteractivePythagorasExplorer';
-import InteractiveTransformationGeometry from './InteractiveTransformationGeometry';
-import InteractiveQuadraticParabola from './InteractiveQuadraticParabola';
-import InteractivePercentageGrid from './InteractivePercentageGrid';
-import InteractiveStemLeafPlot from './InteractiveStemLeafPlot';
-import InteractiveTrigRatios from './InteractiveTrigRatios';
-import InteractiveExponentialCurve from './InteractiveExponentialCurve';
-
 import React, { useState } from 'react';
 import { checkIsCorrect } from '../utils/checkIsCorrect';
 import { 
@@ -124,6 +97,32 @@ const checkChoiceIsStudentAnswer = (opt, optKey, studentAns) => {
   
   return false;
 };
+import InteractiveSorting from './InteractiveSorting';
+import InteractiveMatching from './InteractiveMatching';
+import InteractiveFractionColoring from './InteractiveFractionColoring';
+import InteractiveClockSetting from './InteractiveClockSetting';
+import InteractivePlaceValueBlocks from './InteractivePlaceValueBlocks';
+import InteractiveNumberLinePlotter from './InteractiveNumberLinePlotter';
+import InteractiveAngleBuilder from './InteractiveAngleBuilder';
+import InteractiveGridAreaPainter from './InteractiveGridAreaPainter';
+import InteractiveBalanceScale from './InteractiveBalanceScale';
+import InteractiveFractionWall from './InteractiveFractionWall';
+import InteractiveCoordinatePlotter from './InteractiveCoordinatePlotter';
+import InteractiveMoneyCounter from './InteractiveMoneyCounter';
+import InteractiveGeometryNet from './InteractiveGeometryNet';
+import InteractiveVennDiagram from './InteractiveVennDiagram';
+import InteractiveProbabilitySpinner from './InteractiveProbabilitySpinner';
+import InteractiveFunctionGrapher from './InteractiveFunctionGrapher';
+import InteractiveChartBuilder from './InteractiveChartBuilder';
+import InteractiveRatioMixer from './InteractiveRatioMixer';
+import InteractiveFactorTree from './InteractiveFactorTree';
+import InteractivePythagorasExplorer from './InteractivePythagorasExplorer';
+import InteractiveTransformationGeometry from './InteractiveTransformationGeometry';
+import InteractiveQuadraticParabola from './InteractiveQuadraticParabola';
+import InteractivePercentageGrid from './InteractivePercentageGrid';
+import InteractiveStemLeafPlot from './InteractiveStemLeafPlot';
+import InteractiveTrigRatios from './InteractiveTrigRatios';
+import InteractiveExponentialCurve from './InteractiveExponentialCurve';
 
 export default function OfficialExamPaperView({
   homework,
@@ -1122,4 +1121,3 @@ export default function OfficialExamPaperView({
     </div>
   );
 }
-

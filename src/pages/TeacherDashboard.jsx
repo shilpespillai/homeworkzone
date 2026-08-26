@@ -81,23 +81,10 @@ import {
 } from 'recharts';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { DEFAULT_ZONO_KNOWLEDGE } from '../utils/defaultZonoKnowledge';
 import { DEFAULT_SUBJECT_PROMPTS, getPremiumPromptTemplate, getMasterDefaultPrompts, saveMasterDefaultPromptsIfAdmin } from '../utils/defaultPrompts';
 import { db } from '../firebase';
 import { checkCanGeneratePaper } from '../utils/quotaManager';
 import SystemLogsTab from '../components/admin/SystemLogsTab';
-
-import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where, onSnapshot, addDoc, collectionGroup, updateDoc, limit, getDocsFromServer, increment } from 'firebase/firestore';
-import HomeworkGenerator from './HomeworkGenerator';
-import HomeworkScheduler from './HomeworkScheduler';
-import TestReportsDashboard from '../components/TestReportsDashboard';
-import AgenticHelpAssistant from '../components/AgenticHelpAssistant';
-import InternationalExamHubView from '../components/InternationalExamHubView';
-import { encryptText, decryptText } from '../utils/crypto';
-import { fetchWithRetry, generateContent } from '../utils/aiClient';
-import { checkIsCorrect } from '../utils/checkIsCorrect';
-import { SUPER_USER_EMAILS } from '../utils/defaultPrompts';
-
 
 const toTitleCase = (str) => {
   if (!str) return '';
@@ -108,6 +95,16 @@ const toTitleCase = (str) => {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 };
+import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where, onSnapshot, addDoc, collectionGroup, updateDoc, limit, getDocsFromServer, increment } from 'firebase/firestore';
+import HomeworkGenerator from './HomeworkGenerator';
+import HomeworkScheduler from './HomeworkScheduler';
+import TestReportsDashboard from '../components/TestReportsDashboard';
+import AgenticHelpAssistant from '../components/AgenticHelpAssistant';
+import InternationalExamHubView from '../components/InternationalExamHubView';
+import { encryptText, decryptText } from '../utils/crypto';
+import { fetchWithRetry, generateContent } from '../utils/aiClient';
+import { checkIsCorrect } from '../utils/checkIsCorrect';
+import { SUPER_USER_EMAILS } from '../utils/defaultPrompts';
 
 const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
 
@@ -764,36 +761,6 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [newClassName, setNewClassName] = useState('');
   const [isAdding, setIsAdding] = useState(false);
   const [activeTab, setActiveTab] = useState('Dashboard');
-  const [zonoKnowledgeText, setZonoKnowledgeText] = useState('');
-  const [isSavingZono, setIsSavingZono] = useState(false);
-
-  useEffect(() => {
-    const loadZono = async () => {
-      if (!isAdminUser) return;
-      try {
-        const docRef = doc(db, 'system', 'zono_knowledge');
-        const snap = await getDoc(docRef);
-        if (snap.exists() && snap.data().knowledgeText) {
-          setZonoKnowledgeText(snap.data().knowledgeText);
-        } else {
-          setZonoKnowledgeText(DEFAULT_ZONO_KNOWLEDGE);
-        }
-      } catch (err) { console.error('Failed to load Zono', err); }
-    };
-    loadZono();
-  }, [isAdminUser]);
-
-  const handleSaveZonoKnowledge = async () => {
-    setIsSavingZono(true);
-    try {
-      await setDoc(doc(db, 'system', 'zono_knowledge'), { knowledgeText: zonoKnowledgeText, updatedAt: new Date().toISOString() });
-      alert('Zono Knowledge Base successfully updated! ?');
-    } catch (e) {
-      console.error(e);
-      alert('Failed to save Zono Knowledge Base.');
-    }
-    setIsSavingZono(false);
-  };
   const [completionTab, setCompletionTab] = useState('lagging');
   const [selectedExamForBuilder, setSelectedExamForBuilder] = useState(null);
   const [teacherBilling, setTeacherBilling] = useState(null);
@@ -3007,49 +2974,7 @@ Include a balanced combination of question types such as:
           </div>
         </div>
 
-                  {/* Admin Zono Knowledge Base Section */}
-          {isAdminUser && (
-            <div className="bg-white rounded-[40px] border border-blue-100 shadow-sm p-10 relative overflow-hidden group mb-10">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full blur-3xl -mr-20 -mt-20 opacity-40 transition-opacity group-hover:opacity-70" />
-              
-              <div className="relative z-10">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-inner">
-                    <img src="/zono.jpg" className="w-10 h-10 object-cover rounded-full shadow-sm" alt="Zono" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-black text-slate-800">Zono Master Brain Editor</h2>
-                    <p className="text-sm font-bold text-slate-400 mt-1 uppercase tracking-wider">
-                      Teach Zono how the app works
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <p className="text-sm text-slate-600">
-                    This is Zono's memory. Type out any business rules, instructions, hidden features, or navigation guides you want Zono to know. When a user asks Zono a question, it will read this manual first!
-                  </p>
-                  <textarea
-                    value={zonoKnowledgeText}
-                    onChange={(e) => setZonoKnowledgeText(e.target.value)}
-                    placeholder="Type the App Manual here..."
-                    className="w-full h-96 p-4 rounded-2xl border-2 border-slate-200 focus:border-blue-400 outline-none resize-y font-mono text-xs text-slate-700 bg-slate-50"
-                  />
-                  <div className="flex justify-end mt-4">
-                    <button
-                      onClick={handleSaveZonoKnowledge}
-                      disabled={isSavingZono}
-                      className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-black rounded-xl shadow-md transition-colors flex items-center gap-2"
-                    >
-                      {isSavingZono ? 'Saving...' : 'Save Zono Memory ??'}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Data Retention & Purge Section */}
+        {/* Data Retention & Purge Section */}
         <div className="bg-white rounded-[40px] border border-orange-100 shadow-sm p-10 relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-64 h-64 bg-orange-50 rounded-full blur-3xl -mr-20 -mt-20 opacity-40 transition-opacity group-hover:opacity-70" />
           
@@ -5316,7 +5241,9 @@ Include a balanced combination of question types such as:
                              <button
                              onClick={async () => {
                              try {
-                             await addDoc(collection(db, 'messages'), {
+                             const { addDoc, collection } = await import('firebase/firestore');
+                             const { db: fdb } = await import('../firebase');
+                             await addDoc(collection(fdb, 'messages'), {
                              teacherId: user.uid, senderId: user.uid,
                              senderName: user.displayName || 'Teacher', senderRole: 'teacher',
                              recipientType: 'student', recipientId: d.student.name, recipientName: d.student.name,
@@ -9556,18 +9483,7 @@ Include a balanced combination of question types such as:
       {showCalendarModal && selectedCalendarHw && (() => {
          const submissions = allSubmissions.filter(s => s.homeworkId === selectedCalendarHw.id && (!activeClassroom || s.classId === activeClassroom?.id));
          const classStudents = allStudents.filter(s => s.classId === selectedCalendarHw.assignedClassId);
-         
-const toTitleCase = (str) => {
-  if (!str) return '';
-  return str
-    .trim()
-    .toLowerCase()
-    .split(/\s+/)
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-};
-
-const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
+         const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
          const submittedStudentNames = new Set(submissions.map(s => normalizeName(s.studentName)));
          const pendingStudents = classStudents.filter(s => !submittedStudentNames.has(normalizeName(s.name)));
 
@@ -11436,17 +11352,6 @@ const SubjectCard = ({ title, description, icon, color, borderColor, active, onC
 );
 
 export default TeacherDashboard;
-
-
-
-
-
-
-
-
-
-
-
 
 
 
