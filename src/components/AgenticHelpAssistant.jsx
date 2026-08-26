@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Bot, X, Send, Sparkles, HelpCircle, ChevronRight, MessageSquare, Compass, ArrowRight, Zap, RefreshCw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { generateContent } from '../utils/aiClient';
+import { db } from '../firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 const KNOWLEDGE_BASE_CONTEXT = `
 You are Zono the Monster, the official HomeworkZone App & Dashboard Knowledge Guide — an expert AI assistant built EXCLUSIVELY to answer questions about how the HomeworkZone web application works, where features are located, how to use dashboard tools, navigate tabs, and configure settings.
@@ -64,8 +66,28 @@ const SUGGESTED_QUESTIONS = [
   "What subjects and micro-topics are supported?"
 ];
 
+import { DEFAULT_ZONO_KNOWLEDGE } from '../utils/defaultZonoKnowledge';
+
 export default function AgenticHelpAssistant({ setDashboardTab }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [customKnowledge, setCustomKnowledge] = useState('');
+
+  useEffect(() => {
+    const fetchKnowledge = async () => {
+      try {
+        const snap = await getDoc(doc(db, 'system', 'zono_knowledge'));
+        if (snap.exists() && snap.data().knowledgeText) {
+          setCustomKnowledge(snap.data().knowledgeText);
+        } else {
+          setCustomKnowledge(DEFAULT_ZONO_KNOWLEDGE);
+        }
+      } catch (err) {
+        console.error('Failed to fetch Zono knowledge', err);
+        setCustomKnowledge(DEFAULT_ZONO_KNOWLEDGE);
+      }
+    };
+    fetchKnowledge();
+  }, []);
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
@@ -108,7 +130,7 @@ Please answer the user's question accurately based on the HomeworkZone Knowledge
 
       const responseText = await generateContent({
         prompt: promptPayload,
-        systemInstruction: KNOWLEDGE_BASE_CONTEXT,
+        systemInstruction: KNOWLEDGE_BASE_CONTEXT + '`n`n--- APP MANUAL (CUSTOM KNOWLEDGE) ---`n' + customKnowledge,
         provider: 'gemini'
       });
 
@@ -335,6 +357,9 @@ Please answer the user's question accurately based on the HomeworkZone Knowledge
     </>
   );
 }
+
+
+
 
 
 
