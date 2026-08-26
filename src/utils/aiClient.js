@@ -68,6 +68,7 @@ export const getModelForGrade = (grade, subject, baseProvider) => {
 
 import { auth } from '../firebase';
 export const generateContent = async ({ prompt, systemInstruction, responseMimeType, provider, maxTokens, temperature }) => {
+  const clientKey = typeof localStorage !== 'undefined' ? (localStorage.getItem('hwz_gemini_key') || localStorage.getItem('hwz_anthropic_key') || '') : '';
   try {
     const res = await fetch('/api/generate-content', {
       method: 'POST',
@@ -75,7 +76,7 @@ export const generateContent = async ({ prompt, systemInstruction, responseMimeT
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${auth?.currentUser ? await auth.currentUser.getIdToken() : ''}`
       },
-      body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider, maxTokens, temperature }),
+      body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider, maxTokens, temperature, clientKey }),
     });
     if (res.ok) {
       const data = await res.json();
