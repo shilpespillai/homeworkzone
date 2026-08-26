@@ -69,39 +69,64 @@ export const getModelForGrade = (grade, subject, baseProvider) => {
 import { auth } from '../firebase';
 export const generateContent = async ({ prompt, systemInstruction, responseMimeType, provider, maxTokens, temperature }) => {
   const clientKey = typeof localStorage !== 'undefined' ? (localStorage.getItem('hwz_gemini_key') || localStorage.getItem('hwz_anthropic_key') || '') : '';
+  const activeProvider = provider || 'gemini';
+  
+  console.log(`[AI Client] 🚀 Sending generation request:`, {
+    provider: activeProvider,
+    promptLength: prompt?.length || 0,
+    hasSystemInstruction: !!systemInstruction,
+    hasClientKey: !!clientKey,
+    hasAuthUser: !!auth?.currentUser
+  });
+
   try {
+    const token = auth?.currentUser ? await auth.currentUser.getIdToken().catch(() => '') : '';
     const res = await fetch('/api/generate-content', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${auth?.currentUser ? await auth.currentUser.getIdToken() : ''}`
+        'Authorization': token ? `Bearer ${token}` : ''
       },
-      body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider, maxTokens, temperature, clientKey }),
+      body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider: activeProvider, maxTokens, temperature, clientKey }),
     });
+
     if (res.ok) {
       const data = await res.json();
-      if (data.text) return data.text;
+      if (data.text) {
+        console.log(`[AI Client] ✅ Generation successful (${data.text.length} chars returned)`);
+        return data.text;
+      }
+    } else {
+      const errText = await res.text().catch(() => '');
+      console.warn(`[AI Client] ⚠️ Server returned HTTP ${res.status}:`, errText);
     }
   } catch (err) {
-    console.warn(`[AI Client] Primary generation failed with ${provider}. Retrying with backup engine...`);
+    console.warn(`[AI Client] ⚠️ Network / fetch call failed for ${activeProvider}:`, err.message);
   }
 
   // Client-side fail-safe retry using default backup engine
-  if (provider !== 'gemini') {
+  if (activeProvider !== 'gemini') {
     try {
+      console.log(`[AI Client] 🔄 Retrying with fallback Gemini engine...`);
       const fallbackRes = await fetch('/api/generate-content', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider: 'gemini', maxTokens, temperature }),
+        body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider: 'gemini', maxTokens, temperature, clientKey }),
       });
       if (fallbackRes.ok) {
         const data = await fallbackRes.json();
-        if (data.text) return data.text;
+        if (data.text) {
+          console.log(`[AI Client] ✅ Fallback generation successful!`);
+          return data.text;
+        }
+      } else {
+        const fbErr = await fallbackRes.text().catch(() => '');
+        console.error(`[AI Client] ❌ Fallback server returned HTTP ${fallbackRes.status}:`, fbErr);
       }
     } catch (fallbackErr) {
-      console.error(`[AI Client] Backup engine also encountered issue:`, fallbackErr);
+      console.error(`[AI Client] ❌ Backup engine also failed:`, fallbackErr.message);
     }
   }
 

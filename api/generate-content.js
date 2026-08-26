@@ -109,13 +109,12 @@ export default async function handler(req, res) {
 
   try {
     const authHeader = req.headers.authorization || '';
-    const idToken = authHeader.replace('Bearer ', '');
-    if (!idToken) return res.status(401).json({ error: 'Unauthorized' });
+    const idToken = authHeader.replace('Bearer ', '').trim();
 
-    const { prompt, systemInstruction, responseMimeType, provider: reqProvider } = req.body;
+    const { prompt, systemInstruction, responseMimeType, provider: reqProvider, maxTokens, temperature } = req.body;
     if (!prompt) return res.status(400).json({ error: 'Prompt is required' });
 
-    let provider = (reqProvider || process.env.SYSTEM_ACTIVE_AI || 'anthropic').toLowerCase();
+    let provider = (reqProvider || process.env.SYSTEM_ACTIVE_AI || 'gemini').toLowerCase();
     const cacheKey = await sha256(provider + prompt);
     
     let db = null;
@@ -132,18 +131,21 @@ export default async function handler(req, res) {
           });
         }
         db = admin.firestore();
-        decodedToken = await admin.auth().verifyIdToken(idToken);
-        if (decodedToken && decodedToken.firebase && decodedToken.firebase.sign_in_provider === 'anonymous') {
-          return res.status(403).json({ error: 'Forbidden: Anonymous students cannot generate AI content' });
+        if (idToken) {
+          try {
+            decodedToken = await admin.auth().verifyIdToken(idToken);
+          } catch (tokErr) {
+            console.warn(`[AI Proxy] Auth token verification failed (proceeding in guest/student mode):`, tokErr.message);
+          }
         }
         
         // --- RATE LIMITING & ADMIN ALERT LOGIC ---
-        const uid = decodedToken.uid;
-        const rateLimitRef = db.collection('api_rate_limits').doc(uid);
+        const uid = decodedToken?.uid || req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'guest_user';
+        const rateLimitRef = db.collection('api_rate_limits').doc(String(uid).replace(/[\/\.]/g, '_'));
         const rateLimitDoc = await rateLimitRef.get();
         const now = Date.now();
         const WINDOW_MS = 60000; // 1 minute window
-        const MAX_REQUESTS = 15; // Max generations per minute
+        const MAX_REQUESTS = 25; // Max generations per minute
 
         let shouldBlock = false;
         if (!rateLimitDoc.exists) {
@@ -166,10 +168,10 @@ export default async function handler(req, res) {
           await db.collection('error_logs').add({
             timestamp: new Date().toISOString(),
             message: `🚨 SECURITY ALERT: API Rate Limit Exceeded (Bot Suspected)`,
-            stack: `Teacher UID: ${uid}\nEmail: ${decodedToken.email || 'Unknown'}\nTriggered >${MAX_REQUESTS} AI generations per minute.`,
+            stack: `UID/IP: ${uid}\nEmail: ${decodedToken?.email || 'Guest/Student'}\nTriggered >${MAX_REQUESTS} AI generations per minute.`,
             source: 'api/generate-content',
-            userName: decodedToken.email || uid,
-            userAgent: 'Backend Security',
+            userName: decodedToken?.email || uid,
+            userAgent: req.headers['user-agent'] || 'Backend Security',
             resolved: false
           });
           return res.status(429).json({ error: 'Too many requests. Please wait a minute before generating more content.' });
@@ -181,8 +183,7 @@ export default async function handler(req, res) {
       }
     
     } catch (dbErr) {
-      console.warn(`[AI Proxy] Firebase admin / Auth failed:`, dbErr.message);
-      return res.status(403).json({ error: 'Forbidden: Invalid token' });
+      console.warn(`[AI Proxy] Rate limit check skipped:`, dbErr.message);
     }
 
     let cached = null;
