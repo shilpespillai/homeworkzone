@@ -114,28 +114,41 @@ export default function AgenticHelpAssistant({ setDashboardTab }) {
     setIsThinking(true);
 
     try {
-      // Keep conversation history compact (last 4 turns) to maximize response speed
-      const conversationHistory = newMessages.slice(-4).map(m => `${m.sender === 'user' ? 'User' : 'Zono'}: ${m.text}`).join('\n');
+      // Keep conversation context ultra-lean (only user queries and brief bot snippets) to maximize response speed
+      const recentChatTurns = newMessages.slice(-3).map(m => {
+        const truncated = m.text.length > 200 ? m.text.substring(0, 200) + '...' : m.text;
+        return `${m.sender === 'user' ? 'User' : 'Zono'}: ${truncated}`;
+      }).join('\n');
 
       const promptPayload = `
-=== HOMEWORKZONE MASTER KNOWLEDGE BASE ===
+=== MASTER KNOWLEDGE BASE ===
 ${customKnowledge || DEFAULT_ZONO_KNOWLEDGE}
 
-=== RECENT CONVERSATION ===
-${conversationHistory}
+=== RECENT CONTEXT ===
+${recentChatTurns}
 
-=== USER QUESTION ===
+=== CURRENT USER QUESTION ===
 "${queryText}"
 
-Answer the user's question directly and concisely based on the Knowledge Base above. Include clickable action tags like [NAVIGATE:TabName] (e.g. [NAVIGATE:My Classes], [NAVIGATE:Homework/Test Builder], [NAVIGATE:Settings]) if relevant.
+Instructions:
+- Provide a direct, concise, and structured answer in 2-3 short paragraphs or bullet points based on the Knowledge Base.
+- Include action navigation tags like [NAVIGATE:My Classes], [NAVIGATE:Homework/Test Builder], [NAVIGATE:Test Reports], [NAVIGATE:Settings], or [NAVIGATE:Billing & Plan] when relevant.
 `;
 
-      const responseText = await generateContent({
+      // 15-second timeout guard to prevent UI hanging
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Response timed out")), 15000)
+      );
+
+      const generationPromise = generateContent({
         prompt: promptPayload,
         systemInstruction: KNOWLEDGE_BASE_CONTEXT,
-        maxTokens: 1000,
+        provider: 'claude-haiku',
+        maxTokens: 800,
         temperature: 0.3
       });
+
+      const responseText = await Promise.race([generationPromise, timeoutPromise]);
 
       setMessages(prev => [
         ...prev,
@@ -150,12 +163,12 @@ Answer the user's question directly and concisely based on the Knowledge Base ab
         ...prev,
         {
           sender: 'bot',
-          text: "Oops! I ran into a network hiccup while answering. Please try asking again! 🤖"
+          text: "Oops! I ran into a brief network delay. Please click below to try asking again! 🤖"
         }
       ]);
+    } finally {
+      setIsThinking(false);
     }
-
-    setIsThinking(false);
   };
 
   // Render formatted text with clickable Navigation Action Tags
