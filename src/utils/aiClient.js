@@ -1,3 +1,4 @@
+import { auth } from '../firebase';
 export const fetchWithRetry = async (url, options, maxRetries = 3, initialDelay = 1000) => {
   let delay = initialDelay;
   for (let attempt = 0; attempt < maxRetries; attempt++) {
@@ -66,7 +67,6 @@ export const getModelForGrade = (grade, subject, baseProvider) => {
   return 'claude-haiku';
 };
 
-import { auth } from '../firebase';
 export const generateContent = async ({ prompt, systemInstruction, responseMimeType, provider }) => {
   try {
     const res = await fetch('/api/generate-content', {
@@ -106,5 +106,6 @@ export const generateContent = async ({ prompt, systemInstruction, responseMimeT
 
   throw new Error("Our learning engine is briefly recalibrating content. Please try again in a moment.");
 };
+
 
 

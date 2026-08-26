@@ -15,7 +15,6 @@ import {
   Zap
 } from 'lucide-react';
 
-const normalizeName = (name) => (name || '').trim().toLowerCase();
 
 import { MATHS_CURRICULUM } from '../data/mathsCurriculum';
 import VedicMathsGuide from './VedicMathsGuide';
@@ -1317,3 +1316,4 @@ export default function MathsLearningHub({ activeConcept = 'Numbers & Place Valu
     </div>
   );
 }
+
