@@ -528,7 +528,9 @@ export default async function handler(req, res) {
       }
 
       if (isExpired) {
-        console.warn(`[Scheduler] Teacher ${sched.teacherId} trial expired. Skipping schedule ${sched.id}.`);
+        const msg = `[Scheduler] Teacher ${sched.teacherId} trial expired. Skipping schedule ${sched.id}.`;
+        console.warn(msg);
+        await logServerError(new Error(msg), 'executeSchedule', sched.id);
         skipped++;
         continue;
       }
