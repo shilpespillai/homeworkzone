@@ -66,12 +66,14 @@ export const getModelForGrade = (grade, subject, baseProvider) => {
   return 'claude-haiku';
 };
 
+import { auth } from '../firebase';
 export const generateContent = async ({ prompt, systemInstruction, responseMimeType, provider }) => {
   try {
     const res = await fetch('/api/generate-content', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${auth?.currentUser ? await auth.currentUser.getIdToken() : ''}`
       },
       body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider }),
     });
@@ -104,3 +106,5 @@ export const generateContent = async ({ prompt, systemInstruction, responseMimeT
 
   throw new Error("Our learning engine is briefly recalibrating content. Please try again in a moment.");
 };
+
+

@@ -85,7 +85,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import TeacherDashboard from './pages/TeacherDashboard';
 import StudentQuiz from './pages/StudentQuiz';
 import { auth, db, googleProvider } from './firebase';
-import { signInWithPopup, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, signOut } from 'firebase/auth';
+import { signInAnonymously, signInWithPopup, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, signOut } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, orderBy, arrayUnion, onSnapshot, limit } from 'firebase/firestore';
 import MessagingModule from './components/MessagingModule';
 import VirtualPetCompanionWidget from './components/VirtualPetCompanionWidget';
@@ -4882,7 +4882,8 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                 return;
               }
               // Password matches → log in
-              onStudentLogin({ teacher: { uid: teacherDoc.id, ...teacherData }, name: matchedStudentName, classroom: studentClass });
+              try { await signInAnonymously(auth); } catch (e) { console.warn('Anon auth failed', e); }
+                onStudentLogin({ teacher: { uid: teacherDoc.id, ...teacherData }, name: matchedStudentName, classroom: studentClass });
               setShowLoginModal(null);
               setStudentPassword('');
               setShowPwField(false);
@@ -6405,7 +6406,8 @@ export default function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const isEmailProvider = user.providerData.some(p => p.providerId === 'password');
+        if (user.isAnonymous) { console.log('App: Anonymous auth'); setIsLoading(false); return; }
+          const isEmailProvider = user.providerData.some(p => p.providerId === 'password');
         if (isEmailProvider && !user.emailVerified) {
           console.log("App: Email not verified. Auto-login skipped.");
           setCurrentUser(null);
@@ -6629,4 +6631,9 @@ export default function App() {
     </>
   );
 }
+
+
+
+
+
 

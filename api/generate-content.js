@@ -108,6 +108,10 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
+    const authHeader = req.headers.authorization || '';
+    const idToken = authHeader.replace('Bearer ', '');
+    if (!idToken) return res.status(401).json({ error: 'Unauthorized' });
+
     const { prompt, systemInstruction, responseMimeType, provider: reqProvider } = req.body;
     if (!prompt) return res.status(400).json({ error: 'Prompt is required' });
 
@@ -115,6 +119,7 @@ export default async function handler(req, res) {
     const cacheKey = await sha256(provider + prompt);
     
     let db = null;
+    let decodedToken = null;
     try {
       if (process.env.FIREBASE_PROJECT_ID && process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY) {
         if (!admin.apps.length) {
@@ -127,9 +132,13 @@ export default async function handler(req, res) {
           });
         }
         db = admin.firestore();
+        decodedToken = await admin.auth().verifyIdToken(idToken);
       } else {
-        console.warn(`[AI Proxy] Missing Firebase Admin environment variables. Bypassing Firestore cache.`);
+        console.warn(`[AI Proxy] Missing Firebase Admin environment variables. Bypassing Auth & cache.`);
       }
+    } catch (e) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
     } catch (dbErr) {
       console.warn(`[AI Proxy] Firebase admin initialization failed:`, dbErr.message);
     }
