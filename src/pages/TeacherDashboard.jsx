@@ -5723,6 +5723,13 @@ Include a balanced combination of question types such as:
                                           : <PauseCircle className="w-4 h-4" />
                                        }
                                     </button>
+                                      <button 
+                                         onClick={() => handleResetStudentPassword(student)}
+                                         className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-all"
+                                         title="Reset student password"
+                                      >
+                                         <Key className="w-4 h-4" />
+                                      </button>
                                     <button 
                                        onClick={() => {
                                           setSelectedProfileStudent(student);
@@ -11325,6 +11332,9 @@ const SubjectCard = ({ title, description, icon, color, borderColor, active, onC
 );
 
 export default TeacherDashboard;
+
+
+
 
 
 
