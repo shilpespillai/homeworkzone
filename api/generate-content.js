@@ -333,7 +333,7 @@ export default async function handler(req, res) {
 
     if (db) {
       try {
-        await setCache(db, cacheKey, textResult, responseMimeType === 'application/json' ? 24 : 6);
+        await setCache(db, cacheKey, textResult, 72);
       } catch (cacheErr) {
         console.warn(`[AI Proxy] Failed to save cache:`, cacheErr.message);
       }

@@ -81,12 +81,15 @@ export default function AgenticHelpAssistant({ setDashboardTab }) {
 
   const [customKnowledge, setCustomKnowledge] = useState(DEFAULT_ZONO_KNOWLEDGE);
 
+  const queryCacheRef = useRef(new Map());
+
   const chatEndRef = useRef(null);
 
   useEffect(() => {
     const fetchKnowledge = async () => {
       try {
-        const snap = await getDoc(doc(db, 'system', 'zono_knowledge'));
+        const docRef = doc(db, 'system', 'zono_knowledge');
+        const snap = await getDoc(docRef);
         if (snap.exists() && snap.data()?.text) {
           setCustomKnowledge(snap.data().text);
         }
@@ -111,44 +114,56 @@ export default function AgenticHelpAssistant({ setDashboardTab }) {
     const newMessages = [...messages, { sender: 'user', text: queryText }];
     setMessages(newMessages);
     if (!textToSend) setInputQuery('');
+
+    // Check client-side memory cache for instant (0ms, 0 tokens) response
+    const cacheKey = queryText.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (queryCacheRef.current.has(cacheKey)) {
+      setMessages(prev => [
+        ...prev,
+        {
+          sender: 'bot',
+          text: queryCacheRef.current.get(cacheKey)
+        }
+      ]);
+      return;
+    }
+
     setIsThinking(true);
 
     try {
-      // Keep conversation context ultra-lean (only user queries and brief bot snippets) to maximize response speed
-      const recentChatTurns = newMessages.slice(-3).map(m => {
-        const truncated = m.text.length > 200 ? m.text.substring(0, 200) + '...' : m.text;
-        return `${m.sender === 'user' ? 'User' : 'Zono'}: ${truncated}`;
-      }).join('\n');
-
+      // Minimal token prompt: Knowledge base + direct question only
       const promptPayload = `
 === MASTER KNOWLEDGE BASE ===
 ${customKnowledge || DEFAULT_ZONO_KNOWLEDGE}
 
-=== RECENT CONTEXT ===
-${recentChatTurns}
-
-=== CURRENT USER QUESTION ===
+=== USER QUESTION ===
 "${queryText}"
 
-Instructions:
-- Provide a direct, concise, and structured answer in 2-3 short paragraphs or bullet points based on the Knowledge Base.
-- Include action navigation tags like [NAVIGATE:My Classes], [NAVIGATE:Homework/Test Builder], [NAVIGATE:Test Reports], [NAVIGATE:Settings], or [NAVIGATE:Billing & Plan] when relevant.
+Rules:
+- Answer in 2-3 short, crisp bullet points or sentences directly from the Knowledge Base.
+- Include action navigation tags like [NAVIGATE:My Classes], [NAVIGATE:Homework/Test Builder], [NAVIGATE:Test Reports], [NAVIGATE:Settings], or [NAVIGATE:Billing & Plan] where appropriate.
+- Zero fluff or redundant explanations.
 `;
 
-      // 15-second timeout guard to prevent UI hanging
+      // 10-second hard timeout guard to guarantee no looping
       const timeoutPromise = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("Response timed out")), 15000)
+        setTimeout(() => reject(new Error("Response timed out")), 10000)
       );
 
       const generationPromise = generateContent({
         prompt: promptPayload,
         systemInstruction: KNOWLEDGE_BASE_CONTEXT,
         provider: 'claude-haiku',
-        maxTokens: 800,
-        temperature: 0.3
+        maxTokens: 350,
+        temperature: 0.2
       });
 
       const responseText = await Promise.race([generationPromise, timeoutPromise]);
+
+      if (responseText) {
+        // Cache answer locally for immediate instant retrieval
+        queryCacheRef.current.set(cacheKey, responseText);
+      }
 
       setMessages(prev => [
         ...prev,
