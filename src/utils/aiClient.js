@@ -67,7 +67,7 @@ export const getModelForGrade = (grade, subject, baseProvider) => {
 };
 
 import { auth } from '../firebase';
-export const generateContent = async ({ prompt, systemInstruction, responseMimeType, provider }) => {
+export const generateContent = async ({ prompt, systemInstruction, responseMimeType, provider, maxTokens, temperature }) => {
   try {
     const res = await fetch('/api/generate-content', {
       method: 'POST',
@@ -75,7 +75,7 @@ export const generateContent = async ({ prompt, systemInstruction, responseMimeT
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${auth?.currentUser ? await auth.currentUser.getIdToken() : ''}`
       },
-      body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider }),
+      body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider, maxTokens, temperature }),
     });
     if (res.ok) {
       const data = await res.json();
@@ -93,7 +93,7 @@ export const generateContent = async ({ prompt, systemInstruction, responseMimeT
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider: 'gemini' }),
+        body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider: 'gemini', maxTokens, temperature }),
       });
       if (fallbackRes.ok) {
         const data = await fallbackRes.json();

@@ -199,13 +199,17 @@ export default async function handler(req, res) {
 
     if (provider === 'gemini') {
       apiKey = process.env.GEMINI_API_KEY;
-      modelName = 'gemini-flash-latest';
+      modelName = 'gemini-2.0-flash';
       if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY not configured' });
       endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
       headers = { 'Content-Type': 'application/json' };
       bodyObj = {
         contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.7, responseMimeType: responseMimeType === 'application/json' ? 'application/json' : 'text/plain' }
+        generationConfig: { 
+          temperature: typeof temperature === 'number' ? temperature : 0.5,
+          maxOutputTokens: maxTokens || 1024,
+          responseMimeType: responseMimeType === 'application/json' ? 'application/json' : 'text/plain' 
+        }
       };
       if (systemInstruction) {
         bodyObj.systemInstruction = { parts: [{ text: systemInstruction }] };

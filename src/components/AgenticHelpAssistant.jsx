@@ -54,9 +54,10 @@ If appropriate to help the user locate a feature, include action tags in your re
 Our UI will automatically convert these tags into interactive buttons that jump the user directly to that tab!
 
 BEHAVIOR GUIDELINES:
-- Be extremely helpful, clear, polite, and encouraging. Introduce yourself as Zono the monster!
-- Format responses in clean, easy-to-read Markdown with bullet points and bold highlights.
-- Keep answers focused strictly on explaining the app and its dashboards.
+- SPEED & BREVITY FIRST: Be concise, direct, and fast. Give actionable answers in 2-4 short bullet points or 1-2 tight paragraphs.
+- Never write lengthy essays, generic filler, or repetitive disclaimers.
+- Immediately provide the exact steps and any relevant [NAVIGATE:TabName] action tags so the user can take action instantly.
+- Friendly tone with monster/dino emojis (🦖, 🐾, 🧠) where appropriate.
 `;
 
 const SUGGESTED_QUESTIONS = [
@@ -113,16 +114,16 @@ export default function AgenticHelpAssistant({ setDashboardTab }) {
     setIsThinking(true);
 
     try {
-      // Build conversation history for AI
-      const conversationHistory = newMessages.slice(-6).map(m => `${m.sender === 'user' ? 'User' : 'Assistant'}: ${m.text}`).join('\n');
+      // Keep conversation history compact (last 4 turns) to maximize response speed
+      const conversationHistory = newMessages.slice(-4).map(m => `${m.sender === 'user' ? 'User' : 'Zono'}: ${m.text}`).join('\n');
 
       const promptPayload = `
 Conversation History:
 ${conversationHistory}
 
-User's Latest Question: "${queryText}"
+User Question: "${queryText}"
 
-Please answer the user's question accurately based on the HomeworkZone Knowledge Base. Keep the response clear, helpful, and properly formatted in Markdown.
+Provide a direct, concise, and fast answer based on the Knowledge Base. Use bullet points and action navigation tags if relevant.
 `;
 
       const fullSystemInstruction = `${KNOWLEDGE_BASE_CONTEXT}\n\n=== DYNAMIC CUSTOM APP KNOWLEDGE ===\n${customKnowledge}`;
@@ -130,7 +131,9 @@ Please answer the user's question accurately based on the HomeworkZone Knowledge
       const responseText = await generateContent({
         prompt: promptPayload,
         systemInstruction: fullSystemInstruction,
-        provider: 'gemini'
+        provider: 'gemini',
+        maxTokens: 600,
+        temperature: 0.3
       });
 
       setMessages(prev => [
@@ -309,10 +312,9 @@ Please answer the user's question accurately based on the HomeworkZone Knowledge
               {/* Thinking Indicator */}
               {isThinking && (
                 <div className="flex gap-3 items-center text-slate-500 italic font-bold text-xs p-2">
-                  <div className="w-7 h-7 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
-                    <RefreshCw className="w-4 h-4 animate-spin" />
-                  </div>
-                  <span>Searching system knowledge base & crafting response...</span>
+                  <span className="text-slate-500 font-bold text-xs flex items-center gap-1.5">
+                    Zono is thinking... <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
+                  </span>
                 </div>
               )}
 
