@@ -4930,36 +4930,19 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
 
       {/* NAV */}
       <header className="bg-white shadow-sm">
-        <div className="w-full px-6 py-4 flex items-center gap-6">
+        <div className="w-full px-6 py-4 flex items-center justify-between">
           <a href="#" className="flex items-center gap-3 hover:scale-[1.03] transition-transform duration-300">
             <img src="/images/owl.png" alt="Homework Zone owl" className="w-14 h-14" />
             <img src="/logo.png?v=3" className="h-14 w-auto object-contain mix-blend-multiply" alt="Homework Zone Logo" />
           </a>
 
-
-
-
-          <div className="flex items-center gap-4 ml-auto">
+          <div className="flex items-center gap-4">
             <Link to="/documentation" className="flex flex-col items-center text-xs font-bold text-slate-600 hover:scale-105 transition-transform duration-300">
               <span className="icon-tile bg-indigo-50 text-indigo-500">
                 <FileText className="w-5 h-5 mx-auto" />
               </span>
               Docs
             </Link>
-            <button onClick={() => setShowHelpModal(true)} className="flex flex-col items-center text-xs font-bold text-slate-600 hover:scale-105 transition-transform duration-300">
-              <span className="icon-tile bg-blue-50" style={{ color: 'var(--blue)' }}>?</span>
-              Help
-            </button>
-            <button onClick={() => openLogin('teacher')} className="flex flex-col items-center text-xs font-bold text-slate-600">
-              <span className="icon-tile text-white" style={{ background: 'var(--blue)' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-              </span>
-              Parent Zone
-            </button>
-            <button onClick={() => openLogin('student')} className="flex items-center gap-1 bg-blue-50 rounded-full p-1 pr-2">
-              <img src="/images/avatar.png" alt="Profile" className="w-10 h-10 rounded-full bg-white object-cover" />
-              <span className="text-slate-500">&#9660;</span>
-            </button>
           </div>
         </div>
       </header>
@@ -4967,7 +4950,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
       <main className="w-full px-6 pb-12">
 
         {/* TOP INTRO & DYNAMIC HEADLINE (WHITE SPACE) */}
-        <section className="pt-2 pb-4 max-w-5xl mx-auto text-center flex flex-col items-center space-y-3">
+        <section className="pt-3 pb-4 max-w-5xl mx-auto text-center flex flex-col items-center space-y-3">
           {/* Dynamic Animated Rotating Pill */}
           <div className="h-8 flex items-center justify-center">
             <AnimatePresence mode="wait">
@@ -4997,7 +4980,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
             From Early Prep to Senior High School. Generate unlimited printable worksheets &amp; practice tests with instant step-by-step AI marking.
           </p>
 
-          {/* CTA Action Buttons */}
+          {/* Only 2 Login Actions into the system */}
           <div className="pt-1 flex flex-wrap items-center justify-center gap-3">
             <button onClick={() => openLogin('student')} className="btn-bubble btn-primary shadow-md flex items-center gap-2 px-6 py-2.5 text-sm">
               <span>Start Practicing Free</span>
@@ -5022,30 +5005,24 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
           </div>
         </section>
 
-        {/* SIDE-BY-SIDE HERO BANNERS */}
+        {/* SIDE-BY-SIDE HERO BANNERS (DISPLAY ONLY) */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-5 mt-2">
           {/* Left: 3D Practice Paper & Monster Illustration Banner */}
-          <div 
-            onClick={() => openLogin('student')}
-            className="lg:col-span-7 bg-white rounded-3xl p-2 sm:p-3 card-shadow border border-slate-100 overflow-hidden cursor-pointer group transition-all duration-300 hover:shadow-xl relative flex items-center justify-center"
-          >
+          <div className="lg:col-span-7 bg-white rounded-3xl p-2 sm:p-3 card-shadow border border-slate-100 overflow-hidden relative flex items-center justify-center">
             <img 
               src="/images/hero-practice-banner.jpg" 
               alt="Generate Practice Papers" 
-              className="w-full h-auto max-h-[420px] object-contain rounded-2xl transition-transform duration-500 group-hover:scale-[1.01]" 
+              className="w-full h-auto max-h-[420px] object-contain rounded-2xl" 
             />
           </div>
 
           {/* Right: Kids on the Beach (Reduced Size, Clean Without Text Overlay) */}
-          <div 
-            onClick={() => openLogin('student')}
-            className="lg:col-span-5 bg-white rounded-3xl p-2 sm:p-3 card-shadow border border-slate-100 overflow-hidden cursor-pointer group transition-all duration-300 hover:shadow-xl relative flex flex-col"
-          >
+          <div className="lg:col-span-5 bg-white rounded-3xl p-2 sm:p-3 card-shadow border border-slate-100 overflow-hidden relative flex flex-col">
             <div className="relative w-full h-full min-h-[240px] sm:min-h-[280px] lg:min-h-[360px] rounded-2xl overflow-hidden">
               <img 
                 src="/images/hero-bg-cartoon.jpg?v=5" 
                 alt="Kids Learning in Homework Zone" 
-                className="w-full h-full object-cover object-[center_60%] transition-transform duration-500 group-hover:scale-105" 
+                className="w-full h-full object-cover object-[center_60%]" 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent pointer-events-none" />
               <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white drop-shadow-md">
