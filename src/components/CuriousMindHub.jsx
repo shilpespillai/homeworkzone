@@ -644,29 +644,14 @@ function TopicCard({ topic, onSelect }) {
       whileHover={{ scale: 1.03, y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={onSelect}
-      className="relative rounded-[2rem] overflow-hidden shadow-md cursor-pointer border-4 border-white hover:border-slate-300 transition-all aspect-[292/185] bg-white group"
+      className="relative rounded-[2rem] overflow-hidden shadow-md cursor-pointer border-4 border-white hover:border-slate-300 transition-all aspect-[16/9] bg-white group flex items-center justify-center"
     >
       <img 
         src={topic.cardImage} 
         alt={topic.title} 
-        className="w-full h-full object-cover select-none pointer-events-none"
+        className="w-full h-full object-contain select-none pointer-events-none"
       />
-      
-      {/* Overlay dynamic Let's Learn buttons */}
-      {topic.id === 'goosebumps' || topic.id === 'baby_teeth' || topic.id === 'cry' || topic.id === 'dream' ? (
-        <div className="absolute bottom-4 left-5">
-          <span className={`flex items-center gap-1.5 text-[10px] font-black py-2 px-4 rounded-full text-white transition-all shadow-sm ${
-            topic.id === 'goosebumps' ? 'bg-orange-500 hover:bg-orange-600' :
-            topic.id === 'baby_teeth' ? 'bg-blue-500 hover:bg-blue-600' :
-            topic.id === 'dream' ? 'bg-purple-600 hover:bg-purple-700' :
-            'bg-cyan-500 hover:bg-cyan-600'
-          }`}>
-            Let's Learn! <ArrowRight className="w-3 h-3" />
-          </span>
-        </div>
-      ) : (
-        <div className="absolute bottom-3.5 left-4 w-32 h-9 rounded-full border-2 border-transparent group-hover:border-white/40 cursor-pointer transition-all flex items-center justify-center bg-black/0 hover:bg-white/10 active:scale-95" />
-      )}
+      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors pointer-events-none" />
     </motion.div>
   );
 }
