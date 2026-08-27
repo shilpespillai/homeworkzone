@@ -4949,10 +4949,10 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
 
       <main className="w-full px-6 pb-12">
 
-        {/* TOP INTRO & DYNAMIC HEADLINE (WHITE SPACE) */}
-        <section className="pt-3 pb-4 max-w-5xl mx-auto text-center flex flex-col items-center space-y-3">
+        {/* TOP COMPACT ROTATING PILL & ACTIONS (MOVED UP) */}
+        <section className="pt-2 pb-2.5 max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           {/* Dynamic Animated Rotating Pill */}
-          <div className="h-8 flex items-center justify-center">
+          <div className="h-8 flex items-center">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeHookIndex}
@@ -4970,38 +4970,15 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
             </AnimatePresence>
           </div>
 
-          {/* Captivating Headline */}
-          <h1 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-[1.15] text-slate-900 tracking-tight">
-            Curriculum-Aligned Practice Papers &amp; <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500 bg-clip-text text-transparent">Interactive Mock Tests</span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="max-w-2xl text-xs sm:text-sm md:text-base text-slate-600 font-bold leading-relaxed">
-            From Early Prep to Senior High School. Generate unlimited printable worksheets &amp; practice tests with instant step-by-step AI marking.
-          </p>
-
-          {/* Only 2 Login Actions into the system */}
-          <div className="pt-1 flex flex-wrap items-center justify-center gap-3">
-            <button onClick={() => openLogin('student')} className="btn-bubble btn-primary shadow-md flex items-center gap-2 px-6 py-2.5 text-sm">
+          {/* Only 2 Login Actions */}
+          <div className="flex flex-wrap items-center gap-2.5">
+            <button onClick={() => openLogin('student')} className="btn-bubble btn-primary shadow-md flex items-center gap-2 px-5 py-2 text-xs sm:text-sm">
               <span>Start Practicing Free</span>
               <span>&#8594;</span>
             </button>
-            <button onClick={() => openLogin('teacher')} className="px-5 py-2.5 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-black shadow-sm transition-all hover:scale-105">
+            <button onClick={() => openLogin('teacher')} className="px-4 py-2 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-black shadow-sm transition-all hover:scale-105">
               Parent / Teacher Portal
             </button>
-          </div>
-
-          {/* Trust Micro-Features */}
-          <div className="pt-1 flex flex-wrap items-center justify-center gap-4 text-xs font-black text-slate-500">
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Instant AI Marking
-            </span>
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-blue-500" /> Printable PDF Worksheets
-            </span>
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-amber-500" /> Gamified Rewards &amp; Badges
-            </span>
           </div>
         </section>
 
