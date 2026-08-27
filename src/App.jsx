@@ -4618,6 +4618,22 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
   const [teacherEmail, setTeacherEmail] = useState('');
   const [teacherPassword, setTeacherPassword] = useState('');
 
+  const [activeHookIndex, setActiveHookIndex] = useState(0);
+  const rotatingHooks = useMemo(() => [
+    { badge: "🇦🇺 Australian Curriculum & NAPLAN", highlight: "Foundation (Prep/K) to Year 12", color: "bg-emerald-50 border-emerald-300 text-emerald-900" },
+    { badge: "🌐 IB & Cambridge International", highlight: "Primary, Middle & Senior Diploma", color: "bg-blue-50 border-blue-300 text-blue-900" },
+    { badge: "⚡ Instant AI Practice Paper Generator", highlight: "Printable PDFs + Auto-Marking", color: "bg-amber-50 border-amber-300 text-amber-900" },
+    { badge: "🇬🇧 UK & 🇺🇸 US Standards", highlight: "KS1–KS5, GCSE, A-Levels & SAT Prep", color: "bg-purple-50 border-purple-300 text-purple-900" },
+    { badge: "🏆 Scholarship & Selective School Prep", highlight: "50,000+ Curriculum Mock Questions", color: "bg-rose-50 border-rose-300 text-rose-900" },
+  ], []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveHookIndex((prev) => (prev + 1) % rotatingHooks.length);
+    }, 3500);
+    return () => clearInterval(timer);
+  }, [rotatingHooks.length]);
+
   // SHA-256 hash a password string (returns hex string)
   const hashPassword = async (password) => {
     const enc = new TextEncoder();
@@ -4951,30 +4967,69 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
       <main className="w-full px-6 pb-12">
 
         {/* HERO */}
-        <section className="relative w-full rounded-3xl mt-4 overflow-hidden shadow-sm h-[320px] md:h-[380px] lg:h-[400px] flex items-center">
+        <section className="relative w-full rounded-3xl mt-4 overflow-hidden shadow-sm min-h-[350px] sm:min-h-[380px] md:min-h-[410px] lg:min-h-[430px] flex items-center">
           {/* Background image covering the container perfectly */}
           <img src="/images/hero-bg-cartoon.jpg?v=5" className="absolute inset-0 w-full h-full object-cover object-[center_60%]" alt="Background" />
           
           {/* Readability gradient wash on the left */}
-          <div className="absolute inset-y-0 left-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent w-[55%] md:w-[48%] z-10" />
+          <div className="absolute inset-y-0 left-0 bg-gradient-to-r from-white/98 via-white/90 to-transparent w-[92%] sm:w-[75%] md:w-[62%] lg:w-[54%] z-10" />
           
           {/* Interactive content overlaid on top */}
-          <div className="absolute inset-0 z-20 flex items-center p-6 md:p-10 lg:p-12">
-            <div className="max-w-[85%] sm:max-w-[65%] md:max-w-[48%] space-y-3">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-amber-100/90 border border-amber-300 rounded-full text-[11px] font-black uppercase tracking-wider text-amber-900 shadow-sm">
-                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
-                <span>Foundation (Prep/K) to Grade 12</span>
+          <div className="absolute inset-0 z-20 flex items-center p-5 sm:p-8 md:p-10 lg:p-12">
+            <div className="max-w-[95%] sm:max-w-[85%] md:max-w-[65%] lg:max-w-[52%] space-y-2.5 sm:space-y-3">
+              
+              {/* Dynamic Animated Rotating Pill */}
+              <div className="h-7 sm:h-8 flex items-center">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeHookIndex}
+                    initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -6, scale: 0.96 }}
+                    transition={{ duration: 0.25 }}
+                    className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] sm:text-[11px] font-black uppercase tracking-wider shadow-sm border ${rotatingHooks[activeHookIndex].color}`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                    <span>{rotatingHooks[activeHookIndex].badge}</span>
+                  </motion.div>
+                </AnimatePresence>
               </div>
-              <h1 className="font-display text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-tight text-slate-900">
-                Welcome to Your<br />
-                <span style={{ color: 'var(--blue)' }}>Homework Zone!</span>
+
+              {/* Captivating Headline */}
+              <h1 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-[1.12] text-slate-900 tracking-tight">
+                Generate Custom<br />
+                <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500 bg-clip-text text-transparent">Practice Papers &amp; Tests</span>
               </h1>
-              <p className="mt-1 md:mt-2 text-[10px] sm:text-xs md:text-sm lg:text-base text-slate-800 font-bold leading-relaxed">
-                Curriculum-aligned practice, fun quizzes &amp; gamified learning for <strong>every child from Foundation to Grade 12</strong>.
+
+              {/* Subtitle */}
+              <p className="text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-slate-800 font-bold leading-relaxed">
+                Curriculum-aligned practice, instant step-by-step AI marking &amp; printable exams for <strong>Foundation to Grade 12 &amp; International Curriculums</strong>.
               </p>
-              <button onClick={() => openLogin('student')} className="btn-bubble btn-primary mt-2 md:mt-4 lg:mt-6 scale-75 sm:scale-90 md:scale-100 origin-left">
-                Start Learning <span>&#8594;</span>
-              </button>
+
+              {/* CTA Action Buttons */}
+              <div className="pt-1 flex flex-wrap items-center gap-2 sm:gap-3">
+                <button onClick={() => openLogin('student')} className="btn-bubble btn-primary scale-90 sm:scale-95 md:scale-100 origin-left shadow-md flex items-center gap-2">
+                  <span>Start Practicing Free</span>
+                  <span>&#8594;</span>
+                </button>
+                <button onClick={() => openLogin('teacher')} className="px-3.5 py-2.5 rounded-full bg-white/95 hover:bg-white border border-slate-200 text-slate-700 text-xs font-black shadow-sm transition-all hover:scale-105">
+                  Parent / Teacher Portal
+                </button>
+              </div>
+
+              {/* Trust Micro-Features */}
+              <div className="pt-1 flex flex-wrap items-center gap-3 text-[10px] sm:text-[11px] font-black text-slate-600">
+                <span className="flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Instant Marking
+                </span>
+                <span className="flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" /> Printable PDFs
+                </span>
+                <span className="flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-500" /> Gamified Rewards
+                </span>
+              </div>
+
             </div>
           </div>
         </section>
