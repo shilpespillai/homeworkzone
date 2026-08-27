@@ -4944,7 +4944,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
               Docs
             </Link>
 
-            <button onClick={() => openLogin('teacher')} className="px-4 py-2 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-black shadow-sm transition-all hover:scale-105">
+            <button onClick={() => openLogin('teacher')} className="px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-black shadow-sm transition-all hover:scale-105 border border-emerald-400">
               Parent / Teacher Portal
             </button>
 
