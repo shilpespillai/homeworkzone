@@ -56,6 +56,16 @@ export default function CuriousMindHub() {
       id: 'dream',
       title: 'Why Do We Dream?',
       cardImage: '/curious_whole_dream.jpg'
+    },
+    {
+      id: 'blink',
+      title: 'Why Do We Blink So Much?',
+      cardImage: '/curious_whole_blink.png'
+    },
+    {
+      id: 'cuts',
+      title: 'Why Do Cuts Bleed?',
+      cardImage: '/curious_whole_cuts.png'
     }
   ];
 
@@ -162,7 +172,7 @@ export default function CuriousMindHub() {
       }
     },
     dream: {
-      image: '/curious_dream.png',
+      image: '/curious_dream.jpg',
       bgColor: 'border-indigo-400',
       accentColor: 'from-indigo-400 via-purple-300 to-pink-500',
       quizBg: 'bg-indigo-50 border-indigo-200',
@@ -179,6 +189,46 @@ export default function CuriousMindHub() {
         ],
         correctIndex: 2,
         explanation: "Correct! REM (Rapid Eye Movement) sleep is when your brain is very active, and that's when you have most of your vivid dreams!"
+      }
+    },
+    blink: {
+      image: '/curious_blink.jpg',
+      bgColor: 'border-sky-400',
+      accentColor: 'from-sky-400 via-teal-300 to-blue-500',
+      quizBg: 'bg-sky-50 border-sky-200',
+      quizText: 'text-sky-950',
+      quizBadge: 'bg-sky-200 text-sky-800',
+      footer: "BLINKING PROTECTS YOUR EYES! It spreads tears, cleans dust, and keeps your vision crystal clear. 👁️✨",
+      quiz: {
+        question: "What is the thin layer of tears that covers and protects the front of your eye called?",
+        options: [
+          "The Eye Shield 🛡️",
+          "The Tear Film 💧",
+          "The Water Blanket 🌊",
+          "The Eye Shell 🐚"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! The tear film is the thin layer of water, oils, and mucus spread across your eye every time you blink to keep it smooth, moist, and clean."
+      }
+    },
+    cuts: {
+      image: '/curious_cuts.png',
+      bgColor: 'border-rose-400',
+      accentColor: 'from-rose-400 via-amber-300 to-red-500',
+      quizBg: 'bg-rose-50 border-rose-200',
+      quizText: 'text-rose-950',
+      quizBadge: 'bg-rose-200 text-rose-800',
+      footer: "YOUR BODY IS A HEALING CHAMPION! Platelets and clots work like a tiny rescue crew to protect you! 🩹🛡️",
+      quiz: {
+        question: "What tiny parts in your blood rush to stick together and make a patch when you get a cut?",
+        options: [
+          "Platelets 🩹",
+          "Bone cells 🦴",
+          "Hair follicles 💇",
+          "Muscle fibers 💪"
+        ],
+        correctIndex: 0,
+        explanation: "Spot on! Platelets are the tiny blood parts that stick together like a patch crew to form a clot and stop bleeding."
       }
     }
   };
