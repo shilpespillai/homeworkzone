@@ -4990,22 +4990,13 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
             />
           </div>
 
-          {/* Right: Kids on the Beach (Matched Size & Clean Artwork) */}
-          <div className="bg-white rounded-3xl card-shadow border border-slate-100 overflow-hidden relative aspect-[16/9] flex flex-col">
+          {/* Right: 3D Learning Academy Illustration Banner */}
+          <div className="bg-white rounded-3xl card-shadow border border-slate-100 overflow-hidden relative aspect-[16/9] flex items-center justify-center">
             <img 
-              src="/images/hero-bg-cartoon.jpg?v=5" 
-              alt="Kids Learning in Homework Zone" 
-              className="w-full h-full object-cover object-[center_60%]" 
+              src="/images/hero-learning-academy-banner.jpg" 
+              alt="Homework Zone Learning Academy" 
+              className="w-full h-full object-cover object-center" 
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent pointer-events-none" />
-            <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white drop-shadow-md">
-              <span className="text-xs font-black tracking-wide bg-slate-900/60 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20">
-                🏝️ Learn • Explore • Dream
-              </span>
-              <span className="text-xs font-black flex items-center gap-1 bg-amber-500/95 text-white px-3 py-1 rounded-full shadow-sm">
-                <Star className="w-3.5 h-3.5 fill-current" /> Join 100+ Students
-              </span>
-            </div>
           </div>
         </section>
 
