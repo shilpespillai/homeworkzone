@@ -4,9 +4,25 @@ import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 
 export default function CuriousMindHub() {
   const [selectedTopicId, setSelectedTopicId] = useState(null);
+  const [activeCategory, setActiveCategory] = useState('all');
   const [quizScore, setQuizScore] = useState(null);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isAnswered, setIsAnswered] = useState(false);
+
+  // Logical Categories matching curriculum roadmap
+  const CATEGORIES = [
+    { id: 'all', label: 'All Topics', icon: '🌟', color: 'bg-amber-100 text-amber-900 border-amber-300' },
+    { id: 'human_body', label: 'Human Body', icon: '🫀', color: 'bg-rose-100 text-rose-900 border-rose-300' },
+    { id: 'brain_sleep', label: 'Brain, Sleep & Emotions', icon: '🧠', color: 'bg-purple-100 text-purple-900 border-purple-300' },
+    { id: 'animals', label: 'Animals', icon: '🐾', color: 'bg-emerald-100 text-emerald-900 border-emerald-300' },
+    { id: 'plants', label: 'Plants', icon: '🌿', color: 'bg-green-100 text-green-900 border-green-300' },
+    { id: 'space', label: 'Space', icon: '🚀', color: 'bg-blue-100 text-blue-900 border-blue-300' },
+    { id: 'earth_weather', label: 'Earth & Weather', icon: '🌍', color: 'bg-cyan-100 text-cyan-900 border-cyan-300' },
+    { id: 'physics_everyday', label: 'Physics & Everyday Science', icon: '⚡', color: 'bg-yellow-100 text-yellow-900 border-yellow-300' },
+    { id: 'food_chemistry', label: 'Food & Chemistry', icon: '🧪', color: 'bg-teal-100 text-teal-900 border-teal-300' },
+    { id: 'technology', label: 'Technology', icon: '🤖', color: 'bg-indigo-100 text-indigo-900 border-indigo-300' },
+    { id: 'fun_surprising', label: 'Fun & Surprising', icon: '✨', color: 'bg-pink-100 text-pink-900 border-pink-300' }
+  ];
 
   // Helper to render "Unbelievable!" in playful colors matching mockup
   const renderColorfulText = (text) => {
@@ -24,48 +40,55 @@ export default function CuriousMindHub() {
     });
   };
 
-  // Playful custom-styled cards matching mockup
-  // Playful cards using whole mockup cropped images
+  // Topics mapped to logical groups
   const topics = [
     {
       id: 'goosebumps',
       title: 'Why Do Humans Get Goosebumps?',
+      category: 'human_body',
       cardImage: '/curious_whole_goosebumps.png'
     },
     {
       id: 'baby_teeth',
       title: 'Why Do Kids Lose Their Baby Teeth?',
+      category: 'human_body',
       cardImage: '/curious_whole_teeth.png'
     },
     {
       id: 'constipation',
       title: 'Why Do We Get Constipated?',
+      category: 'human_body',
       cardImage: '/curious_whole_constipation.png'
-    },
-    {
-      id: 'cry',
-      title: 'Why Do We Cry?',
-      cardImage: '/curious_whole_cry.png'
-    },
-    {
-      id: 'forget',
-      title: 'Why Do We Forget Things?',
-      cardImage: '/curious_whole_forget.jpg'
-    },
-    {
-      id: 'dream',
-      title: 'Why Do We Dream?',
-      cardImage: '/curious_whole_dream.jpg'
     },
     {
       id: 'blink',
       title: 'Why Do We Blink So Much?',
+      category: 'human_body',
       cardImage: '/curious_whole_blink.png'
     },
     {
       id: 'cuts',
       title: 'Why Do Cuts Bleed?',
+      category: 'human_body',
       cardImage: '/curious_whole_cuts.png'
+    },
+    {
+      id: 'cry',
+      title: 'Why Do We Cry?',
+      category: 'brain_sleep',
+      cardImage: '/curious_whole_cry.png'
+    },
+    {
+      id: 'forget',
+      title: 'Why Do We Forget Things?',
+      category: 'brain_sleep',
+      cardImage: '/curious_whole_forget.jpg'
+    },
+    {
+      id: 'dream',
+      title: 'Why Do We Dream?',
+      category: 'brain_sleep',
+      cardImage: '/curious_whole_dream.jpg'
     }
   ];
 
@@ -273,41 +296,148 @@ export default function CuriousMindHub() {
                 />
               </div>
 
-              {/* Grid of 6 Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {topics.map((topic) => (
-                  <motion.div
-                    key={topic.id}
-                    whileHover={{ scale: 1.03, y: -4 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => setSelectedTopicId(topic.id)}
-                    className="relative rounded-[2rem] overflow-hidden shadow-md cursor-pointer border-4 border-white hover:border-slate-300 transition-all aspect-[292/185]"
-                  >
-                    <img 
-                      src={topic.cardImage} 
-                      alt={topic.title} 
-                      className="w-full h-full object-cover select-none pointer-events-none"
-                    />
-                    
-                    {/* Overlay dynamic Let's Learn buttons for custom thumbnails with no built-in buttons */}
-                    {topic.id === 'goosebumps' || topic.id === 'baby_teeth' || topic.id === 'cry' || topic.id === 'dream' ? (
-                      <div className="absolute bottom-4 left-5">
-                        <span className={`flex items-center gap-1.5 text-[10px] font-black py-2 px-4 rounded-full text-white transition-all shadow-sm ${
-                          topic.id === 'goosebumps' ? 'bg-orange-500 hover:bg-orange-600' :
-                          topic.id === 'baby_teeth' ? 'bg-blue-500 hover:bg-blue-600' :
-                          topic.id === 'dream' ? 'bg-purple-600 hover:bg-purple-700' :
-                          'bg-cyan-500 hover:bg-cyan-600'
-                        }`}>
-                          Let's Learn! <ArrowRight className="w-3 h-3" />
-                        </span>
-                      </div>
-                    ) : (
-                      /* Hotspot/overlay styled border for the "Let's Learn!" button at the bottom-left */
-                      <div className="absolute bottom-3.5 left-4 w-32 h-9 rounded-full border-2 border-transparent group-hover:border-white/40 cursor-pointer transition-all flex items-center justify-center bg-black/0 hover:bg-white/10 active:scale-95" />
-                    )}
-                  </motion.div>
-                ))}
+              {/* Category Filter Pills */}
+              <div className="w-full overflow-x-auto pb-2 scrollbar-none">
+                <div className="flex items-center gap-2.5 min-w-max">
+                  {CATEGORIES.map((cat) => {
+                    const count = cat.id === 'all' 
+                      ? topics.length 
+                      : topics.filter(t => t.category === cat.id).length;
+                    const isActive = activeCategory === cat.id;
+
+                    return (
+                      <button
+                        key={cat.id}
+                        onClick={() => setActiveCategory(cat.id)}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black transition-all cursor-pointer border shadow-sm ${
+                          isActive 
+                            ? 'bg-slate-900 text-white border-slate-900 scale-105 shadow-md' 
+                            : `${cat.color} hover:scale-102 hover:shadow`
+                        }`}
+                      >
+                        <span className="text-sm">{cat.icon}</span>
+                        <span>{cat.label}</span>
+                        {count > 0 && (
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                            isActive ? 'bg-white/20 text-white' : 'bg-black/10 text-slate-800'
+                          }`}>
+                            {count}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
+
+              {/* Topics Rendering: Grouped Sections when 'all', or filtered grid */}
+              {activeCategory === 'all' ? (
+                <div className="space-y-8">
+                  {/* Group 1: Human Body */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2.5">
+                        <span className="text-2xl p-2 rounded-2xl bg-rose-100 text-rose-800">🫀</span>
+                        <div>
+                          <h3 className="text-lg md:text-xl font-black text-slate-900">Human Body</h3>
+                          <p className="text-xs text-slate-500 font-bold">Discover how your amazing body heals, protects, and functions!</p>
+                        </div>
+                      </div>
+                      <span className="text-xs font-black bg-rose-100 text-rose-800 px-3 py-1 rounded-full border border-rose-200">
+                        {topics.filter(t => t.category === 'human_body').length} Topics
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      {topics.filter(t => t.category === 'human_body').map((topic) => (
+                        <TopicCard 
+                          key={topic.id} 
+                          topic={topic} 
+                          onSelect={() => setSelectedTopicId(topic.id)} 
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Group 2: Brain, Sleep & Emotions */}
+                  <div className="space-y-4 pt-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2.5">
+                        <span className="text-2xl p-2 rounded-2xl bg-purple-100 text-purple-800">🧠</span>
+                        <div>
+                          <h3 className="text-lg md:text-xl font-black text-slate-900">Brain, Sleep &amp; Emotions</h3>
+                          <p className="text-xs text-slate-500 font-bold">Explore how your mind remembers, dreams, and feels feelings!</p>
+                        </div>
+                      </div>
+                      <span className="text-xs font-black bg-purple-100 text-purple-800 px-3 py-1 rounded-full border border-purple-200">
+                        {topics.filter(t => t.category === 'brain_sleep').length} Topics
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      {topics.filter(t => t.category === 'brain_sleep').map((topic) => (
+                        <TopicCard 
+                          key={topic.id} 
+                          topic={topic} 
+                          onSelect={() => setSelectedTopicId(topic.id)} 
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* More Categories Coming Soon Bar */}
+                  <div className="bg-gradient-to-r from-amber-50 via-sky-50 to-indigo-50 border-4 border-slate-100 rounded-[2.5rem] p-6 shadow-sm">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                      <div className="flex items-center gap-3">
+                        <span className="text-3xl">✨</span>
+                        <div>
+                          <h4 className="text-sm font-black text-slate-900">More Science Discoveries Coming Soon!</h4>
+                          <p className="text-xs font-bold text-slate-500">Animals, Plants, Space, Weather, Physics &amp; Technology are on the way.</p>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        {['🐾 Animals', '🌿 Plants', '🚀 Space', '🌍 Weather', '⚡ Physics', '🧪 Chemistry'].map((tag, idx) => (
+                          <span key={idx} className="bg-white px-3 py-1 rounded-full text-xs font-black text-slate-700 border border-slate-200 shadow-2xs">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* Filtered Category View */
+                <div className="space-y-4">
+                  {topics.filter(t => t.category === activeCategory).length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      {topics.filter(t => t.category === activeCategory).map((topic) => (
+                        <TopicCard 
+                          key={topic.id} 
+                          topic={topic} 
+                          onSelect={() => setSelectedTopicId(topic.id)} 
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    /* Empty Category State */
+                    <div className="bg-white border-4 border-slate-100 rounded-[2.5rem] p-12 text-center space-y-4 shadow-sm">
+                      <div className="text-5xl">🚀</div>
+                      <h4 className="text-xl font-black text-slate-900">
+                        {CATEGORIES.find(c => c.id === activeCategory)?.label} Questions Launching Soon!
+                      </h4>
+                      <p className="max-w-md mx-auto text-xs text-slate-500 font-bold leading-relaxed">
+                        Our science explorers are crafting amazing infographics and quizzes for this topic. Check back soon!
+                      </p>
+                      <button 
+                        onClick={() => setActiveCategory('all')}
+                        className="btn-bubble btn-primary scale-90"
+                      >
+                        Explore All Topics <span>&#8594;</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Bottom Footer Section */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -505,5 +635,38 @@ export default function CuriousMindHub() {
         
       </div>
     </div>
+  );
+}
+
+function TopicCard({ topic, onSelect }) {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.03, y: -4 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={onSelect}
+      className="relative rounded-[2rem] overflow-hidden shadow-md cursor-pointer border-4 border-white hover:border-slate-300 transition-all aspect-[292/185] bg-white group"
+    >
+      <img 
+        src={topic.cardImage} 
+        alt={topic.title} 
+        className="w-full h-full object-cover select-none pointer-events-none"
+      />
+      
+      {/* Overlay dynamic Let's Learn buttons */}
+      {topic.id === 'goosebumps' || topic.id === 'baby_teeth' || topic.id === 'cry' || topic.id === 'dream' ? (
+        <div className="absolute bottom-4 left-5">
+          <span className={`flex items-center gap-1.5 text-[10px] font-black py-2 px-4 rounded-full text-white transition-all shadow-sm ${
+            topic.id === 'goosebumps' ? 'bg-orange-500 hover:bg-orange-600' :
+            topic.id === 'baby_teeth' ? 'bg-blue-500 hover:bg-blue-600' :
+            topic.id === 'dream' ? 'bg-purple-600 hover:bg-purple-700' :
+            'bg-cyan-500 hover:bg-cyan-600'
+          }`}>
+            Let's Learn! <ArrowRight className="w-3 h-3" />
+          </span>
+        </div>
+      ) : (
+        <div className="absolute bottom-3.5 left-4 w-32 h-9 rounded-full border-2 border-transparent group-hover:border-white/40 cursor-pointer transition-all flex items-center justify-center bg-black/0 hover:bg-white/10 active:scale-95" />
+      )}
+    </motion.div>
   );
 }
