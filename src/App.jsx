@@ -4949,7 +4949,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
             </button>
 
             <button onClick={() => openLogin('student')} className="btn-bubble btn-primary shadow-md flex items-center gap-2 px-5 py-2 text-xs sm:text-sm">
-              <span>Start Practicing Free</span>
+              <span>Student Portal</span>
               <span>&#8594;</span>
             </button>
           </div>
