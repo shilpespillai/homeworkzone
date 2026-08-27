@@ -4966,70 +4966,96 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
 
       <main className="w-full px-6 pb-12">
 
-        {/* HERO */}
-        <section className="relative w-full rounded-3xl mt-4 overflow-hidden shadow-sm min-h-[350px] sm:min-h-[380px] md:min-h-[410px] lg:min-h-[430px] flex items-center">
-          {/* Background image covering the container perfectly */}
-          <img src="/images/hero-bg-cartoon.jpg?v=5" className="absolute inset-0 w-full h-full object-cover object-[center_60%]" alt="Background" />
-          
-          {/* Readability gradient wash on the left */}
-          <div className="absolute inset-y-0 left-0 bg-gradient-to-r from-white/98 via-white/90 to-transparent w-[92%] sm:w-[75%] md:w-[62%] lg:w-[54%] z-10" />
-          
-          {/* Interactive content overlaid on top */}
-          <div className="absolute inset-0 z-20 flex items-center p-5 sm:p-8 md:p-10 lg:p-12">
-            <div className="max-w-[95%] sm:max-w-[85%] md:max-w-[65%] lg:max-w-[52%] space-y-2.5 sm:space-y-3">
-              
-              {/* Dynamic Animated Rotating Pill */}
-              <div className="h-7 sm:h-8 flex items-center">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeHookIndex}
-                    initial={{ opacity: 0, y: 6, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -6, scale: 0.96 }}
-                    transition={{ duration: 0.25 }}
-                    className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] sm:text-[11px] font-black uppercase tracking-wider shadow-sm border ${rotatingHooks[activeHookIndex].color}`}
-                  >
-                    <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                    <span>{rotatingHooks[activeHookIndex].badge}</span>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
+        {/* TOP INTRO & DYNAMIC HEADLINE (WHITE SPACE) */}
+        <section className="pt-2 pb-4 max-w-5xl mx-auto text-center flex flex-col items-center space-y-3">
+          {/* Dynamic Animated Rotating Pill */}
+          <div className="h-8 flex items-center justify-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeHookIndex}
+                initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -6, scale: 0.96 }}
+                transition={{ duration: 0.25 }}
+                className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider shadow-sm border ${rotatingHooks[activeHookIndex].color}`}
+              >
+                <Sparkles className="w-4 h-4 text-amber-500 shrink-0" />
+                <span>{rotatingHooks[activeHookIndex].badge}</span>
+                <span className="opacity-40">|</span>
+                <span className="text-slate-600 font-bold normal-case text-xs">{rotatingHooks[activeHookIndex].highlight}</span>
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
-              {/* Captivating Headline */}
-              <h1 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-[1.12] text-slate-900 tracking-tight">
-                Generate Custom<br />
-                <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500 bg-clip-text text-transparent">Practice Papers &amp; Tests</span>
-              </h1>
+          {/* Captivating Headline */}
+          <h1 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-[1.15] text-slate-900 tracking-tight">
+            Curriculum-Aligned Practice Papers &amp; <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500 bg-clip-text text-transparent">Interactive Mock Tests</span>
+          </h1>
 
-              {/* Subtitle */}
-              <p className="text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-slate-800 font-bold leading-relaxed">
-                Curriculum-aligned practice, instant step-by-step AI marking &amp; printable exams for <strong>Foundation to Grade 12 &amp; International Curriculums</strong>.
-              </p>
+          {/* Subtitle */}
+          <p className="max-w-2xl text-xs sm:text-sm md:text-base text-slate-600 font-bold leading-relaxed">
+            From Early Prep to Senior High School. Generate unlimited printable worksheets &amp; practice tests with instant step-by-step AI marking.
+          </p>
 
-              {/* CTA Action Buttons */}
-              <div className="pt-1 flex flex-wrap items-center gap-2 sm:gap-3">
-                <button onClick={() => openLogin('student')} className="btn-bubble btn-primary scale-90 sm:scale-95 md:scale-100 origin-left shadow-md flex items-center gap-2">
-                  <span>Start Practicing Free</span>
-                  <span>&#8594;</span>
-                </button>
-                <button onClick={() => openLogin('teacher')} className="px-3.5 py-2.5 rounded-full bg-white/95 hover:bg-white border border-slate-200 text-slate-700 text-xs font-black shadow-sm transition-all hover:scale-105">
-                  Parent / Teacher Portal
-                </button>
-              </div>
+          {/* CTA Action Buttons */}
+          <div className="pt-1 flex flex-wrap items-center justify-center gap-3">
+            <button onClick={() => openLogin('student')} className="btn-bubble btn-primary shadow-md flex items-center gap-2 px-6 py-2.5 text-sm">
+              <span>Start Practicing Free</span>
+              <span>&#8594;</span>
+            </button>
+            <button onClick={() => openLogin('teacher')} className="px-5 py-2.5 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-black shadow-sm transition-all hover:scale-105">
+              Parent / Teacher Portal
+            </button>
+          </div>
 
-              {/* Trust Micro-Features */}
-              <div className="pt-1 flex flex-wrap items-center gap-3 text-[10px] sm:text-[11px] font-black text-slate-600">
-                <span className="flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Instant Marking
+          {/* Trust Micro-Features */}
+          <div className="pt-1 flex flex-wrap items-center justify-center gap-4 text-xs font-black text-slate-500">
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Instant AI Marking
+            </span>
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-blue-500" /> Printable PDF Worksheets
+            </span>
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-amber-500" /> Gamified Rewards &amp; Badges
+            </span>
+          </div>
+        </section>
+
+        {/* SIDE-BY-SIDE HERO BANNERS */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-5 mt-2">
+          {/* Left: 3D Practice Paper & Monster Illustration Banner */}
+          <div 
+            onClick={() => openLogin('student')}
+            className="lg:col-span-7 bg-white rounded-3xl p-2 sm:p-3 card-shadow border border-slate-100 overflow-hidden cursor-pointer group transition-all duration-300 hover:shadow-xl relative flex items-center justify-center"
+          >
+            <img 
+              src="/images/hero-practice-banner.jpg" 
+              alt="Generate Practice Papers" 
+              className="w-full h-auto max-h-[420px] object-contain rounded-2xl transition-transform duration-500 group-hover:scale-[1.01]" 
+            />
+          </div>
+
+          {/* Right: Kids on the Beach (Reduced Size, Clean Without Text Overlay) */}
+          <div 
+            onClick={() => openLogin('student')}
+            className="lg:col-span-5 bg-white rounded-3xl p-2 sm:p-3 card-shadow border border-slate-100 overflow-hidden cursor-pointer group transition-all duration-300 hover:shadow-xl relative flex flex-col"
+          >
+            <div className="relative w-full h-full min-h-[240px] sm:min-h-[280px] lg:min-h-[360px] rounded-2xl overflow-hidden">
+              <img 
+                src="/images/hero-bg-cartoon.jpg?v=5" 
+                alt="Kids Learning in Homework Zone" 
+                className="w-full h-full object-cover object-[center_60%] transition-transform duration-500 group-hover:scale-105" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white drop-shadow-md">
+                <span className="text-xs font-black tracking-wide bg-slate-900/60 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20">
+                  🏝️ Learn • Explore • Dream
                 </span>
-                <span className="flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" /> Printable PDFs
-                </span>
-                <span className="flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-500" /> Gamified Rewards
+                <span className="text-xs font-black flex items-center gap-1 bg-amber-500/95 text-white px-3 py-1 rounded-full shadow-sm">
+                  <Star className="w-3.5 h-3.5 fill-current" /> Join 100+ Students
                 </span>
               </div>
-
             </div>
           </div>
         </section>
