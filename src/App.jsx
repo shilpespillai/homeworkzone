@@ -4930,29 +4930,37 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
 
       {/* NAV */}
       <header className="bg-white shadow-sm">
-        <div className="w-full px-6 py-4 flex items-center justify-between">
+        <div className="w-full px-6 py-3.5 flex items-center justify-between">
           <a href="#" className="flex items-center gap-3 hover:scale-[1.03] transition-transform duration-300">
             <img src="/images/owl.png" alt="Homework Zone owl" className="w-14 h-14" />
             <img src="/logo.png?v=3" className="h-14 w-auto object-contain mix-blend-multiply" alt="Homework Zone Logo" />
           </a>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
             <Link to="/documentation" className="flex flex-col items-center text-xs font-bold text-slate-600 hover:scale-105 transition-transform duration-300">
               <span className="icon-tile bg-indigo-50 text-indigo-500">
                 <FileText className="w-5 h-5 mx-auto" />
               </span>
               Docs
             </Link>
+
+            <button onClick={() => openLogin('teacher')} className="px-4 py-2 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-black shadow-sm transition-all hover:scale-105">
+              Parent / Teacher Portal
+            </button>
+
+            <button onClick={() => openLogin('student')} className="btn-bubble btn-primary shadow-md flex items-center gap-2 px-5 py-2 text-xs sm:text-sm">
+              <span>Start Practicing Free</span>
+              <span>&#8594;</span>
+            </button>
           </div>
         </div>
       </header>
 
       <main className="w-full px-6 pb-12">
 
-        {/* TOP COMPACT ROTATING PILL & ACTIONS (MOVED UP) */}
-        <section className="pt-2 pb-2.5 max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          {/* Dynamic Animated Rotating Pill */}
-          <div className="h-8 flex items-center">
+        {/* TOP DYNAMIC ROTATING CURRICULUM PILL */}
+        <section className="pt-2.5 pb-2 max-w-6xl mx-auto flex items-center justify-center">
+          <div className="h-8 flex items-center justify-center">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeHookIndex}
@@ -4968,17 +4976,6 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                 <span className="text-slate-600 font-bold normal-case text-xs">{rotatingHooks[activeHookIndex].highlight}</span>
               </motion.div>
             </AnimatePresence>
-          </div>
-
-          {/* Only 2 Login Actions */}
-          <div className="flex flex-wrap items-center gap-2.5">
-            <button onClick={() => openLogin('student')} className="btn-bubble btn-primary shadow-md flex items-center gap-2 px-5 py-2 text-xs sm:text-sm">
-              <span>Start Practicing Free</span>
-              <span>&#8594;</span>
-            </button>
-            <button onClick={() => openLogin('teacher')} className="px-4 py-2 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-black shadow-sm transition-all hover:scale-105">
-              Parent / Teacher Portal
-            </button>
           </div>
         </section>
 
