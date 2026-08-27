@@ -50,7 +50,7 @@ export default function CuriousMindHub() {
     {
       id: 'forget',
       title: 'Why Do We Forget Things?',
-      cardImage: '/curious_whole_forget.png'
+      cardImage: '/curious_whole_forget.jpg'
     },
     {
       id: 'dream',
@@ -142,7 +142,7 @@ export default function CuriousMindHub() {
       }
     },
     forget: {
-      image: '/curious_forget.png',
+      image: '/curious_forget.jpg',
       bgColor: 'border-pink-400',
       accentColor: 'from-pink-400 via-rose-300 to-purple-400',
       quizBg: 'bg-pink-50 border-pink-200',
@@ -150,15 +150,15 @@ export default function CuriousMindHub() {
       quizBadge: 'bg-pink-200 text-pink-800',
       footer: "FORGETTING IS NORMAL! It's your brain's smart way of making space and staying focused. 🧠📚",
       quiz: {
-        question: "How long does Sensory Memory usually last in your brain?",
+        question: "What two things give your brain time to organize and strengthen new memories?",
         options: [
-          "A few minutes ⏱️",
-          "A few hours ⏱️",
-          "A few seconds ⏱️",
-          "Forever! ⏱️"
+          "Running fast and shouting 🏃",
+          "Practice, repetition, and sleep 💤",
+          "Drinking fizzy drinks 🥤",
+          "Watching TV all night 📺"
         ],
-        correctIndex: 2,
-        explanation: "Correct! Sensory memory only holds onto sights and sounds for a few seconds before letting them go to prevent overload."
+        correctIndex: 1,
+        explanation: "Spot on! Practice, repetition, and quality sleep give your brain the time and connections it needs to strengthen memories."
       }
     },
     dream: {
