@@ -59,9 +59,10 @@ export default async function handler(req, res) {
     const subscriptionItemId = subscription.items.data[0]?.id;
 
     if (subscriptionItemId) {
-      console.log(`[Seat Sync] Updating Stripe Sub Item ${subscriptionItemId} to quantity: ${newQuantity}`);
+      console.log(`[Seat Sync] Teacher ${teacherId}: Updating Stripe Sub Item ${subscriptionItemId} to quantity: ${newQuantity}`);
       await stripe.subscriptionItems.update(subscriptionItemId, {
         quantity: newQuantity,
+        proration_behavior: 'create_prorations',
       });
 
       // 4. Sync quantity in Firestore

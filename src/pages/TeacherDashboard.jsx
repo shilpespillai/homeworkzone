@@ -2079,7 +2079,7 @@ Include a balanced combination of question types such as:
   const handleDeleteClassroom = async (classId) => {
     console.log("TeacherDashboard: Starting deletion process for:", classId);
     if (!user?.uid) {
-      alert("Session expired. Please log in again. ⚠️ï¸");
+      alert("Session expired. Please log in again. ⚠️");
       return;
     }
     
@@ -2094,10 +2094,20 @@ Include a balanced combination of question types such as:
       }
       
       await fetchClassrooms();
-      alert("Class deleted successfully! 🗑️ï¸✨¨");
+      alert("Class deleted successfully! 🗑️✨");
+
+      // Trigger seat sync on Stripe for Option A or C
+      const activePlanId = (teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free';
+      if (activePlanId === 'option-a' || activePlanId === 'option-c') {
+        fetch('/api/sync-seats', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ teacherId: user.uid })
+        }).catch(err => console.warn('Background seat sync failed on class delete:', err));
+      }
     } catch (err) {
       console.error("TeacherDashboard: Delete Error:", err);
-      alert(`Oops! Delete failed: ${err.message} âŒ`);
+      alert(`Oops! Delete failed: ${err.message} ❌`);
     }
   };
 
