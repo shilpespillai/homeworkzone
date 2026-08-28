@@ -22,16 +22,22 @@ export const CATEGORIES = [
     "color": "bg-purple-100 text-purple-900 border-purple-300"
   },
   {
-    "id": "animals",
-    "label": "Animals",
-    "icon": "🐾",
-    "color": "bg-emerald-100 text-emerald-900 border-emerald-300"
-  },
-  {
     "id": "plants",
     "label": "Plants",
     "icon": "🌿",
     "color": "bg-green-100 text-green-900 border-green-300"
+  },
+  {
+    "id": "food_chemistry",
+    "label": "Food & Chemistry",
+    "icon": "🧪",
+    "color": "bg-teal-100 text-teal-900 border-teal-300"
+  },
+  {
+    "id": "animals",
+    "label": "Animals",
+    "icon": "🐾",
+    "color": "bg-emerald-100 text-emerald-900 border-emerald-300"
   },
   {
     "id": "space",
@@ -50,12 +56,6 @@ export const CATEGORIES = [
     "label": "Physics & Everyday Science",
     "icon": "⚡",
     "color": "bg-yellow-100 text-yellow-900 border-yellow-300"
-  },
-  {
-    "id": "food_chemistry",
-    "label": "Food & Chemistry",
-    "icon": "🧪",
-    "color": "bg-teal-100 text-teal-900 border-teal-300"
   },
   {
     "id": "technology",
@@ -485,6 +485,186 @@ export const TOPICS = [
     "title": "Why does skin wrinkle in water?",
     "category": "human_body",
     "cardImage": "/curious_whole_skin_wrinkle_in_water.png"
+  },
+  {
+    "id": "chillies_spicy",
+    "title": "Why are chillies spicy?",
+    "category": "food_chemistry",
+    "cardImage": "/curious_whole_chillies_spicy.png"
+  },
+  {
+    "id": "flowers_colourful",
+    "title": "Why are flowers colourful?",
+    "category": "plants",
+    "cardImage": "/curious_whole_flowers_colourful.png"
+  },
+  {
+    "id": "fruits_often_sweet",
+    "title": "Why are fruits often sweet?",
+    "category": "plants",
+    "cardImage": "/curious_whole_fruits_often_sweet.png"
+  },
+  {
+    "id": "plants_green",
+    "title": "Why are plants green?",
+    "category": "plants",
+    "cardImage": "/curious_whole_plants_green.png"
+  },
+  {
+    "id": "mushrooms_plants",
+    "title": "Why aren't mushrooms plants?",
+    "category": "plants",
+    "cardImage": "/curious_whole_mushrooms_plants.png"
+  },
+  {
+    "id": "why_can_cacti_survive_in_deserts",
+    "title": "Why can cacti survive in deserts?",
+    "category": "plants",
+    "cardImage": "/curious_whole_why_can_cacti_survive_in_deserts.png"
+  },
+  {
+    "id": "cacti_have_spines",
+    "title": "Why do cacti have spines?",
+    "category": "plants",
+    "cardImage": "/curious_whole_cacti_have_spines.png"
+  },
+  {
+    "id": "flowers_smell",
+    "title": "Why do flowers smell?",
+    "category": "plants",
+    "cardImage": "/curious_whole_flowers_smell.png"
+  },
+  {
+    "id": "fruits_contain_seeds",
+    "title": "Why do fruits contain seeds?",
+    "category": "plants",
+    "cardImage": "/curious_whole_fruits_contain_seeds.png"
+  },
+  {
+    "id": "leaves_change_colour_in_autumn",
+    "title": "Why do leaves change colour in autumn?",
+    "category": "plants",
+    "cardImage": "/curious_whole_leaves_change_colour_in_autumn.png"
+  },
+  {
+    "id": "onions_make_us_cry",
+    "title": "Why do onions make us cry?",
+    "category": "food_chemistry",
+    "cardImage": "/curious_whole_onions_make_us_cry.png"
+  },
+  {
+    "id": "pine_trees_make_cones",
+    "title": "Why do pine trees make cones?",
+    "category": "plants",
+    "cardImage": "/curious_whole_pine_trees_make_cones.png"
+  },
+  {
+    "id": "plants_grow_toward_light",
+    "title": "Why do plants grow toward light?",
+    "category": "plants",
+    "cardImage": "/curious_whole_plants_grow_toward_light.png"
+  },
+  {
+    "id": "plants_have_leaves",
+    "title": "Why do plants have leaves?",
+    "category": "plants",
+    "cardImage": "/curious_whole_plants_have_leaves.png"
+  },
+  {
+    "id": "plants_have_roots",
+    "title": "Why do plants have roots?",
+    "category": "plants",
+    "cardImage": "/curious_whole_plants_have_roots.png"
+  },
+  {
+    "id": "plants_make_flowers",
+    "title": "Why do plants make flowers?",
+    "category": "plants",
+    "cardImage": "/curious_whole_plants_make_flowers.png"
+  },
+  {
+    "id": "plants_make_seeds",
+    "title": "Why do plants make seeds?",
+    "category": "plants",
+    "cardImage": "/curious_whole_plants_make_seeds.png"
+  },
+  {
+    "id": "plants_need_sunlight",
+    "title": "Why do plants need sunlight?",
+    "category": "plants",
+    "cardImage": "/curious_whole_plants_need_sunlight.png"
+  },
+  {
+    "id": "plants_need_water",
+    "title": "Why do plants need water?",
+    "category": "plants",
+    "cardImage": "/curious_whole_plants_need_water.png"
+  },
+  {
+    "id": "plants_wilt",
+    "title": "Why do plants wilt?",
+    "category": "plants",
+    "cardImage": "/curious_whole_plants_wilt.png"
+  },
+  {
+    "id": "roots_grow_downward",
+    "title": "Why do roots grow downward?",
+    "category": "plants",
+    "cardImage": "/curious_whole_roots_grow_downward.png"
+  },
+  {
+    "id": "seeds_need_water_to_grow",
+    "title": "Why do seeds need water to grow?",
+    "category": "plants",
+    "cardImage": "/curious_whole_seeds_need_water_to_grow.png"
+  },
+  {
+    "id": "some_flowers_close_at_night",
+    "title": "Why do some flowers close at night?",
+    "category": "plants",
+    "cardImage": "/curious_whole_some_flowers_close_at_night.png"
+  },
+  {
+    "id": "some_seeds_have_wings",
+    "title": "Why do some seeds have wings?",
+    "category": "plants",
+    "cardImage": "/curious_whole_some_seeds_have_wings.png"
+  },
+  {
+    "id": "trees_have_bark",
+    "title": "Why do trees have bark?",
+    "category": "plants",
+    "cardImage": "/curious_whole_trees_have_bark.png"
+  },
+  {
+    "id": "trees_have_rings",
+    "title": "Why do trees have rings?",
+    "category": "plants",
+    "cardImage": "/curious_whole_trees_have_rings.png"
+  },
+  {
+    "id": "trees_lose_their_leaves",
+    "title": "Why do trees lose their leaves?",
+    "category": "plants",
+    "cardImage": "/curious_whole_trees_lose_their_leaves.png"
+  },
+  {
+    "id": "venus_flytraps_eat_insects",
+    "title": "Why do Venus flytraps eat insects?",
+    "category": "plants",
+    "cardImage": "/curious_whole_venus_flytraps_eat_insects.png"
+  },
+  {
+    "id": "vines_climb",
+    "title": "Why do vines climb?",
+    "category": "plants",
+    "cardImage": "/curious_whole_vines_climb.png"
+  },
+  {
+    "id": "grass_grow_back_after_mowing",
+    "title": "Why does grass grow back after mowing?",
+    "category": "plants",
+    "cardImage": "/curious_whole_grass_grow_back_after_mowing.png"
   }
 ];
 
@@ -1867,6 +2047,606 @@ export const TOPIC_DETAILS = {
       ],
       "correctIndex": 0,
       "explanation": "Spot on! Skin wrinkles in water because the nervous system tells tiny blood vessels in fingers and toes to tighten, pulling the skin into folds that can help us grip wet things."
+    }
+  },
+  "chillies_spicy": {
+    "image": "/curious_chillies_spicy.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "CHILLIES ARE SPICY BECAUSE THEY CONTAIN CAPSAICIN, A CHEMICAL THAT TICKLES HEAT-SENSING NERVES IN YOUR MOUTH AND MAKES YOUR BRAIN FEEL A BURNING SENSATION. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why are chillies spicy?",
+      "options": [
+        "Chillies are spicy because they contain capsaicin, a chemical that tickles he... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Chillies are spicy because they contain capsaicin, a chemical that tickles heat-sensing nerves in your mouth and makes your brain feel a burning sensation."
+    }
+  },
+  "flowers_colourful": {
+    "image": "/curious_flowers_colourful.png",
+    "bgColor": "border-green-400",
+    "accentColor": "from-green-400 via-lime-300 to-emerald-500",
+    "quizBg": "bg-green-50 border-green-200",
+    "quizText": "text-green-950",
+    "quizBadge": "bg-green-200 text-green-800",
+    "footer": "FLOWERS ARE COLOURFUL BECAUSE THEIR PETALS CONTAIN NATURAL PIGMENTS THAT CAN HELP ATTRACT POLLINATORS, SUCH AS BEES, BUTTERFLIES, BIRDS, AND BATS. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why are flowers colourful?",
+      "options": [
+        "Flowers are colourful because their petals contain natural pigments that can ... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Flowers are colourful because their petals contain natural pigments that can help attract pollinators, such as bees, butterflies, birds, and bats."
+    }
+  },
+  "fruits_often_sweet": {
+    "image": "/curious_fruits_often_sweet.png",
+    "bgColor": "border-teal-400",
+    "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
+    "quizBg": "bg-teal-50 border-teal-200",
+    "quizText": "text-teal-950",
+    "quizBadge": "bg-teal-200 text-teal-800",
+    "footer": "FRUITS ARE OFTEN SWEET BECAUSE PLANTS FILL THEM WITH NATURAL SUGARS THAT TASTE YUMMY TO ANIMALS, ENCOURAGING THE ANIMALS TO EAT THE FRUIT AND CARRY THE SEEDS AWAY. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why are fruits often sweet?",
+      "options": [
+        "Fruits are often sweet because plants fill them with natural sugars that tast... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Fruits are often sweet because plants fill them with natural sugars that taste yummy to animals, encouraging the animals to eat the fruit and carry the seeds away."
+    }
+  },
+  "plants_green": {
+    "image": "/curious_plants_green.png",
+    "bgColor": "border-lime-400",
+    "accentColor": "from-lime-400 via-emerald-300 to-green-500",
+    "quizBg": "bg-lime-50 border-lime-200",
+    "quizText": "text-lime-950",
+    "quizBadge": "bg-lime-200 text-lime-800",
+    "footer": "PLANTS LOOK GREEN BECAUSE THEIR LEAVES CONTAIN CHLOROPHYLL, A PIGMENT THAT ABSORBS MOST SUNLIGHT COLORS FOR MAKING FOOD BUT REFLECTS GREEN LIGHT BACK TO OUR EYES. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why are plants green?",
+      "options": [
+        "Plants look green because their leaves contain chlorophyll, a pigment that ab... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Plants look green because their leaves contain chlorophyll, a pigment that absorbs most sunlight colors for making food but reflects green light back to our eyes."
+    }
+  },
+  "mushrooms_plants": {
+    "image": "/curious_mushrooms_plants.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "MUSHROOMS ARE NOT PLANTS BECAUSE THEY CANNOT MAKE FOOD FROM SUNLIGHT LIKE PLANTS DO; THEY ARE FUNGI THAT GET NUTRIENTS BY ABSORBING THEM FROM THEIR SURROUNDINGS. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why aren't mushrooms plants?",
+      "options": [
+        "Mushrooms are not plants because they cannot make food from sunlight like pla... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Mushrooms are not plants because they cannot make food from sunlight like plants do; they are fungi that get nutrients by absorbing them from their surroundings."
+    }
+  },
+  "why_can_cacti_survive_in_deserts": {
+    "image": "/curious_why_can_cacti_survive_in_deserts.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "CACTI SURVIVE IN DESERTS BECAUSE THEY STORE WATER, LOSE VERY LITTLE WATER, AND HAVE SPECIAL ROOTS AND STEMS THAT HELP THEM COLLECT AND USE WATER CAREFULLY. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why can cacti survive in deserts?",
+      "options": [
+        "Cacti survive in deserts because they store water, lose very little water, an... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Cacti survive in deserts because they store water, lose very little water, and have special roots and stems that help them collect and use water carefully."
+    }
+  },
+  "cacti_have_spines": {
+    "image": "/curious_cacti_have_spines.png",
+    "bgColor": "border-green-400",
+    "accentColor": "from-green-400 via-lime-300 to-emerald-500",
+    "quizBg": "bg-green-50 border-green-200",
+    "quizText": "text-green-950",
+    "quizBadge": "bg-green-200 text-green-800",
+    "footer": "CACTI HAVE SPINES MAINLY TO HELP PROTECT THEM FROM THIRSTY ANIMALS AND TO HELP THEM SAVE WATER IN HOT, DRY PLACES. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do cacti have spines?",
+      "options": [
+        "Cacti have spines mainly to help protect them from thirsty animals and to hel... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Cacti have spines mainly to help protect them from thirsty animals and to help them save water in hot, dry places."
+    }
+  },
+  "flowers_smell": {
+    "image": "/curious_flowers_smell.png",
+    "bgColor": "border-teal-400",
+    "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
+    "quizBg": "bg-teal-50 border-teal-200",
+    "quizText": "text-teal-950",
+    "quizBadge": "bg-teal-200 text-teal-800",
+    "footer": "FLOWERS SMELL BECAUSE THEY RELEASE TINY AIRBORNE CHEMICALS CALLED SCENTS, WHICH CAN HELP ATTRACT POLLINATORS SUCH AS BEES, BUTTERFLIES, MOTHS, AND BATS. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do flowers smell?",
+      "options": [
+        "Flowers smell because they release tiny airborne chemicals called scents, whi... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Flowers smell because they release tiny airborne chemicals called scents, which can help attract pollinators such as bees, butterflies, moths, and bats."
+    }
+  },
+  "fruits_contain_seeds": {
+    "image": "/curious_fruits_contain_seeds.png",
+    "bgColor": "border-lime-400",
+    "accentColor": "from-lime-400 via-emerald-300 to-green-500",
+    "quizBg": "bg-lime-50 border-lime-200",
+    "quizText": "text-lime-950",
+    "quizBadge": "bg-lime-200 text-lime-800",
+    "footer": "FRUITS CONTAIN SEEDS BECAUSE SEEDS CAN GROW INTO NEW PLANTS, HELPING THE PLANT MAKE MORE OF ITS KIND. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do fruits contain seeds?",
+      "options": [
+        "Fruits contain seeds because seeds can grow into new plants, helping the plan... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Fruits contain seeds because seeds can grow into new plants, helping the plant make more of its kind."
+    }
+  },
+  "leaves_change_colour_in_autumn": {
+    "image": "/curious_leaves_change_colour_in_autumn.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "LEAVES CHANGE COLOUR IN AUTUMN BECAUSE SHORTER DAYS AND COOLER WEATHER MAKE TREES STOP MAKING GREEN CHLOROPHYLL, REVEALING YELLOW AND ORANGE COLOURS AND SOMETIMES CREATING REDS AND PURPLES. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do leaves change colour in autumn?",
+      "options": [
+        "Leaves change colour in autumn because shorter days and cooler weather make t... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Leaves change colour in autumn because shorter days and cooler weather make trees stop making green chlorophyll, revealing yellow and orange colours and sometimes creating reds and purples."
+    }
+  },
+  "onions_make_us_cry": {
+    "image": "/curious_onions_make_us_cry.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "WHEN AN ONION IS CUT, IT RELEASES A TINY CHEMICAL GAS THAT FLOATS INTO OUR EYES AND MAKES THEM PRODUCE TEARS TO WASH IT AWAY. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do onions make us cry?",
+      "options": [
+        "When an onion is cut, it releases a tiny chemical gas that floats into our ey... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! When an onion is cut, it releases a tiny chemical gas that floats into our eyes and makes them produce tears to wash it away."
+    }
+  },
+  "pine_trees_make_cones": {
+    "image": "/curious_pine_trees_make_cones.png",
+    "bgColor": "border-green-400",
+    "accentColor": "from-green-400 via-lime-300 to-emerald-500",
+    "quizBg": "bg-green-50 border-green-200",
+    "quizText": "text-green-950",
+    "quizBadge": "bg-green-200 text-green-800",
+    "footer": "PINE TREES MAKE CONES TO HELP THEM REPRODUCE BY MAKING, PROTECTING, AND SPREADING NEW SEEDS. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do pine trees make cones?",
+      "options": [
+        "Pine trees make cones to help them reproduce by making, protecting, and sprea... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Pine trees make cones to help them reproduce by making, protecting, and spreading new seeds."
+    }
+  },
+  "plants_grow_toward_light": {
+    "image": "/curious_plants_grow_toward_light.png",
+    "bgColor": "border-teal-400",
+    "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
+    "quizBg": "bg-teal-50 border-teal-200",
+    "quizText": "text-teal-950",
+    "quizBadge": "bg-teal-200 text-teal-800",
+    "footer": "PLANTS GROW TOWARD LIGHT BECAUSE LIGHT HELPS THEM MAKE FOOD, AND A PLANT HORMONE CALLED AUXIN HELPS THE STEM BEND TOWARD THE BRIGHTEST DIRECTION. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do plants grow toward light?",
+      "options": [
+        "Plants grow toward light because light helps them make food, and a plant horm... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Plants grow toward light because light helps them make food, and a plant hormone called auxin helps the stem bend toward the brightest direction."
+    }
+  },
+  "plants_have_leaves": {
+    "image": "/curious_plants_have_leaves.png",
+    "bgColor": "border-lime-400",
+    "accentColor": "from-lime-400 via-emerald-300 to-green-500",
+    "quizBg": "bg-lime-50 border-lime-200",
+    "quizText": "text-lime-950",
+    "quizBadge": "bg-lime-200 text-lime-800",
+    "footer": "PLANTS HAVE LEAVES BECAUSE LEAVES CAPTURE SUNLIGHT, TAKE IN AIR, AND HELP MAKE THE FOOD A PLANT NEEDS TO GROW. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do plants have leaves?",
+      "options": [
+        "Plants have leaves because leaves capture sunlight, take in air, and help mak... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Plants have leaves because leaves capture sunlight, take in air, and help make the food a plant needs to grow."
+    }
+  },
+  "plants_have_roots": {
+    "image": "/curious_plants_have_roots.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "PLANTS HAVE ROOTS TO HOLD THEM IN PLACE, SOAK UP WATER AND MINERALS FROM THE SOIL, AND OFTEN STORE EXTRA FOOD. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do plants have roots?",
+      "options": [
+        "Plants have roots to hold them in place, soak up water and minerals from the ... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Plants have roots to hold them in place, soak up water and minerals from the soil, and often store extra food."
+    }
+  },
+  "plants_make_flowers": {
+    "image": "/curious_plants_make_flowers.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "PLANTS MAKE FLOWERS TO HELP THEM REPRODUCE BY MAKING SEEDS THAT CAN GROW INTO NEW PLANTS. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do plants make flowers?",
+      "options": [
+        "Plants make flowers to help them reproduce by making seeds that can grow into... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Plants make flowers to help them reproduce by making seeds that can grow into new plants."
+    }
+  },
+  "plants_make_seeds": {
+    "image": "/curious_plants_make_seeds.png",
+    "bgColor": "border-green-400",
+    "accentColor": "from-green-400 via-lime-300 to-emerald-500",
+    "quizBg": "bg-green-50 border-green-200",
+    "quizText": "text-green-950",
+    "quizBadge": "bg-green-200 text-green-800",
+    "footer": "PLANTS MAKE SEEDS SO NEW PLANTS CAN GROW LATER, OFTEN IN NEW PLACES. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do plants make seeds?",
+      "options": [
+        "Plants make seeds so new plants can grow later, often in new places. ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Plants make seeds so new plants can grow later, often in new places."
+    }
+  },
+  "plants_need_sunlight": {
+    "image": "/curious_plants_need_sunlight.png",
+    "bgColor": "border-teal-400",
+    "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
+    "quizBg": "bg-teal-50 border-teal-200",
+    "quizText": "text-teal-950",
+    "quizBadge": "bg-teal-200 text-teal-800",
+    "footer": "PLANTS NEED SUNLIGHT BECAUSE THEY USE ITS ENERGY TO MAKE THEIR OWN FOOD THROUGH A PROCESS CALLED PHOTOSYNTHESIS. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do plants need sunlight?",
+      "options": [
+        "Plants need sunlight because they use its energy to make their own food throu... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Plants need sunlight because they use its energy to make their own food through a process called photosynthesis."
+    }
+  },
+  "plants_need_water": {
+    "image": "/curious_plants_need_water.png",
+    "bgColor": "border-lime-400",
+    "accentColor": "from-lime-400 via-emerald-300 to-green-500",
+    "quizBg": "bg-lime-50 border-lime-200",
+    "quizText": "text-lime-950",
+    "quizBadge": "bg-lime-200 text-lime-800",
+    "footer": "PLANTS NEED WATER TO MAKE FOOD, MOVE NUTRIENTS, STAY FIRM AND HEALTHY, AND GROW. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do plants need water?",
+      "options": [
+        "Plants need water to make food, move nutrients, stay firm and healthy, and grow. ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Plants need water to make food, move nutrients, stay firm and healthy, and grow."
+    }
+  },
+  "plants_wilt": {
+    "image": "/curious_plants_wilt.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "PLANTS WILT WHEN THEY LOSE WATER FASTER THAN THEIR ROOTS CAN TAKE IT IN, SO THEIR CELLS BECOME LESS FULL AND THE STEMS AND LEAVES DROOP. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do plants wilt?",
+      "options": [
+        "Plants wilt when they lose water faster than their roots can take it in, so t... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Plants wilt when they lose water faster than their roots can take it in, so their cells become less full and the stems and leaves droop."
+    }
+  },
+  "roots_grow_downward": {
+    "image": "/curious_roots_grow_downward.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "ROOTS GROW DOWNWARD MAINLY BECAUSE THEY SENSE GRAVITY, HELPING ANCHOR THE PLANT AND REACH WATER AND MINERALS IN THE SOIL. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do roots grow downward?",
+      "options": [
+        "Roots grow downward mainly because they sense gravity, helping anchor the pla... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Roots grow downward mainly because they sense gravity, helping anchor the plant and reach water and minerals in the soil."
+    }
+  },
+  "seeds_need_water_to_grow": {
+    "image": "/curious_seeds_need_water_to_grow.png",
+    "bgColor": "border-green-400",
+    "accentColor": "from-green-400 via-lime-300 to-emerald-500",
+    "quizBg": "bg-green-50 border-green-200",
+    "quizText": "text-green-950",
+    "quizBadge": "bg-green-200 text-green-800",
+    "footer": "SEEDS NEED WATER BECAUSE IT WAKES UP THE TINY PLANT INSIDE, SOFTENS THE SEED COAT, AND HELPS THE NEW PLANT BEGIN GROWING. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do seeds need water to grow?",
+      "options": [
+        "Seeds need water because it wakes up the tiny plant inside, softens the seed ... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Seeds need water because it wakes up the tiny plant inside, softens the seed coat, and helps the new plant begin growing."
+    }
+  },
+  "some_flowers_close_at_night": {
+    "image": "/curious_some_flowers_close_at_night.png",
+    "bgColor": "border-teal-400",
+    "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
+    "quizBg": "bg-teal-50 border-teal-200",
+    "quizText": "text-teal-950",
+    "quizBadge": "bg-teal-200 text-teal-800",
+    "footer": "SOME FLOWERS CLOSE AT NIGHT BECAUSE THEIR BUILT-IN DAILY CLOCK AND CHANGING LIGHT LEVELS TELL SPECIAL CELLS TO MOVE THE PETALS, WHICH CAN HELP PROTECT POLLEN AND DELICATE FLOWER PARTS. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do some flowers close at night?",
+      "options": [
+        "Some flowers close at night because their built-in daily clock and changing l... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Some flowers close at night because their built-in daily clock and changing light levels tell special cells to move the petals, which can help protect pollen and delicate flower parts."
+    }
+  },
+  "some_seeds_have_wings": {
+    "image": "/curious_some_seeds_have_wings.png",
+    "bgColor": "border-lime-400",
+    "accentColor": "from-lime-400 via-emerald-300 to-green-500",
+    "quizBg": "bg-lime-50 border-lime-200",
+    "quizText": "text-lime-950",
+    "quizBadge": "bg-lime-200 text-lime-800",
+    "footer": "SOME SEEDS HAVE WINGS SO THE WIND CAN CARRY THEM FARTHER AWAY FROM THE PARENT PLANT, GIVING THEM MORE ROOM AND RESOURCES TO GROW. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do some seeds have wings?",
+      "options": [
+        "Some seeds have wings so the wind can carry them farther away from the parent... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Some seeds have wings so the wind can carry them farther away from the parent plant, giving them more room and resources to grow."
+    }
+  },
+  "trees_have_bark": {
+    "image": "/curious_trees_have_bark.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "TREES HAVE BARK BECAUSE IT IS A TOUGH OUTER COVERING THAT PROTECTS THE LIVING PARTS INSIDE THE TREE. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do trees have bark?",
+      "options": [
+        "Trees have bark because it is a tough outer covering that protects the living... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Trees have bark because it is a tough outer covering that protects the living parts inside the tree."
+    }
+  },
+  "trees_have_rings": {
+    "image": "/curious_trees_have_rings.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "MANY TREES MAKE A NEW LAYER OF WOOD EACH YEAR, WITH LIGHTER FAST-GROWING WOOD IN SPRING AND DARKER DENSER WOOD LATER IN THE GROWING SEASON, CREATING VISIBLE RINGS. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do trees have rings?",
+      "options": [
+        "Many trees make a new layer of wood each year, with lighter fast-growing wood... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Many trees make a new layer of wood each year, with lighter fast-growing wood in spring and darker denser wood later in the growing season, creating visible rings."
+    }
+  },
+  "trees_lose_their_leaves": {
+    "image": "/curious_trees_lose_their_leaves.png",
+    "bgColor": "border-green-400",
+    "accentColor": "from-green-400 via-lime-300 to-emerald-500",
+    "quizBg": "bg-green-50 border-green-200",
+    "quizText": "text-green-950",
+    "quizBadge": "bg-green-200 text-green-800",
+    "footer": "MANY TREES LOSE THEIR LEAVES IN AUTUMN TO SAVE WATER AND ENERGY DURING COLD OR DRY MONTHS, WHILE EVERGREEN TREES KEEP THEIR NEEDLE-LIKE OR TOUGH LEAVES YEAR-ROUND. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do trees lose their leaves?",
+      "options": [
+        "Many trees lose their leaves in autumn to save water and energy during cold o... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Many trees lose their leaves in autumn to save water and energy during cold or dry months, while evergreen trees keep their needle-like or tough leaves year-round."
+    }
+  },
+  "venus_flytraps_eat_insects": {
+    "image": "/curious_venus_flytraps_eat_insects.png",
+    "bgColor": "border-teal-400",
+    "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
+    "quizBg": "bg-teal-50 border-teal-200",
+    "quizText": "text-teal-950",
+    "quizBadge": "bg-teal-200 text-teal-800",
+    "footer": "VENUS FLYTRAPS EAT INSECTS TO GET IMPORTANT NUTRIENTS, ESPECIALLY NITROGEN, THAT ARE HARD TO FIND IN THE POOR SOIL WHERE THEY GROW. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do venus flytraps eat insects?",
+      "options": [
+        "Venus flytraps eat insects to get important nutrients, especially nitrogen, t... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Venus flytraps eat insects to get important nutrients, especially nitrogen, that are hard to find in the poor soil where they grow."
+    }
+  },
+  "vines_climb": {
+    "image": "/curious_vines_climb.png",
+    "bgColor": "border-lime-400",
+    "accentColor": "from-lime-400 via-emerald-300 to-green-500",
+    "quizBg": "bg-lime-50 border-lime-200",
+    "quizText": "text-lime-950",
+    "quizBadge": "bg-lime-200 text-lime-800",
+    "footer": "VINES CLIMB TO REACH MORE SUNLIGHT, WHICH HELPS THEM MAKE FOOD AND GROW. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why do vines climb?",
+      "options": [
+        "Vines climb to reach more sunlight, which helps them make food and grow. ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Vines climb to reach more sunlight, which helps them make food and grow."
+    }
+  },
+  "grass_grow_back_after_mowing": {
+    "image": "/curious_grass_grow_back_after_mowing.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "GRASS GROWS BACK AFTER MOWING BECAUSE ITS GROWING POINTS ARE LOW NEAR THE GROUND, SO THE ROOTS AND TINY PLANT FACTORIES CAN KEEP MAKING NEW LEAVES. 🌿🌸",
+    "quiz": {
+      "question": "What is the scientific explanation for why does grass grow back after mowing?",
+      "options": [
+        "Grass grows back after mowing because its growing points are low near the gro... ✨",
+        "It happens purely by random chance with no biological benefit ❌",
+        "It is only observed when plants are kept indoors in the dark 🌑",
+        "It is caused by seasonal freezing weather only ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Grass grows back after mowing because its growing points are low near the ground, so the roots and tiny plant factories can keep making new leaves."
     }
   }
 };
