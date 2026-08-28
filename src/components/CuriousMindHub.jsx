@@ -73,6 +73,12 @@ export default function CuriousMindHub() {
       cardImage: '/curious_whole_cuts.png'
     },
     {
+      id: 'yawn',
+      title: 'Why Do We Yawn?',
+      category: 'human_body',
+      cardImage: '/curious_whole_yawn.png'
+    },
+    {
       id: 'cry',
       title: 'Why Do We Cry?',
       category: 'brain_sleep',
@@ -252,6 +258,26 @@ export default function CuriousMindHub() {
         ],
         correctIndex: 0,
         explanation: "Spot on! Platelets are the tiny blood parts that stick together like a patch crew to form a clot and stop bleeding."
+      }
+    },
+    yawn: {
+      image: '/curious_yawn.png',
+      bgColor: 'border-amber-400',
+      accentColor: 'from-amber-400 via-orange-300 to-sky-400',
+      quizBg: 'bg-amber-50 border-amber-200',
+      quizText: 'text-amber-950',
+      quizBadge: 'bg-amber-200 text-amber-800',
+      footer: "A YAWN IS A NATURAL REFLEX! It helps your brain reset, stretch, and stay alert. 🥱✨",
+      quiz: {
+        question: "What is a yawn considered in the human body?",
+        options: [
+          "A planned decision 🤔",
+          "An automatic reflex 🥱",
+          "A muscle exercise 💪",
+          "A habit you practice 📋"
+        ],
+        correctIndex: 1,
+        explanation: "Correct! A yawn is an automatic reflex that your body starts without you planning every step."
       }
     }
   };
