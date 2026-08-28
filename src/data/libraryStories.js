@@ -3539,6 +3539,52 @@ export const STORIES = [
         hint: 'Read the Moral panel on the last page of the storybook.'
       }
     ]
+  },
+  {
+    id: 'the_blue_jackal',
+    title: "The Blue Jackal",
+    subtitle: "A Panchatantra tale about honesty and being true to yourself",
+    genre: "Panchatantra",
+    emoji: "🐺",
+    isFeatured: true,
+    isSingleComicSheet: true,
+    image: "/the_blue_jackal.png",
+    coverImageUrl: "/the_blue_jackal.png",
+    moral: "A false appearance cannot hide the truth forever. Be honest, be humble, and be proud of who you are. 💙",
+    summary: "A hungry jackal accidentally falls into a vat of blue indigo dye. Disguised as a mystical creature, he proclaims himself King of the forest, until an instinctive howl reveals his true identity.",
+    vocabHighlights: [
+      { word: "Disguise", partOfSpeech: "Noun", definition: "A change of appearance used to hide one's true identity.", pronunciation: "dis-gyze", fact: "Animals often use natural camouflage to blend into their habitats!" },
+      { word: "Deceive", partOfSpeech: "Verb", definition: "To mislead or trick someone into believing something false.", pronunciation: "dih-seev", fact: "Honesty always creates deeper trust than clever deception." },
+      { word: "Instinct", partOfSpeech: "Noun", definition: "An innate, natural impulse or behaviour in animals.", pronunciation: "in-stinkt", fact: "The jackal's instinct to howl when hearing others could not be silenced!" },
+      { word: "Humble", partOfSpeech: "Adjective", definition: "Having a modest estimate of one's own importance.", pronunciation: "huhm-buhl", fact: "Humble leaders earn genuine respect from their communities." }
+    ],
+    pages: [
+      {
+        pageNumber: 1,
+        text: "One evening, a hungry jackal named Chandarava wandered toward a village searching for food. Chased by barking dogs, he scrambled into a dyer's courtyard and fell headfirst into a vat of blue indigo dye! Emerging completely bright blue, the jackal returned to the forest. The animals had never seen such a creature and were terrified. Seizing the moment, Chandarava claimed, 'The forest spirits have anointed me your King!' For a time, he lived like royalty, ordering the lion and tiger around while banishing ordinary jackals. But one evening under a full moon, the forest jackals began a chorus of howls. Unable to resist his natural instinct, Chandarava lifted his head and howled aloud: 'Awooooo!' Instantly, the forest animals recognised his voice and discovered the deception. Admitting his foolish lie, Chandarava left peacefully, learning that true pride comes from honesty. MORAL: A false appearance cannot hide the truth forever. Be honest, be humble, and be proud of who you are.",
+        imageUrl: "/the_blue_jackal.png"
+      }
+    ],
+    comprehensionQuestions: [
+      {
+        question: "How did Chandarava the Jackal turn bright blue?",
+        options: ["He swam in a magical enchanted river", "He fell into a vat of blue indigo dye in a dyer's courtyard", "He ate blue berries from a mysterious tree", "He was painted by forest monkeys"],
+        correctAnswer: "He fell into a vat of blue indigo dye in a dyer's courtyard",
+        hint: "Check Page 4 where the jackal hides from the village dogs."
+      },
+      {
+        question: "How was the Blue Jackal's true identity discovered by the other animals?",
+        options: ["The rain washed all the blue dye away", "He could not resist howling along with the other jackals", "A clever fox pulled off his fur coat", "The lion found his paw prints in the mud"],
+        correctAnswer: "He could not resist howling along with the other jackals",
+        hint: "Look at Page 15 when the full moon rises and the pack howls."
+      },
+      {
+        question: "What is the moral of the story?",
+        options: ["Never go near dye vats at night", "A false appearance cannot hide the truth forever; be proud of who you are", "Jackals make the strongest kings", "Always listen to the forest spirits"],
+        correctAnswer: "A false appearance cannot hide the truth forever; be proud of who you are",
+        hint: "Read the final Moral panel at the bottom of the comic."
+      }
+    ]
   }
 ];
 export const STORIES_EASY = [
