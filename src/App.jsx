@@ -84,6 +84,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import TeacherDashboard from './pages/TeacherDashboard';
 import StudentQuiz from './pages/StudentQuiz';
+import { auth, db, googleProvider } from './firebase';
 import { signInAnonymously, signInWithCustomToken, signInWithPopup, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, signOut } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, orderBy, arrayUnion, onSnapshot, limit } from 'firebase/firestore';
 import MessagingModule from './components/MessagingModule';
