@@ -134,7 +134,12 @@ async function resolveBestGeminiModel(apiKey, preference = 'flash') {
   if (liveModels && liveModels.length > 0) {
     const preferred = liveModels.filter(m => m.includes(preference));
     if (preferred.length > 0) {
-      const latest = preferred.find(m => m.includes('1.5-flash') || m.includes('2.0-flash')) || preferred[0];
+      // Prioritize the newest generation flash models
+      const latest = preferred.find(m => m.includes('2.5-flash')) ||
+                     preferred.find(m => m.includes('2.0-flash')) ||
+                     preferred.find(m => m.includes('1.5-flash')) ||
+                     preferred.find(m => m.includes('flash-latest')) ||
+                     preferred[0];
       return latest;
     }
     return liveModels[0];
