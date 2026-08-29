@@ -20,21 +20,31 @@ export const initErrorLogger = () => {
       const auth = getAuth();
       const user = auth.currentUser;
       
+      // Do not attempt Firestore writes if user is not authenticated or if it is a permission/auth error
+      if (!user) return;
+      if (typeof errorMsg === 'string' && (
+        errorMsg.includes('permission') || 
+        errorMsg.includes('permission-denied') || 
+        errorMsg.includes('auth/admin-restricted') ||
+        errorMsg.includes('Failed to log error')
+      )) {
+        return;
+      }
+      
       await addDoc(collection(db, 'error_logs'), {
         message: errorMsg || 'Unknown Error',
         stack: stack || '',
         screen: window.location.pathname + window.location.search || 'Unknown',
-        userId: user ? user.uid : 'Unauthenticated',
-        userEmail: user ? user.email : 'Unknown',
-        userName: user ? (user.displayName || 'No Name') : 'Anonymous',
+        userId: user.uid,
+        userEmail: user.email || 'Unknown',
+        userName: user.displayName || 'Anonymous',
         source: source || 'window.onerror',
         userAgent: navigator.userAgent,
         timestamp: serverTimestamp(),
         status: 'new'
       });
     } catch (dbErr) {
-      // Intentionally NOT using console.error here to prevent infinite recursive loops
-      console.warn("Failed to log error to Firestore:", dbErr);
+      // Silently ignore to prevent infinite recursive loops
     }
   };
 

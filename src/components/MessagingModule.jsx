@@ -75,7 +75,7 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
       return false;
     }).length;
   };
-  // Real-time listener for messages
+  // Real-time listener for messages (persistent, independent of tab switches)
   useEffect(() => {
     if (!teacher?.uid || !studentName) return;
 
@@ -95,6 +95,8 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
           }
        });
        setOnlineUsers(onlineMap);
+    }, (err) => {
+       // Suppress presence permission errors gracefully
     });
 
     const messagesRef = collection(db, 'messages');
@@ -117,67 +119,71 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
          return dateB - dateA;
       });
 
-      // Filter based on roles and recipient types
-      const filtered = allMsgs.filter(msg => {
-        if (activeTab === 'Inbox') {
-          return msg.senderRole === 'teacher' && 
-                 msg.recipientType === 'student' && 
-                 msg.recipientId?.toLowerCase() === studentName?.toLowerCase();
-        } else if (activeTab === 'Sent') {
-          return msg.senderRole === 'student' && 
-                 msg.senderId?.toLowerCase() === studentName?.toLowerCase() &&
-                 msg.recipientType === 'teacher';
-        } else if (activeTab === 'Announcements') {
-          return msg.senderRole === 'teacher' && 
-                 (msg.recipientType === 'all' || 
-                  (msg.recipientType === 'class' && msg.recipientId === classroom?.id));
-        } else if (activeTab === 'Class Lounge') {
-          return msg.recipientType === 'class' && 
-                 msg.classId === classroom?.id;
-        } else if (activeTab === 'Classmates') {
-          return msg.senderRole === 'student' && 
-                 msg.recipientType === 'student' && 
-                 (msg.senderId?.toLowerCase() === studentName?.toLowerCase() || 
-                  msg.recipientId?.toLowerCase() === studentName?.toLowerCase());
-        }
-        return false;
-      });
-
       setAllMessages(allMsgs);
-      setMessages(filtered);
-      
-      // Auto-select the first message if none is active or if active message is not in current list
-      if (activeTab !== 'Classmates' && activeTab !== 'Class Lounge') {
-        if (filtered.length > 0) {
-          if (!activeMessage || !filtered.find(m => m.id === activeMessage.id)) {
-            setActiveMessage(filtered[0]);
-          }
-        } else {
-          setActiveMessage(null);
-        }
-      }
     }, (error) => {
-      console.error("Error loading messages:", error);
+      // Suppress noisy console logs
+      console.warn("Messaging sync notice:", error?.message || error);
     });
 
     return () => {
        unsubscribe();
        unsubPresence();
     };
-  }, [teacher, studentName, classroom, activeTab]);
+  }, [teacher?.uid, studentName, classroom?.id]);
 
-  // Mark viewed messages as read
+  // Filter messages dynamically when tab or messages change (no listener tear-down!)
+  useEffect(() => {
+    const filtered = allMessages.filter(msg => {
+      if (activeTab === 'Inbox') {
+        return msg.senderRole === 'teacher' && 
+               msg.recipientType === 'student' && 
+               msg.recipientId?.toLowerCase() === studentName?.toLowerCase();
+      } else if (activeTab === 'Sent') {
+        return msg.senderRole === 'student' && 
+               msg.senderId?.toLowerCase() === studentName?.toLowerCase() &&
+               msg.recipientType === 'teacher';
+      } else if (activeTab === 'Announcements') {
+        return msg.senderRole === 'teacher' && 
+               (msg.recipientType === 'all' || 
+                (msg.recipientType === 'class' && msg.recipientId === classroom?.id));
+      } else if (activeTab === 'Class Lounge') {
+        return msg.recipientType === 'class' && 
+               msg.classId === classroom?.id;
+      } else if (activeTab === 'Classmates') {
+        return msg.senderRole === 'student' && 
+               msg.recipientType === 'student' && 
+               (msg.senderId?.toLowerCase() === studentName?.toLowerCase() || 
+                msg.recipientId?.toLowerCase() === studentName?.toLowerCase());
+      }
+      return false;
+    });
+
+    setMessages(filtered);
+
+    // Auto-select the first message if none is active or if active message is not in current list
+    if (activeTab !== 'Classmates' && activeTab !== 'Class Lounge') {
+      if (filtered.length > 0) {
+        if (!activeMessage || !filtered.find(m => m.id === activeMessage.id)) {
+          setActiveMessage(filtered[0]);
+        }
+      } else {
+        setActiveMessage(null);
+      }
+    }
+  }, [allMessages, activeTab, studentName, classroom?.id]);
+
+  // Mark viewed messages as read (with guard to avoid infinite state loops)
   useEffect(() => {
     if (activeTab === 'Classmates' && activeClassmate) {
       messages.forEach(msg => {
         if (!msg.isRead && msg.recipientId?.toLowerCase() === studentName?.toLowerCase() && msg.senderId?.toLowerCase() === activeClassmate.name?.toLowerCase()) {
-          updateDoc(doc(db, 'messages', msg.id), { isRead: true }).catch(console.error);
+          updateDoc(doc(db, 'messages', msg.id), { isRead: true }).catch(() => {});
         }
       });
     } else if (activeMessage && !activeMessage.isRead && activeMessage.recipientId?.toLowerCase() === studentName?.toLowerCase()) {
-      updateDoc(doc(db, 'messages', activeMessage.id), { isRead: true }).catch(console.error);
+      updateDoc(doc(db, 'messages', activeMessage.id), { isRead: true }).catch(() => {});
     }
-  }, [activeTab, activeClassmate, activeMessage, messages, studentName]);
+  }, [activeTab, activeClassmate?.name, activeMessage?.id, studentName]);
 
   const handleDeleteMessage = async (e, msgId) => {
     e.stopPropagation();

@@ -83,6 +83,39 @@ function devApiPlugin(env) {
           }
         });
       });
+
+      server.middlewares.use('/api/student-auth', async (req, res) => {
+        if (req.method === 'OPTIONS') {
+          res.writeHead(200); res.end(); return;
+        }
+        if (req.method !== 'POST') {
+          res.writeHead(405); res.end('Method not allowed'); return;
+        }
+        let body = '';
+        req.on('data', chunk => { body += chunk; });
+        req.on('end', async () => {
+          try {
+            const parsed = JSON.parse(body || '{}');
+            const handlerMod = await import('./api/student-auth.js');
+            const fakeReq = { method: req.method, body: parsed, headers: req.headers };
+            const fakeRes = {
+              setHeader: () => {},
+              status: (code) => ({
+                json: (data) => {
+                  res.writeHead(code, { 'Content-Type': 'application/json' });
+                  res.end(JSON.stringify(data));
+                },
+                end: () => { res.writeHead(code); res.end(); }
+              })
+            };
+            await handlerMod.default(fakeReq, fakeRes);
+          } catch (err) {
+            console.error('[Dev API] student-auth error:', err);
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: err.message }));
+          }
+        });
+      });
     }
   };
 }

@@ -84,8 +84,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import TeacherDashboard from './pages/TeacherDashboard';
 import StudentQuiz from './pages/StudentQuiz';
-import { auth, db, googleProvider } from './firebase';
-import { signInAnonymously, signInWithPopup, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, signOut } from 'firebase/auth';
+import { signInAnonymously, signInWithCustomToken, signInWithPopup, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, signOut } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, orderBy, arrayUnion, onSnapshot, limit } from 'firebase/firestore';
 import MessagingModule from './components/MessagingModule';
 import VirtualPetCompanionWidget from './components/VirtualPetCompanionWidget';
@@ -4802,128 +4801,65 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
         setShowLoginModal(null);
         navigate('/dashboard/teacher');
       } else {
-        // Ensure student has an active Firebase auth session before reading Firestore
-        if (!auth.currentUser) {
-          try {
-            await signInAnonymously(auth);
-          } catch (e) {
-            console.warn('Anonymous auth failed:', e);
-          }
-        }
-        const q = query(collection(db, 'teachers'), where('teacherCode', '==', code.toUpperCase().trim()), limit(1));
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          const teacherDoc = querySnapshot.docs[0];
-          const teacherData = teacherDoc.data();
+        // Secure Student Login via Backend Auth API
+        try {
+          const res = await fetch('/api/student-auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'verify',
+              teacherCode: code,
+              studentName: studentName,
+              password: showPwField ? studentPassword : ''
+            })
+          });
 
-          // Enforce 7-day trial check for unpaid accounts
-          const isAdminUser = teacherData.isAdmin === true || teacherData.role === 'admin';
-          const teacherBilling = teacherData.billing;
-          const isPaid = teacherBilling && ['active', 'trialing'].includes(teacherBilling.status);
-          if (!isPaid && !isAdminUser) {
-            const rawCreated = teacherData.createdAt || teacherBilling?.createdAt;
-            if (rawCreated) {
-              const createdDate = new Date(rawCreated);
-              const today = new Date();
-              const diffTime = today - createdDate;
-              const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-              if (diffDays > 7) {
-                setErrorMsg("Your classroom's trial has expired. Ask your teacher/parent to subscribe to unlock the Homework Zone! 🔒");
-                setIsLoginLoading(false);
-                return;
-              }
+          const data = await res.json();
+
+          if (!res.ok || !data.success) {
+            setErrorMsg(data.error || 'Login failed. Please check your code and name!');
+            setIsLoginLoading(false);
+            return;
+          }
+
+          // Case 1: First-time student without password
+          if (data.needsPasswordSetup) {
+            setPendingStudentInfo(data);
+            setShowLoginModal(null);
+            setShowCreatePassword(true);
+            setIsLoginLoading(false);
+            return;
+          }
+
+          // Case 2: Returning student needing password prompt
+          if (data.requiresPassword) {
+            setShowPwField(true);
+            setIsLoginLoading(false);
+            return;
+          }
+
+          // Case 3: Successfully authenticated
+          if (data.customToken) {
+            try {
+              await signInWithCustomToken(auth, data.customToken);
+            } catch (authErr) {
+              console.warn('Custom token login notice:', authErr);
             }
           }
 
-          const classroomsRef = collection(db, 'teachers', teacherDoc.id, 'classrooms');
-          const classroomsSnap = await getDocs(classroomsRef);
-          let studentFound = false;
-          let studentClass = null;
-          let matchedStudentName = null;
-          let matchedStudentDoc = null;
-          let matchedClassDocId = null;
-          const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
-          const cleanInputName = normalizeName(studentName);
-          for (const classDoc of classroomsSnap.docs) {
-            const studentsRef = collection(db, 'teachers', teacherDoc.id, 'classrooms', classDoc.id, 'students');
-            const studentsSnap = await getDocs(studentsRef);
-            const matchedDoc = studentsSnap.docs.find(stDoc => {
-              const stData = stDoc.data();
-              return normalizeName(stDoc.id) === cleanInputName || normalizeName(stData.name) === cleanInputName;
-            });
-            if (matchedDoc) {
-              studentFound = true;
-              studentClass = { id: classDoc.id, ...classDoc.data() };
-              matchedStudentName = (matchedDoc.data().name || matchedDoc.id).trim();
-              matchedStudentDoc = matchedDoc;
-              matchedClassDocId = classDoc.id;
-              const studentData = matchedDoc.data();
-              const studentStatus = studentData.status;
-              const isQuotaLocked = studentData.isQuotaLocked;
+          onStudentLogin({
+            teacher: data.teacher,
+            name: data.studentName,
+            classroom: data.classroom
+          });
 
-              if (isQuotaLocked) {
-                setErrorMsg('Your account has been temporarily locked due to your class plan limits. Please speak to your teacher.');
-                setIsLoginLoading(false);
-                return;
-              }
-              if (studentStatus === 'paused') {
-                setErrorMsg('Your account has been paused by your teacher. Please speak to your teacher to restore access.');
-                setIsLoginLoading(false);
-                return;
-              }
-              break;
-            }
-          }
-          if (studentFound) {
-            const studentData = matchedStudentDoc.data();
-            const storedHash = studentData.passwordHash;
-
-            if (!storedHash) {
-              // First-time login: no password set → prompt to create one
-              const studentDocRef = doc(db, 'teachers', teacherDoc.id, 'classrooms', matchedClassDocId, 'students', matchedStudentDoc.id);
-              setPendingStudentInfo({
-                teacherDoc,
-                teacherData,
-                studentDocRef,
-                matchedStudentName,
-                studentClass
-              });
-              setShowLoginModal(null);
-              setShowCreatePassword(true);
-              setIsLoginLoading(false);
-              return;
-            } else {
-              // Returning student: verify password
-              if (!showPwField) {
-                // First click of "Let's Go!" when password exists → show password field
-                setShowPwField(true);
-                setIsLoginLoading(false);
-                return;
-              }
-              if (!studentPassword) {
-                setErrorMsg('Please enter your password!');
-                setIsLoginLoading(false);
-                return;
-              }
-              const inputHash = await hashPassword(studentPassword);
-              if (inputHash !== storedHash) {
-                setErrorMsg('Incorrect password. Please try again!');
-                setIsLoginLoading(false);
-                return;
-              }
-              // Password matches → log in
-              try { await signInAnonymously(auth); } catch (e) { console.warn('Anon auth failed', e); }
-                onStudentLogin({ teacher: { uid: teacherDoc.id, ...teacherData }, name: matchedStudentName, classroom: studentClass });
-              setShowLoginModal(null);
-              setStudentPassword('');
-              setShowPwField(false);
-              navigate('/dashboard/student');
-            }
-          } else {
-            setErrorMsg("Oops! Your name isn't on the class list yet. Talk to your teacher to join!");
-          }
-        } else {
-          setErrorMsg('Invalid Teacher Code. Please check with your teacher!');
+          setShowLoginModal(null);
+          setStudentPassword('');
+          setShowPwField(false);
+          navigate('/dashboard/student');
+        } catch (apiErr) {
+          console.error('Student auth error:', apiErr);
+          setErrorMsg('Login service error. Please try again!');
         }
       }
     } catch (error) {
@@ -6013,13 +5949,37 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                   }
                   setCreatePwLoading(true);
                   try {
-                    const pwHash = await hashPassword(newPassword);
-                    await updateDoc(pendingStudentInfo.studentDocRef, { passwordHash: pwHash });
+                    const res = await fetch('/api/student-auth', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        action: 'create-password',
+                        teacherId: pendingStudentInfo.teacherId || pendingStudentInfo.teacher?.uid || pendingStudentInfo.teacherDoc?.id,
+                        classId: pendingStudentInfo.classId || pendingStudentInfo.classroom?.id || pendingStudentInfo.studentClass?.id,
+                        studentId: pendingStudentInfo.studentId || pendingStudentInfo.studentDocRef?.id,
+                        newPassword
+                      })
+                    });
+                    const data = await res.json();
+                    if (!res.ok || !data.success) {
+                      setCreatePwError(data.error || 'Failed to save password.');
+                      setCreatePwLoading(false);
+                      return;
+                    }
+
+                    if (data.customToken) {
+                      try {
+                        await signInWithCustomToken(auth, data.customToken);
+                      } catch(e) {
+                        console.warn('Custom token sign-in notice:', e);
+                      }
+                    }
+
                     // Auto-login the student
                     onStudentLogin({
-                      teacher: { uid: pendingStudentInfo.teacherDoc.id, ...pendingStudentInfo.teacherData },
-                      name: pendingStudentInfo.matchedStudentName,
-                      classroom: pendingStudentInfo.studentClass
+                      teacher: data.teacher,
+                      name: data.studentName,
+                      classroom: data.classroom
                     });
                     setShowCreatePassword(false);
                     setPendingStudentInfo(null);
