@@ -72,851 +72,851 @@ export const CATEGORIES = [
 ];
 
 export const TOPICS = [
-{
+  {
     "id": "goosebumps",
     "title": "Why Do Humans Get Goosebumps?",
     "category": "human_body",
-    "cardImage": "/curious_whole_goosebumps.png"
+    "cardImage": "/curious_goosebumps.png"
   },
   {
     "id": "baby_teeth",
     "title": "Why Do Kids Lose Their Baby Teeth?",
     "category": "human_body",
-    "cardImage": "/curious_whole_teeth.png"
+    "cardImage": "/curious_baby_teeth.png"
   },
   {
     "id": "constipation",
     "title": "Why Do We Get Constipated?",
     "category": "human_body",
-    "cardImage": "/curious_whole_constipation.png"
+    "cardImage": "/curious_constipation.png"
   },
   {
     "id": "cry",
     "title": "Why Do We Cry?",
     "category": "brain_sleep",
-    "cardImage": "/curious_whole_cry.png"
+    "cardImage": "/curious_cry.png"
   },
   {
     "id": "forget",
     "title": "Why Do We Forget Things?",
     "category": "brain_sleep",
-    "cardImage": "/curious_whole_forget.jpg"
+    "cardImage": "/curious_forget.png"
   },
   {
     "id": "dream",
     "title": "Why Do We Dream?",
     "category": "brain_sleep",
-    "cardImage": "/curious_whole_dream.jpg"
+    "cardImage": "/curious_dream.png"
   },
   {
     "id": "blink",
     "title": "Why Do We Blink So Much?",
     "category": "human_body",
-    "cardImage": "/curious_whole_blink.png"
+    "cardImage": "/curious_blink.jpg"
   },
   {
     "id": "cuts",
     "title": "Why Do Cuts Bleed?",
     "category": "human_body",
-    "cardImage": "/curious_whole_cuts.png"
+    "cardImage": "/curious_cuts.png"
   },
   {
     "id": "yawn",
     "title": "Why Do We Yawn?",
     "category": "human_body",
-    "cardImage": "/curious_whole_yawn.png"
+    "cardImage": "/curious_yawn.png"
   },
   {
     "id": "burp",
     "title": "Why Do We Burp?",
     "category": "human_body",
-    "cardImage": "/curious_whole_burp.png"
+    "cardImage": "/curious_burp.png"
   },
   {
     "id": "cough",
     "title": "Why Do We Cough?",
     "category": "human_body",
-    "cardImage": "/curious_whole_cough.png"
+    "cardImage": "/curious_cough.png"
   },
   {
     "id": "fart",
     "title": "Why Do We Fart?",
     "category": "human_body",
-    "cardImage": "/curious_whole_fart.png"
+    "cardImage": "/curious_fart.png"
   },
   {
     "id": "feel_hungry",
     "title": "Why Do We Feel Hungry?",
     "category": "human_body",
-    "cardImage": "/curious_whole_feel_hungry.png"
+    "cardImage": "/curious_feel_hungry.png"
   },
   {
     "id": "feel_thirsty",
     "title": "Why Do We Feel Thirsty?",
     "category": "human_body",
-    "cardImage": "/curious_whole_feel_thirsty.png"
+    "cardImage": "/curious_feel_thirsty.png"
   },
   {
     "id": "hiccup",
     "title": "Why Do We Hiccup?",
     "category": "human_body",
-    "cardImage": "/curious_whole_hiccup.png"
+    "cardImage": "/curious_hiccup.png"
   },
   {
     "id": "shiver",
     "title": "Why Do We Shiver?",
     "category": "human_body",
-    "cardImage": "/curious_whole_shiver.png"
+    "cardImage": "/curious_shiver.png"
   },
   {
     "id": "sneeze",
     "title": "Why Do We Sneeze?",
     "category": "human_body",
-    "cardImage": "/curious_whole_sneeze.png"
+    "cardImage": "/curious_sneeze.png"
   },
   {
     "id": "sweat",
     "title": "Why Do We Sweat?",
     "category": "human_body",
-    "cardImage": "/curious_whole_sweat.png"
+    "cardImage": "/curious_sweat.png"
   },
   {
     "id": "vomit",
     "title": "Why Do We Vomit?",
     "category": "human_body",
-    "cardImage": "/curious_whole_vomit.png"
+    "cardImage": "/curious_vomit.png"
   },
   {
     "id": "stomach_growl",
     "title": "Why Does Our Stomach Growl?",
     "category": "human_body",
-    "cardImage": "/curious_whole_stomach_growl.png"
+    "cardImage": "/curious_stomach_growl.png"
   },
   {
     "id": "smell",
     "title": "Why can we smell?",
     "category": "brain_sleep",
-    "cardImage": "/curious_whole_smell.png"
+    "cardImage": "/curious_smell.png"
   },
   {
     "id": "taste",
     "title": "Why can we taste?",
     "category": "brain_sleep",
-    "cardImage": "/curious_whole_taste.png"
+    "cardImage": "/curious_taste.png"
   },
   {
     "id": "broken_bones_heal",
     "title": "Why do broken bones heal?",
     "category": "human_body",
-    "cardImage": "/curious_whole_broken_bones_heal.png"
+    "cardImage": "/curious_broken_bones_heal.png"
   },
   {
     "id": "bruises_change_colour",
     "title": "Why do bruises change colour?",
     "category": "human_body",
-    "cardImage": "/curious_whole_bruises_change_colour.png"
+    "cardImage": "/curious_bruises_change_colour.png"
   },
   {
     "id": "children_grow",
     "title": "Why do children grow?",
     "category": "human_body",
-    "cardImage": "/curious_whole_children_grow.png"
+    "cardImage": "/curious_children_grow.png"
   },
   {
     "id": "cuts_form_scabs",
     "title": "Why do cuts form scabs?",
     "category": "human_body",
-    "cardImage": "/curious_whole_cuts_form_scabs.png"
+    "cardImage": "/curious_cuts_form_scabs.png"
   },
   {
     "id": "joints_crack",
     "title": "Why do joints crack?",
     "category": "human_body",
-    "cardImage": "/curious_whole_joints_crack.png"
+    "cardImage": "/curious_joints_crack.png"
   },
   {
     "id": "mosquito_bites_itch",
     "title": "Why do mosquito bites itch?",
     "category": "human_body",
-    "cardImage": "/curious_whole_mosquito_bites_itch.png"
+    "cardImage": "/curious_mosquito_bites_itch.png"
   },
   {
     "id": "muscles_become_sore_after_exercise",
     "title": "Why do muscles become sore after exercise?",
     "category": "human_body",
-    "cardImage": "/curious_whole_muscles_become_sore_after_exercise.png"
+    "cardImage": "/curious_muscles_become_sore_after_exercise.png"
   },
   {
     "id": "our_ears_pop",
     "title": "Why do our ears pop?",
     "category": "brain_sleep",
-    "cardImage": "/curious_whole_our_ears_pop.png"
+    "cardImage": "/curious_our_ears_pop.png"
   },
   {
     "id": "people_stop_growing_taller",
     "title": "Why do people stop growing taller?",
     "category": "human_body",
-    "cardImage": "/curious_whole_people_stop_growing_taller.png"
+    "cardImage": "/curious_people_stop_growing_taller.png"
   },
   {
     "id": "some_people_snore",
     "title": "Why do some people snore?",
     "category": "brain_sleep",
-    "cardImage": "/curious_whole_some_people_snore.png"
+    "cardImage": "/curious_some_people_snore.png"
   },
   {
     "id": "teeth_get_cavities",
     "title": "Why do teeth get cavities?",
     "category": "human_body",
-    "cardImage": "/curious_whole_teeth_get_cavities.png"
+    "cardImage": "/curious_teeth_get_cavities.png"
   },
   {
     "id": "blush",
     "title": "Why do we blush?",
     "category": "brain_sleep",
-    "cardImage": "/curious_whole_blush.png"
+    "cardImage": "/curious_blush.png"
   },
   {
     "id": "breathe",
     "title": "Why do we breathe?",
     "category": "human_body",
-    "cardImage": "/curious_whole_breathe.png"
+    "cardImage": "/curious_breathe.png"
   },
   {
     "id": "feel_pain",
     "title": "Why do we feel pain?",
     "category": "brain_sleep",
-    "cardImage": "/curious_whole_feel_pain.png"
+    "cardImage": "/curious_feel_pain.png"
   },
   {
     "id": "get_a_fever",
     "title": "Why do we get a fever?",
     "category": "human_body",
-    "cardImage": "/curious_whole_get_a_fever.png"
+    "cardImage": "/curious_get_a_fever.png"
   },
   {
     "id": "get_a_runny_nose",
     "title": "Why do we get a runny nose?",
     "category": "human_body",
-    "cardImage": "/curious_whole_get_a_runny_nose.png"
+    "cardImage": "/curious_get_a_runny_nose.png"
   },
   {
     "id": "get_allergies",
     "title": "Why do we get allergies?",
     "category": "human_body",
-    "cardImage": "/curious_whole_get_allergies.png"
+    "cardImage": "/curious_get_allergies.png"
   },
   {
     "id": "get_cramps",
     "title": "Why do we get cramps?",
     "category": "human_body",
-    "cardImage": "/curious_whole_get_cramps.png"
+    "cardImage": "/curious_get_cramps.png"
   },
   {
     "id": "get_dizzy_after_spinning",
     "title": "Why do we get dizzy after spinning?",
     "category": "brain_sleep",
-    "cardImage": "/curious_whole_get_dizzy_after_spinning.png"
+    "cardImage": "/curious_get_dizzy_after_spinning.png"
   },
   {
     "id": "get_inflammation_when_injured",
     "title": "Why do we get inflammation when injured?",
     "category": "human_body",
-    "cardImage": "/curious_whole_get_inflammation_when_injured.png"
+    "cardImage": "/curious_get_inflammation_when_injured.png"
   },
   {
     "id": "get_pins_and_needles",
     "title": "Why do we get pins and needles?",
     "category": "human_body",
-    "cardImage": "/curious_whole_get_pins_and_needles.png"
+    "cardImage": "/curious_get_pins_and_needles.png"
   },
   {
     "id": "get_sunburn",
     "title": "Why do we get sunburn?",
     "category": "human_body",
-    "cardImage": "/curious_whole_get_sunburn.png"
+    "cardImage": "/curious_get_sunburn.png"
   },
   {
     "id": "have_a_belly_button",
     "title": "Why do we have a belly button?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_a_belly_button.png"
+    "cardImage": "/curious_have_a_belly_button.png"
   },
   {
     "id": "have_a_liver",
     "title": "Why do we have a liver?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_a_liver.png"
+    "cardImage": "/curious_have_a_liver.png"
   },
   {
     "id": "have_a_stomach",
     "title": "Why do we have a stomach?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_a_stomach.png"
+    "cardImage": "/curious_have_a_stomach.png"
   },
   {
     "id": "have_bones",
     "title": "Why do we have bones?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_bones.png"
+    "cardImage": "/curious_have_bones.png"
   },
   {
     "id": "have_different_kinds_of_teeth",
     "title": "Why do we have different kinds of teeth?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_different_kinds_of_teeth.png"
+    "cardImage": "/curious_have_different_kinds_of_teeth.png"
   },
   {
     "id": "have_earwax",
     "title": "Why do we have earwax?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_earwax.png"
+    "cardImage": "/curious_have_earwax.png"
   },
   {
     "id": "have_eyebrows",
     "title": "Why do we have eyebrows?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_eyebrows.png"
+    "cardImage": "/curious_have_eyebrows.png"
   },
   {
     "id": "have_eyelashes",
     "title": "Why do we have eyelashes?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_eyelashes.png"
+    "cardImage": "/curious_have_eyelashes.png"
   },
   {
     "id": "have_fingernails",
     "title": "Why do we have fingernails?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_fingernails.png"
+    "cardImage": "/curious_have_fingernails.png"
   },
   {
     "id": "have_fingerprints",
     "title": "Why do we have fingerprints?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_fingerprints.png"
+    "cardImage": "/curious_have_fingerprints.png"
   },
   {
     "id": "have_hair",
     "title": "Why do we have hair?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_hair.png"
+    "cardImage": "/curious_have_hair.png"
   },
   {
     "id": "have_intestines",
     "title": "Why do we have intestines?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_intestines.png"
+    "cardImage": "/curious_have_intestines.png"
   },
   {
     "id": "have_joints",
     "title": "Why do we have joints?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_joints.png"
+    "cardImage": "/curious_have_joints.png"
   },
   {
     "id": "have_kidneys",
     "title": "Why do we have kidneys?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_kidneys.png"
+    "cardImage": "/curious_have_kidneys.png"
   },
   {
     "id": "have_saliva",
     "title": "Why do we have saliva?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_saliva.png"
+    "cardImage": "/curious_have_saliva.png"
   },
   {
     "id": "have_skin",
     "title": "Why do we have skin?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_skin.png"
+    "cardImage": "/curious_have_skin.png"
   },
   {
     "id": "have_two_ears",
     "title": "Why do we have two ears?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_two_ears.png"
+    "cardImage": "/curious_have_two_ears.png"
   },
   {
     "id": "have_two_eyes",
     "title": "Why do we have two eyes?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_two_eyes.png"
+    "cardImage": "/curious_have_two_eyes.png"
   },
   {
     "id": "have_two_lungs",
     "title": "Why do we have two lungs?",
     "category": "human_body",
-    "cardImage": "/curious_whole_have_two_lungs.png"
+    "cardImage": "/curious_have_two_lungs.png"
   },
   {
     "id": "need_oxygen",
     "title": "Why do we need oxygen?",
     "category": "human_body",
-    "cardImage": "/curious_whole_need_oxygen.png"
+    "cardImage": "/curious_need_oxygen.png"
   },
   {
     "id": "food_taste_different_when_our_nose_is_blocked",
     "title": "Why does food taste different when our nose is blocked?",
     "category": "brain_sleep",
-    "cardImage": "/curious_whole_food_taste_different_when_our_nose_is_blocked.png"
+    "cardImage": "/curious_food_taste_different_when_our_nose_is_blocked.png"
   },
   {
     "id": "hair_turn_grey",
     "title": "Why does hair turn grey?",
     "category": "human_body",
-    "cardImage": "/curious_whole_hair_turn_grey.png"
+    "cardImage": "/curious_hair_turn_grey.png"
   },
   {
     "id": "heart_beat",
     "title": "Why does our heart beat?",
     "category": "human_body",
-    "cardImage": "/curious_whole_heart_beat.png"
+    "cardImage": "/curious_heart_beat.png"
   },
   {
     "id": "heart_beat_faster_when_we_exercise",
     "title": "Why does our heart beat faster when we exercise?",
     "category": "human_body",
-    "cardImage": "/curious_whole_heart_beat_faster_when_we_exercise.png"
+    "cardImage": "/curious_heart_beat_faster_when_we_exercise.png"
   },
   {
     "id": "skin_wrinkle_in_water",
     "title": "Why does skin wrinkle in water?",
     "category": "human_body",
-    "cardImage": "/curious_whole_skin_wrinkle_in_water.png"
+    "cardImage": "/curious_skin_wrinkle_in_water.png"
   },
   {
     "id": "chillies_spicy",
     "title": "Why are chillies spicy?",
     "category": "food_chemistry",
-    "cardImage": "/curious_whole_chillies_spicy.png"
+    "cardImage": "/curious_chillies_spicy.png"
   },
   {
     "id": "flowers_colourful",
     "title": "Why are flowers colourful?",
     "category": "plants",
-    "cardImage": "/curious_whole_flowers_colourful.png"
+    "cardImage": "/curious_flowers_colourful.png"
   },
   {
     "id": "fruits_often_sweet",
     "title": "Why are fruits often sweet?",
     "category": "plants",
-    "cardImage": "/curious_whole_fruits_often_sweet.png"
+    "cardImage": "/curious_fruits_often_sweet.png"
   },
   {
     "id": "plants_green",
     "title": "Why are plants green?",
     "category": "plants",
-    "cardImage": "/curious_whole_plants_green.png"
+    "cardImage": "/curious_plants_green.png"
   },
   {
     "id": "mushrooms_plants",
     "title": "Why aren't mushrooms plants?",
     "category": "plants",
-    "cardImage": "/curious_whole_mushrooms_plants.png"
+    "cardImage": "/curious_mushrooms_plants.png"
   },
   {
     "id": "why_can_cacti_survive_in_deserts",
     "title": "Why can cacti survive in deserts?",
     "category": "plants",
-    "cardImage": "/curious_whole_why_can_cacti_survive_in_deserts.png"
+    "cardImage": "/curious_why_can_cacti_survive_in_deserts.png"
   },
   {
     "id": "cacti_have_spines",
     "title": "Why do cacti have spines?",
     "category": "plants",
-    "cardImage": "/curious_whole_cacti_have_spines.png"
+    "cardImage": "/curious_cacti_have_spines.png"
   },
   {
     "id": "flowers_smell",
     "title": "Why do flowers smell?",
     "category": "plants",
-    "cardImage": "/curious_whole_flowers_smell.png"
+    "cardImage": "/curious_flowers_smell.png"
   },
   {
     "id": "fruits_contain_seeds",
     "title": "Why do fruits contain seeds?",
     "category": "plants",
-    "cardImage": "/curious_whole_fruits_contain_seeds.png"
+    "cardImage": "/curious_fruits_contain_seeds.png"
   },
   {
     "id": "leaves_change_colour_in_autumn",
     "title": "Why do leaves change colour in autumn?",
     "category": "plants",
-    "cardImage": "/curious_whole_leaves_change_colour_in_autumn.png"
+    "cardImage": "/curious_leaves_change_colour_in_autumn.png"
   },
   {
     "id": "onions_make_us_cry",
     "title": "Why do onions make us cry?",
     "category": "food_chemistry",
-    "cardImage": "/curious_whole_onions_make_us_cry.png"
+    "cardImage": "/curious_onions_make_us_cry.png"
   },
   {
     "id": "pine_trees_make_cones",
     "title": "Why do pine trees make cones?",
     "category": "plants",
-    "cardImage": "/curious_whole_pine_trees_make_cones.png"
+    "cardImage": "/curious_pine_trees_make_cones.png"
   },
   {
     "id": "plants_grow_toward_light",
     "title": "Why do plants grow toward light?",
     "category": "plants",
-    "cardImage": "/curious_whole_plants_grow_toward_light.png"
+    "cardImage": "/curious_plants_grow_toward_light.png"
   },
   {
     "id": "plants_have_leaves",
     "title": "Why do plants have leaves?",
     "category": "plants",
-    "cardImage": "/curious_whole_plants_have_leaves.png"
+    "cardImage": "/curious_plants_have_leaves.png"
   },
   {
     "id": "plants_have_roots",
     "title": "Why do plants have roots?",
     "category": "plants",
-    "cardImage": "/curious_whole_plants_have_roots.png"
+    "cardImage": "/curious_plants_have_roots.png"
   },
   {
     "id": "plants_make_flowers",
     "title": "Why do plants make flowers?",
     "category": "plants",
-    "cardImage": "/curious_whole_plants_make_flowers.png"
+    "cardImage": "/curious_plants_make_flowers.png"
   },
   {
     "id": "plants_make_seeds",
     "title": "Why do plants make seeds?",
     "category": "plants",
-    "cardImage": "/curious_whole_plants_make_seeds.png"
+    "cardImage": "/curious_plants_make_seeds.png"
   },
   {
     "id": "plants_need_sunlight",
     "title": "Why do plants need sunlight?",
     "category": "plants",
-    "cardImage": "/curious_whole_plants_need_sunlight.png"
+    "cardImage": "/curious_plants_need_sunlight.png"
   },
   {
     "id": "plants_need_water",
     "title": "Why do plants need water?",
     "category": "plants",
-    "cardImage": "/curious_whole_plants_need_water.png"
+    "cardImage": "/curious_plants_need_water.png"
   },
   {
     "id": "plants_wilt",
     "title": "Why do plants wilt?",
     "category": "plants",
-    "cardImage": "/curious_whole_plants_wilt.png"
+    "cardImage": "/curious_plants_wilt.png"
   },
   {
     "id": "roots_grow_downward",
     "title": "Why do roots grow downward?",
     "category": "plants",
-    "cardImage": "/curious_whole_roots_grow_downward.png"
+    "cardImage": "/curious_roots_grow_downward.png"
   },
   {
     "id": "seeds_need_water_to_grow",
     "title": "Why do seeds need water to grow?",
     "category": "plants",
-    "cardImage": "/curious_whole_seeds_need_water_to_grow.png"
+    "cardImage": "/curious_seeds_need_water_to_grow.png"
   },
   {
     "id": "some_flowers_close_at_night",
     "title": "Why do some flowers close at night?",
     "category": "plants",
-    "cardImage": "/curious_whole_some_flowers_close_at_night.png"
+    "cardImage": "/curious_some_flowers_close_at_night.png"
   },
   {
     "id": "some_seeds_have_wings",
     "title": "Why do some seeds have wings?",
     "category": "plants",
-    "cardImage": "/curious_whole_some_seeds_have_wings.png"
+    "cardImage": "/curious_some_seeds_have_wings.png"
   },
   {
     "id": "trees_have_bark",
     "title": "Why do trees have bark?",
     "category": "plants",
-    "cardImage": "/curious_whole_trees_have_bark.png"
+    "cardImage": "/curious_trees_have_bark.png"
   },
   {
     "id": "trees_have_rings",
     "title": "Why do trees have rings?",
     "category": "plants",
-    "cardImage": "/curious_whole_trees_have_rings.png"
+    "cardImage": "/curious_trees_have_rings.png"
   },
   {
     "id": "trees_lose_their_leaves",
     "title": "Why do trees lose their leaves?",
     "category": "plants",
-    "cardImage": "/curious_whole_trees_lose_their_leaves.png"
+    "cardImage": "/curious_trees_lose_their_leaves.png"
   },
   {
     "id": "venus_flytraps_eat_insects",
     "title": "Why do Venus flytraps eat insects?",
     "category": "plants",
-    "cardImage": "/curious_whole_venus_flytraps_eat_insects.png"
+    "cardImage": "/curious_venus_flytraps_eat_insects.png"
   },
   {
     "id": "vines_climb",
     "title": "Why do vines climb?",
     "category": "plants",
-    "cardImage": "/curious_whole_vines_climb.png"
+    "cardImage": "/curious_vines_climb.png"
   },
   {
     "id": "grass_grow_back_after_mowing",
     "title": "Why does grass grow back after mowing?",
     "category": "plants",
-    "cardImage": "/curious_whole_grass_grow_back_after_mowing.png"
+    "cardImage": "/curious_grass_grow_back_after_mowing.png"
   },
   {
-      "id": "why_are_clouds_white",
-      "title": "Why are clouds white?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_are_clouds_white.png"
+    "id": "why_are_clouds_white",
+    "title": "Why are clouds white?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_are_clouds_white.png"
   },
   {
-      "id": "why_are_snowflakes_different",
-      "title": "Why are snowflakes different?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_are_snowflakes_different.png"
+    "id": "why_are_snowflakes_different",
+    "title": "Why are snowflakes different?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_are_snowflakes_different.png"
   },
   {
-      "id": "why_are_storm_clouds_dark",
-      "title": "Why are storm clouds dark?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_are_storm_clouds_dark.png"
+    "id": "why_are_storm_clouds_dark",
+    "title": "Why are storm clouds dark?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_are_storm_clouds_dark.png"
   },
   {
-      "id": "why_are_the_poles_colder",
-      "title": "Why are the poles colder?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_are_the_poles_colder.png"
+    "id": "why_are_the_poles_colder",
+    "title": "Why are the poles colder?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_are_the_poles_colder.png"
   },
   {
-      "id": "why_are_there_different_kinds_of_rocks",
-      "title": "Why are there different kinds of rocks?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_are_there_different_kinds_of_rocks.png"
+    "id": "why_are_there_different_kinds_of_rocks",
+    "title": "Why are there different kinds of rocks?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_are_there_different_kinds_of_rocks.png"
   },
   {
-      "id": "why_are_tropical_places_warmer",
-      "title": "Why are tropical places warmer?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_are_tropical_places_warmer.png"
+    "id": "why_are_tropical_places_warmer",
+    "title": "Why are tropical places warmer?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_are_tropical_places_warmer.png"
   },
   {
-      "id": "why_can_we_see_our_breath_when_it_is_cold",
-      "title": "Why can we see our breath when it is cold?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_can_we_see_our_breath_when_it_is_cold.png"
+    "id": "why_can_we_see_our_breath_when_it_is_cold",
+    "title": "Why can we see our breath when it is cold?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_can_we_see_our_breath_when_it_is_cold.png"
   },
   {
-      "id": "why_do_caves_form",
-      "title": "Why do caves form?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_caves_form.png"
+    "id": "why_do_caves_form",
+    "title": "Why do caves form?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_caves_form.png"
   },
   {
-      "id": "why_do_clouds_form",
-      "title": "Why do clouds form?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_clouds_form.png"
+    "id": "why_do_clouds_form",
+    "title": "Why do clouds form?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_clouds_form.png"
   },
   {
-      "id": "why_do_continents_move",
-      "title": "Why do continents move?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_continents_move.png"
+    "id": "why_do_continents_move",
+    "title": "Why do continents move?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_continents_move.png"
   },
   {
-      "id": "why_do_cyclones_form",
-      "title": "Why do cyclones form?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_cyclones_form.png"
+    "id": "why_do_cyclones_form",
+    "title": "Why do cyclones form?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_cyclones_form.png"
   },
   {
-      "id": "why_do_cyclones_have_an_eye",
-      "title": "Why do cyclones have an eye?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_cyclones_have_an_eye.png"
+    "id": "why_do_cyclones_have_an_eye",
+    "title": "Why do cyclones have an eye?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_cyclones_have_an_eye.png"
   },
   {
-      "id": "why_do_deserts_form",
-      "title": "Why do deserts form?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_deserts_form.png"
+    "id": "why_do_deserts_form",
+    "title": "Why do deserts form?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_deserts_form.png"
   },
   {
-      "id": "why_do_earthquakes_happen",
-      "title": "Why do earthquakes happen?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_earthquakes_happen.png"
+    "id": "why_do_earthquakes_happen",
+    "title": "Why do earthquakes happen?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_earthquakes_happen.png"
   },
   {
-      "id": "why_do_fossils_form",
-      "title": "Why do fossils form?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_fossils_form.png"
+    "id": "why_do_fossils_form",
+    "title": "Why do fossils form?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_fossils_form.png"
   },
   {
-      "id": "why_do_geysers_erupt",
-      "title": "Why do geysers erupt?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_geysers_erupt.png"
+    "id": "why_do_geysers_erupt",
+    "title": "Why do geysers erupt?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_geysers_erupt.png"
   },
   {
-      "id": "why_do_glaciers_move",
-      "title": "Why do glaciers move?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_glaciers_move.png"
+    "id": "why_do_glaciers_move",
+    "title": "Why do glaciers move?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_glaciers_move.png"
   },
   {
-      "id": "why_do_hot_springs_exist",
-      "title": "Why do hot springs exist?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_hot_springs_exist.png"
+    "id": "why_do_hot_springs_exist",
+    "title": "Why do hot springs exist?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_hot_springs_exist.png"
   },
   {
-      "id": "why_do_icebergs_float",
-      "title": "Why do icebergs float?",
-      "category": "physics_everyday",
-      "cardImage": "/curious_whole_why_do_icebergs_float.png"
+    "id": "why_do_icebergs_float",
+    "title": "Why do icebergs float?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_icebergs_float.png"
   },
   {
-      "id": "why_do_mountains_form",
-      "title": "Why do mountains form?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_mountains_form.png"
+    "id": "why_do_mountains_form",
+    "title": "Why do mountains form?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_mountains_form.png"
   },
   {
-      "id": "why_do_oceans_have_waves",
-      "title": "Why do oceans have waves?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_oceans_have_waves.png"
+    "id": "why_do_oceans_have_waves",
+    "title": "Why do oceans have waves?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_oceans_have_waves.png"
   },
   {
-      "id": "why_do_rainbows_form",
-      "title": "Why do rainbows form?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_rainbows_form.png"
+    "id": "why_do_rainbows_form",
+    "title": "Why do rainbows form?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_rainbows_form.png"
   },
   {
-      "id": "why_do_rivers_flow_downhill",
-      "title": "Why do rivers flow downhill?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_rivers_flow_downhill.png"
+    "id": "why_do_rivers_flow_downhill",
+    "title": "Why do rivers flow downhill?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_rivers_flow_downhill.png"
   },
   {
-      "id": "why_do_tornadoes_form",
-      "title": "Why do tornadoes form?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_tornadoes_form.png"
+    "id": "why_do_tornadoes_form",
+    "title": "Why do tornadoes form?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_tornadoes_form.png"
   },
   {
-      "id": "why_do_tsunamis_happen",
-      "title": "Why do tsunamis happen?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_tsunamis_happen.png"
+    "id": "why_do_tsunamis_happen",
+    "title": "Why do tsunamis happen?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_tsunamis_happen.png"
   },
   {
-      "id": "why_do_volcanoes_erupt",
-      "title": "Why do volcanoes erupt?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_volcanoes_erupt.png"
+    "id": "why_do_volcanoes_erupt",
+    "title": "Why do volcanoes erupt?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_volcanoes_erupt.png"
   },
   {
-      "id": "why_do_waterfalls_form",
-      "title": "Why do waterfalls form?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_do_waterfalls_form.png"
+    "id": "why_do_waterfalls_form",
+    "title": "Why do waterfalls form?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_do_waterfalls_form.png"
   },
   {
-      "id": "why_do_we_see_lightning_before_hearing_thunder",
-      "title": "Why do we see lightning before hearing thunder?",
-      "category": "physics_everyday",
-      "cardImage": "/curious_whole_why_do_we_see_lightning_before_hearing_thunder.png"
+    "id": "why_do_we_see_lightning_before_hearing_thunder",
+    "title": "Why do we see lightning before hearing thunder?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_we_see_lightning_before_hearing_thunder.png"
   },
   {
-      "id": "why_does_climate_change_happen",
-      "title": "Why does climate change happen?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_does_climate_change_happen.png"
+    "id": "why_does_climate_change_happen",
+    "title": "Why does climate change happen?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_does_climate_change_happen.png"
   },
   {
-      "id": "why_does_erosion_happen",
-      "title": "Why does erosion happen?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_does_erosion_happen.png"
+    "id": "why_does_erosion_happen",
+    "title": "Why does erosion happen?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_does_erosion_happen.png"
   },
   {
-      "id": "why_does_fog_form",
-      "title": "Why does fog form?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_does_fog_form.png"
+    "id": "why_does_fog_form",
+    "title": "Why does fog form?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_does_fog_form.png"
   },
   {
-      "id": "why_does_hail_form",
-      "title": "Why does hail form?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_does_hail_form.png"
+    "id": "why_does_hail_form",
+    "title": "Why does hail form?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_does_hail_form.png"
   },
   {
-      "id": "why_does_it_rain",
-      "title": "Why does it rain?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_does_it_rain.png"
+    "id": "why_does_it_rain",
+    "title": "Why does it rain?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_does_it_rain.png"
   },
   {
-      "id": "why_does_lightning_happen",
-      "title": "Why does lightning happen?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_does_lightning_happen.png"
+    "id": "why_does_lightning_happen",
+    "title": "Why does lightning happen?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_does_lightning_happen.png"
   },
   {
-      "id": "why_does_snow_form",
-      "title": "Why does snow form?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_does_snow_form.png"
+    "id": "why_does_snow_form",
+    "title": "Why does snow form?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_does_snow_form.png"
   },
   {
-      "id": "why_does_the_sky_turn_orange_at_sunset",
-      "title": "Why does the sky turn orange at sunset?",
-      "category": "physics_everyday",
-      "cardImage": "/curious_whole_why_does_the_sky_turn_orange_at_sunset.png"
+    "id": "why_does_the_sky_turn_orange_at_sunset",
+    "title": "Why does the sky turn orange at sunset?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_does_the_sky_turn_orange_at_sunset.png"
   },
   {
-      "id": "why_does_thunder_happen",
-      "title": "Why does thunder happen?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_does_thunder_happen.png"
+    "id": "why_does_thunder_happen",
+    "title": "Why does thunder happen?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_does_thunder_happen.png"
   },
   {
-      "id": "why_does_wind_blow",
-      "title": "Why does wind blow?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_does_wind_blow.png"
+    "id": "why_does_wind_blow",
+    "title": "Why does wind blow?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_does_wind_blow.png"
   },
   {
-      "id": "why_is_humidity_uncomfortable",
-      "title": "Why is humidity uncomfortable?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_is_humidity_uncomfortable.png"
+    "id": "why_is_humidity_uncomfortable",
+    "title": "Why is humidity uncomfortable?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_is_humidity_uncomfortable.png"
   },
   {
-      "id": "why_is_seawater_salty",
-      "title": "Why is seawater salty?",
-      "category": "earth_weather",
-      "cardImage": "/curious_whole_why_is_seawater_salty.png"
+    "id": "why_is_seawater_salty",
+    "title": "Why is seawater salty?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_is_seawater_salty.png"
   },
   {
-      "id": "why_is_the_sky_blue",
-      "title": "Why is the sky blue?",
-      "category": "physics_everyday",
-      "cardImage": "/curious_whole_why_is_the_sky_blue.png"
+    "id": "why_is_the_sky_blue",
+    "title": "Why is the sky blue?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_is_the_sky_blue.png"
   }
 ];
 
 export const TOPIC_DETAILS = {
-"goosebumps": {
-    "image": "/curious_goosebumps.png",
+  "goosebumps": {
+    "image": "/curious_whole_goosebumps.png",
     "bgColor": "border-orange-400",
     "accentColor": "from-orange-400 via-amber-400 to-sky-400",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -956,7 +956,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "constipation": {
-    "image": "/curious_constipation.png",
+    "image": "/curious_whole_constipation.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -976,7 +976,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "cry": {
-    "image": "/curious_cry.png",
+    "image": "/curious_whole_cry.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -996,7 +996,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "forget": {
-    "image": "/curious_forget.jpg",
+    "image": "/curious_whole_forget.png",
     "bgColor": "border-pink-400",
     "accentColor": "from-pink-400 via-rose-300 to-purple-400",
     "quizBg": "bg-pink-50 border-pink-200",
@@ -1016,7 +1016,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "dream": {
-    "image": "/curious_dream.jpg",
+    "image": "/curious_whole_dream.png",
     "bgColor": "border-indigo-400",
     "accentColor": "from-indigo-400 via-purple-300 to-pink-500",
     "quizBg": "bg-indigo-50 border-indigo-200",
@@ -1036,7 +1036,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "blink": {
-    "image": "/curious_blink.jpg",
+    "image": "/curious_whole_blink.png",
     "bgColor": "border-sky-400",
     "accentColor": "from-sky-400 via-teal-300 to-blue-500",
     "quizBg": "bg-sky-50 border-sky-200",
@@ -1056,7 +1056,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "cuts": {
-    "image": "/curious_cuts.png",
+    "image": "/curious_whole_cuts.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -1076,7 +1076,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "yawn": {
-    "image": "/curious_yawn.png",
+    "image": "/curious_whole_yawn.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-sky-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -1096,7 +1096,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "burp": {
-    "image": "/curious_burp.png",
+    "image": "/curious_whole_burp.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -1116,7 +1116,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "cough": {
-    "image": "/curious_cough.png",
+    "image": "/curious_whole_cough.png",
     "bgColor": "border-blue-400",
     "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
     "quizBg": "bg-blue-50 border-blue-200",
@@ -1136,7 +1136,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "fart": {
-    "image": "/curious_fart.png",
+    "image": "/curious_whole_fart.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -1156,7 +1156,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "feel_hungry": {
-    "image": "/curious_feel_hungry.png",
+    "image": "/curious_whole_feel_hungry.png",
     "bgColor": "border-orange-400",
     "accentColor": "from-orange-400 via-amber-300 to-red-400",
     "quizBg": "bg-orange-50 border-orange-200",
@@ -1176,7 +1176,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "feel_thirsty": {
-    "image": "/curious_feel_thirsty.png",
+    "image": "/curious_whole_feel_thirsty.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -1196,7 +1196,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "hiccup": {
-    "image": "/curious_hiccup.png",
+    "image": "/curious_whole_hiccup.png",
     "bgColor": "border-purple-400",
     "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -1216,7 +1216,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "shiver": {
-    "image": "/curious_shiver.png",
+    "image": "/curious_whole_shiver.png",
     "bgColor": "border-sky-400",
     "accentColor": "from-sky-400 via-blue-300 to-indigo-400",
     "quizBg": "bg-sky-50 border-sky-200",
@@ -1236,7 +1236,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "sneeze": {
-    "image": "/curious_sneeze.png",
+    "image": "/curious_whole_sneeze.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-emerald-300 to-green-500",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -1256,7 +1256,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "sweat": {
-    "image": "/curious_sweat.png",
+    "image": "/curious_whole_sweat.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-yellow-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -1276,7 +1276,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "vomit": {
-    "image": "/curious_vomit.png",
+    "image": "/curious_whole_vomit.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-lime-300 to-green-600",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -1296,7 +1296,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "stomach_growl": {
-    "image": "/curious_stomach_growl.png",
+    "image": "/curious_whole_stomach_growl.png",
     "bgColor": "border-yellow-400",
     "accentColor": "from-yellow-400 via-amber-300 to-orange-400",
     "quizBg": "bg-yellow-50 border-yellow-200",
@@ -1316,7 +1316,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "smell": {
-    "image": "/curious_smell.png",
+    "image": "/curious_whole_smell.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -1336,7 +1336,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "taste": {
-    "image": "/curious_taste.png",
+    "image": "/curious_whole_taste.png",
     "bgColor": "border-blue-400",
     "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
     "quizBg": "bg-blue-50 border-blue-200",
@@ -1356,7 +1356,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "broken_bones_heal": {
-    "image": "/curious_broken_bones_heal.png",
+    "image": "/curious_whole_broken_bones_heal.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -1376,7 +1376,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "bruises_change_colour": {
-    "image": "/curious_bruises_change_colour.png",
+    "image": "/curious_whole_bruises_change_colour.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -1396,7 +1396,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "children_grow": {
-    "image": "/curious_children_grow.png",
+    "image": "/curious_whole_children_grow.png",
     "bgColor": "border-purple-400",
     "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -1416,7 +1416,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "cuts_form_scabs": {
-    "image": "/curious_cuts_form_scabs.png",
+    "image": "/curious_whole_cuts_form_scabs.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -1436,7 +1436,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "joints_crack": {
-    "image": "/curious_joints_crack.png",
+    "image": "/curious_whole_joints_crack.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -1456,7 +1456,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "mosquito_bites_itch": {
-    "image": "/curious_mosquito_bites_itch.png",
+    "image": "/curious_whole_mosquito_bites_itch.png",
     "bgColor": "border-blue-400",
     "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
     "quizBg": "bg-blue-50 border-blue-200",
@@ -1476,7 +1476,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "muscles_become_sore_after_exercise": {
-    "image": "/curious_muscles_become_sore_after_exercise.png",
+    "image": "/curious_whole_muscles_become_sore_after_exercise.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -1496,7 +1496,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "our_ears_pop": {
-    "image": "/curious_our_ears_pop.png",
+    "image": "/curious_whole_our_ears_pop.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -1516,7 +1516,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "people_stop_growing_taller": {
-    "image": "/curious_people_stop_growing_taller.png",
+    "image": "/curious_whole_people_stop_growing_taller.png",
     "bgColor": "border-purple-400",
     "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -1536,7 +1536,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "some_people_snore": {
-    "image": "/curious_some_people_snore.png",
+    "image": "/curious_whole_some_people_snore.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -1556,7 +1556,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "teeth_get_cavities": {
-    "image": "/curious_teeth_get_cavities.png",
+    "image": "/curious_whole_teeth_get_cavities.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -1576,7 +1576,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "blush": {
-    "image": "/curious_blush.png",
+    "image": "/curious_whole_blush.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -1596,7 +1596,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "breathe": {
-    "image": "/curious_breathe.png",
+    "image": "/curious_whole_breathe.png",
     "bgColor": "border-blue-400",
     "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
     "quizBg": "bg-blue-50 border-blue-200",
@@ -1616,7 +1616,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "feel_pain": {
-    "image": "/curious_feel_pain.png",
+    "image": "/curious_whole_feel_pain.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -1636,7 +1636,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "get_a_fever": {
-    "image": "/curious_get_a_fever.png",
+    "image": "/curious_whole_get_a_fever.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -1656,7 +1656,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "get_a_runny_nose": {
-    "image": "/curious_get_a_runny_nose.png",
+    "image": "/curious_whole_get_a_runny_nose.png",
     "bgColor": "border-purple-400",
     "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -1676,7 +1676,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "get_allergies": {
-    "image": "/curious_get_allergies.png",
+    "image": "/curious_whole_get_allergies.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -1696,7 +1696,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "get_cramps": {
-    "image": "/curious_get_cramps.png",
+    "image": "/curious_whole_get_cramps.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -1716,7 +1716,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "get_dizzy_after_spinning": {
-    "image": "/curious_get_dizzy_after_spinning.png",
+    "image": "/curious_whole_get_dizzy_after_spinning.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -1736,7 +1736,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "get_inflammation_when_injured": {
-    "image": "/curious_get_inflammation_when_injured.png",
+    "image": "/curious_whole_get_inflammation_when_injured.png",
     "bgColor": "border-blue-400",
     "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
     "quizBg": "bg-blue-50 border-blue-200",
@@ -1756,7 +1756,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "get_pins_and_needles": {
-    "image": "/curious_get_pins_and_needles.png",
+    "image": "/curious_whole_get_pins_and_needles.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -1776,7 +1776,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "get_sunburn": {
-    "image": "/curious_get_sunburn.png",
+    "image": "/curious_whole_get_sunburn.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -1796,7 +1796,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_a_belly_button": {
-    "image": "/curious_have_a_belly_button.png",
+    "image": "/curious_whole_have_a_belly_button.png",
     "bgColor": "border-purple-400",
     "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -1816,7 +1816,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_a_liver": {
-    "image": "/curious_have_a_liver.png",
+    "image": "/curious_whole_have_a_liver.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -1836,7 +1836,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_a_stomach": {
-    "image": "/curious_have_a_stomach.png",
+    "image": "/curious_whole_have_a_stomach.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -1856,7 +1856,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_bones": {
-    "image": "/curious_have_bones.png",
+    "image": "/curious_whole_have_bones.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -1876,7 +1876,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_different_kinds_of_teeth": {
-    "image": "/curious_have_different_kinds_of_teeth.png",
+    "image": "/curious_whole_have_different_kinds_of_teeth.png",
     "bgColor": "border-blue-400",
     "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
     "quizBg": "bg-blue-50 border-blue-200",
@@ -1896,7 +1896,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_earwax": {
-    "image": "/curious_have_earwax.png",
+    "image": "/curious_whole_have_earwax.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -1916,7 +1916,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_eyebrows": {
-    "image": "/curious_have_eyebrows.png",
+    "image": "/curious_whole_have_eyebrows.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -1936,7 +1936,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_eyelashes": {
-    "image": "/curious_have_eyelashes.png",
+    "image": "/curious_whole_have_eyelashes.png",
     "bgColor": "border-purple-400",
     "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -1956,7 +1956,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_fingernails": {
-    "image": "/curious_have_fingernails.png",
+    "image": "/curious_whole_have_fingernails.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -1976,7 +1976,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_fingerprints": {
-    "image": "/curious_have_fingerprints.png",
+    "image": "/curious_whole_have_fingerprints.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -1996,7 +1996,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_hair": {
-    "image": "/curious_have_hair.png",
+    "image": "/curious_whole_have_hair.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -2016,7 +2016,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_intestines": {
-    "image": "/curious_have_intestines.png",
+    "image": "/curious_whole_have_intestines.png",
     "bgColor": "border-blue-400",
     "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
     "quizBg": "bg-blue-50 border-blue-200",
@@ -2036,7 +2036,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_joints": {
-    "image": "/curious_have_joints.png",
+    "image": "/curious_whole_have_joints.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -2056,7 +2056,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_kidneys": {
-    "image": "/curious_have_kidneys.png",
+    "image": "/curious_whole_have_kidneys.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -2076,7 +2076,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_saliva": {
-    "image": "/curious_have_saliva.png",
+    "image": "/curious_whole_have_saliva.png",
     "bgColor": "border-purple-400",
     "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -2096,7 +2096,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_skin": {
-    "image": "/curious_have_skin.png",
+    "image": "/curious_whole_have_skin.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2116,7 +2116,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_two_ears": {
-    "image": "/curious_have_two_ears.png",
+    "image": "/curious_whole_have_two_ears.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -2136,7 +2136,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_two_eyes": {
-    "image": "/curious_have_two_eyes.png",
+    "image": "/curious_whole_have_two_eyes.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -2156,7 +2156,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_two_lungs": {
-    "image": "/curious_have_two_lungs.png",
+    "image": "/curious_whole_have_two_lungs.png",
     "bgColor": "border-blue-400",
     "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
     "quizBg": "bg-blue-50 border-blue-200",
@@ -2176,7 +2176,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "need_oxygen": {
-    "image": "/curious_need_oxygen.png",
+    "image": "/curious_whole_need_oxygen.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -2196,7 +2196,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "food_taste_different_when_our_nose_is_blocked": {
-    "image": "/curious_food_taste_different_when_our_nose_is_blocked.png",
+    "image": "/curious_whole_food_taste_different_when_our_nose_is_blocked.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -2216,7 +2216,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "hair_turn_grey": {
-    "image": "/curious_hair_turn_grey.png",
+    "image": "/curious_whole_hair_turn_grey.png",
     "bgColor": "border-purple-400",
     "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -2236,7 +2236,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "heart_beat": {
-    "image": "/curious_heart_beat.png",
+    "image": "/curious_whole_heart_beat.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2256,7 +2256,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "heart_beat_faster_when_we_exercise": {
-    "image": "/curious_heart_beat_faster_when_we_exercise.png",
+    "image": "/curious_whole_heart_beat_faster_when_we_exercise.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -2276,7 +2276,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "skin_wrinkle_in_water": {
-    "image": "/curious_skin_wrinkle_in_water.png",
+    "image": "/curious_whole_skin_wrinkle_in_water.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -2296,7 +2296,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "chillies_spicy": {
-    "image": "/curious_chillies_spicy.png",
+    "image": "/curious_whole_chillies_spicy.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -2316,7 +2316,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "flowers_colourful": {
-    "image": "/curious_flowers_colourful.png",
+    "image": "/curious_whole_flowers_colourful.png",
     "bgColor": "border-green-400",
     "accentColor": "from-green-400 via-lime-300 to-emerald-500",
     "quizBg": "bg-green-50 border-green-200",
@@ -2336,7 +2336,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "fruits_often_sweet": {
-    "image": "/curious_fruits_often_sweet.png",
+    "image": "/curious_whole_fruits_often_sweet.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2356,7 +2356,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_green": {
-    "image": "/curious_plants_green.png",
+    "image": "/curious_whole_plants_green.png",
     "bgColor": "border-lime-400",
     "accentColor": "from-lime-400 via-emerald-300 to-green-500",
     "quizBg": "bg-lime-50 border-lime-200",
@@ -2376,7 +2376,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "mushrooms_plants": {
-    "image": "/curious_mushrooms_plants.png",
+    "image": "/curious_whole_mushrooms_plants.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -2396,7 +2396,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "why_can_cacti_survive_in_deserts": {
-    "image": "/curious_why_can_cacti_survive_in_deserts.png",
+    "image": "/curious_whole_why_can_cacti_survive_in_deserts.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -2416,7 +2416,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "cacti_have_spines": {
-    "image": "/curious_cacti_have_spines.png",
+    "image": "/curious_whole_cacti_have_spines.png",
     "bgColor": "border-green-400",
     "accentColor": "from-green-400 via-lime-300 to-emerald-500",
     "quizBg": "bg-green-50 border-green-200",
@@ -2436,7 +2436,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "flowers_smell": {
-    "image": "/curious_flowers_smell.png",
+    "image": "/curious_whole_flowers_smell.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2456,7 +2456,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "fruits_contain_seeds": {
-    "image": "/curious_fruits_contain_seeds.png",
+    "image": "/curious_whole_fruits_contain_seeds.png",
     "bgColor": "border-lime-400",
     "accentColor": "from-lime-400 via-emerald-300 to-green-500",
     "quizBg": "bg-lime-50 border-lime-200",
@@ -2476,7 +2476,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "leaves_change_colour_in_autumn": {
-    "image": "/curious_leaves_change_colour_in_autumn.png",
+    "image": "/curious_whole_leaves_change_colour_in_autumn.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -2496,7 +2496,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "onions_make_us_cry": {
-    "image": "/curious_onions_make_us_cry.png",
+    "image": "/curious_whole_onions_make_us_cry.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -2516,7 +2516,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "pine_trees_make_cones": {
-    "image": "/curious_pine_trees_make_cones.png",
+    "image": "/curious_whole_pine_trees_make_cones.png",
     "bgColor": "border-green-400",
     "accentColor": "from-green-400 via-lime-300 to-emerald-500",
     "quizBg": "bg-green-50 border-green-200",
@@ -2536,7 +2536,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_grow_toward_light": {
-    "image": "/curious_plants_grow_toward_light.png",
+    "image": "/curious_whole_plants_grow_toward_light.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2556,7 +2556,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_have_leaves": {
-    "image": "/curious_plants_have_leaves.png",
+    "image": "/curious_whole_plants_have_leaves.png",
     "bgColor": "border-lime-400",
     "accentColor": "from-lime-400 via-emerald-300 to-green-500",
     "quizBg": "bg-lime-50 border-lime-200",
@@ -2576,7 +2576,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_have_roots": {
-    "image": "/curious_plants_have_roots.png",
+    "image": "/curious_whole_plants_have_roots.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -2596,7 +2596,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_make_flowers": {
-    "image": "/curious_plants_make_flowers.png",
+    "image": "/curious_whole_plants_make_flowers.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -2616,7 +2616,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_make_seeds": {
-    "image": "/curious_plants_make_seeds.png",
+    "image": "/curious_whole_plants_make_seeds.png",
     "bgColor": "border-green-400",
     "accentColor": "from-green-400 via-lime-300 to-emerald-500",
     "quizBg": "bg-green-50 border-green-200",
@@ -2636,7 +2636,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_need_sunlight": {
-    "image": "/curious_plants_need_sunlight.png",
+    "image": "/curious_whole_plants_need_sunlight.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2656,7 +2656,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_need_water": {
-    "image": "/curious_plants_need_water.png",
+    "image": "/curious_whole_plants_need_water.png",
     "bgColor": "border-lime-400",
     "accentColor": "from-lime-400 via-emerald-300 to-green-500",
     "quizBg": "bg-lime-50 border-lime-200",
@@ -2676,7 +2676,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_wilt": {
-    "image": "/curious_plants_wilt.png",
+    "image": "/curious_whole_plants_wilt.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -2696,7 +2696,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "roots_grow_downward": {
-    "image": "/curious_roots_grow_downward.png",
+    "image": "/curious_whole_roots_grow_downward.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -2716,7 +2716,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "seeds_need_water_to_grow": {
-    "image": "/curious_seeds_need_water_to_grow.png",
+    "image": "/curious_whole_seeds_need_water_to_grow.png",
     "bgColor": "border-green-400",
     "accentColor": "from-green-400 via-lime-300 to-emerald-500",
     "quizBg": "bg-green-50 border-green-200",
@@ -2736,7 +2736,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "some_flowers_close_at_night": {
-    "image": "/curious_some_flowers_close_at_night.png",
+    "image": "/curious_whole_some_flowers_close_at_night.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2756,7 +2756,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "some_seeds_have_wings": {
-    "image": "/curious_some_seeds_have_wings.png",
+    "image": "/curious_whole_some_seeds_have_wings.png",
     "bgColor": "border-lime-400",
     "accentColor": "from-lime-400 via-emerald-300 to-green-500",
     "quizBg": "bg-lime-50 border-lime-200",
@@ -2776,7 +2776,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "trees_have_bark": {
-    "image": "/curious_trees_have_bark.png",
+    "image": "/curious_whole_trees_have_bark.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -2796,7 +2796,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "trees_have_rings": {
-    "image": "/curious_trees_have_rings.png",
+    "image": "/curious_whole_trees_have_rings.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -2816,7 +2816,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "trees_lose_their_leaves": {
-    "image": "/curious_trees_lose_their_leaves.png",
+    "image": "/curious_whole_trees_lose_their_leaves.png",
     "bgColor": "border-green-400",
     "accentColor": "from-green-400 via-lime-300 to-emerald-500",
     "quizBg": "bg-green-50 border-green-200",
@@ -2836,7 +2836,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "venus_flytraps_eat_insects": {
-    "image": "/curious_venus_flytraps_eat_insects.png",
+    "image": "/curious_whole_venus_flytraps_eat_insects.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2856,7 +2856,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "vines_climb": {
-    "image": "/curious_vines_climb.png",
+    "image": "/curious_whole_vines_climb.png",
     "bgColor": "border-lime-400",
     "accentColor": "from-lime-400 via-emerald-300 to-green-500",
     "quizBg": "bg-lime-50 border-lime-200",
@@ -2876,7 +2876,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "grass_grow_back_after_mowing": {
-    "image": "/curious_grass_grow_back_after_mowing.png",
+    "image": "/curious_whole_grass_grow_back_after_mowing.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -2896,823 +2896,823 @@ export const TOPIC_DETAILS = {
     }
   },
   "why_are_clouds_white": {
-      "image": "/curious_why_are_clouds_white.png",
-      "bgColor": "border-sky-400",
-      "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
-      "quizBg": "bg-sky-50 border-sky-200",
-      "quizText": "text-sky-950",
-      "quizBadge": "bg-sky-200 text-sky-800",
-      "footer": "CLOUDS LOOK WHITE BECAUSE COUNTLESS TINY WATER DROPLETS AND ICE CRYSTALS SCATTER ALL THE COLORS OF SUNLIGHT TOGETHER.",
-      "quiz": {
-          "question": "Why do fluffy clouds usually look bright white to our eyes?",
-          "options": [
-              "They are made of white cotton candy 🍭",
-              "Tiny water droplets scatter all sunlight colors together ☀️",
-              "They reflect only white stars at night 🌟",
-              "They produce white paint in the air 🎨"
-          ],
-          "correctIndex": 1,
-          "explanation": "Spot on! Sunlight is a mixture of all colors. Countless tiny water droplets in the cloud scatter all these colors together, making the cloud look brilliant white!"
-      }
+    "image": "/curious_whole_why_are_clouds_white.png",
+    "bgColor": "border-sky-400",
+    "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+    "quizBg": "bg-sky-50 border-sky-200",
+    "quizText": "text-sky-950",
+    "quizBadge": "bg-sky-200 text-sky-800",
+    "footer": "CLOUDS LOOK WHITE BECAUSE COUNTLESS TINY WATER DROPLETS AND ICE CRYSTALS SCATTER ALL THE COLORS OF SUNLIGHT TOGETHER.",
+    "quiz": {
+      "question": "Why do fluffy clouds usually look bright white to our eyes?",
+      "options": [
+        "They are made of white cotton candy 🍭",
+        "Tiny water droplets scatter all sunlight colors together ☀️",
+        "They reflect only white stars at night 🌟",
+        "They produce white paint in the air 🎨"
+      ],
+      "correctIndex": 1,
+      "explanation": "Spot on! Sunlight is a mixture of all colors. Countless tiny water droplets in the cloud scatter all these colors together, making the cloud look brilliant white!"
+    }
   },
   "why_are_snowflakes_different": {
-      "image": "/curious_why_are_snowflakes_different.png",
-      "bgColor": "border-cyan-400",
-      "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
-      "quizBg": "bg-cyan-50 border-cyan-200",
-      "quizText": "text-cyan-950",
-      "quizBadge": "bg-cyan-200 text-cyan-800",
-      "footer": "SNOWFLAKES LOOK DIFFERENT BECAUSE EACH TINY ICE CRYSTAL TRAVELS THROUGH SLIGHTLY DIFFERENT COLD, MOIST PARTS OF A CLOUD AS IT GROWS.",
-      "quiz": {
-          "question": "Why does almost every snowflake have its own unique crystal shape?",
-          "options": [
-              "Snow fairies carve each one by hand 🧚",
-              "Each snowflake travels through different temperatures and humidity in the air ❄️",
-              "They melt into different animals 🐾",
-              "Wind cuts them into squares 💨"
-          ],
-          "correctIndex": 1,
-          "explanation": "Awesome! As a snowflake falls, it experiences constantly changing temperatures and moisture levels, shaping its crystal arms in a unique way!"
-      }
+    "image": "/curious_whole_why_are_snowflakes_different.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "SNOWFLAKES LOOK DIFFERENT BECAUSE EACH TINY ICE CRYSTAL TRAVELS THROUGH SLIGHTLY DIFFERENT COLD, MOIST PARTS OF A CLOUD AS IT GROWS.",
+    "quiz": {
+      "question": "Why does almost every snowflake have its own unique crystal shape?",
+      "options": [
+        "Snow fairies carve each one by hand 🧚",
+        "Each snowflake travels through different temperatures and humidity in the air ❄️",
+        "They melt into different animals 🐾",
+        "Wind cuts them into squares 💨"
+      ],
+      "correctIndex": 1,
+      "explanation": "Awesome! As a snowflake falls, it experiences constantly changing temperatures and moisture levels, shaping its crystal arms in a unique way!"
+    }
   },
   "why_are_storm_clouds_dark": {
-      "image": "/curious_why_are_storm_clouds_dark.png",
-      "bgColor": "border-blue-400",
-      "accentColor": "from-blue-400 via-sky-300 to-indigo-500",
-      "quizBg": "bg-blue-50 border-blue-200",
-      "quizText": "text-blue-950",
-      "quizBadge": "bg-blue-200 text-blue-800",
-      "footer": "STORM CLOUDS LOOK DARK BECAUSE THEY ARE THICK AND PACKED WITH WATER DROPLETS AND ICE CRYSTALS THAT BLOCK AND SCATTER MUCH OF THE SUNLIGHT BEFORE IT CAN REACH THE CLOUD'S BOTTOM.",
-      "quiz": {
-          "question": "Why do heavy storm clouds look so dark and ominous underneath?",
-          "options": [
-              "They are filled with black smoke 💨",
-              "They are so thick and deep that sunlight cannot pass through to the bottom ⛈️",
-              "The sun turns off during a storm 🌑",
-              "They turn into charcoal rocks 🪨"
-          ],
-          "correctIndex": 1,
-          "explanation": "Correct! Storm clouds are extremely tall and packed with billions of water droplets that block and scatter light away before it reaches the ground."
-      }
+    "image": "/curious_whole_why_are_storm_clouds_dark.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-400 via-sky-300 to-indigo-500",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "STORM CLOUDS LOOK DARK BECAUSE THEY ARE THICK AND PACKED WITH WATER DROPLETS AND ICE CRYSTALS THAT BLOCK AND SCATTER MUCH OF THE SUNLIGHT BEFORE IT CAN REACH THE CLOUD'S BOTTOM.",
+    "quiz": {
+      "question": "Why do heavy storm clouds look so dark and ominous underneath?",
+      "options": [
+        "They are filled with black smoke 💨",
+        "They are so thick and deep that sunlight cannot pass through to the bottom ⛈️",
+        "The sun turns off during a storm 🌑",
+        "They turn into charcoal rocks 🪨"
+      ],
+      "correctIndex": 1,
+      "explanation": "Correct! Storm clouds are extremely tall and packed with billions of water droplets that block and scatter light away before it reaches the ground."
+    }
   },
   "why_are_the_poles_colder": {
-      "image": "/curious_why_are_the_poles_colder.png",
-      "bgColor": "border-amber-400",
-      "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
-      "quizBg": "bg-amber-50 border-amber-200",
-      "quizText": "text-amber-950",
-      "quizBadge": "bg-amber-200 text-amber-800",
-      "footer": "THE POLES ARE COLDER BECAUSE SUNLIGHT ARRIVES AT A LOW ANGLE, SPREADING THE SUN'S ENERGY OVER A LARGER AREA AND GIVING IT LESS POWER TO WARM THE GROUND.",
-      "quiz": {
-          "question": "Why are the North and South Poles much colder than the equator?",
-          "options": [
-              "The Sun never shines anywhere near the poles 🌑",
-              "Sunlight strikes the poles at a tilted angle, spreading its warmth over a larger area ❄️",
-              "The Earth is shaped like an ice cube 🧊",
-              "Penguins use giant air conditioners 🐧"
-          ],
-          "correctIndex": 1,
-          "explanation": "Great job! Because Earth is a sphere, sunlight hits the curved poles at an angle, spreading the sun's energy thin across a wider surface."
-      }
+    "image": "/curious_whole_why_are_the_poles_colder.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "THE POLES ARE COLDER BECAUSE SUNLIGHT ARRIVES AT A LOW ANGLE, SPREADING THE SUN'S ENERGY OVER A LARGER AREA AND GIVING IT LESS POWER TO WARM THE GROUND.",
+    "quiz": {
+      "question": "Why are the North and South Poles much colder than the equator?",
+      "options": [
+        "The Sun never shines anywhere near the poles 🌑",
+        "Sunlight strikes the poles at a tilted angle, spreading its warmth over a larger area ❄️",
+        "The Earth is shaped like an ice cube 🧊",
+        "Penguins use giant air conditioners 🐧"
+      ],
+      "correctIndex": 1,
+      "explanation": "Great job! Because Earth is a sphere, sunlight hits the curved poles at an angle, spreading the sun's energy thin across a wider surface."
+    }
   },
   "why_are_there_different_kinds_of_rocks": {
-      "image": "/curious_why_are_there_different_kinds_of_rocks.png",
-      "bgColor": "border-emerald-400",
-      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
-      "quizBg": "bg-emerald-50 border-emerald-200",
-      "quizText": "text-emerald-950",
-      "quizBadge": "bg-emerald-200 text-emerald-800",
-      "footer": "THERE ARE DIFFERENT KINDS OF ROCKS BECAUSE EARTH MAKES AND CHANGES THEM IN DIFFERENT WAYS, USING MELTED ROCK, SQUEEZED-TOGETHER BITS, HEAT, AND PRESSURE.",
-      "quiz": {
-          "question": "What are the three main families of rocks formed by Earth's processes?",
-          "options": [
-              "Igneous, Sedimentary, and Metamorphic 🪨",
-              "Plastic, Glass, and Metal ⚙️",
-              "Sandy, Muddy, and Sticky 🏖️",
-              "Hot, Cold, and Frozen ❄️"
-          ],
-          "correctIndex": 0,
-          "explanation": "Brilliant! Earth recycles rocks into Igneous (from magma/lava), Sedimentary (from pressed layers), and Metamorphic (changed by intense heat & pressure)."
-      }
+    "image": "/curious_whole_why_are_there_different_kinds_of_rocks.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "THERE ARE DIFFERENT KINDS OF ROCKS BECAUSE EARTH MAKES AND CHANGES THEM IN DIFFERENT WAYS, USING MELTED ROCK, SQUEEZED-TOGETHER BITS, HEAT, AND PRESSURE.",
+    "quiz": {
+      "question": "What are the three main families of rocks formed by Earth's processes?",
+      "options": [
+        "Igneous, Sedimentary, and Metamorphic 🪨",
+        "Plastic, Glass, and Metal ⚙️",
+        "Sandy, Muddy, and Sticky 🏖️",
+        "Hot, Cold, and Frozen ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Brilliant! Earth recycles rocks into Igneous (from magma/lava), Sedimentary (from pressed layers), and Metamorphic (changed by intense heat & pressure)."
+    }
   },
   "why_are_tropical_places_warmer": {
-      "image": "/curious_why_are_tropical_places_warmer.png",
-      "bgColor": "border-indigo-400",
-      "accentColor": "from-indigo-400 via-purple-300 to-blue-500",
-      "quizBg": "bg-indigo-50 border-indigo-200",
-      "quizText": "text-indigo-950",
-      "quizBadge": "bg-indigo-200 text-indigo-800",
-      "footer": "TROPICAL PLACES ARE WARMER BECAUSE THEY RECEIVE MORE DIRECT SUNLIGHT FROM THE SUN FOR MOST OF THE YEAR.",
-      "quiz": {
-          "question": "Why are tropical regions near the equator warm all year round?",
-          "options": [
-              "Sunlight hits directly overhead, concentrating high heat energy ☀️",
-              "There are underground campfires 🔥",
-              "They are closer to volcanoes 🌋",
-              "The ocean boils in the tropics 🌊"
-          ],
-          "correctIndex": 0,
-          "explanation": "Spot on! The equator receives direct, concentrated solar radiation with minimal seasonal tilt variation throughout the entire year."
-      }
+    "image": "/curious_whole_why_are_tropical_places_warmer.png",
+    "bgColor": "border-indigo-400",
+    "accentColor": "from-indigo-400 via-purple-300 to-blue-500",
+    "quizBg": "bg-indigo-50 border-indigo-200",
+    "quizText": "text-indigo-950",
+    "quizBadge": "bg-indigo-200 text-indigo-800",
+    "footer": "TROPICAL PLACES ARE WARMER BECAUSE THEY RECEIVE MORE DIRECT SUNLIGHT FROM THE SUN FOR MOST OF THE YEAR.",
+    "quiz": {
+      "question": "Why are tropical regions near the equator warm all year round?",
+      "options": [
+        "Sunlight hits directly overhead, concentrating high heat energy ☀️",
+        "There are underground campfires 🔥",
+        "They are closer to volcanoes 🌋",
+        "The ocean boils in the tropics 🌊"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! The equator receives direct, concentrated solar radiation with minimal seasonal tilt variation throughout the entire year."
+    }
   },
   "why_can_we_see_our_breath_when_it_is_cold": {
-      "image": "/curious_why_can_we_see_our_breath_when_it_is_cold.png",
-      "bgColor": "border-teal-400",
-      "accentColor": "from-teal-400 via-cyan-300 to-emerald-500",
-      "quizBg": "bg-teal-50 border-teal-200",
-      "quizText": "text-teal-950",
-      "quizBadge": "bg-teal-200 text-teal-800",
-      "footer": "WHEN WARM, MOIST AIR FROM YOUR LUNGS MEETS COLD OUTDOOR AIR, THE WATER VAPOR COOLS AND FORMS TINY DROPLETS THAT SCATTER LIGHT, MAKING YOUR BREATH LOOK LIKE A LITTLE CLOUD.",
-      "quiz": {
-          "question": "What creates the tiny cloud when you exhale outside on a frosty morning?",
-          "options": [
-              "Warm water vapor in your breath quickly condenses into tiny liquid droplets in chilly air 🌬️",
-              "Your lungs make real smoke 🔥",
-              "Air freezes into giant ice cubes 🧊",
-              "Your teeth blow out powder 🦷"
-          ],
-          "correctIndex": 0,
-          "explanation": "Exactly! Your warm breath is full of invisible moisture. When it hits the freezing outdoor air, it condenses into a visible cloud of miniature water droplets."
-      }
+    "image": "/curious_whole_why_can_we_see_our_breath_when_it_is_cold.png",
+    "bgColor": "border-teal-400",
+    "accentColor": "from-teal-400 via-cyan-300 to-emerald-500",
+    "quizBg": "bg-teal-50 border-teal-200",
+    "quizText": "text-teal-950",
+    "quizBadge": "bg-teal-200 text-teal-800",
+    "footer": "WHEN WARM, MOIST AIR FROM YOUR LUNGS MEETS COLD OUTDOOR AIR, THE WATER VAPOR COOLS AND FORMS TINY DROPLETS THAT SCATTER LIGHT, MAKING YOUR BREATH LOOK LIKE A LITTLE CLOUD.",
+    "quiz": {
+      "question": "What creates the tiny cloud when you exhale outside on a frosty morning?",
+      "options": [
+        "Warm water vapor in your breath quickly condenses into tiny liquid droplets in chilly air 🌬️",
+        "Your lungs make real smoke 🔥",
+        "Air freezes into giant ice cubes 🧊",
+        "Your teeth blow out powder 🦷"
+      ],
+      "correctIndex": 0,
+      "explanation": "Exactly! Your warm breath is full of invisible moisture. When it hits the freezing outdoor air, it condenses into a visible cloud of miniature water droplets."
+    }
   },
   "why_do_caves_form": {
-      "image": "/curious_why_do_caves_form.png",
-      "bgColor": "border-orange-400",
-      "accentColor": "from-orange-400 via-amber-300 to-red-500",
-      "quizBg": "bg-orange-50 border-orange-200",
-      "quizText": "text-orange-950",
-      "quizBadge": "bg-orange-200 text-orange-800",
-      "footer": "MANY CAVES FORM WHEN SLIGHTLY ACIDIC RAINWATER SEEPS INTO CRACKS IN ROCK AND SLOWLY DISSOLVES OR CARRIES AWAY PIECES OF IT, MAKING THE CRACKS BIGGER OVER A VERY LONG TIME.",
-      "quiz": {
-          "question": "How do most underground limestone caves get carved over thousands of years?",
-          "options": [
-              "Giant burrowing dragons dig them 🐉",
-              "Slightly acidic rainwater slowly dissolves limestone rock underground 💧",
-              "Earthquakes snap the rocks open ⚡",
-              "Lava blows giant bubbles 🫧"
-          ],
-          "correctIndex": 1,
-          "explanation": "Correct! Rain absorbs carbon dioxide to become weakly acidic. Over millennia, it seeps into cracks and dissolves soluble rock like limestone."
-      }
+    "image": "/curious_whole_why_do_caves_form.png",
+    "bgColor": "border-orange-400",
+    "accentColor": "from-orange-400 via-amber-300 to-red-500",
+    "quizBg": "bg-orange-50 border-orange-200",
+    "quizText": "text-orange-950",
+    "quizBadge": "bg-orange-200 text-orange-800",
+    "footer": "MANY CAVES FORM WHEN SLIGHTLY ACIDIC RAINWATER SEEPS INTO CRACKS IN ROCK AND SLOWLY DISSOLVES OR CARRIES AWAY PIECES OF IT, MAKING THE CRACKS BIGGER OVER A VERY LONG TIME.",
+    "quiz": {
+      "question": "How do most underground limestone caves get carved over thousands of years?",
+      "options": [
+        "Giant burrowing dragons dig them 🐉",
+        "Slightly acidic rainwater slowly dissolves limestone rock underground 💧",
+        "Earthquakes snap the rocks open ⚡",
+        "Lava blows giant bubbles 🫧"
+      ],
+      "correctIndex": 1,
+      "explanation": "Correct! Rain absorbs carbon dioxide to become weakly acidic. Over millennia, it seeps into cracks and dissolves soluble rock like limestone."
+    }
   },
   "why_do_clouds_form": {
-      "image": "/curious_why_do_clouds_form.png",
-      "bgColor": "border-sky-400",
-      "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
-      "quizBg": "bg-sky-50 border-sky-200",
-      "quizText": "text-sky-950",
-      "quizBadge": "bg-sky-200 text-sky-800",
-      "footer": "CLOUDS FORM WHEN WARM, INVISIBLE WATER VAPOR RISES, COOLS IN THE SKY, AND CHANGES INTO TINY WATER DROPLETS OR ICE CRYSTALS THAT GATHER AROUND SPECKS IN THE AIR.",
-      "quiz": {
-          "question": "What fundamental process causes clouds to appear in the sky?",
-          "options": [
-              "Warm air rises, cools down, and invisible water vapor condenses onto microscopic particles ☁️",
-              "Airplanes spray cloud gas ✈️",
-              "The ocean throws water into the sky 🌊",
-              "The Sun burns moisture into white dust ☀️"
-          ],
-          "correctIndex": 0,
-          "explanation": "Fantastic! Warm air carries water vapor upward. As it rises and cools, the vapor condenses around tiny dust or salt specks to form clouds."
-      }
+    "image": "/curious_whole_why_do_clouds_form.png",
+    "bgColor": "border-sky-400",
+    "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+    "quizBg": "bg-sky-50 border-sky-200",
+    "quizText": "text-sky-950",
+    "quizBadge": "bg-sky-200 text-sky-800",
+    "footer": "CLOUDS FORM WHEN WARM, INVISIBLE WATER VAPOR RISES, COOLS IN THE SKY, AND CHANGES INTO TINY WATER DROPLETS OR ICE CRYSTALS THAT GATHER AROUND SPECKS IN THE AIR.",
+    "quiz": {
+      "question": "What fundamental process causes clouds to appear in the sky?",
+      "options": [
+        "Warm air rises, cools down, and invisible water vapor condenses onto microscopic particles ☁️",
+        "Airplanes spray cloud gas ✈️",
+        "The ocean throws water into the sky 🌊",
+        "The Sun burns moisture into white dust ☀️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Fantastic! Warm air carries water vapor upward. As it rises and cools, the vapor condenses around tiny dust or salt specks to form clouds."
+    }
   },
   "why_do_continents_move": {
-      "image": "/curious_why_do_continents_move.png",
-      "bgColor": "border-cyan-400",
-      "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
-      "quizBg": "bg-cyan-50 border-cyan-200",
-      "quizText": "text-cyan-950",
-      "quizBadge": "bg-cyan-200 text-cyan-800",
-      "footer": "CONTINENTS MOVE VERY SLOWLY BECAUSE THEY SIT ON HUGE PIECES OF EARTH'S OUTER SHELL CALLED TECTONIC PLATES, WHICH GLIDE OVER SOFTER, HOT ROCK BELOW.",
-      "quiz": {
-          "question": "What drives the slow movement of Earth's giant tectonic plates?",
-          "options": [
-              "Convection currents of churning molten rock deep in Earth's mantle 🌍",
-              "Strong ocean winds pushing the beaches 💨",
-              "The spinning of the Moon 🌙",
-              "Underground waterfalls 🌊"
-          ],
-          "correctIndex": 0,
-          "explanation": "Right on! Heat from Earth's core creates slow convection currents in the semi-liquid mantle, gliding continental plates by a few centimetres every year."
-      }
+    "image": "/curious_whole_why_do_continents_move.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "CONTINENTS MOVE VERY SLOWLY BECAUSE THEY SIT ON HUGE PIECES OF EARTH'S OUTER SHELL CALLED TECTONIC PLATES, WHICH GLIDE OVER SOFTER, HOT ROCK BELOW.",
+    "quiz": {
+      "question": "What drives the slow movement of Earth's giant tectonic plates?",
+      "options": [
+        "Convection currents of churning molten rock deep in Earth's mantle 🌍",
+        "Strong ocean winds pushing the beaches 💨",
+        "The spinning of the Moon 🌙",
+        "Underground waterfalls 🌊"
+      ],
+      "correctIndex": 0,
+      "explanation": "Right on! Heat from Earth's core creates slow convection currents in the semi-liquid mantle, gliding continental plates by a few centimetres every year."
+    }
   },
   "why_do_cyclones_form": {
-      "image": "/curious_why_do_cyclones_form.png",
-      "bgColor": "border-blue-400",
-      "accentColor": "from-blue-400 via-sky-300 to-indigo-500",
-      "quizBg": "bg-blue-50 border-blue-200",
-      "quizText": "text-blue-950",
-      "quizBadge": "bg-blue-200 text-blue-800",
-      "footer": "CYCLONES FORM WHEN WARM OCEAN WATER HEATS THE AIR ABOVE IT, MAKING THE AIR RISE AND SPIN AROUND A LOW-PRESSURE CENTER.",
-      "quiz": {
-          "question": "What serves as the primary engine powering massive cyclones and hurricanes?",
-          "options": [
-              "Warm tropical ocean waters releasing heat and moisture into rising air 🌀",
-              "Cold polar glaciers freezing the sea ❄️",
-              "Desert sandstorms spinning 🌪️",
-              "Volcanic smoke rings 🌋"
-          ],
-          "correctIndex": 0,
-          "explanation": "Correct! Warm ocean water (above 26.5°C) evaporates rapidly, creating moist rising air that fuels the spinning storm system."
-      }
+    "image": "/curious_whole_why_do_cyclones_form.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-400 via-sky-300 to-indigo-500",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "CYCLONES FORM WHEN WARM OCEAN WATER HEATS THE AIR ABOVE IT, MAKING THE AIR RISE AND SPIN AROUND A LOW-PRESSURE CENTER.",
+    "quiz": {
+      "question": "What serves as the primary engine powering massive cyclones and hurricanes?",
+      "options": [
+        "Warm tropical ocean waters releasing heat and moisture into rising air 🌀",
+        "Cold polar glaciers freezing the sea ❄️",
+        "Desert sandstorms spinning 🌪️",
+        "Volcanic smoke rings 🌋"
+      ],
+      "correctIndex": 0,
+      "explanation": "Correct! Warm ocean water (above 26.5°C) evaporates rapidly, creating moist rising air that fuels the spinning storm system."
+    }
   },
   "why_do_cyclones_have_an_eye": {
-      "image": "/curious_why_do_cyclones_have_an_eye.png",
-      "bgColor": "border-amber-400",
-      "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
-      "quizBg": "bg-amber-50 border-amber-200",
-      "quizText": "text-amber-950",
-      "quizBadge": "bg-amber-200 text-amber-800",
-      "footer": "A CYCLONE’S EYE FORMS BECAUSE AIR NEAR THE CENTER SLOWLY SINKS AND WARMS, CREATING A CALMER SPOT SURROUNDED BY THE STORM’S STRONGEST SWIRLING WINDS, CALLED THE EYEWALL.",
-      "quiz": {
-          "question": "What is the weather like directly inside the calm center or 'eye' of a cyclone?",
-          "options": [
-              "Violent thunderstorms and hail ⚡",
-              "Calm winds, sinking air, and often clear skies 🌤️",
-              "A vortex of blazing fire 🔥",
-              "Freezing blizzards ❄️"
-          ],
-          "correctIndex": 1,
-          "explanation": "Fascinating! The eye is surprisingly calm with light winds and clear skies because air gently sinks downward at the rotational center."
-      }
+    "image": "/curious_whole_why_do_cyclones_have_an_eye.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "A CYCLONE’S EYE FORMS BECAUSE AIR NEAR THE CENTER SLOWLY SINKS AND WARMS, CREATING A CALMER SPOT SURROUNDED BY THE STORM’S STRONGEST SWIRLING WINDS, CALLED THE EYEWALL.",
+    "quiz": {
+      "question": "What is the weather like directly inside the calm center or 'eye' of a cyclone?",
+      "options": [
+        "Violent thunderstorms and hail ⚡",
+        "Calm winds, sinking air, and often clear skies 🌤️",
+        "A vortex of blazing fire 🔥",
+        "Freezing blizzards ❄️"
+      ],
+      "correctIndex": 1,
+      "explanation": "Fascinating! The eye is surprisingly calm with light winds and clear skies because air gently sinks downward at the rotational center."
+    }
   },
   "why_do_deserts_form": {
-      "image": "/curious_why_do_deserts_form.png",
-      "bgColor": "border-emerald-400",
-      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
-      "quizBg": "bg-emerald-50 border-emerald-200",
-      "quizText": "text-emerald-950",
-      "quizBadge": "bg-emerald-200 text-emerald-800",
-      "footer": "DESERTS FORM IN PLACES WHERE VERY LITTLE RAIN FALLS FOR A LONG TIME, OFTEN BECAUSE AIR PATTERNS, MOUNTAINS, COLD OCEAN WATER, OR DISTANCE FROM THE SEA KEEP MOISTURE AWAY.",
-      "quiz": {
-          "question": "Which of the following is a major reason why deserts receive so little rainfall?",
-          "options": [
-              "High pressure zones with dry sinking air or mountains blocking rain clouds (rain shadows) 🏜️",
-              "The sand absorbs all cloud water instantly ⏳",
-              "No wind ever blows in deserts 💨",
-              "The Sun is 10 times closer to deserts ☀️"
-          ],
-          "correctIndex": 0,
-          "explanation": "Great job! Dry descending air in subtropical belts and high mountain barriers prevent moisture-rich clouds from reaching desert regions."
-      }
+    "image": "/curious_whole_why_do_deserts_form.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "DESERTS FORM IN PLACES WHERE VERY LITTLE RAIN FALLS FOR A LONG TIME, OFTEN BECAUSE AIR PATTERNS, MOUNTAINS, COLD OCEAN WATER, OR DISTANCE FROM THE SEA KEEP MOISTURE AWAY.",
+    "quiz": {
+      "question": "Which of the following is a major reason why deserts receive so little rainfall?",
+      "options": [
+        "High pressure zones with dry sinking air or mountains blocking rain clouds (rain shadows) 🏜️",
+        "The sand absorbs all cloud water instantly ⏳",
+        "No wind ever blows in deserts 💨",
+        "The Sun is 10 times closer to deserts ☀️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Great job! Dry descending air in subtropical belts and high mountain barriers prevent moisture-rich clouds from reaching desert regions."
+    }
   },
   "why_do_earthquakes_happen": {
-      "image": "/curious_why_do_earthquakes_happen.png",
-      "bgColor": "border-indigo-400",
-      "accentColor": "from-indigo-400 via-purple-300 to-blue-500",
-      "quizBg": "bg-indigo-50 border-indigo-200",
-      "quizText": "text-indigo-950",
-      "quizBadge": "bg-indigo-200 text-indigo-800",
-      "footer": "EARTHQUAKES HAPPEN WHEN HUGE PIECES OF EARTH’S OUTER LAYER SUDDENLY SLIP PAST EACH OTHER ALONG CRACKS CALLED FAULTS, SENDING SHAKING ENERGY THROUGH THE GROUND.",
-      "quiz": {
-          "question": "What causes the sudden violent shaking during an earthquake?",
-          "options": [
-              "Tectonic plates suddenly slip and release built-up stress along a fault line ⚡",
-              "Giant underground waves crashing 🌊",
-              "Heavy rain pushing into rocks 🌧️",
-              "A meteor hitting deep underground ☄️"
-          ],
-          "correctIndex": 0,
-          "explanation": "Spot on! Friction locks tectonic plates until pressure overcomes resistance, suddenly releasing energy as seismic shockwaves."
-      }
+    "image": "/curious_whole_why_do_earthquakes_happen.png",
+    "bgColor": "border-indigo-400",
+    "accentColor": "from-indigo-400 via-purple-300 to-blue-500",
+    "quizBg": "bg-indigo-50 border-indigo-200",
+    "quizText": "text-indigo-950",
+    "quizBadge": "bg-indigo-200 text-indigo-800",
+    "footer": "EARTHQUAKES HAPPEN WHEN HUGE PIECES OF EARTH’S OUTER LAYER SUDDENLY SLIP PAST EACH OTHER ALONG CRACKS CALLED FAULTS, SENDING SHAKING ENERGY THROUGH THE GROUND.",
+    "quiz": {
+      "question": "What causes the sudden violent shaking during an earthquake?",
+      "options": [
+        "Tectonic plates suddenly slip and release built-up stress along a fault line ⚡",
+        "Giant underground waves crashing 🌊",
+        "Heavy rain pushing into rocks 🌧️",
+        "A meteor hitting deep underground ☄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Friction locks tectonic plates until pressure overcomes resistance, suddenly releasing energy as seismic shockwaves."
+    }
   },
   "why_do_fossils_form": {
-      "image": "/curious_why_do_fossils_form.png",
-      "bgColor": "border-teal-400",
-      "accentColor": "from-teal-400 via-cyan-300 to-emerald-500",
-      "quizBg": "bg-teal-50 border-teal-200",
-      "quizText": "text-teal-950",
-      "quizBadge": "bg-teal-200 text-teal-800",
-      "footer": "FOSSILS FORM WHEN THE REMAINS OR TRACES OF LIVING THINGS ARE QUICKLY BURIED AND, OVER A VERY LONG TIME, ARE PRESERVED IN ROCK.",
-      "quiz": {
-          "question": "How do the shapes of ancient plants and animals get preserved as fossils?",
-          "options": [
-              "Quick burial in sediment where minerals gradually replace bones and shells over millions of years 🦖",
-              "They freeze in lava forever 🌋",
-              "Animals turn to stone when they sleep 😴",
-              "Salt water petrifies them in one week 🧂"
-          ],
-          "correctIndex": 0,
-          "explanation": "Awesome! When organisms are buried quickly in mud or sand, minerals seep into their remains, turning them into durable stone fossils."
-      }
+    "image": "/curious_whole_why_do_fossils_form.png",
+    "bgColor": "border-teal-400",
+    "accentColor": "from-teal-400 via-cyan-300 to-emerald-500",
+    "quizBg": "bg-teal-50 border-teal-200",
+    "quizText": "text-teal-950",
+    "quizBadge": "bg-teal-200 text-teal-800",
+    "footer": "FOSSILS FORM WHEN THE REMAINS OR TRACES OF LIVING THINGS ARE QUICKLY BURIED AND, OVER A VERY LONG TIME, ARE PRESERVED IN ROCK.",
+    "quiz": {
+      "question": "How do the shapes of ancient plants and animals get preserved as fossils?",
+      "options": [
+        "Quick burial in sediment where minerals gradually replace bones and shells over millions of years 🦖",
+        "They freeze in lava forever 🌋",
+        "Animals turn to stone when they sleep 😴",
+        "Salt water petrifies them in one week 🧂"
+      ],
+      "correctIndex": 0,
+      "explanation": "Awesome! When organisms are buried quickly in mud or sand, minerals seep into their remains, turning them into durable stone fossils."
+    }
   },
   "why_do_geysers_erupt": {
-      "image": "/curious_why_do_geysers_erupt.png",
-      "bgColor": "border-orange-400",
-      "accentColor": "from-orange-400 via-amber-300 to-red-500",
-      "quizBg": "bg-orange-50 border-orange-200",
-      "quizText": "text-orange-950",
-      "quizBadge": "bg-orange-200 text-orange-800",
-      "footer": "GEYSERS ERUPT WHEN UNDERGROUND HEAT TURNS TRAPPED WATER INTO STEAM, BUILDING PRESSURE UNTIL HOT WATER BLASTS UP THROUGH A NARROW OPENING.",
-      "quiz": {
-          "question": "What causes a geyser to blast boiling water high into the air?",
-          "options": [
-              "Underground magma superheats trapped water until pressure forces explosive steam release ♨️",
-              "Ocean tides pumping through pipes 🌊",
-              "Compressed air from caves 💨",
-              "Underground lightning ⚡"
-          ],
-          "correctIndex": 0,
-          "explanation": "Correct! Water deep in underground channels is heated past boiling by geothermal heat until steam bubbles rapidly expand and erupt upward!"
-      }
+    "image": "/curious_whole_why_do_geysers_erupt.png",
+    "bgColor": "border-orange-400",
+    "accentColor": "from-orange-400 via-amber-300 to-red-500",
+    "quizBg": "bg-orange-50 border-orange-200",
+    "quizText": "text-orange-950",
+    "quizBadge": "bg-orange-200 text-orange-800",
+    "footer": "GEYSERS ERUPT WHEN UNDERGROUND HEAT TURNS TRAPPED WATER INTO STEAM, BUILDING PRESSURE UNTIL HOT WATER BLASTS UP THROUGH A NARROW OPENING.",
+    "quiz": {
+      "question": "What causes a geyser to blast boiling water high into the air?",
+      "options": [
+        "Underground magma superheats trapped water until pressure forces explosive steam release ♨️",
+        "Ocean tides pumping through pipes 🌊",
+        "Compressed air from caves 💨",
+        "Underground lightning ⚡"
+      ],
+      "correctIndex": 0,
+      "explanation": "Correct! Water deep in underground channels is heated past boiling by geothermal heat until steam bubbles rapidly expand and erupt upward!"
+    }
   },
   "why_do_glaciers_move": {
-      "image": "/curious_why_do_glaciers_move.png",
-      "bgColor": "border-sky-400",
-      "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
-      "quizBg": "bg-sky-50 border-sky-200",
-      "quizText": "text-sky-950",
-      "quizBadge": "bg-sky-200 text-sky-800",
-      "footer": "GLACIERS MOVE SLOWLY BECAUSE THEIR HUGE WEIGHT MAKES THE ICE FLOW DOWNHILL AND SOMETIMES SLIDE OVER THE GROUND BENEATH THEM.",
-      "quiz": {
-          "question": "Why do massive rivers of ice (glaciers) slowly crawl downhill?",
-          "options": [
-              "Enormous weight and gravity cause the ice to deform and slip on a thin layer of meltwater 🏔️",
-              "Wind pushes the ice sheets 💨",
-              "Earthquakes shove the glacier forward ⚡",
-              "Animals pull the ice down 🐻"
-          ],
-          "correctIndex": 0,
-          "explanation": "Brilliant! The crushing weight of accumulated snow makes deep ice behave like a slow-flowing plastic solid, gliding downhill under gravity."
-      }
+    "image": "/curious_whole_why_do_glaciers_move.png",
+    "bgColor": "border-sky-400",
+    "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+    "quizBg": "bg-sky-50 border-sky-200",
+    "quizText": "text-sky-950",
+    "quizBadge": "bg-sky-200 text-sky-800",
+    "footer": "GLACIERS MOVE SLOWLY BECAUSE THEIR HUGE WEIGHT MAKES THE ICE FLOW DOWNHILL AND SOMETIMES SLIDE OVER THE GROUND BENEATH THEM.",
+    "quiz": {
+      "question": "Why do massive rivers of ice (glaciers) slowly crawl downhill?",
+      "options": [
+        "Enormous weight and gravity cause the ice to deform and slip on a thin layer of meltwater 🏔️",
+        "Wind pushes the ice sheets 💨",
+        "Earthquakes shove the glacier forward ⚡",
+        "Animals pull the ice down 🐻"
+      ],
+      "correctIndex": 0,
+      "explanation": "Brilliant! The crushing weight of accumulated snow makes deep ice behave like a slow-flowing plastic solid, gliding downhill under gravity."
+    }
   },
   "why_do_hot_springs_exist": {
-      "image": "/curious_why_do_hot_springs_exist.png",
-      "bgColor": "border-cyan-400",
-      "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
-      "quizBg": "bg-cyan-50 border-cyan-200",
-      "quizText": "text-cyan-950",
-      "quizBadge": "bg-cyan-200 text-cyan-800",
-      "footer": "HOT SPRINGS EXIST WHEN UNDERGROUND WATER IS WARMED BY HOT ROCKS DEEP INSIDE EARTH AND THEN FLOWS BACK UP THROUGH CRACKS TO THE SURFACE.",
-      "quiz": {
-          "question": "How does water in natural hot springs get naturally heated?",
-          "options": [
-              "Geothermal heat from deep within Earth's crust warms circulating groundwater 🛁",
-              "Hot sunlight hitting shallow pools ☀️",
-              "Chemical batteries dissolved in the mud 🔋",
-              "Friction from swimming fish 🐟"
-          ],
-          "correctIndex": 0,
-          "explanation": "Spot on! Groundwater percolates deep into the earth where hot rocks and magma warm it before it rises back to the surface."
-      }
+    "image": "/curious_whole_why_do_hot_springs_exist.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "HOT SPRINGS EXIST WHEN UNDERGROUND WATER IS WARMED BY HOT ROCKS DEEP INSIDE EARTH AND THEN FLOWS BACK UP THROUGH CRACKS TO THE SURFACE.",
+    "quiz": {
+      "question": "How does water in natural hot springs get naturally heated?",
+      "options": [
+        "Geothermal heat from deep within Earth's crust warms circulating groundwater 🛁",
+        "Hot sunlight hitting shallow pools ☀️",
+        "Chemical batteries dissolved in the mud 🔋",
+        "Friction from swimming fish 🐟"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Groundwater percolates deep into the earth where hot rocks and magma warm it before it rises back to the surface."
+    }
   },
   "why_do_icebergs_float": {
-      "image": "/curious_why_do_icebergs_float.png",
-      "bgColor": "border-blue-400",
-      "accentColor": "from-blue-400 via-sky-300 to-indigo-500",
-      "quizBg": "bg-blue-50 border-blue-200",
-      "quizText": "text-blue-950",
-      "quizBadge": "bg-blue-200 text-blue-800",
-      "footer": "ICEBERGS FLOAT BECAUSE FROZEN WATER IS LESS DENSE THAN LIQUID OCEAN WATER, SO THE WATER PUSHES THEM UPWARD.",
-      "quiz": {
-          "question": "Why does solid ice float on liquid water instead of sinking to the bottom?",
-          "options": [
-              "Water expands when it freezes, making ice less dense than liquid water 🧊",
-              "Ice is full of helium gas 🎈",
-              "Icebergs are hollow inside 🐚",
-              "Salt pushes all ice upward 🧂"
-          ],
-          "correctIndex": 0,
-          "explanation": "Fascinating physics! As water freezes, hydrogen bonds form an open hexagonal crystal lattice that is less dense than liquid water, allowing ice to float!"
-      }
+    "image": "/curious_whole_why_do_icebergs_float.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-400 via-sky-300 to-indigo-500",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "ICEBERGS FLOAT BECAUSE FROZEN WATER IS LESS DENSE THAN LIQUID OCEAN WATER, SO THE WATER PUSHES THEM UPWARD.",
+    "quiz": {
+      "question": "Why does solid ice float on liquid water instead of sinking to the bottom?",
+      "options": [
+        "Water expands when it freezes, making ice less dense than liquid water 🧊",
+        "Ice is full of helium gas 🎈",
+        "Icebergs are hollow inside 🐚",
+        "Salt pushes all ice upward 🧂"
+      ],
+      "correctIndex": 0,
+      "explanation": "Fascinating physics! As water freezes, hydrogen bonds form an open hexagonal crystal lattice that is less dense than liquid water, allowing ice to float!"
+    }
   },
   "why_do_mountains_form": {
-      "image": "/curious_why_do_mountains_form.png",
-      "bgColor": "border-amber-400",
-      "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
-      "quizBg": "bg-amber-50 border-amber-200",
-      "quizText": "text-amber-950",
-      "quizBadge": "bg-amber-200 text-amber-800",
-      "footer": "MOUNTAINS FORM WHEN EARTH'S CRUST IS PUSHED, FOLDED, LIFTED, OR BUILT UP BY MOVING TECTONIC PLATES AND VOLCANOES OVER MILLIONS OF YEARS.",
-      "quiz": {
-          "question": "How do towering mountain ranges like the Himalayas get built?",
-          "options": [
-              "Colossal tectonic plates slowly collide and crumple the crust upward ⛰️",
-              "Mounds of volcanic ash pile up in a single day 🌋",
-              "Rain washes away lowlands 🌧️",
-              "Meteorites push up the ground ☄️"
-          ],
-          "correctIndex": 0,
-          "explanation": "Correct! When two tectonic plates collide, immense forces fold and buckle rock layers upward over tens of millions of years."
-      }
+    "image": "/curious_whole_why_do_mountains_form.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "MOUNTAINS FORM WHEN EARTH'S CRUST IS PUSHED, FOLDED, LIFTED, OR BUILT UP BY MOVING TECTONIC PLATES AND VOLCANOES OVER MILLIONS OF YEARS.",
+    "quiz": {
+      "question": "How do towering mountain ranges like the Himalayas get built?",
+      "options": [
+        "Colossal tectonic plates slowly collide and crumple the crust upward ⛰️",
+        "Mounds of volcanic ash pile up in a single day 🌋",
+        "Rain washes away lowlands 🌧️",
+        "Meteorites push up the ground ☄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Correct! When two tectonic plates collide, immense forces fold and buckle rock layers upward over tens of millions of years."
+    }
   },
   "why_do_oceans_have_waves": {
-      "image": "/curious_why_do_oceans_have_waves.png",
-      "bgColor": "border-emerald-400",
-      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
-      "quizBg": "bg-emerald-50 border-emerald-200",
-      "quizText": "text-emerald-950",
-      "quizBadge": "bg-emerald-200 text-emerald-800",
-      "footer": "MOST OCEAN WAVES ARE MADE WHEN WIND BLOWS ACROSS THE WATER AND TRANSFERS SOME OF ITS ENERGY TO THE SURFACE.",
-      "quiz": {
-          "question": "What generates most of the everyday waves rolling onto ocean shores?",
-          "options": [
-              "Wind blowing across the ocean surface transferring kinetic energy to water 🌊",
-              "Fish flapping their fins together 🐟",
-              "Underground bubbling volcanoes 🌋",
-              "The ocean sloshing from Earth's rotation 🔄"
-          ],
-          "correctIndex": 0,
-          "explanation": "Exactly! Friction between blowing wind and the water surface transfers energy, generating circular water movements that form waves."
-      }
+    "image": "/curious_whole_why_do_oceans_have_waves.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "MOST OCEAN WAVES ARE MADE WHEN WIND BLOWS ACROSS THE WATER AND TRANSFERS SOME OF ITS ENERGY TO THE SURFACE.",
+    "quiz": {
+      "question": "What generates most of the everyday waves rolling onto ocean shores?",
+      "options": [
+        "Wind blowing across the ocean surface transferring kinetic energy to water 🌊",
+        "Fish flapping their fins together 🐟",
+        "Underground bubbling volcanoes 🌋",
+        "The ocean sloshing from Earth's rotation 🔄"
+      ],
+      "correctIndex": 0,
+      "explanation": "Exactly! Friction between blowing wind and the water surface transfers energy, generating circular water movements that form waves."
+    }
   },
   "why_do_rainbows_form": {
-      "image": "/curious_why_do_rainbows_form.png",
-      "bgColor": "border-indigo-400",
-      "accentColor": "from-indigo-400 via-purple-300 to-blue-500",
-      "quizBg": "bg-indigo-50 border-indigo-200",
-      "quizText": "text-indigo-950",
-      "quizBadge": "bg-indigo-200 text-indigo-800",
-      "footer": "RAINBOWS FORM WHEN SUNLIGHT SHINES THROUGH RAINDROPS, WHICH BEND, SPREAD OUT, AND REFLECT THE LIGHT’S DIFFERENT COLORS BACK TO OUR EYES.",
-      "quiz": {
-          "question": "What makes a multicolored rainbow appear in the sky after a rain shower?",
-          "options": [
-              "Raindrops act like tiny prisms, refracting, reflecting, and splitting sunlight into colors 🌈",
-              "Clouds paint stripes across the air 🎨",
-              "The sun shoots colored lasers ⚡",
-              "Rainbow birds migrate across the sky 🦜"
-          ],
-          "correctIndex": 0,
-          "explanation": "Beautiful science! Each raindrop bends (refracts) sunlight, reflects it off the back of the drop, and spreads white light into its spectrum of colors."
-      }
+    "image": "/curious_whole_why_do_rainbows_form.png",
+    "bgColor": "border-indigo-400",
+    "accentColor": "from-indigo-400 via-purple-300 to-blue-500",
+    "quizBg": "bg-indigo-50 border-indigo-200",
+    "quizText": "text-indigo-950",
+    "quizBadge": "bg-indigo-200 text-indigo-800",
+    "footer": "RAINBOWS FORM WHEN SUNLIGHT SHINES THROUGH RAINDROPS, WHICH BEND, SPREAD OUT, AND REFLECT THE LIGHT’S DIFFERENT COLORS BACK TO OUR EYES.",
+    "quiz": {
+      "question": "What makes a multicolored rainbow appear in the sky after a rain shower?",
+      "options": [
+        "Raindrops act like tiny prisms, refracting, reflecting, and splitting sunlight into colors 🌈",
+        "Clouds paint stripes across the air 🎨",
+        "The sun shoots colored lasers ⚡",
+        "Rainbow birds migrate across the sky 🦜"
+      ],
+      "correctIndex": 0,
+      "explanation": "Beautiful science! Each raindrop bends (refracts) sunlight, reflects it off the back of the drop, and spreads white light into its spectrum of colors."
+    }
   },
   "why_do_rivers_flow_downhill": {
-      "image": "/curious_why_do_rivers_flow_downhill.png",
-      "bgColor": "border-teal-400",
-      "accentColor": "from-teal-400 via-cyan-300 to-emerald-500",
-      "quizBg": "bg-teal-50 border-teal-200",
-      "quizText": "text-teal-950",
-      "quizBadge": "bg-teal-200 text-teal-800",
-      "footer": "RIVERS FLOW DOWNHILL BECAUSE GRAVITY PULLS WATER FROM HIGHER PLACES TOWARD LOWER PLACES.",
-      "quiz": {
-          "question": "What fundamental force guides rivers from high mountains down to the sea?",
-          "options": [
-              "Gravity pulling water toward the lowest point of elevation 🏞️",
-              "Wind blowing water downstream 💨",
-              "Ocean magnetism pulling rivers 🧲",
-              "Water molecules naturally rolling 🌊"
-          ],
-          "correctIndex": 0,
-          "explanation": "Great job! Gravity constantly pulls water along the path of least resistance from high mountain elevations down toward sea level."
-      }
+    "image": "/curious_whole_why_do_rivers_flow_downhill.png",
+    "bgColor": "border-teal-400",
+    "accentColor": "from-teal-400 via-cyan-300 to-emerald-500",
+    "quizBg": "bg-teal-50 border-teal-200",
+    "quizText": "text-teal-950",
+    "quizBadge": "bg-teal-200 text-teal-800",
+    "footer": "RIVERS FLOW DOWNHILL BECAUSE GRAVITY PULLS WATER FROM HIGHER PLACES TOWARD LOWER PLACES.",
+    "quiz": {
+      "question": "What fundamental force guides rivers from high mountains down to the sea?",
+      "options": [
+        "Gravity pulling water toward the lowest point of elevation 🏞️",
+        "Wind blowing water downstream 💨",
+        "Ocean magnetism pulling rivers 🧲",
+        "Water molecules naturally rolling 🌊"
+      ],
+      "correctIndex": 0,
+      "explanation": "Great job! Gravity constantly pulls water along the path of least resistance from high mountain elevations down toward sea level."
+    }
   },
   "why_do_tornadoes_form": {
-      "image": "/curious_why_do_tornadoes_form.png",
-      "bgColor": "border-orange-400",
-      "accentColor": "from-orange-400 via-amber-300 to-red-500",
-      "quizBg": "bg-orange-50 border-orange-200",
-      "quizText": "text-orange-950",
-      "quizBadge": "bg-orange-200 text-orange-800",
-      "footer": "TORNADOES FORM WHEN WARM, MOIST AIR MEETS COOL, DRY AIR DURING A POWERFUL THUNDERSTORM, AND SPINNING WINDS CAN STRETCH INTO A FAST-MOVING FUNNEL.",
-      "quiz": {
-          "question": "What creates the rotating funnel of a violent tornado?",
-          "options": [
-              "Clashing warm, moist air and cold, dry air creating strong rotating updrafts in supercell storms 🌪️",
-              "Giant fans in the clouds 🌀",
-              "Earthquakes spinning the ground ⚡",
-              "Sunbeams twisting the air ☀️"
-          ],
-          "correctIndex": 0,
-          "explanation": "Spot on! Intense temperature differences in supercell thunderstorms create severe vertical wind shear and rotating updrafts that form tornadoes."
-      }
+    "image": "/curious_whole_why_do_tornadoes_form.png",
+    "bgColor": "border-orange-400",
+    "accentColor": "from-orange-400 via-amber-300 to-red-500",
+    "quizBg": "bg-orange-50 border-orange-200",
+    "quizText": "text-orange-950",
+    "quizBadge": "bg-orange-200 text-orange-800",
+    "footer": "TORNADOES FORM WHEN WARM, MOIST AIR MEETS COOL, DRY AIR DURING A POWERFUL THUNDERSTORM, AND SPINNING WINDS CAN STRETCH INTO A FAST-MOVING FUNNEL.",
+    "quiz": {
+      "question": "What creates the rotating funnel of a violent tornado?",
+      "options": [
+        "Clashing warm, moist air and cold, dry air creating strong rotating updrafts in supercell storms 🌪️",
+        "Giant fans in the clouds 🌀",
+        "Earthquakes spinning the ground ⚡",
+        "Sunbeams twisting the air ☀️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Intense temperature differences in supercell thunderstorms create severe vertical wind shear and rotating updrafts that form tornadoes."
+    }
   },
   "why_do_tsunamis_happen": {
-      "image": "/curious_why_do_tsunamis_happen.png",
-      "bgColor": "border-sky-400",
-      "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
-      "quizBg": "bg-sky-50 border-sky-200",
-      "quizText": "text-sky-950",
-      "quizBadge": "bg-sky-200 text-sky-800",
-      "footer": "TSUNAMIS HAPPEN WHEN A HUGE AMOUNT OF OCEAN WATER IS SUDDENLY PUSHED OR PULLED, USUALLY BY AN UNDERWATER EARTHQUAKE.",
-      "quiz": {
-          "question": "What triggers the massive, fast-traveling ocean waves known as tsunamis?",
-          "options": [
-              "Large underwater earthquakes, landslides, or volcanic eruptions that suddenly displace vast amounts of water 🌊",
-              "Heavy rain pouring on the ocean 🌧️",
-              "Strong summer beach winds 💨",
-              "Whales leaping out of the water 🐋"
-          ],
-          "correctIndex": 0,
-          "explanation": "Correct! When the seafloor suddenly lifts or drops during an underwater quake, it displaces the entire water column above it, generating a tsunami."
-      }
+    "image": "/curious_whole_why_do_tsunamis_happen.png",
+    "bgColor": "border-sky-400",
+    "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+    "quizBg": "bg-sky-50 border-sky-200",
+    "quizText": "text-sky-950",
+    "quizBadge": "bg-sky-200 text-sky-800",
+    "footer": "TSUNAMIS HAPPEN WHEN A HUGE AMOUNT OF OCEAN WATER IS SUDDENLY PUSHED OR PULLED, USUALLY BY AN UNDERWATER EARTHQUAKE.",
+    "quiz": {
+      "question": "What triggers the massive, fast-traveling ocean waves known as tsunamis?",
+      "options": [
+        "Large underwater earthquakes, landslides, or volcanic eruptions that suddenly displace vast amounts of water 🌊",
+        "Heavy rain pouring on the ocean 🌧️",
+        "Strong summer beach winds 💨",
+        "Whales leaping out of the water 🐋"
+      ],
+      "correctIndex": 0,
+      "explanation": "Correct! When the seafloor suddenly lifts or drops during an underwater quake, it displaces the entire water column above it, generating a tsunami."
+    }
   },
   "why_do_volcanoes_erupt": {
-      "image": "/curious_why_do_volcanoes_erupt.png",
-      "bgColor": "border-cyan-400",
-      "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
-      "quizBg": "bg-cyan-50 border-cyan-200",
-      "quizText": "text-cyan-950",
-      "quizBadge": "bg-cyan-200 text-cyan-800",
-      "footer": "VOLCANOES ERUPT WHEN HOT MELTED ROCK CALLED MAGMA AND TRAPPED GASES BUILD UP PRESSURE UNDERGROUND AND PUSH THEIR WAY OUT THROUGH CRACKS IN EARTH’S CRUST.",
-      "quiz": {
-          "question": "Why does molten magma erupt out of a volcano onto Earth's surface?",
-          "options": [
-              "Buoyant hot magma and expanding dissolved gases build up immense pressure in underground magma chambers 🌋",
-              "Earth gets too full of dirt 🌍",
-              "Lava gets bored underground 😴",
-              "Rain pours into the crater and boils 🌧️"
-          ],
-          "correctIndex": 0,
-          "explanation": "Awesome! Magma is less dense than surrounding rock. As it rises, dissolved gases expand like a shaken soda bottle, driving powerful eruptions!"
-      }
+    "image": "/curious_whole_why_do_volcanoes_erupt.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "VOLCANOES ERUPT WHEN HOT MELTED ROCK CALLED MAGMA AND TRAPPED GASES BUILD UP PRESSURE UNDERGROUND AND PUSH THEIR WAY OUT THROUGH CRACKS IN EARTH’S CRUST.",
+    "quiz": {
+      "question": "Why does molten magma erupt out of a volcano onto Earth's surface?",
+      "options": [
+        "Buoyant hot magma and expanding dissolved gases build up immense pressure in underground magma chambers 🌋",
+        "Earth gets too full of dirt 🌍",
+        "Lava gets bored underground 😴",
+        "Rain pours into the crater and boils 🌧️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Awesome! Magma is less dense than surrounding rock. As it rises, dissolved gases expand like a shaken soda bottle, driving powerful eruptions!"
+    }
   },
   "why_do_waterfalls_form": {
-      "image": "/curious_why_do_waterfalls_form.png",
-      "bgColor": "border-blue-400",
-      "accentColor": "from-blue-400 via-sky-300 to-indigo-500",
-      "quizBg": "bg-blue-50 border-blue-200",
-      "quizText": "text-blue-950",
-      "quizBadge": "bg-blue-200 text-blue-800",
-      "footer": "WATERFALLS FORM WHERE A RIVER FLOWS OVER A STEEP DROP IN THE LAND, OFTEN BECAUSE SOFTER ROCK WEARS AWAY FASTER THAN HARDER ROCK.",
-      "quiz": {
-          "question": "How do cascading waterfalls naturally develop along river channels?",
-          "options": [
-              "A river flows over a layer of hard rock that resists erosion while softer rock underneath washes away 💦",
-              "Beavers build giant slide ramps 🦫",
-              "Water gets too heavy to stay flat 🌊",
-              "Earthquakes snap the river in half ⚡"
-          ],
-          "correctIndex": 0,
-          "explanation": "Brilliant! Differential erosion occurs when water easily cuts through soft rock below, creating a steep cliff face under a resilient hard rock ledge."
-      }
+    "image": "/curious_whole_why_do_waterfalls_form.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-400 via-sky-300 to-indigo-500",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "WATERFALLS FORM WHERE A RIVER FLOWS OVER A STEEP DROP IN THE LAND, OFTEN BECAUSE SOFTER ROCK WEARS AWAY FASTER THAN HARDER ROCK.",
+    "quiz": {
+      "question": "How do cascading waterfalls naturally develop along river channels?",
+      "options": [
+        "A river flows over a layer of hard rock that resists erosion while softer rock underneath washes away 💦",
+        "Beavers build giant slide ramps 🦫",
+        "Water gets too heavy to stay flat 🌊",
+        "Earthquakes snap the river in half ⚡"
+      ],
+      "correctIndex": 0,
+      "explanation": "Brilliant! Differential erosion occurs when water easily cuts through soft rock below, creating a steep cliff face under a resilient hard rock ledge."
+    }
   },
   "why_do_we_see_lightning_before_hearing_thunder": {
-      "image": "/curious_why_do_we_see_lightning_before_hearing_thunder.png",
-      "bgColor": "border-amber-400",
-      "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
-      "quizBg": "bg-amber-50 border-amber-200",
-      "quizText": "text-amber-950",
-      "quizBadge": "bg-amber-200 text-amber-800",
-      "footer": "WE SEE LIGHTNING BEFORE HEARING THUNDER BECAUSE LIGHT TRAVELS MUCH FASTER THROUGH THE AIR THAN SOUND DOES.",
-      "quiz": {
-          "question": "Why do you always see the flash of lightning before you hear the boom of thunder?",
-          "options": [
-              "Light travels nearly a million times faster than sound in air ⚡",
-              "Thunder waits for the lightning to finish 👂",
-              "Your eyes are closer to the sky than your ears 👀",
-              "Lightning happens ten minutes earlier ⏱️"
-          ],
-          "correctIndex": 0,
-          "explanation": "Physics champion! Light races at 300,000 km/s (instantaneous), while sound travels at a much slower ~340 m/s (~1 km every 3 seconds)."
-      }
+    "image": "/curious_whole_why_do_we_see_lightning_before_hearing_thunder.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "WE SEE LIGHTNING BEFORE HEARING THUNDER BECAUSE LIGHT TRAVELS MUCH FASTER THROUGH THE AIR THAN SOUND DOES.",
+    "quiz": {
+      "question": "Why do you always see the flash of lightning before you hear the boom of thunder?",
+      "options": [
+        "Light travels nearly a million times faster than sound in air ⚡",
+        "Thunder waits for the lightning to finish 👂",
+        "Your eyes are closer to the sky than your ears 👀",
+        "Lightning happens ten minutes earlier ⏱️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Physics champion! Light races at 300,000 km/s (instantaneous), while sound travels at a much slower ~340 m/s (~1 km every 3 seconds)."
+    }
   },
   "why_does_climate_change_happen": {
-      "image": "/curious_why_does_climate_change_happen.png",
-      "bgColor": "border-emerald-400",
-      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
-      "quizBg": "bg-emerald-50 border-emerald-200",
-      "quizText": "text-emerald-950",
-      "quizBadge": "bg-emerald-200 text-emerald-800",
-      "footer": "CLIMATE CHANGE HAPPENS BECAUSE EXTRA HEAT-TRAPPING GASES, ESPECIALLY FROM BURNING COAL, OIL, AND GAS, BUILD UP IN THE AIR AND MAKE EARTH WARMER OVER MANY YEARS.",
-      "quiz": {
-          "question": "What is the primary cause of modern global climate change?",
-          "options": [
-              "Excess greenhouse gases like CO2 trapping heat in Earth's atmosphere 🌡️",
-              "The Sun is getting hotter every year ☀️",
-              "Too many heaters left on in winter 🔥",
-              "Earth is drifting closer to Mars 🪐"
-          ],
-          "correctIndex": 0,
-          "explanation": "Spot on! Human activities like burning fossil fuels release greenhouse gases that act like a thick thermal blanket, trapping solar heat."
-      }
+    "image": "/curious_whole_why_does_climate_change_happen.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "CLIMATE CHANGE HAPPENS BECAUSE EXTRA HEAT-TRAPPING GASES, ESPECIALLY FROM BURNING COAL, OIL, AND GAS, BUILD UP IN THE AIR AND MAKE EARTH WARMER OVER MANY YEARS.",
+    "quiz": {
+      "question": "What is the primary cause of modern global climate change?",
+      "options": [
+        "Excess greenhouse gases like CO2 trapping heat in Earth's atmosphere 🌡️",
+        "The Sun is getting hotter every year ☀️",
+        "Too many heaters left on in winter 🔥",
+        "Earth is drifting closer to Mars 🪐"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Human activities like burning fossil fuels release greenhouse gases that act like a thick thermal blanket, trapping solar heat."
+    }
   },
   "why_does_erosion_happen": {
-      "image": "/curious_why_does_erosion_happen.png",
-      "bgColor": "border-indigo-400",
-      "accentColor": "from-indigo-400 via-purple-300 to-blue-500",
-      "quizBg": "bg-indigo-50 border-indigo-200",
-      "quizText": "text-indigo-950",
-      "quizBadge": "bg-indigo-200 text-indigo-800",
-      "footer": "EROSION HAPPENS WHEN MOVING WATER, WIND, ICE, OR GRAVITY CARRIES BITS OF ROCK AND SOIL FROM ONE PLACE TO ANOTHER.",
-      "quiz": {
-          "question": "What agents are responsible for wearing down landscapes through erosion?",
-          "options": [
-              "Wind, water, ice, and gravity transporting rock and soil particles 🏜️",
-              "Only human footsteps 👣",
-              "Moonlight dissolving mountains 🌙",
-              "Sunlight melting solid stone ☀️"
-          ],
-          "correctIndex": 0,
-          "explanation": "Correct! Flowing water, blowing wind, and grinding glaciers physically wear away and transport weathered rock fragments across the planet."
-      }
+    "image": "/curious_whole_why_does_erosion_happen.png",
+    "bgColor": "border-indigo-400",
+    "accentColor": "from-indigo-400 via-purple-300 to-blue-500",
+    "quizBg": "bg-indigo-50 border-indigo-200",
+    "quizText": "text-indigo-950",
+    "quizBadge": "bg-indigo-200 text-indigo-800",
+    "footer": "EROSION HAPPENS WHEN MOVING WATER, WIND, ICE, OR GRAVITY CARRIES BITS OF ROCK AND SOIL FROM ONE PLACE TO ANOTHER.",
+    "quiz": {
+      "question": "What agents are responsible for wearing down landscapes through erosion?",
+      "options": [
+        "Wind, water, ice, and gravity transporting rock and soil particles 🏜️",
+        "Only human footsteps 👣",
+        "Moonlight dissolving mountains 🌙",
+        "Sunlight melting solid stone ☀️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Correct! Flowing water, blowing wind, and grinding glaciers physically wear away and transport weathered rock fragments across the planet."
+    }
   },
   "why_does_fog_form": {
-      "image": "/curious_why_does_fog_form.png",
-      "bgColor": "border-teal-400",
-      "accentColor": "from-teal-400 via-cyan-300 to-emerald-500",
-      "quizBg": "bg-teal-50 border-teal-200",
-      "quizText": "text-teal-950",
-      "quizBadge": "bg-teal-200 text-teal-800",
-      "footer": "FOG FORMS WHEN MOIST AIR NEAR THE GROUND COOLS ENOUGH FOR INVISIBLE WATER VAPOR TO TURN INTO TINY FLOATING WATER DROPLETS.",
-      "quiz": {
-          "question": "What is fog scientifically considered to be?",
-          "options": [
-              "A low-altitude cloud touching or hovering just above the ground 🌫️",
-              "A thick blanket of dust 💨",
-              "Steam from underground pipes ♨️",
-              "Smoke from distant campfires 🔥"
-          ],
-          "correctIndex": 0,
-          "explanation": "Fascinating! Fog is essentially a cloud that forms at ground level when moist air cools to its dew point, condensing water vapor into tiny droplets."
-      }
+    "image": "/curious_whole_why_does_fog_form.png",
+    "bgColor": "border-teal-400",
+    "accentColor": "from-teal-400 via-cyan-300 to-emerald-500",
+    "quizBg": "bg-teal-50 border-teal-200",
+    "quizText": "text-teal-950",
+    "quizBadge": "bg-teal-200 text-teal-800",
+    "footer": "FOG FORMS WHEN MOIST AIR NEAR THE GROUND COOLS ENOUGH FOR INVISIBLE WATER VAPOR TO TURN INTO TINY FLOATING WATER DROPLETS.",
+    "quiz": {
+      "question": "What is fog scientifically considered to be?",
+      "options": [
+        "A low-altitude cloud touching or hovering just above the ground 🌫️",
+        "A thick blanket of dust 💨",
+        "Steam from underground pipes ♨️",
+        "Smoke from distant campfires 🔥"
+      ],
+      "correctIndex": 0,
+      "explanation": "Fascinating! Fog is essentially a cloud that forms at ground level when moist air cools to its dew point, condensing water vapor into tiny droplets."
+    }
   },
   "why_does_hail_form": {
-      "image": "/curious_why_does_hail_form.png",
-      "bgColor": "border-orange-400",
-      "accentColor": "from-orange-400 via-amber-300 to-red-500",
-      "quizBg": "bg-orange-50 border-orange-200",
-      "quizText": "text-orange-950",
-      "quizBadge": "bg-orange-200 text-orange-800",
-      "footer": "HAIL FORMS WHEN STRONG THUNDERSTORM WINDS LIFT RAINDROPS HIGH INTO VERY COLD AIR, WHERE THEY FREEZE INTO ICY BALLS THAT GROW IN LAYERS BEFORE FALLING.",
-      "quiz": {
-          "question": "How do layered balls of hail grow inside powerful thunderstorms?",
-          "options": [
-              "Strong updrafts repeatedly carry ice pellets up into freezing cloud layers to gather new coats of ice 🧊",
-              "Rain freezes instantly when hitting the ground 🌧️",
-              "Snow gets rolled into balls by wind ❄️",
-              "Clouds drop frozen rocks from space ☄️"
-          ],
-          "correctIndex": 0,
-          "explanation": "Awesome! Thunderstorm updrafts violently push raindrops above freezing levels repeatedly. Each cycle adds a new icy layer before it falls as hail."
-      }
+    "image": "/curious_whole_why_does_hail_form.png",
+    "bgColor": "border-orange-400",
+    "accentColor": "from-orange-400 via-amber-300 to-red-500",
+    "quizBg": "bg-orange-50 border-orange-200",
+    "quizText": "text-orange-950",
+    "quizBadge": "bg-orange-200 text-orange-800",
+    "footer": "HAIL FORMS WHEN STRONG THUNDERSTORM WINDS LIFT RAINDROPS HIGH INTO VERY COLD AIR, WHERE THEY FREEZE INTO ICY BALLS THAT GROW IN LAYERS BEFORE FALLING.",
+    "quiz": {
+      "question": "How do layered balls of hail grow inside powerful thunderstorms?",
+      "options": [
+        "Strong updrafts repeatedly carry ice pellets up into freezing cloud layers to gather new coats of ice 🧊",
+        "Rain freezes instantly when hitting the ground 🌧️",
+        "Snow gets rolled into balls by wind ❄️",
+        "Clouds drop frozen rocks from space ☄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Awesome! Thunderstorm updrafts violently push raindrops above freezing levels repeatedly. Each cycle adds a new icy layer before it falls as hail."
+    }
   },
   "why_does_it_rain": {
-      "image": "/curious_why_does_it_rain.png",
-      "bgColor": "border-sky-400",
-      "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
-      "quizBg": "bg-sky-50 border-sky-200",
-      "quizText": "text-sky-950",
-      "quizBadge": "bg-sky-200 text-sky-800",
-      "footer": "RAIN HAPPENS WHEN WATER EVAPORATES INTO THE AIR, GATHERS INTO CLOUDS, AND FALLS BACK TO EARTH AS DROPS WHEN THE DROPS BECOME HEAVY ENOUGH.",
-      "quiz": {
-          "question": "When does a cloud finally start producing rain?",
-          "options": [
-              "When cloud droplets collide and grow too heavy for rising air updrafts to support 🌧️",
-              "When clouds get tired of flying 😴",
-              "When the Sun pokes a hole in the cloud ☀️",
-              "When lightning cuts the cloud open ⚡"
-          ],
-          "correctIndex": 0,
-          "explanation": "Great job! Microscopic droplets collide and merge inside clouds until their weight overcomes upward air currents and gravity pulls them down."
-      }
+    "image": "/curious_whole_why_does_it_rain.png",
+    "bgColor": "border-sky-400",
+    "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+    "quizBg": "bg-sky-50 border-sky-200",
+    "quizText": "text-sky-950",
+    "quizBadge": "bg-sky-200 text-sky-800",
+    "footer": "RAIN HAPPENS WHEN WATER EVAPORATES INTO THE AIR, GATHERS INTO CLOUDS, AND FALLS BACK TO EARTH AS DROPS WHEN THE DROPS BECOME HEAVY ENOUGH.",
+    "quiz": {
+      "question": "When does a cloud finally start producing rain?",
+      "options": [
+        "When cloud droplets collide and grow too heavy for rising air updrafts to support 🌧️",
+        "When clouds get tired of flying 😴",
+        "When the Sun pokes a hole in the cloud ☀️",
+        "When lightning cuts the cloud open ⚡"
+      ],
+      "correctIndex": 0,
+      "explanation": "Great job! Microscopic droplets collide and merge inside clouds until their weight overcomes upward air currents and gravity pulls them down."
+    }
   },
   "why_does_lightning_happen": {
-      "image": "/curious_why_does_lightning_happen.png",
-      "bgColor": "border-cyan-400",
-      "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
-      "quizBg": "bg-cyan-50 border-cyan-200",
-      "quizText": "text-cyan-950",
-      "quizBadge": "bg-cyan-200 text-cyan-800",
-      "footer": "LIGHTNING HAPPENS WHEN ELECTRIC CHARGES BUILD UP IN STORM CLOUDS AND THEN SUDDENLY JUMP THROUGH THE AIR TO BALANCE THEMSELVES.",
-      "quiz": {
-          "question": "What causes the massive electric discharge known as lightning?",
-          "options": [
-              "A rapid discharge of built-up static electrical charges between clouds or between cloud and ground ⚡",
-              "Clouds rubbing friction sparks like flint stones 🪨",
-              "The Sun shooting electrical beams ☀️",
-              "Air molecules exploding from heat 🔥"
-          ],
-          "correctIndex": 0,
-          "explanation": "Spot on! Collisions between ice crystals and hail build positive and negative charge zones until an electric channel discharges with immense power."
-      }
+    "image": "/curious_whole_why_does_lightning_happen.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "LIGHTNING HAPPENS WHEN ELECTRIC CHARGES BUILD UP IN STORM CLOUDS AND THEN SUDDENLY JUMP THROUGH THE AIR TO BALANCE THEMSELVES.",
+    "quiz": {
+      "question": "What causes the massive electric discharge known as lightning?",
+      "options": [
+        "A rapid discharge of built-up static electrical charges between clouds or between cloud and ground ⚡",
+        "Clouds rubbing friction sparks like flint stones 🪨",
+        "The Sun shooting electrical beams ☀️",
+        "Air molecules exploding from heat 🔥"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Collisions between ice crystals and hail build positive and negative charge zones until an electric channel discharges with immense power."
+    }
   },
   "why_does_snow_form": {
-      "image": "/curious_why_does_snow_form.png",
-      "bgColor": "border-blue-400",
-      "accentColor": "from-blue-400 via-sky-300 to-indigo-500",
-      "quizBg": "bg-blue-50 border-blue-200",
-      "quizText": "text-blue-950",
-      "quizBadge": "bg-blue-200 text-blue-800",
-      "footer": "SNOW FORMS WHEN TINY WATER DROPLETS OR WATER VAPOR IN VERY COLD CLOUDS FREEZE INTO ICE CRYSTALS THAT JOIN TOGETHER AND FALL TO THE GROUND.",
-      "quiz": {
-          "question": "Under what conditions does precipitation fall as delicate snow instead of rain?",
-          "options": [
-              "When atmospheric and ground temperatures remain below 0°C (freezing), allowing water vapor to freeze directly into ice crystals ❄️",
-              "When rain falls through white paint 🎨",
-              "When clouds get frozen solid into ice cubes 🧊",
-              "When winter wind blows salt into the air 🧂"
-          ],
-          "correctIndex": 0,
-          "explanation": "Correct! When air column temperatures are below freezing, water vapor undergoes deposition directly into intricate six-sided ice crystals."
-      }
+    "image": "/curious_whole_why_does_snow_form.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-400 via-sky-300 to-indigo-500",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "SNOW FORMS WHEN TINY WATER DROPLETS OR WATER VAPOR IN VERY COLD CLOUDS FREEZE INTO ICE CRYSTALS THAT JOIN TOGETHER AND FALL TO THE GROUND.",
+    "quiz": {
+      "question": "Under what conditions does precipitation fall as delicate snow instead of rain?",
+      "options": [
+        "When atmospheric and ground temperatures remain below 0°C (freezing), allowing water vapor to freeze directly into ice crystals ❄️",
+        "When rain falls through white paint 🎨",
+        "When clouds get frozen solid into ice cubes 🧊",
+        "When winter wind blows salt into the air 🧂"
+      ],
+      "correctIndex": 0,
+      "explanation": "Correct! When air column temperatures are below freezing, water vapor undergoes deposition directly into intricate six-sided ice crystals."
+    }
   },
   "why_does_the_sky_turn_orange_at_sunset": {
-      "image": "/curious_why_does_the_sky_turn_orange_at_sunset.png",
-      "bgColor": "border-amber-400",
-      "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
-      "quizBg": "bg-amber-50 border-amber-200",
-      "quizText": "text-amber-950",
-      "quizBadge": "bg-amber-200 text-amber-800",
-      "footer": "AT SUNSET, SUNLIGHT TRAVELS THROUGH MORE AIR, SO TINY BITS IN THE ATMOSPHERE SCATTER AWAY MOST BLUE LIGHT AND LEAVE MORE RED, ORANGE, AND YELLOW LIGHT FOR US TO SEE.",
-      "quiz": {
-          "question": "Why does the sunset sky turn breathtaking shades of orange, pink, and red?",
-          "options": [
-              "Low sun angles force light through much more atmosphere, scattering blue light away and letting longer red/orange wavelengths pass 🌅",
-              "The Sun cools down to red embers at night 🔥",
-              "Ocean reflections dye the clouds 🌊",
-              "The atmosphere catches fire 🌋"
-          ],
-          "correctIndex": 0,
-          "explanation": "Rayleigh scattering in action! At sunset, sunlight passes through up to 10x more air. Short blue wavelengths are scattered away, leaving warm reds and oranges."
-      }
+    "image": "/curious_whole_why_does_the_sky_turn_orange_at_sunset.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "AT SUNSET, SUNLIGHT TRAVELS THROUGH MORE AIR, SO TINY BITS IN THE ATMOSPHERE SCATTER AWAY MOST BLUE LIGHT AND LEAVE MORE RED, ORANGE, AND YELLOW LIGHT FOR US TO SEE.",
+    "quiz": {
+      "question": "Why does the sunset sky turn breathtaking shades of orange, pink, and red?",
+      "options": [
+        "Low sun angles force light through much more atmosphere, scattering blue light away and letting longer red/orange wavelengths pass 🌅",
+        "The Sun cools down to red embers at night 🔥",
+        "Ocean reflections dye the clouds 🌊",
+        "The atmosphere catches fire 🌋"
+      ],
+      "correctIndex": 0,
+      "explanation": "Rayleigh scattering in action! At sunset, sunlight passes through up to 10x more air. Short blue wavelengths are scattered away, leaving warm reds and oranges."
+    }
   },
   "why_does_thunder_happen": {
-      "image": "/curious_why_does_thunder_happen.png",
-      "bgColor": "border-emerald-400",
-      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
-      "quizBg": "bg-emerald-50 border-emerald-200",
-      "quizText": "text-emerald-950",
-      "quizBadge": "bg-emerald-200 text-emerald-800",
-      "footer": "THUNDER HAPPENS WHEN LIGHTNING HEATS THE AIR SO QUICKLY THAT THE AIR EXPANDS WITH A GIANT BOOM-LIKE VIBRATION.",
-      "quiz": {
-          "question": "What generates the booming sound of thunder during a storm?",
-          "options": [
-              "Lightning superheats surrounding air to ~30,000°C, causing it to explosively expand and produce a supersonic shockwave 💥",
-              "Clouds slamming into each other like cars 🚗",
-              "Giant hail stones colliding in mid-air 🧊",
-              "Rain striking the top of the atmosphere 🌧️"
-          ],
-          "correctIndex": 0,
-          "explanation": "Mind-blowing! A lightning bolt heats air hotter than the surface of the Sun in milliseconds. The air expands violently, creating the sonic shockwave we hear as thunder!"
-      }
+    "image": "/curious_whole_why_does_thunder_happen.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "THUNDER HAPPENS WHEN LIGHTNING HEATS THE AIR SO QUICKLY THAT THE AIR EXPANDS WITH A GIANT BOOM-LIKE VIBRATION.",
+    "quiz": {
+      "question": "What generates the booming sound of thunder during a storm?",
+      "options": [
+        "Lightning superheats surrounding air to ~30,000°C, causing it to explosively expand and produce a supersonic shockwave 💥",
+        "Clouds slamming into each other like cars 🚗",
+        "Giant hail stones colliding in mid-air 🧊",
+        "Rain striking the top of the atmosphere 🌧️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Mind-blowing! A lightning bolt heats air hotter than the surface of the Sun in milliseconds. The air expands violently, creating the sonic shockwave we hear as thunder!"
+    }
   },
   "why_does_wind_blow": {
-      "image": "/curious_why_does_wind_blow.png",
-      "bgColor": "border-indigo-400",
-      "accentColor": "from-indigo-400 via-purple-300 to-blue-500",
-      "quizBg": "bg-indigo-50 border-indigo-200",
-      "quizText": "text-indigo-950",
-      "quizBadge": "bg-indigo-200 text-indigo-800",
-      "footer": "WIND BLOWS BECAUSE THE SUN HEATS EARTH UNEVENLY, MAKING AIR MOVE FROM PLACES WITH HIGHER AIR PRESSURE TOWARD PLACES WITH LOWER AIR PRESSURE.",
-      "quiz": {
-          "question": "What makes air move across the globe as gentle breezes or roaring winds?",
-          "options": [
-              "Air moving from areas of high atmospheric pressure to low atmospheric pressure driven by uneven solar heating 💨",
-              "Trees waving their branches 🌳",
-              "The ocean pushing air onto land 🌊",
-              "Earth's engine fan turning ⚙️"
-          ],
-          "correctIndex": 0,
-          "explanation": "Brilliant! Uneven heating of Earth creates differences in air pressure. Air naturally rushes from high-pressure zones to low-pressure zones, creating wind."
-      }
+    "image": "/curious_whole_why_does_wind_blow.png",
+    "bgColor": "border-indigo-400",
+    "accentColor": "from-indigo-400 via-purple-300 to-blue-500",
+    "quizBg": "bg-indigo-50 border-indigo-200",
+    "quizText": "text-indigo-950",
+    "quizBadge": "bg-indigo-200 text-indigo-800",
+    "footer": "WIND BLOWS BECAUSE THE SUN HEATS EARTH UNEVENLY, MAKING AIR MOVE FROM PLACES WITH HIGHER AIR PRESSURE TOWARD PLACES WITH LOWER AIR PRESSURE.",
+    "quiz": {
+      "question": "What makes air move across the globe as gentle breezes or roaring winds?",
+      "options": [
+        "Air moving from areas of high atmospheric pressure to low atmospheric pressure driven by uneven solar heating 💨",
+        "Trees waving their branches 🌳",
+        "The ocean pushing air onto land 🌊",
+        "Earth's engine fan turning ⚙️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Brilliant! Uneven heating of Earth creates differences in air pressure. Air naturally rushes from high-pressure zones to low-pressure zones, creating wind."
+    }
   },
   "why_is_humidity_uncomfortable": {
-      "image": "/curious_why_is_humidity_uncomfortable.png",
-      "bgColor": "border-teal-400",
-      "accentColor": "from-teal-400 via-cyan-300 to-emerald-500",
-      "quizBg": "bg-teal-50 border-teal-200",
-      "quizText": "text-teal-950",
-      "quizBadge": "bg-teal-200 text-teal-800",
-      "footer": "HUMIDITY CAN FEEL UNCOMFORTABLE BECAUSE MOIST AIR SLOWS THE EVAPORATION OF SWEAT, MAKING IT HARDER FOR YOUR BODY TO COOL ITSELF.",
-      "quiz": {
-          "question": "Why does high humidity make hot summer days feel much stickier and hotter?",
-          "options": [
-              "Moisture-saturated air slows down sweat evaporation, hindering your body's natural cooling mechanism 💦",
-              "Water in the air traps you in a plastic bag 🛍️",
-              "Sweat turns into hot glue 🧴",
-              "Humid air is heavier than rocks 🪨"
-          ],
-          "correctIndex": 0,
-          "explanation": "Spot on! Sweating cools you down only when sweat evaporates into the air. When the air is already saturated with water, sweat cannot evaporate efficiently."
-      }
+    "image": "/curious_whole_why_is_humidity_uncomfortable.png",
+    "bgColor": "border-teal-400",
+    "accentColor": "from-teal-400 via-cyan-300 to-emerald-500",
+    "quizBg": "bg-teal-50 border-teal-200",
+    "quizText": "text-teal-950",
+    "quizBadge": "bg-teal-200 text-teal-800",
+    "footer": "HUMIDITY CAN FEEL UNCOMFORTABLE BECAUSE MOIST AIR SLOWS THE EVAPORATION OF SWEAT, MAKING IT HARDER FOR YOUR BODY TO COOL ITSELF.",
+    "quiz": {
+      "question": "Why does high humidity make hot summer days feel much stickier and hotter?",
+      "options": [
+        "Moisture-saturated air slows down sweat evaporation, hindering your body's natural cooling mechanism 💦",
+        "Water in the air traps you in a plastic bag 🛍️",
+        "Sweat turns into hot glue 🧴",
+        "Humid air is heavier than rocks 🪨"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Sweating cools you down only when sweat evaporates into the air. When the air is already saturated with water, sweat cannot evaporate efficiently."
+    }
   },
   "why_is_seawater_salty": {
-      "image": "/curious_why_is_seawater_salty.png",
-      "bgColor": "border-orange-400",
-      "accentColor": "from-orange-400 via-amber-300 to-red-500",
-      "quizBg": "bg-orange-50 border-orange-200",
-      "quizText": "text-orange-950",
-      "quizBadge": "bg-orange-200 text-orange-800",
-      "footer": "SEAWATER IS SALTY BECAUSE RAIN AND RIVERS WASH TINY BITS OF DISSOLVED MINERALS FROM ROCKS INTO THE OCEAN, WHERE THE WATER EVAPORATES BUT MOST OF THE SALT STAYS BEHIND.",
-      "quiz": {
-          "question": "Where did all the salt in Earth's oceans originally come from?",
-          "options": [
-              "Rainwater gradually weathered minerals and sodium ions from rocks on land and washed them via rivers into the sea over billions of years 🧂",
-              "Salt was dumped by early sea ships ⛵",
-              "Underwater salt shakers 🌊",
-              "The ocean floor is made of pure table salt 🍽️"
-          ],
-          "correctIndex": 0,
-          "explanation": "Fascinating Earth history! Rain slightly weathers continental rocks, carrying dissolved mineral salts into the ocean, where evaporation leaves the salts behind."
-      }
+    "image": "/curious_whole_why_is_seawater_salty.png",
+    "bgColor": "border-orange-400",
+    "accentColor": "from-orange-400 via-amber-300 to-red-500",
+    "quizBg": "bg-orange-50 border-orange-200",
+    "quizText": "text-orange-950",
+    "quizBadge": "bg-orange-200 text-orange-800",
+    "footer": "SEAWATER IS SALTY BECAUSE RAIN AND RIVERS WASH TINY BITS OF DISSOLVED MINERALS FROM ROCKS INTO THE OCEAN, WHERE THE WATER EVAPORATES BUT MOST OF THE SALT STAYS BEHIND.",
+    "quiz": {
+      "question": "Where did all the salt in Earth's oceans originally come from?",
+      "options": [
+        "Rainwater gradually weathered minerals and sodium ions from rocks on land and washed them via rivers into the sea over billions of years 🧂",
+        "Salt was dumped by early sea ships ⛵",
+        "Underwater salt shakers 🌊",
+        "The ocean floor is made of pure table salt 🍽️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Fascinating Earth history! Rain slightly weathers continental rocks, carrying dissolved mineral salts into the ocean, where evaporation leaves the salts behind."
+    }
   },
   "why_is_the_sky_blue": {
-      "image": "/curious_why_is_the_sky_blue.png",
-      "bgColor": "border-sky-400",
-      "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
-      "quizBg": "bg-sky-50 border-sky-200",
-      "quizText": "text-sky-950",
-      "quizBadge": "bg-sky-200 text-sky-800",
-      "footer": "THE SKY LOOKS BLUE BECAUSE TINY BITS OF AIR SCATTER BLUE SUNLIGHT AROUND THE SKY MORE THAN MOST OTHER COLORS.",
-      "quiz": {
-          "question": "Why does the daytime sky appear bright blue instead of violet or red?",
-          "options": [
-              "Gases in Earth's atmosphere scatter short blue wavelengths of sunlight in every direction (Rayleigh Scattering) 🌌",
-              "The sky reflects the blue ocean water 🌊",
-              "Oxygen is naturally blue gas 🔵",
-              "Dust in the sky is colored blue 🫐"
-          ],
-          "correctIndex": 0,
-          "explanation": "Physics perfection! Blue light has shorter, smaller waves and is scattered much more by nitrogen and oxygen molecules than other colors of sunlight."
-      }
+    "image": "/curious_whole_why_is_the_sky_blue.png",
+    "bgColor": "border-sky-400",
+    "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+    "quizBg": "bg-sky-50 border-sky-200",
+    "quizText": "text-sky-950",
+    "quizBadge": "bg-sky-200 text-sky-800",
+    "footer": "THE SKY LOOKS BLUE BECAUSE TINY BITS OF AIR SCATTER BLUE SUNLIGHT AROUND THE SKY MORE THAN MOST OTHER COLORS.",
+    "quiz": {
+      "question": "Why does the daytime sky appear bright blue instead of violet or red?",
+      "options": [
+        "Gases in Earth's atmosphere scatter short blue wavelengths of sunlight in every direction (Rayleigh Scattering) 🌌",
+        "The sky reflects the blue ocean water 🌊",
+        "Oxygen is naturally blue gas 🔵",
+        "Dust in the sky is colored blue 🫐"
+      ],
+      "correctIndex": 0,
+      "explanation": "Physics perfection! Blue light has shorter, smaller waves and is scattered much more by nitrogen and oxygen molecules than other colors of sunlight."
+    }
   }
 };
