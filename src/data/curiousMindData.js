@@ -911,6 +911,222 @@ export const TOPICS = [
     "title": "Why is the sky blue?",
     "category": "physics_everyday",
     "cardImage": "/curious_why_is_the_sky_blue.png"
+  },
+  {
+    "id": "why_are_stars_different_colours",
+    "title": "Why are stars different colours?",
+    "category": "space",
+    "cardImage": "/curious_why_are_stars_different_colours.png"
+  },
+  {
+    "id": "why_can_rockets_work_in_space",
+    "title": "Why can rockets work in space?",
+    "category": "space",
+    "cardImage": "/curious_why_can_rockets_work_in_space.png"
+  },
+  {
+    "id": "why_cant_light_escape_a_black_hole",
+    "title": "Why can't light escape a black hole?",
+    "category": "space",
+    "cardImage": "/curious_why_cant_light_escape_a_black_hole.png"
+  },
+  {
+    "id": "why_do_astronauts_float",
+    "title": "Why do astronauts float?",
+    "category": "space",
+    "cardImage": "/curious_why_do_astronauts_float.png"
+  },
+  {
+    "id": "why_do_astronauts_wear_spacesuits",
+    "title": "Why do astronauts wear spacesuits?",
+    "category": "space",
+    "cardImage": "/curious_why_do_astronauts_wear_spacesuits.png"
+  },
+  {
+    "id": "why_do_auroras_happen",
+    "title": "Why do auroras happen?",
+    "category": "space",
+    "cardImage": "/curious_why_do_auroras_happen.png"
+  },
+  {
+    "id": "why_do_black_holes_form",
+    "title": "Why do black holes form?",
+    "category": "space",
+    "cardImage": "/curious_why_do_black_holes_form.png"
+  },
+  {
+    "id": "why_do_comets_have_tails",
+    "title": "Why do comets have tails?",
+    "category": "space",
+    "cardImage": "/curious_why_do_comets_have_tails.png"
+  },
+  {
+    "id": "why_do_lunar_eclipses_happen",
+    "title": "Why do lunar eclipses happen?",
+    "category": "space",
+    "cardImage": "/curious_why_do_lunar_eclipses_happen.png"
+  },
+  {
+    "id": "why_do_meteors_glow",
+    "title": "Why do meteors glow?",
+    "category": "space",
+    "cardImage": "/curious_why_do_meteors_glow.png"
+  },
+  {
+    "id": "why_do_rockets_need_so_much_fuel",
+    "title": "Why do rockets need so much fuel?",
+    "category": "space",
+    "cardImage": "/curious_why_do_rockets_need_so_much_fuel.png"
+  },
+  {
+    "id": "why_do_satellites_stay_in_orbit",
+    "title": "Why do satellites stay in orbit?",
+    "category": "space",
+    "cardImage": "/curious_why_do_satellites_stay_in_orbit.png"
+  },
+  {
+    "id": "why_do_solar_eclipses_happen",
+    "title": "Why do solar eclipses happen?",
+    "category": "space",
+    "cardImage": "/curious_why_do_solar_eclipses_happen.png"
+  },
+  {
+    "id": "why_do_stars_eventually_die",
+    "title": "Why do stars eventually die?",
+    "category": "space",
+    "cardImage": "/curious_why_do_stars_eventually_die.png"
+  },
+  {
+    "id": "why_do_stars_twinkle",
+    "title": "Why do stars twinkle?",
+    "category": "space",
+    "cardImage": "/curious_why_do_stars_twinkle.png"
+  },
+  {
+    "id": "why_do_telescopes_let_us_see_into_the_past",
+    "title": "Why do telescopes let us see into the past?",
+    "category": "space",
+    "cardImage": "/curious_why_do_telescopes_let_us_see_into_the_past.png"
+  },
+  {
+    "id": "why_do_we_have_seasons",
+    "title": "Why do we have seasons?",
+    "category": "space",
+    "cardImage": "/curious_why_do_we_have_seasons.png"
+  },
+  {
+    "id": "why_does_earth_orbit_the_sun",
+    "title": "Why does Earth orbit the Sun?",
+    "category": "space",
+    "cardImage": "/curious_why_does_earth_orbit_the_sun.png"
+  },
+  {
+    "id": "why_does_gravity_exist",
+    "title": "Why does gravity exist?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_does_gravity_exist.png"
+  },
+  {
+    "id": "why_does_saturn_have_rings",
+    "title": "Why does Saturn have rings?",
+    "category": "space",
+    "cardImage": "/curious_why_does_saturn_have_rings.png"
+  },
+  {
+    "id": "why_does_the_moon_cause_tides",
+    "title": "Why does the Moon cause tides?",
+    "category": "space",
+    "cardImage": "/curious_why_does_the_moon_cause_tides.png"
+  },
+  {
+    "id": "why_does_the_moon_change_shape",
+    "title": "Why does the Moon change shape?",
+    "category": "space",
+    "cardImage": "/curious_why_does_the_moon_change_shape.png"
+  },
+  {
+    "id": "why_does_the_moon_have_craters",
+    "title": "Why does the Moon have craters?",
+    "category": "space",
+    "cardImage": "/curious_why_does_the_moon_have_craters.png"
+  },
+  {
+    "id": "why_does_the_moon_shine",
+    "title": "Why does the Moon shine?",
+    "category": "space",
+    "cardImage": "/curious_why_does_the_moon_shine.png"
+  },
+  {
+    "id": "why_does_uranus_rotate_on_its_side",
+    "title": "Why does Uranus rotate on its side?",
+    "category": "space",
+    "cardImage": "/curious_why_does_uranus_rotate_on_its_side.png"
+  },
+  {
+    "id": "why_doesnt_earth_feel_like_it_is_spinning",
+    "title": "Why doesn't Earth feel like it is spinning?",
+    "category": "space",
+    "cardImage": "/curious_why_doesnt_earth_feel_like_it_is_spinning.png"
+  },
+  {
+    "id": "why_is_gravity_weaker_on_the_moon",
+    "title": "Why is gravity weaker on the Moon?",
+    "category": "space",
+    "cardImage": "/curious_why_is_gravity_weaker_on_the_moon.png"
+  },
+  {
+    "id": "why_is_jupiter_so_big",
+    "title": "Why is Jupiter so big?",
+    "category": "space",
+    "cardImage": "/curious_why_is_jupiter_so_big.png"
+  },
+  {
+    "id": "why_is_mars_red",
+    "title": "Why is Mars red?",
+    "category": "space",
+    "cardImage": "/curious_why_is_mars_red.png"
+  },
+  {
+    "id": "why_is_our_galaxy_called_the_milky_way",
+    "title": "Why is our galaxy called the Milky Way?",
+    "category": "space",
+    "cardImage": "/curious_why_is_our_galaxy_called_the_milky_way.png"
+  },
+  {
+    "id": "why_is_space_dark",
+    "title": "Why is space dark?",
+    "category": "space",
+    "cardImage": "/curious_why_is_space_dark.png"
+  },
+  {
+    "id": "why_is_space_silent",
+    "title": "Why is space silent?",
+    "category": "space",
+    "cardImage": "/curious_why_is_space_silent.png"
+  },
+  {
+    "id": "why_is_the_sun_so_hot",
+    "title": "Why is the Sun so hot?",
+    "category": "space",
+    "cardImage": "/curious_why_is_the_sun_so_hot.png"
+  },
+  {
+    "id": "why_is_the_universe_expanding",
+    "title": "Why is the universe expanding?",
+    "category": "space",
+    "cardImage": "/curious_why_is_the_universe_expanding.png"
+  },
+  {
+    "id": "why_is_there_day_and_night",
+    "title": "Why is there day and night?",
+    "category": "space",
+    "cardImage": "/curious_why_is_there_day_and_night.png"
+  },
+  {
+    "id": "why_is_venus_so_hot",
+    "title": "Why is Venus so hot?",
+    "category": "space",
+    "cardImage": "/curious_why_is_venus_so_hot.png"
   }
 ];
 
@@ -3713,6 +3929,726 @@ export const TOPIC_DETAILS = {
       ],
       "correctIndex": 0,
       "explanation": "Physics perfection! Blue light has shorter, smaller waves and is scattered much more by nitrogen and oxygen molecules than other colors of sunlight."
+    }
+  },
+  "why_are_stars_different_colours": {
+    "image": "/curious_whole_why_are_stars_different_colours.png",
+    "bgColor": "border-indigo-400",
+    "accentColor": "from-indigo-500 via-purple-400 to-blue-600",
+    "quizBg": "bg-indigo-50 border-indigo-200",
+    "quizText": "text-indigo-950",
+    "quizBadge": "bg-indigo-200 text-indigo-800",
+    "footer": "STARS ARE DIFFERENT COLOURS MAINLY BECAUSE THEIR SURFACES HAVE DIFFERENT TEMPERATURES, WITH HOTTER STARS LOOKING BLUE OR WHITE AND COOLER STARS LOOKING ORANGE OR RED.",
+    "quiz": {
+      "question": "What determines the actual colour of a glowing star in the night sky?",
+      "options": [
+        "Its surface temperature (blue is hottest, red is coolest) 🌟",
+        "The colour of space dust floating around it 🪐",
+        "How fast the star is spinning 🔄",
+        "Whether it has aliens living on it 👽"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! Just like a flame or hot metal, hotter stars glow vibrant blue and white (~10,000°C+), while cooler stars glow reddish-orange (~3,000°C)!"
+    }
+  },
+  "why_can_rockets_work_in_space": {
+    "image": "/curious_whole_why_can_rockets_work_in_space.png",
+    "bgColor": "border-violet-400",
+    "accentColor": "from-violet-500 via-fuchsia-400 to-purple-600",
+    "quizBg": "bg-violet-50 border-violet-200",
+    "quizText": "text-violet-950",
+    "quizBadge": "bg-violet-200 text-violet-800",
+    "footer": "ROCKETS CAN WORK IN SPACE BECAUSE THEY PUSH HOT GAS BACKWARD, AND THAT PUSH SENDS THE ROCKET FORWARD EVEN WHEN THERE IS NO AIR.",
+    "quiz": {
+      "question": "How do rocket engines accelerate in the empty vacuum of space with no air to push against?",
+      "options": [
+        "Newton's Third Law: blasting hot exhaust gas backward pushes the rocket forward 🚀",
+        "They pull themselves with space magnets 🧲",
+        "Solar wind blows their sails ⛵",
+        "They push against the gravity of the Moon 🌙"
+      ],
+      "correctIndex": 0,
+      "explanation": "Physics champion! For every action there is an equal and opposite reaction. By expelling high-speed exhaust gas backward, the rocket is propelled forward!"
+    }
+  },
+  "why_cant_light_escape_a_black_hole": {
+    "image": "/curious_whole_why_cant_light_escape_a_black_hole.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-500 via-cyan-400 to-indigo-600",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "LIGHT CANNOT ESCAPE FROM INSIDE A BLACK HOLE’S EVENT HORIZON BECAUSE THE BLACK HOLE’S GRAVITY CURVES SPACE SO STRONGLY THAT EVERY POSSIBLE PATH LEADS INWARD.",
+    "quiz": {
+      "question": "Why is light unable to escape from beyond a black hole's event horizon?",
+      "options": [
+        "The gravitational pull curves spacetime so intensely that the escape velocity exceeds the speed of light 🕳️",
+        "Black holes absorb colors and turn light off 💡",
+        "Light gets frozen into solid ice 🧊",
+        "Space dust blocks the light rays 🌫️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Mind-bending astrophysics! Inside the event horizon, gravity curves spacetime so severely that all paths lead inward—even light travelling at 300,000 km/s cannot escape!"
+    }
+  },
+  "why_do_astronauts_float": {
+    "image": "/curious_whole_why_do_astronauts_float.png",
+    "bgColor": "border-sky-400",
+    "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+    "quizBg": "bg-sky-50 border-sky-200",
+    "quizText": "text-sky-950",
+    "quizBadge": "bg-sky-200 text-sky-800",
+    "footer": "ASTRONAUTS FLOAT BECAUSE THEIR SPACECRAFT AND EVERYTHING INSIDE IT ARE FALLING AROUND EARTH TOGETHER, CREATING A FEELING CALLED MICROGRAVITY.",
+    "quiz": {
+      "question": "Why do astronauts float weightlessly inside the International Space Station (ISS)?",
+      "options": [
+        "They are in constant freefall as the station orbits around Earth 🛰️",
+        "There is zero gravity in space 🌌",
+        "The ISS is filled with helium gas 🎈",
+        "Their spacesuits repel gravity 🧲"
+      ],
+      "correctIndex": 0,
+      "explanation": "Fascinating! Earth's gravity is still ~90% as strong at ISS altitude, but because the station and astronauts are falling around Earth at ~28,000 km/h, they experience continuous freefall!"
+    }
+  },
+  "why_do_astronauts_wear_spacesuits": {
+    "image": "/curious_whole_why_do_astronauts_wear_spacesuits.png",
+    "bgColor": "border-purple-400",
+    "accentColor": "from-purple-500 via-pink-400 to-indigo-600",
+    "quizBg": "bg-purple-50 border-purple-200",
+    "quizText": "text-purple-950",
+    "quizBadge": "bg-purple-200 text-purple-800",
+    "footer": "ASTRONAUTS WEAR SPACESUITS BECAUSE SPACE HAS NO AIR TO BREATHE, IS EXTREMELY HOT OR COLD, AND CAN BE DANGEROUS FROM TINY FAST-MOVING BITS OF ROCK AND STRONG SUNLIGHT.",
+    "quiz": {
+      "question": "Why is a spacesuit essential for astronauts performing a spacewalk outside the spacecraft?",
+      "options": [
+        "It provides oxygen, air pressure, thermal protection, and radiation shielding in the harsh vacuum 👨‍🚀",
+        "It is just a fashionable astronaut uniform 🥼",
+        "To make them look bigger to space creatures 👾",
+        "To help them swim through dark matter 🏊"
+      ],
+      "correctIndex": 0,
+      "explanation": "Vital survival gear! Space has no breathable air, zero air pressure, extreme temperatures (-150°C to +120°C), and hazardous cosmic radiation."
+    }
+  },
+  "why_do_auroras_happen": {
+    "image": "/curious_whole_why_do_auroras_happen.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "AURORAS HAPPEN WHEN TINY PARTICLES FROM THE SUN TRAVEL ALONG EARTH’S MAGNETIC FIELD AND BUMP INTO GASES HIGH IN THE SKY, MAKING THEM GLOW WITH COLORFUL LIGHT.",
+    "quiz": {
+      "question": "What creates the shimmering green and purple Northern/Southern Lights (Auroras)?",
+      "options": [
+        "Charged solar wind particles colliding with oxygen and nitrogen in Earth's upper atmosphere 🌌",
+        "Sunlight reflecting off polar ice sheets ❄️",
+        "City lights bouncing off high storm clouds 🏙️",
+        "Underground volcanic glow in polar regions 🌋"
+      ],
+      "correctIndex": 0,
+      "explanation": "Breathtaking science! Solar wind particles funnelled along Earth's magnetic field collide with atmospheric gases, energizing them to emit colourful glow!"
+    }
+  },
+  "why_do_black_holes_form": {
+    "image": "/curious_whole_why_do_black_holes_form.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "BLACK HOLES CAN FORM WHEN A VERY MASSIVE STAR RUNS OUT OF FUEL AND ITS CORE COLLAPSES UNDER ITS OWN POWERFUL GRAVITY.",
+    "quiz": {
+      "question": "What astronomical event can trigger the birth of a stellar-mass black hole?",
+      "options": [
+        "A massive dying star collapses under its own crushing gravity during a supernova explosion 💥",
+        "Two asteroids crash into each other ☄️",
+        "A planet freezes solid 🪐",
+        "Space runs out of dark matter 🌌"
+      ],
+      "correctIndex": 0,
+      "explanation": "Correct! When a giant star (over 20x the mass of our Sun) runs out of nuclear fuel, its core violently collapses into an infinitely dense singularity."
+    }
+  },
+  "why_do_comets_have_tails": {
+    "image": "/curious_whole_why_do_comets_have_tails.png",
+    "bgColor": "border-indigo-400",
+    "accentColor": "from-indigo-500 via-purple-400 to-blue-600",
+    "quizBg": "bg-indigo-50 border-indigo-200",
+    "quizText": "text-indigo-950",
+    "quizBadge": "bg-indigo-200 text-indigo-800",
+    "footer": "COMETS GROW GLOWING TAILS WHEN SUNLIGHT WARMS THEIR ICY SURFACES, RELEASING GAS AND DUST THAT THE SUN’S LIGHT AND SOLAR WIND PUSH AWAY.",
+    "quiz": {
+      "question": "Why does a comet develop glowing tails as it nears the Sun?",
+      "options": [
+        "Solar heat vaporizes icy ices and dust, which solar radiation and wind push away from the Sun ☄️",
+        "Comet engines turning on 🚀",
+        "Friction with space air 🔥",
+        "The comet burning up like coal 🪵"
+      ],
+      "correctIndex": 0,
+      "explanation": "Awesome! The Sun's warmth turns frozen gases into glowing vapor (coma), while solar wind blows the gas and dust into glowing tails millions of kilometers long!"
+    }
+  },
+  "why_do_lunar_eclipses_happen": {
+    "image": "/curious_whole_why_do_lunar_eclipses_happen.png",
+    "bgColor": "border-violet-400",
+    "accentColor": "from-violet-500 via-fuchsia-400 to-purple-600",
+    "quizBg": "bg-violet-50 border-violet-200",
+    "quizText": "text-violet-950",
+    "quizBadge": "bg-violet-200 text-violet-800",
+    "footer": "A LUNAR ECLIPSE HAPPENS WHEN EARTH MOVES BETWEEN THE SUN AND THE MOON, CAUSING EARTH’S SHADOW TO FALL ON THE MOON.",
+    "quiz": {
+      "question": "What celestial alignment creates a lunar eclipse (and turns the Moon reddish-orange)?",
+      "options": [
+        "Earth moves directly between the Sun and the Moon, casting Earth's shadow across the Moon 🌕",
+        "The Moon passes between the Earth and Sun 🌑",
+        "Mars blocks the Sun's light 🔴",
+        "A giant space cloud covers the Moon ☁️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot on! During a lunar eclipse, Earth blocks direct sunlight. Sunlight filtered through Earth's atmospheric ring refracts onto the Moon, giving it a blood-red glow."
+    }
+  },
+  "why_do_meteors_glow": {
+    "image": "/curious_whole_why_do_meteors_glow.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-500 via-cyan-400 to-indigo-600",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "METEORS GLOW BECAUSE TINY PIECES OF SPACE ROCK HEAT UP THE AIR IN FRONT OF THEM AS THEY RACE THROUGH EARTH’S ATMOSPHERE, MAKING THE AIR AND METEOR SHINE.",
+    "quiz": {
+      "question": "What causes a shooting star (meteor) to streak brilliantly across the night sky?",
+      "options": [
+        "Extreme ram pressure compression heats the air ahead of the speeding meteoroid until it glows incandescently 🌠",
+        "The meteor is a burning piece of the Sun ☀️",
+        "Lightning strikes the space rock ⚡",
+        "The meteor is covered in glow-in-the-dark paint 🎨"
+      ],
+      "correctIndex": 0,
+      "explanation": "Physics truth! Entering Earth's atmosphere at speeds up to 72 km/s compresses air molecules into superheated plasma that vaporizes the meteor in a flash of light!"
+    }
+  },
+  "why_do_rockets_need_so_much_fuel": {
+    "image": "/curious_whole_why_do_rockets_need_so_much_fuel.png",
+    "bgColor": "border-sky-400",
+    "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+    "quizBg": "bg-sky-50 border-sky-200",
+    "quizText": "text-sky-950",
+    "quizBadge": "bg-sky-200 text-sky-800",
+    "footer": "ROCKETS NEED SO MUCH FUEL BECAUSE THEY MUST PUSH THEMSELVES, THEIR PASSENGERS, AND ALL THEIR FUEL HARD ENOUGH TO ESCAPE EARTH'S STRONG GRAVITY AND SPEED THROUGH SPACE.",
+    "quiz": {
+      "question": "Why does fuel make up over 90% of a rocket's total launch mass?",
+      "options": [
+        "Overcoming Earth's gravity to reach orbital speed (~28,000 km/h) requires lifting the heavy fuel needed for later stages (Tsiolkovsky rocket equation) 🚀",
+        "Fuel tanks are used as passenger seating 🪑",
+        "Rockets need extra fuel to float on water 🌊",
+        "Most fuel evaporates before launch ⏳"
+      ],
+      "correctIndex": 0,
+      "explanation": "The tyranny of the rocket equation! To lift heavy fuel off the launch pad, you need even more fuel, making propellant the vast majority of a rocket's takeoff weight."
+    }
+  },
+  "why_do_satellites_stay_in_orbit": {
+    "image": "/curious_whole_why_do_satellites_stay_in_orbit.png",
+    "bgColor": "border-purple-400",
+    "accentColor": "from-purple-500 via-pink-400 to-indigo-600",
+    "quizBg": "bg-purple-50 border-purple-200",
+    "quizText": "text-purple-950",
+    "quizBadge": "bg-purple-200 text-purple-800",
+    "footer": "SATELLITES STAY IN ORBIT BECAUSE GRAVITY PULLS THEM TOWARD EARTH WHILE THEIR FAST SIDEWAYS MOTION KEEPS THEM CONTINUALLY FALLING AROUND EARTH INSTEAD OF CRASHING DOWN.",
+    "quiz": {
+      "question": "What keeps satellites in continuous orbit without falling down to Earth or flying off into space?",
+      "options": [
+        "A perfect balance between the satellite's forward orbital velocity and Earth's downward gravitational pull 🛰️",
+        "Powerful rocket thrusters burning 24/7 🔥",
+        "Giant cables tied to the International Space Station 🪢",
+        "Helium balloons attached to solar panels 🎈"
+      ],
+      "correctIndex": 0,
+      "explanation": "Newton's cannonball in action! Satellites move sideways so fast (~8 km/s) that as gravity pulls them down, Earth's surface curves away at the exact same rate!"
+    }
+  },
+  "why_do_solar_eclipses_happen": {
+    "image": "/curious_whole_why_do_solar_eclipses_happen.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "A SOLAR ECLIPSE HAPPENS WHEN THE MOON MOVES BETWEEN EARTH AND THE SUN AND BLOCKS SOME OR ALL OF THE SUN'S LIGHT FOR PEOPLE IN CERTAIN PLACES ON EARTH.",
+    "quiz": {
+      "question": "Why does the daytime sky darken dramatically during a total solar eclipse?",
+      "options": [
+        "The Moon passes directly between the Sun and Earth, completely blocking the Sun's bright disk 🌑",
+        "The Sun turns off its light for a few minutes ☀️",
+        "A storm cloud covers the whole planet ⛈️",
+        "Earth turns away from the Sun 🔄"
+      ],
+      "correctIndex": 0,
+      "explanation": "Cosmic coincidence! By incredible geometry, the Moon is ~400 times smaller than the Sun but also ~400 times closer, allowing it to cover the solar disk perfectly!"
+    }
+  },
+  "why_do_stars_eventually_die": {
+    "image": "/curious_whole_why_do_stars_eventually_die.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "STARS EVENTUALLY DIE BECAUSE THEY USE UP THE FUEL IN THEIR CORES THAT MAKES THEM SHINE, AND WHAT HAPPENS NEXT DEPENDS ON HOW MASSIVE THE STAR IS.",
+    "quiz": {
+      "question": "What causes a shining star to reach the end of its life cycle?",
+      "options": [
+        "It exhausts its core nuclear hydrogen fuel, disrupting the balance between gravity and outward fusion pressure 🌟",
+        "It gets too cold from space wind ❄️",
+        "Black holes eat every star on a timer ⏰",
+        "The star falls off the galaxy edge 🌌"
+      ],
+      "correctIndex": 0,
+      "explanation": "Astrophysical lifecycle! Stars sustain themselves by fusing hydrogen into helium. Once fuel runs out, gravity wins, causing the star to expand into a giant or explode as a supernova."
+    }
+  },
+  "why_do_stars_twinkle": {
+    "image": "/curious_whole_why_do_stars_twinkle.png",
+    "bgColor": "border-indigo-400",
+    "accentColor": "from-indigo-500 via-purple-400 to-blue-600",
+    "quizBg": "bg-indigo-50 border-indigo-200",
+    "quizText": "text-indigo-950",
+    "quizBadge": "bg-indigo-200 text-indigo-800",
+    "footer": "STARS TWINKLE BECAUSE THEIR LIGHT BENDS AND WIGGLES AS IT TRAVELS THROUGH EARTH’S MOVING AIR BEFORE REACHING OUR EYES.",
+    "quiz": {
+      "question": "Why do stars appear to twinkle (scintillate) when viewed from the ground?",
+      "options": [
+        "Shifting layers of warm and cool air in Earth's atmosphere constantly bend (refract) the pinpoint starlight 🌟",
+        "Stars turn on and off rapidly ✨",
+        "Planets are passing in front of them 🪐",
+        "Our eyes blink at the same frequency 👁️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Atmospheric turbulence! As tiny pinpricks of starlight pass through Earth's moving atmospheric layers, the light ray bends slightly, causing the twinkling effect!"
+    }
+  },
+  "why_do_telescopes_let_us_see_into_the_past": {
+    "image": "/curious_whole_why_do_telescopes_let_us_see_into_the_past.png",
+    "bgColor": "border-violet-400",
+    "accentColor": "from-violet-500 via-fuchsia-400 to-purple-600",
+    "quizBg": "bg-violet-50 border-violet-200",
+    "quizText": "text-violet-950",
+    "quizBadge": "bg-violet-200 text-violet-800",
+    "footer": "TELESCOPES LET US SEE INTO THE PAST BECAUSE LIGHT TAKES TIME TO TRAVEL THROUGH SPACE, SO THE LIGHT ARRIVING AT A TELESCOPE BEGAN ITS JOURNEY LONG AGO.",
+    "quiz": {
+      "question": "Why is looking at distant galaxies through a telescope effectively looking back in time?",
+      "options": [
+        "Light travels at a finite speed (300,000 km/s), so light from distant objects took millions or billions of years to reach us 🔭",
+        "Telescopes have time-travel mirrors ⏳",
+        "Space stores old movie recordings 🎬",
+        "Gravity rewinds clock time ⏰"
+      ],
+      "correctIndex": 0,
+      "explanation": "Cosmic time machine! When you look at the Andromeda Galaxy (2.5 million light-years away), you are seeing light that left that galaxy 2.5 million years ago!"
+    }
+  },
+  "why_do_we_have_seasons": {
+    "image": "/curious_whole_why_do_we_have_seasons.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-500 via-cyan-400 to-indigo-600",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "WE HAVE SEASONS BECAUSE EARTH IS TILTED AS IT TRAVELS AROUND THE SUN, SO DIFFERENT PARTS OF OUR PLANET RECEIVE MORE DIRECT SUNLIGHT AT DIFFERENT TIMES OF YEAR.",
+    "quiz": {
+      "question": "What is the primary cause of changing seasons (Spring, Summer, Autumn, Winter) on Earth?",
+      "options": [
+        "Earth's permanent 23.5° axial tilt as it orbits around the Sun 🌍",
+        "Earth moving closer and further from the Sun ☀️",
+        "Sunspots changing temperature 🔥",
+        "Ocean tides flipping direction 🌊"
+      ],
+      "correctIndex": 0,
+      "explanation": "Great job! Because Earth is tilted on its axis, the hemisphere tilted toward the Sun receives more direct sunlight and longer days, creating summer!"
+    }
+  },
+  "why_does_earth_orbit_the_sun": {
+    "image": "/curious_whole_why_does_earth_orbit_the_sun.png",
+    "bgColor": "border-sky-400",
+    "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+    "quizBg": "bg-sky-50 border-sky-200",
+    "quizText": "text-sky-950",
+    "quizBadge": "bg-sky-200 text-sky-800",
+    "footer": "EARTH ORBITS THE SUN BECAUSE THE SUN'S GRAVITY PULLS EARTH INWARD WHILE EARTH IS MOVING SIDEWAYS FAST ENOUGH TO KEEP MISSING THE SUN.",
+    "quiz": {
+      "question": "Why does Earth revolve around the massive Sun instead of the other way around?",
+      "options": [
+        "The Sun contains 99.8% of the solar system's mass, warping spacetime and pulling planets along orbital paths ☀️",
+        "Solar wind pushes Earth around in circles 💨",
+        "Magnetic poles pull the planet 🧲",
+        "Earth is pushed by the Moon's gravity 🌙"
+      ],
+      "correctIndex": 0,
+      "explanation": "Gravity rules the cosmos! The Sun's colossal mass dominates the solar system's gravitational field, keeping all planets orbiting in stable elliptical paths."
+    }
+  },
+  "why_does_gravity_exist": {
+    "image": "/curious_whole_why_does_gravity_exist.png",
+    "bgColor": "border-purple-400",
+    "accentColor": "from-purple-500 via-pink-400 to-indigo-600",
+    "quizBg": "bg-purple-50 border-purple-200",
+    "quizText": "text-purple-950",
+    "quizBadge": "bg-purple-200 text-purple-800",
+    "footer": "GRAVITY EXISTS BECAUSE EVERYTHING WITH MASS BENDS SPACE AND TIME AROUND IT, MAKING OTHER OBJECTS MOVE TOWARD IT.",
+    "quiz": {
+      "question": "How does Einstein's General Relativity explain the existence of gravity?",
+      "options": [
+        "Mass and energy warp and curve the fabric of four-dimensional spacetime 🌌",
+        "Invisible rubber bands pull matter together 🧶",
+        "Magnets embedded inside all atoms 🧲",
+        "Air pressure pushing down from space 💨"
+      ],
+      "correctIndex": 0,
+      "explanation": "Einstein's masterpiece! Matter tells spacetime how to curve, and curved spacetime tells matter how to move—what we feel as gravity is objects following curved spacetime paths."
+    }
+  },
+  "why_does_saturn_have_rings": {
+    "image": "/curious_whole_why_does_saturn_have_rings.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "SATURN HAS RINGS BECAUSE COUNTLESS PIECES OF ICE, ROCK, AND DUST ARE TRAPPED IN ORBIT AROUND THE PLANET BY ITS STRONG GRAVITY.",
+    "quiz": {
+      "question": "What are the spectacular rings of Saturn primarily composed of?",
+      "options": [
+        "Billions of chunks of water ice and rock from shattered comets, asteroids, and shattered icy moons 🪐",
+        "Solid sheets of shiny metal ⚙️",
+        "Glowing gases trapped in magnetic fields ⚡",
+        "Rainbow crystal glass 🌈"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spectacular planetary science! Saturn's rings are made of countess icy particles ranging from tiny pebbles to house-sized boulders held in thin orbital planes."
+    }
+  },
+  "why_does_the_moon_cause_tides": {
+    "image": "/curious_whole_why_does_the_moon_cause_tides.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "THE MOON’S GRAVITY PULLS MORE STRONGLY ON THE SIDE OF EARTH CLOSEST TO IT AND A LITTLE LESS STRONGLY ON THE FAR SIDE, CREATING TWO OCEAN BULGES THAT MOVE AROUND EARTH AS IT SPINS.",
+    "quiz": {
+      "question": "How does the Moon produce high and low ocean tides on Earth?",
+      "options": [
+        "The Moon's gravitational differential pulls on Earth's oceans, creating tidal bulges on near and far sides 🌊",
+        "The Moon's magnetic field lifts water 🧲",
+        "Moonlight warms coastal waters 🌕",
+        "Whales migrate with the Moon 🐋"
+      ],
+      "correctIndex": 0,
+      "explanation": "Tidal physics! The Moon pulls slightly harder on the water facing it, and pulls the Earth away from the water on the opposite side, creating two high tides every day."
+    }
+  },
+  "why_does_the_moon_change_shape": {
+    "image": "/curious_whole_why_does_the_moon_change_shape.png",
+    "bgColor": "border-indigo-400",
+    "accentColor": "from-indigo-500 via-purple-400 to-blue-600",
+    "quizBg": "bg-indigo-50 border-indigo-200",
+    "quizText": "text-indigo-950",
+    "quizBadge": "bg-indigo-200 text-indigo-800",
+    "footer": "THE MOON SEEMS TO CHANGE SHAPE BECAUSE, AS IT TRAVELS AROUND EARTH, WE SEE DIFFERENT AMOUNTS OF ITS SUNLIT HALF.",
+    "quiz": {
+      "question": "Why does the Moon appear in different phases (crescent, half, gibbous, full) throughout the month?",
+      "options": [
+        "As the Moon orbits Earth, we see varying portions of its sunlit half from our vantage point 🌖",
+        "Earth's shadow covers different pieces every night 🌑",
+        "The Moon expands and shrinks in size 🎈",
+        "Clouds carve the Moon into shapes ☁️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Orbital perspective! Half of the Moon is always illuminated by the Sun. As the Moon circles Earth every 29.5 days, our viewing angle changes."
+    }
+  },
+  "why_does_the_moon_have_craters": {
+    "image": "/curious_whole_why_does_the_moon_have_craters.png",
+    "bgColor": "border-violet-400",
+    "accentColor": "from-violet-500 via-fuchsia-400 to-purple-600",
+    "quizBg": "bg-violet-50 border-violet-200",
+    "quizText": "text-violet-950",
+    "quizBadge": "bg-violet-200 text-violet-800",
+    "footer": "THE MOON HAS CRATERS BECAUSE SPACE ROCKS CALLED METEOROIDS CRASH INTO ITS SURFACE, MAKING BOWL-SHAPED HOLES.",
+    "quiz": {
+      "question": "Why is the Moon's surface scarred with millions of preserved impact craters while Earth has very few?",
+      "options": [
+        "The Moon has no atmosphere, liquid water, or plate tectonics to erode or erase impact scars 🌕",
+        "The Moon was shot with cosmic lasers ⚡",
+        "Moon craters are volcanic hot tubs ♨️",
+        "Ancient humans mined the Moon ⛏️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Preserved cosmic history! Without rain, wind, vegetation, or active volcanoes to resurface the landscape, impact craters on the Moon remain virtually unchanged for billions of years."
+    }
+  },
+  "why_does_the_moon_shine": {
+    "image": "/curious_whole_why_does_the_moon_shine.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-500 via-cyan-400 to-indigo-600",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "THE MOON SHINES BECAUSE SUNLIGHT HITS ITS ROCKY SURFACE AND BOUNCES BACK TOWARD OUR EYES.",
+    "quiz": {
+      "question": "Where does the glowing silvery light of the night Moon come from?",
+      "options": [
+        "The Moon reflects sunlight bouncing off its pale, dusty surface like a giant mirror 🌕",
+        "The Moon generates its own nuclear light 💡",
+        "Phosphorescent minerals glowing in the dark ✨",
+        "Electricity discharging on the lunar regolith ⚡"
+      ],
+      "correctIndex": 0,
+      "explanation": "Reflected glory! The Moon has no internal light source; it reflects about 12% of the sunlight striking its powdery rock surface (lunar regolith)."
+    }
+  },
+  "why_does_uranus_rotate_on_its_side": {
+    "image": "/curious_whole_why_does_uranus_rotate_on_its_side.png",
+    "bgColor": "border-sky-400",
+    "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+    "quizBg": "bg-sky-50 border-sky-200",
+    "quizText": "text-sky-950",
+    "quizBadge": "bg-sky-200 text-sky-800",
+    "footer": "URANUS PROBABLY ROTATES ON ITS SIDE BECAUSE, LONG AGO, ONE OR MORE HUGE SPACE OBJECTS CRASHED INTO IT AND TIPPED THE YOUNG PLANET OVER.",
+    "quiz": {
+      "question": "Why does the ice giant Uranus rotate on an extreme 98° tilt, essentially rolling like a ball around the Sun?",
+      "options": [
+        "A massive ancient collision with an Earth-sized protoplanet knocked it on its side billions of years ago 🪐",
+        "Strong gravitational tugs from Neptune 🌊",
+        "Its rings pulled it over 💫",
+        "Solar winds tilted its magnetic poles 💨"
+      ],
+      "correctIndex": 0,
+      "explanation": "Giant cosmic impact! Scientists believe a cataclysmic collision with a protoplanet early in solar system history tilted Uranus permanently on its side."
+    }
+  },
+  "why_doesnt_earth_feel_like_it_is_spinning": {
+    "image": "/curious_whole_why_doesnt_earth_feel_like_it_is_spinning.png",
+    "bgColor": "border-purple-400",
+    "accentColor": "from-purple-500 via-pink-400 to-indigo-600",
+    "quizBg": "bg-purple-50 border-purple-200",
+    "quizText": "text-purple-950",
+    "quizBadge": "bg-purple-200 text-purple-800",
+    "footer": "EARTH SPINS SO SMOOTHLY AND WE, THE AIR, AND EVERYTHING AROUND US MOVE WITH IT, SO OUR BODIES DO NOT FEEL THE STEADY MOTION.",
+    "quiz": {
+      "question": "Why don't we feel Earth spinning at over 1,600 km/h at the equator?",
+      "options": [
+        "Earth spins at a constant speed, and everything around us (including the atmosphere) moves along together smoothly 🌍",
+        "Gravity cancels all rotation forces 🧲",
+        "Earth only spins when humans are asleep 😴",
+        "The core spins backward to balance it ⚙️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Inertial frame of reference! Just like being on a smoothly cruising high-speed airplane, you only feel acceleration (changes in speed or direction), not constant smooth motion!"
+    }
+  },
+  "why_is_gravity_weaker_on_the_moon": {
+    "image": "/curious_whole_why_is_gravity_weaker_on_the_moon.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "GRAVITY IS WEAKER ON THE MOON BECAUSE THE MOON HAS MUCH LESS MASS THAN EARTH, SO IT PULLS ON PEOPLE AND OBJECTS LESS STRONGLY.",
+    "quiz": {
+      "question": "Why can astronauts jump so much higher on the Moon than on Earth?",
+      "options": [
+        "The Moon has only about 1/80th of Earth's mass, creating a surface gravity that is just 1/6th as strong 🌕",
+        "Moon dust is bouncy like rubber 🥾",
+        "There is no air pushing down on them 💨",
+        "Spacesuits are filled with helium 🎈"
+      ],
+      "correctIndex": 0,
+      "explanation": "Mass equals gravity! Because the Moon is significantly smaller and less massive than Earth, its gravitational pull is only 1.62 m/s² (~16.6% of Earth's gravity)."
+    }
+  },
+  "why_is_jupiter_so_big": {
+    "image": "/curious_whole_why_is_jupiter_so_big.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "JUPITER BECAME SO BIG BECAUSE, EARLY IN THE SOLAR SYSTEM, IT FORMED FAR FROM THE SUN WHERE LOTS OF GAS AND ICY MATERIAL WERE AVAILABLE FOR ITS STRONG GRAVITY TO GATHER.",
+    "quiz": {
+      "question": "How did Jupiter grow to become more massive than all other planets in our solar system combined?",
+      "options": [
+        "It formed early beyond the frost line where abundant ices and gases allowed it to rapidly accrete a colossal gas envelope 🪐",
+        "It swallowed four other giant planets ☄️",
+        "Its core is made of solid gold 🪙",
+        "Solar radiation blew extra gas onto it ☀️"
+      ],
+      "correctIndex": 0,
+      "explanation": "King of the planets! Outside the solar frost line, water ice was plentiful, allowing Jupiter's icy core to grow rapidly to ~10 Earth masses and vacuum up hydrogen and helium gas!"
+    }
+  },
+  "why_is_mars_red": {
+    "image": "/curious_whole_why_is_mars_red.png",
+    "bgColor": "border-indigo-400",
+    "accentColor": "from-indigo-500 via-purple-400 to-blue-600",
+    "quizBg": "bg-indigo-50 border-indigo-200",
+    "quizText": "text-indigo-950",
+    "quizBadge": "bg-indigo-200 text-indigo-800",
+    "footer": "MARS LOOKS RED BECAUSE ITS ROCKS AND DUST CONTAIN LOTS OF IRON OXIDE, OR RUST, WHICH GIVES THE PLANET A REDDISH-ORANGE COLOR.",
+    "quiz": {
+      "question": "What gives the Red Planet Mars its distinctive rusty red hue?",
+      "options": [
+        "Iron-rich minerals in Martian soil have oxidized (rusted) over billions of years 🔴",
+        "Mars is covered in red lava lakes 🌋",
+        "Martian vegetation is red instead of green 🌿",
+        "Red sunlight from the sunset atmosphere 🌅"
+      ],
+      "correctIndex": 0,
+      "explanation": "Rusted world! The Martian surface is rich in iron minerals. Exposure to trace atmospheric oxidizers turned the iron into ferric oxide (rust), creating red dust!"
+    }
+  },
+  "why_is_our_galaxy_called_the_milky_way": {
+    "image": "/curious_whole_why_is_our_galaxy_called_the_milky_way.png",
+    "bgColor": "border-violet-400",
+    "accentColor": "from-violet-500 via-fuchsia-400 to-purple-600",
+    "quizBg": "bg-violet-50 border-violet-200",
+    "quizText": "text-violet-950",
+    "quizBadge": "bg-violet-200 text-violet-800",
+    "footer": "OUR GALAXY IS CALLED THE MILKY WAY BECAUSE, FROM EARTH, ITS MANY FARAWAY STARS BLEND TOGETHER AND LOOK LIKE A FAINT, MILKY-WHITE BAND ACROSS THE NIGHT SKY.",
+    "quiz": {
+      "question": "Why is our home galaxy known as the 'Milky Way'?",
+      "options": [
+        "From Earth, billions of distant unresolved stars blend together into a glowing milky river across the night sky 🌌",
+        "It is composed of crystallized milk 🥛",
+        "Ancient astronauts named it after cows 🐄",
+        "White cosmic dust tastes like vanilla 🍦"
+      ],
+      "correctIndex": 0,
+      "explanation": "Ancient wonder! Because we view our spiral galaxy edge-on from inside, the dense plane of billions of distant stars appears as a hazy, milky ribbon across dark skies."
+    }
+  },
+  "why_is_space_dark": {
+    "image": "/curious_whole_why_is_space_dark.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-500 via-cyan-400 to-indigo-600",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "SPACE LOOKS DARK BECAUSE THERE IS ALMOST NO AIR TO SCATTER SUNLIGHT, AND MOST OF SPACE HAS NO NEARBY STARS OR PLANETS SHINING INTO OUR EYES.",
+    "quiz": {
+      "question": "Why is deep space pitch black even though the universe is filled with trillions of glowing stars?",
+      "options": [
+        "Space is a near-perfect vacuum with almost no matter to scatter starlight, and the universe is expanding (Olbers' Paradox) 🌌",
+        "Stars only shine towards Earth 🔭",
+        "Space is painted black 🎨",
+        "Starlight burns out after 1 light-year 🕯️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Olbers' paradox solved! Earth's daytime sky is bright because air molecules scatter sunlight. In the vacuum of space, light travels directly without scattering, leaving empty space dark!"
+    }
+  },
+  "why_is_space_silent": {
+    "image": "/curious_whole_why_is_space_silent.png",
+    "bgColor": "border-sky-400",
+    "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+    "quizBg": "bg-sky-50 border-sky-200",
+    "quizText": "text-sky-950",
+    "quizBadge": "bg-sky-200 text-sky-800",
+    "footer": "SPACE IS SILENT BECAUSE SOUND NEEDS MATTER, SUCH AS AIR, WATER, OR SOLID OBJECTS, TO TRAVEL THROUGH, AND MOST OF SPACE IS ALMOST EMPTY.",
+    "quiz": {
+      "question": "Why is there no sound in the vacuum of deep space?",
+      "options": [
+        "Sound requires a physical medium (like air, water, or solid rock) of vibrating particles to transmit sound waves 🤫",
+        "Space is so large that sound gets lost 🌌",
+        "Stars absorb all sound frequencies 🌟",
+        "Astronauts wear earplugs 🎧"
+      ],
+      "correctIndex": 0,
+      "explanation": "Acoustics physics! Sound is a mechanical compression wave travelling through vibrating molecules. In the near-empty vacuum of space, with no molecules to vibrate, sound cannot travel!"
+    }
+  },
+  "why_is_the_sun_so_hot": {
+    "image": "/curious_whole_why_is_the_sun_so_hot.png",
+    "bgColor": "border-purple-400",
+    "accentColor": "from-purple-500 via-pink-400 to-indigo-600",
+    "quizBg": "bg-purple-50 border-purple-200",
+    "quizText": "text-purple-950",
+    "quizBadge": "bg-purple-200 text-purple-800",
+    "footer": "THE SUN IS SO HOT BECAUSE DEEP INSIDE IT, TINY HYDROGEN PARTICLES JOIN TOGETHER IN A PROCESS CALLED NUCLEAR FUSION, RELEASING ENORMOUS AMOUNTS OF ENERGY AS HEAT AND LIGHT.",
+    "quiz": {
+      "question": "What powers the Sun's blazing 15,000,000°C core temperature?",
+      "options": [
+        "Nuclear fusion fusing 600 million tons of hydrogen into helium every single second ☀️",
+        "Burning billions of tons of coal and wood 🔥",
+        "Friction from spinning rapidly 🔄",
+        "Chemical battery reactions in the corona 🔋"
+      ],
+      "correctIndex": 0,
+      "explanation": "Nuclear fusion reactor! Under colossal gravitational pressure and heat, hydrogen nuclei fuse into helium, releasing staggering amounts of nuclear energy that powers all life on Earth!"
+    }
+  },
+  "why_is_the_universe_expanding": {
+    "image": "/curious_whole_why_is_the_universe_expanding.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "THE UNIVERSE IS EXPANDING BECAUSE SPACE ITSELF HAS BEEN STRETCHING EVER SINCE THE UNIVERSE BEGAN, CARRYING GALAXIES FARTHER APART LIKE DOTS ON A GROWING BALLOON.",
+    "quiz": {
+      "question": "What did Edwin Hubble discover about distant galaxies in the 1920s?",
+      "options": [
+        "The very fabric of spacetime is expanding in all directions since the Big Bang, driven now by Dark Energy 🌌",
+        "Galaxies are flying away from giant fans 💨",
+        "The universe is shrinking slowly 📉",
+        "Only our galaxy is moving 🚀"
+      ],
+      "correctIndex": 0,
+      "explanation": "Cosmological revelation! Hubble observed cosmological redshift, proving that space itself is stretching between galaxies, carrying them further apart over time."
+    }
+  },
+  "why_is_there_day_and_night": {
+    "image": "/curious_whole_why_is_there_day_and_night.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "DAY AND NIGHT HAPPEN BECAUSE EARTH SPINS LIKE A GIANT TOP, BRINGING DIFFERENT PLACES INTO SUNLIGHT AND THEN INTO DARKNESS.",
+    "quiz": {
+      "question": "What causes the regular 24-hour cycle of daylight and nighttime on Earth?",
+      "options": [
+        "Earth rotating on its axis once every 24 hours relative to the stationary Sun 🌍",
+        "The Sun flying around Earth in a circle ☀️",
+        "The Moon covering the Sun every evening 🌑",
+        "Earth's orbit around the galaxy 🌌"
+      ],
+      "correctIndex": 0,
+      "explanation": "Planetary rotation! As Earth rotates eastward on its axis, half of the planet faces the Sun (day), while the other half faces the darkness of space (night)."
+    }
+  },
+  "why_is_venus_so_hot": {
+    "image": "/curious_whole_why_is_venus_so_hot.png",
+    "bgColor": "border-indigo-400",
+    "accentColor": "from-indigo-500 via-purple-400 to-blue-600",
+    "quizBg": "bg-indigo-50 border-indigo-200",
+    "quizText": "text-indigo-950",
+    "quizBadge": "bg-indigo-200 text-indigo-800",
+    "footer": "VENUS IS EXTREMELY HOT BECAUSE ITS THICK BLANKET OF CARBON DIOXIDE GAS TRAPS THE SUN'S HEAT, CREATING A POWERFUL GREENHOUSE EFFECT.",
+    "quiz": {
+      "question": "Why is Venus even hotter than Mercury (over 465°C), despite being twice as far from the Sun?",
+      "options": [
+        "A runaway greenhouse effect caused by a dense 96% carbon dioxide atmosphere trapping solar heat 🪐",
+        "Venus is made of active volcanoes only 🌋",
+        "Venus has two suns orbiting it ☀️",
+        "Venus has no night time 🌞"
+      ],
+      "correctIndex": 0,
+      "explanation": "Runaway greenhouse effect! Venus's crushing atmosphere (92x Earth's surface pressure) traps virtually all incoming solar radiation, making it the hottest planet in our solar system!"
     }
   }
 };
