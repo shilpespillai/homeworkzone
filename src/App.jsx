@@ -4802,6 +4802,14 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
         setShowLoginModal(null);
         navigate('/dashboard/teacher');
       } else {
+        // Ensure student has an active Firebase auth session before reading Firestore
+        if (!auth.currentUser) {
+          try {
+            await signInAnonymously(auth);
+          } catch (e) {
+            console.warn('Anonymous auth failed:', e);
+          }
+        }
         const q = query(collection(db, 'teachers'), where('teacherCode', '==', code.toUpperCase().trim()), limit(1));
         const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
