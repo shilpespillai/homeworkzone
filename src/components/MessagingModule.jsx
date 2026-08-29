@@ -62,9 +62,25 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
     scrollToBottom();
   }, [messages, activeTab, activeClassmate, activeMessage]);
 
+  const [readMessageIds, setReadMessageIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem(`hz_read_msgs_${(studentName || '').toLowerCase()}`);
+      return saved ? new Set(JSON.parse(saved)) : new Set();
+    } catch (e) {
+      return new Set();
+    }
+  });
+
+  const isMessageRead = (msg) => {
+    if (!msg) return true;
+    if (msg.isRead) return true;
+    if (readMessageIds.has(msg.id)) return true;
+    return false;
+  };
+
   const getTabUnreadCount = (tabName) => {
     return allMessages.filter(msg => {
-      if (msg.isRead) return false;
+      if (isMessageRead(msg)) return false;
       if (msg.recipientId?.toLowerCase() !== studentName?.toLowerCase()) return false;
       
       if (tabName === 'Inbox') {
@@ -75,6 +91,39 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
       return false;
     }).length;
   };
+
+  const markMessagesAsRead = (msgIds) => {
+    if (!msgIds || msgIds.length === 0) return;
+    
+    // 1. Instant local state update
+    setReadMessageIds(prev => {
+      const next = new Set(prev);
+      msgIds.forEach(id => next.add(id));
+      try {
+        localStorage.setItem(`hz_read_msgs_${(studentName || '').toLowerCase()}`, JSON.stringify([...next]));
+      } catch (e) {}
+      return next;
+    });
+
+    // 2. Dispatch event for sidebar badge in App.jsx
+    window.dispatchEvent(new CustomEvent('hz-messages-read', { detail: { messageIds: msgIds } }));
+
+    // 3. Client updateDoc attempt
+    msgIds.forEach(id => {
+      updateDoc(doc(db, 'messages', id), { isRead: true }).catch(() => {});
+    });
+
+    // 4. Serverless admin write fallback
+    fetch('/api/student-auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'mark-read',
+        messageIds: msgIds
+      })
+    }).catch(() => {});
+  };
+
   // Real-time listener for messages (persistent, independent of tab switches)
   useEffect(() => {
     if (!teacher?.uid || !studentName) return;
@@ -148,7 +197,7 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
                 (msg.recipientType === 'class' && msg.recipientId === classroom?.id));
       } else if (activeTab === 'Class Lounge') {
         return msg.recipientType === 'class' && 
-               msg.classId === classroom?.id;
+                msg.classId === classroom?.id;
       } else if (activeTab === 'Classmates') {
         return msg.senderRole === 'student' && 
                msg.recipientType === 'student' && 
@@ -172,18 +221,22 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
     }
   }, [allMessages, activeTab, studentName, classroom?.id]);
 
-  // Mark viewed messages as read (with guard to avoid infinite state loops)
+  // Automatically mark viewed messages as read whenever viewing a classmate chat or active inbox message
   useEffect(() => {
-    if (activeTab === 'Classmates' && activeClassmate) {
-      messages.forEach(msg => {
-        if (!msg.isRead && msg.recipientId?.toLowerCase() === studentName?.toLowerCase() && msg.senderId?.toLowerCase() === activeClassmate.name?.toLowerCase()) {
-          updateDoc(doc(db, 'messages', msg.id), { isRead: true }).catch(() => {});
-        }
-      });
-    } else if (activeMessage && !activeMessage.isRead && activeMessage.recipientId?.toLowerCase() === studentName?.toLowerCase()) {
-      updateDoc(doc(db, 'messages', activeMessage.id), { isRead: true }).catch(() => {});
+    if (activeTab === 'Classmates' && activeClassmate?.name) {
+      const unreadIds = allMessages.filter(msg => 
+        !isMessageRead(msg) && 
+        msg.recipientId?.toLowerCase() === studentName?.toLowerCase() && 
+        msg.senderId?.toLowerCase() === activeClassmate.name?.toLowerCase()
+      ).map(m => m.id);
+
+      if (unreadIds.length > 0) {
+        markMessagesAsRead(unreadIds);
+      }
+    } else if (activeTab === 'Inbox' && activeMessage && !isMessageRead(activeMessage) && activeMessage.recipientId?.toLowerCase() === studentName?.toLowerCase()) {
+      markMessagesAsRead([activeMessage.id]);
     }
-  }, [activeTab, activeClassmate?.name, activeMessage?.id, studentName]);
+  }, [allMessages, activeTab, activeClassmate?.name, activeMessage?.id, studentName, readMessageIds]);
 
   const handleDeleteMessage = async (e, msgId) => {
     e.stopPropagation();
@@ -375,16 +428,22 @@ const MessagingModule = ({ studentName, teacher, classroom, classroomStudents = 
             <div className="w-1/3 border-r border-orange-100/60 overflow-y-auto custom-scrollbar bg-white">
             {activeTab === 'Classmates' ? (
               classroomStudents.filter(s => s.name?.toLowerCase() !== studentName?.toLowerCase()).map((cm) => {
-                const unreadCount = allMessages.filter(msg => 
-                  !msg.isRead && 
+                const unreadMessages = allMessages.filter(msg => 
+                  !isMessageRead(msg) && 
                   msg.senderId?.toLowerCase() === cm.name?.toLowerCase() && 
                   msg.recipientId?.toLowerCase() === studentName?.toLowerCase()
-                ).length;
+                );
+                const unreadCount = unreadMessages.length;
                 
                 return (
                   <div 
                     key={cm.id || cm.name} 
-                    onClick={() => setActiveClassmate(cm)}
+                    onClick={() => {
+                      setActiveClassmate(cm);
+                      if (unreadMessages.length > 0) {
+                        markMessagesAsRead(unreadMessages.map(m => m.id));
+                      }
+                    }}
                     className={`flex items-center gap-4 p-5 cursor-pointer transition-all border-b border-slate-50 ${activeClassmate?.name === cm.name ? 'bg-green-50/30' : 'hover:bg-slate-50/50'}`}
                   >
                     <div className="relative">

@@ -31,7 +31,21 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { action = 'verify', teacherCode, studentName, password, teacherId, classId, studentId, newPassword } = req.body || {};
+    const { action = 'verify', teacherCode, studentName, password, teacherId, classId, studentId, newPassword, messageIds } = req.body || {};
+
+    if (action === 'mark-read') {
+      if (Array.isArray(messageIds) && messageIds.length > 0) {
+        const batch = db.batch();
+        messageIds.forEach(id => {
+          if (id) {
+            const ref = db.collection('messages').doc(id);
+            batch.update(ref, { isRead: true });
+          }
+        });
+        await batch.commit().catch(e => console.warn('[mark-read batch error]', e.message));
+      }
+      return res.status(200).json({ success: true, count: messageIds?.length || 0 });
+    }
 
     if (action === 'create-password') {
       if (!teacherId || !classId || !studentId || !newPassword) {

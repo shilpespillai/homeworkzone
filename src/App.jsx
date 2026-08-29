@@ -2577,10 +2577,21 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
       limit(100)
     );
     
+    const getReadIds = () => {
+      try {
+        const saved = localStorage.getItem(`hz_read_msgs_${(studentName || '').toLowerCase()}`);
+        return saved ? new Set(JSON.parse(saved)) : new Set();
+      } catch (e) {
+        return new Set();
+      }
+    };
+
     const unsubscribe = onSnapshot(q, (snapshot) => {
       let totalUnread = 0;
+      const readIds = getReadIds();
       
-      const isRelevantMessage = (msg) => {
+      const isRelevantMessage = (msg, id) => {
+        if (msg.isRead || readIds.has(id)) return false;
         // Do not notify the student about messages they sent themselves
         if (msg.senderId?.toLowerCase() === studentName?.toLowerCase()) return false;
         
@@ -2595,7 +2606,7 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
 
       snapshot.docChanges().forEach((change) => {
         const msg = change.doc.data();
-        if (change.type === 'added' && !msg.isRead && !isInitialLoadRef.current && isRelevantMessage(msg)) {
+        if (change.type === 'added' && !msg.isRead && !isInitialLoadRef.current && isRelevantMessage(msg, change.doc.id)) {
            // Do not show popup if the user is currently on the Messages page
            if (activeNavRef.current === 'My Messages') return;
            
@@ -2613,9 +2624,9 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
       
       snapshot.forEach(doc => {
         const msg = doc.data();
+        const isRead = msg.isRead || readIds.has(doc.id);
         // Only count direct messages towards the unread badge 
-        // since announcements cannot be marked as read by individual students in this data model.
-        if (!msg.isRead && msg.recipientId?.toLowerCase() === studentName?.toLowerCase()) {
+        if (!isRead && msg.recipientId?.toLowerCase() === studentName?.toLowerCase()) {
            totalUnread++;
         }
       });
@@ -2627,7 +2638,17 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
       }
     });
 
-    return () => unsubscribe();
+    const handleReadEvent = () => {
+      const readIds = getReadIds();
+      // Re-query current count from state / storage
+      setUnreadMessageCount(prev => Math.max(0, prev - 1));
+    };
+    window.addEventListener('hz-messages-read', handleReadEvent);
+
+    return () => {
+      unsubscribe();
+      window.removeEventListener('hz-messages-read', handleReadEvent);
+    };
   }, [teacher?.uid, classroom?.id, studentName]);
   
   // Real-time presence tracking
