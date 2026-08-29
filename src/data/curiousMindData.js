@@ -72,7 +72,7 @@ export const CATEGORIES = [
 ];
 
 export const TOPICS = [
-  {
+{
     "id": "goosebumps",
     "title": "Why Do Humans Get Goosebumps?",
     "category": "human_body",
@@ -665,11 +665,257 @@ export const TOPICS = [
     "title": "Why does grass grow back after mowing?",
     "category": "plants",
     "cardImage": "/curious_whole_grass_grow_back_after_mowing.png"
+  },
+  {
+      "id": "why_are_clouds_white",
+      "title": "Why are clouds white?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_are_clouds_white.png"
+  },
+  {
+      "id": "why_are_snowflakes_different",
+      "title": "Why are snowflakes different?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_are_snowflakes_different.png"
+  },
+  {
+      "id": "why_are_storm_clouds_dark",
+      "title": "Why are storm clouds dark?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_are_storm_clouds_dark.png"
+  },
+  {
+      "id": "why_are_the_poles_colder",
+      "title": "Why are the poles colder?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_are_the_poles_colder.png"
+  },
+  {
+      "id": "why_are_there_different_kinds_of_rocks",
+      "title": "Why are there different kinds of rocks?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_are_there_different_kinds_of_rocks.png"
+  },
+  {
+      "id": "why_are_tropical_places_warmer",
+      "title": "Why are tropical places warmer?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_are_tropical_places_warmer.png"
+  },
+  {
+      "id": "why_can_we_see_our_breath_when_it_is_cold",
+      "title": "Why can we see our breath when it is cold?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_can_we_see_our_breath_when_it_is_cold.png"
+  },
+  {
+      "id": "why_do_caves_form",
+      "title": "Why do caves form?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_caves_form.png"
+  },
+  {
+      "id": "why_do_clouds_form",
+      "title": "Why do clouds form?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_clouds_form.png"
+  },
+  {
+      "id": "why_do_continents_move",
+      "title": "Why do continents move?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_continents_move.png"
+  },
+  {
+      "id": "why_do_cyclones_form",
+      "title": "Why do cyclones form?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_cyclones_form.png"
+  },
+  {
+      "id": "why_do_cyclones_have_an_eye",
+      "title": "Why do cyclones have an eye?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_cyclones_have_an_eye.png"
+  },
+  {
+      "id": "why_do_deserts_form",
+      "title": "Why do deserts form?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_deserts_form.png"
+  },
+  {
+      "id": "why_do_earthquakes_happen",
+      "title": "Why do earthquakes happen?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_earthquakes_happen.png"
+  },
+  {
+      "id": "why_do_fossils_form",
+      "title": "Why do fossils form?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_fossils_form.png"
+  },
+  {
+      "id": "why_do_geysers_erupt",
+      "title": "Why do geysers erupt?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_geysers_erupt.png"
+  },
+  {
+      "id": "why_do_glaciers_move",
+      "title": "Why do glaciers move?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_glaciers_move.png"
+  },
+  {
+      "id": "why_do_hot_springs_exist",
+      "title": "Why do hot springs exist?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_hot_springs_exist.png"
+  },
+  {
+      "id": "why_do_icebergs_float",
+      "title": "Why do icebergs float?",
+      "category": "physics_everyday",
+      "cardImage": "/curious_whole_why_do_icebergs_float.png"
+  },
+  {
+      "id": "why_do_mountains_form",
+      "title": "Why do mountains form?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_mountains_form.png"
+  },
+  {
+      "id": "why_do_oceans_have_waves",
+      "title": "Why do oceans have waves?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_oceans_have_waves.png"
+  },
+  {
+      "id": "why_do_rainbows_form",
+      "title": "Why do rainbows form?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_rainbows_form.png"
+  },
+  {
+      "id": "why_do_rivers_flow_downhill",
+      "title": "Why do rivers flow downhill?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_rivers_flow_downhill.png"
+  },
+  {
+      "id": "why_do_tornadoes_form",
+      "title": "Why do tornadoes form?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_tornadoes_form.png"
+  },
+  {
+      "id": "why_do_tsunamis_happen",
+      "title": "Why do tsunamis happen?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_tsunamis_happen.png"
+  },
+  {
+      "id": "why_do_volcanoes_erupt",
+      "title": "Why do volcanoes erupt?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_volcanoes_erupt.png"
+  },
+  {
+      "id": "why_do_waterfalls_form",
+      "title": "Why do waterfalls form?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_do_waterfalls_form.png"
+  },
+  {
+      "id": "why_do_we_see_lightning_before_hearing_thunder",
+      "title": "Why do we see lightning before hearing thunder?",
+      "category": "physics_everyday",
+      "cardImage": "/curious_whole_why_do_we_see_lightning_before_hearing_thunder.png"
+  },
+  {
+      "id": "why_does_climate_change_happen",
+      "title": "Why does climate change happen?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_does_climate_change_happen.png"
+  },
+  {
+      "id": "why_does_erosion_happen",
+      "title": "Why does erosion happen?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_does_erosion_happen.png"
+  },
+  {
+      "id": "why_does_fog_form",
+      "title": "Why does fog form?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_does_fog_form.png"
+  },
+  {
+      "id": "why_does_hail_form",
+      "title": "Why does hail form?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_does_hail_form.png"
+  },
+  {
+      "id": "why_does_it_rain",
+      "title": "Why does it rain?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_does_it_rain.png"
+  },
+  {
+      "id": "why_does_lightning_happen",
+      "title": "Why does lightning happen?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_does_lightning_happen.png"
+  },
+  {
+      "id": "why_does_snow_form",
+      "title": "Why does snow form?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_does_snow_form.png"
+  },
+  {
+      "id": "why_does_the_sky_turn_orange_at_sunset",
+      "title": "Why does the sky turn orange at sunset?",
+      "category": "physics_everyday",
+      "cardImage": "/curious_whole_why_does_the_sky_turn_orange_at_sunset.png"
+  },
+  {
+      "id": "why_does_thunder_happen",
+      "title": "Why does thunder happen?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_does_thunder_happen.png"
+  },
+  {
+      "id": "why_does_wind_blow",
+      "title": "Why does wind blow?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_does_wind_blow.png"
+  },
+  {
+      "id": "why_is_humidity_uncomfortable",
+      "title": "Why is humidity uncomfortable?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_is_humidity_uncomfortable.png"
+  },
+  {
+      "id": "why_is_seawater_salty",
+      "title": "Why is seawater salty?",
+      "category": "earth_weather",
+      "cardImage": "/curious_whole_why_is_seawater_salty.png"
+  },
+  {
+      "id": "why_is_the_sky_blue",
+      "title": "Why is the sky blue?",
+      "category": "physics_everyday",
+      "cardImage": "/curious_whole_why_is_the_sky_blue.png"
   }
 ];
 
 export const TOPIC_DETAILS = {
-  "goosebumps": {
+"goosebumps": {
     "image": "/curious_goosebumps.png",
     "bgColor": "border-orange-400",
     "accentColor": "from-orange-400 via-amber-400 to-sky-400",
@@ -2648,5 +2894,825 @@ export const TOPIC_DETAILS = {
       "correctIndex": 0,
       "explanation": "Spot on! Grass grows back after mowing because its growing points are low near the ground, so the roots and tiny plant factories can keep making new leaves."
     }
+  },
+  "why_are_clouds_white": {
+      "image": "/curious_why_are_clouds_white.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "CLOUDS LOOK WHITE BECAUSE COUNTLESS TINY WATER DROPLETS AND ICE CRYSTALS SCATTER ALL THE COLORS OF SUNLIGHT TOGETHER.",
+      "quiz": {
+          "question": "Why do fluffy clouds usually look bright white to our eyes?",
+          "options": [
+              "They are made of white cotton candy 🍭",
+              "Tiny water droplets scatter all sunlight colors together ☀️",
+              "They reflect only white stars at night 🌟",
+              "They produce white paint in the air 🎨"
+          ],
+          "correctIndex": 1,
+          "explanation": "Spot on! Sunlight is a mixture of all colors. Countless tiny water droplets in the cloud scatter all these colors together, making the cloud look brilliant white!"
+      }
+  },
+  "why_are_snowflakes_different": {
+      "image": "/curious_why_are_snowflakes_different.png",
+      "bgColor": "border-cyan-400",
+      "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
+      "quizBg": "bg-cyan-50 border-cyan-200",
+      "quizText": "text-cyan-950",
+      "quizBadge": "bg-cyan-200 text-cyan-800",
+      "footer": "SNOWFLAKES LOOK DIFFERENT BECAUSE EACH TINY ICE CRYSTAL TRAVELS THROUGH SLIGHTLY DIFFERENT COLD, MOIST PARTS OF A CLOUD AS IT GROWS.",
+      "quiz": {
+          "question": "Why does almost every snowflake have its own unique crystal shape?",
+          "options": [
+              "Snow fairies carve each one by hand 🧚",
+              "Each snowflake travels through different temperatures and humidity in the air ❄️",
+              "They melt into different animals 🐾",
+              "Wind cuts them into squares 💨"
+          ],
+          "correctIndex": 1,
+          "explanation": "Awesome! As a snowflake falls, it experiences constantly changing temperatures and moisture levels, shaping its crystal arms in a unique way!"
+      }
+  },
+  "why_are_storm_clouds_dark": {
+      "image": "/curious_why_are_storm_clouds_dark.png",
+      "bgColor": "border-blue-400",
+      "accentColor": "from-blue-400 via-sky-300 to-indigo-500",
+      "quizBg": "bg-blue-50 border-blue-200",
+      "quizText": "text-blue-950",
+      "quizBadge": "bg-blue-200 text-blue-800",
+      "footer": "STORM CLOUDS LOOK DARK BECAUSE THEY ARE THICK AND PACKED WITH WATER DROPLETS AND ICE CRYSTALS THAT BLOCK AND SCATTER MUCH OF THE SUNLIGHT BEFORE IT CAN REACH THE CLOUD'S BOTTOM.",
+      "quiz": {
+          "question": "Why do heavy storm clouds look so dark and ominous underneath?",
+          "options": [
+              "They are filled with black smoke 💨",
+              "They are so thick and deep that sunlight cannot pass through to the bottom ⛈️",
+              "The sun turns off during a storm 🌑",
+              "They turn into charcoal rocks 🪨"
+          ],
+          "correctIndex": 1,
+          "explanation": "Correct! Storm clouds are extremely tall and packed with billions of water droplets that block and scatter light away before it reaches the ground."
+      }
+  },
+  "why_are_the_poles_colder": {
+      "image": "/curious_why_are_the_poles_colder.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "THE POLES ARE COLDER BECAUSE SUNLIGHT ARRIVES AT A LOW ANGLE, SPREADING THE SUN'S ENERGY OVER A LARGER AREA AND GIVING IT LESS POWER TO WARM THE GROUND.",
+      "quiz": {
+          "question": "Why are the North and South Poles much colder than the equator?",
+          "options": [
+              "The Sun never shines anywhere near the poles 🌑",
+              "Sunlight strikes the poles at a tilted angle, spreading its warmth over a larger area ❄️",
+              "The Earth is shaped like an ice cube 🧊",
+              "Penguins use giant air conditioners 🐧"
+          ],
+          "correctIndex": 1,
+          "explanation": "Great job! Because Earth is a sphere, sunlight hits the curved poles at an angle, spreading the sun's energy thin across a wider surface."
+      }
+  },
+  "why_are_there_different_kinds_of_rocks": {
+      "image": "/curious_why_are_there_different_kinds_of_rocks.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "THERE ARE DIFFERENT KINDS OF ROCKS BECAUSE EARTH MAKES AND CHANGES THEM IN DIFFERENT WAYS, USING MELTED ROCK, SQUEEZED-TOGETHER BITS, HEAT, AND PRESSURE.",
+      "quiz": {
+          "question": "What are the three main families of rocks formed by Earth's processes?",
+          "options": [
+              "Igneous, Sedimentary, and Metamorphic 🪨",
+              "Plastic, Glass, and Metal ⚙️",
+              "Sandy, Muddy, and Sticky 🏖️",
+              "Hot, Cold, and Frozen ❄️"
+          ],
+          "correctIndex": 0,
+          "explanation": "Brilliant! Earth recycles rocks into Igneous (from magma/lava), Sedimentary (from pressed layers), and Metamorphic (changed by intense heat & pressure)."
+      }
+  },
+  "why_are_tropical_places_warmer": {
+      "image": "/curious_why_are_tropical_places_warmer.png",
+      "bgColor": "border-indigo-400",
+      "accentColor": "from-indigo-400 via-purple-300 to-blue-500",
+      "quizBg": "bg-indigo-50 border-indigo-200",
+      "quizText": "text-indigo-950",
+      "quizBadge": "bg-indigo-200 text-indigo-800",
+      "footer": "TROPICAL PLACES ARE WARMER BECAUSE THEY RECEIVE MORE DIRECT SUNLIGHT FROM THE SUN FOR MOST OF THE YEAR.",
+      "quiz": {
+          "question": "Why are tropical regions near the equator warm all year round?",
+          "options": [
+              "Sunlight hits directly overhead, concentrating high heat energy ☀️",
+              "There are underground campfires 🔥",
+              "They are closer to volcanoes 🌋",
+              "The ocean boils in the tropics 🌊"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! The equator receives direct, concentrated solar radiation with minimal seasonal tilt variation throughout the entire year."
+      }
+  },
+  "why_can_we_see_our_breath_when_it_is_cold": {
+      "image": "/curious_why_can_we_see_our_breath_when_it_is_cold.png",
+      "bgColor": "border-teal-400",
+      "accentColor": "from-teal-400 via-cyan-300 to-emerald-500",
+      "quizBg": "bg-teal-50 border-teal-200",
+      "quizText": "text-teal-950",
+      "quizBadge": "bg-teal-200 text-teal-800",
+      "footer": "WHEN WARM, MOIST AIR FROM YOUR LUNGS MEETS COLD OUTDOOR AIR, THE WATER VAPOR COOLS AND FORMS TINY DROPLETS THAT SCATTER LIGHT, MAKING YOUR BREATH LOOK LIKE A LITTLE CLOUD.",
+      "quiz": {
+          "question": "What creates the tiny cloud when you exhale outside on a frosty morning?",
+          "options": [
+              "Warm water vapor in your breath quickly condenses into tiny liquid droplets in chilly air 🌬️",
+              "Your lungs make real smoke 🔥",
+              "Air freezes into giant ice cubes 🧊",
+              "Your teeth blow out powder 🦷"
+          ],
+          "correctIndex": 0,
+          "explanation": "Exactly! Your warm breath is full of invisible moisture. When it hits the freezing outdoor air, it condenses into a visible cloud of miniature water droplets."
+      }
+  },
+  "why_do_caves_form": {
+      "image": "/curious_why_do_caves_form.png",
+      "bgColor": "border-orange-400",
+      "accentColor": "from-orange-400 via-amber-300 to-red-500",
+      "quizBg": "bg-orange-50 border-orange-200",
+      "quizText": "text-orange-950",
+      "quizBadge": "bg-orange-200 text-orange-800",
+      "footer": "MANY CAVES FORM WHEN SLIGHTLY ACIDIC RAINWATER SEEPS INTO CRACKS IN ROCK AND SLOWLY DISSOLVES OR CARRIES AWAY PIECES OF IT, MAKING THE CRACKS BIGGER OVER A VERY LONG TIME.",
+      "quiz": {
+          "question": "How do most underground limestone caves get carved over thousands of years?",
+          "options": [
+              "Giant burrowing dragons dig them 🐉",
+              "Slightly acidic rainwater slowly dissolves limestone rock underground 💧",
+              "Earthquakes snap the rocks open ⚡",
+              "Lava blows giant bubbles 🫧"
+          ],
+          "correctIndex": 1,
+          "explanation": "Correct! Rain absorbs carbon dioxide to become weakly acidic. Over millennia, it seeps into cracks and dissolves soluble rock like limestone."
+      }
+  },
+  "why_do_clouds_form": {
+      "image": "/curious_why_do_clouds_form.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "CLOUDS FORM WHEN WARM, INVISIBLE WATER VAPOR RISES, COOLS IN THE SKY, AND CHANGES INTO TINY WATER DROPLETS OR ICE CRYSTALS THAT GATHER AROUND SPECKS IN THE AIR.",
+      "quiz": {
+          "question": "What fundamental process causes clouds to appear in the sky?",
+          "options": [
+              "Warm air rises, cools down, and invisible water vapor condenses onto microscopic particles ☁️",
+              "Airplanes spray cloud gas ✈️",
+              "The ocean throws water into the sky 🌊",
+              "The Sun burns moisture into white dust ☀️"
+          ],
+          "correctIndex": 0,
+          "explanation": "Fantastic! Warm air carries water vapor upward. As it rises and cools, the vapor condenses around tiny dust or salt specks to form clouds."
+      }
+  },
+  "why_do_continents_move": {
+      "image": "/curious_why_do_continents_move.png",
+      "bgColor": "border-cyan-400",
+      "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
+      "quizBg": "bg-cyan-50 border-cyan-200",
+      "quizText": "text-cyan-950",
+      "quizBadge": "bg-cyan-200 text-cyan-800",
+      "footer": "CONTINENTS MOVE VERY SLOWLY BECAUSE THEY SIT ON HUGE PIECES OF EARTH'S OUTER SHELL CALLED TECTONIC PLATES, WHICH GLIDE OVER SOFTER, HOT ROCK BELOW.",
+      "quiz": {
+          "question": "What drives the slow movement of Earth's giant tectonic plates?",
+          "options": [
+              "Convection currents of churning molten rock deep in Earth's mantle 🌍",
+              "Strong ocean winds pushing the beaches 💨",
+              "The spinning of the Moon 🌙",
+              "Underground waterfalls 🌊"
+          ],
+          "correctIndex": 0,
+          "explanation": "Right on! Heat from Earth's core creates slow convection currents in the semi-liquid mantle, gliding continental plates by a few centimetres every year."
+      }
+  },
+  "why_do_cyclones_form": {
+      "image": "/curious_why_do_cyclones_form.png",
+      "bgColor": "border-blue-400",
+      "accentColor": "from-blue-400 via-sky-300 to-indigo-500",
+      "quizBg": "bg-blue-50 border-blue-200",
+      "quizText": "text-blue-950",
+      "quizBadge": "bg-blue-200 text-blue-800",
+      "footer": "CYCLONES FORM WHEN WARM OCEAN WATER HEATS THE AIR ABOVE IT, MAKING THE AIR RISE AND SPIN AROUND A LOW-PRESSURE CENTER.",
+      "quiz": {
+          "question": "What serves as the primary engine powering massive cyclones and hurricanes?",
+          "options": [
+              "Warm tropical ocean waters releasing heat and moisture into rising air 🌀",
+              "Cold polar glaciers freezing the sea ❄️",
+              "Desert sandstorms spinning 🌪️",
+              "Volcanic smoke rings 🌋"
+          ],
+          "correctIndex": 0,
+          "explanation": "Correct! Warm ocean water (above 26.5°C) evaporates rapidly, creating moist rising air that fuels the spinning storm system."
+      }
+  },
+  "why_do_cyclones_have_an_eye": {
+      "image": "/curious_why_do_cyclones_have_an_eye.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "A CYCLONE’S EYE FORMS BECAUSE AIR NEAR THE CENTER SLOWLY SINKS AND WARMS, CREATING A CALMER SPOT SURROUNDED BY THE STORM’S STRONGEST SWIRLING WINDS, CALLED THE EYEWALL.",
+      "quiz": {
+          "question": "What is the weather like directly inside the calm center or 'eye' of a cyclone?",
+          "options": [
+              "Violent thunderstorms and hail ⚡",
+              "Calm winds, sinking air, and often clear skies 🌤️",
+              "A vortex of blazing fire 🔥",
+              "Freezing blizzards ❄️"
+          ],
+          "correctIndex": 1,
+          "explanation": "Fascinating! The eye is surprisingly calm with light winds and clear skies because air gently sinks downward at the rotational center."
+      }
+  },
+  "why_do_deserts_form": {
+      "image": "/curious_why_do_deserts_form.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DESERTS FORM IN PLACES WHERE VERY LITTLE RAIN FALLS FOR A LONG TIME, OFTEN BECAUSE AIR PATTERNS, MOUNTAINS, COLD OCEAN WATER, OR DISTANCE FROM THE SEA KEEP MOISTURE AWAY.",
+      "quiz": {
+          "question": "Which of the following is a major reason why deserts receive so little rainfall?",
+          "options": [
+              "High pressure zones with dry sinking air or mountains blocking rain clouds (rain shadows) 🏜️",
+              "The sand absorbs all cloud water instantly ⏳",
+              "No wind ever blows in deserts 💨",
+              "The Sun is 10 times closer to deserts ☀️"
+          ],
+          "correctIndex": 0,
+          "explanation": "Great job! Dry descending air in subtropical belts and high mountain barriers prevent moisture-rich clouds from reaching desert regions."
+      }
+  },
+  "why_do_earthquakes_happen": {
+      "image": "/curious_why_do_earthquakes_happen.png",
+      "bgColor": "border-indigo-400",
+      "accentColor": "from-indigo-400 via-purple-300 to-blue-500",
+      "quizBg": "bg-indigo-50 border-indigo-200",
+      "quizText": "text-indigo-950",
+      "quizBadge": "bg-indigo-200 text-indigo-800",
+      "footer": "EARTHQUAKES HAPPEN WHEN HUGE PIECES OF EARTH’S OUTER LAYER SUDDENLY SLIP PAST EACH OTHER ALONG CRACKS CALLED FAULTS, SENDING SHAKING ENERGY THROUGH THE GROUND.",
+      "quiz": {
+          "question": "What causes the sudden violent shaking during an earthquake?",
+          "options": [
+              "Tectonic plates suddenly slip and release built-up stress along a fault line ⚡",
+              "Giant underground waves crashing 🌊",
+              "Heavy rain pushing into rocks 🌧️",
+              "A meteor hitting deep underground ☄️"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Friction locks tectonic plates until pressure overcomes resistance, suddenly releasing energy as seismic shockwaves."
+      }
+  },
+  "why_do_fossils_form": {
+      "image": "/curious_why_do_fossils_form.png",
+      "bgColor": "border-teal-400",
+      "accentColor": "from-teal-400 via-cyan-300 to-emerald-500",
+      "quizBg": "bg-teal-50 border-teal-200",
+      "quizText": "text-teal-950",
+      "quizBadge": "bg-teal-200 text-teal-800",
+      "footer": "FOSSILS FORM WHEN THE REMAINS OR TRACES OF LIVING THINGS ARE QUICKLY BURIED AND, OVER A VERY LONG TIME, ARE PRESERVED IN ROCK.",
+      "quiz": {
+          "question": "How do the shapes of ancient plants and animals get preserved as fossils?",
+          "options": [
+              "Quick burial in sediment where minerals gradually replace bones and shells over millions of years 🦖",
+              "They freeze in lava forever 🌋",
+              "Animals turn to stone when they sleep 😴",
+              "Salt water petrifies them in one week 🧂"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome! When organisms are buried quickly in mud or sand, minerals seep into their remains, turning them into durable stone fossils."
+      }
+  },
+  "why_do_geysers_erupt": {
+      "image": "/curious_why_do_geysers_erupt.png",
+      "bgColor": "border-orange-400",
+      "accentColor": "from-orange-400 via-amber-300 to-red-500",
+      "quizBg": "bg-orange-50 border-orange-200",
+      "quizText": "text-orange-950",
+      "quizBadge": "bg-orange-200 text-orange-800",
+      "footer": "GEYSERS ERUPT WHEN UNDERGROUND HEAT TURNS TRAPPED WATER INTO STEAM, BUILDING PRESSURE UNTIL HOT WATER BLASTS UP THROUGH A NARROW OPENING.",
+      "quiz": {
+          "question": "What causes a geyser to blast boiling water high into the air?",
+          "options": [
+              "Underground magma superheats trapped water until pressure forces explosive steam release ♨️",
+              "Ocean tides pumping through pipes 🌊",
+              "Compressed air from caves 💨",
+              "Underground lightning ⚡"
+          ],
+          "correctIndex": 0,
+          "explanation": "Correct! Water deep in underground channels is heated past boiling by geothermal heat until steam bubbles rapidly expand and erupt upward!"
+      }
+  },
+  "why_do_glaciers_move": {
+      "image": "/curious_why_do_glaciers_move.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "GLACIERS MOVE SLOWLY BECAUSE THEIR HUGE WEIGHT MAKES THE ICE FLOW DOWNHILL AND SOMETIMES SLIDE OVER THE GROUND BENEATH THEM.",
+      "quiz": {
+          "question": "Why do massive rivers of ice (glaciers) slowly crawl downhill?",
+          "options": [
+              "Enormous weight and gravity cause the ice to deform and slip on a thin layer of meltwater 🏔️",
+              "Wind pushes the ice sheets 💨",
+              "Earthquakes shove the glacier forward ⚡",
+              "Animals pull the ice down 🐻"
+          ],
+          "correctIndex": 0,
+          "explanation": "Brilliant! The crushing weight of accumulated snow makes deep ice behave like a slow-flowing plastic solid, gliding downhill under gravity."
+      }
+  },
+  "why_do_hot_springs_exist": {
+      "image": "/curious_why_do_hot_springs_exist.png",
+      "bgColor": "border-cyan-400",
+      "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
+      "quizBg": "bg-cyan-50 border-cyan-200",
+      "quizText": "text-cyan-950",
+      "quizBadge": "bg-cyan-200 text-cyan-800",
+      "footer": "HOT SPRINGS EXIST WHEN UNDERGROUND WATER IS WARMED BY HOT ROCKS DEEP INSIDE EARTH AND THEN FLOWS BACK UP THROUGH CRACKS TO THE SURFACE.",
+      "quiz": {
+          "question": "How does water in natural hot springs get naturally heated?",
+          "options": [
+              "Geothermal heat from deep within Earth's crust warms circulating groundwater 🛁",
+              "Hot sunlight hitting shallow pools ☀️",
+              "Chemical batteries dissolved in the mud 🔋",
+              "Friction from swimming fish 🐟"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Groundwater percolates deep into the earth where hot rocks and magma warm it before it rises back to the surface."
+      }
+  },
+  "why_do_icebergs_float": {
+      "image": "/curious_why_do_icebergs_float.png",
+      "bgColor": "border-blue-400",
+      "accentColor": "from-blue-400 via-sky-300 to-indigo-500",
+      "quizBg": "bg-blue-50 border-blue-200",
+      "quizText": "text-blue-950",
+      "quizBadge": "bg-blue-200 text-blue-800",
+      "footer": "ICEBERGS FLOAT BECAUSE FROZEN WATER IS LESS DENSE THAN LIQUID OCEAN WATER, SO THE WATER PUSHES THEM UPWARD.",
+      "quiz": {
+          "question": "Why does solid ice float on liquid water instead of sinking to the bottom?",
+          "options": [
+              "Water expands when it freezes, making ice less dense than liquid water 🧊",
+              "Ice is full of helium gas 🎈",
+              "Icebergs are hollow inside 🐚",
+              "Salt pushes all ice upward 🧂"
+          ],
+          "correctIndex": 0,
+          "explanation": "Fascinating physics! As water freezes, hydrogen bonds form an open hexagonal crystal lattice that is less dense than liquid water, allowing ice to float!"
+      }
+  },
+  "why_do_mountains_form": {
+      "image": "/curious_why_do_mountains_form.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "MOUNTAINS FORM WHEN EARTH'S CRUST IS PUSHED, FOLDED, LIFTED, OR BUILT UP BY MOVING TECTONIC PLATES AND VOLCANOES OVER MILLIONS OF YEARS.",
+      "quiz": {
+          "question": "How do towering mountain ranges like the Himalayas get built?",
+          "options": [
+              "Colossal tectonic plates slowly collide and crumple the crust upward ⛰️",
+              "Mounds of volcanic ash pile up in a single day 🌋",
+              "Rain washes away lowlands 🌧️",
+              "Meteorites push up the ground ☄️"
+          ],
+          "correctIndex": 0,
+          "explanation": "Correct! When two tectonic plates collide, immense forces fold and buckle rock layers upward over tens of millions of years."
+      }
+  },
+  "why_do_oceans_have_waves": {
+      "image": "/curious_why_do_oceans_have_waves.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "MOST OCEAN WAVES ARE MADE WHEN WIND BLOWS ACROSS THE WATER AND TRANSFERS SOME OF ITS ENERGY TO THE SURFACE.",
+      "quiz": {
+          "question": "What generates most of the everyday waves rolling onto ocean shores?",
+          "options": [
+              "Wind blowing across the ocean surface transferring kinetic energy to water 🌊",
+              "Fish flapping their fins together 🐟",
+              "Underground bubbling volcanoes 🌋",
+              "The ocean sloshing from Earth's rotation 🔄"
+          ],
+          "correctIndex": 0,
+          "explanation": "Exactly! Friction between blowing wind and the water surface transfers energy, generating circular water movements that form waves."
+      }
+  },
+  "why_do_rainbows_form": {
+      "image": "/curious_why_do_rainbows_form.png",
+      "bgColor": "border-indigo-400",
+      "accentColor": "from-indigo-400 via-purple-300 to-blue-500",
+      "quizBg": "bg-indigo-50 border-indigo-200",
+      "quizText": "text-indigo-950",
+      "quizBadge": "bg-indigo-200 text-indigo-800",
+      "footer": "RAINBOWS FORM WHEN SUNLIGHT SHINES THROUGH RAINDROPS, WHICH BEND, SPREAD OUT, AND REFLECT THE LIGHT’S DIFFERENT COLORS BACK TO OUR EYES.",
+      "quiz": {
+          "question": "What makes a multicolored rainbow appear in the sky after a rain shower?",
+          "options": [
+              "Raindrops act like tiny prisms, refracting, reflecting, and splitting sunlight into colors 🌈",
+              "Clouds paint stripes across the air 🎨",
+              "The sun shoots colored lasers ⚡",
+              "Rainbow birds migrate across the sky 🦜"
+          ],
+          "correctIndex": 0,
+          "explanation": "Beautiful science! Each raindrop bends (refracts) sunlight, reflects it off the back of the drop, and spreads white light into its spectrum of colors."
+      }
+  },
+  "why_do_rivers_flow_downhill": {
+      "image": "/curious_why_do_rivers_flow_downhill.png",
+      "bgColor": "border-teal-400",
+      "accentColor": "from-teal-400 via-cyan-300 to-emerald-500",
+      "quizBg": "bg-teal-50 border-teal-200",
+      "quizText": "text-teal-950",
+      "quizBadge": "bg-teal-200 text-teal-800",
+      "footer": "RIVERS FLOW DOWNHILL BECAUSE GRAVITY PULLS WATER FROM HIGHER PLACES TOWARD LOWER PLACES.",
+      "quiz": {
+          "question": "What fundamental force guides rivers from high mountains down to the sea?",
+          "options": [
+              "Gravity pulling water toward the lowest point of elevation 🏞️",
+              "Wind blowing water downstream 💨",
+              "Ocean magnetism pulling rivers 🧲",
+              "Water molecules naturally rolling 🌊"
+          ],
+          "correctIndex": 0,
+          "explanation": "Great job! Gravity constantly pulls water along the path of least resistance from high mountain elevations down toward sea level."
+      }
+  },
+  "why_do_tornadoes_form": {
+      "image": "/curious_why_do_tornadoes_form.png",
+      "bgColor": "border-orange-400",
+      "accentColor": "from-orange-400 via-amber-300 to-red-500",
+      "quizBg": "bg-orange-50 border-orange-200",
+      "quizText": "text-orange-950",
+      "quizBadge": "bg-orange-200 text-orange-800",
+      "footer": "TORNADOES FORM WHEN WARM, MOIST AIR MEETS COOL, DRY AIR DURING A POWERFUL THUNDERSTORM, AND SPINNING WINDS CAN STRETCH INTO A FAST-MOVING FUNNEL.",
+      "quiz": {
+          "question": "What creates the rotating funnel of a violent tornado?",
+          "options": [
+              "Clashing warm, moist air and cold, dry air creating strong rotating updrafts in supercell storms 🌪️",
+              "Giant fans in the clouds 🌀",
+              "Earthquakes spinning the ground ⚡",
+              "Sunbeams twisting the air ☀️"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Intense temperature differences in supercell thunderstorms create severe vertical wind shear and rotating updrafts that form tornadoes."
+      }
+  },
+  "why_do_tsunamis_happen": {
+      "image": "/curious_why_do_tsunamis_happen.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "TSUNAMIS HAPPEN WHEN A HUGE AMOUNT OF OCEAN WATER IS SUDDENLY PUSHED OR PULLED, USUALLY BY AN UNDERWATER EARTHQUAKE.",
+      "quiz": {
+          "question": "What triggers the massive, fast-traveling ocean waves known as tsunamis?",
+          "options": [
+              "Large underwater earthquakes, landslides, or volcanic eruptions that suddenly displace vast amounts of water 🌊",
+              "Heavy rain pouring on the ocean 🌧️",
+              "Strong summer beach winds 💨",
+              "Whales leaping out of the water 🐋"
+          ],
+          "correctIndex": 0,
+          "explanation": "Correct! When the seafloor suddenly lifts or drops during an underwater quake, it displaces the entire water column above it, generating a tsunami."
+      }
+  },
+  "why_do_volcanoes_erupt": {
+      "image": "/curious_why_do_volcanoes_erupt.png",
+      "bgColor": "border-cyan-400",
+      "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
+      "quizBg": "bg-cyan-50 border-cyan-200",
+      "quizText": "text-cyan-950",
+      "quizBadge": "bg-cyan-200 text-cyan-800",
+      "footer": "VOLCANOES ERUPT WHEN HOT MELTED ROCK CALLED MAGMA AND TRAPPED GASES BUILD UP PRESSURE UNDERGROUND AND PUSH THEIR WAY OUT THROUGH CRACKS IN EARTH’S CRUST.",
+      "quiz": {
+          "question": "Why does molten magma erupt out of a volcano onto Earth's surface?",
+          "options": [
+              "Buoyant hot magma and expanding dissolved gases build up immense pressure in underground magma chambers 🌋",
+              "Earth gets too full of dirt 🌍",
+              "Lava gets bored underground 😴",
+              "Rain pours into the crater and boils 🌧️"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome! Magma is less dense than surrounding rock. As it rises, dissolved gases expand like a shaken soda bottle, driving powerful eruptions!"
+      }
+  },
+  "why_do_waterfalls_form": {
+      "image": "/curious_why_do_waterfalls_form.png",
+      "bgColor": "border-blue-400",
+      "accentColor": "from-blue-400 via-sky-300 to-indigo-500",
+      "quizBg": "bg-blue-50 border-blue-200",
+      "quizText": "text-blue-950",
+      "quizBadge": "bg-blue-200 text-blue-800",
+      "footer": "WATERFALLS FORM WHERE A RIVER FLOWS OVER A STEEP DROP IN THE LAND, OFTEN BECAUSE SOFTER ROCK WEARS AWAY FASTER THAN HARDER ROCK.",
+      "quiz": {
+          "question": "How do cascading waterfalls naturally develop along river channels?",
+          "options": [
+              "A river flows over a layer of hard rock that resists erosion while softer rock underneath washes away 💦",
+              "Beavers build giant slide ramps 🦫",
+              "Water gets too heavy to stay flat 🌊",
+              "Earthquakes snap the river in half ⚡"
+          ],
+          "correctIndex": 0,
+          "explanation": "Brilliant! Differential erosion occurs when water easily cuts through soft rock below, creating a steep cliff face under a resilient hard rock ledge."
+      }
+  },
+  "why_do_we_see_lightning_before_hearing_thunder": {
+      "image": "/curious_why_do_we_see_lightning_before_hearing_thunder.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "WE SEE LIGHTNING BEFORE HEARING THUNDER BECAUSE LIGHT TRAVELS MUCH FASTER THROUGH THE AIR THAN SOUND DOES.",
+      "quiz": {
+          "question": "Why do you always see the flash of lightning before you hear the boom of thunder?",
+          "options": [
+              "Light travels nearly a million times faster than sound in air ⚡",
+              "Thunder waits for the lightning to finish 👂",
+              "Your eyes are closer to the sky than your ears 👀",
+              "Lightning happens ten minutes earlier ⏱️"
+          ],
+          "correctIndex": 0,
+          "explanation": "Physics champion! Light races at 300,000 km/s (instantaneous), while sound travels at a much slower ~340 m/s (~1 km every 3 seconds)."
+      }
+  },
+  "why_does_climate_change_happen": {
+      "image": "/curious_why_does_climate_change_happen.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "CLIMATE CHANGE HAPPENS BECAUSE EXTRA HEAT-TRAPPING GASES, ESPECIALLY FROM BURNING COAL, OIL, AND GAS, BUILD UP IN THE AIR AND MAKE EARTH WARMER OVER MANY YEARS.",
+      "quiz": {
+          "question": "What is the primary cause of modern global climate change?",
+          "options": [
+              "Excess greenhouse gases like CO2 trapping heat in Earth's atmosphere 🌡️",
+              "The Sun is getting hotter every year ☀️",
+              "Too many heaters left on in winter 🔥",
+              "Earth is drifting closer to Mars 🪐"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Human activities like burning fossil fuels release greenhouse gases that act like a thick thermal blanket, trapping solar heat."
+      }
+  },
+  "why_does_erosion_happen": {
+      "image": "/curious_why_does_erosion_happen.png",
+      "bgColor": "border-indigo-400",
+      "accentColor": "from-indigo-400 via-purple-300 to-blue-500",
+      "quizBg": "bg-indigo-50 border-indigo-200",
+      "quizText": "text-indigo-950",
+      "quizBadge": "bg-indigo-200 text-indigo-800",
+      "footer": "EROSION HAPPENS WHEN MOVING WATER, WIND, ICE, OR GRAVITY CARRIES BITS OF ROCK AND SOIL FROM ONE PLACE TO ANOTHER.",
+      "quiz": {
+          "question": "What agents are responsible for wearing down landscapes through erosion?",
+          "options": [
+              "Wind, water, ice, and gravity transporting rock and soil particles 🏜️",
+              "Only human footsteps 👣",
+              "Moonlight dissolving mountains 🌙",
+              "Sunlight melting solid stone ☀️"
+          ],
+          "correctIndex": 0,
+          "explanation": "Correct! Flowing water, blowing wind, and grinding glaciers physically wear away and transport weathered rock fragments across the planet."
+      }
+  },
+  "why_does_fog_form": {
+      "image": "/curious_why_does_fog_form.png",
+      "bgColor": "border-teal-400",
+      "accentColor": "from-teal-400 via-cyan-300 to-emerald-500",
+      "quizBg": "bg-teal-50 border-teal-200",
+      "quizText": "text-teal-950",
+      "quizBadge": "bg-teal-200 text-teal-800",
+      "footer": "FOG FORMS WHEN MOIST AIR NEAR THE GROUND COOLS ENOUGH FOR INVISIBLE WATER VAPOR TO TURN INTO TINY FLOATING WATER DROPLETS.",
+      "quiz": {
+          "question": "What is fog scientifically considered to be?",
+          "options": [
+              "A low-altitude cloud touching or hovering just above the ground 🌫️",
+              "A thick blanket of dust 💨",
+              "Steam from underground pipes ♨️",
+              "Smoke from distant campfires 🔥"
+          ],
+          "correctIndex": 0,
+          "explanation": "Fascinating! Fog is essentially a cloud that forms at ground level when moist air cools to its dew point, condensing water vapor into tiny droplets."
+      }
+  },
+  "why_does_hail_form": {
+      "image": "/curious_why_does_hail_form.png",
+      "bgColor": "border-orange-400",
+      "accentColor": "from-orange-400 via-amber-300 to-red-500",
+      "quizBg": "bg-orange-50 border-orange-200",
+      "quizText": "text-orange-950",
+      "quizBadge": "bg-orange-200 text-orange-800",
+      "footer": "HAIL FORMS WHEN STRONG THUNDERSTORM WINDS LIFT RAINDROPS HIGH INTO VERY COLD AIR, WHERE THEY FREEZE INTO ICY BALLS THAT GROW IN LAYERS BEFORE FALLING.",
+      "quiz": {
+          "question": "How do layered balls of hail grow inside powerful thunderstorms?",
+          "options": [
+              "Strong updrafts repeatedly carry ice pellets up into freezing cloud layers to gather new coats of ice 🧊",
+              "Rain freezes instantly when hitting the ground 🌧️",
+              "Snow gets rolled into balls by wind ❄️",
+              "Clouds drop frozen rocks from space ☄️"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome! Thunderstorm updrafts violently push raindrops above freezing levels repeatedly. Each cycle adds a new icy layer before it falls as hail."
+      }
+  },
+  "why_does_it_rain": {
+      "image": "/curious_why_does_it_rain.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "RAIN HAPPENS WHEN WATER EVAPORATES INTO THE AIR, GATHERS INTO CLOUDS, AND FALLS BACK TO EARTH AS DROPS WHEN THE DROPS BECOME HEAVY ENOUGH.",
+      "quiz": {
+          "question": "When does a cloud finally start producing rain?",
+          "options": [
+              "When cloud droplets collide and grow too heavy for rising air updrafts to support 🌧️",
+              "When clouds get tired of flying 😴",
+              "When the Sun pokes a hole in the cloud ☀️",
+              "When lightning cuts the cloud open ⚡"
+          ],
+          "correctIndex": 0,
+          "explanation": "Great job! Microscopic droplets collide and merge inside clouds until their weight overcomes upward air currents and gravity pulls them down."
+      }
+  },
+  "why_does_lightning_happen": {
+      "image": "/curious_why_does_lightning_happen.png",
+      "bgColor": "border-cyan-400",
+      "accentColor": "from-cyan-400 via-teal-300 to-blue-500",
+      "quizBg": "bg-cyan-50 border-cyan-200",
+      "quizText": "text-cyan-950",
+      "quizBadge": "bg-cyan-200 text-cyan-800",
+      "footer": "LIGHTNING HAPPENS WHEN ELECTRIC CHARGES BUILD UP IN STORM CLOUDS AND THEN SUDDENLY JUMP THROUGH THE AIR TO BALANCE THEMSELVES.",
+      "quiz": {
+          "question": "What causes the massive electric discharge known as lightning?",
+          "options": [
+              "A rapid discharge of built-up static electrical charges between clouds or between cloud and ground ⚡",
+              "Clouds rubbing friction sparks like flint stones 🪨",
+              "The Sun shooting electrical beams ☀️",
+              "Air molecules exploding from heat 🔥"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Collisions between ice crystals and hail build positive and negative charge zones until an electric channel discharges with immense power."
+      }
+  },
+  "why_does_snow_form": {
+      "image": "/curious_why_does_snow_form.png",
+      "bgColor": "border-blue-400",
+      "accentColor": "from-blue-400 via-sky-300 to-indigo-500",
+      "quizBg": "bg-blue-50 border-blue-200",
+      "quizText": "text-blue-950",
+      "quizBadge": "bg-blue-200 text-blue-800",
+      "footer": "SNOW FORMS WHEN TINY WATER DROPLETS OR WATER VAPOR IN VERY COLD CLOUDS FREEZE INTO ICE CRYSTALS THAT JOIN TOGETHER AND FALL TO THE GROUND.",
+      "quiz": {
+          "question": "Under what conditions does precipitation fall as delicate snow instead of rain?",
+          "options": [
+              "When atmospheric and ground temperatures remain below 0°C (freezing), allowing water vapor to freeze directly into ice crystals ❄️",
+              "When rain falls through white paint 🎨",
+              "When clouds get frozen solid into ice cubes 🧊",
+              "When winter wind blows salt into the air 🧂"
+          ],
+          "correctIndex": 0,
+          "explanation": "Correct! When air column temperatures are below freezing, water vapor undergoes deposition directly into intricate six-sided ice crystals."
+      }
+  },
+  "why_does_the_sky_turn_orange_at_sunset": {
+      "image": "/curious_why_does_the_sky_turn_orange_at_sunset.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-orange-300 to-yellow-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "AT SUNSET, SUNLIGHT TRAVELS THROUGH MORE AIR, SO TINY BITS IN THE ATMOSPHERE SCATTER AWAY MOST BLUE LIGHT AND LEAVE MORE RED, ORANGE, AND YELLOW LIGHT FOR US TO SEE.",
+      "quiz": {
+          "question": "Why does the sunset sky turn breathtaking shades of orange, pink, and red?",
+          "options": [
+              "Low sun angles force light through much more atmosphere, scattering blue light away and letting longer red/orange wavelengths pass 🌅",
+              "The Sun cools down to red embers at night 🔥",
+              "Ocean reflections dye the clouds 🌊",
+              "The atmosphere catches fire 🌋"
+          ],
+          "correctIndex": 0,
+          "explanation": "Rayleigh scattering in action! At sunset, sunlight passes through up to 10x more air. Short blue wavelengths are scattered away, leaving warm reds and oranges."
+      }
+  },
+  "why_does_thunder_happen": {
+      "image": "/curious_why_does_thunder_happen.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "THUNDER HAPPENS WHEN LIGHTNING HEATS THE AIR SO QUICKLY THAT THE AIR EXPANDS WITH A GIANT BOOM-LIKE VIBRATION.",
+      "quiz": {
+          "question": "What generates the booming sound of thunder during a storm?",
+          "options": [
+              "Lightning superheats surrounding air to ~30,000°C, causing it to explosively expand and produce a supersonic shockwave 💥",
+              "Clouds slamming into each other like cars 🚗",
+              "Giant hail stones colliding in mid-air 🧊",
+              "Rain striking the top of the atmosphere 🌧️"
+          ],
+          "correctIndex": 0,
+          "explanation": "Mind-blowing! A lightning bolt heats air hotter than the surface of the Sun in milliseconds. The air expands violently, creating the sonic shockwave we hear as thunder!"
+      }
+  },
+  "why_does_wind_blow": {
+      "image": "/curious_why_does_wind_blow.png",
+      "bgColor": "border-indigo-400",
+      "accentColor": "from-indigo-400 via-purple-300 to-blue-500",
+      "quizBg": "bg-indigo-50 border-indigo-200",
+      "quizText": "text-indigo-950",
+      "quizBadge": "bg-indigo-200 text-indigo-800",
+      "footer": "WIND BLOWS BECAUSE THE SUN HEATS EARTH UNEVENLY, MAKING AIR MOVE FROM PLACES WITH HIGHER AIR PRESSURE TOWARD PLACES WITH LOWER AIR PRESSURE.",
+      "quiz": {
+          "question": "What makes air move across the globe as gentle breezes or roaring winds?",
+          "options": [
+              "Air moving from areas of high atmospheric pressure to low atmospheric pressure driven by uneven solar heating 💨",
+              "Trees waving their branches 🌳",
+              "The ocean pushing air onto land 🌊",
+              "Earth's engine fan turning ⚙️"
+          ],
+          "correctIndex": 0,
+          "explanation": "Brilliant! Uneven heating of Earth creates differences in air pressure. Air naturally rushes from high-pressure zones to low-pressure zones, creating wind."
+      }
+  },
+  "why_is_humidity_uncomfortable": {
+      "image": "/curious_why_is_humidity_uncomfortable.png",
+      "bgColor": "border-teal-400",
+      "accentColor": "from-teal-400 via-cyan-300 to-emerald-500",
+      "quizBg": "bg-teal-50 border-teal-200",
+      "quizText": "text-teal-950",
+      "quizBadge": "bg-teal-200 text-teal-800",
+      "footer": "HUMIDITY CAN FEEL UNCOMFORTABLE BECAUSE MOIST AIR SLOWS THE EVAPORATION OF SWEAT, MAKING IT HARDER FOR YOUR BODY TO COOL ITSELF.",
+      "quiz": {
+          "question": "Why does high humidity make hot summer days feel much stickier and hotter?",
+          "options": [
+              "Moisture-saturated air slows down sweat evaporation, hindering your body's natural cooling mechanism 💦",
+              "Water in the air traps you in a plastic bag 🛍️",
+              "Sweat turns into hot glue 🧴",
+              "Humid air is heavier than rocks 🪨"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Sweating cools you down only when sweat evaporates into the air. When the air is already saturated with water, sweat cannot evaporate efficiently."
+      }
+  },
+  "why_is_seawater_salty": {
+      "image": "/curious_why_is_seawater_salty.png",
+      "bgColor": "border-orange-400",
+      "accentColor": "from-orange-400 via-amber-300 to-red-500",
+      "quizBg": "bg-orange-50 border-orange-200",
+      "quizText": "text-orange-950",
+      "quizBadge": "bg-orange-200 text-orange-800",
+      "footer": "SEAWATER IS SALTY BECAUSE RAIN AND RIVERS WASH TINY BITS OF DISSOLVED MINERALS FROM ROCKS INTO THE OCEAN, WHERE THE WATER EVAPORATES BUT MOST OF THE SALT STAYS BEHIND.",
+      "quiz": {
+          "question": "Where did all the salt in Earth's oceans originally come from?",
+          "options": [
+              "Rainwater gradually weathered minerals and sodium ions from rocks on land and washed them via rivers into the sea over billions of years 🧂",
+              "Salt was dumped by early sea ships ⛵",
+              "Underwater salt shakers 🌊",
+              "The ocean floor is made of pure table salt 🍽️"
+          ],
+          "correctIndex": 0,
+          "explanation": "Fascinating Earth history! Rain slightly weathers continental rocks, carrying dissolved mineral salts into the ocean, where evaporation leaves the salts behind."
+      }
+  },
+  "why_is_the_sky_blue": {
+      "image": "/curious_why_is_the_sky_blue.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-blue-300 to-indigo-500",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "THE SKY LOOKS BLUE BECAUSE TINY BITS OF AIR SCATTER BLUE SUNLIGHT AROUND THE SKY MORE THAN MOST OTHER COLORS.",
+      "quiz": {
+          "question": "Why does the daytime sky appear bright blue instead of violet or red?",
+          "options": [
+              "Gases in Earth's atmosphere scatter short blue wavelengths of sunlight in every direction (Rayleigh Scattering) 🌌",
+              "The sky reflects the blue ocean water 🌊",
+              "Oxygen is naturally blue gas 🔵",
+              "Dust in the sky is colored blue 🫐"
+          ],
+          "correctIndex": 0,
+          "explanation": "Physics perfection! Blue light has shorter, smaller waves and is scattered much more by nitrogen and oxygen molecules than other colors of sunlight."
+      }
   }
 };
