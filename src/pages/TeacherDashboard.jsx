@@ -9941,62 +9941,7 @@ Include a balanced combination of question types such as:
                   />
                 </div>
 
-                <div className="space-y-3">
-                  <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest ml-4">Subjects to Teach</label>
-                  <div className="flex flex-wrap gap-2 px-2">
-                    {Array.from(new Set([...Object.keys(SUBJECT_ICONS), ...selectedSubjects])).map(subject => (
-                      <button
-                        key={subject}
-                        onClick={() => {
-                          if (selectedSubjects.includes(subject)) {
-                            setSelectedSubjects(selectedSubjects.filter(s => s !== subject));
-                          } else {
-                            setSelectedSubjects([...selectedSubjects, subject]);
-                          }
-                        }}
-                        className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-tight transition-all ${selectedSubjects.includes(subject) ? 'bg-orange-600 text-white shadow-lg shadow-orange-100 scale-105' : 'bg-slate-50 text-slate-400 hover:bg-slate-100'}`}
-                      >
-                        {subject}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="flex gap-2 px-2 mt-2">
-                    <input 
-                      type="text" 
-                      placeholder="Add custom subject" 
-                      className="px-4 py-2 rounded-xl border-2 border-slate-100 text-sm focus:border-[#EA580C] focus:ring-0 w-48"
-                      value={customSubjectInput}
-                      onChange={(e) => setCustomSubjectInput(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && customSubjectInput.trim()) {
-                          e.preventDefault();
-                          const newSub = customSubjectInput.trim();
-                          if (!selectedSubjects.includes(newSub)) {
-                            setSelectedSubjects([...selectedSubjects, newSub]);
-                          }
-                          setCustomSubjectInput('');
-                        }
-                      }}
-                    />
-                    <button 
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (customSubjectInput.trim()) {
-                          const newSub = customSubjectInput.trim();
-                          if (!selectedSubjects.includes(newSub)) {
-                            setSelectedSubjects([...selectedSubjects, newSub]);
-                          }
-                          setCustomSubjectInput('');
-                        }
-                      }}
-                      className="bg-slate-100 text-slate-500 px-4 py-2 rounded-xl text-xs font-bold hover:bg-slate-200 transition-all"
-                    >
-                      Add
-                    </button>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-[20px] mb-2 mt-4 select-none">
+                <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-[20px] mb-2 select-none">
                   <div>
                     <label className="text-xs font-black text-slate-700 block">Disable Chat / Messaging</label>
                     <span className="text-[9px] font-bold text-slate-400">Prevent students from sending or viewing chat messages</span>
@@ -10057,62 +10002,7 @@ Include a balanced combination of question types such as:
                   />
                 </div>
 
-                <div className="space-y-3">
-                  <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest ml-4">Subjects to Teach</label>
-                  <div className="flex flex-wrap gap-2 px-2">
-                    {Array.from(new Set([...Object.keys(SUBJECT_ICONS), ...selectedEditSubjects])).map(subject => (
-                      <button
-                        key={subject}
-                        onClick={() => {
-                          if (selectedEditSubjects.includes(subject)) {
-                            setSelectedEditSubjects(selectedEditSubjects.filter(s => s !== subject));
-                          } else {
-                            setSelectedEditSubjects([...selectedEditSubjects, subject]);
-                          }
-                        }}
-                        className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-tight transition-all ${selectedEditSubjects.includes(subject) ? 'bg-orange-600 text-white shadow-lg shadow-orange-100 scale-105' : 'bg-slate-50 text-slate-400 hover:bg-slate-100'}`}
-                      >
-                        {subject}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="flex gap-2 px-2 mt-2">
-                    <input 
-                      type="text" 
-                      placeholder="Add custom subject" 
-                      className="px-4 py-2 rounded-xl border-2 border-slate-100 text-sm focus:border-[#EA580C] focus:ring-0 w-48"
-                      value={customEditSubjectInput}
-                      onChange={(e) => setCustomEditSubjectInput(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && customEditSubjectInput.trim()) {
-                          e.preventDefault();
-                          const newSub = customEditSubjectInput.trim();
-                          if (!selectedEditSubjects.includes(newSub)) {
-                            setSelectedEditSubjects([...selectedEditSubjects, newSub]);
-                          }
-                          setCustomEditSubjectInput('');
-                        }
-                      }}
-                    />
-                    <button 
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (customEditSubjectInput.trim()) {
-                          const newSub = customEditSubjectInput.trim();
-                          if (!selectedEditSubjects.includes(newSub)) {
-                            setSelectedEditSubjects([...selectedEditSubjects, newSub]);
-                          }
-                          setCustomEditSubjectInput('');
-                        }
-                      }}
-                      className="bg-slate-100 text-slate-500 px-4 py-2 rounded-xl text-xs font-bold hover:bg-slate-200 transition-all"
-                    >
-                      Add
-                    </button>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-[20px] mb-2 mt-4 select-none">
+                <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-[20px] mb-2 select-none">
                   <div>
                     <label className="text-xs font-black text-slate-700 block">Disable Chat / Messaging</label>
                     <span className="text-[9px] font-bold text-slate-400">Prevent students from sending or viewing chat messages</span>
