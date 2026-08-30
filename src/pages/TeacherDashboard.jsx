@@ -184,6 +184,58 @@ const mapToUmbrellaCategory = (subtopic, subject = '') => {
   return subtopic || 'Core Learning Concepts';
 };
 
+const normalizeToGradeSubject = (rawSubject = '', rawSubtopic = '') => {
+  const s = (rawSubject || '').toLowerCase().trim();
+  const t = (rawSubtopic || '').toLowerCase().trim();
+
+  // Test names mapping (e.g. naplan reading, naplan conventions -> English, naplan numeracy -> Mathematics)
+  if (s.includes('math') || s.includes('numeracy') || s.includes('algebra') || s.includes('arithmetic') || s.includes('geometry') || s.includes('quantitative')) {
+    return 'Mathematics';
+  }
+  if (s.includes('english') || s.includes('reading') || s.includes('writing') || s.includes('spelling') || s.includes('grammar') || s.includes('conventions') || s.includes('comprehension') || s.includes('literacy') || s.includes('vocab')) {
+    return 'English';
+  }
+  if (s.includes('science') || s.includes('physics') || s.includes('chemistry') || s.includes('biology') || s.includes('nature') || s.includes('environment')) {
+    return 'Science';
+  }
+  if (s.includes('logic') || s.includes('reasoning') || s.includes('spatial') || s.includes('critical thinking') || s.includes('olympiad')) {
+    return 'Logical Reasoning';
+  }
+  if (s.includes('hindi')) {
+    return 'Hindi';
+  }
+  if (s.includes('history') || s.includes('social') || s.includes('geography')) {
+    return 'History';
+  }
+  if (s.includes('art')) {
+    return 'Art';
+  }
+  if (s.includes('music')) {
+    return 'Music';
+  }
+
+  // If subject was general or a generic test name, classify by subtopic
+  if (t.includes('fraction') || t.includes('number') || t.includes('math') || t.includes('geometry') || t.includes('algebra') || t.includes('time') || t.includes('stat') || t.includes('measurement') || t.includes('money')) {
+    return 'Mathematics';
+  }
+  if (t.includes('spell') || t.includes('grammar') || t.includes('reading') || t.includes('word') || t.includes('verb') || t.includes('clause') || t.includes('sentence') || t.includes('punctuation') || t.includes('vocab')) {
+    return 'English';
+  }
+  if (t.includes('logic') || t.includes('pattern') || t.includes('cube') || t.includes('reasoning') || t.includes('spatial')) {
+    return 'Logical Reasoning';
+  }
+  if (t.includes('planet') || t.includes('particle') || t.includes('science') || t.includes('matter') || t.includes('cell') || t.includes('earth')) {
+    return 'Science';
+  }
+
+  if (rawSubject && rawSubject.trim()) {
+    const clean = rawSubject.trim();
+    if (clean.toLowerCase() === 'maths') return 'Mathematics';
+    return clean.charAt(0).toUpperCase() + clean.slice(1);
+  }
+  return 'General';
+};
+
 const getQuestionSubtopic = (hw, q) => {
   if (q.subtopic && typeof q.subtopic === 'string' && q.subtopic.trim()) {
     return q.subtopic.trim();
@@ -6274,50 +6326,24 @@ Include a balanced combination of question types such as:
                         <img src="/ic-homework.png" className="w-20 h-20 object-contain" alt="Classroom" />
                      </div>
                      <div className="space-y-2">
-                        <h1 className="text-4xl font-black text-[#14532d] tracking-tight">Select a Classroom ðŸ«</h1>
+                        <h1 className="text-4xl font-black text-[#14532d] tracking-tight">Select a Classroom 🏫</h1>
                         <p className="text-sm font-bold text-[#166534] italic">Please select a classroom from the top selector to see classroom analytics reports.</p>
                      </div>
                   </div>
                );
             }
 
-            // 1. Sort current submissions
-            const studentSubs = currentSubmissions.sort((a, b) => {
-               const dateA = a.submittedAt?.toDate ? a.submittedAt.toDate() : new Date(a.submittedAt || 0);
-               const dateB = b.submittedAt?.toDate ? b.submittedAt.toDate() : new Date(b.submittedAt || 0);
-               return dateB - dateA;
-            });
-
-            // 2. Calculate Umbrella Category Masteries for the last 4 weeks
-            const studentSubtopics = {};
-            studentSubs.forEach(sub => {
-               const hw = allHomeworks.find(h => h.id === sub.homeworkId);
-               if (!hw || !hw.questions) return;
-               hw.questions.forEach(q => {
-                  const rawSubtopic = getQuestionSubtopic(hw, q);
-                  const umbrella = mapToUmbrellaCategory(rawSubtopic, hw.subject);
-                  if (!studentSubtopics[umbrella]) {
-                     studentSubtopics[umbrella] = { correctCount: 0, totalCount: 0 };
-                  }
-                  const studentSelection = sub.answers?.[q.id];
-                  const actualAnswer = q.answer;
-                  const isCorrect = checkIsAnswerCorrect(studentSelection, actualAnswer);
-                  
-                  studentSubtopics[umbrella].totalCount += 1;
-                  if (isCorrect) {
-                     studentSubtopics[umbrella].correctCount += 1;
-                  }
-               });
-            });
-
-            const masteryArray = Object.keys(studentSubtopics).map(name => {
-               const data = studentSubtopics[name];
-               const accuracy = Math.round((data.correctCount / data.totalCount) * 100);
-               let tier = 'Needs Focus';
-               if (accuracy >= 80) tier = 'Mastered';
-               else if (accuracy >= 60) tier = 'Reviewing';
-               return { name, accuracy, correctCount: data.correctCount, totalCount: data.totalCount, tier };
-            }).sort((a, b) => a.accuracy - b.accuracy);
+            // Extract the curriculum subjects configured for this grade/classroom
+            const rawClassSubjects = (activeClassroom?.subjects && activeClassroom.subjects.length > 0)
+               ? activeClassroom.subjects
+               : ['English', 'Maths', 'Science', 'Logical Reasoning', 'Hindi'];
+            
+            const gradeSubjectsList = Array.from(new Set(
+               rawClassSubjects.map(s => {
+                  const norm = s.toLowerCase() === 'maths' ? 'Mathematics' : (s.charAt(0).toUpperCase() + s.slice(1));
+                  return norm;
+               })
+            ));
 
             // Class-wide concept accuracy for benchmark
             const classSubtopicsData = {};
@@ -6326,10 +6352,14 @@ Include a balanced combination of question types such as:
                if (!hw || !hw.questions) return;
                hw.questions.forEach(q => {
                   const rawSubtopic = getQuestionSubtopic(hw, q);
+                  const qSubject = normalizeToGradeSubject(hw.subject, rawSubtopic);
+                  if (selectedReportSubject && qSubject !== selectedReportSubject) return;
+
                   const subtopic = mapToUmbrellaCategory(rawSubtopic, hw.subject);
                   if (!classSubtopicsData[subtopic]) {
                      classSubtopicsData[subtopic] = {
                         name: subtopic,
+                        subject: qSubject,
                         correctCount: 0,
                         totalCount: 0
                      };
@@ -6356,10 +6386,14 @@ Include a balanced combination of question types such as:
                if (!hw || !hw.questions) return;
                hw.questions.forEach(q => {
                   const rawSubtopic = getQuestionSubtopic(hw, q);
+                  const qSubject = normalizeToGradeSubject(hw.subject, rawSubtopic);
+                  if (selectedReportSubject && qSubject !== selectedReportSubject) return;
+
                   const subtopic = mapToUmbrellaCategory(rawSubtopic, hw.subject);
                   if (!subtopicsData[subtopic]) {
                      subtopicsData[subtopic] = {
                         name: subtopic,
+                        subject: qSubject,
                         correctCount: 0,
                         totalCount: 0
                      };
@@ -6389,6 +6423,7 @@ Include a balanced combination of question types such as:
                
                return {
                   name,
+                  subject: data.subject,
                   accuracy,
                   classAverage,
                   correctCount: data.correctCount,
@@ -6397,26 +6432,27 @@ Include a balanced combination of question types such as:
                };
             });
 
-            // Class-wide accuracy by subject
+            // Class-wide accuracy by grade curriculum subject
             const classSubjectsData = {};
+            gradeSubjectsList.forEach(name => {
+               classSubjectsData[name] = { name, correctCount: 0, totalCount: 0 };
+            });
+
             currentSubmissions.forEach(sub => {
                const hw = allHomeworks.find(h => h.id === sub.homeworkId);
                if (!hw || !hw.questions) return;
                
-               let rawSubject = hw.subject || 'general';
-               let subjectName = rawSubject.charAt(0).toUpperCase() + rawSubject.slice(1);
-               if (rawSubject.toLowerCase() === 'maths') subjectName = 'Mathematics';
-               if (rawSubject.toLowerCase() === 'logical reasoning') subjectName = 'Logical Reasoning';
-               
-               if (!classSubjectsData[subjectName]) {
-                  classSubjectsData[subjectName] = {
-                     name: subjectName,
-                     correctCount: 0,
-                     totalCount: 0
-                  };
-               }
-               
                hw.questions.forEach(q => {
+                  const rawSubtopic = getQuestionSubtopic(hw, q);
+                  const subjectName = normalizeToGradeSubject(hw.subject, rawSubtopic);
+                  if (!classSubjectsData[subjectName]) {
+                     classSubjectsData[subjectName] = {
+                        name: subjectName,
+                        correctCount: 0,
+                        totalCount: 0
+                     };
+                  }
+                  
                   const studentSelection = sub.answers?.[q.id];
                   const actualAnswer = q.answer;
                   const isCorrect = checkIsAnswerCorrect(studentSelection, actualAnswer);
@@ -6800,29 +6836,49 @@ Include a balanced combination of question types such as:
                   {selectedReportTab === 'mastery' && (
                      <div className="space-y-8 animate-fadeIn">
                         {/* Header & Student Filter */}
-                        <div className="bg-white rounded-[40px] p-8 border border-orange-100 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
-                           <div className="space-y-2 text-center md:text-left">
+                        {/* Header & Student/Subject Filter */}
+                        <div className="bg-white rounded-[40px] p-8 border border-orange-100 shadow-sm flex flex-col lg:flex-row items-center justify-between gap-6">
+                           <div className="space-y-2 text-center lg:text-left flex-1">
                               <h2 className="text-2xl font-black text-[#14532d]">
-                                 Concept Mastery Overview {selectedReportStudent ? `— ${selectedReportStudent}` : ''}
+                                 Concept Mastery Overview {selectedReportSubject ? `— ${selectedReportSubject}` : ''} {selectedReportStudent ? `(${selectedReportStudent})` : ''}
                               </h2>
                               <p className="text-xs text-[#166534] font-medium">
-                                 Grouped by umbrella category based on historical quiz submissions. Visual breakdown of mastery tiers and accuracy across concepts.
+                                 Grouped by umbrella category based on historical quiz submissions. Filter by grade subjects or individual students to evaluate specific curriculum learning goals.
                               </p>
                            </div>
-                           <div className="w-full md:w-64">
-                              <select 
-                                 value={selectedReportStudent} 
-                                 onChange={(e) => setSelectedReportStudent(e.target.value)} 
-                                 className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-[#14532d] focus:outline-none focus:ring-2 focus:ring-[#EA580C]/25 shadow-sm"
-                              >
-                                 <option value="">All Students (Class Average)</option>
-                                 {currentStudents.map((st, i) => (
-                                    <option key={i} value={st.name}>{st.name}</option>
-                                 ))}
-                              </select>
+                           <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+                              {/* Subject Filter for Grade Curriculum */}
+                              <div className="w-full sm:w-56">
+                                 <select 
+                                    value={selectedReportSubject} 
+                                    onChange={(e) => {
+                                       setSelectedReportSubject(e.target.value);
+                                       setConceptPage(1);
+                                    }} 
+                                    className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-[#14532d] focus:outline-none focus:ring-2 focus:ring-[#EA580C]/25 shadow-sm cursor-pointer"
+                                 >
+                                    <option value="">All Subjects (Grade Curriculum)</option>
+                                    {gradeSubjectsList.map((subj, i) => (
+                                       <option key={i} value={subj}>{subj}</option>
+                                    ))}
+                                 </select>
+                              </div>
+
+                              {/* Student Filter */}
+                              <div className="w-full sm:w-56">
+                                 <select 
+                                    value={selectedReportStudent} 
+                                    onChange={(e) => setSelectedReportStudent(e.target.value)} 
+                                    className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-3 px-4 text-sm font-bold text-[#14532d] focus:outline-none focus:ring-2 focus:ring-[#EA580C]/25 shadow-sm cursor-pointer"
+                                 >
+                                    <option value="">All Students (Class Average)</option>
+                                    {currentStudents.map((st, i) => (
+                                       <option key={i} value={st.name}>{st.name}</option>
+                                    ))}
+                                 </select>
+                              </div>
                            </div>
                         </div>
-
                         {subtopicsArray.length > 0 ? (
                            <>
                               {/* Charts Row — Pie + Bar */}
