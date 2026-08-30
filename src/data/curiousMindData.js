@@ -76,7 +76,7 @@ export const TOPICS = [
     "id": "goosebumps",
     "title": "Why Do Humans Get Goosebumps?",
     "category": "human_body",
-    "cardImage": "/curious_goosebumps.png"
+    "cardImage": "/curious_whole_goosebumps.png"
   },
   {
     "id": "baby_teeth",
@@ -88,583 +88,583 @@ export const TOPICS = [
     "id": "constipation",
     "title": "Why Do We Get Constipated?",
     "category": "human_body",
-    "cardImage": "/curious_constipation.png"
+    "cardImage": "/curious_whole_constipation.png"
   },
   {
     "id": "cry",
     "title": "Why Do We Cry?",
     "category": "brain_sleep",
-    "cardImage": "/curious_cry.png"
+    "cardImage": "/curious_whole_cry.png"
   },
   {
     "id": "forget",
     "title": "Why Do We Forget Things?",
     "category": "brain_sleep",
-    "cardImage": "/curious_forget.png"
+    "cardImage": "/curious_whole_forget.png"
   },
   {
     "id": "dream",
     "title": "Why Do We Dream?",
     "category": "brain_sleep",
-    "cardImage": "/curious_dream.png"
+    "cardImage": "/curious_whole_dream.png"
   },
   {
     "id": "blink",
     "title": "Why Do We Blink So Much?",
     "category": "human_body",
-    "cardImage": "/curious_blink.jpg"
+    "cardImage": "/curious_whole_blink.png"
   },
   {
     "id": "cuts",
     "title": "Why Do Cuts Bleed?",
     "category": "human_body",
-    "cardImage": "/curious_cuts.png"
+    "cardImage": "/curious_whole_cuts.png"
   },
   {
     "id": "yawn",
     "title": "Why Do We Yawn?",
     "category": "human_body",
-    "cardImage": "/curious_yawn.png"
+    "cardImage": "/curious_whole_yawn.png"
   },
   {
     "id": "burp",
     "title": "Why Do We Burp?",
     "category": "human_body",
-    "cardImage": "/curious_burp.png"
+    "cardImage": "/curious_whole_burp.png"
   },
   {
     "id": "cough",
     "title": "Why Do We Cough?",
     "category": "human_body",
-    "cardImage": "/curious_cough.png"
+    "cardImage": "/curious_whole_cough.png"
   },
   {
     "id": "fart",
     "title": "Why Do We Fart?",
     "category": "human_body",
-    "cardImage": "/curious_fart.png"
+    "cardImage": "/curious_whole_fart.png"
   },
   {
     "id": "feel_hungry",
     "title": "Why Do We Feel Hungry?",
     "category": "human_body",
-    "cardImage": "/curious_feel_hungry.png"
+    "cardImage": "/curious_whole_feel_hungry.png"
   },
   {
     "id": "feel_thirsty",
     "title": "Why Do We Feel Thirsty?",
     "category": "human_body",
-    "cardImage": "/curious_feel_thirsty.png"
+    "cardImage": "/curious_whole_feel_thirsty.png"
   },
   {
     "id": "hiccup",
     "title": "Why Do We Hiccup?",
     "category": "human_body",
-    "cardImage": "/curious_hiccup.png"
+    "cardImage": "/curious_whole_hiccup.png"
   },
   {
     "id": "shiver",
     "title": "Why Do We Shiver?",
     "category": "human_body",
-    "cardImage": "/curious_shiver.png"
+    "cardImage": "/curious_whole_shiver.png"
   },
   {
     "id": "sneeze",
     "title": "Why Do We Sneeze?",
     "category": "human_body",
-    "cardImage": "/curious_sneeze.png"
+    "cardImage": "/curious_whole_sneeze.png"
   },
   {
     "id": "sweat",
     "title": "Why Do We Sweat?",
     "category": "human_body",
-    "cardImage": "/curious_sweat.png"
+    "cardImage": "/curious_whole_sweat.png"
   },
   {
     "id": "vomit",
     "title": "Why Do We Vomit?",
     "category": "human_body",
-    "cardImage": "/curious_vomit.png"
+    "cardImage": "/curious_whole_vomit.png"
   },
   {
     "id": "stomach_growl",
     "title": "Why Does Our Stomach Growl?",
     "category": "human_body",
-    "cardImage": "/curious_stomach_growl.png"
+    "cardImage": "/curious_whole_stomach_growl.png"
   },
   {
     "id": "smell",
     "title": "Why can we smell?",
     "category": "brain_sleep",
-    "cardImage": "/curious_smell.png"
+    "cardImage": "/curious_whole_smell.png"
   },
   {
     "id": "taste",
     "title": "Why can we taste?",
     "category": "brain_sleep",
-    "cardImage": "/curious_taste.png"
+    "cardImage": "/curious_whole_taste.png"
   },
   {
     "id": "broken_bones_heal",
     "title": "Why do broken bones heal?",
     "category": "human_body",
-    "cardImage": "/curious_broken_bones_heal.png"
+    "cardImage": "/curious_whole_broken_bones_heal.png"
   },
   {
     "id": "bruises_change_colour",
     "title": "Why do bruises change colour?",
     "category": "human_body",
-    "cardImage": "/curious_bruises_change_colour.png"
+    "cardImage": "/curious_whole_bruises_change_colour.png"
   },
   {
     "id": "children_grow",
     "title": "Why do children grow?",
     "category": "human_body",
-    "cardImage": "/curious_children_grow.png"
+    "cardImage": "/curious_whole_children_grow.png"
   },
   {
     "id": "cuts_form_scabs",
     "title": "Why do cuts form scabs?",
     "category": "human_body",
-    "cardImage": "/curious_cuts_form_scabs.png"
+    "cardImage": "/curious_whole_cuts_form_scabs.png"
   },
   {
     "id": "joints_crack",
     "title": "Why do joints crack?",
     "category": "human_body",
-    "cardImage": "/curious_joints_crack.png"
+    "cardImage": "/curious_whole_joints_crack.png"
   },
   {
     "id": "mosquito_bites_itch",
     "title": "Why do mosquito bites itch?",
     "category": "human_body",
-    "cardImage": "/curious_mosquito_bites_itch.png"
+    "cardImage": "/curious_whole_mosquito_bites_itch.png"
   },
   {
     "id": "muscles_become_sore_after_exercise",
     "title": "Why do muscles become sore after exercise?",
     "category": "human_body",
-    "cardImage": "/curious_muscles_become_sore_after_exercise.png"
+    "cardImage": "/curious_whole_muscles_become_sore_after_exercise.png"
   },
   {
     "id": "our_ears_pop",
     "title": "Why do our ears pop?",
     "category": "brain_sleep",
-    "cardImage": "/curious_our_ears_pop.png"
+    "cardImage": "/curious_whole_our_ears_pop.png"
   },
   {
     "id": "people_stop_growing_taller",
     "title": "Why do people stop growing taller?",
     "category": "human_body",
-    "cardImage": "/curious_people_stop_growing_taller.png"
+    "cardImage": "/curious_whole_people_stop_growing_taller.png"
   },
   {
     "id": "some_people_snore",
     "title": "Why do some people snore?",
     "category": "brain_sleep",
-    "cardImage": "/curious_some_people_snore.png"
+    "cardImage": "/curious_whole_some_people_snore.png"
   },
   {
     "id": "teeth_get_cavities",
     "title": "Why do teeth get cavities?",
     "category": "human_body",
-    "cardImage": "/curious_teeth_get_cavities.png"
+    "cardImage": "/curious_whole_teeth_get_cavities.png"
   },
   {
     "id": "blush",
     "title": "Why do we blush?",
     "category": "brain_sleep",
-    "cardImage": "/curious_blush.png"
+    "cardImage": "/curious_whole_blush.png"
   },
   {
     "id": "breathe",
     "title": "Why do we breathe?",
     "category": "human_body",
-    "cardImage": "/curious_breathe.png"
+    "cardImage": "/curious_whole_breathe.png"
   },
   {
     "id": "feel_pain",
     "title": "Why do we feel pain?",
     "category": "brain_sleep",
-    "cardImage": "/curious_feel_pain.png"
+    "cardImage": "/curious_whole_feel_pain.png"
   },
   {
     "id": "get_a_fever",
     "title": "Why do we get a fever?",
     "category": "human_body",
-    "cardImage": "/curious_get_a_fever.png"
+    "cardImage": "/curious_whole_get_a_fever.png"
   },
   {
     "id": "get_a_runny_nose",
     "title": "Why do we get a runny nose?",
     "category": "human_body",
-    "cardImage": "/curious_get_a_runny_nose.png"
+    "cardImage": "/curious_whole_get_a_runny_nose.png"
   },
   {
     "id": "get_allergies",
     "title": "Why do we get allergies?",
     "category": "human_body",
-    "cardImage": "/curious_get_allergies.png"
+    "cardImage": "/curious_whole_get_allergies.png"
   },
   {
     "id": "get_cramps",
     "title": "Why do we get cramps?",
     "category": "human_body",
-    "cardImage": "/curious_get_cramps.png"
+    "cardImage": "/curious_whole_get_cramps.png"
   },
   {
     "id": "get_dizzy_after_spinning",
     "title": "Why do we get dizzy after spinning?",
     "category": "brain_sleep",
-    "cardImage": "/curious_get_dizzy_after_spinning.png"
+    "cardImage": "/curious_whole_get_dizzy_after_spinning.png"
   },
   {
     "id": "get_inflammation_when_injured",
     "title": "Why do we get inflammation when injured?",
     "category": "human_body",
-    "cardImage": "/curious_get_inflammation_when_injured.png"
+    "cardImage": "/curious_whole_get_inflammation_when_injured.png"
   },
   {
     "id": "get_pins_and_needles",
     "title": "Why do we get pins and needles?",
     "category": "human_body",
-    "cardImage": "/curious_get_pins_and_needles.png"
+    "cardImage": "/curious_whole_get_pins_and_needles.png"
   },
   {
     "id": "get_sunburn",
     "title": "Why do we get sunburn?",
     "category": "human_body",
-    "cardImage": "/curious_get_sunburn.png"
+    "cardImage": "/curious_whole_get_sunburn.png"
   },
   {
     "id": "have_a_belly_button",
     "title": "Why do we have a belly button?",
     "category": "human_body",
-    "cardImage": "/curious_have_a_belly_button.png"
+    "cardImage": "/curious_whole_have_a_belly_button.png"
   },
   {
     "id": "have_a_liver",
     "title": "Why do we have a liver?",
     "category": "human_body",
-    "cardImage": "/curious_have_a_liver.png"
+    "cardImage": "/curious_whole_have_a_liver.png"
   },
   {
     "id": "have_a_stomach",
     "title": "Why do we have a stomach?",
     "category": "human_body",
-    "cardImage": "/curious_have_a_stomach.png"
+    "cardImage": "/curious_whole_have_a_stomach.png"
   },
   {
     "id": "have_bones",
     "title": "Why do we have bones?",
     "category": "human_body",
-    "cardImage": "/curious_have_bones.png"
+    "cardImage": "/curious_whole_have_bones.png"
   },
   {
     "id": "have_different_kinds_of_teeth",
     "title": "Why do we have different kinds of teeth?",
     "category": "human_body",
-    "cardImage": "/curious_have_different_kinds_of_teeth.png"
+    "cardImage": "/curious_whole_have_different_kinds_of_teeth.png"
   },
   {
     "id": "have_earwax",
     "title": "Why do we have earwax?",
     "category": "human_body",
-    "cardImage": "/curious_have_earwax.png"
+    "cardImage": "/curious_whole_have_earwax.png"
   },
   {
     "id": "have_eyebrows",
     "title": "Why do we have eyebrows?",
     "category": "human_body",
-    "cardImage": "/curious_have_eyebrows.png"
+    "cardImage": "/curious_whole_have_eyebrows.png"
   },
   {
     "id": "have_eyelashes",
     "title": "Why do we have eyelashes?",
     "category": "human_body",
-    "cardImage": "/curious_have_eyelashes.png"
+    "cardImage": "/curious_whole_have_eyelashes.png"
   },
   {
     "id": "have_fingernails",
     "title": "Why do we have fingernails?",
     "category": "human_body",
-    "cardImage": "/curious_have_fingernails.png"
+    "cardImage": "/curious_whole_have_fingernails.png"
   },
   {
     "id": "have_fingerprints",
     "title": "Why do we have fingerprints?",
     "category": "human_body",
-    "cardImage": "/curious_have_fingerprints.png"
+    "cardImage": "/curious_whole_have_fingerprints.png"
   },
   {
     "id": "have_hair",
     "title": "Why do we have hair?",
     "category": "human_body",
-    "cardImage": "/curious_have_hair.png"
+    "cardImage": "/curious_whole_have_hair.png"
   },
   {
     "id": "have_intestines",
     "title": "Why do we have intestines?",
     "category": "human_body",
-    "cardImage": "/curious_have_intestines.png"
+    "cardImage": "/curious_whole_have_intestines.png"
   },
   {
     "id": "have_joints",
     "title": "Why do we have joints?",
     "category": "human_body",
-    "cardImage": "/curious_have_joints.png"
+    "cardImage": "/curious_whole_have_joints.png"
   },
   {
     "id": "have_kidneys",
     "title": "Why do we have kidneys?",
     "category": "human_body",
-    "cardImage": "/curious_have_kidneys.png"
+    "cardImage": "/curious_whole_have_kidneys.png"
   },
   {
     "id": "have_saliva",
     "title": "Why do we have saliva?",
     "category": "human_body",
-    "cardImage": "/curious_have_saliva.png"
+    "cardImage": "/curious_whole_have_saliva.png"
   },
   {
     "id": "have_skin",
     "title": "Why do we have skin?",
     "category": "human_body",
-    "cardImage": "/curious_have_skin.png"
+    "cardImage": "/curious_whole_have_skin.png"
   },
   {
     "id": "have_two_ears",
     "title": "Why do we have two ears?",
     "category": "human_body",
-    "cardImage": "/curious_have_two_ears.png"
+    "cardImage": "/curious_whole_have_two_ears.png"
   },
   {
     "id": "have_two_eyes",
     "title": "Why do we have two eyes?",
     "category": "human_body",
-    "cardImage": "/curious_have_two_eyes.png"
+    "cardImage": "/curious_whole_have_two_eyes.png"
   },
   {
     "id": "have_two_lungs",
     "title": "Why do we have two lungs?",
     "category": "human_body",
-    "cardImage": "/curious_have_two_lungs.png"
+    "cardImage": "/curious_whole_have_two_lungs.png"
   },
   {
     "id": "need_oxygen",
     "title": "Why do we need oxygen?",
     "category": "human_body",
-    "cardImage": "/curious_need_oxygen.png"
+    "cardImage": "/curious_whole_need_oxygen.png"
   },
   {
     "id": "food_taste_different_when_our_nose_is_blocked",
     "title": "Why does food taste different when our nose is blocked?",
     "category": "brain_sleep",
-    "cardImage": "/curious_food_taste_different_when_our_nose_is_blocked.png"
+    "cardImage": "/curious_whole_food_taste_different_when_our_nose_is_blocked.png"
   },
   {
     "id": "hair_turn_grey",
     "title": "Why does hair turn grey?",
     "category": "human_body",
-    "cardImage": "/curious_hair_turn_grey.png"
+    "cardImage": "/curious_whole_hair_turn_grey.png"
   },
   {
     "id": "heart_beat",
     "title": "Why does our heart beat?",
     "category": "human_body",
-    "cardImage": "/curious_heart_beat.png"
+    "cardImage": "/curious_whole_heart_beat.png"
   },
   {
     "id": "heart_beat_faster_when_we_exercise",
     "title": "Why does our heart beat faster when we exercise?",
     "category": "human_body",
-    "cardImage": "/curious_heart_beat_faster_when_we_exercise.png"
+    "cardImage": "/curious_whole_heart_beat_faster_when_we_exercise.png"
   },
   {
     "id": "skin_wrinkle_in_water",
     "title": "Why does skin wrinkle in water?",
     "category": "human_body",
-    "cardImage": "/curious_skin_wrinkle_in_water.png"
+    "cardImage": "/curious_whole_skin_wrinkle_in_water.png"
   },
   {
     "id": "chillies_spicy",
     "title": "Why are chillies spicy?",
     "category": "food_chemistry",
-    "cardImage": "/curious_chillies_spicy.png"
+    "cardImage": "/curious_whole_chillies_spicy.png"
   },
   {
     "id": "flowers_colourful",
     "title": "Why are flowers colourful?",
     "category": "plants",
-    "cardImage": "/curious_flowers_colourful.png"
+    "cardImage": "/curious_whole_flowers_colourful.png"
   },
   {
     "id": "fruits_often_sweet",
     "title": "Why are fruits often sweet?",
     "category": "plants",
-    "cardImage": "/curious_fruits_often_sweet.png"
+    "cardImage": "/curious_whole_fruits_often_sweet.png"
   },
   {
     "id": "plants_green",
     "title": "Why are plants green?",
     "category": "plants",
-    "cardImage": "/curious_plants_green.png"
+    "cardImage": "/curious_whole_plants_green.png"
   },
   {
     "id": "mushrooms_plants",
     "title": "Why aren't mushrooms plants?",
     "category": "plants",
-    "cardImage": "/curious_mushrooms_plants.png"
+    "cardImage": "/curious_whole_mushrooms_plants.png"
   },
   {
     "id": "why_can_cacti_survive_in_deserts",
     "title": "Why can cacti survive in deserts?",
     "category": "plants",
-    "cardImage": "/curious_why_can_cacti_survive_in_deserts.png"
+    "cardImage": "/curious_whole_why_can_cacti_survive_in_deserts.png"
   },
   {
     "id": "cacti_have_spines",
     "title": "Why do cacti have spines?",
     "category": "plants",
-    "cardImage": "/curious_cacti_have_spines.png"
+    "cardImage": "/curious_whole_cacti_have_spines.png"
   },
   {
     "id": "flowers_smell",
     "title": "Why do flowers smell?",
     "category": "plants",
-    "cardImage": "/curious_flowers_smell.png"
+    "cardImage": "/curious_whole_flowers_smell.png"
   },
   {
     "id": "fruits_contain_seeds",
     "title": "Why do fruits contain seeds?",
     "category": "plants",
-    "cardImage": "/curious_fruits_contain_seeds.png"
+    "cardImage": "/curious_whole_fruits_contain_seeds.png"
   },
   {
     "id": "leaves_change_colour_in_autumn",
     "title": "Why do leaves change colour in autumn?",
     "category": "plants",
-    "cardImage": "/curious_leaves_change_colour_in_autumn.png"
+    "cardImage": "/curious_whole_leaves_change_colour_in_autumn.png"
   },
   {
     "id": "onions_make_us_cry",
     "title": "Why do onions make us cry?",
     "category": "food_chemistry",
-    "cardImage": "/curious_onions_make_us_cry.png"
+    "cardImage": "/curious_whole_onions_make_us_cry.png"
   },
   {
     "id": "pine_trees_make_cones",
     "title": "Why do pine trees make cones?",
     "category": "plants",
-    "cardImage": "/curious_pine_trees_make_cones.png"
+    "cardImage": "/curious_whole_pine_trees_make_cones.png"
   },
   {
     "id": "plants_grow_toward_light",
     "title": "Why do plants grow toward light?",
     "category": "plants",
-    "cardImage": "/curious_plants_grow_toward_light.png"
+    "cardImage": "/curious_whole_plants_grow_toward_light.png"
   },
   {
     "id": "plants_have_leaves",
     "title": "Why do plants have leaves?",
     "category": "plants",
-    "cardImage": "/curious_plants_have_leaves.png"
+    "cardImage": "/curious_whole_plants_have_leaves.png"
   },
   {
     "id": "plants_have_roots",
     "title": "Why do plants have roots?",
     "category": "plants",
-    "cardImage": "/curious_plants_have_roots.png"
+    "cardImage": "/curious_whole_plants_have_roots.png"
   },
   {
     "id": "plants_make_flowers",
     "title": "Why do plants make flowers?",
     "category": "plants",
-    "cardImage": "/curious_plants_make_flowers.png"
+    "cardImage": "/curious_whole_plants_make_flowers.png"
   },
   {
     "id": "plants_make_seeds",
     "title": "Why do plants make seeds?",
     "category": "plants",
-    "cardImage": "/curious_plants_make_seeds.png"
+    "cardImage": "/curious_whole_plants_make_seeds.png"
   },
   {
     "id": "plants_need_sunlight",
     "title": "Why do plants need sunlight?",
     "category": "plants",
-    "cardImage": "/curious_plants_need_sunlight.png"
+    "cardImage": "/curious_whole_plants_need_sunlight.png"
   },
   {
     "id": "plants_need_water",
     "title": "Why do plants need water?",
     "category": "plants",
-    "cardImage": "/curious_plants_need_water.png"
+    "cardImage": "/curious_whole_plants_need_water.png"
   },
   {
     "id": "plants_wilt",
     "title": "Why do plants wilt?",
     "category": "plants",
-    "cardImage": "/curious_plants_wilt.png"
+    "cardImage": "/curious_whole_plants_wilt.png"
   },
   {
     "id": "roots_grow_downward",
     "title": "Why do roots grow downward?",
     "category": "plants",
-    "cardImage": "/curious_roots_grow_downward.png"
+    "cardImage": "/curious_whole_roots_grow_downward.png"
   },
   {
     "id": "seeds_need_water_to_grow",
     "title": "Why do seeds need water to grow?",
     "category": "plants",
-    "cardImage": "/curious_seeds_need_water_to_grow.png"
+    "cardImage": "/curious_whole_seeds_need_water_to_grow.png"
   },
   {
     "id": "some_flowers_close_at_night",
     "title": "Why do some flowers close at night?",
     "category": "plants",
-    "cardImage": "/curious_some_flowers_close_at_night.png"
+    "cardImage": "/curious_whole_some_flowers_close_at_night.png"
   },
   {
     "id": "some_seeds_have_wings",
     "title": "Why do some seeds have wings?",
     "category": "plants",
-    "cardImage": "/curious_some_seeds_have_wings.png"
+    "cardImage": "/curious_whole_some_seeds_have_wings.png"
   },
   {
     "id": "trees_have_bark",
     "title": "Why do trees have bark?",
     "category": "plants",
-    "cardImage": "/curious_trees_have_bark.png"
+    "cardImage": "/curious_whole_trees_have_bark.png"
   },
   {
     "id": "trees_have_rings",
     "title": "Why do trees have rings?",
     "category": "plants",
-    "cardImage": "/curious_trees_have_rings.png"
+    "cardImage": "/curious_whole_trees_have_rings.png"
   },
   {
     "id": "trees_lose_their_leaves",
     "title": "Why do trees lose their leaves?",
     "category": "plants",
-    "cardImage": "/curious_trees_lose_their_leaves.png"
+    "cardImage": "/curious_whole_trees_lose_their_leaves.png"
   },
   {
     "id": "venus_flytraps_eat_insects",
     "title": "Why do Venus flytraps eat insects?",
     "category": "plants",
-    "cardImage": "/curious_venus_flytraps_eat_insects.png"
+    "cardImage": "/curious_whole_venus_flytraps_eat_insects.png"
   },
   {
     "id": "vines_climb",
     "title": "Why do vines climb?",
     "category": "plants",
-    "cardImage": "/curious_vines_climb.png"
+    "cardImage": "/curious_whole_vines_climb.png"
   },
   {
     "id": "grass_grow_back_after_mowing",
     "title": "Why does grass grow back after mowing?",
     "category": "plants",
-    "cardImage": "/curious_grass_grow_back_after_mowing.png"
+    "cardImage": "/curious_whole_grass_grow_back_after_mowing.png"
   },
   {
     "id": "why_are_clouds_white",
@@ -1132,7 +1132,7 @@ export const TOPICS = [
 
 export const TOPIC_DETAILS = {
   "goosebumps": {
-    "image": "/curious_whole_goosebumps.png",
+    "image": "/curious_goosebumps.png",
     "bgColor": "border-orange-400",
     "accentColor": "from-orange-400 via-amber-400 to-sky-400",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -1172,7 +1172,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "constipation": {
-    "image": "/curious_whole_constipation.png",
+    "image": "/curious_constipation.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -1192,7 +1192,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "cry": {
-    "image": "/curious_whole_cry.png",
+    "image": "/curious_cry.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -1212,7 +1212,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "forget": {
-    "image": "/curious_whole_forget.png",
+    "image": "/curious_forget.png",
     "bgColor": "border-pink-400",
     "accentColor": "from-pink-400 via-rose-300 to-purple-400",
     "quizBg": "bg-pink-50 border-pink-200",
@@ -1232,7 +1232,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "dream": {
-    "image": "/curious_whole_dream.png",
+    "image": "/curious_dream.png",
     "bgColor": "border-indigo-400",
     "accentColor": "from-indigo-400 via-purple-300 to-pink-500",
     "quizBg": "bg-indigo-50 border-indigo-200",
@@ -1252,7 +1252,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "blink": {
-    "image": "/curious_whole_blink.png",
+    "image": "/curious_blink.jpg",
     "bgColor": "border-sky-400",
     "accentColor": "from-sky-400 via-teal-300 to-blue-500",
     "quizBg": "bg-sky-50 border-sky-200",
@@ -1272,7 +1272,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "cuts": {
-    "image": "/curious_whole_cuts.png",
+    "image": "/curious_cuts.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -1292,7 +1292,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "yawn": {
-    "image": "/curious_whole_yawn.png",
+    "image": "/curious_yawn.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-sky-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -1312,7 +1312,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "burp": {
-    "image": "/curious_whole_burp.png",
+    "image": "/curious_burp.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -1332,7 +1332,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "cough": {
-    "image": "/curious_whole_cough.png",
+    "image": "/curious_cough.png",
     "bgColor": "border-blue-400",
     "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
     "quizBg": "bg-blue-50 border-blue-200",
@@ -1352,7 +1352,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "fart": {
-    "image": "/curious_whole_fart.png",
+    "image": "/curious_fart.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -1372,7 +1372,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "feel_hungry": {
-    "image": "/curious_whole_feel_hungry.png",
+    "image": "/curious_feel_hungry.png",
     "bgColor": "border-orange-400",
     "accentColor": "from-orange-400 via-amber-300 to-red-400",
     "quizBg": "bg-orange-50 border-orange-200",
@@ -1392,7 +1392,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "feel_thirsty": {
-    "image": "/curious_whole_feel_thirsty.png",
+    "image": "/curious_feel_thirsty.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -1412,7 +1412,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "hiccup": {
-    "image": "/curious_whole_hiccup.png",
+    "image": "/curious_hiccup.png",
     "bgColor": "border-purple-400",
     "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -1432,7 +1432,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "shiver": {
-    "image": "/curious_whole_shiver.png",
+    "image": "/curious_shiver.png",
     "bgColor": "border-sky-400",
     "accentColor": "from-sky-400 via-blue-300 to-indigo-400",
     "quizBg": "bg-sky-50 border-sky-200",
@@ -1452,7 +1452,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "sneeze": {
-    "image": "/curious_whole_sneeze.png",
+    "image": "/curious_sneeze.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-emerald-300 to-green-500",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -1472,7 +1472,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "sweat": {
-    "image": "/curious_whole_sweat.png",
+    "image": "/curious_sweat.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-yellow-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -1492,7 +1492,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "vomit": {
-    "image": "/curious_whole_vomit.png",
+    "image": "/curious_vomit.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-lime-300 to-green-600",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -1512,7 +1512,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "stomach_growl": {
-    "image": "/curious_whole_stomach_growl.png",
+    "image": "/curious_stomach_growl.png",
     "bgColor": "border-yellow-400",
     "accentColor": "from-yellow-400 via-amber-300 to-orange-400",
     "quizBg": "bg-yellow-50 border-yellow-200",
@@ -1532,7 +1532,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "smell": {
-    "image": "/curious_whole_smell.png",
+    "image": "/curious_smell.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -1552,7 +1552,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "taste": {
-    "image": "/curious_whole_taste.png",
+    "image": "/curious_taste.png",
     "bgColor": "border-blue-400",
     "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
     "quizBg": "bg-blue-50 border-blue-200",
@@ -1572,7 +1572,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "broken_bones_heal": {
-    "image": "/curious_whole_broken_bones_heal.png",
+    "image": "/curious_broken_bones_heal.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -1592,7 +1592,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "bruises_change_colour": {
-    "image": "/curious_whole_bruises_change_colour.png",
+    "image": "/curious_bruises_change_colour.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -1612,7 +1612,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "children_grow": {
-    "image": "/curious_whole_children_grow.png",
+    "image": "/curious_children_grow.png",
     "bgColor": "border-purple-400",
     "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -1632,7 +1632,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "cuts_form_scabs": {
-    "image": "/curious_whole_cuts_form_scabs.png",
+    "image": "/curious_cuts_form_scabs.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -1652,7 +1652,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "joints_crack": {
-    "image": "/curious_whole_joints_crack.png",
+    "image": "/curious_joints_crack.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -1672,7 +1672,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "mosquito_bites_itch": {
-    "image": "/curious_whole_mosquito_bites_itch.png",
+    "image": "/curious_mosquito_bites_itch.png",
     "bgColor": "border-blue-400",
     "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
     "quizBg": "bg-blue-50 border-blue-200",
@@ -1692,7 +1692,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "muscles_become_sore_after_exercise": {
-    "image": "/curious_whole_muscles_become_sore_after_exercise.png",
+    "image": "/curious_muscles_become_sore_after_exercise.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -1712,7 +1712,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "our_ears_pop": {
-    "image": "/curious_whole_our_ears_pop.png",
+    "image": "/curious_our_ears_pop.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -1732,7 +1732,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "people_stop_growing_taller": {
-    "image": "/curious_whole_people_stop_growing_taller.png",
+    "image": "/curious_people_stop_growing_taller.png",
     "bgColor": "border-purple-400",
     "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -1752,7 +1752,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "some_people_snore": {
-    "image": "/curious_whole_some_people_snore.png",
+    "image": "/curious_some_people_snore.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -1772,7 +1772,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "teeth_get_cavities": {
-    "image": "/curious_whole_teeth_get_cavities.png",
+    "image": "/curious_teeth_get_cavities.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -1792,7 +1792,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "blush": {
-    "image": "/curious_whole_blush.png",
+    "image": "/curious_blush.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -1812,7 +1812,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "breathe": {
-    "image": "/curious_whole_breathe.png",
+    "image": "/curious_breathe.png",
     "bgColor": "border-blue-400",
     "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
     "quizBg": "bg-blue-50 border-blue-200",
@@ -1832,7 +1832,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "feel_pain": {
-    "image": "/curious_whole_feel_pain.png",
+    "image": "/curious_feel_pain.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -1852,7 +1852,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "get_a_fever": {
-    "image": "/curious_whole_get_a_fever.png",
+    "image": "/curious_get_a_fever.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -1872,7 +1872,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "get_a_runny_nose": {
-    "image": "/curious_whole_get_a_runny_nose.png",
+    "image": "/curious_get_a_runny_nose.png",
     "bgColor": "border-purple-400",
     "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -1892,7 +1892,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "get_allergies": {
-    "image": "/curious_whole_get_allergies.png",
+    "image": "/curious_get_allergies.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -1912,7 +1912,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "get_cramps": {
-    "image": "/curious_whole_get_cramps.png",
+    "image": "/curious_get_cramps.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -1932,7 +1932,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "get_dizzy_after_spinning": {
-    "image": "/curious_whole_get_dizzy_after_spinning.png",
+    "image": "/curious_get_dizzy_after_spinning.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -1952,7 +1952,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "get_inflammation_when_injured": {
-    "image": "/curious_whole_get_inflammation_when_injured.png",
+    "image": "/curious_get_inflammation_when_injured.png",
     "bgColor": "border-blue-400",
     "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
     "quizBg": "bg-blue-50 border-blue-200",
@@ -1972,7 +1972,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "get_pins_and_needles": {
-    "image": "/curious_whole_get_pins_and_needles.png",
+    "image": "/curious_get_pins_and_needles.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -1992,7 +1992,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "get_sunburn": {
-    "image": "/curious_whole_get_sunburn.png",
+    "image": "/curious_get_sunburn.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -2012,7 +2012,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_a_belly_button": {
-    "image": "/curious_whole_have_a_belly_button.png",
+    "image": "/curious_have_a_belly_button.png",
     "bgColor": "border-purple-400",
     "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -2032,7 +2032,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_a_liver": {
-    "image": "/curious_whole_have_a_liver.png",
+    "image": "/curious_have_a_liver.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2052,7 +2052,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_a_stomach": {
-    "image": "/curious_whole_have_a_stomach.png",
+    "image": "/curious_have_a_stomach.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -2072,7 +2072,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_bones": {
-    "image": "/curious_whole_have_bones.png",
+    "image": "/curious_have_bones.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -2092,7 +2092,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_different_kinds_of_teeth": {
-    "image": "/curious_whole_have_different_kinds_of_teeth.png",
+    "image": "/curious_have_different_kinds_of_teeth.png",
     "bgColor": "border-blue-400",
     "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
     "quizBg": "bg-blue-50 border-blue-200",
@@ -2112,7 +2112,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_earwax": {
-    "image": "/curious_whole_have_earwax.png",
+    "image": "/curious_have_earwax.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -2132,7 +2132,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_eyebrows": {
-    "image": "/curious_whole_have_eyebrows.png",
+    "image": "/curious_have_eyebrows.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -2152,7 +2152,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_eyelashes": {
-    "image": "/curious_whole_have_eyelashes.png",
+    "image": "/curious_have_eyelashes.png",
     "bgColor": "border-purple-400",
     "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -2172,7 +2172,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_fingernails": {
-    "image": "/curious_whole_have_fingernails.png",
+    "image": "/curious_have_fingernails.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2192,7 +2192,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_fingerprints": {
-    "image": "/curious_whole_have_fingerprints.png",
+    "image": "/curious_have_fingerprints.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -2212,7 +2212,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_hair": {
-    "image": "/curious_whole_have_hair.png",
+    "image": "/curious_have_hair.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -2232,7 +2232,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_intestines": {
-    "image": "/curious_whole_have_intestines.png",
+    "image": "/curious_have_intestines.png",
     "bgColor": "border-blue-400",
     "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
     "quizBg": "bg-blue-50 border-blue-200",
@@ -2252,7 +2252,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_joints": {
-    "image": "/curious_whole_have_joints.png",
+    "image": "/curious_have_joints.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -2272,7 +2272,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_kidneys": {
-    "image": "/curious_whole_have_kidneys.png",
+    "image": "/curious_have_kidneys.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -2292,7 +2292,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_saliva": {
-    "image": "/curious_whole_have_saliva.png",
+    "image": "/curious_have_saliva.png",
     "bgColor": "border-purple-400",
     "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -2312,7 +2312,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_skin": {
-    "image": "/curious_whole_have_skin.png",
+    "image": "/curious_have_skin.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2332,7 +2332,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_two_ears": {
-    "image": "/curious_whole_have_two_ears.png",
+    "image": "/curious_have_two_ears.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -2352,7 +2352,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_two_eyes": {
-    "image": "/curious_whole_have_two_eyes.png",
+    "image": "/curious_have_two_eyes.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -2372,7 +2372,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "have_two_lungs": {
-    "image": "/curious_whole_have_two_lungs.png",
+    "image": "/curious_have_two_lungs.png",
     "bgColor": "border-blue-400",
     "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
     "quizBg": "bg-blue-50 border-blue-200",
@@ -2392,7 +2392,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "need_oxygen": {
-    "image": "/curious_whole_need_oxygen.png",
+    "image": "/curious_need_oxygen.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -2412,7 +2412,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "food_taste_different_when_our_nose_is_blocked": {
-    "image": "/curious_whole_food_taste_different_when_our_nose_is_blocked.png",
+    "image": "/curious_food_taste_different_when_our_nose_is_blocked.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -2432,7 +2432,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "hair_turn_grey": {
-    "image": "/curious_whole_hair_turn_grey.png",
+    "image": "/curious_hair_turn_grey.png",
     "bgColor": "border-purple-400",
     "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
     "quizBg": "bg-purple-50 border-purple-200",
@@ -2452,7 +2452,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "heart_beat": {
-    "image": "/curious_whole_heart_beat.png",
+    "image": "/curious_heart_beat.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2472,7 +2472,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "heart_beat_faster_when_we_exercise": {
-    "image": "/curious_whole_heart_beat_faster_when_we_exercise.png",
+    "image": "/curious_heart_beat_faster_when_we_exercise.png",
     "bgColor": "border-cyan-400",
     "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
     "quizBg": "bg-cyan-50 border-cyan-200",
@@ -2492,7 +2492,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "skin_wrinkle_in_water": {
-    "image": "/curious_whole_skin_wrinkle_in_water.png",
+    "image": "/curious_skin_wrinkle_in_water.png",
     "bgColor": "border-rose-400",
     "accentColor": "from-rose-400 via-amber-300 to-red-500",
     "quizBg": "bg-rose-50 border-rose-200",
@@ -2512,7 +2512,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "chillies_spicy": {
-    "image": "/curious_whole_chillies_spicy.png",
+    "image": "/curious_chillies_spicy.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -2532,7 +2532,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "flowers_colourful": {
-    "image": "/curious_whole_flowers_colourful.png",
+    "image": "/curious_flowers_colourful.png",
     "bgColor": "border-green-400",
     "accentColor": "from-green-400 via-lime-300 to-emerald-500",
     "quizBg": "bg-green-50 border-green-200",
@@ -2552,7 +2552,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "fruits_often_sweet": {
-    "image": "/curious_whole_fruits_often_sweet.png",
+    "image": "/curious_fruits_often_sweet.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2572,7 +2572,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_green": {
-    "image": "/curious_whole_plants_green.png",
+    "image": "/curious_plants_green.png",
     "bgColor": "border-lime-400",
     "accentColor": "from-lime-400 via-emerald-300 to-green-500",
     "quizBg": "bg-lime-50 border-lime-200",
@@ -2592,7 +2592,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "mushrooms_plants": {
-    "image": "/curious_whole_mushrooms_plants.png",
+    "image": "/curious_mushrooms_plants.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -2612,7 +2612,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "why_can_cacti_survive_in_deserts": {
-    "image": "/curious_whole_why_can_cacti_survive_in_deserts.png",
+    "image": "/curious_why_can_cacti_survive_in_deserts.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -2632,7 +2632,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "cacti_have_spines": {
-    "image": "/curious_whole_cacti_have_spines.png",
+    "image": "/curious_cacti_have_spines.png",
     "bgColor": "border-green-400",
     "accentColor": "from-green-400 via-lime-300 to-emerald-500",
     "quizBg": "bg-green-50 border-green-200",
@@ -2652,7 +2652,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "flowers_smell": {
-    "image": "/curious_whole_flowers_smell.png",
+    "image": "/curious_flowers_smell.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2672,7 +2672,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "fruits_contain_seeds": {
-    "image": "/curious_whole_fruits_contain_seeds.png",
+    "image": "/curious_fruits_contain_seeds.png",
     "bgColor": "border-lime-400",
     "accentColor": "from-lime-400 via-emerald-300 to-green-500",
     "quizBg": "bg-lime-50 border-lime-200",
@@ -2692,7 +2692,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "leaves_change_colour_in_autumn": {
-    "image": "/curious_whole_leaves_change_colour_in_autumn.png",
+    "image": "/curious_leaves_change_colour_in_autumn.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -2712,7 +2712,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "onions_make_us_cry": {
-    "image": "/curious_whole_onions_make_us_cry.png",
+    "image": "/curious_onions_make_us_cry.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -2732,7 +2732,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "pine_trees_make_cones": {
-    "image": "/curious_whole_pine_trees_make_cones.png",
+    "image": "/curious_pine_trees_make_cones.png",
     "bgColor": "border-green-400",
     "accentColor": "from-green-400 via-lime-300 to-emerald-500",
     "quizBg": "bg-green-50 border-green-200",
@@ -2752,7 +2752,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_grow_toward_light": {
-    "image": "/curious_whole_plants_grow_toward_light.png",
+    "image": "/curious_plants_grow_toward_light.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2772,7 +2772,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_have_leaves": {
-    "image": "/curious_whole_plants_have_leaves.png",
+    "image": "/curious_plants_have_leaves.png",
     "bgColor": "border-lime-400",
     "accentColor": "from-lime-400 via-emerald-300 to-green-500",
     "quizBg": "bg-lime-50 border-lime-200",
@@ -2792,7 +2792,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_have_roots": {
-    "image": "/curious_whole_plants_have_roots.png",
+    "image": "/curious_plants_have_roots.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -2812,7 +2812,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_make_flowers": {
-    "image": "/curious_whole_plants_make_flowers.png",
+    "image": "/curious_plants_make_flowers.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -2832,7 +2832,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_make_seeds": {
-    "image": "/curious_whole_plants_make_seeds.png",
+    "image": "/curious_plants_make_seeds.png",
     "bgColor": "border-green-400",
     "accentColor": "from-green-400 via-lime-300 to-emerald-500",
     "quizBg": "bg-green-50 border-green-200",
@@ -2852,7 +2852,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_need_sunlight": {
-    "image": "/curious_whole_plants_need_sunlight.png",
+    "image": "/curious_plants_need_sunlight.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2872,7 +2872,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_need_water": {
-    "image": "/curious_whole_plants_need_water.png",
+    "image": "/curious_plants_need_water.png",
     "bgColor": "border-lime-400",
     "accentColor": "from-lime-400 via-emerald-300 to-green-500",
     "quizBg": "bg-lime-50 border-lime-200",
@@ -2892,7 +2892,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "plants_wilt": {
-    "image": "/curious_whole_plants_wilt.png",
+    "image": "/curious_plants_wilt.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -2912,7 +2912,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "roots_grow_downward": {
-    "image": "/curious_whole_roots_grow_downward.png",
+    "image": "/curious_roots_grow_downward.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -2932,7 +2932,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "seeds_need_water_to_grow": {
-    "image": "/curious_whole_seeds_need_water_to_grow.png",
+    "image": "/curious_seeds_need_water_to_grow.png",
     "bgColor": "border-green-400",
     "accentColor": "from-green-400 via-lime-300 to-emerald-500",
     "quizBg": "bg-green-50 border-green-200",
@@ -2952,7 +2952,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "some_flowers_close_at_night": {
-    "image": "/curious_whole_some_flowers_close_at_night.png",
+    "image": "/curious_some_flowers_close_at_night.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -2972,7 +2972,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "some_seeds_have_wings": {
-    "image": "/curious_whole_some_seeds_have_wings.png",
+    "image": "/curious_some_seeds_have_wings.png",
     "bgColor": "border-lime-400",
     "accentColor": "from-lime-400 via-emerald-300 to-green-500",
     "quizBg": "bg-lime-50 border-lime-200",
@@ -2992,7 +2992,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "trees_have_bark": {
-    "image": "/curious_whole_trees_have_bark.png",
+    "image": "/curious_trees_have_bark.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
@@ -3012,7 +3012,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "trees_have_rings": {
-    "image": "/curious_whole_trees_have_rings.png",
+    "image": "/curious_trees_have_rings.png",
     "bgColor": "border-emerald-400",
     "accentColor": "from-emerald-400 via-teal-300 to-green-500",
     "quizBg": "bg-emerald-50 border-emerald-200",
@@ -3032,7 +3032,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "trees_lose_their_leaves": {
-    "image": "/curious_whole_trees_lose_their_leaves.png",
+    "image": "/curious_trees_lose_their_leaves.png",
     "bgColor": "border-green-400",
     "accentColor": "from-green-400 via-lime-300 to-emerald-500",
     "quizBg": "bg-green-50 border-green-200",
@@ -3052,7 +3052,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "venus_flytraps_eat_insects": {
-    "image": "/curious_whole_venus_flytraps_eat_insects.png",
+    "image": "/curious_venus_flytraps_eat_insects.png",
     "bgColor": "border-teal-400",
     "accentColor": "from-teal-400 via-cyan-300 to-emerald-400",
     "quizBg": "bg-teal-50 border-teal-200",
@@ -3072,7 +3072,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "vines_climb": {
-    "image": "/curious_whole_vines_climb.png",
+    "image": "/curious_vines_climb.png",
     "bgColor": "border-lime-400",
     "accentColor": "from-lime-400 via-emerald-300 to-green-500",
     "quizBg": "bg-lime-50 border-lime-200",
@@ -3092,7 +3092,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "grass_grow_back_after_mowing": {
-    "image": "/curious_whole_grass_grow_back_after_mowing.png",
+    "image": "/curious_grass_grow_back_after_mowing.png",
     "bgColor": "border-amber-400",
     "accentColor": "from-amber-400 via-orange-300 to-yellow-400",
     "quizBg": "bg-amber-50 border-amber-200",
