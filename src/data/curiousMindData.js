@@ -82,7 +82,7 @@ export const TOPICS = [
     "id": "baby_teeth",
     "title": "Why Do Kids Lose Their Baby Teeth?",
     "category": "human_body",
-    "cardImage": "/curious_baby_teeth.png"
+    "cardImage": "/curious_whole_teeth.png"
   },
   {
     "id": "constipation",
