@@ -35,6 +35,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import WritingAnalyzer from './writing/WritingAnalyzer';
+import NarrativeImageAnalyzer from './writing/NarrativeImageAnalyzer';
 
 export default function EnglishHub({ topicName }) {
   const [activeTab, setActiveTab] = useState(
@@ -1083,40 +1084,8 @@ export default function EnglishHub({ topicName }) {
               </div>
             </div>
 
-            {/* Story Generator Prompt Box */}
-            <div className="bg-white p-6 md:p-8 rounded-3xl border border-purple-200 shadow-md space-y-6">
-              <div className="flex justify-between items-start md:items-center flex-col md:flex-row gap-4">
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-wider text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md">
-                    Story Generator Engine
-                  </span>
-                  <h3 className="text-2xl font-black text-slate-800 mt-1">Ready to Write Your Story?</h3>
-                  <p className="text-slate-500 text-xs">Need a spark of inspiration? Click below to generate a story idea!</p>
-                </div>
-                <button
-                  onClick={() => setWritingPromptIndex((prev) => (prev + 1) % writingPrompts.length)}
-                  className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs shadow-md flex items-center gap-2 cursor-pointer shrink-0"
-                >
-                  <RefreshCw className="w-4 h-4" /> Next Prompt
-                </button>
-              </div>
-
-              <div className="bg-gradient-to-r from-purple-50 to-indigo-50 p-6 rounded-2xl border border-purple-200">
-                <span className="text-xs font-black uppercase text-purple-700 tracking-wider">Your Story Prompt:</span>
-                <p className="text-lg font-black text-purple-950 mt-2 italic">
-                  "{writingPrompts[writingPromptIndex]}"
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                <label className="text-xs font-black uppercase text-slate-500">Draft Your Masterpiece Story Below:</label>
-                <textarea
-                  rows={6}
-                  placeholder="Once upon a time..."
-                  className="w-full p-4 rounded-2xl border border-slate-200 text-sm focus:outline-none focus:border-purple-500"
-                />
-              </div>
-            </div>
+            {/* Story Generator & Photo Scanner Rectifier */}
+            <NarrativeImageAnalyzer />
 
           </div>
 

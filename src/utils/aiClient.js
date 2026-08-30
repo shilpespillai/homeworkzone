@@ -67,7 +67,7 @@ export const getModelForGrade = (grade, subject, baseProvider) => {
 };
 
 import { auth } from '../firebase';
-export const generateContent = async ({ prompt, systemInstruction, responseMimeType, provider, maxTokens, temperature }) => {
+export const generateContent = async ({ prompt, systemInstruction, responseMimeType, provider, maxTokens, temperature, images }) => {
   const activeProvider = provider || 'anthropic';
   let clientKey = '';
   if (typeof localStorage !== 'undefined') {
@@ -83,6 +83,7 @@ export const generateContent = async ({ prompt, systemInstruction, responseMimeT
   console.log(`[AI Client] 🚀 Sending generation request:`, {
     provider: activeProvider,
     promptLength: prompt?.length || 0,
+    hasImages: Array.isArray(images) && images.length > 0,
     hasSystemInstruction: !!systemInstruction,
     hasClientKey: !!clientKey,
     hasAuthUser: !!auth?.currentUser
@@ -96,7 +97,7 @@ export const generateContent = async ({ prompt, systemInstruction, responseMimeT
         'Content-Type': 'application/json',
         'Authorization': token ? `Bearer ${token}` : ''
       },
-      body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider: activeProvider, maxTokens, temperature, clientKey }),
+      body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider: activeProvider, maxTokens, temperature, clientKey, images }),
     });
 
     let serverError = '';
@@ -124,7 +125,7 @@ export const generateContent = async ({ prompt, systemInstruction, responseMimeT
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider: 'gemini', maxTokens, temperature, clientKey }),
+        body: JSON.stringify({ prompt, systemInstruction, responseMimeType, provider: 'gemini', maxTokens, temperature, clientKey, images }),
       });
       if (fallbackRes.ok) {
         const data = await fallbackRes.json();
@@ -141,7 +142,5 @@ export const generateContent = async ({ prompt, systemInstruction, responseMimeT
     }
   }
 
-  throw new Error("Unable to connect to AI engine. Please verify your AI API Key in Settings > AI Configuration or check system logs.");
+  throw new Error("Unable to connect to learning intelligence. Please check your internet connection.");
 };
-
-

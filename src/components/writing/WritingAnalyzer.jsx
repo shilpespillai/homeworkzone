@@ -17,7 +17,10 @@ import {
   Clock, 
   X, 
   ChevronRight,
-  FolderOpen
+  FolderOpen,
+  Camera,
+  Upload,
+  Loader2
 } from 'lucide-react';
 import { generateContent, getModelForGrade } from '../../utils/aiClient';
 import { WRITING_GENRES, synthesizeExemplarFallback } from '../../data/writingTemplates';
@@ -77,11 +80,42 @@ export default function WritingAnalyzer() {
   const [topic, setTopic] = useState(SAMPLE_DRAFTS.persuasive.topic);
   const [studentDraft, setStudentDraft] = useState(SAMPLE_DRAFTS.persuasive.draft);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isOcrLoading, setIsOcrLoading] = useState(false);
   const [analysisData, setAnalysisData] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [savedHistory, setSavedHistory] = useState([]);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [historyFilter, setHistoryFilter] = useState('all');
+
+  const ocrFileInputRef = React.useRef(null);
+
+  const handleImageOcr = (file) => {
+    if (!file) return;
+    setIsOcrLoading(true);
+    setErrorMsg(null);
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const prompt = `Transcribe all English handwriting or text in this image accurately word-for-word. Output ONLY the raw transcribed text.`;
+        const result = await generateContent({
+          prompt,
+          provider: 'gemini',
+          responseMimeType: 'text/plain',
+          images: [{ data: e.target.result, mimeType: file.type || 'image/jpeg' }]
+        });
+        if (result && result.trim()) {
+          setStudentDraft(result.trim());
+        }
+      } catch (err) {
+        console.warn("OCR failed:", err);
+        setErrorMsg("Failed to transcribe handwriting image. Please check image clarity.");
+      } finally {
+        setIsOcrLoading(false);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
 
   const activeGenre = WRITING_GENRES[genreKey] || WRITING_GENRES.persuasive;
 
@@ -421,18 +455,46 @@ Analyze this draft for Grade ${grade} standards. Provide:
         )}
 
         <div className="flex flex-wrap justify-between items-center gap-3 pt-2">
-          <button
-            onClick={() => {
-              if (SAMPLE_DRAFTS[genreKey]) {
-                setTopic(SAMPLE_DRAFTS[genreKey].topic);
-                setStudentDraft(SAMPLE_DRAFTS[genreKey].draft);
-              }
-            }}
-            className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-extrabold flex items-center gap-2 cursor-pointer transition-colors"
-          >
-            <RefreshCcw className="w-3.5 h-3.5" />
-            <span>Load Sample Draft</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <input 
+              type="file" 
+              ref={ocrFileInputRef} 
+              accept="image/*" 
+              className="hidden" 
+              onChange={(e) => handleImageOcr(e.target.files[0])}
+            />
+
+            <button
+              onClick={() => ocrFileInputRef.current?.click()}
+              disabled={isOcrLoading}
+              className="px-4 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 text-xs font-black flex items-center gap-2 cursor-pointer transition-all disabled:opacity-50"
+            >
+              {isOcrLoading ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-purple-600" />
+                  <span>Reading Handwriting...</span>
+                </>
+              ) : (
+                <>
+                  <Camera className="w-3.5 h-3.5 text-purple-600" />
+                  <span>Scan Handwriting Photo 📸</span>
+                </>
+              )}
+            </button>
+
+            <button
+              onClick={() => {
+                if (SAMPLE_DRAFTS[genreKey]) {
+                  setTopic(SAMPLE_DRAFTS[genreKey].topic);
+                  setStudentDraft(SAMPLE_DRAFTS[genreKey].draft);
+                }
+              }}
+              className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-extrabold flex items-center gap-2 cursor-pointer transition-colors"
+            >
+              <RefreshCcw className="w-3.5 h-3.5" />
+              <span>Load Sample Draft</span>
+            </button>
+          </div>
 
           <button
             onClick={handleAnalyze}
