@@ -4,41 +4,79 @@ import {
   Camera, Upload, Sparkles, CheckCircle2, AlertCircle, FileText, 
   Volume2, VolumeX, Copy, Check, RefreshCw, ZoomIn, X, ChevronRight, 
   BookOpen, Star, Award, Lightbulb, ShieldAlert, ArrowRight, Printer, 
-  Feather, Edit3, Image as ImageIcon, Flame, Compass, MessageSquareQuote
+  Feather, Edit3, Image as ImageIcon, Plus, ArrowLeft, Trash2, MoveLeft, 
+  MoveRight, Layers, FileImage
 } from 'lucide-react';
 import { generateContent } from '../../utils/aiClient';
 
-// Pre-loaded realistic sample stories for instant 1-click test drives
-const SAMPLE_STORIES = [
+// Pre-loaded realistic sample multi-page stories for instant 1-click test drives
+const SAMPLE_MULTI_PAGE_STORIES = [
   {
-    id: 'sample_storm',
+    id: 'sample_space_adventure',
+    title: 'The Lost Astronaut on Mars (2 Pages)',
+    pages: [
+      {
+        id: 'p1',
+        preview: '/narrative_writing_framework_infographic.jpg?v=10',
+        label: 'Page 1 (Orientation & Complication)',
+        text: 'Captain Maya stepped onto the red dust of Mars under the twin pale moons. Her oxygen tank hissed quietly as she searched for the lost solar rover. Suddenly, a violent crimson dust storm roared over the crater ridge! The wind howled and knocked Maya off her feet, sending her communication beacon skittering down a dark rocky ravine.'
+      },
+      {
+        id: 'p2',
+        preview: '/narrative_writing_framework_infographic.jpg?v=10',
+        label: 'Page 2 (Climax & Resolution)',
+        text: 'Trapped in the roaring blizzard of sand with only twenty minutes of air remaining, Maya spotted a faint blue beacon pulsing deep inside a crystal cave. She scrambled over jagged basalt boulders and pulled herself inside just before her suit battery died. Inside the cave, the lost rover was waiting, powered by subterranean thermal vents! Maya restarted the rover emergency transmitter and signaled the mothership. She knew she was going home.'
+      }
+    ]
+  },
+  {
+    id: 'sample_storm_puppy',
     title: 'The Lost Puppy in the Storm',
-    previewImg: '/narrative_writing_framework_infographic.jpg?v=10',
-    draftText: `One day it was raining really hard and thunder made loud noises. Tim was walking home from school and he was cold. Suddenly he heard a tiny cry in the bushes. He went over and saw a little golden puppy. It was shaking and wet. Tim said dont worry puppy I will help you. He picked up the puppy and put it in his jacket and ran home. His mom said we can keep him until we find his owner. They gave him warm milk and a blanket. The next day they found the owner who was a nice old lady and she gave Tim a big hug and a reward. Tim was happy he saved the puppy.`
+    pages: [
+      {
+        id: 'p1',
+        preview: '/narrative_writing_framework_infographic.jpg?v=10',
+        label: 'Page 1',
+        text: 'One day it was raining really hard and thunder made loud noises. Tim was walking home from school and he was cold. Suddenly he heard a tiny cry in the bushes. He went over and saw a little golden puppy shivering in the mud.'
+      },
+      {
+        id: 'p2',
+        preview: '/narrative_writing_framework_infographic.jpg?v=10',
+        label: 'Page 2',
+        text: 'Tim wrapped the puppy in his warm jacket and dashed through the storm to his front door. His mother helped him dry the puppy by the fireplace with warm milk. The next day they found the lost owner who gave Tim a hero medal. Tim was proud he saved a life.'
+      }
+    ]
   },
   {
-    id: 'sample_attic',
-    title: 'The Secret Door in the Attic',
-    previewImg: '/narrative_writing_framework_infographic.jpg?v=10',
-    draftText: `Sarah was looking for her old teddy bear in the dusty attic. She moved a big wooden box and found a small wooden door hidden in the wall. The door had a shiny silver key in the lock. Sarah turned the key and the door opened with a squeak. Inside there was a glowing blue room with floating glowing books and a telescope. A friendly green owl landed on her shoulder and said welcome traveler to the secret library of the stars. Sarah was amazed and started reading the magic flying books.`
-  },
-  {
-    id: 'sample_time_machine',
-    title: 'The Mysterious Garden Clock',
-    previewImg: '/narrative_writing_framework_infographic.jpg?v=10',
-    draftText: `Leo was digging in his grandpas garden when his shovel hit something hard like metal. He wiped the dirt off and saw a strange brass clock with four hands and ancient symbols. He pressed the red button in the middle and everything started spinning fast with colorful lights. When the spinning stopped he was standing in a jungle with giant ferns and a baby triceratops looking at him. Leo realized he was in dinosaur times. He pressed the button again just in time before a giant T-rex appeared and he landed back safely in grandpas garden.`
+    id: 'sample_secret_attic',
+    title: 'The Secret Clockwork Library',
+    pages: [
+      {
+        id: 'p1',
+        preview: '/narrative_writing_framework_infographic.jpg?v=10',
+        label: 'Page 1',
+        text: 'Sarah was exploring her grandmothers dusty attic when she discovered a heavy iron trapdoor hidden beneath a vintage Persian rug. In the center was an ancient brass keyhole shaped like a shooting star.'
+      },
+      {
+        id: 'p2',
+        preview: '/narrative_writing_framework_infographic.jpg?v=10',
+        label: 'Page 2',
+        text: 'She turned the silver key and stepped into a magnificent circular room filled with soaring spiral bookcases and floating golden parchment scrolls. A mechanical owl fluttered down from the rafters and whispered that Sarah was the new Guardian of forgotten tales.'
+      }
+    ]
   }
 ];
 
-export default function NarrativeImageAnalyzer({ onTransferDraft, grade = 'Grade 4' }) {
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+export default function NarrativeImageAnalyzer({ grade = 'Grade 4' }) {
+  // State for multiple pages
+  const [pages, setPages] = useState([]); // Array of { id, file, preview, mimeType, name }
   const [isTranscribing, setIsTranscribing] = useState(false);
+  const [transcribingPageIndex, setTranscribingPageIndex] = useState(0);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [transcribedText, setTranscribedText] = useState('');
   const [analysisResult, setAnalysisResult] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [modalImageIndex, setModalImageIndex] = useState(null);
   const [copiedSection, setCopiedSection] = useState(null);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [activeTab, setActiveTab] = useState('rectified'); // 'rectified' | 'comparison' | 'breakdown'
@@ -46,55 +84,100 @@ export default function NarrativeImageAnalyzer({ onTransferDraft, grade = 'Grade
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
 
-  // Handle File Upload or Camera Capture
-  const handleImageSelected = (file) => {
-    if (!file) return;
+  // Handle Multi-file Upload or Camera Capture
+  const handleFilesSelected = (fileList) => {
+    if (!fileList || fileList.length === 0) return;
     setErrorMsg(null);
-    setImageFile(file);
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setImagePreview(e.target.result);
-      transcribeImageWithAI(e.target.result, file.type);
-    };
-    reader.readAsDataURL(file);
+    const filesArray = Array.from(fileList);
+    const newPagesPromises = filesArray.map((file, index) => {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          resolve({
+            id: `page_${Date.now()}_${index}_${Math.random().toString(36).substring(2, 7)}`,
+            file,
+            preview: e.target.result,
+            mimeType: file.type || 'image/jpeg',
+            name: file.name || `Page ${pages.length + index + 1}`
+          });
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    Promise.all(newPagesPromises).then(newPages => {
+      const updatedPages = [...pages, ...newPages];
+      setPages(updatedPages);
+      transcribeAllPagesWithAI(updatedPages);
+    });
   };
 
-  // 1. OCR & Transcription Step
-  const transcribeImageWithAI = async (base64Data, mimeType) => {
+  // Reordering & Page Deletion Helpers
+  const movePage = (fromIndex, toIndex) => {
+    if (toIndex < 0 || toIndex >= pages.length) return;
+    const updated = [...pages];
+    const [moved] = updated.splice(fromIndex, 1);
+    updated.splice(toIndex, 0, moved);
+    setPages(updated);
+  };
+
+  const removePage = (indexToRemove) => {
+    const updated = pages.filter((_, idx) => idx !== indexToRemove);
+    setPages(updated);
+    if (updated.length === 0) {
+      setTranscribedText('');
+      setAnalysisResult(null);
+    } else {
+      transcribeAllPagesWithAI(updated);
+    }
+  };
+
+  // 1. Multi-Page OCR & Sequential Transcription
+  const transcribeAllPagesWithAI = async (pagesToTranscribe) => {
+    if (!pagesToTranscribe || pagesToTranscribe.length === 0) return;
+    
     setIsTranscribing(true);
     setTranscribedText('');
     setAnalysisResult(null);
+    setErrorMsg(null);
 
-    const prompt = `You are an expert handwriting transcription and OCR engine for Australian and global school curriculum.
-Accurately transcribe all handwritten or typed English narrative text visible in this image.
-Rules:
-- Transcribe word-for-word exactly what the student wrote, preserving their exact original spelling, punctuation, and wording.
-- If a word is unclear or crossed out, make the best logical guess based on context.
-- Output ONLY the raw transcribed text with standard paragraph breaks. Do NOT include introductory conversational remarks like "Here is the transcription:".`;
+    const imagesPayload = pagesToTranscribe.map(p => ({
+      data: p.preview,
+      mimeType: p.mimeType
+    }));
+
+    const prompt = `You are an expert handwriting transcription and OCR engine for Australian and global primary & secondary school English curricula.
+You have been provided with ${pagesToTranscribe.length} page(s) of a student's handwritten narrative story in sequential order (Page 1 through Page ${pagesToTranscribe.length}).
+
+Task:
+1. Accurately transcribe all handwritten English story text across all ${pagesToTranscribe.length} pages in exact chronological order.
+2. Connect paragraphs seamlessly between page breaks into one continuous narrative story draft.
+3. Preserve the student's exact original wording, spelling, grammar, and punctuation word-for-word.
+4. Output ONLY the raw transcribed text with natural paragraph breaks. Do NOT include meta commentary like "Here is Page 1" or conversational introductions.`;
 
     try {
       const response = await generateContent({
         prompt,
         provider: 'gemini',
         responseMimeType: 'text/plain',
-        images: [{ data: base64Data, mimeType: mimeType || 'image/jpeg' }]
+        images: imagesPayload
       });
 
       const cleanText = response.trim();
       setTranscribedText(cleanText);
-      // Automatically trigger deep narrative analysis & rectification
-      analyzeAndRectifyNarrative(cleanText);
+      // Automatically trigger narrative diagnosis & rectification on the full combined story!
+      analyzeAndRectifyNarrative(cleanText, pagesToTranscribe.length);
     } catch (err) {
-      console.warn("OCR failed:", err);
-      setErrorMsg("Could not clearly read the image. Please try uploading a clearer, brighter photo or select a sample story below.");
+      console.warn("Multi-page OCR failed:", err);
+      setErrorMsg("Could not clearly read the uploaded page(s). Please check image brightness or select a sample story below.");
     } finally {
       setIsTranscribing(false);
     }
   };
 
-  // 2. Narrative Analysis & Rectification Step
-  const analyzeAndRectifyNarrative = async (storyText) => {
+  // 2. Full Multi-Page Narrative Diagnosis & Rectification
+  const analyzeAndRectifyNarrative = async (storyText, pageCount = 1) => {
     if (!storyText || storyText.trim().length < 15) {
       setErrorMsg("Please provide at least a couple sentences of your story to analyze.");
       return;
@@ -104,56 +187,58 @@ Rules:
     setErrorMsg(null);
 
     const prompt = `Target Student Grade Level: ${grade}
-Topic / Original Narrative Draft:
+Document Context: Multi-page handwritten student narrative spanning ${pageCount} page(s).
+
+Full Student Draft Text:
 """
 ${storyText}
 """
 
-You are an award-winning master children's author and Australian Curriculum English (ACELY1702, ACELY1711) literacy specialist.
-Conduct an in-depth diagnosis of this student narrative and produce an inspiring, highly polished RECTIFIED EXEMPLAR VERSION.
+You are an award-winning children's author and Australian Curriculum English literacy specialist (ACELY1702, ACELY1711, ACELY1712).
+Conduct a comprehensive narrative structure diagnosis across the entire story arc and craft a magnificent, highly engaging RECTIFIED EXEMPLAR STORY.
 
-Analyze and respond ONLY with a valid JSON object strictly matching this schema:
+Respond ONLY with a valid JSON object strictly matching this schema:
 {
   "storyTitle": "string (Catchy, exciting title)",
   "overallScore": number (Score out of 100),
   "authorBadge": "string (e.g. 'Master Storyteller 🌟', 'Vivid World Builder 🚀', 'Adventure Creator ⚡')",
-  "glowingPraise": "string (2-3 sentences praising the student's creative imagination and great ideas)",
+  "glowingPraise": "string (2-3 sentences praising the student's creative imagination, character choices, and story arc)",
   
   "structureAudit": {
     "orientation": {
       "status": "strong" | "developing" | "missing",
-      "summary": "string (How well characters and setting were introduced)",
-      "tip": "string (Actionable tip to make the hook even more exciting)"
+      "summary": "string (How well characters, time, and setting were introduced)",
+      "tip": "string (Actionable tip to make the hook more immersive)"
     },
     "complication": {
       "status": "strong" | "developing" | "missing",
-      "summary": "string (How the main problem or danger occurred)",
+      "summary": "string (How the main dilemma or obstacle arose)",
       "tip": "string (Tip to heighten dramatic tension)"
     },
     "climax": {
       "status": "strong" | "developing" | "missing",
-      "summary": "string (The highest point of action and excitement)",
-      "tip": "string (Tip to slow down time and zoom in on details)"
+      "summary": "string (The highest point of action and excitement across the pages)",
+      "tip": "string (Tip to slow down time and capture heart-racing details)"
     },
     "fallingAction": {
       "status": "strong" | "developing" | "missing",
-      "summary": "string (How the problem started unwinding)",
-      "tip": "string (Tip on smooth transitions)"
+      "summary": "string (How the consequences and problem started resolving)",
+      "tip": "string (Tip on smooth narrative transitions)"
     },
     "resolution": {
       "status": "strong" | "developing" | "missing",
-      "summary": "string (How the story concluded and the character's feelings)",
-      "tip": "string (Tip on ending with a lasting emotional punch)"
+      "summary": "string (How the story concluded and the character's final reflection)",
+      "tip": "string (Tip on leaving a lasting impression on the reader)"
     }
   },
 
   "languageDiagnosis": {
     "sensoryDetails": { "score": number (1-10), "feedback": "string" },
     "dialoguePunctuation": { "score": number (1-10), "feedback": "string (Check quotation marks and speech tags)" },
-    "vocabularyVariety": { "score": number (1-10), "feedback": "string (Check plain verbs like 'went'/'said')" }
+    "vocabularyVariety": { "score": number (1-10), "feedback": "string (Check plain verbs and repetitive adjectives)" }
   },
 
-  "rectifiedStory": "string (The complete, beautifully rewritten and enriched exemplar story formatted with vivid descriptive paragraphs, proper speech punctuation, sensory details, and strong narrative pacing while keeping the student's original plot and characters intact)",
+  "rectifiedStory": "string (The complete, beautifully rewritten and enriched multi-paragraph exemplar story formatted with vivid descriptions, correct speech punctuation, sensory details, and strong narrative pacing while keeping the student's original plot and characters intact)",
 
   "keyRectifications": [
     {
@@ -182,25 +267,25 @@ Analyze and respond ONLY with a valid JSON object strictly matching this schema:
       console.warn("AI Narrative Analysis failed:", err);
       // Fallback local synthesize
       setAnalysisResult({
-        storyTitle: "The Courageous Adventure",
-        overallScore: 82,
-        authorBadge: "Creative Story Weaver 🌟",
-        glowingPraise: "You have a wonderful imagination and a strong sense of adventure! Your characters are lively and your plot moves quickly to keep the reader hooked.",
+        storyTitle: "The Great Multi-Page Adventure",
+        overallScore: 85,
+        authorBadge: "Vivid Story Weaver 🌟",
+        glowingPraise: "Your multi-page story has fantastic momentum! You have a wonderful narrative flow that kept the action moving smoothly from page to page.",
         structureAudit: {
-          orientation: { status: "strong", summary: "Introduced main character and immediate setting.", tip: "Add sensory sounds and weather clues to create instant atmosphere." },
-          complication: { status: "strong", summary: "The problem was introduced clearly and kept things moving.", tip: "Build more suspense before revealing the danger." },
-          climax: { status: "developing", summary: "The action happened very quickly.", tip: "Slow down the peak moment with character thoughts and heartbeat details." },
+          orientation: { status: "strong", summary: "Strong scene setting and character introduction on the first page.", tip: "Add sound and weather clues to create instant atmosphere." },
+          complication: { status: "strong", summary: "The problem was introduced with exciting stakes.", tip: "Build more suspense before revealing the danger." },
+          climax: { status: "developing", summary: "The peak action unfolded quickly.", tip: "Slow down the peak moment with character thoughts and heartbeat details." },
           fallingAction: { status: "developing", summary: "Events unwound in a logical sequence.", tip: "Add dialogue showing how characters reacted." },
-          resolution: { status: "strong", summary: "Satisfying ending where the problem was solved.", tip: "End with a memorable reflection or surprise tease." }
+          resolution: { status: "strong", summary: "Satisfying conclusion where the journey came full circle.", tip: "End with a memorable reflection or surprise tease." }
         },
         languageDiagnosis: {
-          sensoryDetails: { score: 7, feedback: "Great visual descriptions; add sound and touch details!" },
-          dialoguePunctuation: { score: 6, feedback: "Remember to put commas inside quotation marks before speech tags." },
-          vocabularyVariety: { score: 8, feedback: "Good action verbs used throughout the draft." }
+          sensoryDetails: { score: 8, feedback: "Great visual descriptions; add sound and touch details!" },
+          dialoguePunctuation: { score: 7, feedback: "Remember to put commas inside quotation marks before speech tags." },
+          vocabularyVariety: { score: 8, feedback: "Good action verbs used across both pages." }
         },
         rectifiedStory: storyText + "\n\n(Enriched with sensory descriptive details and proper speech formatting).",
         keyRectifications: [
-          { originalSnippet: "He went over and saw it.", upgradedSnippet: "He crept cautiously forward, parting the dew-soaked fern leaves to discover the mysterious creature.", reason: "Creates atmosphere and suspense." }
+          { originalSnippet: "He went over and saw it.", upgradedSnippet: "He crept cautiously forward, parting the dew-soaked fern leaves to discover the mysterious artifact.", reason: "Creates atmosphere and suspense." }
         ],
         wordUpgrades: [
           { weak: "went", replacements: ["hurried", "crept", "dashed"] },
@@ -234,7 +319,6 @@ Analyze and respond ONLY with a valid JSON object strictly matching this schema:
     utterance.rate = 0.95;
     utterance.pitch = 1.05;
     
-    // Pick English voice if available
     const voices = window.speechSynthesis.getVoices();
     const englishVoice = voices.find(v => v.lang.includes('en-AU') || v.lang.includes('en-GB') || v.lang.includes('en-US'));
     if (englishVoice) utterance.voice = englishVoice;
@@ -257,14 +341,14 @@ Analyze and respond ONLY with a valid JSON object strictly matching this schema:
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 border-b border-purple-100 pb-6">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-black uppercase tracking-wider mb-2">
-            <Camera className="w-4 h-4 text-purple-600" />
-            <span>AI Narrative Photo Scanner & Rectifier</span>
+            <Layers className="w-4 h-4 text-purple-600" />
+            <span>AI Multi-Page Narrative Scanner &amp; Rectifier</span>
           </div>
           <h2 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight flex items-center gap-2">
-            Upload & Rectify Your Story! 📸✨
+            Scan &amp; Rectify Multi-Page Stories! 📸📖
           </h2>
           <p className="text-xs md:text-sm font-bold text-slate-500 mt-1">
-            Snap a photo of your handwritten storybook or notebook. Our AI will read your handwriting, diagnose your narrative story parts, and generate an upgraded exemplar!
+            Does your story span multiple pages in your exercise book? Upload or photograph all your pages in order. Our AI will read all pages, connect the story, and rectify it into a polished masterpiece!
           </p>
         </div>
 
@@ -274,8 +358,9 @@ Analyze and respond ONLY with a valid JSON object strictly matching this schema:
             type="file" 
             ref={fileInputRef} 
             accept="image/*" 
+            multiple 
             className="hidden" 
-            onChange={(e) => handleImageSelected(e.target.files[0])}
+            onChange={(e) => handleFilesSelected(e.target.files)}
           />
           <input 
             type="file" 
@@ -283,64 +368,73 @@ Analyze and respond ONLY with a valid JSON object strictly matching this schema:
             accept="image/*" 
             capture="environment" 
             className="hidden" 
-            onChange={(e) => handleImageSelected(e.target.files[0])}
+            onChange={(e) => handleFilesSelected(e.target.files)}
           />
 
           <button
             onClick={() => cameraInputRef.current?.click()}
             className="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-black text-xs shadow-md flex items-center gap-2 transition-all active:scale-95 cursor-pointer"
           >
-            <Camera className="w-4 h-4" /> Take Photo
+            <Camera className="w-4 h-4" /> 
+            <span>{pages.length > 0 ? '+ Snap Next Page' : 'Take Photo'}</span>
           </button>
 
           <button
             onClick={() => fileInputRef.current?.click()}
             className="px-4 py-2.5 rounded-2xl bg-purple-50 hover:bg-purple-100 text-purple-700 font-black text-xs border border-purple-200 flex items-center gap-2 transition-all active:scale-95 cursor-pointer"
           >
-            <Upload className="w-4 h-4" /> Upload Image
+            <Upload className="w-4 h-4" /> 
+            <span>{pages.length > 0 ? '+ Add More Pages' : 'Upload Multiple Pages'}</span>
           </button>
         </div>
       </div>
 
-      {/* 2. Drag & Drop Upload Zone + Sample Story Triggers */}
-      {!imagePreview && !transcribedText && (
+      {/* 2. Drag & Drop Upload Zone + Sample Story Triggers (when 0 pages uploaded) */}
+      {pages.length === 0 && !transcribedText && (
         <div className="space-y-6">
           <div 
             onClick={() => fileInputRef.current?.click()}
             className="border-2 border-dashed border-purple-300 hover:border-purple-500 bg-purple-50/40 hover:bg-purple-50 rounded-3xl p-8 md:p-12 text-center cursor-pointer transition-all flex flex-col items-center justify-center space-y-4 group"
           >
             <div className="w-16 h-16 rounded-3xl bg-purple-100 group-hover:bg-purple-200 text-purple-600 flex items-center justify-center shadow-sm transition-transform group-hover:scale-110">
-              <ImageIcon className="w-8 h-8" />
+              <Layers className="w-8 h-8" />
             </div>
             <div className="space-y-1">
               <p className="text-base font-black text-slate-800">
-                Click to browse or drop an image of your writing here
+                Click to browse or drop multi-page photos of your story here
               </p>
               <p className="text-xs font-bold text-slate-400">
-                Supports handwriting photos, scanned assignments, PNG, JPG, JPEG, and WebP.
+                Select Page 1, Page 2, Page 3, etc. Supports PNG, JPG, JPEG, and WebP photos from exercise books.
               </p>
             </div>
             <span className="px-5 py-2 rounded-xl bg-purple-600 text-white text-xs font-black shadow-md group-hover:bg-purple-700 transition-colors">
-              Select Photo from Device
+              Select All Story Pages from Device
             </span>
           </div>
 
-          {/* Quick Try Sample Stories */}
+          {/* Quick Try Sample Multi-Page Stories */}
           <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-amber-500" />
               <span className="text-xs font-black text-slate-700 uppercase tracking-wider">
-                Or Try with Sample Student Stories (1-Click Test):
+                Or Try with Sample Multi-Page Stories (1-Click Test):
               </span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {SAMPLE_STORIES.map(sample => (
+              {SAMPLE_MULTI_PAGE_STORIES.map(sample => (
                 <button
                   key={sample.id}
                   onClick={() => {
-                    setImagePreview('/narrative_writing_framework_infographic.jpg?v=10');
-                    setTranscribedText(sample.draftText);
-                    analyzeAndRectifyNarrative(sample.draftText);
+                    const samplePages = sample.pages.map((p, idx) => ({
+                      id: `sample_${idx}`,
+                      preview: p.preview,
+                      mimeType: 'image/jpeg',
+                      name: p.label
+                    }));
+                    setPages(samplePages);
+                    const combinedDraft = sample.pages.map(p => p.text).join('\n\n');
+                    setTranscribedText(combinedDraft);
+                    analyzeAndRectifyNarrative(combinedDraft, samplePages.length);
                   }}
                   className="p-3.5 rounded-2xl bg-white hover:bg-purple-50 border border-slate-200 hover:border-purple-300 text-left transition-all shadow-xs group/btn cursor-pointer flex flex-col justify-between"
                 >
@@ -351,7 +445,7 @@ Analyze and respond ONLY with a valid JSON object strictly matching this schema:
                     </span>
                   </div>
                   <p className="text-[11px] font-bold text-slate-400 line-clamp-2">
-                    "{sample.draftText.slice(0, 75)}..."
+                    "{sample.pages[0].text.slice(0, 75)}..."
                   </p>
                 </button>
               ))}
@@ -360,87 +454,142 @@ Analyze and respond ONLY with a valid JSON object strictly matching this schema:
         </div>
       )}
 
-      {/* 3. Transcription & Loading States */}
+      {/* 3. Transcription Loading State */}
       {isTranscribing && (
         <div className="p-10 rounded-3xl bg-purple-50/60 border border-purple-200 text-center space-y-3">
           <RefreshCw className="w-10 h-10 animate-spin text-purple-600 mx-auto" />
-          <h3 className="text-lg font-black text-slate-800">Reading Handwriting with AI Vision...</h3>
+          <h3 className="text-lg font-black text-slate-800">
+            Transcribing {pages.length} Story Page{pages.length > 1 ? 's' : ''} with AI Vision...
+          </h3>
           <p className="text-xs font-bold text-slate-500 max-w-md mx-auto">
-            Extracting story text and converting handwritten lines into digital words...
+            Reading handwriting across all sequential pages and weaving them into one complete digital draft...
           </p>
         </div>
       )}
 
-      {/* 4. Transcribed Text & Photo Preview Side-by-Side */}
-      {imagePreview && !isTranscribing && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-50/80 p-5 rounded-3xl border border-slate-200">
-          {/* Photo Thumbnail */}
-          <div className="lg:col-span-4 space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-black text-slate-700 uppercase flex items-center gap-1.5">
-                <ImageIcon className="w-3.5 h-3.5 text-purple-600" /> Uploaded Photo
-              </span>
-              <button 
-                onClick={() => setIsImageModalOpen(true)}
-                className="text-[11px] font-bold text-purple-600 hover:text-purple-800 flex items-center gap-1 cursor-pointer"
+      {/* 4. Multi-Page Thumbnail Carousel & Transcribed Text Editor */}
+      {pages.length > 0 && !isTranscribing && (
+        <div className="space-y-4">
+          
+          {/* Multi-Page Card Gallery Header */}
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-black text-slate-800 uppercase flex items-center gap-1.5">
+              <Layers className="w-4 h-4 text-purple-600" />
+              Uploaded Pages ({pages.length} Page{pages.length > 1 ? 's' : ''})
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => cameraInputRef.current?.click()}
+                className="px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-xl text-xs font-black flex items-center gap-1 cursor-pointer"
               >
-                <ZoomIn className="w-3 h-3" /> Zoom
+                <Camera className="w-3.5 h-3.5" /> + Snap Page {pages.length + 1}
+              </button>
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-xl text-xs font-black flex items-center gap-1 cursor-pointer"
+              >
+                <Upload className="w-3.5 h-3.5" /> + Upload More
+              </button>
+              <button
+                onClick={() => {
+                  setPages([]);
+                  setTranscribedText('');
+                  setAnalysisResult(null);
+                }}
+                className="px-3 py-1.5 bg-white hover:bg-rose-50 text-rose-600 border border-slate-200 hover:border-rose-200 rounded-xl text-xs font-black flex items-center gap-1 cursor-pointer"
+              >
+                <Trash2 className="w-3.5 h-3.5" /> Clear All
               </button>
             </div>
-            <div 
-              onClick={() => setIsImageModalOpen(true)}
-              className="h-56 bg-slate-900 rounded-2xl overflow-hidden border border-slate-200 cursor-pointer relative group flex items-center justify-center"
-            >
-              <img 
-                src={imagePreview} 
-                alt="Uploaded handwriting" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-              />
-              <div className="absolute inset-0 bg-slate-950/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-black gap-1">
-                <ZoomIn className="w-4 h-4" /> Click to Expand
-              </div>
-            </div>
-            <button
-              onClick={() => {
-                setImageFile(null);
-                setImagePreview(null);
-                setTranscribedText('');
-                setAnalysisResult(null);
-              }}
-              className="w-full py-2 bg-white hover:bg-rose-50 text-rose-600 border border-slate-200 hover:border-rose-200 rounded-xl text-xs font-black transition-colors cursor-pointer"
-            >
-              Remove & Upload Different Photo
-            </button>
           </div>
 
-          {/* Transcribed Textarea */}
-          <div className="lg:col-span-8 space-y-2 flex flex-col">
+          {/* Page Card Strip */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {pages.map((page, idx) => (
+              <div 
+                key={page.id}
+                className="bg-slate-50 border border-slate-200 hover:border-purple-300 rounded-2xl p-2.5 space-y-2 relative group flex flex-col justify-between shadow-2xs transition-all"
+              >
+                {/* Page Number Badge */}
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black uppercase bg-purple-600 text-white px-2 py-0.5 rounded-md">
+                    Page {idx + 1}
+                  </span>
+                  <button
+                    onClick={() => removePage(idx)}
+                    className="w-5 h-5 rounded-md bg-rose-50 hover:bg-rose-100 text-rose-600 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                    title="Remove this page"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </div>
+
+                {/* Thumbnail */}
+                <div 
+                  onClick={() => setModalImageIndex(idx)}
+                  className="h-28 bg-slate-900 rounded-xl overflow-hidden cursor-pointer relative group/thumb"
+                >
+                  <img src={page.preview} alt={`Page ${idx + 1}`} className="w-full h-full object-cover group-hover/thumb:scale-105 transition-transform" />
+                  <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-bold gap-1">
+                    <ZoomIn className="w-3 h-3" /> Zoom
+                  </div>
+                </div>
+
+                {/* Reorder Buttons */}
+                <div className="flex items-center justify-between pt-1 border-t border-slate-200/80">
+                  <button
+                    onClick={() => movePage(idx, idx - 1)}
+                    disabled={idx === 0}
+                    className="p-1 rounded-md bg-white text-slate-600 hover:bg-purple-50 disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
+                    title="Move Page Earlier"
+                  >
+                    <MoveLeft className="w-3 h-3" />
+                  </button>
+                  <span className="text-[9px] font-bold text-slate-400">
+                    #{idx + 1} of {pages.length}
+                  </span>
+                  <button
+                    onClick={() => movePage(idx, idx + 1)}
+                    disabled={idx === pages.length - 1}
+                    className="p-1 rounded-md bg-white text-slate-600 hover:bg-purple-50 disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
+                    title="Move Page Later"
+                  >
+                    <MoveRight className="w-3 h-3" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Transcribed Textarea for Full Combined Multi-Page Story */}
+          <div className="space-y-2 bg-slate-50/80 p-5 rounded-3xl border border-slate-200">
             <div className="flex items-center justify-between">
               <span className="text-xs font-black text-slate-700 uppercase flex items-center gap-1.5">
-                <Edit3 className="w-3.5 h-3.5 text-purple-600" /> Transcribed Story Text (Editable)
+                <Edit3 className="w-3.5 h-3.5 text-purple-600" /> Full Transcribed Multi-Page Story (Editable)
               </span>
               <span className="text-[10px] font-bold bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full">
-                {transcribedText.split(/\s+/).filter(Boolean).length} Words
+                {transcribedText.split(/\s+/).filter(Boolean).length} Words Across {pages.length} Page{pages.length > 1 ? 's' : ''}
               </span>
             </div>
             <textarea
-              rows={7}
+              rows={8}
               value={transcribedText}
               onChange={(e) => setTranscribedText(e.target.value)}
-              placeholder="Your transcribed story will appear here..."
-              className="w-full flex-1 p-4 rounded-2xl bg-white border border-slate-200 text-xs md:text-sm font-medium text-slate-800 focus:outline-none focus:border-purple-500 shadow-inner"
+              placeholder="Your multi-page story text will appear here..."
+              className="w-full p-4 rounded-2xl bg-white border border-slate-200 text-xs md:text-sm font-medium text-slate-800 focus:outline-none focus:border-purple-500 shadow-inner leading-relaxed"
             />
             <div className="flex items-center justify-end gap-2 pt-1">
               <button
-                onClick={() => analyzeAndRectifyNarrative(transcribedText)}
+                onClick={() => analyzeAndRectifyNarrative(transcribedText, pages.length)}
                 disabled={isAnalyzing || !transcribedText.trim()}
                 className="px-6 py-2.5 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-black text-xs shadow-md flex items-center gap-2 transition-all disabled:opacity-50 cursor-pointer"
               >
                 <Sparkles className={`w-4 h-4 ${isAnalyzing ? 'animate-spin' : ''}`} />
-                <span>{isAnalyzing ? 'Diagnosing & Rectifying Story...' : 'Re-Analyze & Rectify Story 🚀'}</span>
+                <span>{isAnalyzing ? 'Diagnosing & Rectifying Multi-Page Story...' : 'Re-Analyze & Rectify Story 🚀'}</span>
               </button>
             </div>
           </div>
+
         </div>
       )}
 
@@ -452,19 +601,22 @@ Analyze and respond ONLY with a valid JSON object strictly matching this schema:
         </div>
       )}
 
-      {/* 5. Deep Narrative Diagnosis & Rectification Results */}
+      {/* 5. Analysis in Progress State */}
       {isAnalyzing && (
         <div className="p-12 rounded-3xl bg-gradient-to-br from-purple-50 to-indigo-50 border border-purple-200 text-center space-y-4">
           <div className="w-16 h-16 rounded-3xl bg-purple-600 text-white flex items-center justify-center mx-auto shadow-xl animate-bounce">
             <Sparkles className="w-8 h-8" />
           </div>
-          <h3 className="text-xl font-black text-slate-800">Crafting Your Masterpiece Story Rectification...</h3>
+          <h3 className="text-xl font-black text-slate-800">
+            Crafting Your Multi-Page Masterpiece Rectification...
+          </h3>
           <p className="text-xs font-bold text-slate-500 max-w-lg mx-auto">
-            Auditing the 5 key narrative story stages (Orientation, Complication, Climax, Falling Action, Resolution) and upgrading your descriptive vocabulary!
+            Auditing the complete narrative structure (Orientation $\rightarrow$ Complication $\rightarrow$ Climax $\rightarrow$ Resolution) across all {pages.length} pages!
           </p>
         </div>
       )}
 
+      {/* 6. Narrative Diagnosis & Rectification Results */}
       {analysisResult && !isAnalyzing && (
         <div className="space-y-8 pt-4">
 
@@ -607,8 +759,8 @@ Analyze and respond ONLY with a valid JSON object strictly matching this schema:
                     <Feather className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-base font-black text-slate-800">Your Polished Narrative Story</h4>
-                    <span className="text-[11px] font-bold text-slate-500">Upgraded with rich descriptions, dialogue tags, and narrative pacing!</span>
+                    <h4 className="text-base font-black text-slate-800">Your Polished Multi-Page Narrative Story</h4>
+                    <span className="text-[11px] font-bold text-slate-500">Upgraded across all {pages.length} pages with rich descriptions and dialogue!</span>
                   </div>
                 </div>
 
@@ -633,7 +785,7 @@ Analyze and respond ONLY with a valid JSON object strictly matching this schema:
               {/* Original */}
               <div className="p-5 rounded-3xl bg-slate-50 border border-slate-200 space-y-3 flex flex-col justify-between">
                 <div>
-                  <span className="text-xs font-black uppercase text-slate-500 block mb-1">Original Draft</span>
+                  <span className="text-xs font-black uppercase text-slate-500 block mb-1">Original Draft ({pages.length} Pages Combined)</span>
                   <div className="p-4 rounded-2xl bg-white border border-slate-200 font-mono text-xs text-slate-700 leading-relaxed whitespace-pre-line">
                     {transcribedText}
                   </div>
@@ -711,20 +863,26 @@ Analyze and respond ONLY with a valid JSON object strictly matching this schema:
 
       {/* Fullscreen Image Preview Modal */}
       <AnimatePresence>
-        {isImageModalOpen && imagePreview && (
+        {modalImageIndex !== null && pages[modalImageIndex] && (
           <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[300] flex items-center justify-center p-4">
             <div className="bg-white rounded-3xl p-4 max-w-4xl w-full max-h-[90vh] flex flex-col space-y-3 overflow-hidden">
               <div className="flex justify-between items-center px-2">
-                <span className="text-xs font-black text-slate-800">Uploaded Handwriting Photo</span>
+                <span className="text-xs font-black text-slate-800">
+                  Viewing Page {modalImageIndex + 1} of {pages.length}
+                </span>
                 <button
-                  onClick={() => setIsImageModalOpen(false)}
+                  onClick={() => setModalImageIndex(null)}
                   className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
               <div className="flex-1 overflow-auto flex items-center justify-center bg-slate-900 rounded-2xl p-2">
-                <img src={imagePreview} alt="Handwriting preview" className="max-w-full max-h-[75vh] object-contain rounded-lg" />
+                <img 
+                  src={pages[modalImageIndex].preview} 
+                  alt={`Page ${modalImageIndex + 1}`} 
+                  className="max-w-full max-h-[75vh] object-contain rounded-lg" 
+                />
               </div>
             </div>
           </div>

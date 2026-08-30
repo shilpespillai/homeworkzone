@@ -89,32 +89,39 @@ export default function WritingAnalyzer() {
 
   const ocrFileInputRef = React.useRef(null);
 
-  const handleImageOcr = (file) => {
-    if (!file) return;
+  const handleImageOcr = (fileList) => {
+    if (!fileList || fileList.length === 0) return;
     setIsOcrLoading(true);
     setErrorMsg(null);
 
-    const reader = new FileReader();
-    reader.onload = async (e) => {
+    const filesArray = Array.from(fileList);
+    const readPromises = filesArray.map((file) => {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve({ data: e.target.result, mimeType: file.type || 'image/jpeg' });
+        reader.readAsDataURL(file);
+      });
+    });
+
+    Promise.all(readPromises).then(async (imagesPayload) => {
       try {
-        const prompt = `Transcribe all English handwriting or text in this image accurately word-for-word. Output ONLY the raw transcribed text.`;
+        const prompt = `Transcribe all English handwriting or text across these ${imagesPayload.length} page(s) in sequential order. Output ONLY the raw transcribed text with paragraph breaks.`;
         const result = await generateContent({
           prompt,
           provider: 'gemini',
           responseMimeType: 'text/plain',
-          images: [{ data: e.target.result, mimeType: file.type || 'image/jpeg' }]
+          images: imagesPayload
         });
         if (result && result.trim()) {
           setStudentDraft(result.trim());
         }
       } catch (err) {
         console.warn("OCR failed:", err);
-        setErrorMsg("Failed to transcribe handwriting image. Please check image clarity.");
+        setErrorMsg("Failed to transcribe handwriting image(s). Please check image clarity.");
       } finally {
         setIsOcrLoading(false);
       }
-    };
-    reader.readAsDataURL(file);
+    });
   };
 
   const activeGenre = WRITING_GENRES[genreKey] || WRITING_GENRES.persuasive;
@@ -460,8 +467,9 @@ Analyze this draft for Grade ${grade} standards. Provide:
               type="file" 
               ref={ocrFileInputRef} 
               accept="image/*" 
+              multiple
               className="hidden" 
-              onChange={(e) => handleImageOcr(e.target.files[0])}
+              onChange={(e) => handleImageOcr(e.target.files)}
             />
 
             <button
