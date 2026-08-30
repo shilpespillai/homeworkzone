@@ -125,84 +125,162 @@ const checkIsAnswerCorrect = (studentSelection, actualAnswer) => {
   return cleanSel === cleanAns;
 };
 
-const mapToUmbrellaCategory = (subtopic, subject = '') => {
-  const t = (subtopic || '').toLowerCase();
-  const s = (subject || '').toLowerCase();
+const mapToUmbrellaCategory = (subtopic = '', subject = '', hw = {}, q = {}) => {
+  const t = (subtopic || '').toLowerCase().trim();
+  const s = (subject || hw?.subject || '').toLowerCase().trim();
+  const qCat = (q?.category || hw?.category || '').replace(/^[A-Z]{1,2}\.	*/, '').replace(/^[0-9]+\.\s*/, '').trim();
 
-  // Mathematics & Quantitative Umbrellas
-  if (t.includes('fraction') || t.includes('decimal') || t.includes('percentage') || t.includes('percent') || t.includes('ratio')) {
-    return 'Fractions, Decimals & Percentages';
-  }
-  if (t.includes('addition') || t.includes('subtraction') || t.includes('multiplication') || t.includes('division') || t.includes('place value') || t.includes('number') || t.includes('prime') || t.includes('factor') || t.includes('lcm') || t.includes('hcf') || t.includes('rounding') || t.includes('operation') || t.includes('calculation') || t.includes('sum') || t.includes('difference') || t.includes('product') || t.includes('quotient')) {
-    return 'Number & Operations';
-  }
-  if (t.includes('geometry') || t.includes('shape') || t.includes('angle') || t.includes('perimeter') || t.includes('area') || t.includes('volume') || t.includes('symmetry') || t.includes('projection') || t.includes('cross-section') || t.includes('ruler') || t.includes('grid') || t.includes('unit') || t.includes('measurement') || t.includes('measuring') || t.includes('length') || t.includes('mass') || t.includes('weight') || t.includes('capacity') || t.includes('metric')) {
-    return 'Geometry & Measurement';
-  }
-  if (t.includes('time') || t.includes('clock') || t.includes('elapsed') || t.includes('calendar') || t.includes('duration') || t.includes('hour') || t.includes('minute')) {
-    return 'Time & Clock Reasoning';
-  }
-  if (t.includes('probability') || t.includes('data') || t.includes('stat') || t.includes('graph') || t.includes('chart') || t.includes('plot') || t.includes('tally') || t.includes('table') || t.includes('venn') || t.includes('diagram') || t.includes('categorization')) {
-    return 'Statistics, Data & Charts';
-  }
-  if (t.includes('algebra') || t.includes('equation') || t.includes('variable') || t.includes('expression') || t.includes('pattern') || t.includes('sequence') || t.includes('series') || t.includes('figure')) {
-    return 'Algebra, Patterns & Sequences';
-  }
-  if (t.includes('logic') || t.includes('reasoning') || t.includes('ranking') || t.includes('seating') || t.includes('arrangement') || t.includes('deduction') || t.includes('cube') || t.includes('spatial') || t.includes('net') || t.includes('code') || t.includes('decoding')) {
-    return 'Spatial & Logical Reasoning';
-  }
-  if (t.includes('money') || t.includes('currency') || t.includes('coin') || t.includes('dollar') || t.includes('cent') || t.includes('cost') || t.includes('price')) {
-    return 'Money & Financial Literacy';
-  }
-  
-  // English / Literacy Umbrellas
-  if (t.includes('spelling') || t.includes('vocab') || t.includes('root') || t.includes('suffix') || t.includes('prefix') || t.includes('synonym') || t.includes('antonym') || t.includes('word') || t.includes('meaning')) {
-    return 'Spelling & Vocabulary';
-  }
-  if (t.includes('punctuation') || t.includes('comma') || t.includes('grammar') || t.includes('verb') || t.includes('noun') || t.includes('adjective') || t.includes('pronoun') || t.includes('subject-verb') || t.includes('conjunction') || t.includes('sentence') || t.includes('predicate') || t.includes('clause') || t.includes('colon') || t.includes('semicolon') || t.includes('apostrophe')) {
-    return 'Grammar & Conventions';
-  }
-  if (t.includes('reading') || t.includes('comprehension') || t.includes('text') || t.includes('passage') || t.includes('inference') || t.includes('analogy') || t.includes('analogies') || t.includes('fact vs opinion')) {
-    return 'Reading & Comprehension';
-  }
-  
-  // Science Umbrellas
-  if (t.includes('planet') || t.includes('solar') || t.includes('earth') || t.includes('matter') || t.includes('particle') || t.includes('cell') || t.includes('gravity') || t.includes('water cycle') || t.includes('science') || t.includes('climate') || t.includes('environment') || t.includes('biology') || t.includes('chemistry') || t.includes('physics')) {
-    return 'Science & Environmental Inquiry';
+  // If question or homework already has an explicit category, use that if valid
+  if (qCat && qCat.length > 2 && !qCat.toLowerCase().includes('quiz') && !qCat.toLowerCase().includes('test')) {
+    return qCat;
   }
 
-  // If subtopic has a colon like "Clock Reasoning: Time Forward Calculation", split prefix!
-  if (subtopic && typeof subtopic === 'string' && subtopic.includes(':')) {
-    const prefix = subtopic.split(':')[0].trim();
-    if (prefix) return prefix;
+  // --- MATHEMATICS MAIN HEADER TOPICS (Aligned with Discover Topics) ---
+  if (t.includes('fraction') && (t.includes('decimal') || t.includes('relate') || t.includes('convert'))) {
+    return 'Relate fractions and decimals';
+  }
+  if (t.includes('fraction') || t.includes('numerator') || t.includes('denominator') || t.includes('mixed number') || t.includes('simplif')) {
+    return 'Fractions and mixed numbers';
+  }
+  if (t.includes('decimal') || t.includes('tenths') || t.includes('hundredths') || t.includes('thousandths')) {
+    return 'Decimals';
+  }
+  if (t.includes('percent') || t.includes('percentage') || t.includes('ratio') || t.includes('proportion')) {
+    return 'Percents and ratios';
+  }
+  if (t.includes('multiplication') || t.includes('multiply') || t.includes('times') || t.includes('product') || t.includes('factor') || t.includes('multiple') || t.includes('lcm') || t.includes('hcf') || t.includes('prime')) {
+    return 'Multiplication';
+  }
+  if (t.includes('division') || t.includes('divide') || t.includes('quotient') || t.includes('remainder') || t.includes('divisib')) {
+    return 'Division';
+  }
+  if (t.includes('addition') || t.includes('subtraction') || t.includes('add ') || t.includes('subtract') || t.includes('sum') || t.includes('difference') || t.includes('regroup') || t.includes('plus') || t.includes('minus')) {
+    return 'Addition and subtraction';
+  }
+  if (t.includes('compare number') || t.includes('comparing and ordering') || t.includes('order number') || t.includes('put numbers in order') || t.includes('greater than') || t.includes('less than')) {
+    return 'Comparing and ordering';
+  }
+  if (t.includes('even and odd') || t.includes('even or odd')) {
+    return 'Even and odd';
+  }
+  if (t.includes('place value') || t.includes('number sense') || t.includes('roman numeral') || t.includes('rounding') || t.includes('words to digits') || t.includes('digits to words') || t.includes('place values') || t.includes('value of digit') || t.includes('whole number')) {
+    return 'Place value and number sense';
+  }
+  if (t.includes('money') || t.includes('currency') || t.includes('coin') || t.includes('dollar') || t.includes('cent') || t.includes('cost') || t.includes('price') || t.includes('financial')) {
+    return 'Money';
+  }
+  if (t.includes('time') || t.includes('clock') || t.includes('elapsed') || t.includes('calendar') || t.includes('duration') || t.includes('hour') || t.includes('minute') || t.includes('second')) {
+    return 'Time and clock';
+  }
+  if (t.includes('geometry') || t.includes('shape') || t.includes('angle') || t.includes('triangle') || t.includes('quadrilateral') || t.includes('polygon') || t.includes('symmetry') || t.includes('transformation') || t.includes('circle') || t.includes('2d') || t.includes('3d') || t.includes('three-dimensional') || t.includes('two-dimensional')) {
+    return 'Geometry and shapes';
+  }
+  if (t.includes('measurement') || t.includes('measuring') || t.includes('perimeter') || t.includes('area') || t.includes('volume') || t.includes('length') || t.includes('mass') || t.includes('weight') || t.includes('capacity') || t.includes('unit') || t.includes('metric') || t.includes('ruler')) {
+    return 'Measurement, area and perimeter';
+  }
+  if (t.includes('data') || t.includes('graph') || t.includes('chart') || t.includes('plot') || t.includes('tally') || t.includes('table') || t.includes('venn') || t.includes('statistic') || t.includes('probability')) {
+    return 'Data, graphs and probability';
+  }
+  if (t.includes('algebra') || t.includes('equation') || t.includes('variable') || t.includes('expression') || t.includes('pattern') || t.includes('sequence') || t.includes('series')) {
+    return 'Patterns and sequences';
   }
 
-  if (s.includes('math')) return 'Mathematics Core';
-  if (s.includes('english') || s.includes('literacy')) return 'Literacy & Language';
-  if (s.includes('science')) return 'Science & Inquiry';
+  // --- ENGLISH / LITERACY MAIN HEADER TOPICS ---
+  if (t.includes('spelling') || t.includes('phonics') || t.includes('vowel') || t.includes('consonant') || t.includes('syllable') || t.includes('homophone') || t.includes('silent e') || t.includes('blend') || t.includes('digraph') || t.includes('rhym')) {
+    return 'Spelling and phonics';
+  }
+  if (t.includes('grammar') || t.includes('punctuation') || t.includes('noun') || t.includes('verb') || t.includes('adjective') || t.includes('adverb') || t.includes('pronoun') || t.includes('preposition') || t.includes('conjunction') || t.includes('clause') || t.includes('predicate') || t.includes('subject-verb') || t.includes('comma') || t.includes('apostrophe') || t.includes('capital') || t.includes('sentence') || t.includes('semicolon') || t.includes('colon') || t.includes('tense')) {
+    return 'Grammar and conventions';
+  }
+  if (t.includes('vocab') || t.includes('word') || t.includes('synonym') || t.includes('antonym') || t.includes('prefix') || t.includes('suffix') || t.includes('root') || t.includes('idiom') || t.includes('shades of meaning') || t.includes('context clue') || t.includes('definition')) {
+    return 'Vocabulary and word structure';
+  }
+  if (t.includes('reading') || t.includes('comprehension') || t.includes('passage') || t.includes('text') || t.includes('main idea') || t.includes('inference') || t.includes('theme') || t.includes('author') || t.includes('point of view') || t.includes('fact vs opinion')) {
+    return 'Reading comprehension';
+  }
+  if (t.includes('writing') || t.includes('narrative') || t.includes('persuasive') || t.includes('essay') || t.includes('paragraph') || t.includes('story') || t.includes('draft') || t.includes('edit') || t.includes('revise')) {
+    return 'Writing and text structure';
+  }
 
-  return subtopic || 'Core Learning Concepts';
+  // --- SCIENCE MAIN HEADER TOPICS ---
+  if (t.includes('cell') || t.includes('plant') || t.includes('animal') || t.includes('organism') || t.includes('human') || t.includes('body') || t.includes('ecosystem') || t.includes('habitat') || t.includes('adaptation') || t.includes('biology') || t.includes('living thing') || t.includes('photosynthesis')) {
+    return 'Living things and ecosystems';
+  }
+  if (t.includes('planet') || t.includes('solar') || t.includes('star') || t.includes('space') || t.includes('earth') || t.includes('moon') || t.includes('weather') || t.includes('climate') || t.includes('water cycle') || t.includes('rock') || t.includes('soil') || t.includes('atmosphere') || t.includes('orbit')) {
+    return 'Earth and space sciences';
+  }
+  if (t.includes('force') || t.includes('motion') || t.includes('gravity') || t.includes('energy') || t.includes('light') || t.includes('sound') || t.includes('heat') || t.includes('electricity') || t.includes('magnet') || t.includes('physics')) {
+    return 'Physical forces and energy';
+  }
+  if (t.includes('matter') || t.includes('particle') || t.includes('solid') || t.includes('liquid') || t.includes('gas') || t.includes('chemical') || t.includes('molecule') || t.includes('atom') || t.includes('mixture') || t.includes('chemistry')) {
+    return 'Chemical sciences and matter';
+  }
+
+  // --- LOGICAL REASONING MAIN HEADER TOPICS ---
+  if (t.includes('spatial') || t.includes('cube') || t.includes('net') || t.includes('fold') || t.includes('rotation') || t.includes('reflection') || t.includes('3d') || t.includes('view')) {
+    return 'Spatial and 3D reasoning';
+  }
+  if (t.includes('series') || t.includes('sequence') || t.includes('missing term') || (t.includes('pattern') && s.includes('logic'))) {
+    return 'Number and shape patterns';
+  }
+  if (t.includes('analogy') || t.includes('analogies') || t.includes('classification') || t.includes('odd one out')) {
+    return 'Analogy and classification';
+  }
+  if (t.includes('logic') || t.includes('reasoning') || t.includes('deduction') || t.includes('ranking') || t.includes('seating') || t.includes('code') || t.includes('decoding') || t.includes('direction') || t.includes('blood relation')) {
+    return 'Deductive and verbal logic';
+  }
+
+  // --- HINDI MAIN HEADER TOPICS ---
+  if (t.includes('वर्णमाला') || t.includes('स्वर') || t.includes('व्यंजन') || t.includes('ध्वनि')) {
+    return 'वर्णमाला और ध्वनियाँ (Alphabet & Phonetics)';
+  }
+  if (t.includes('व्याकरण') || t.includes('संज्ञा') || t.includes('सर्वनाम') || t.includes('क्रिया') || t.includes('विशेषण') || t.includes('काल') || t.includes('लिंग') || t.includes('वचन')) {
+    return 'हिंदी व्याकरण (Hindi Grammar)';
+  }
+  if (t.includes('शब्द') || t.includes('पर्यायवाची') || t.includes('विलोम') || t.includes('मुहावरे') || t.includes('शब्दावली')) {
+    return 'शब्द ज्ञान (Vocabulary & Synonyms)';
+  }
+  if (t.includes('गद्यांश') || t.includes('पठन') || t.includes('अपठित')) {
+    return 'पठन और समझ (Reading & Comprehension)';
+  }
+
+  // Subject default category
+  if (s.includes('math') || s.includes('numeracy')) return 'Place value and number sense';
+  if (s.includes('english') || s.includes('reading') || s.includes('literacy')) return 'Grammar and conventions';
+  if (s.includes('science')) return 'Living things and ecosystems';
+  if (s.includes('logic') || s.includes('reasoning')) return 'Deductive and verbal logic';
+  if (s.includes('hindi')) return 'हिंदी व्याकरण (Hindi Grammar)';
+
+  if (subtopic && subtopic.trim()) {
+    const clean = subtopic.trim();
+    return clean.charAt(0).toUpperCase() + clean.slice(1);
+  }
+  return 'Core Learning Concepts';
 };
 
 const getSubjectForUmbrellaCategory = (umbrellaName = '', rawSubject = '') => {
   const u = (umbrellaName || '').toLowerCase().trim();
   const s = (rawSubject || '').toLowerCase().trim();
 
-  // Explicit Umbrella Category Domain Mapping
+  // Explicit Main Header Topic Domain Mapping
   if (
+    u.includes('place value') || 
+    u.includes('comparing') || 
+    u.includes('even and odd') || 
+    u.includes('addition') || 
+    u.includes('subtraction') || 
+    u.includes('multiplication') || 
+    u.includes('division') || 
     u.includes('fraction') || 
     u.includes('decimal') || 
-    u.includes('percentage') || 
-    u.includes('number & operations') || 
+    u.includes('percent') || 
+    u.includes('ratio') || 
+    u.includes('money') || 
+    u.includes('time and clock') || 
     u.includes('geometry') || 
     u.includes('measurement') || 
-    u.includes('time & clock') || 
-    u.includes('statistics') || 
-    u.includes('data & charts') || 
-    u.includes('algebra') || 
-    u.includes('patterns & sequences') ||
-    u.includes('money') || 
-    u.includes('financial') ||
+    u.includes('data, graphs') || 
+    u.includes('patterns and sequences') ||
     u.includes('mathematics')
   ) {
     return 'Mathematics';
@@ -210,10 +288,13 @@ const getSubjectForUmbrellaCategory = (umbrellaName = '', rawSubject = '') => {
 
   if (
     u.includes('spelling') || 
-    u.includes('vocabulary') || 
+    u.includes('phonics') || 
     u.includes('grammar') || 
     u.includes('conventions') || 
+    u.includes('vocabulary') || 
+    u.includes('word structure') || 
     u.includes('reading') || 
+    u.includes('writing') || 
     u.includes('comprehension') || 
     u.includes('literacy') || 
     u.includes('english')
@@ -222,33 +303,39 @@ const getSubjectForUmbrellaCategory = (umbrellaName = '', rawSubject = '') => {
   }
 
   if (
-    u.includes('science') || 
-    u.includes('environmental') || 
-    u.includes('planet') || 
-    u.includes('biology') || 
-    u.includes('physics') || 
-    u.includes('chemistry')
+    u.includes('living thing') || 
+    u.includes('ecosystem') || 
+    u.includes('earth and space') || 
+    u.includes('physical forces') || 
+    u.includes('chemical sciences') || 
+    u.includes('matter') || 
+    u.includes('energy') || 
+    u.includes('science')
   ) {
     return 'Science';
   }
 
   if (
     u.includes('spatial') || 
+    u.includes('3d reasoning') || 
+    u.includes('number and shape pattern') || 
+    u.includes('analogy') || 
+    u.includes('classification') || 
+    u.includes('deductive') || 
+    u.includes('verbal logic') || 
     u.includes('logical') || 
     u.includes('reasoning') || 
-    u.includes('deduction') || 
     u.includes('olympiad')
   ) {
     return 'Logical Reasoning';
   }
 
-  if (u.includes('hindi')) {
+  if (u.includes('वर्णमाला') || u.includes('व्याकरण') || u.includes('शब्द ज्ञान') || u.includes('पठन') || u.includes('hindi')) {
     return 'Hindi';
   }
 
-  if (u.includes('history') || u.includes('social') || u.includes('geography')) {
-    return 'History';
-  }
+  if (u.includes('history')) return 'History';
+  if (u.includes('geography')) return 'Geography';
   if (u.includes('art')) return 'Art';
   if (u.includes('music')) return 'Music';
 
@@ -286,7 +373,7 @@ const normalizeToGradeSubject = (rawSubject = '', rawSubtopic = '') => {
     return 'Music';
   }
 
-  // If subject was general or a generic test name, classify by subtopic
+  // Fallback check by subtopic
   if (t.includes('fraction') || t.includes('number') || t.includes('math') || t.includes('geometry') || t.includes('algebra') || t.includes('time') || t.includes('stat') || t.includes('measurement') || t.includes('money')) {
     return 'Mathematics';
   }
