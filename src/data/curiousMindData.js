@@ -100,13 +100,13 @@ export const TOPICS = [
     "id": "forget",
     "title": "Why Do We Forget Things?",
     "category": "brain_sleep",
-    "cardImage": "/curious_whole_forget.png"
+    "cardImage": "/curious_whole_forget.jpg"
   },
   {
     "id": "dream",
     "title": "Why Do We Dream?",
     "category": "brain_sleep",
-    "cardImage": "/curious_whole_dream.png"
+    "cardImage": "/curious_whole_dream.jpg"
   },
   {
     "id": "blink",
@@ -1212,7 +1212,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "forget": {
-    "image": "/curious_forget.png",
+    "image": "/curious_forget.jpg",
     "bgColor": "border-pink-400",
     "accentColor": "from-pink-400 via-rose-300 to-purple-400",
     "quizBg": "bg-pink-50 border-pink-200",
@@ -1232,7 +1232,7 @@ export const TOPIC_DETAILS = {
     }
   },
   "dream": {
-    "image": "/curious_dream.png",
+    "image": "/curious_dream.jpg",
     "bgColor": "border-indigo-400",
     "accentColor": "from-indigo-400 via-purple-300 to-pink-500",
     "quizBg": "bg-indigo-50 border-indigo-200",
