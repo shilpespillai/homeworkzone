@@ -1127,6 +1127,270 @@ export const TOPICS = [
     "title": "Why is Venus so hot?",
     "category": "space",
     "cardImage": "/curious_why_is_venus_so_hot.png"
+  },
+  {
+    "id": "why_can_huge_steel_ships_float",
+    "title": "Why can huge steel ships float?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_can_huge_steel_ships_float.png"
+  },
+  {
+    "id": "why_can_we_see_objects",
+    "title": "Why can we see objects?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_can_we_see_objects.png"
+  },
+  {
+    "id": "why_do_aeroplanes_fly",
+    "title": "Why do aeroplanes fly?",
+    "category": "technology",
+    "cardImage": "/curious_why_do_aeroplanes_fly.png"
+  },
+  {
+    "id": "why_do_balls_bounce",
+    "title": "Why do balls bounce?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_balls_bounce.png"
+  },
+  {
+    "id": "why_do_batteries_produce_electricity",
+    "title": "Why do batteries produce electricity?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_batteries_produce_electricity.png"
+  },
+  {
+    "id": "why_do_boats_float",
+    "title": "Why do boats float?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_boats_float.png"
+  },
+  {
+    "id": "why_do_boomerangs_come_back",
+    "title": "Why do boomerangs come back?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_boomerangs_come_back.png"
+  },
+  {
+    "id": "why_do_bubbles_rise_in_water",
+    "title": "Why do bubbles rise in water?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_bubbles_rise_in_water.png"
+  },
+  {
+    "id": "why_do_echoes_happen",
+    "title": "Why do echoes happen?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_echoes_happen.png"
+  },
+  {
+    "id": "why_do_gears_work",
+    "title": "Why do gears work?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_gears_work.png"
+  },
+  {
+    "id": "why_do_helicopters_hover",
+    "title": "Why do helicopters hover?",
+    "category": "technology",
+    "cardImage": "/curious_why_do_helicopters_hover.png"
+  },
+  {
+    "id": "why_do_helium_balloons_rise",
+    "title": "Why do helium balloons rise?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_helium_balloons_rise.png"
+  },
+  {
+    "id": "why_do_hot_air_balloons_rise",
+    "title": "Why do hot-air balloons rise?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_hot_air_balloons_rise.png"
+  },
+  {
+    "id": "why_do_kites_fly",
+    "title": "Why do kites fly?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_kites_fly.png"
+  },
+  {
+    "id": "why_do_levers_make_lifting_easier",
+    "title": "Why do levers make lifting easier?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_levers_make_lifting_easier.png"
+  },
+  {
+    "id": "why_do_magnets_attract_some_metals",
+    "title": "Why do magnets attract some metals?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_magnets_attract_some_metals.png"
+  },
+  {
+    "id": "why_do_magnifying_glasses_make_things_look_bigger",
+    "title": "Why do magnifying glasses make things look bigger?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_magnifying_glasses_make_things_look_bigger.png"
+  },
+  {
+    "id": "why_do_mirrors_reflect_us",
+    "title": "Why do mirrors reflect us?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_mirrors_reflect_us.png"
+  },
+  {
+    "id": "why_do_musical_instruments_make_different_sounds",
+    "title": "Why do musical instruments make different sounds?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_musical_instruments_make_different_sounds.png"
+  },
+  {
+    "id": "why_do_parachutes_slow_us_down",
+    "title": "Why do parachutes slow us down?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_parachutes_slow_us_down.png"
+  },
+  {
+    "id": "why_do_prisms_make_rainbows",
+    "title": "Why do prisms make rainbows?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_prisms_make_rainbows.png"
+  },
+  {
+    "id": "why_do_pulleys_make_lifting_easier",
+    "title": "Why do pulleys make lifting easier?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_pulleys_make_lifting_easier.png"
+  },
+  {
+    "id": "why_do_seatbelts_protect_us",
+    "title": "Why do seatbelts protect us?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_seatbelts_protect_us.png"
+  },
+  {
+    "id": "why_do_shadows_form",
+    "title": "Why do shadows form?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_shadows_form.png"
+  },
+  {
+    "id": "why_do_submarines_sink_and_rise",
+    "title": "Why do submarines sink and rise?",
+    "category": "technology",
+    "cardImage": "/curious_why_do_submarines_sink_and_rise.png"
+  },
+  {
+    "id": "why_do_things_fall_down",
+    "title": "Why do things fall down?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_things_fall_down.png"
+  },
+  {
+    "id": "why_do_tyres_have_tread",
+    "title": "Why do tyres have tread?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_tyres_have_tread.png"
+  },
+  {
+    "id": "why_do_we_need_friction_to_walk",
+    "title": "Why do we need friction to walk?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_we_need_friction_to_walk.png"
+  },
+  {
+    "id": "why_do_wheels_make_moving_things_easier",
+    "title": "Why do wheels make moving things easier?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_do_wheels_make_moving_things_easier.png"
+  },
+  {
+    "id": "why_does_a_bicycle_stay_balanced_while_moving",
+    "title": "Why does a bicycle stay balanced while moving?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_does_a_bicycle_stay_balanced_while_moving.png"
+  },
+  {
+    "id": "why_does_a_compass_point_north",
+    "title": "Why does a compass point north?",
+    "category": "earth_weather",
+    "cardImage": "/curious_why_does_a_compass_point_north.png"
+  },
+  {
+    "id": "why_does_a_light_bulb_glow",
+    "title": "Why does a light bulb glow?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_does_a_light_bulb_glow.png"
+  },
+  {
+    "id": "why_does_a_straw_look_bent_in_water",
+    "title": "Why does a straw look bent in water?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_does_a_straw_look_bent_in_water.png"
+  },
+  {
+    "id": "why_does_boiling_water_make_bubbles",
+    "title": "Why does boiling water make bubbles?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_does_boiling_water_make_bubbles.png"
+  },
+  {
+    "id": "why_does_ice_melt",
+    "title": "Why does ice melt?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_does_ice_melt.png"
+  },
+  {
+    "id": "why_does_insulation_keep_us_warm",
+    "title": "Why does insulation keep us warm?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_does_insulation_keep_us_warm.png"
+  },
+  {
+    "id": "why_does_metal_feel_colder_than_wood",
+    "title": "Why does metal feel colder than wood?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_does_metal_feel_colder_than_wood.png"
+  },
+  {
+    "id": "why_does_oil_float_on_water",
+    "title": "Why does oil float on water?",
+    "category": "food_chemistry",
+    "cardImage": "/curious_why_does_oil_float_on_water.png"
+  },
+  {
+    "id": "why_does_popcorn_pop",
+    "title": "Why does popcorn pop?",
+    "category": "food_chemistry",
+    "cardImage": "/curious_why_does_popcorn_pop.png"
+  },
+  {
+    "id": "why_does_sound_exist",
+    "title": "Why does sound exist?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_does_sound_exist.png"
+  },
+  {
+    "id": "why_does_static_electricity_happen",
+    "title": "Why does static electricity happen?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_does_static_electricity_happen.png"
+  },
+  {
+    "id": "why_does_water_expand_when_it_freezes",
+    "title": "Why does water expand when it freezes?",
+    "category": "food_chemistry",
+    "cardImage": "/curious_why_does_water_expand_when_it_freezes.png"
+  },
+  {
+    "id": "why_does_water_freeze",
+    "title": "Why does water freeze?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_does_water_freeze.png"
+  },
+  {
+    "id": "why_is_ice_slippery",
+    "title": "Why is ice slippery?",
+    "category": "physics_everyday",
+    "cardImage": "/curious_why_is_ice_slippery.png"
   }
 ];
 
@@ -4649,6 +4913,886 @@ export const TOPIC_DETAILS = {
       ],
       "correctIndex": 0,
       "explanation": "Runaway greenhouse effect! Venus's crushing atmosphere (92x Earth's surface pressure) traps virtually all incoming solar radiation, making it the hottest planet in our solar system!"
+    }
+  },
+  "why_can_huge_steel_ships_float": {
+    "image": "/curious_whole_why_can_huge_steel_ships_float.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "HUGE STEEL SHIPS FLOAT BECAUSE THEIR HOLLOW SHAPE CONTAINS LOTS OF AIR, MAKING THE WHOLE SHIP LESS DENSE THAN WATER AND ALLOWING WATER TO PUSH IT UPWARD.",
+    "quiz": {
+      "question": "How can giant heavy steel cargo ships float on water without sinking?",
+      "options": [
+        "Their hollow hull design displaces an amount of water equal to the ship's entire weight (Archimedes' Principle) 🚢",
+        "Steel is naturally lighter than ocean water 🌊",
+        "Giant magnets pull the ship from the sky 🧲",
+        "They are filled with helium balloons 🎈"
+      ],
+      "correctIndex": 0,
+      "explanation": "Archimedes' Principle in action! Because ships have large hollow hulls filled with air, their average density is much lower than water, creating buoyant upward force!"
+    }
+  },
+  "why_can_we_see_objects": {
+    "image": "/curious_whole_why_can_we_see_objects.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "WE CAN SEE OBJECTS WHEN LIGHT BOUNCES OR COMES FROM THEM, ENTERS OUR EYES, AND OUR BRAIN TURNS THE LIGHT SIGNALS INTO A PICTURE.",
+    "quiz": {
+      "question": "What enables our human eyes to see non-glowing objects around us?",
+      "options": [
+        "Light rays from a light source bounce (reflect) off the object into our retinas 👁️💡",
+        "Our eyes beam invisible scan lasers out 🔦",
+        "Objects project tiny sound signals 📻",
+        "Air molecules carry color smells 👃"
+      ],
+      "correctIndex": 0,
+      "explanation": "Optics fundamentals! We see objects because they reflect ambient light rays into our eyes, where the retina converts photons into electrical brain signals."
+    }
+  },
+  "why_do_aeroplanes_fly": {
+    "image": "/curious_whole_why_do_aeroplanes_fly.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-400 via-indigo-300 to-cyan-500",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "AEROPLANES FLY BECAUSE THEIR WINGS MOVE THROUGH THE AIR IN A WAY THAT PUSHES AIR DOWNWARD, CREATING AN UPWARD FORCE CALLED LIFT THAT CAN OVERCOME GRAVITY.",
+    "quiz": {
+      "question": "What physical aerodynamic force lifts an airplane into the sky?",
+      "options": [
+        "Aerodynamic Lift created by curved airfoil wings (Bernoulli's principle & Newton's Third Law) as engines provide thrust ✈️",
+        "Hot air engines floating like a balloon 🎈",
+        "Anti-gravity thrusters under the fuselage 🛸",
+        "Air pressure pushing from the top of the wings 💨"
+      ],
+      "correctIndex": 0,
+      "explanation": "Aerodynamics mastery! As the curved airfoil wing moves through air, air travels faster over the curved top, creating lower pressure above and upward lift from below!"
+    }
+  },
+  "why_do_balls_bounce": {
+    "image": "/curious_whole_why_do_balls_bounce.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "BALLS BOUNCE BECAUSE THEY SQUASH A LITTLE WHEN THEY HIT A SURFACE, THEN SPRING BACK INTO SHAPE AND PUSH THEMSELVES UPWARD.",
+    "quiz": {
+      "question": "What happens when an elastic rubber ball hits the hard ground and bounces back up?",
+      "options": [
+        "The ball compresses, storing kinetic energy as elastic potential energy, then springs back into shape 🏀",
+        "The ground pushes the ball with a hidden spring 🪚",
+        "Gravity temporarily reverses direction 🔄",
+        "The air inside the ball creates a tiny explosion 💥"
+      ],
+      "correctIndex": 0,
+      "explanation": "Elastic energy! When the ball strikes the floor, its molecules squish and deform, storing energy that snaps back outward to propel the ball upward!"
+    }
+  },
+  "why_do_batteries_produce_electricity": {
+    "image": "/curious_whole_why_do_batteries_produce_electricity.png",
+    "bgColor": "border-purple-400",
+    "accentColor": "from-purple-400 via-fuchsia-300 to-indigo-500",
+    "quizBg": "bg-purple-50 border-purple-200",
+    "quizText": "text-purple-950",
+    "quizBadge": "bg-purple-200 text-purple-800",
+    "footer": "BATTERIES PRODUCE ELECTRICITY BY USING A CHEMICAL REACTION TO PUSH TINY CHARGED PARTICLES CALLED ELECTRONS THROUGH A CIRCUIT.",
+    "quiz": {
+      "question": "How does a chemical battery produce a flow of electric current?",
+      "options": [
+        "An electrochemical redox reaction drives the flow of electrons from the negative anode to the positive cathode 🔋",
+        "The battery collects electricity from sunlight ☀️",
+        "Friction between metal coils inside ⚡",
+        "A tiny motor inside spins 24/7 ⚙️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Electrochemistry! Chemical reactions at the two electrodes build up an excess of electrons at the negative terminal, which flow through a circuit to do work."
+    }
+  },
+  "why_do_boats_float": {
+    "image": "/curious_whole_why_do_boats_float.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "BOATS FLOAT BECAUSE THEIR HOLLOW SHAPE PUSHES ASIDE ENOUGH WATER FOR THE WATER’S UPWARD PUSH, CALLED BUOYANCY, TO HOLD THEM UP.",
+    "quiz": {
+      "question": "Why does a wooden or hollow boat stay on top of the water instead of sinking?",
+      "options": [
+        "Its average density is lower than the density of water, creating upward buoyant force ⛵",
+        "Water is sticky and holds the boat 🌊",
+        "The boat's engine pushes down on the water 🚤",
+        "Surface tension alone holds all boats 🫧"
+      ],
+      "correctIndex": 0,
+      "explanation": "Buoyancy rules! When an object is placed in water, water pushes back upward with a buoyant force equal to the weight of the water displaced."
+    }
+  },
+  "why_do_boomerangs_come_back": {
+    "image": "/curious_whole_why_do_boomerangs_come_back.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "A RETURNING BOOMERANG COMES BACK BECAUSE ITS SPINNING, CURVED WINGS, AND SPECIAL TILTED THROW MAKE THE AIR PUSH IT IN A WIDE CIRCLE.",
+    "quiz": {
+      "question": "Why does a traditional returning boomerang circle back to the thrower?",
+      "options": [
+        "Unequal aerodynamic lift on spinning airfoil blades causes gyroscopic precession that curves its flight path 🪃",
+        "Magnets embedded in the wooden wings 🧲",
+        "Wind always blows in circular currents 🌀",
+        "Trained homing birds push it back 🦅"
+      ],
+      "correctIndex": 0,
+      "explanation": "Gyroscopic physics! As the boomerang spins through the air, the top blade moves faster than the bottom blade, creating an unbalanced force that turns the spinning axis!"
+    }
+  },
+  "why_do_bubbles_rise_in_water": {
+    "image": "/curious_whole_why_do_bubbles_rise_in_water.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-400 via-indigo-300 to-cyan-500",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "BUBBLES RISE IN WATER BECAUSE THE WATER PUSHES UPWARD ON THEM MORE STRONGLY THAN GRAVITY PULLS THEM DOWNWARD.",
+    "quiz": {
+      "question": "Why do air bubbles quickly float to the surface of a swimming pool or glass of water?",
+      "options": [
+        "Air is much less dense than liquid water, so surrounding water pushes it upward 🫧",
+        "Air bubbles have propellers ⚙️",
+        "Surface tension pulls them up like a magnet 🧲",
+        "Water molecules hate air 💧"
+      ],
+      "correctIndex": 0,
+      "explanation": "Density difference! Liquid water is roughly 800 times denser than air, so high water pressure at the bottom squeezes the light bubble up to the surface."
+    }
+  },
+  "why_do_echoes_happen": {
+    "image": "/curious_whole_why_do_echoes_happen.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "ECHOES HAPPEN WHEN SOUND WAVES BOUNCE OFF A HARD SURFACE AND TRAVEL BACK TO OUR EARS.",
+    "quiz": {
+      "question": "What produces the repeating sound of an echo in a cave or canyon?",
+      "options": [
+        "Sound waves travel outward and bounce (reflect) off hard, distant surfaces back to your ears 🗣️🏔️",
+        "Wind carrying old words in a circle 💨",
+        "Caves recording and playing back voices 📼",
+        "The canyon creating new sounds 🌲"
+      ],
+      "correctIndex": 0,
+      "explanation": "Acoustic reflection! When sound waves strike a large, rigid barrier (like a cliff wall), they bounce back with minimal energy loss, reaching our ears as a delayed echo."
+    }
+  },
+  "why_do_gears_work": {
+    "image": "/curious_whole_why_do_gears_work.png",
+    "bgColor": "border-purple-400",
+    "accentColor": "from-purple-400 via-fuchsia-300 to-indigo-500",
+    "quizBg": "bg-purple-50 border-purple-200",
+    "quizText": "text-purple-950",
+    "quizBadge": "bg-purple-200 text-purple-800",
+    "footer": "GEARS WORK BECAUSE THEIR TEETH PUSH AGAINST EACH OTHER, PASSING AROUND A TURNING FORCE CALLED TORQUE TO MAKE THINGS MOVE.",
+    "quiz": {
+      "question": "Why are interlocking toothed gears used in bicycles, clocks, and car engines?",
+      "options": [
+        "They transfer rotational force (torque) and change rotational speed or direction through interlocking teeth ⚙️",
+        "They look decorative inside machines 🎨",
+        "They generate electricity by friction ⚡",
+        "They cool down the motor oil 🛢️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Mechanical advantage! A small gear turning a large gear increases torque (turning force) while reducing speed, enabling powerful lifting and precise timing."
+    }
+  },
+  "why_do_helicopters_hover": {
+    "image": "/curious_whole_why_do_helicopters_hover.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "HELICOPTERS HOVER WHEN THEIR SPINNING ROTOR BLADES PUSH AIR DOWNWARD WITH ENOUGH FORCE TO BALANCE THE HELICOPTER'S WEIGHT.",
+    "quiz": {
+      "question": "How can a helicopter stay completely stationary in mid-air?",
+      "options": [
+        "Fast-spinning rotor blades push massive amounts of air downward, creating upward lift equal to the helicopter's weight 🚁",
+        "A cable attached to a satellite 🛰️",
+        "Helium gas pumped into the cockpit 🎈",
+        "Jet engines firing straight down 🔥"
+      ],
+      "correctIndex": 0,
+      "explanation": "Vertical aerodynamics! By spinning rotor blades at high speed, the helicopter generates downward thrust and upward lift that perfectly balances the downward pull of gravity."
+    }
+  },
+  "why_do_helium_balloons_rise": {
+    "image": "/curious_whole_why_do_helium_balloons_rise.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "HELIUM BALLOONS RISE BECAUSE HELIUM IS LESS DENSE THAN THE SURROUNDING AIR, SO THE HEAVIER AIR PUSHES THEM UPWARD.",
+    "quiz": {
+      "question": "Why does a helium balloon float upward into the sky while an air-filled balloon falls to the floor?",
+      "options": [
+        "Helium gas is lighter and less dense than the nitrogen-oxygen air surrounding it 🎈",
+        "Helium is anti-gravity gas 🌌",
+        "The balloon rubber pushes against air 🛡️",
+        "Sunlight pulls helium upward ☀️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Buoyancy in air! Helium has an atomic mass of 4, while air molecules average ~29, making helium much lighter than the surrounding atmospheric air."
+    }
+  },
+  "why_do_hot_air_balloons_rise": {
+    "image": "/curious_whole_why_do_hot_air_balloons_rise.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-400 via-indigo-300 to-cyan-500",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "HOT-AIR BALLOONS RISE BECAUSE HEATING THE AIR INSIDE MAKES IT LESS DENSE THAN THE COOLER AIR OUTSIDE, SO THE SURROUNDING AIR PUSHES THE BALLOON UPWARD.",
+    "quiz": {
+      "question": "Why does heating the air inside a giant envelope cause a hot-air balloon to lift off?",
+      "options": [
+        "Heating air makes molecules move faster and spread out, making the inside air less dense than cold outside air 🎈🔥",
+        "Hot air creates steam thrust 💨",
+        "Fire burns away the balloon's weight 🕯️",
+        "Warm air has magnetic lift 🧲"
+      ],
+      "correctIndex": 0,
+      "explanation": "Thermal expansion & density! Heated air expands and becomes lighter per unit of volume than cool outside air, generating buoyant lift to carry passengers skyward!"
+    }
+  },
+  "why_do_kites_fly": {
+    "image": "/curious_whole_why_do_kites_fly.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "KITES FLY BECAUSE MOVING AIR PUSHES AGAINST THEIR TILTED SURFACE, CREATING LIFT THAT PULLS THEM UPWARD WHILE THE STRING HELPS KEEP THEM STEADY.",
+    "quiz": {
+      "question": "What keeps a kite dancing high in the breeze on a sunny day?",
+      "options": [
+        "The angled surface creates aerodynamic lift as wind flows over it, balanced by string tension and tail drag 🪁",
+        "Helium inside the fabric 🎈",
+        "Static electric charges in the string ⚡",
+        "Cloud magnets in the sky ☁️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Flight balance! Wind pushing against the tilted kite face creates lift and drag, while the tether string holds it stable against the breeze."
+    }
+  },
+  "why_do_levers_make_lifting_easier": {
+    "image": "/curious_whole_why_do_levers_make_lifting_easier.png",
+    "bgColor": "border-purple-400",
+    "accentColor": "from-purple-400 via-fuchsia-300 to-indigo-500",
+    "quizBg": "bg-purple-50 border-purple-200",
+    "quizText": "text-purple-950",
+    "quizBadge": "bg-purple-200 text-purple-800",
+    "footer": "LEVERS MAKE LIFTING EASIER BY USING A PIVOT POINT TO TRADE A LONGER PUSH OR PULL DISTANCE FOR LESS FORCE.",
+    "quiz": {
+      "question": "How does a simple lever (like a crowbar or seesaw) help humans lift heavy boulders?",
+      "options": [
+        "Applying a smaller force over a longer distance multiplies output force around a pivot fulcrum (Mechanical Advantage) 🪚",
+        "Levers eliminate the boulder's gravity 🪨",
+        "The lever absorbs the boulder's weight 🏋️",
+        "It uses magnetic repulsion 🧲"
+      ],
+      "correctIndex": 0,
+      "explanation": "Law of the Lever! Work equals Force × Distance. By pushing down over a long distance on one side of a fulcrum, you generate massive upward lifting force on the short side!"
+    }
+  },
+  "why_do_magnets_attract_some_metals": {
+    "image": "/curious_whole_why_do_magnets_attract_some_metals.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "MAGNETS ATTRACT CERTAIN METALS BECAUSE THEIR TINY PARTICLES CAN LINE UP LIKE MANY LITTLE COMPASS NEEDLES, CREATING A STRONG PULL.",
+    "quiz": {
+      "question": "Why do permanent magnets attract iron and steel, but not aluminium, plastic, or wood?",
+      "options": [
+        "Ferromagnetic materials contain microscopic magnetic domains that align with the magnet's magnetic field 🧲",
+        "Magnets have sticky invisible glue 🧴",
+        "All metals are naturally magnetic 🪙",
+        "Iron is cold and wants warmth ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Ferromagnetism! In metals like iron, nickel, and cobalt, unpaired electron spins form magnetic domains that swing into alignment when near a magnetic field."
+    }
+  },
+  "why_do_magnifying_glasses_make_things_look_bigger": {
+    "image": "/curious_whole_why_do_magnifying_glasses_make_things_look_bigger.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "A MAGNIFYING GLASS MAKES THINGS LOOK BIGGER BECAUSE ITS CURVED LENS BENDS LIGHT SO YOUR EYES SEE A LARGER-LOOKING IMAGE.",
+    "quiz": {
+      "question": "How does a convex lens make tiny text or insects appear enlarged?",
+      "options": [
+        "The curved glass bends (refracts) light rays inward to a focal point, projecting an enlarged virtual image onto our retinas 🔍",
+        "The glass stretches the physical object 🐛",
+        "It adds extra light particles 💡",
+        "It zooms in using micro-cameras 📸"
+      ],
+      "correctIndex": 0,
+      "explanation": "Refraction physics! Convex lenses are thicker in the middle, bending diverging light rays so they appear to originate from a much larger virtual object."
+    }
+  },
+  "why_do_mirrors_reflect_us": {
+    "image": "/curious_whole_why_do_mirrors_reflect_us.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-400 via-indigo-300 to-cyan-500",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "MIRRORS REFLECT US BECAUSE THEIR VERY SMOOTH SURFACES BOUNCE LIGHT FROM OUR BODIES BACK TO OUR EYES IN AN ORGANIZED WAY.",
+    "quiz": {
+      "question": "Why do polished silvered mirrors show an exact reflection of our face?",
+      "options": [
+        "Smooth metal surfaces produce specular reflection, bouncing all light rays at the exact same angle they arrived (Law of Reflection) 🪞",
+        "Mirrors absorb and replay video 🎬",
+        "Glass is transparent to thoughts 🧠",
+        "Light slows down to a stop 🛑"
+      ],
+      "correctIndex": 0,
+      "explanation": "Specular reflection! Because the metallic backing behind mirror glass is atom-level smooth, incoming parallel light rays bounce off parallel without scattering."
+    }
+  },
+  "why_do_musical_instruments_make_different_sounds": {
+    "image": "/curious_whole_why_do_musical_instruments_make_different_sounds.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "MUSICAL INSTRUMENTS MAKE DIFFERENT SOUNDS BECAUSE THEIR DIFFERENT SHAPES, SIZES, AND MATERIALS VIBRATE IN DIFFERENT WAYS, CREATING DIFFERENT PITCHES AND TONES.",
+    "quiz": {
+      "question": "Why does a violin sound completely distinct from a flute or trumpet playing the exact same note?",
+      "options": [
+        "Each instrument vibrates with unique combinations of harmonic overtones and timber (acoustic resonance) 🎻🎺",
+        "They use different electricity voltages ⚡",
+        "Sound travels faster through brass than wood 🪵",
+        "Musicians breathe different air 🌬️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Timbre and harmonics! While the fundamental pitch frequency may be the same, the instrument body shape and materials emphasize different acoustic harmonic frequencies."
+    }
+  },
+  "why_do_parachutes_slow_us_down": {
+    "image": "/curious_whole_why_do_parachutes_slow_us_down.png",
+    "bgColor": "border-purple-400",
+    "accentColor": "from-purple-400 via-fuchsia-300 to-indigo-500",
+    "quizBg": "bg-purple-50 border-purple-200",
+    "quizText": "text-purple-950",
+    "quizBadge": "bg-purple-200 text-purple-800",
+    "footer": "PARACHUTES SLOW US DOWN BECAUSE THEIR WIDE CANOPY CATCHES LOTS OF AIR, AND THE AIR PUSHES UPWARD AGAINST THE FALLING PARACHUTE.",
+    "quiz": {
+      "question": "How does a nylon parachute allow a skydiver to land safely on the ground?",
+      "options": [
+        "Its huge canopy captures moving air, creating massive aerodynamic drag that lowers terminal velocity to ~15 km/h 🪂",
+        "It generates rocket thrust upward 🚀",
+        "It neutralizes Earth's gravity 🌍",
+        "It makes the jumper lighter like a feather 🪶"
+      ],
+      "correctIndex": 0,
+      "explanation": "Air resistance drag! As the open canopy falls through air molecules, it traps air underneath, generating upward drag force that counters gravity and slows the descent."
+    }
+  },
+  "why_do_prisms_make_rainbows": {
+    "image": "/curious_whole_why_do_prisms_make_rainbows.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "PRISMS MAKE RAINBOWS BECAUSE THEY BEND WHITE LIGHT AND SPREAD ITS DIFFERENT COLORS APART.",
+    "quiz": {
+      "question": "Why does a clear triangular glass prism split invisible white sunlight into a spectrum of rainbow colors?",
+      "options": [
+        "Different wavelengths of light refract (bend) at slightly different angles as they pass through glass (Optical Dispersion) 🌈",
+        "The glass is dyed with rainbow paint inside 🎨",
+        "Sunlight contains tiny colored crystals 💎",
+        "Glass absorbs white and makes colors 💡"
+      ],
+      "correctIndex": 0,
+      "explanation": "Dispersion of light! Violet light has shorter wavelengths and bends the most, while red light has longer wavelengths and bends the least, fanning white light into a rainbow!"
+    }
+  },
+  "why_do_pulleys_make_lifting_easier": {
+    "image": "/curious_whole_why_do_pulleys_make_lifting_easier.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "PULLEYS CAN MAKE LIFTING FEEL EASIER BY CHANGING THE DIRECTION YOU PULL AND, WHEN SEVERAL PULLEYS WORK TOGETHER, SHARING THE WEIGHT ACROSS MORE SECTIONS OF ROPE.",
+    "quiz": {
+      "question": "Why do construction cranes and sailing ships use systems of multiple pulleys (block and tackle)?",
+      "options": [
+        "Each supporting loop of rope divides the load weight, reducing the effort force required to lift it 🏗️",
+        "Pulleys add motorized power ⚙️",
+        "Ropes are naturally anti-gravity 🪢",
+        "Pulleys make the object physically smaller 📦"
+      ],
+      "correctIndex": 0,
+      "explanation": "Mechanical advantage of pulleys! In a block-and-tackle system with 4 supporting rope segments, you only need to pull with 1/4th of the load's weight!"
+    }
+  },
+  "why_do_seatbelts_protect_us": {
+    "image": "/curious_whole_why_do_seatbelts_protect_us.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-400 via-indigo-300 to-cyan-500",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "SEATBELTS PROTECT US BY HOLDING OUR BODIES SAFELY IN PLACE WHEN A CAR STOPS SUDDENLY, SO WE DO NOT KEEP MOVING FORWARD AND GET HURT.",
+    "quiz": {
+      "question": "Which law of physics explains why seatbelts are essential during a sudden car brake?",
+      "options": [
+        "Newton's First Law of Inertia: objects in motion stay in motion unless acted upon by an outside stopping force 🚗🛡️",
+        "The Law of Conservation of Energy 🔋",
+        "Bernoulli's Principle 💨",
+        "Pascal's Law of Pressure 💧"
+      ],
+      "correctIndex": 0,
+      "explanation": "Inertia in action! When a car travelling at 60 km/h brakes suddenly, your body continues moving forward at 60 km/h until the seatbelt safely restrains you."
+    }
+  },
+  "why_do_shadows_form": {
+    "image": "/curious_whole_why_do_shadows_form.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "SHADOWS FORM WHEN AN OBJECT BLOCKS LIGHT FROM REACHING A SURFACE BEHIND IT.",
+    "quiz": {
+      "question": "What causes dark shadows to appear behind trees, buildings, and people on a sunny day?",
+      "options": [
+        "Light travels in straight lines (rectilinear propagation) and cannot pass through opaque solid objects 👥☀️",
+        "The ground absorbs sunlight and makes cold patches ❄️",
+        "Darkness leaks out from solid matter 🌑",
+        "Shadows are magnetic reflections 🧲"
+      ],
+      "correctIndex": 0,
+      "explanation": "Straight-line light travel! Photons travel in direct straight paths. When an opaque body blocks them, an unilluminated silhouette area forms behind the object."
+    }
+  },
+  "why_do_submarines_sink_and_rise": {
+    "image": "/curious_whole_why_do_submarines_sink_and_rise.png",
+    "bgColor": "border-purple-400",
+    "accentColor": "from-purple-400 via-fuchsia-300 to-indigo-500",
+    "quizBg": "bg-purple-50 border-purple-200",
+    "quizText": "text-purple-950",
+    "quizBadge": "bg-purple-200 text-purple-800",
+    "footer": "SUBMARINES SINK BY TAKING WATER INTO SPECIAL TANKS TO BECOME HEAVIER, AND RISE BY PUSHING THAT WATER OUT WITH AIR TO BECOME LIGHTER.",
+    "quiz": {
+      "question": "How does a submarine control whether it dives deep into the ocean or surfaces back up?",
+      "options": [
+        "Ballast tanks flood with seawater to become heavier (submerge) or blow water out with compressed air to become lighter (surface) 🛥️",
+        "Submarines have giant water wings 🪽",
+        "They turn gravity off inside the hull 🌌",
+        "They use anchors only ⚓"
+      ],
+      "correctIndex": 0,
+      "explanation": "Variable buoyancy! Filling ballast tanks with seawater increases overall average density above seawater density (diving); venting water with compressed air restores positive buoyancy (surfacing)."
+    }
+  },
+  "why_do_things_fall_down": {
+    "image": "/curious_whole_why_do_things_fall_down.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "THINGS FALL DOWN BECAUSE GRAVITY IS AN INVISIBLE PULLING FORCE THAT ATTRACTS OBJECTS TOWARD EARTH.",
+    "quiz": {
+      "question": "Why does an apple fall toward the ground when it detaches from a tree branch?",
+      "options": [
+        "Earth's massive gravitational pull accelerates all objects downward toward the center of the planet at 9.8 m/s² 🍎🌍",
+        "Air pushes everything down from space 💨",
+        "The ground pulls objects like a magnet 🧲",
+        "Heavier objects hate being in the air 🌲"
+      ],
+      "correctIndex": 0,
+      "explanation": "Universal Gravitation! Earth has colossal mass (~6 × 10²⁴ kg), creating a gravitational field that attracts everything toward its center."
+    }
+  },
+  "why_do_tyres_have_tread": {
+    "image": "/curious_whole_why_do_tyres_have_tread.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "TYRES HAVE TREAD—PATTERNS OF GROOVES AND BLOCKS—SO THEY CAN GRIP THE ROAD BETTER, ESPECIALLY BY PUSHING WATER, MUD, OR SNOW AWAY FROM THE CONTACT PATCH.",
+    "quiz": {
+      "question": "Why do car and bicycle tyres feature grooved tread patterns on their rubber surface?",
+      "options": [
+        "Tread grooves channel water away to prevent hydroplaning and maximize grip/friction with the road 🚗🌧️",
+        "To make musical humming sounds on asphalt 🎵",
+        "To make tyres look sporty 🏎️",
+        "Treads store spare air pressure 💨"
+      ],
+      "correctIndex": 0,
+      "explanation": "Friction and safety! On wet roads, tyre tread patterns pump water out from underneath the rubber contact patch, keeping direct grip with the road surface."
+    }
+  },
+  "why_do_we_need_friction_to_walk": {
+    "image": "/curious_whole_why_do_we_need_friction_to_walk.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-400 via-indigo-300 to-cyan-500",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "WE NEED FRICTION TO WALK BECAUSE IT GIVES OUR FEET GRIP ON THE GROUND, LETTING US PUSH BACKWARD WHILE THE GROUND PUSHES US FORWARD.",
+    "quiz": {
+      "question": "What would happen if the floor had zero friction (like walking on frictionless polished ice with soap)?",
+      "options": [
+        "Your feet would slip backward without gripping, making it impossible to push yourself forward 👟⛸️",
+        "You would float into the air 🎈",
+        "Your shoes would melt 🥾",
+        "You would walk twice as fast 🏃"
+      ],
+      "correctIndex": 0,
+      "explanation": "Traction physics! Walking relies on pushing backward against the ground with your foot. Static friction pushes forward against your shoe (Newton's Third Law) to propel you forward!"
+    }
+  },
+  "why_do_wheels_make_moving_things_easier": {
+    "image": "/curious_whole_why_do_wheels_make_moving_things_easier.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "WHEELS MAKE MOVING THINGS EASIER BECAUSE THEY ROLL, WHICH CREATES MUCH LESS RUBBING FRICTION THAN DRAGGING SOMETHING ACROSS THE GROUND.",
+    "quiz": {
+      "question": "Why is rolling a heavy crate on wheeled carts much easier than dragging it across the floor?",
+      "options": [
+        "Rolling friction is vastly smaller than sliding friction, as contact points lift off rather than scrape against the surface 🛒⚙️",
+        "Wheels make the crate weigh zero kilograms 📦",
+        "Wheels contain battery motors 🔋",
+        "Wheels eliminate inertia 🔄"
+      ],
+      "correctIndex": 0,
+      "explanation": "Rolling vs sliding friction! Sliding drags surfaces across microscopic bumps, causing high resistance. Rolling wheels touch down and lift away cleanly, reducing resistance dramatically."
+    }
+  },
+  "why_does_a_bicycle_stay_balanced_while_moving": {
+    "image": "/curious_whole_why_does_a_bicycle_stay_balanced_while_moving.png",
+    "bgColor": "border-purple-400",
+    "accentColor": "from-purple-400 via-fuchsia-300 to-indigo-500",
+    "quizBg": "bg-purple-50 border-purple-200",
+    "quizText": "text-purple-950",
+    "quizBadge": "bg-purple-200 text-purple-800",
+    "footer": "A BICYCLE STAYS BALANCED WHILE MOVING BECAUSE THE RIDER MAKES TINY STEERING ADJUSTMENTS, AND THE SPINNING WHEELS HELP THE BIKE RESIST TIPPING.",
+    "quiz": {
+      "question": "What keeps a two-wheeled bicycle upright and stable while you ride forward?",
+      "options": [
+        "Forward momentum, steering geometry (caster effect / trail), and subtle rider balance adjustments 🚲",
+        "Gyroscopic wheel spin alone 🔄",
+        "Magnetic pavement tracks 🧲",
+        "Telescopic air stabilizers 💨"
+      ],
+      "correctIndex": 0,
+      "explanation": "Steering dynamics! As the bike begins to tilt, front wheel steering geometry naturally turns into the fall, creating centrifugal force that restores upright balance!"
+    }
+  },
+  "why_does_a_compass_point_north": {
+    "image": "/curious_whole_why_does_a_compass_point_north.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "A COMPASS POINTS NORTH BECAUSE ITS TINY MAGNETIZED NEEDLE LINES UP WITH EARTH’S MAGNETIC FIELD, LIKE A SMALL BAR MAGNET TURNING TOWARD MAGNETIC NORTH.",
+    "quiz": {
+      "question": "Why does the magnetized needle of a compass always align toward Earth's magnetic north?",
+      "options": [
+        "The needle aligns with Earth's planetary magnetic field generated by circulating liquid iron in the molten outer core 🧭🌍",
+        "The North Pole has a giant iron mountain 🏔️",
+        "Cold Arctic air attracts metal needles ❄️",
+        "Satellites broadcast magnetic signals 🛰️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Earth's geodynamo! Earth acts like a colossal bar magnet with magnetic poles. The lightweight magnetic compass needle freely swivels to line up with these geomagnetic field lines."
+    }
+  },
+  "why_does_a_light_bulb_glow": {
+    "image": "/curious_whole_why_does_a_light_bulb_glow.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "A LIGHT BULB GLOWS WHEN ELECTRIC ENERGY TRAVELS THROUGH IT AND IS CHANGED INTO LIGHT, AND OFTEN A LITTLE HEAT.",
+    "quiz": {
+      "question": "What produces the bright light inside an incandescent or LED bulb?",
+      "options": [
+        "Electric current excites electrons, releasing energy as photons (incandescence in tungsten filaments, electroluminescence in LEDs) 💡",
+        "A tiny flame burning inside 🕯️",
+        "Reflected starlight stored in glass 🌟",
+        "Chemical batteries leaking glow dye 🧪"
+      ],
+      "correctIndex": 0,
+      "explanation": "Photon emission! In traditional bulbs, electrical resistance heats the tungsten filament to ~2,500°C so it glows white-hot; in LEDs, semiconductor electrons release photons directly!"
+    }
+  },
+  "why_does_a_straw_look_bent_in_water": {
+    "image": "/curious_whole_why_does_a_straw_look_bent_in_water.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-400 via-indigo-300 to-cyan-500",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "A STRAW LOOKS BENT IN WATER BECAUSE LIGHT CHANGES DIRECTION WHEN IT TRAVELS FROM WATER INTO AIR BEFORE REACHING YOUR EYES.",
+    "quiz": {
+      "question": "Why does a straight drinking straw appear broken or bent when placed in a glass of water?",
+      "options": [
+        "Light travels slower in water than in air, causing light rays to bend (refract) at the water-air boundary 🥤💧",
+        "Water pressure bends the plastic straw 🌊",
+        "The glass curves the physical straw 🥛",
+        "An optical camera glitch in our eyes 👁️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Refraction of light! Light travels at ~300,000 km/s in air but slows down to ~225,000 km/s in water. This change in speed bends the light path at the surface!"
+    }
+  },
+  "why_does_boiling_water_make_bubbles": {
+    "image": "/curious_whole_why_does_boiling_water_make_bubbles.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "BOILING WATER MAKES BUBBLES BECAUSE HEATING GIVES WATER PARTICLES ENOUGH ENERGY TO SPREAD APART AND TURN INTO WATER VAPOR GAS.",
+    "quiz": {
+      "question": "What are the vigorous bubbles that form at the bottom of a boiling kettle or pot?",
+      "options": [
+        "Liquid water turning into hot water vapor (steam gas) as it reaches 100°C 🫖💨",
+        "Air trapped in tap water escaping 🫧",
+        "Chemical reactions creating hydrogen 🧪",
+        "Tiny soap bubbles in water 🧼"
+      ],
+      "correctIndex": 0,
+      "explanation": "Phase change! At boiling point (100°C at sea level), heat energy overcomes intermolecular bonds, turning liquid H₂O molecules into steam gas bubbles that rise and pop!"
+    }
+  },
+  "why_does_ice_melt": {
+    "image": "/curious_whole_why_does_ice_melt.png",
+    "bgColor": "border-purple-400",
+    "accentColor": "from-purple-400 via-fuchsia-300 to-indigo-500",
+    "quizBg": "bg-purple-50 border-purple-200",
+    "quizText": "text-purple-950",
+    "quizBadge": "bg-purple-200 text-purple-800",
+    "footer": "ICE MELTS WHEN IT ABSORBS ENOUGH HEAT ENERGY FROM ITS SURROUNDINGS TO CHANGE FROM A SOLID INTO LIQUID WATER.",
+    "quiz": {
+      "question": "What causes solid frozen ice cubes to turn into liquid water at room temperature?",
+      "options": [
+        "Thermal energy breaks the rigid hydrogen-bonded crystal lattice of ice molecules when temperatures rise above 0°C 🧊☀️",
+        "Air pressure crushes the ice cubes 💨",
+        "Light rays bleach the ice to liquid 💡",
+        "Ice dissolves in oxygen 💧"
+      ],
+      "correctIndex": 0,
+      "explanation": "Thermal energy and phase transitions! Adding heat increases molecular vibrations until water molecules break free from their hexagonal crystal lattice into fluid liquid water."
+    }
+  },
+  "why_does_insulation_keep_us_warm": {
+    "image": "/curious_whole_why_does_insulation_keep_us_warm.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "INSULATION KEEPS US WARM BY SLOWING DOWN THE MOVEMENT OF HEAT FROM OUR WARM BODIES TO THE COLDER AIR AROUND US.",
+    "quiz": {
+      "question": "How does a thick winter jacket or house fiberglass insulation prevent heat loss?",
+      "options": [
+        "It traps tiny pockets of still air, which is a poor conductor of thermal energy, slowing down heat transfer 🧥❄️",
+        "It generates its own electric heat ⚡",
+        "It reflects cold rays into space 🌌",
+        "It adds extra body mass 🏋️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Thermal resistance! Air is a fantastic thermal insulator when trapped in tiny air pockets (fibers or down feathers), preventing heat conduction and convection to cold air."
+    }
+  },
+  "why_does_metal_feel_colder_than_wood": {
+    "image": "/curious_whole_why_does_metal_feel_colder_than_wood.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "METAL FEELS COLDER THAN WOOD BECAUSE METAL PULLS HEAT AWAY FROM YOUR WARM HAND MUCH FASTER.",
+    "quiz": {
+      "question": "Why does a metal spoon feel colder than a wooden table at the exact same room temperature (20°C)?",
+      "options": [
+        "Metal has high thermal conductivity and pulls heat energy away from your warm skin much faster than wood 🥄🪵",
+        "Metal is always physically colder in degrees 🧊",
+        "Wood generates friction heat 🪵",
+        "Metal contains ice atoms ❄️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Thermal conduction rate! Both items are at 20°C, but your body is 37°C. Metal conducts heat away from your fingertips rapidly, triggering cold receptors in your skin!"
+    }
+  },
+  "why_does_oil_float_on_water": {
+    "image": "/curious_whole_why_does_oil_float_on_water.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-400 via-indigo-300 to-cyan-500",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "OIL FLOATS ON WATER BECAUSE OIL IS LESS DENSE THAN WATER AND ITS MOLECULES DO NOT MIX WELL WITH WATER MOLECULES.",
+    "quiz": {
+      "question": "Why do cooking oil and petroleum always float on top of water instead of dissolving?",
+      "options": [
+        "Oil is less dense than water and non-polar (hydrophobic), so polar water molecules bond tightly together and push oil to the top 🛢️💧",
+        "Oil is magnetic and repels water 🧲",
+        "Water is too hot for oil ☀️",
+        "Oil has air bubbles built in 🫧"
+      ],
+      "correctIndex": 0,
+      "explanation": "Density and polarity! Water molecules are polar and attract each other strongly with hydrogen bonds, excluding non-polar, lighter oil molecules and floating them on top."
+    }
+  },
+  "why_does_popcorn_pop": {
+    "image": "/curious_whole_why_does_popcorn_pop.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "POPCORN POPS BECAUSE HEAT TURNS A TINY BIT OF WATER INSIDE EACH KERNEL INTO STEAM, BUILDING PRESSURE UNTIL THE HARD SHELL BURSTS AND THE SOFT STARCH INSIDE PUFFS UP.",
+    "quiz": {
+      "question": "What dramatic physical process causes hard popcorn kernels to explode into fluffy white snacks?",
+      "options": [
+        "Trapped moisture inside the hard hull turns to superheated steam; at ~180°C the pressure bursts the hull, turning starchy gelatin inside-out 🍿💥",
+        "Chemical gunpowder inside the kernel 💣",
+        "The kernel catches fire internally 🔥",
+        "Hot oil melts the kernel into foam 🧈"
+      ],
+      "correctIndex": 0,
+      "explanation": "Pressure burst! Inside each kernel is a tiny droplet of water surrounded by hard pericarp hull. As steam builds up to over 135 psi, the hull bursts and expands starch into foam!"
+    }
+  },
+  "why_does_sound_exist": {
+    "image": "/curious_whole_why_does_sound_exist.png",
+    "bgColor": "border-purple-400",
+    "accentColor": "from-purple-400 via-fuchsia-300 to-indigo-500",
+    "quizBg": "bg-purple-50 border-purple-200",
+    "quizText": "text-purple-950",
+    "quizBadge": "bg-purple-200 text-purple-800",
+    "footer": "SOUND EXISTS BECAUSE VIBRATING OBJECTS MAKE NEARBY MATERIALS, SUCH AS AIR, WATER, OR SOLIDS, JIGGLE IN WAVES THAT CAN TRAVEL TO OUR EARS.",
+    "quiz": {
+      "question": "What is sound at the fundamental physical level?",
+      "options": [
+        "Mechanical compression waves of vibrating particles travelling through a medium like air, water, or solid materials 🔊🎵",
+        "Invisible light rays with acoustic color 🌈",
+        "Electrons flowing through the air ⚡",
+        "Molecules spinning in place 🔄"
+      ],
+      "correctIndex": 0,
+      "explanation": "Acoustic compression waves! When an object vibrates (like a guitar string or vocal cords), it bumps neighboring air molecules, creating alternating high- and low-pressure waves."
+    }
+  },
+  "why_does_static_electricity_happen": {
+    "image": "/curious_whole_why_does_static_electricity_happen.png",
+    "bgColor": "border-amber-400",
+    "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+    "quizBg": "bg-amber-50 border-amber-200",
+    "quizText": "text-amber-950",
+    "quizBadge": "bg-amber-200 text-amber-800",
+    "footer": "STATIC ELECTRICITY HAPPENS WHEN TINY ELECTRIC CHARGES MOVE FROM ONE MATERIAL TO ANOTHER AND THEN BUILD UP UNTIL THEY JUMP OR PULL THINGS NEARBY.",
+    "quiz": {
+      "question": "Why do you get a tiny spark after rubbing socks across a carpet and touching a metal doorknob?",
+      "options": [
+        "Friction transfers electrons from one material to another, building up an electric charge that discharges to ground ⚡🧦",
+        "The carpet has active batteries 🔋",
+        "Air friction creates fire particles 🔥",
+        "Magnets inside the doorknob pull sparks 🧲"
+      ],
+      "correctIndex": 0,
+      "explanation": "Triboelectric effect! Rubbing materials separates electric charges. When excess electrons accumulate on your body, touching metal causes a rapid discharge spark to equalize charge."
+    }
+  },
+  "why_does_water_expand_when_it_freezes": {
+    "image": "/curious_whole_why_does_water_expand_when_it_freezes.png",
+    "bgColor": "border-cyan-400",
+    "accentColor": "from-cyan-400 via-sky-300 to-blue-500",
+    "quizBg": "bg-cyan-50 border-cyan-200",
+    "quizText": "text-cyan-950",
+    "quizBadge": "bg-cyan-200 text-cyan-800",
+    "footer": "WATER EXPANDS WHEN IT FREEZES BECAUSE ITS MOLECULES LOCK INTO A CRYSTAL PATTERN WITH EXTRA EMPTY SPACES BETWEEN THEM.",
+    "quiz": {
+      "question": "Why is water one of the rare substances that expands and becomes less dense when freezing into solid ice?",
+      "options": [
+        "Hydrogen bonds arrange water molecules into a spacious hexagonal open crystal lattice with empty space inside 🧊❄️",
+        "Ice absorbs air bubbles from the room 🫧",
+        "Freezing boils the water molecules 💨",
+        "Ice grows extra atoms 🔬"
+      ],
+      "correctIndex": 0,
+      "explanation": "Hexagonal hydrogen bonding! Unlike most liquids that contract when solidifying, water molecules lock into an open hexagonal lattice at 0°C, increasing volume by ~9%!"
+    }
+  },
+  "why_does_water_freeze": {
+    "image": "/curious_whole_why_does_water_freeze.png",
+    "bgColor": "border-blue-400",
+    "accentColor": "from-blue-400 via-indigo-300 to-cyan-500",
+    "quizBg": "bg-blue-50 border-blue-200",
+    "quizText": "text-blue-950",
+    "quizBadge": "bg-blue-200 text-blue-800",
+    "footer": "WATER FREEZES WHEN IT LOSES ENOUGH HEAT THAT ITS TINY MOVING PARTICLES SLOW DOWN AND LOCK TOGETHER INTO SOLID ICE.",
+    "quiz": {
+      "question": "At what temperature does pure liquid water freeze into solid ice at standard atmospheric pressure?",
+      "options": [
+        "0°C (32°F), where thermal energy drops low enough for intermolecular hydrogen bonds to lock into rigid crystal lattice ❄️🧊",
+        "100°C (212°F) 🔥",
+        "-50°C (-58°F) 🥶",
+        "25°C (77°F) 🌡️"
+      ],
+      "correctIndex": 0,
+      "explanation": "Freezing point transition! At 0°C, molecular thermal motion slows down, allowing hydrogen bonds to overcome kinetic energy and lock molecules into solid ice."
+    }
+  },
+  "why_is_ice_slippery": {
+    "image": "/curious_whole_why_is_ice_slippery.png",
+    "bgColor": "border-emerald-400",
+    "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+    "quizBg": "bg-emerald-50 border-emerald-200",
+    "quizText": "text-emerald-950",
+    "quizBadge": "bg-emerald-200 text-emerald-800",
+    "footer": "ICE IS SLIPPERY BECAUSE A VERY THIN LAYER OF LIQUID WATER CAN FORM ON ITS SURFACE, LETTING SHOES, SKATES, OR TIRES SLIDE MORE EASILY.",
+    "quiz": {
+      "question": "Why is an ice skating rink so slippery under your shoes and skate blades?",
+      "options": [
+        "Pressure, friction, and pre-melted quasi-liquid molecular surface layers create a microscopic lubricating water film ⛸️🧊",
+        "Ice is covered in vegetable oil 🧈",
+        "Ice has zero gravity on its surface 🌌",
+        "The cold air pushes skates forward 💨"
+      ],
+      "correctIndex": 0,
+      "explanation": "Surface premelting & friction! Even below 0°C, the outermost molecular layer of ice is disordered like liquid water, and blade friction creates a lubricating liquid film!"
     }
   }
 };
