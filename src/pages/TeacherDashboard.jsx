@@ -184,6 +184,78 @@ const mapToUmbrellaCategory = (subtopic, subject = '') => {
   return subtopic || 'Core Learning Concepts';
 };
 
+const getSubjectForUmbrellaCategory = (umbrellaName = '', rawSubject = '') => {
+  const u = (umbrellaName || '').toLowerCase().trim();
+  const s = (rawSubject || '').toLowerCase().trim();
+
+  // Explicit Umbrella Category Domain Mapping
+  if (
+    u.includes('fraction') || 
+    u.includes('decimal') || 
+    u.includes('percentage') || 
+    u.includes('number & operations') || 
+    u.includes('geometry') || 
+    u.includes('measurement') || 
+    u.includes('time & clock') || 
+    u.includes('statistics') || 
+    u.includes('data & charts') || 
+    u.includes('algebra') || 
+    u.includes('patterns & sequences') ||
+    u.includes('money') || 
+    u.includes('financial') ||
+    u.includes('mathematics')
+  ) {
+    return 'Mathematics';
+  }
+
+  if (
+    u.includes('spelling') || 
+    u.includes('vocabulary') || 
+    u.includes('grammar') || 
+    u.includes('conventions') || 
+    u.includes('reading') || 
+    u.includes('comprehension') || 
+    u.includes('literacy') || 
+    u.includes('english')
+  ) {
+    return 'English';
+  }
+
+  if (
+    u.includes('science') || 
+    u.includes('environmental') || 
+    u.includes('planet') || 
+    u.includes('biology') || 
+    u.includes('physics') || 
+    u.includes('chemistry')
+  ) {
+    return 'Science';
+  }
+
+  if (
+    u.includes('spatial') || 
+    u.includes('logical') || 
+    u.includes('reasoning') || 
+    u.includes('deduction') || 
+    u.includes('olympiad')
+  ) {
+    return 'Logical Reasoning';
+  }
+
+  if (u.includes('hindi')) {
+    return 'Hindi';
+  }
+
+  if (u.includes('history') || u.includes('social') || u.includes('geography')) {
+    return 'History';
+  }
+  if (u.includes('art')) return 'Art';
+  if (u.includes('music')) return 'Music';
+
+  // Fallback to normalized rawSubject
+  return normalizeToGradeSubject(rawSubject, umbrellaName);
+};
+
 const normalizeToGradeSubject = (rawSubject = '', rawSubtopic = '') => {
   const s = (rawSubject || '').toLowerCase().trim();
   const t = (rawSubtopic || '').toLowerCase().trim();
@@ -6352,14 +6424,16 @@ Include a balanced combination of question types such as:
                if (!hw || !hw.questions) return;
                hw.questions.forEach(q => {
                   const rawSubtopic = getQuestionSubtopic(hw, q);
-                  const qSubject = normalizeToGradeSubject(hw.subject, rawSubtopic);
-                  if (selectedReportSubject && qSubject !== selectedReportSubject) return;
-
                   const subtopic = mapToUmbrellaCategory(rawSubtopic, hw.subject);
+                  const umbrellaSubject = getSubjectForUmbrellaCategory(subtopic, hw.subject);
+                  
+                  // Strict subject filtering by umbrella subject domain!
+                  if (selectedReportSubject && umbrellaSubject !== selectedReportSubject) return;
+
                   if (!classSubtopicsData[subtopic]) {
                      classSubtopicsData[subtopic] = {
                         name: subtopic,
-                        subject: qSubject,
+                        subject: umbrellaSubject,
                         correctCount: 0,
                         totalCount: 0
                      };
@@ -6386,14 +6460,16 @@ Include a balanced combination of question types such as:
                if (!hw || !hw.questions) return;
                hw.questions.forEach(q => {
                   const rawSubtopic = getQuestionSubtopic(hw, q);
-                  const qSubject = normalizeToGradeSubject(hw.subject, rawSubtopic);
-                  if (selectedReportSubject && qSubject !== selectedReportSubject) return;
-
                   const subtopic = mapToUmbrellaCategory(rawSubtopic, hw.subject);
+                  const umbrellaSubject = getSubjectForUmbrellaCategory(subtopic, hw.subject);
+                  
+                  // Strict subject filtering by umbrella subject domain!
+                  if (selectedReportSubject && umbrellaSubject !== selectedReportSubject) return;
+
                   if (!subtopicsData[subtopic]) {
                      subtopicsData[subtopic] = {
                         name: subtopic,
-                        subject: qSubject,
+                        subject: umbrellaSubject,
                         correctCount: 0,
                         totalCount: 0
                      };
@@ -6444,7 +6520,8 @@ Include a balanced combination of question types such as:
                
                hw.questions.forEach(q => {
                   const rawSubtopic = getQuestionSubtopic(hw, q);
-                  const subjectName = normalizeToGradeSubject(hw.subject, rawSubtopic);
+                  const subtopic = mapToUmbrellaCategory(rawSubtopic, hw.subject);
+                  const subjectName = getSubjectForUmbrellaCategory(subtopic, hw.subject);
                   if (!classSubjectsData[subjectName]) {
                      classSubjectsData[subjectName] = {
                         name: subjectName,
@@ -6464,8 +6541,12 @@ Include a balanced combination of question types such as:
                });
             });
 
-            // Selected student accuracy by subject
+            // Selected student accuracy by grade curriculum subject
             const studentSubjectsData = {};
+            gradeSubjectsList.forEach(name => {
+               studentSubjectsData[name] = { name, correctCount: 0, totalCount: 0 };
+            });
+
             const subjectSubmissions = selectedReportStudent 
                ? currentSubmissions.filter(sub => normalizeName(sub.studentName) === normalizeName(selectedReportStudent))
                : currentSubmissions;
@@ -6474,20 +6555,18 @@ Include a balanced combination of question types such as:
                const hw = allHomeworks.find(h => h.id === sub.homeworkId);
                if (!hw || !hw.questions) return;
                
-               let rawSubject = hw.subject || 'general';
-               let subjectName = rawSubject.charAt(0).toUpperCase() + rawSubject.slice(1);
-               if (rawSubject.toLowerCase() === 'maths') subjectName = 'Mathematics';
-               if (rawSubject.toLowerCase() === 'logical reasoning') subjectName = 'Logical Reasoning';
-               
-               if (!studentSubjectsData[subjectName]) {
-                  studentSubjectsData[subjectName] = {
-                     name: subjectName,
-                     correctCount: 0,
-                     totalCount: 0
-                  };
-               }
-               
                hw.questions.forEach(q => {
+                  const rawSubtopic = getQuestionSubtopic(hw, q);
+                  const subtopic = mapToUmbrellaCategory(rawSubtopic, hw.subject);
+                  const subjectName = getSubjectForUmbrellaCategory(subtopic, hw.subject);
+                  if (!studentSubjectsData[subjectName]) {
+                     studentSubjectsData[subjectName] = {
+                        name: subjectName,
+                        correctCount: 0,
+                        totalCount: 0
+                     };
+                  }
+                  
                   const studentSelection = sub.answers?.[q.id];
                   const actualAnswer = q.answer;
                   const isCorrect = checkIsAnswerCorrect(studentSelection, actualAnswer);
@@ -6499,26 +6578,28 @@ Include a balanced combination of question types such as:
                });
             });
 
-            const subjectsArray = Object.keys(classSubjectsData).map(name => {
-               const classData = classSubjectsData[name];
-               const classAverage = classData.totalCount > 0 ? Math.round((classData.correctCount / classData.totalCount) * 100) : 0;
-               
-               const studentData = studentSubjectsData[name];
-               const accuracy = studentData && studentData.totalCount > 0 
-                  ? Math.round((studentData.correctCount / studentData.totalCount) * 100) 
-                  : (selectedReportStudent ? 0 : classAverage);
-               
-               let tier = 'Needs Focus';
-               if (accuracy >= 80) tier = 'Mastered';
-               else if (accuracy >= 60) tier = 'Reviewing';
+            const subjectsArray = Object.keys(classSubjectsData)
+               .filter(name => gradeSubjectsList.includes(name) || classSubjectsData[name].totalCount > 0)
+               .map(name => {
+                  const classData = classSubjectsData[name];
+                  const classAverage = classData.totalCount > 0 ? Math.round((classData.correctCount / classData.totalCount) * 100) : 0;
+                  
+                  const studentData = studentSubjectsData[name];
+                  const accuracy = studentData && studentData.totalCount > 0 
+                     ? Math.round((studentData.correctCount / studentData.totalCount) * 100) 
+                     : (selectedReportStudent ? 0 : classAverage);
+                  
+                  let tier = 'Needs Focus';
+                  if (accuracy >= 80) tier = 'Mastered';
+                  else if (accuracy >= 60) tier = 'Reviewing';
 
-               return {
-                  name,
-                  accuracy,
-                  classAverage,
-                  tier
-               };
-            }).sort((a, b) => b.accuracy - a.accuracy);
+                  return {
+                     name,
+                     accuracy,
+                     classAverage,
+                     tier
+                  };
+               }).sort((a, b) => b.accuracy - a.accuracy);
 
             // Filtering, Sorting, and Pagination for Concept Mastery (Report A)
             const tierWeights = { 'Needs Focus': 1, 'Reviewing': 2, 'Mastered': 3 };
