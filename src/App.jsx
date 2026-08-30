@@ -2543,6 +2543,10 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
   const activeNavRef = useRef(activeNav);
   useEffect(() => {
     activeNavRef.current = activeNav;
+    if (typeof window !== 'undefined') {
+      window.__HZ_ACTIVE_NAV__ = activeNav;
+      try { localStorage.setItem('hwz_last_active_nav', activeNav); } catch(e) {}
+    }
   }, [activeNav]);
   const [activeMission, setActiveMission] = useState(null);
   const [learningExpanded, setLearningExpanded] = useState(true);
