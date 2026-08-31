@@ -130,16 +130,16 @@ const mapToUmbrellaCategory = (subtopic = '', subject = '', hw = {}, q = {}) => 
   const s = (subject || hw?.subject || '').toLowerCase().trim();
   const qCat = (q?.category || hw?.category || '').replace(/^[A-Z]{1,2}\.	*/, '').replace(/^[0-9]+\.\s*/, '').trim();
 
-  // If question or homework already has an explicit category, use that if valid
-  if (qCat && qCat.length > 2 && !qCat.toLowerCase().includes('quiz') && !qCat.toLowerCase().includes('test')) {
+  // If question or homework already has an explicit valid category
+  if (qCat && qCat.length > 2 && !qCat.toLowerCase().includes('quiz') && !qCat.toLowerCase().includes('test') && !qCat.toLowerCase().includes('mission')) {
     return qCat;
   }
 
-  // --- MATHEMATICS MAIN HEADER TOPICS (Aligned with Discover Topics) ---
+  // --- MATHEMATICS MAIN HEADER TOPICS ---
   if (t.includes('fraction') && (t.includes('decimal') || t.includes('relate') || t.includes('convert'))) {
     return 'Relate fractions and decimals';
   }
-  if (t.includes('fraction') || t.includes('numerator') || t.includes('denominator') || t.includes('mixed number') || t.includes('simplif')) {
+  if (t.includes('fraction') || t.includes('numerator') || t.includes('denominator') || t.includes('mixed number') || t.includes('simplif') || t.includes('improper')) {
     return 'Fractions and mixed numbers';
   }
   if (t.includes('decimal') || t.includes('tenths') || t.includes('hundredths') || t.includes('thousandths')) {
@@ -157,7 +157,7 @@ const mapToUmbrellaCategory = (subtopic = '', subject = '', hw = {}, q = {}) => 
   if (t.includes('addition') || t.includes('subtraction') || t.includes('add ') || t.includes('subtract') || t.includes('sum') || t.includes('difference') || t.includes('regroup') || t.includes('plus') || t.includes('minus')) {
     return 'Addition and subtraction';
   }
-  if (t.includes('compare number') || t.includes('comparing and ordering') || t.includes('order number') || t.includes('put numbers in order') || t.includes('greater than') || t.includes('less than')) {
+  if (t.includes('compare number') || t.includes('comparing and ordering') || t.includes('order number') || t.includes('put numbers in order') || t.includes('greater than') || t.includes('less than') || t.includes('ordering')) {
     return 'Comparing and ordering';
   }
   if (t.includes('even and odd') || t.includes('even or odd')) {
@@ -186,18 +186,45 @@ const mapToUmbrellaCategory = (subtopic = '', subject = '', hw = {}, q = {}) => 
   }
 
   // --- ENGLISH / LITERACY MAIN HEADER TOPICS ---
+  // 1. Vocabulary & Word Structure (Captures word meanings, definitions, synonyms, quotes like 'Glimmered', 'Cautious', 'Vast')
+  if (
+    t.includes('vocab') || 
+    t.includes('word') || 
+    t.includes('meaning') || 
+    t.includes('definition') || 
+    t.includes('synonym') || 
+    t.includes('antonym') || 
+    t.includes('prefix') || 
+    t.includes('suffix') || 
+    t.includes('root') || 
+    t.includes('idiom') || 
+    t.includes('shades of meaning') || 
+    t.includes('context clue') ||
+    t.includes("applying '") ||
+    t.includes("understanding '") ||
+    t.includes("meaning of '") ||
+    t.includes("definition of '") ||
+    (t.includes("'") && !t.includes('apostrophe') && !t.includes('contraction'))
+  ) {
+    return 'Vocabulary and word structure';
+  }
+
+  // 2. Spelling & Phonics
   if (t.includes('spelling') || t.includes('phonics') || t.includes('vowel') || t.includes('consonant') || t.includes('syllable') || t.includes('homophone') || t.includes('silent e') || t.includes('blend') || t.includes('digraph') || t.includes('rhym')) {
     return 'Spelling and phonics';
   }
-  if (t.includes('grammar') || t.includes('punctuation') || t.includes('noun') || t.includes('verb') || t.includes('adjective') || t.includes('adverb') || t.includes('pronoun') || t.includes('preposition') || t.includes('conjunction') || t.includes('clause') || t.includes('predicate') || t.includes('subject-verb') || t.includes('comma') || t.includes('apostrophe') || t.includes('capital') || t.includes('sentence') || t.includes('semicolon') || t.includes('colon') || t.includes('tense')) {
+
+  // 3. Grammar & Conventions
+  if (t.includes('grammar') || t.includes('punctuation') || t.includes('noun') || t.includes('verb') || t.includes('adjective') || t.includes('adverb') || t.includes('pronoun') || t.includes('preposition') || t.includes('conjunction') || t.includes('clause') || t.includes('predicate') || t.includes('subject-verb') || t.includes('comma') || t.includes('apostrophe') || t.includes('capital') || t.includes('sentence') || t.includes('semicolon') || t.includes('colon') || t.includes('tense') || t.includes('contraction')) {
     return 'Grammar and conventions';
   }
-  if (t.includes('vocab') || t.includes('word') || t.includes('synonym') || t.includes('antonym') || t.includes('prefix') || t.includes('suffix') || t.includes('root') || t.includes('idiom') || t.includes('shades of meaning') || t.includes('context clue') || t.includes('definition')) {
-    return 'Vocabulary and word structure';
-  }
+
+  // 4. Reading Comprehension
   if (t.includes('reading') || t.includes('comprehension') || t.includes('passage') || t.includes('text') || t.includes('main idea') || t.includes('inference') || t.includes('theme') || t.includes('author') || t.includes('point of view') || t.includes('fact vs opinion')) {
     return 'Reading comprehension';
   }
+
+  // 5. Writing & Text Structure
   if (t.includes('writing') || t.includes('narrative') || t.includes('persuasive') || t.includes('essay') || t.includes('paragraph') || t.includes('story') || t.includes('draft') || t.includes('edit') || t.includes('revise')) {
     return 'Writing and text structure';
   }
@@ -244,17 +271,13 @@ const mapToUmbrellaCategory = (subtopic = '', subject = '', hw = {}, q = {}) => 
     return 'पठन और समझ (Reading & Comprehension)';
   }
 
-  // Subject default category
+  // Fallback defaults per subject domain — Never return unmapped granular strings!
   if (s.includes('math') || s.includes('numeracy')) return 'Place value and number sense';
-  if (s.includes('english') || s.includes('reading') || s.includes('literacy')) return 'Grammar and conventions';
+  if (s.includes('english') || s.includes('reading') || s.includes('literacy')) return 'Vocabulary and word structure';
   if (s.includes('science')) return 'Living things and ecosystems';
   if (s.includes('logic') || s.includes('reasoning')) return 'Deductive and verbal logic';
-  if (s.includes('hindi')) return 'हिंदी व्याकरण (Hindi Grammar)';
+  if (s.includes('hindi')) return 'शब्द ज्ञान (Vocabulary & Synonyms)';
 
-  if (subtopic && subtopic.trim()) {
-    const clean = subtopic.trim();
-    return clean.charAt(0).toUpperCase() + clean.slice(1);
-  }
   return 'Core Learning Concepts';
 };
 
