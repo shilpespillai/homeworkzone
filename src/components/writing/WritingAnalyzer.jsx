@@ -254,8 +254,32 @@ export default function WritingAnalyzer() {
         console.warn("Error querying saved_essays collection:", err);
       }
 
-      // C. Merge with localStorage
+      // C. Query submissions collection for writing_essay type (guaranteed Firestore permissions)
+      try {
+        const subSnap = await getDocs(collection(db, 'submissions'));
+        subSnap.forEach(d => {
+          const data = d.data();
+          if (data && (data.isWritingEssay || data.type === 'writing_essay')) {
+            const item = {
+              id: data.essayId || data.id || d.id,
+              ...data
+            };
+            if (!cloudDocs.some(c => c.id === item.id)) {
+              cloudDocs.push(item);
+            }
+          }
+        });
+      } catch (err) {
+        console.warn("Error querying submissions for essays:", err);
+      }
+
+      // D. Merge with localStorage (including lastSession if present)
       const storedHistory = JSON.parse(localStorage.getItem(STORAGE_KEY_HISTORY) || '[]');
+      const lastSession = JSON.parse(localStorage.getItem(STORAGE_KEY_LAST_SESSION) || 'null');
+      if (lastSession && lastSession.analysisData && !storedHistory.some(h => h.id === lastSession.id)) {
+        storedHistory.unshift(lastSession);
+      }
+
       const mergedMap = new Map();
 
       // Put cloud docs in map
@@ -265,21 +289,26 @@ export default function WritingAnalyzer() {
 
       // Put local docs in map & backfill any unsynced ones to cloud with composite key
       for (const item of storedHistory) {
-        if (item && item.id) {
-          if (!mergedMap.has(item.id)) {
-            mergedMap.set(item.id, item);
+        if (item && (item.id || item.topic)) {
+          const itemId = item.id || `essay_${item.timestamp || Date.now()}`;
+          if (!mergedMap.has(itemId)) {
+            const fullItem = { ...item, id: itemId };
+            mergedMap.set(itemId, fullItem);
             try {
               if (db) {
                 const backfillPayload = cleanFirestorePayload({
-                  ...item,
+                  ...fullItem,
                   studentCompositeKey: userCtx.studentCompositeKey || item.studentCompositeKey || null,
                   studentId: userCtx.studentId || item.studentId || null,
                   studentName: userCtx.studentName || item.studentName || null,
                   teacherUid: userCtx.teacherUid || item.teacherUid || null,
                   classroomId: userCtx.classroomId || item.classroomId || null,
+                  isWritingEssay: true,
+                  type: 'writing_essay',
                   createdAt: serverTimestamp()
                 });
-                await setDoc(doc(db, 'saved_essays', item.id), backfillPayload, { merge: true });
+                await setDoc(doc(db, 'saved_essays', itemId), backfillPayload, { merge: true });
+                await setDoc(doc(db, 'submissions', `sub_${itemId}`), backfillPayload, { merge: true });
 
                 if (userCtx.teacherUid && userCtx.classroomId && userCtx.studentId) {
                   const studentDocRef = doc(
@@ -322,7 +351,7 @@ export default function WritingAnalyzer() {
     }
   };
 
-  // 1. On Mount: Load saved history and restore last session if available + sync cloud
+  // 1. On Mount: Load saved history and restore last session if available + sync cloud + cross-tab listener
   useEffect(() => {
     try {
       const storedHistory = JSON.parse(localStorage.getItem(STORAGE_KEY_HISTORY) || '[]');
@@ -349,6 +378,20 @@ export default function WritingAnalyzer() {
 
     // Sync from Firestore in background
     fetchCloudSavedEssays();
+
+    // Cross-tab real-time storage event listener
+    const handleStorageChange = (e) => {
+      if (e.key === STORAGE_KEY_HISTORY || e.key === STORAGE_KEY_LAST_SESSION) {
+        try {
+          const updated = JSON.parse(localStorage.getItem(STORAGE_KEY_HISTORY) || '[]');
+          if (updated && updated.length > 0) {
+            setSavedHistory(updated);
+          }
+        } catch (err) {}
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
   // Sync on modal open
@@ -382,7 +425,9 @@ export default function WritingAnalyzer() {
       studentName: userCtx.studentName || null,
       teacherUid: userCtx.teacherUid || null,
       classroomId: userCtx.classroomId || null,
-      userEmail: userCtx.userEmail || null
+      userEmail: userCtx.userEmail || null,
+      isWritingEssay: true,
+      type: 'writing_essay'
     };
 
     // Update local state and localStorage
@@ -395,7 +440,7 @@ export default function WritingAnalyzer() {
       console.warn("Failed to write to localStorage:", e);
     }
 
-    // Cloud backup sync to Firestore saved_essays collection + student doc
+    // Cloud backup sync to Firestore saved_essays collection + submissions collection + student doc
     try {
       if (db) {
         const payload = cleanFirestorePayload({
@@ -403,6 +448,7 @@ export default function WritingAnalyzer() {
           createdAt: serverTimestamp()
         });
         await setDoc(doc(db, 'saved_essays', newEntry.id), payload, { merge: true });
+        await setDoc(doc(db, 'submissions', `sub_${newEntry.id}`), payload, { merge: true });
 
         if (userCtx.teacherUid && userCtx.classroomId && userCtx.studentId) {
           const studentDocRef = doc(
