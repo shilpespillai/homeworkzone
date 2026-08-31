@@ -90,6 +90,7 @@ import HomeworkGenerator from './HomeworkGenerator';
 import HomeworkScheduler from './HomeworkScheduler';
 import TestReportsDashboard from '../components/TestReportsDashboard';
 import AgenticHelpAssistant from '../components/AgenticHelpAssistant';
+import TeacherQuickStartLaunchpad from '../components/teacher/TeacherQuickStartLaunchpad';
 import InternationalExamHubView from '../components/InternationalExamHubView';
 import { encryptText, decryptText } from '../utils/crypto';
 import { fetchWithRetry, generateContent } from '../utils/aiClient';
@@ -5088,6 +5089,19 @@ Include a balanced combination of question types such as:
 
              return (
                 <div className="px-6 py-6 space-y-6 pb-20 relative min-h-[calc(100vh-64px)] bg-[#FAF9FF]">
+
+                   {/* 3-Step Teacher Quick-Start Launchpad */}
+                   <TeacherQuickStartLaunchpad
+                     classrooms={classrooms}
+                     allStudents={allStudents}
+                     allHomeworks={allHomeworks}
+                     teacherCode={user?.teacherCode || teacherData?.teacherCode || user?.uid?.slice(0, 6).toUpperCase()}
+                     onNavigateTab={setActiveTab}
+                     onOpenCreateClass={() => {
+                       setActiveTab('My Classes');
+                       setShowAddClassModal(true);
+                     }}
+                   />
 
                    {/* Limits & Quotas Status Bar */}
                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white border border-[#E9E3FF] p-6 rounded-[32px] shadow-sm">
