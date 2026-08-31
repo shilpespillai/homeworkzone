@@ -83,7 +83,7 @@ export default function TeacherQuickStartLaunchpad({
             setIsDismissed(false);
             try { localStorage.removeItem('hwz_teacher_launchpad_dismissed'); } catch (e) {}
           }}
-          className="px-4 py-2 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-800 text-xs font-black flex items-center gap-2 border border-orange-200 shadow-sm transition-all cursor-pointer"
+          className="px-4 py-2 rounded-2xl bg-orange-50 hover:bg-orange-100 text-orange-900 text-xs font-black flex items-center gap-2 border-2 border-orange-200 shadow-sm transition-all cursor-pointer"
         >
           <Sparkles className="w-4 h-4 text-orange-600" />
           <span>Show Teacher Launchpad ({completedCount}/3 Complete)</span>
@@ -93,40 +93,40 @@ export default function TeacherQuickStartLaunchpad({
   }
 
   return (
-    <div className="bg-gradient-to-br from-stone-900 via-slate-900 to-emerald-950 text-white rounded-[32px] p-6 md:p-8 shadow-xl border-2 border-emerald-500/20 relative overflow-hidden space-y-6">
+    <div className="bg-gradient-to-br from-[#FFF9F2] via-[#FFFFFF] to-[#F2FCF5] text-slate-900 rounded-[32px] p-6 md:p-8 shadow-sm border-2 border-orange-200 relative overflow-hidden space-y-6">
       
-      {/* Background Decorative Warm Orange & Emerald Glows */}
-      <div className="absolute -right-16 -top-16 w-72 h-72 rounded-full bg-orange-500/15 blur-3xl pointer-events-none" />
-      <div className="absolute -left-16 -bottom-16 w-72 h-72 rounded-full bg-emerald-500/15 blur-3xl pointer-events-none" />
+      {/* Background Soft Warm Orange & Emerald Ambient Highlights */}
+      <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-orange-200/40 blur-3xl pointer-events-none" />
+      <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-emerald-200/40 blur-3xl pointer-events-none" />
 
       {/* Header Row */}
       <div className="flex flex-wrap items-center justify-between gap-4 relative z-10">
         <div className="space-y-1.5">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-500/20 text-orange-300 text-[11px] font-black uppercase tracking-wider border border-orange-400/30">
-            <Sparkles className="w-3.5 h-3.5 text-orange-400 animate-spin-slow" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-100 text-orange-900 text-[11px] font-black uppercase tracking-wider border border-orange-300 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-orange-600 animate-spin-slow" />
             <span>Teacher Quick-Start Launchpad</span>
           </div>
-          <h2 className="text-xl md:text-2xl font-black text-white flex items-center gap-2">
+          <h2 className="text-xl md:text-2xl font-black text-slate-900 flex items-center gap-2">
             <span>{allComplete ? '🎉 Setup Complete — You are Ready to Teach!' : 'Get Your Classroom Ready in 3 Simple Steps'}</span>
           </h2>
-          <p className="text-xs md:text-sm text-stone-300 font-medium max-w-2xl">
+          <p className="text-xs md:text-sm text-slate-600 font-semibold max-w-2xl">
             {allComplete 
-              ? 'All 3 foundation steps are set up! Your students can log in with your code, take assignments, and build mastery.'
+              ? 'All 3 foundation steps are set up! Your students can log in with your code, take assignments, and build concept mastery.'
               : 'Follow these 3 quick steps to launch your digital classroom, onboard your students, and publish your first assignment.'}
           </p>
         </div>
 
         <div className="flex items-center gap-2.5">
           {/* Progress Pill */}
-          <div className="px-4 py-2 rounded-2xl bg-emerald-950/70 border border-emerald-400/30 backdrop-blur-sm flex items-center gap-2 shadow-inner">
-            <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-            <span className="text-xs font-black text-emerald-300">{completedCount} of 3 Complete ({progressPercent}%)</span>
+          <div className="px-4 py-2 rounded-2xl bg-emerald-50 border-2 border-emerald-300 flex items-center gap-2 shadow-sm">
+            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+            <span className="text-xs font-black text-emerald-900">{completedCount} of 3 Complete ({progressPercent}%)</span>
           </div>
 
           {/* Minimize / Expand Toggle */}
           <button
             onClick={toggleCollapse}
-            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-stone-200 hover:text-white transition-colors cursor-pointer"
+            className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer border border-slate-200 shadow-sm"
             title={isCollapsed ? "Expand Launchpad" : "Minimize Launchpad"}
           >
             {isCollapsed ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
@@ -136,7 +136,7 @@ export default function TeacherQuickStartLaunchpad({
           {allComplete && (
             <button
               onClick={handleDismiss}
-              className="p-2 rounded-xl bg-white/10 hover:bg-rose-500/30 text-stone-300 hover:text-white transition-colors cursor-pointer"
+              className="p-2.5 rounded-xl bg-slate-100 hover:bg-rose-100 text-slate-500 hover:text-rose-700 transition-colors cursor-pointer border border-slate-200 shadow-sm"
               title="Dismiss Launchpad"
             >
               <X className="w-4 h-4" />
@@ -145,10 +145,10 @@ export default function TeacherQuickStartLaunchpad({
         </div>
       </div>
 
-      {/* Progress Bar with Orange to Emerald Gradient */}
-      <div className="w-full bg-slate-800/80 rounded-full h-2.5 overflow-hidden border border-white/5 relative z-10">
+      {/* Progress Bar with High-Contrast Track */}
+      <div className="w-full bg-slate-100 rounded-full h-3 overflow-hidden border border-slate-200 shadow-inner relative z-10">
         <motion.div 
-          className="h-full bg-gradient-to-r from-amber-400 via-orange-500 to-emerald-400 rounded-full shadow-[0_0_14px_rgba(249,115,22,0.5)]"
+          className="h-full bg-gradient-to-r from-amber-400 via-orange-500 to-emerald-500 rounded-full shadow-sm"
           initial={{ width: 0 }}
           animate={{ width: `${progressPercent}%` }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
@@ -163,43 +163,43 @@ export default function TeacherQuickStartLaunchpad({
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 relative z-10"
+            className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2 relative z-10"
           >
             
-            {/* STEP 1: CREATE CLASSROOM (Warm Amber/Orange Accent) */}
-            <div className={`p-5 rounded-2xl border transition-all flex flex-col justify-between space-y-4 ${
+            {/* STEP 1: CREATE CLASSROOM */}
+            <div className={`p-6 rounded-3xl border-2 transition-all flex flex-col justify-between space-y-5 shadow-sm ${
               step1Done 
-                ? 'bg-emerald-950/50 border-emerald-500/40 text-emerald-100' 
-                : 'bg-stone-900/80 border-orange-500/30 text-white hover:border-orange-400 hover:bg-stone-900'
+                ? 'bg-emerald-50/60 border-emerald-300 text-slate-900' 
+                : 'bg-white border-orange-200 text-slate-900 hover:border-orange-400 hover:shadow-md'
             }`}>
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-orange-500/25 text-orange-300 border border-orange-400/30">
+                  <span className="text-[10px] font-black uppercase px-3 py-1 rounded-full bg-orange-100 text-orange-900 border border-orange-300">
                     Step 1
                   </span>
                   {step1Done ? (
-                    <div className="flex items-center gap-1 text-emerald-400 text-xs font-black">
-                      <CheckCircle2 className="w-4 h-4" />
+                    <div className="flex items-center gap-1 text-emerald-700 text-xs font-black">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                       <span>Completed</span>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-1 text-orange-300 text-xs font-black">
-                      <Circle className="w-3.5 h-3.5" />
+                    <div className="flex items-center gap-1 text-orange-600 text-xs font-black">
+                      <Circle className="w-3.5 h-3.5 text-orange-500" />
                       <span>To Do</span>
                     </div>
                   )}
                 </div>
 
-                <div className="flex items-center gap-2.5 pt-1">
-                  <div className="w-9 h-9 rounded-xl bg-orange-500/20 text-orange-300 border border-orange-500/30 flex items-center justify-center text-lg shrink-0">
+                <div className="flex items-center gap-3 pt-1">
+                  <div className="w-10 h-10 rounded-2xl bg-orange-100 text-orange-700 border border-orange-200 flex items-center justify-center text-xl shrink-0 shadow-sm">
                     🏫
                   </div>
-                  <h3 className="text-base font-black text-white">
+                  <h3 className="text-base font-black text-slate-900">
                     Create a Classroom
                   </h3>
                 </div>
 
-                <p className="text-xs text-stone-300 leading-relaxed font-medium">
+                <p className="text-xs text-slate-600 leading-relaxed font-semibold">
                   {step1Done 
                     ? `Active workspace created: "${classrooms[0]?.name || 'Your Class'}". You can add more classes anytime.`
                     : 'Set up your first classroom grade (e.g. "Year 5 Blue") to organize your students.'}
@@ -212,84 +212,84 @@ export default function TeacherQuickStartLaunchpad({
                     if (onOpenCreateClass) onOpenCreateClass();
                     else if (onNavigateTab) onNavigateTab('My Classes');
                   }}
-                  className={`w-full py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95 ${
+                  className={`w-full py-3 px-4 rounded-2xl text-xs font-black flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95 shadow-sm ${
                     step1Done 
-                      ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40' 
-                      : 'bg-orange-600 hover:bg-orange-500 text-white shadow-lg shadow-orange-600/30'
+                      ? 'bg-emerald-100 hover:bg-emerald-200 text-emerald-900 border border-emerald-300' 
+                      : 'bg-orange-500 hover:bg-orange-600 text-white shadow-md shadow-orange-500/20'
                   }`}
                 >
                   <span>{step1Done ? 'Manage Classrooms' : 'Create Classroom →'}</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
+                  <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
             </div>
 
-            {/* STEP 2: ADD STUDENTS & SHARE TEACHER CODE (Fresh Emerald Green Accent) */}
-            <div className={`p-5 rounded-2xl border transition-all flex flex-col justify-between space-y-4 ${
+            {/* STEP 2: ADD STUDENTS & SHARE TEACHER CODE */}
+            <div className={`p-6 rounded-3xl border-2 transition-all flex flex-col justify-between space-y-5 shadow-sm ${
               step2Done 
-                ? 'bg-emerald-950/50 border-emerald-500/40 text-emerald-100' 
-                : 'bg-stone-900/80 border-emerald-500/30 text-white hover:border-emerald-400 hover:bg-stone-900'
+                ? 'bg-emerald-50/60 border-emerald-300 text-slate-900' 
+                : 'bg-white border-emerald-200 text-slate-900 hover:border-emerald-400 hover:shadow-md'
             }`}>
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-emerald-500/25 text-emerald-300 border border-emerald-400/30">
+                  <span className="text-[10px] font-black uppercase px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300">
                     Step 2
                   </span>
                   {step2Done ? (
-                    <div className="flex items-center gap-1 text-emerald-400 text-xs font-black">
-                      <CheckCircle2 className="w-4 h-4" />
+                    <div className="flex items-center gap-1 text-emerald-700 text-xs font-black">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                       <span>Completed</span>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-1 text-emerald-300 text-xs font-black">
-                      <Circle className="w-3.5 h-3.5" />
+                    <div className="flex items-center gap-1 text-emerald-600 text-xs font-black">
+                      <Circle className="w-3.5 h-3.5 text-emerald-500" />
                       <span>To Do</span>
                     </div>
                   )}
                 </div>
 
-                <div className="flex items-center gap-2.5 pt-1">
-                  <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0">
+                <div className="flex items-center gap-3 pt-1">
+                  <div className="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-700 border border-emerald-200 flex items-center justify-center text-xl shrink-0 shadow-sm">
                     👥
                   </div>
-                  <h3 className="text-base font-black text-white">
+                  <h3 className="text-base font-black text-slate-900">
                     Add Students & Share Code
                   </h3>
                 </div>
 
-                <p className="text-xs text-stone-300 leading-relaxed font-medium">
+                <p className="text-xs text-slate-600 leading-relaxed font-semibold">
                   {step2Done 
                     ? `✅ ${allStudents.length} student(s) enrolled! Give them your Teacher Code below so they can log in via the Student Portal.`
                     : 'Add your student roster, then give them your Teacher Code to log into the Student Portal.'}
                 </p>
 
-                {/* Student Login Guide Box with Orangish/Greenish Tint */}
-                <div className="p-3 rounded-xl bg-stone-950/80 border border-emerald-500/30 space-y-2">
-                  <div className="flex items-center gap-1.5 text-[11px] font-black text-orange-400">
-                    <KeyRound className="w-3.5 h-3.5 text-orange-400" />
+                {/* How Students Log In (Clean Warm Cream Container) */}
+                <div className="p-3.5 rounded-2xl bg-orange-50/80 border border-orange-200 space-y-2 shadow-sm">
+                  <div className="flex items-center gap-1.5 text-[11px] font-black text-orange-900">
+                    <KeyRound className="w-3.5 h-3.5 text-orange-600" />
                     <span>How Students Log In:</span>
                   </div>
-                  <ol className="text-[11px] text-stone-200 space-y-1 list-decimal list-inside font-medium leading-snug">
-                    <li>Open <strong>Student Portal</strong> on any phone or laptop.</li>
-                    <li>Enter Code: <strong className="font-mono text-orange-400 uppercase tracking-wider">{teacherCode || 'CODE'}</strong>.</li>
+                  <ol className="text-[11px] text-slate-700 space-y-1 list-decimal list-inside font-semibold leading-snug">
+                    <li>Open <strong>Student Portal</strong> on phone or laptop.</li>
+                    <li>Enter Code: <strong className="font-mono text-orange-700 uppercase tracking-wider bg-orange-100 px-1.5 py-0.5 rounded border border-orange-300">{teacherCode || 'CODE'}</strong>.</li>
                     <li>Select their name to start learning!</li>
                   </ol>
                 </div>
 
-                {/* Quick Copy Code Badge */}
+                {/* Quick Copy Code Badge (Light Emerald Theme) */}
                 {teacherCode && (
-                  <div className="p-2.5 rounded-xl bg-black/60 border border-orange-500/30 flex items-center justify-between gap-2">
+                  <div className="p-3 rounded-2xl bg-emerald-50 border-2 border-emerald-200 flex items-center justify-between gap-2 shadow-sm">
                     <div className="space-y-0.5">
-                      <span className="text-[9px] font-bold text-stone-400 uppercase tracking-widest block">Teacher Code</span>
-                      <span className="text-sm font-black text-orange-400 tracking-wider font-mono">{teacherCode.toUpperCase()}</span>
+                      <span className="text-[9px] font-black text-emerald-800 uppercase tracking-widest block">Teacher Code</span>
+                      <span className="text-sm font-black text-slate-900 tracking-wider font-mono">{teacherCode.toUpperCase()}</span>
                     </div>
                     <button
                       onClick={handleCopyCode}
-                      className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black flex items-center gap-1 cursor-pointer transition-all active:scale-95 shadow-md shadow-emerald-900/30"
+                      className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black flex items-center gap-1.5 cursor-pointer transition-all active:scale-95 shadow-sm"
                       title="Copy code for students"
                     >
                       {copiedCode ? <Check className="w-3.5 h-3.5 text-white" /> : <Copy className="w-3.5 h-3.5 text-white" />}
-                      <span>{copiedCode ? 'Copied Code!' : 'Copy Code'}</span>
+                      <span>{copiedCode ? 'Copied!' : 'Copy Code'}</span>
                     </button>
                   </div>
                 )}
@@ -298,52 +298,52 @@ export default function TeacherQuickStartLaunchpad({
               <div>
                 <button
                   onClick={() => onNavigateTab && onNavigateTab('My Classes')}
-                  className={`w-full py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95 ${
+                  className={`w-full py-3 px-4 rounded-2xl text-xs font-black flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95 shadow-sm ${
                     step2Done 
-                      ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40' 
-                      : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/30'
+                      ? 'bg-emerald-100 hover:bg-emerald-200 text-emerald-900 border border-emerald-300' 
+                      : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-600/20'
                   }`}
                 >
                   <span>{step2Done ? 'View Student List' : 'Add Students →'}</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
+                  <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
             </div>
 
-            {/* STEP 3: GENERATE FIRST AI ASSIGNMENT (Orange + Emerald Fusion Accent) */}
-            <div className={`p-5 rounded-2xl border transition-all flex flex-col justify-between space-y-4 ${
+            {/* STEP 3: GENERATE FIRST AI ASSIGNMENT */}
+            <div className={`p-6 rounded-3xl border-2 transition-all flex flex-col justify-between space-y-5 shadow-sm ${
               step3Done 
-                ? 'bg-emerald-950/50 border-emerald-500/40 text-emerald-100' 
-                : 'bg-stone-900/80 border-amber-500/30 text-white hover:border-amber-400 hover:bg-stone-900'
+                ? 'bg-emerald-50/60 border-emerald-300 text-slate-900' 
+                : 'bg-white border-amber-200 text-slate-900 hover:border-amber-400 hover:shadow-md'
             }`}>
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-amber-500/25 text-amber-300 border border-amber-400/30">
+                  <span className="text-[10px] font-black uppercase px-3 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-300">
                     Step 3
                   </span>
                   {step3Done ? (
-                    <div className="flex items-center gap-1 text-emerald-400 text-xs font-black">
-                      <CheckCircle2 className="w-4 h-4" />
+                    <div className="flex items-center gap-1 text-emerald-700 text-xs font-black">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                       <span>Completed</span>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-1 text-amber-300 text-xs font-black">
-                      <Circle className="w-3.5 h-3.5" />
+                    <div className="flex items-center gap-1 text-amber-600 text-xs font-black">
+                      <Circle className="w-3.5 h-3.5 text-amber-500" />
                       <span>To Do</span>
                     </div>
                   )}
                 </div>
 
-                <div className="flex items-center gap-2.5 pt-1">
-                  <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-center text-lg shrink-0">
+                <div className="flex items-center gap-3 pt-1">
+                  <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 border border-amber-200 flex items-center justify-center text-xl shrink-0 shadow-sm">
                     ✨
                   </div>
-                  <h3 className="text-base font-black text-white">
+                  <h3 className="text-base font-black text-slate-900">
                     Publish AI Assignment
                   </h3>
                 </div>
 
-                <p className="text-xs text-stone-300 leading-relaxed font-medium">
+                <p className="text-xs text-slate-600 leading-relaxed font-semibold">
                   {step3Done 
                     ? `${allHomeworks.filter(h => h.status === 'published').length} active assignment(s) published for students to complete.`
                     : 'Generate fresh Maths, English, Science, or NAPLAN assignments tailored to your grade curriculum.'}
@@ -353,14 +353,14 @@ export default function TeacherQuickStartLaunchpad({
               <div>
                 <button
                   onClick={() => onNavigateTab && onNavigateTab('Homework/Test Builder')}
-                  className={`w-full py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95 ${
+                  className={`w-full py-3 px-4 rounded-2xl text-xs font-black flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95 shadow-sm ${
                     step3Done 
-                      ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40' 
-                      : 'bg-gradient-to-r from-orange-600 to-emerald-600 hover:from-orange-500 hover:to-emerald-500 text-white shadow-lg shadow-orange-600/25'
+                      ? 'bg-emerald-100 hover:bg-emerald-200 text-emerald-900 border border-emerald-300' 
+                      : 'bg-gradient-to-r from-orange-500 to-emerald-600 hover:from-orange-600 hover:to-emerald-700 text-white shadow-md shadow-orange-500/20'
                   }`}
                 >
                   <span>{step3Done ? 'Open AI Builder' : 'Generate Homework ✨'}</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
+                  <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
             </div>
