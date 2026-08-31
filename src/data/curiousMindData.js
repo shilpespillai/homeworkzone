@@ -1597,6 +1597,607 @@ export const TOPICS = [
   "category": "animals",
   "cardImage": "/curious_whole_do-worms-come-out-after-rain.png"
 }
+,
+{
+  "id": "are-no-two-snowflakes-exactly-alike",
+  "title": "Why are no two snowflakes exactly alike?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_are-no-two-snowflakes-exactly-alike.png"
+},
+{
+  "id": "are-stars-different-colours",
+  "title": "Why are stars different colours?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_are-stars-different-colours.png"
+},
+{
+  "id": "can-huge-steel-ships-float",
+  "title": "Why can huge steel ships float?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_can-huge-steel-ships-float.png"
+},
+{
+  "id": "can-music-give-us-goosebumps",
+  "title": "Why can music give us goosebumps?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_can-music-give-us-goosebumps.png"
+},
+{
+  "id": "can-rockets-work-in-space",
+  "title": "Why can rockets work in space?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_can-rockets-work-in-space.png"
+},
+{
+  "id": "can-some-insects-walk-on-water",
+  "title": "Why can some insects walk on water?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_can-some-insects-walk-on-water.png"
+},
+{
+  "id": "can-some-ocean-water-glow-at-night",
+  "title": "Why can some ocean water glow at night?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_can-some-ocean-water-glow-at-night.png"
+},
+{
+  "id": "can-we-see-objects",
+  "title": "Why can we see objects?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_can-we-see-objects.png"
+},
+{
+  "id": "cant-light-escape-a-black-hole",
+  "title": "Why can't light escape a black hole?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_cant-light-escape-a-black-hole.png"
+},
+{
+  "id": "cant-we-tickle-ourselves",
+  "title": "Why can't we tickle ourselves?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_cant-we-tickle-ourselves.png"
+},
+{
+  "id": "do-aeroplanes-fly",
+  "title": "Why do aeroplanes fly?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-aeroplanes-fly.png"
+},
+{
+  "id": "do-astronauts-float",
+  "title": "Why do astronauts float?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-astronauts-float.png"
+},
+{
+  "id": "do-astronauts-wear-spacesuits",
+  "title": "Why do astronauts wear spacesuits?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-astronauts-wear-spacesuits.png"
+},
+{
+  "id": "do-auroras-happen",
+  "title": "Why do auroras happen?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-auroras-happen.png"
+},
+{
+  "id": "do-balls-bounce",
+  "title": "Why do balls bounce?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-balls-bounce.png"
+},
+{
+  "id": "do-batteries-produce-electricity",
+  "title": "Why do batteries produce electricity?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-batteries-produce-electricity.png"
+},
+{
+  "id": "do-black-holes-form",
+  "title": "Why do black holes form?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-black-holes-form.png"
+},
+{
+  "id": "do-boats-float",
+  "title": "Why do boats float?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-boats-float.png"
+},
+{
+  "id": "do-boomerangs-come-back",
+  "title": "Why do boomerangs come back?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-boomerangs-come-back.png"
+},
+{
+  "id": "do-bubbles-become-round",
+  "title": "Why do bubbles become round?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-bubbles-become-round.png"
+},
+{
+  "id": "do-bubbles-rise-in-water",
+  "title": "Why do bubbles rise in water?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-bubbles-rise-in-water.png"
+},
+{
+  "id": "do-cds-show-rainbow-colours",
+  "title": "Why do CDs show rainbow colours?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-cds-show-rainbow-colours.png"
+},
+{
+  "id": "do-comets-have-tails",
+  "title": "Why do comets have tails?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-comets-have-tails.png"
+},
+{
+  "id": "do-echoes-happen",
+  "title": "Why do echoes happen?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-echoes-happen.png"
+},
+{
+  "id": "do-gears-work",
+  "title": "Why do gears work?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-gears-work.png"
+},
+{
+  "id": "do-helicopters-hover",
+  "title": "Why do helicopters hover?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-helicopters-hover.png"
+},
+{
+  "id": "do-helium-balloons-rise",
+  "title": "Why do helium balloons rise?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-helium-balloons-rise.png"
+},
+{
+  "id": "do-honeycombs-have-hexagonal-cells",
+  "title": "Why do honeycombs have hexagonal cells?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-honeycombs-have-hexagonal-cells.png"
+},
+{
+  "id": "do-hot-air-balloons-rise",
+  "title": "Why do hot-air balloons rise?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-hot-air-balloons-rise.png"
+},
+{
+  "id": "do-kites-fly",
+  "title": "Why do kites fly?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-kites-fly.png"
+},
+{
+  "id": "do-levers-make-lifting-easier",
+  "title": "Why do levers make lifting easier?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-levers-make-lifting-easier.png"
+},
+{
+  "id": "do-lunar-eclipses-happen",
+  "title": "Why do lunar eclipses happen?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-lunar-eclipses-happen.png"
+},
+{
+  "id": "do-magnets-attract-some-metals",
+  "title": "Why do magnets attract some metals?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-magnets-attract-some-metals.png"
+},
+{
+  "id": "do-magnifying-glasses-make-things-look-bigger",
+  "title": "Why do magnifying glasses make things look bigger?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-magnifying-glasses-make-things-look-bigger.png"
+},
+{
+  "id": "do-meteors-glow",
+  "title": "Why do meteors glow?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-meteors-glow.png"
+},
+{
+  "id": "do-mirages-happen",
+  "title": "Why do mirages happen?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-mirages-happen.png"
+},
+{
+  "id": "do-mirrors-reflect-us",
+  "title": "Why do mirrors reflect us?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-mirrors-reflect-us.png"
+},
+{
+  "id": "do-musical-instruments-make-different-sounds",
+  "title": "Why do musical instruments make different sounds?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-musical-instruments-make-different-sounds.png"
+},
+{
+  "id": "do-our-eyes-need-time-to-adjust-to-darkness",
+  "title": "Why do our eyes need time to adjust to darkness?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-our-eyes-need-time-to-adjust-to-darkness.png"
+},
+{
+  "id": "do-parachutes-slow-us-down",
+  "title": "Why do parachutes slow us down?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-parachutes-slow-us-down.png"
+},
+{
+  "id": "do-prisms-make-rainbows",
+  "title": "Why do prisms make rainbows?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-prisms-make-rainbows.png"
+},
+{
+  "id": "do-pulleys-make-lifting-easier",
+  "title": "Why do pulleys make lifting easier?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-pulleys-make-lifting-easier.png"
+},
+{
+  "id": "do-rockets-need-so-much-fuel",
+  "title": "Why do rockets need so much fuel?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-rockets-need-so-much-fuel.png"
+},
+{
+  "id": "do-satellites-stay-in-orbit",
+  "title": "Why do satellites stay in orbit?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-satellites-stay-in-orbit.png"
+},
+{
+  "id": "do-seatbelts-protect-us",
+  "title": "Why do seatbelts protect us?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-seatbelts-protect-us.png"
+},
+{
+  "id": "do-shadows-form",
+  "title": "Why do shadows form?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-shadows-form.png"
+},
+{
+  "id": "do-soap-bubbles-show-rainbow-colours",
+  "title": "Why do soap bubbles show rainbow colours?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-soap-bubbles-show-rainbow-colours.png"
+},
+{
+  "id": "do-solar-eclipses-happen",
+  "title": "Why do solar eclipses happen?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-solar-eclipses-happen.png"
+},
+{
+  "id": "do-stars-eventually-die",
+  "title": "Why do stars eventually die?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-stars-eventually-die.png"
+},
+{
+  "id": "do-stars-twinkle",
+  "title": "Why do stars twinkle?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-stars-twinkle.png"
+},
+{
+  "id": "do-submarines-sink-and-rise",
+  "title": "Why do submarines sink and rise?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-submarines-sink-and-rise.png"
+},
+{
+  "id": "do-telescopes-let-us-see-into-the-past",
+  "title": "Why do telescopes let us see into the past?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-telescopes-let-us-see-into-the-past.png"
+},
+{
+  "id": "do-things-fall-down",
+  "title": "Why do things fall down?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-things-fall-down.png"
+},
+{
+  "id": "do-tyres-have-tread",
+  "title": "Why do tyres have tread?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-tyres-have-tread.png"
+},
+{
+  "id": "do-we-get-brain-freeze",
+  "title": "Why do we get brain freeze?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-we-get-brain-freeze.png"
+},
+{
+  "id": "do-we-have-seasons",
+  "title": "Why do we have seasons?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-we-have-seasons.png"
+},
+{
+  "id": "do-we-need-friction-to-walk",
+  "title": "Why do we need friction to walk?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-we-need-friction-to-walk.png"
+},
+{
+  "id": "do-wheels-make-moving-things-easier",
+  "title": "Why do wheels make moving things easier?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_do-wheels-make-moving-things-easier.png"
+},
+{
+  "id": "does-a-bicycle-stay-balanced-while-moving",
+  "title": "Why does a bicycle stay balanced while moving?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-a-bicycle-stay-balanced-while-moving.png"
+},
+{
+  "id": "does-a-compass-point-north",
+  "title": "Why does a compass point north?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-a-compass-point-north.png"
+},
+{
+  "id": "does-a-light-bulb-glow",
+  "title": "Why does a light bulb glow?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-a-light-bulb-glow.png"
+},
+{
+  "id": "does-a-seashell-sound-like-the-ocean",
+  "title": "Why does a seashell sound like the ocean?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-a-seashell-sound-like-the-ocean.png"
+},
+{
+  "id": "does-a-straw-look-bent-in-water",
+  "title": "Why does a straw look bent in water?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-a-straw-look-bent-in-water.png"
+},
+{
+  "id": "does-boiling-water-make-bubbles",
+  "title": "Why does boiling water make bubbles?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-boiling-water-make-bubbles.png"
+},
+{
+  "id": "does-earth-orbit-the-sun",
+  "title": "Why does Earth orbit the Sun?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-earth-orbit-the-sun.png"
+},
+{
+  "id": "does-fresh-rain-have-a-special-smell",
+  "title": "Why does fresh rain have a special smell?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-fresh-rain-have-a-special-smell.png"
+},
+{
+  "id": "does-gravity-exist",
+  "title": "Why does gravity exist?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-gravity-exist.png"
+},
+{
+  "id": "does-hair-stand-up-with-static-electricity",
+  "title": "Why does hair stand up with static electricity?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-hair-stand-up-with-static-electricity.png"
+},
+{
+  "id": "does-helium-make-our-voice-sound-funny",
+  "title": "Why does helium make our voice sound funny?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-helium-make-our-voice-sound-funny.png"
+},
+{
+  "id": "does-ice-melt",
+  "title": "Why does ice melt?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-ice-melt.png"
+},
+{
+  "id": "does-insulation-keep-us-warm",
+  "title": "Why does insulation keep us warm?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-insulation-keep-us-warm.png"
+},
+{
+  "id": "does-metal-feel-colder-than-wood",
+  "title": "Why does metal feel colder than wood?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-metal-feel-colder-than-wood.png"
+},
+{
+  "id": "does-oil-float-on-water",
+  "title": "Why does oil float on water?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-oil-float-on-water.png"
+},
+{
+  "id": "does-our-voice-sound-different-in-recordings",
+  "title": "Why does our voice sound different in recordings?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-our-voice-sound-different-in-recordings.png"
+},
+{
+  "id": "does-popcorn-pop",
+  "title": "Why does popcorn pop?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-popcorn-pop.png"
+},
+{
+  "id": "does-saturn-have-rings",
+  "title": "Why does Saturn have rings?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-saturn-have-rings.png"
+},
+{
+  "id": "does-snow-make-everything-quieter",
+  "title": "Why does snow make everything quieter?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-snow-make-everything-quieter.png"
+},
+{
+  "id": "does-sound-exist",
+  "title": "Why does sound exist?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-sound-exist.png"
+},
+{
+  "id": "does-static-electricity-happen",
+  "title": "Why does static electricity happen?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-static-electricity-happen.png"
+},
+{
+  "id": "does-the-moon-cause-tides",
+  "title": "Why does the Moon cause tides?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-the-moon-cause-tides.png"
+},
+{
+  "id": "does-the-moon-change-shape",
+  "title": "Why does the Moon change shape?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-the-moon-change-shape.png"
+},
+{
+  "id": "does-the-moon-have-craters",
+  "title": "Why does the Moon have craters?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-the-moon-have-craters.png"
+},
+{
+  "id": "does-the-moon-look-bigger-near-the-horizon",
+  "title": "Why does the Moon look bigger near the horizon?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-the-moon-look-bigger-near-the-horizon.png"
+},
+{
+  "id": "does-the-moon-shine",
+  "title": "Why does the Moon shine?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-the-moon-shine.png"
+},
+{
+  "id": "does-uranus-rotate-on-its-side",
+  "title": "Why does Uranus rotate on its side?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-uranus-rotate-on-its-side.png"
+},
+{
+  "id": "does-water-expand-when-it-freezes",
+  "title": "Why does water expand when it freezes?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-water-expand-when-it-freezes.png"
+},
+{
+  "id": "does-water-freeze",
+  "title": "Why does water freeze?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-water-freeze.png"
+},
+{
+  "id": "does-wet-sand-make-better-sandcastles",
+  "title": "Why does wet sand make better sandcastles?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_does-wet-sand-make-better-sandcastles.png"
+},
+{
+  "id": "doesnt-earth-feel-like-it-is-spinning",
+  "title": "Why doesn't Earth feel like it is spinning?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_doesnt-earth-feel-like-it-is-spinning.png"
+},
+{
+  "id": "is-gravity-weaker-on-the-moon",
+  "title": "Why is gravity weaker on the Moon?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_is-gravity-weaker-on-the-moon.png"
+},
+{
+  "id": "is-ice-slippery",
+  "title": "Why is ice slippery?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_is-ice-slippery.png"
+},
+{
+  "id": "is-jupiter-so-big",
+  "title": "Why is Jupiter so big?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_is-jupiter-so-big.png"
+},
+{
+  "id": "is-mars-red",
+  "title": "Why is Mars red?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_is-mars-red.png"
+},
+{
+  "id": "is-our-galaxy-called-the-milky-way",
+  "title": "Why is our galaxy called the Milky Way?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_is-our-galaxy-called-the-milky-way.png"
+},
+{
+  "id": "is-space-dark",
+  "title": "Why is space dark?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_is-space-dark.png"
+},
+{
+  "id": "is-space-silent",
+  "title": "Why is space silent?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_is-space-silent.png"
+},
+{
+  "id": "is-the-sun-so-hot",
+  "title": "Why is the Sun so hot?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_is-the-sun-so-hot.png"
+},
+{
+  "id": "is-the-universe-expanding",
+  "title": "Why is the universe expanding?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_is-the-universe-expanding.png"
+},
+{
+  "id": "is-there-day-and-night",
+  "title": "Why is there day and night?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_is-there-day-and-night.png"
+},
+{
+  "id": "is-venus-so-hot",
+  "title": "Why is Venus so hot?",
+  "category": "fun_surprising",
+  "cardImage": "/curious_whole_is-venus-so-hot.png"
+}
 ];
 
 export const TOPIC_DETAILS = {
@@ -6679,6 +7280,2007 @@ export const TOPIC_DETAILS = {
           ],
           "correctIndex": 0,
           "explanation": "Spot on! Worms often come to the surface after rain because the wet ground helps them breathe through their skin and travel safely, while very flooded burrows may make them move away."
+      }
+  }
+,
+  "are-no-two-snowflakes-exactly-alike": {
+      "image": "/curious_are-no-two-snowflakes-exactly-alike.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why no two snowflakes exactly alike??",
+          "options": [
+              "No two snowflakes are exactly alike because each one grows along a different pat... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! No two snowflakes are exactly alike because each one grows along a different path through clouds, where tiny changes in temperature, moisture, and wind shape its icy branches."
+      }
+  },
+  "are-stars-different-colours": {
+      "image": "/curious_are-stars-different-colours.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why stars different colours??",
+          "options": [
+              "Stars are different colours mainly because their surfaces have different tempera... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Stars are different colours mainly because their surfaces have different temperatures, with hotter stars looking blue or white and cooler stars looking orange or red."
+      }
+  },
+  "can-huge-steel-ships-float": {
+      "image": "/curious_can-huge-steel-ships-float.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why huge steel ships float??",
+          "options": [
+              "Huge steel ships float because their hollow shape contains lots of air, making t... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Huge steel ships float because their hollow shape contains lots of air, making the whole ship less dense than water and allowing water to push it upward."
+      }
+  },
+  "can-music-give-us-goosebumps": {
+      "image": "/curious_can-music-give-us-goosebumps.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why music give us goosebumps??",
+          "options": [
+              "Music can give us goosebumps when our brain feels a strong emotion or surprise a... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Music can give us goosebumps when our brain feels a strong emotion or surprise and sends signals that make tiny muscles around our hairs tighten."
+      }
+  },
+  "can-rockets-work-in-space": {
+      "image": "/curious_can-rockets-work-in-space.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why rockets work in space??",
+          "options": [
+              "Rockets can work in space because they push hot gas backward, and that push send... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Rockets can work in space because they push hot gas backward, and that push sends the rocket forward even when there is no air."
+      }
+  },
+  "can-some-insects-walk-on-water": {
+      "image": "/curious_can-some-insects-walk-on-water.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why some insects walk on water??",
+          "options": [
+              "Some insects can walk on water because the water's surface acts like a stretchy ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Some insects can walk on water because the water's surface acts like a stretchy skin, and their tiny water-repelling feet spread their weight across it."
+      }
+  },
+  "can-some-ocean-water-glow-at-night": {
+      "image": "/curious_can-some-ocean-water-glow-at-night.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why some ocean water glow at night??",
+          "options": [
+              "Some ocean water glows at night because tiny living things called bioluminescent... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Some ocean water glows at night because tiny living things called bioluminescent plankton can make blue-green light when waves, splashes, or swimming animals disturb them."
+      }
+  },
+  "can-we-see-objects": {
+      "image": "/curious_can-we-see-objects.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why we see objects??",
+          "options": [
+              "We can see objects when light bounces or comes from them, enters our eyes, and o... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! We can see objects when light bounces or comes from them, enters our eyes, and our brain turns the light signals into a picture."
+      }
+  },
+  "cant-light-escape-a-black-hole": {
+      "image": "/curious_cant-light-escape-a-black-hole.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why light escape a black hole??",
+          "options": [
+              "Light cannot escape from inside a black hole’s event horizon because the black h... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Light cannot escape from inside a black hole’s event horizon because the black hole’s gravity curves space so strongly that every possible path leads inward."
+      }
+  },
+  "cant-we-tickle-ourselves": {
+      "image": "/curious_cant-we-tickle-ourselves.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why we tickle ourselves??",
+          "options": [
+              "We usually cannot tickle ourselves because our brain predicts the touch we are a... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! We usually cannot tickle ourselves because our brain predicts the touch we are about to make and turns down the surprise feeling."
+      }
+  },
+  "do-aeroplanes-fly": {
+      "image": "/curious_do-aeroplanes-fly.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why aeroplanes fly??",
+          "options": [
+              "Aeroplanes fly because their wings move through the air in a way that pushes air... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Aeroplanes fly because their wings move through the air in a way that pushes air downward, creating an upward force called lift that can overcome gravity."
+      }
+  },
+  "do-astronauts-float": {
+      "image": "/curious_do-astronauts-float.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why astronauts float??",
+          "options": [
+              "Astronauts float because their spacecraft and everything inside it are falling a... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Astronauts float because their spacecraft and everything inside it are falling around Earth together, creating a feeling called microgravity."
+      }
+  },
+  "do-astronauts-wear-spacesuits": {
+      "image": "/curious_do-astronauts-wear-spacesuits.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why astronauts wear spacesuits??",
+          "options": [
+              "Astronauts wear spacesuits because space has no air to breathe, is extremely hot... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Astronauts wear spacesuits because space has no air to breathe, is extremely hot or cold, and can be dangerous from tiny fast-moving bits of rock and strong sunlight."
+      }
+  },
+  "do-auroras-happen": {
+      "image": "/curious_do-auroras-happen.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why auroras happen??",
+          "options": [
+              "Auroras happen when tiny particles from the Sun travel along Earth’s magnetic fi... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Auroras happen when tiny particles from the Sun travel along Earth’s magnetic field and bump into gases high in the sky, making them glow with colorful light."
+      }
+  },
+  "do-balls-bounce": {
+      "image": "/curious_do-balls-bounce.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why balls bounce??",
+          "options": [
+              "Balls bounce because they squash a little when they hit a surface, then spring b... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Balls bounce because they squash a little when they hit a surface, then spring back into shape and push themselves upward."
+      }
+  },
+  "do-batteries-produce-electricity": {
+      "image": "/curious_do-batteries-produce-electricity.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why batteries produce electricity??",
+          "options": [
+              "Batteries produce electricity by using a chemical reaction to push tiny charged ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Batteries produce electricity by using a chemical reaction to push tiny charged particles called electrons through a circuit."
+      }
+  },
+  "do-black-holes-form": {
+      "image": "/curious_do-black-holes-form.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why black holes form??",
+          "options": [
+              "Black holes can form when a very massive star runs out of fuel and its core coll... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Black holes can form when a very massive star runs out of fuel and its core collapses under its own powerful gravity."
+      }
+  },
+  "do-boats-float": {
+      "image": "/curious_do-boats-float.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why boats float??",
+          "options": [
+              "Boats float because their hollow shape pushes aside enough water for the water’s... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Boats float because their hollow shape pushes aside enough water for the water’s upward push, called buoyancy, to hold them up."
+      }
+  },
+  "do-boomerangs-come-back": {
+      "image": "/curious_do-boomerangs-come-back.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why boomerangs come back??",
+          "options": [
+              "A returning boomerang comes back because its spinning, curved wings, and special... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! A returning boomerang comes back because its spinning, curved wings, and special tilted throw make the air push it in a wide circle."
+      }
+  },
+  "do-bubbles-become-round": {
+      "image": "/curious_do-bubbles-become-round.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why bubbles become round??",
+          "options": [
+              "Bubbles become round because their stretchy soap film pulls evenly in every dire... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Bubbles become round because their stretchy soap film pulls evenly in every direction, making the smallest shape that can hold the air inside."
+      }
+  },
+  "do-bubbles-rise-in-water": {
+      "image": "/curious_do-bubbles-rise-in-water.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why bubbles rise in water??",
+          "options": [
+              "Bubbles rise in water because the water pushes upward on them more strongly than... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Bubbles rise in water because the water pushes upward on them more strongly than gravity pulls them downward."
+      }
+  },
+  "do-cds-show-rainbow-colours": {
+      "image": "/curious_do-cds-show-rainbow-colours.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why CDs show rainbow colours??",
+          "options": [
+              "CDs show rainbow colours because their tiny, closely spaced tracks split white l... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! CDs show rainbow colours because their tiny, closely spaced tracks split white light into different colours."
+      }
+  },
+  "do-comets-have-tails": {
+      "image": "/curious_do-comets-have-tails.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why comets have tails??",
+          "options": [
+              "Comets grow glowing tails when sunlight warms their icy surfaces, releasing gas ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Comets grow glowing tails when sunlight warms their icy surfaces, releasing gas and dust that the Sun’s light and solar wind push away."
+      }
+  },
+  "do-echoes-happen": {
+      "image": "/curious_do-echoes-happen.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why echoes happen??",
+          "options": [
+              "Echoes happen when sound waves bounce off a hard surface and travel back to our ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Echoes happen when sound waves bounce off a hard surface and travel back to our ears."
+      }
+  },
+  "do-gears-work": {
+      "image": "/curious_do-gears-work.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why gears work??",
+          "options": [
+              "Gears work because their teeth push against each other, passing around a turning... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Gears work because their teeth push against each other, passing around a turning force called torque to make things move."
+      }
+  },
+  "do-helicopters-hover": {
+      "image": "/curious_do-helicopters-hover.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why helicopters hover??",
+          "options": [
+              "Helicopters hover when their spinning rotor blades push air downward with enough... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Helicopters hover when their spinning rotor blades push air downward with enough force to balance the helicopter's weight."
+      }
+  },
+  "do-helium-balloons-rise": {
+      "image": "/curious_do-helium-balloons-rise.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why helium balloons rise??",
+          "options": [
+              "Helium balloons rise because helium is less dense than the surrounding air, so t... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Helium balloons rise because helium is less dense than the surrounding air, so the heavier air pushes them upward."
+      }
+  },
+  "do-honeycombs-have-hexagonal-cells": {
+      "image": "/curious_do-honeycombs-have-hexagonal-cells.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why honeycombs have hexagonal cells??",
+          "options": [
+              "Honeybees use hexagonal cells because hexagons fit together with no gaps and sto... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Honeybees use hexagonal cells because hexagons fit together with no gaps and store lots of honey and baby bees while using less wax than many other shapes."
+      }
+  },
+  "do-hot-air-balloons-rise": {
+      "image": "/curious_do-hot-air-balloons-rise.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why hot-air balloons rise??",
+          "options": [
+              "Hot-air balloons rise because heating the air inside makes it less dense than th... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Hot-air balloons rise because heating the air inside makes it less dense than the cooler air outside, so the surrounding air pushes the balloon upward."
+      }
+  },
+  "do-kites-fly": {
+      "image": "/curious_do-kites-fly.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why kites fly??",
+          "options": [
+              "Kites fly because moving air pushes against their tilted surface, creating lift ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Kites fly because moving air pushes against their tilted surface, creating lift that pulls them upward while the string helps keep them steady."
+      }
+  },
+  "do-levers-make-lifting-easier": {
+      "image": "/curious_do-levers-make-lifting-easier.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why levers make lifting easier??",
+          "options": [
+              "Levers make lifting easier by using a pivot point to trade a longer push or pull... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Levers make lifting easier by using a pivot point to trade a longer push or pull distance for less force."
+      }
+  },
+  "do-lunar-eclipses-happen": {
+      "image": "/curious_do-lunar-eclipses-happen.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why lunar eclipses happen??",
+          "options": [
+              "A lunar eclipse happens when Earth moves between the Sun and the Moon, causing E... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! A lunar eclipse happens when Earth moves between the Sun and the Moon, causing Earth’s shadow to fall on the Moon."
+      }
+  },
+  "do-magnets-attract-some-metals": {
+      "image": "/curious_do-magnets-attract-some-metals.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why magnets attract some metals??",
+          "options": [
+              "Magnets attract certain metals because their tiny particles can line up like man... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Magnets attract certain metals because their tiny particles can line up like many little compass needles, creating a strong pull."
+      }
+  },
+  "do-magnifying-glasses-make-things-look-bigger": {
+      "image": "/curious_do-magnifying-glasses-make-things-look-bigger.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why magnifying glasses make things look bigger??",
+          "options": [
+              "A magnifying glass makes things look bigger because its curved lens bends light ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! A magnifying glass makes things look bigger because its curved lens bends light so your eyes see a larger-looking image."
+      }
+  },
+  "do-meteors-glow": {
+      "image": "/curious_do-meteors-glow.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why meteors glow??",
+          "options": [
+              "Meteors glow because tiny pieces of space rock heat up the air in front of them ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Meteors glow because tiny pieces of space rock heat up the air in front of them as they race through Earth’s atmosphere, making the air and meteor shine."
+      }
+  },
+  "do-mirages-happen": {
+      "image": "/curious_do-mirages-happen.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why mirages happen??",
+          "options": [
+              "Mirages happen when layers of air at different temperatures bend light, making t... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Mirages happen when layers of air at different temperatures bend light, making the sky or faraway objects look like they are somewhere else."
+      }
+  },
+  "do-mirrors-reflect-us": {
+      "image": "/curious_do-mirrors-reflect-us.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why mirrors reflect us??",
+          "options": [
+              "Mirrors reflect us because their very smooth surfaces bounce light from our bodi... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Mirrors reflect us because their very smooth surfaces bounce light from our bodies back to our eyes in an organized way."
+      }
+  },
+  "do-musical-instruments-make-different-sounds": {
+      "image": "/curious_do-musical-instruments-make-different-sounds.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why musical instruments make different sounds??",
+          "options": [
+              "Musical instruments make different sounds because their different shapes, sizes,... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Musical instruments make different sounds because their different shapes, sizes, and materials vibrate in different ways, creating different pitches and tones."
+      }
+  },
+  "do-our-eyes-need-time-to-adjust-to-darkness": {
+      "image": "/curious_do-our-eyes-need-time-to-adjust-to-darkness.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why our eyes need time to adjust to darkness??",
+          "options": [
+              "Our eyes need time to adjust to darkness because special light-sensing cells slo... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Our eyes need time to adjust to darkness because special light-sensing cells slowly become better at detecting tiny amounts of light."
+      }
+  },
+  "do-parachutes-slow-us-down": {
+      "image": "/curious_do-parachutes-slow-us-down.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why parachutes slow us down??",
+          "options": [
+              "Parachutes slow us down because their wide canopy catches lots of air, and the a... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Parachutes slow us down because their wide canopy catches lots of air, and the air pushes upward against the falling parachute."
+      }
+  },
+  "do-prisms-make-rainbows": {
+      "image": "/curious_do-prisms-make-rainbows.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why prisms make rainbows??",
+          "options": [
+              "Prisms make rainbows because they bend white light and spread its different colo... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Prisms make rainbows because they bend white light and spread its different colors apart."
+      }
+  },
+  "do-pulleys-make-lifting-easier": {
+      "image": "/curious_do-pulleys-make-lifting-easier.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why pulleys make lifting easier??",
+          "options": [
+              "Pulleys can make lifting feel easier by changing the direction you pull and, whe... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Pulleys can make lifting feel easier by changing the direction you pull and, when several pulleys work together, sharing the weight across more sections of rope."
+      }
+  },
+  "do-rockets-need-so-much-fuel": {
+      "image": "/curious_do-rockets-need-so-much-fuel.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why rockets need so much fuel??",
+          "options": [
+              "Rockets need so much fuel because they must push themselves, their passengers, a... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Rockets need so much fuel because they must push themselves, their passengers, and all their fuel hard enough to escape Earth's strong gravity and speed through space."
+      }
+  },
+  "do-satellites-stay-in-orbit": {
+      "image": "/curious_do-satellites-stay-in-orbit.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why satellites stay in orbit??",
+          "options": [
+              "Satellites stay in orbit because gravity pulls them toward Earth while their fas... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Satellites stay in orbit because gravity pulls them toward Earth while their fast sideways motion keeps them continually falling around Earth instead of crashing down."
+      }
+  },
+  "do-seatbelts-protect-us": {
+      "image": "/curious_do-seatbelts-protect-us.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why seatbelts protect us??",
+          "options": [
+              "Seatbelts protect us by holding our bodies safely in place when a car stops sudd... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Seatbelts protect us by holding our bodies safely in place when a car stops suddenly, so we do not keep moving forward and get hurt."
+      }
+  },
+  "do-shadows-form": {
+      "image": "/curious_do-shadows-form.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why shadows form??",
+          "options": [
+              "Shadows form when an object blocks light from reaching a surface behind it.... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Shadows form when an object blocks light from reaching a surface behind it."
+      }
+  },
+  "do-soap-bubbles-show-rainbow-colours": {
+      "image": "/curious_do-soap-bubbles-show-rainbow-colours.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why soap bubbles show rainbow colours??",
+          "options": [
+              "Soap bubbles show rainbow colours because light reflects from the bubble's thin ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Soap bubbles show rainbow colours because light reflects from the bubble's thin film, and different colours become brighter or cancel out depending on the film's thickness."
+      }
+  },
+  "do-solar-eclipses-happen": {
+      "image": "/curious_do-solar-eclipses-happen.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why solar eclipses happen??",
+          "options": [
+              "A solar eclipse happens when the Moon moves between Earth and the Sun and blocks... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! A solar eclipse happens when the Moon moves between Earth and the Sun and blocks some or all of the Sun's light for people in certain places on Earth."
+      }
+  },
+  "do-stars-eventually-die": {
+      "image": "/curious_do-stars-eventually-die.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why stars eventually die??",
+          "options": [
+              "Stars eventually die because they use up the fuel in their cores that makes them... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Stars eventually die because they use up the fuel in their cores that makes them shine, and what happens next depends on how massive the star is."
+      }
+  },
+  "do-stars-twinkle": {
+      "image": "/curious_do-stars-twinkle.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why stars twinkle??",
+          "options": [
+              "Stars twinkle because their light bends and wiggles as it travels through Earth’... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Stars twinkle because their light bends and wiggles as it travels through Earth’s moving air before reaching our eyes."
+      }
+  },
+  "do-submarines-sink-and-rise": {
+      "image": "/curious_do-submarines-sink-and-rise.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why submarines sink and rise??",
+          "options": [
+              "Submarines sink by taking water into special tanks to become heavier, and rise b... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Submarines sink by taking water into special tanks to become heavier, and rise by pushing that water out with air to become lighter."
+      }
+  },
+  "do-telescopes-let-us-see-into-the-past": {
+      "image": "/curious_do-telescopes-let-us-see-into-the-past.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why telescopes let us see into the past??",
+          "options": [
+              "Telescopes let us see into the past because light takes time to travel through s... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Telescopes let us see into the past because light takes time to travel through space, so the light arriving at a telescope began its journey long ago."
+      }
+  },
+  "do-things-fall-down": {
+      "image": "/curious_do-things-fall-down.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why things fall down??",
+          "options": [
+              "Things fall down because gravity is an invisible pulling force that attracts obj... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Things fall down because gravity is an invisible pulling force that attracts objects toward Earth."
+      }
+  },
+  "do-tyres-have-tread": {
+      "image": "/curious_do-tyres-have-tread.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why tyres have tread??",
+          "options": [
+              "Tyres have tread—patterns of grooves and blocks—so they can grip the road better... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Tyres have tread—patterns of grooves and blocks—so they can grip the road better, especially by pushing water, mud, or snow away from the contact patch."
+      }
+  },
+  "do-we-get-brain-freeze": {
+      "image": "/curious_do-we-get-brain-freeze.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why we get brain freeze??",
+          "options": [
+              "Brain freeze happens when something very cold touches the roof of your mouth and... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Brain freeze happens when something very cold touches the roof of your mouth and nearby blood vessels and nerves quickly react, causing a short, sharp headache."
+      }
+  },
+  "do-we-have-seasons": {
+      "image": "/curious_do-we-have-seasons.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why we have seasons??",
+          "options": [
+              "We have seasons because Earth is tilted as it travels around the Sun, so differe... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! We have seasons because Earth is tilted as it travels around the Sun, so different parts of our planet receive more direct sunlight at different times of year."
+      }
+  },
+  "do-we-need-friction-to-walk": {
+      "image": "/curious_do-we-need-friction-to-walk.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why we need friction to walk??",
+          "options": [
+              "We need friction to walk because it gives our feet grip on the ground, letting u... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! We need friction to walk because it gives our feet grip on the ground, letting us push backward while the ground pushes us forward."
+      }
+  },
+  "do-wheels-make-moving-things-easier": {
+      "image": "/curious_do-wheels-make-moving-things-easier.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why wheels make moving things easier??",
+          "options": [
+              "Wheels make moving things easier because they roll, which creates much less rubb... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Wheels make moving things easier because they roll, which creates much less rubbing friction than dragging something across the ground."
+      }
+  },
+  "does-a-bicycle-stay-balanced-while-moving": {
+      "image": "/curious_does-a-bicycle-stay-balanced-while-moving.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why a bicycle stay balanced while moving??",
+          "options": [
+              "A bicycle stays balanced while moving because the rider makes tiny steering adju... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! A bicycle stays balanced while moving because the rider makes tiny steering adjustments, and the spinning wheels help the bike resist tipping."
+      }
+  },
+  "does-a-compass-point-north": {
+      "image": "/curious_does-a-compass-point-north.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why a compass point north??",
+          "options": [
+              "A compass points north because its tiny magnetized needle lines up with Earth’s ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! A compass points north because its tiny magnetized needle lines up with Earth’s magnetic field, like a small bar magnet turning toward magnetic north."
+      }
+  },
+  "does-a-light-bulb-glow": {
+      "image": "/curious_does-a-light-bulb-glow.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why a light bulb glow??",
+          "options": [
+              "A light bulb glows when electric energy travels through it and is changed into l... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! A light bulb glows when electric energy travels through it and is changed into light, and often a little heat."
+      }
+  },
+  "does-a-seashell-sound-like-the-ocean": {
+      "image": "/curious_does-a-seashell-sound-like-the-ocean.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why a seashell sound like the ocean??",
+          "options": [
+              "A seashell does not hold ocean sounds; its curved shape collects and changes the... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! A seashell does not hold ocean sounds; its curved shape collects and changes the quiet sounds around you into a soft rushing noise."
+      }
+  },
+  "does-a-straw-look-bent-in-water": {
+      "image": "/curious_does-a-straw-look-bent-in-water.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why a straw look bent in water??",
+          "options": [
+              "A straw looks bent in water because light changes direction when it travels from... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! A straw looks bent in water because light changes direction when it travels from water into air before reaching your eyes."
+      }
+  },
+  "does-boiling-water-make-bubbles": {
+      "image": "/curious_does-boiling-water-make-bubbles.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why boiling water make bubbles??",
+          "options": [
+              "Boiling water makes bubbles because heating gives water particles enough energy ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Boiling water makes bubbles because heating gives water particles enough energy to spread apart and turn into water vapor gas."
+      }
+  },
+  "does-earth-orbit-the-sun": {
+      "image": "/curious_does-earth-orbit-the-sun.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why Earth orbit the Sun??",
+          "options": [
+              "Earth orbits the Sun because the Sun's gravity pulls Earth inward while Earth is... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Earth orbits the Sun because the Sun's gravity pulls Earth inward while Earth is moving sideways fast enough to keep missing the Sun."
+      }
+  },
+  "does-fresh-rain-have-a-special-smell": {
+      "image": "/curious_does-fresh-rain-have-a-special-smell.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why fresh rain have a special smell??",
+          "options": [
+              "Fresh rain can smell special because raindrops help lift tiny scented oils from ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Fresh rain can smell special because raindrops help lift tiny scented oils from plants, soil particles, and helpful soil microbes into the air."
+      }
+  },
+  "does-gravity-exist": {
+      "image": "/curious_does-gravity-exist.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why gravity exist??",
+          "options": [
+              "Gravity exists because everything with mass bends space and time around it, maki... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Gravity exists because everything with mass bends space and time around it, making other objects move toward it."
+      }
+  },
+  "does-hair-stand-up-with-static-electricity": {
+      "image": "/curious_does-hair-stand-up-with-static-electricity.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why hair stand up with static electricity??",
+          "options": [
+              "Hair can stand up when static electricity gives the hairs the same kind of elect... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Hair can stand up when static electricity gives the hairs the same kind of electric charge, making them push away from one another."
+      }
+  },
+  "does-helium-make-our-voice-sound-funny": {
+      "image": "/curious_does-helium-make-our-voice-sound-funny.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why helium make our voice sound funny??",
+          "options": [
+              "Helium makes your voice sound squeaky because sound travels much faster through ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Helium makes your voice sound squeaky because sound travels much faster through helium than through ordinary air, changing the way your voice echoes in your throat and mouth."
+      }
+  },
+  "does-ice-melt": {
+      "image": "/curious_does-ice-melt.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why ice melt??",
+          "options": [
+              "Ice melts when it absorbs enough heat energy from its surroundings to change fro... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Ice melts when it absorbs enough heat energy from its surroundings to change from a solid into liquid water."
+      }
+  },
+  "does-insulation-keep-us-warm": {
+      "image": "/curious_does-insulation-keep-us-warm.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why insulation keep us warm??",
+          "options": [
+              "Insulation keeps us warm by slowing down the movement of heat from our warm bodi... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Insulation keeps us warm by slowing down the movement of heat from our warm bodies to the colder air around us."
+      }
+  },
+  "does-metal-feel-colder-than-wood": {
+      "image": "/curious_does-metal-feel-colder-than-wood.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why metal feel colder than wood??",
+          "options": [
+              "Metal feels colder than wood because metal pulls heat away from your warm hand m... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Metal feels colder than wood because metal pulls heat away from your warm hand much faster."
+      }
+  },
+  "does-oil-float-on-water": {
+      "image": "/curious_does-oil-float-on-water.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why oil float on water??",
+          "options": [
+              "Oil floats on water because oil is less dense than water and its molecules do no... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Oil floats on water because oil is less dense than water and its molecules do not mix well with water molecules."
+      }
+  },
+  "does-our-voice-sound-different-in-recordings": {
+      "image": "/curious_does-our-voice-sound-different-in-recordings.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why our voice sound different in recordings??",
+          "options": [
+              "Your recorded voice sounds different because you usually hear yourself through b... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Your recorded voice sounds different because you usually hear yourself through both the air and vibrations traveling through your head, while a recording captures mostly the sound traveling through the air."
+      }
+  },
+  "does-popcorn-pop": {
+      "image": "/curious_does-popcorn-pop.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why popcorn pop??",
+          "options": [
+              "Popcorn pops because heat turns a tiny bit of water inside each kernel into stea... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Popcorn pops because heat turns a tiny bit of water inside each kernel into steam, building pressure until the hard shell bursts and the soft starch inside puffs up."
+      }
+  },
+  "does-saturn-have-rings": {
+      "image": "/curious_does-saturn-have-rings.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why Saturn have rings??",
+          "options": [
+              "Saturn has rings because countless pieces of ice, rock, and dust are trapped in ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Saturn has rings because countless pieces of ice, rock, and dust are trapped in orbit around the planet by its strong gravity."
+      }
+  },
+  "does-snow-make-everything-quieter": {
+      "image": "/curious_does-snow-make-everything-quieter.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why snow make everything quieter??",
+          "options": [
+              "Fresh snow has lots of tiny air pockets that soak up and scatter sound waves, so... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Fresh snow has lots of tiny air pockets that soak up and scatter sound waves, so fewer sounds bounce back to your ears."
+      }
+  },
+  "does-sound-exist": {
+      "image": "/curious_does-sound-exist.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why sound exist??",
+          "options": [
+              "Sound exists because vibrating objects make nearby materials, such as air, water... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Sound exists because vibrating objects make nearby materials, such as air, water, or solids, jiggle in waves that can travel to our ears."
+      }
+  },
+  "does-static-electricity-happen": {
+      "image": "/curious_does-static-electricity-happen.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why static electricity happen??",
+          "options": [
+              "Static electricity happens when tiny electric charges move from one material to ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Static electricity happens when tiny electric charges move from one material to another and then build up until they jump or pull things nearby."
+      }
+  },
+  "does-the-moon-cause-tides": {
+      "image": "/curious_does-the-moon-cause-tides.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why the Moon cause tides??",
+          "options": [
+              "The Moon’s gravity pulls more strongly on the side of Earth closest to it and a ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! The Moon’s gravity pulls more strongly on the side of Earth closest to it and a little less strongly on the far side, creating two ocean bulges that move around Earth as it spins."
+      }
+  },
+  "does-the-moon-change-shape": {
+      "image": "/curious_does-the-moon-change-shape.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why the Moon change shape??",
+          "options": [
+              "The Moon seems to change shape because, as it travels around Earth, we see diffe... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! The Moon seems to change shape because, as it travels around Earth, we see different amounts of its sunlit half."
+      }
+  },
+  "does-the-moon-have-craters": {
+      "image": "/curious_does-the-moon-have-craters.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why the Moon have craters??",
+          "options": [
+              "The Moon has craters because space rocks called meteoroids crash into its surfac... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! The Moon has craters because space rocks called meteoroids crash into its surface, making bowl-shaped holes."
+      }
+  },
+  "does-the-moon-look-bigger-near-the-horizon": {
+      "image": "/curious_does-the-moon-look-bigger-near-the-horizon.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why the Moon look bigger near the horizon??",
+          "options": [
+              "The Moon looks bigger near the horizon because your brain compares it with faraw... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! The Moon looks bigger near the horizon because your brain compares it with faraway trees, houses, and hills, even though the Moon is nearly the same size in the sky."
+      }
+  },
+  "does-the-moon-shine": {
+      "image": "/curious_does-the-moon-shine.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why the Moon shine??",
+          "options": [
+              "The Moon shines because sunlight hits its rocky surface and bounces back toward ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! The Moon shines because sunlight hits its rocky surface and bounces back toward our eyes."
+      }
+  },
+  "does-uranus-rotate-on-its-side": {
+      "image": "/curious_does-uranus-rotate-on-its-side.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why Uranus rotate on its side??",
+          "options": [
+              "Uranus probably rotates on its side because, long ago, one or more huge space ob... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Uranus probably rotates on its side because, long ago, one or more huge space objects crashed into it and tipped the young planet over."
+      }
+  },
+  "does-water-expand-when-it-freezes": {
+      "image": "/curious_does-water-expand-when-it-freezes.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why water expand when it freezes??",
+          "options": [
+              "Water expands when it freezes because its molecules lock into a crystal pattern ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Water expands when it freezes because its molecules lock into a crystal pattern with extra empty spaces between them."
+      }
+  },
+  "does-water-freeze": {
+      "image": "/curious_does-water-freeze.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why water freeze??",
+          "options": [
+              "Water freezes when it loses enough heat that its tiny moving particles slow down... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Water freezes when it loses enough heat that its tiny moving particles slow down and lock together into solid ice."
+      }
+  },
+  "does-wet-sand-make-better-sandcastles": {
+      "image": "/curious_does-wet-sand-make-better-sandcastles.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why wet sand make better sandcastles??",
+          "options": [
+              "Wet sand makes better sandcastles because thin films of water form tiny bridges ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Wet sand makes better sandcastles because thin films of water form tiny bridges between sand grains, helping them stick together while still holding their shape."
+      }
+  },
+  "doesnt-earth-feel-like-it-is-spinning": {
+      "image": "/curious_doesnt-earth-feel-like-it-is-spinning.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why Earth feel like it is spinning??",
+          "options": [
+              "Earth spins so smoothly and we, the air, and everything around us move with it, ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Earth spins so smoothly and we, the air, and everything around us move with it, so our bodies do not feel the steady motion."
+      }
+  },
+  "is-gravity-weaker-on-the-moon": {
+      "image": "/curious_is-gravity-weaker-on-the-moon.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why gravity weaker on the Moon??",
+          "options": [
+              "Gravity is weaker on the Moon because the Moon has much less mass than Earth, so... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Gravity is weaker on the Moon because the Moon has much less mass than Earth, so it pulls on people and objects less strongly."
+      }
+  },
+  "is-ice-slippery": {
+      "image": "/curious_is-ice-slippery.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why ice slippery??",
+          "options": [
+              "Ice is slippery because a very thin layer of liquid water can form on its surfac... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Ice is slippery because a very thin layer of liquid water can form on its surface, letting shoes, skates, or tires slide more easily."
+      }
+  },
+  "is-jupiter-so-big": {
+      "image": "/curious_is-jupiter-so-big.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why Jupiter so big??",
+          "options": [
+              "Jupiter became so big because, early in the solar system, it formed far from the... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Jupiter became so big because, early in the solar system, it formed far from the Sun where lots of gas and icy material were available for its strong gravity to gather."
+      }
+  },
+  "is-mars-red": {
+      "image": "/curious_is-mars-red.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why Mars red??",
+          "options": [
+              "Mars looks red because its rocks and dust contain lots of iron oxide, or rust, w... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Mars looks red because its rocks and dust contain lots of iron oxide, or rust, which gives the planet a reddish-orange color."
+      }
+  },
+  "is-our-galaxy-called-the-milky-way": {
+      "image": "/curious_is-our-galaxy-called-the-milky-way.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why our galaxy called the Milky Way??",
+          "options": [
+              "Our galaxy is called the Milky Way because, from Earth, its many faraway stars b... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Our galaxy is called the Milky Way because, from Earth, its many faraway stars blend together and look like a faint, milky-white band across the night sky."
+      }
+  },
+  "is-space-dark": {
+      "image": "/curious_is-space-dark.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why space dark??",
+          "options": [
+              "Space looks dark because there is almost no air to scatter sunlight, and most of... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Space looks dark because there is almost no air to scatter sunlight, and most of space has no nearby stars or planets shining into our eyes."
+      }
+  },
+  "is-space-silent": {
+      "image": "/curious_is-space-silent.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-amber-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why space silent??",
+          "options": [
+              "Space is silent because sound needs matter, such as air, water, or solid objects... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Space is silent because sound needs matter, such as air, water, or solid objects, to travel through, and most of space is almost empty."
+      }
+  },
+  "is-the-sun-so-hot": {
+      "image": "/curious_is-the-sun-so-hot.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-sky-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why the Sun so hot??",
+          "options": [
+              "The Sun is so hot because deep inside it, tiny hydrogen particles join together ... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! The Sun is so hot because deep inside it, tiny hydrogen particles join together in a process called nuclear fusion, releasing enormous amounts of energy as heat and light."
+      }
+  },
+  "is-the-universe-expanding": {
+      "image": "/curious_is-the-universe-expanding.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why the universe expanding??",
+          "options": [
+              "The universe is expanding because space itself has been stretching ever since th... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! The universe is expanding because space itself has been stretching ever since the universe began, carrying galaxies farther apart like dots on a growing balloon."
+      }
+  },
+  "is-there-day-and-night": {
+      "image": "/curious_is-there-day-and-night.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-cyan-300 to-emerald-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why there day and night??",
+          "options": [
+              "Day and night happen because Earth spins like a giant top, bringing different pl... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Day and night happen because Earth spins like a giant top, bringing different places into sunlight and then into darkness."
+      }
+  },
+  "is-venus-so-hot": {
+      "image": "/curious_is-venus-so-hot.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-blue-400",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "DISCOVERY NEVER STOPS! The world is full of fun, mind-blowing science surprises! ✨🚀",
+      "quiz": {
+          "question": "What is the main scientific secret behind why Venus so hot??",
+          "options": [
+              "Venus is extremely hot because its thick blanket of carbon dioxide gas traps the... 🌟",
+              "It is purely magic with no physical laws behind it 🪄",
+              "It only happens when nobody is watching 👁️",
+              "Scientists have never discovered why it works ❓"
+          ],
+          "correctIndex": 0,
+          "explanation": "Awesome job! Venus is extremely hot because its thick blanket of carbon dioxide gas traps the Sun's heat, creating a powerful greenhouse effect."
       }
   }
 };
