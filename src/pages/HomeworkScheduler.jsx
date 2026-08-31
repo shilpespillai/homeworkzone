@@ -53,11 +53,243 @@ const CURRICULUMS = [
 const GRADES = ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 'Grade 7', 'Grade 8'];
 const DIFFICULTIES = ['Easy', 'Medium', 'Hard'];
 
+export const resolveCustomSubjectStyle = (name) => {
+  const s = (name || '').toLowerCase();
+
+  // 1. Reading / Comprehension / Literacy / NAPLAN Reading
+  if (s.includes('reading') || s.includes('comprehension') || s.includes('literacy')) {
+    return {
+      titleColor: 'text-rose-600',
+      bgColor: 'bg-[#fff5f7]',
+      borderColor: 'border-rose-200',
+      selectedBorder: 'border-rose-500 ring-4 ring-rose-100',
+      renderIcon: () => (
+        <div className="w-16 h-20 bg-rose-100 rounded-full flex items-center justify-center text-rose-600 shadow-inner border-4 border-rose-200">
+          <BookOpen className="w-10 h-10 text-rose-500" />
+        </div>
+      )
+    };
+  }
+
+  // 2. Writing / Vocabulary / Vocab / Grammar / Conventions / Spelling / NAPLAN Writing
+  if (s.includes('writing') || s.includes('vocab') || s.includes('grammar') || s.includes('convention') || s.includes('spelling')) {
+    return {
+      titleColor: 'text-amber-600',
+      bgColor: 'bg-[#fffbeb]',
+      borderColor: 'border-amber-200',
+      selectedBorder: 'border-amber-500 ring-4 ring-amber-100',
+      renderIcon: () => (
+        <div className="w-16 h-20 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 shadow-inner border-4 border-amber-200">
+          <Pencil className="w-10 h-10 text-amber-500" />
+        </div>
+      )
+    };
+  }
+
+  // 3. Numeracy / Math / Algebra / Geometry / Calculus / NAPLAN Numeracy
+  if (s.includes('numeracy') || s.includes('math') || s.includes('algebra') || s.includes('geometry') || s.includes('calculus') || s.includes('number')) {
+    return {
+      titleColor: 'text-blue-600',
+      bgColor: 'bg-[#eff6ff]',
+      borderColor: 'border-blue-200',
+      selectedBorder: 'border-blue-500 ring-4 ring-blue-100',
+      renderIcon: () => (
+        <div className="w-16 h-20 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 shadow-inner border-4 border-blue-200">
+          <Brain className="w-10 h-10 text-blue-500" />
+        </div>
+      )
+    };
+  }
+
+  // 4. Hindi / Foreign Languages / World Studies
+  if (s.includes('hindi') || s.includes('language') || s.includes('french') || s.includes('spanish') || s.includes('german') || s.includes('chinese') || s.includes('japanese') || s.includes('latin')) {
+    return {
+      titleColor: 'text-indigo-600',
+      bgColor: 'bg-[#eef2ff]',
+      borderColor: 'border-indigo-200',
+      selectedBorder: 'border-indigo-500 ring-4 ring-indigo-100',
+      renderIcon: () => (
+        <div className="w-16 h-20 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-600 shadow-inner border-4 border-indigo-200">
+          <Globe className="w-10 h-10 text-indigo-500" />
+        </div>
+      )
+    };
+  }
+
+  // 5. History / Social Studies / Civics
+  if (s.includes('history') || s.includes('social') || s.includes('civics') || s.includes('geography')) {
+    return {
+      titleColor: 'text-yellow-600',
+      bgColor: 'bg-[#fefce8]',
+      borderColor: 'border-yellow-200',
+      selectedBorder: 'border-yellow-500 ring-4 ring-yellow-100',
+      renderIcon: () => (
+        <div className="w-16 h-20 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 shadow-inner border-4 border-yellow-200">
+          <Globe className="w-10 h-10 text-yellow-500" />
+        </div>
+      )
+    };
+  }
+
+  // 6. Science / Biology / Chemistry / Physics
+  if (s.includes('science') || s.includes('physics') || s.includes('chem') || s.includes('bio') || s.includes('nature')) {
+    return {
+      titleColor: 'text-green-600',
+      bgColor: 'bg-[#f4fbf4]',
+      borderColor: 'border-green-200',
+      selectedBorder: 'border-green-500 ring-4 ring-green-100',
+      renderIcon: () => (
+        <div className="w-16 h-20 bg-green-100 rounded-full flex items-center justify-center text-green-500 shadow-inner overflow-hidden border-4 border-green-200">
+          <FlaskConical className="w-10 h-10 text-green-500" />
+        </div>
+      )
+    };
+  }
+
+  // 7. Logical Reasoning / Critical Thinking / Problem Solving / Logic
+  if (s.includes('logic') || s.includes('reason') || s.includes('puzzle') || s.includes('problem') || s.includes('critical') || s.includes('thinking')) {
+    return {
+      titleColor: 'text-amber-600',
+      bgColor: 'bg-[#fffbeb]',
+      borderColor: 'border-amber-200',
+      selectedBorder: 'border-amber-500 ring-4 ring-amber-100',
+      renderIcon: () => (
+        <div className="w-16 h-20 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 shadow-inner border-4 border-amber-200">
+          <Lightbulb className="w-10 h-10 text-amber-500" />
+        </div>
+      )
+    };
+  }
+
+  // Default fallback
+  return {
+    titleColor: 'text-purple-600',
+    bgColor: 'bg-[#faf5ff]',
+    borderColor: 'border-purple-200',
+    selectedBorder: 'border-purple-500 ring-4 ring-purple-100',
+    renderIcon: () => (
+      <div className="w-16 h-20 bg-purple-100 rounded-2xl flex items-center justify-center text-purple-600 shadow-inner border-4 border-purple-200">
+        <Sparkles className="w-10 h-10 text-purple-500" />
+      </div>
+    )
+  };
+};
+
 const SUBJECTS = [
-  { id: 'english', name: 'English', emoji: '📚', color: 'text-orange-500', bgColor: 'bg-orange-50', borderColor: 'border-orange-200' },
-  { id: 'maths', name: 'Maths', emoji: '🔢', color: 'text-blue-500', bgColor: 'bg-blue-50', borderColor: 'border-blue-200' },
-  { id: 'science', name: 'Science', emoji: '🧪', color: 'text-green-600', bgColor: 'bg-green-50', borderColor: 'border-green-200' },
-  { id: 'olympiad', name: 'Olympiad Maths', emoji: '🏆', color: 'text-purple-600', bgColor: 'bg-purple-50', borderColor: 'border-purple-200' }
+  { 
+    id: 'english', 
+    name: 'English', 
+    titleColor: 'text-orange-500',
+    bgColor: 'bg-[#fffdf0]', 
+    borderColor: 'border-orange-200',
+    selectedBorder: 'border-orange-400 ring-4 ring-orange-100',
+    desc: 'Reading, writing, grammar and more!',
+    renderGraphic: () => (
+      <div className="w-16 h-20 bg-orange-500 rounded-lg flex items-center justify-center text-white font-black text-2xl shadow-[0_4px_0_0_#c2410c] transform -rotate-6">
+        Aa
+      </div>
+    )
+  },
+  { 
+    id: 'maths', 
+    name: 'Maths', 
+    titleColor: 'text-blue-500',
+    bgColor: 'bg-[#f4faff]', 
+    borderColor: 'border-blue-200',
+    selectedBorder: 'border-blue-400 ring-4 ring-blue-100',
+    desc: 'Numbers, shapes, patterns and more!',
+    renderGraphic: () => (
+      <div className="flex gap-1 transform rotate-2">
+        <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center text-white font-black shadow-[0_4px_0_0_#c2410c] -translate-y-2">1</div>
+        <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center text-white font-black shadow-[0_4px_0_0_#15803d]">2</div>
+        <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center text-white font-black shadow-[0_4px_0_0_#1d4ed8] translate-y-2">3</div>
+      </div>
+    )
+  },
+  { 
+    id: 'science', 
+    name: 'Science', 
+    titleColor: 'text-green-600',
+    bgColor: 'bg-[#f4fbf4]', 
+    borderColor: 'border-green-200',
+    selectedBorder: 'border-green-500 ring-4 ring-green-100',
+    desc: 'Discover, explore and learn amazing things!',
+    renderGraphic: () => (
+      <div className="w-16 h-20 bg-green-100 rounded-full flex items-center justify-center text-green-500 shadow-inner overflow-hidden border-4 border-green-200">
+        <FlaskConical className="w-10 h-10 text-green-500" />
+      </div>
+    )
+  },
+  { 
+    id: 'olympiad', 
+    name: 'Olympiad', 
+    titleColor: 'text-purple-600',
+    bgColor: 'bg-[#f8f5ff]', 
+    borderColor: 'border-purple-200',
+    selectedBorder: 'border-purple-500 ring-4 ring-purple-100',
+    desc: 'Advanced problem-solving & logic!',
+    renderGraphic: () => (
+      <div className="w-16 h-20 bg-purple-100 rounded-2xl flex items-center justify-center text-purple-600 shadow-inner border-4 border-purple-200">
+        <Trophy className="w-10 h-10 text-purple-500" />
+      </div>
+    )
+  },
+  { 
+    id: 'computer_science', 
+    name: 'Computer Science', 
+    titleColor: 'text-cyan-600',
+    bgColor: 'bg-[#f0fdfa]', 
+    borderColor: 'border-cyan-200',
+    selectedBorder: 'border-cyan-500 ring-4 ring-cyan-100',
+    desc: 'Coding, Python, Web & AI Ethics!',
+    renderGraphic: () => (
+      <div className="w-16 h-20 bg-cyan-100 rounded-2xl flex items-center justify-center text-cyan-600 shadow-inner border-4 border-cyan-200">
+        <Code className="w-10 h-10 text-cyan-500" />
+      </div>
+    )
+  },
+  { 
+    id: 'financial_literacy', 
+    name: 'Financial Literacy', 
+    titleColor: 'text-emerald-600',
+    bgColor: 'bg-[#f0fdf4]', 
+    borderColor: 'border-emerald-200',
+    selectedBorder: 'border-emerald-500 ring-4 ring-emerald-100',
+    desc: 'Money, saving, investing & business!',
+    renderGraphic: () => (
+      <div className="w-16 h-20 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 shadow-inner border-4 border-emerald-200">
+        <Coins className="w-10 h-10 text-emerald-500" />
+      </div>
+    )
+  },
+  { 
+    id: 'environmental_science', 
+    name: 'Environmental Science', 
+    titleColor: 'text-teal-600',
+    bgColor: 'bg-[#f0fdf9]', 
+    borderColor: 'border-teal-200',
+    selectedBorder: 'border-teal-500 ring-4 ring-teal-100',
+    desc: 'Ecology, clean energy & sustainability!',
+    renderGraphic: () => (
+      <div className="w-16 h-20 bg-teal-100 rounded-2xl flex items-center justify-center text-teal-600 shadow-inner border-4 border-teal-200">
+        <Leaf className="w-10 h-10 text-teal-500" />
+      </div>
+    )
+  },
+  { 
+    id: 'critical_thinking', 
+    name: 'Critical Thinking', 
+    titleColor: 'text-amber-600',
+    bgColor: 'bg-[#fffbeb]', 
+    borderColor: 'border-amber-200',
+    selectedBorder: 'border-amber-500 ring-4 ring-amber-100',
+    desc: 'Logic, fallacies & problem solving!',
+    renderGraphic: () => (
+      <div className="w-16 h-20 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 shadow-inner border-4 border-amber-200">
+        <Lightbulb className="w-10 h-10 text-amber-500" />
+      </div>
+    )
+  }
 ];
 
 
@@ -248,16 +480,6 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
   const dynamicSubjects = useMemo(() => {
     const list = [...SUBJECTS];
-    
-    const getSubjectEmoji = (name) => {
-      const lower = name.toLowerCase();
-      if (lower.includes('math') || lower.includes('numeracy')) return '🔢';
-      if (lower.includes('science')) return '🧪';
-      if (lower.includes('read') || lower.includes('writ') || lower.includes('language') || lower.includes('english')) return '📝';
-      if (lower.includes('history') || lower.includes('geography') || lower.includes('social')) return '🌍';
-      if (lower.includes('art') || lower.includes('music')) return '🎨';
-      return '📚';
-    };
 
     // Add from subjectPrompts
     if (subjectPrompts) {
@@ -265,37 +487,43 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         if (subjectPrompts[key] === null) return;
         const lowerKey = key.toLowerCase();
         if (!list.some(s => s.id === lowerKey)) {
+          const style = resolveCustomSubjectStyle(key);
           list.push({
             id: lowerKey,
             name: key.charAt(0).toUpperCase() + key.slice(1),
-            emoji: getSubjectEmoji(key),
-            color: 'text-purple-500',
-            bgColor: 'bg-purple-50',
-            borderColor: 'border-purple-200'
+            titleColor: style.titleColor,
+            bgColor: style.bgColor,
+            borderColor: style.borderColor,
+            selectedBorder: style.selectedBorder,
+            desc: `Custom subject template for ${key.toLowerCase()}!`,
+            renderGraphic: style.renderIcon
           });
         }
       });
     }
 
-    // Add from activeClassroom
+    // Add from activeClassroom (if any custom subjects exist)
     if (activeClassroom?.subjects) {
       activeClassroom.subjects.forEach(subjectName => {
         const lowerKey = subjectName.toLowerCase();
         if (!list.some(s => s.id === lowerKey)) {
+          const style = resolveCustomSubjectStyle(subjectName);
           list.push({
             id: lowerKey,
             name: subjectName,
-            emoji: getSubjectEmoji(subjectName),
-            color: 'text-pink-500',
-            bgColor: 'bg-pink-50',
-            borderColor: 'border-pink-200'
+            titleColor: style.titleColor,
+            bgColor: style.bgColor,
+            borderColor: style.borderColor,
+            selectedBorder: style.selectedBorder,
+            desc: `Custom subject for ${activeClassroom.name}!`,
+            renderGraphic: style.renderIcon
           });
         }
       });
     }
 
     return list;
-  }, [subjectPrompts, activeClassroom?.subjects]);
+  }, [subjectPrompts, activeClassroom?.subjects, activeClassroom?.name]);
 
   const handleRecurrenceChange = (type) => {
     setFormData(prev => {
@@ -1143,24 +1371,31 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
           <form onSubmit={handleGenerateAndSchedule} className="space-y-6">
             
-            {/* Subject Select */}
-            <div className="space-y-2">
+            {/* Subject Select (Styled Identical to HomeworkGenerator) */}
+            <div className="space-y-3">
               <label className="text-sm font-black text-pink-500 uppercase tracking-wider block">1. Select Subject</label>
-              <div className="grid grid-cols-3 gap-4">
-                {dynamicSubjects.map(sub => (
-                  <button
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+                {dynamicSubjects.map((sub) => (
+                  <div 
                     key={sub.id}
-                    type="button"
                     onClick={() => setFormData(prev => ({ ...prev, subject: sub.id }))}
-                    className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 group ${
-                      formData.subject === sub.id 
-                        ? `${sub.borderColor} bg-white ring-4 ring-slate-50` 
-                        : 'border-slate-100 hover:border-slate-200 bg-slate-50/50'
-                    }`}
+                    className={`relative p-4 rounded-2xl border-2 cursor-pointer transition-all flex flex-col items-center text-center group ${sub.bgColor} ${formData.subject === sub.id ? sub.selectedBorder : sub.borderColor} hover:shadow-md hover:-translate-y-0.5`}
                   >
-                    <span className="text-3xl group-hover:scale-110 transition-transform">{sub.emoji}</span>
-                    <span className={`text-sm font-black ${sub.color}`}>{sub.name}</span>
-                  </button>
+                    {/* Radio Indicator */}
+                    <div className={`absolute top-2.5 right-2.5 w-4 h-4 rounded-full border flex items-center justify-center ${formData.subject === sub.id ? 'border-blue-600 bg-blue-600' : 'border-slate-300 bg-white'}`}>
+                      {formData.subject === sub.id && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                    </div>
+                    
+                    <div className="scale-75 origin-center mb-1 flex items-center justify-center h-14">
+                      {sub.renderGraphic ? sub.renderGraphic() : (
+                        <span className="text-3xl">{sub.emoji || '📚'}</span>
+                      )}
+                    </div>
+                    
+                    <h3 className={`text-sm font-black mb-1 line-clamp-1 ${sub.titleColor || 'text-slate-800'}`}>{sub.name}</h3>
+                    
+                    <p className="text-slate-500 font-semibold text-[11px] leading-tight line-clamp-2 px-1">{sub.desc || `Custom schedule for ${sub.name}`}</p>
+                  </div>
                 ))}
               </div>
             </div>
