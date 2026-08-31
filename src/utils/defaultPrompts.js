@@ -29,11 +29,18 @@ Instructions:
 • Zero Self-Answering / Answer Leaking: NEVER leak or reveal the correct answer inside the question text stem! Question text must contain ONLY the problem statement.
 • Create engaging, age-appropriate questions that match the student's grade level.
 • Questions should progressively increase in difficulty.
-• Cover all important concepts within the specified topic.
-• Avoid repeating similar questions.
+• STRICT ANTI-REPETITION & NUMBER-SWAPPING BAN: Never generate repetitive template questions that merely alter the numbers (e.g., repeating the same procedural calculation with different digits). Every single question must assess a distinct aspect, representation, or thinking skill.
+• MULTI-DIMENSIONAL COGNITIVE MASTERY: Assess the concept across varied thinking skills and cognitive dimensions:
+  1. Conceptual Understanding (fundamental definitions, core properties, why it works, non-examples/counter-examples)
+  2. Procedural Fluency & Computation (accurate and efficient execution of rules/algorithms)
+  3. Real-World Context & Application (authentic situational scenarios and practical word problems)
+  4. Logical Reasoning & Justification ("if-then" deductions, verifying validity, identifying which principle applies)
+  5. Multi-Step Problem Solving & Strategy (non-routine problems requiring strategic combination of steps)
+  6. Visual Interpretation & Representation (graphs, number lines, area grids, geometry diagrams, models, SVGs)
+  7. Error Analysis & Misconception Spotting (spotting flaws in a hypothetical student's working, e.g. "Where did Liam make a mistake?")
+  8. Higher-Order Thinking & Synthesis (reverse engineering, finding missing values to balance equations, open-ended reasoning)
 • Use clear and simple language suitable for the selected grade.
-• Ensure every question has only one correct answer without ambiguity.
-• Use real-world examples wherever appropriate.
+• Ensure every question has only one unambiguous correct answer.
 • Mix question types to maintain student engagement.
 
 Include a balanced combination of question types such as:

@@ -1165,6 +1165,17 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         Ensure the questions test the students' knowledge on the specific topic at the selected grade and difficulty.
 
         CRITICAL ACCURACY & QUALITY RULES:
+        0. STRICT ANTI-REPETITION & MULTI-DIMENSIONAL COGNITIVE TAXONOMY MANDATE:
+           - CRITICAL BAN ON NUMBER-SWAPPING: NEVER generate repetitive questions that merely change numbers on the same procedural formula (e.g. 12 × 4, then 15 × 3, then 18 × 2). Every question must assess a completely distinct aspect or cognitive dimension.
+           - Distribute questions across the 8 Core Cognitive Dimensions:
+             ① Conceptual Understanding (definitions, properties, why formulas work, non-examples/counter-examples)
+             ② Procedural Fluency & Computation (accurate execution of algorithms/rules)
+             ③ Real-World Context & Application (authentic practical word problems)
+             ④ Logical Reasoning & Deductive Justification ("if-then" deductions, identifying principles)
+             ⑤ Multi-Step Problem Solving & Strategy (non-routine problems requiring strategic combination of steps)
+             ⑥ Visual Interpretation & Representation (graphs, number lines, area grids, geometry models, SVGs)
+             ⑦ Error Analysis & Misconception Spotting (finding mistakes in hypothetical student solutions)
+             ⑧ Higher-Order Thinking & Synthesis (reverse engineering, finding missing values to balance equations)
         1. For English Grammar / Language Conventions / Spellings / Literacy / Word Classification (nouns, verbs, adjectives, adverbs, prepositions, etc.):
            - Identify the part of speech based strictly on its exact syntactic function inside the sentence context. E.g. in "The walk was long", "walk" is a noun. In "We walk daily", "walk" is a verb.
            - Ensure that the "answer" option is grammatically 100% correct, and the other 3 options are clearly incorrect or represent different parts of speech. No ambiguity.

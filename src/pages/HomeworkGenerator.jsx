@@ -1643,6 +1643,19 @@ EXPECTED JSON SCHEMA:
         3. ZERO SELF-ANSWERING / NO LEAKING ANSWERS IN QUESTION TEXT:
            - CRITICAL RULE: DO NOT leak or reveal the correct answer or solution inside the question text or prompt!
            - The question text MUST ONLY present the problem statement, scenario, passage, or visual figure.
+
+        4. STRICT ANTI-REPETITION & MULTI-DIMENSIONAL COGNITIVE TAXONOMY MANDATE:
+           - CRITICAL BAN ON NUMBER-SWAPPING: NEVER generate repetitive questions that merely change numbers on the same procedural drill (e.g. 12 × 4, then 15 × 3, then 18 × 2).
+           - Every single question MUST evaluate the concept through a completely distinct cognitive angle, representation, or thinking skill.
+           - Distribute questions across the 8 Core Cognitive Dimensions:
+             ① Conceptual Understanding (definitions, properties, why formulas work, non-examples/counter-examples)
+             ② Procedural Fluency & Computation (efficient execution of rules/algorithms)
+             ③ Real-World Context & Application (authentic situational word problems)
+             ④ Logical Reasoning & Deductive Justification ("if-then" deductions, identifying underlying principles)
+             ⑤ Multi-Step Problem Solving & Strategy (non-routine problems requiring strategic combination of steps)
+             ⑥ Visual Interpretation & Representation (graphs, number lines, area grids, geometry models, SVGs)
+             ⑦ Error Analysis & Misconception Spotting (finding the mistake in a hypothetical student's solution)
+             ⑧ Higher-Order Thinking & Synthesis (reverse engineering, finding missing values to balance equations, open-ended analysis)
         ================================================================================
 
         CRITICAL ACCURACY & QUALITY RULES:
@@ -1655,6 +1668,7 @@ EXPECTED JSON SCHEMA:
            - "id" (number)
            - "text" (string, the question)
            - "questionType" (string, either "multiple_choice", "text", or "interactive")
+           - "cognitiveSkill" (string, one of "Conceptual Understanding", "Procedural Fluency", "Real-World Application", "Logical Reasoning", "Multi-Step Problem Solving", "Visual Interpretation", "Error Analysis", "Higher-Order Thinking")
            - "options" (array of exactly 4 strings for multiple_choice)
            - "answer" (string/number answer matching target)
            - "subtopic" (string, concept under main topic)
