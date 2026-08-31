@@ -18,9 +18,18 @@ import {
   Search,
   Pause,
   Play,
-  Edit2,
-  Save,
-  X
+  Edit2, 
+  Save, 
+  X,
+  Pencil,
+  Brain,
+  FlaskConical,
+  Globe,
+  Coins,
+  Leaf,
+  Lightbulb,
+  Trophy,
+  Code
 } from 'lucide-react';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, getDocs, query, where, deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
