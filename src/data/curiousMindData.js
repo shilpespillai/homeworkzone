@@ -1392,6 +1392,211 @@ export const TOPICS = [
     "category": "physics_everyday",
     "cardImage": "/curious_why_is_ice_slippery.png"
   }
+,
+{
+  "id": "are-ants-so-strong",
+  "title": "Why are ants so strong?",
+  "category": "animals",
+  "cardImage": "/curious_whole_are-ants-so-strong.png"
+},
+{
+  "id": "are-flamingos-pink",
+  "title": "Why are flamingos pink?",
+  "category": "animals",
+  "cardImage": "/curious_whole_are-flamingos-pink.png"
+},
+{
+  "id": "can-geckos-walk-on-walls",
+  "title": "Why can geckos walk on walls?",
+  "category": "animals",
+  "cardImage": "/curious_whole_can-geckos-walk-on-walls.png"
+},
+{
+  "id": "can-owls-turn-their-heads-so-far",
+  "title": "Why can owls turn their heads so far?",
+  "category": "animals",
+  "cardImage": "/curious_whole_can-owls-turn-their-heads-so-far.png"
+},
+{
+  "id": "can-starfish-regrow-arms",
+  "title": "Why can starfish regrow arms?",
+  "category": "animals",
+  "cardImage": "/curious_whole_can-starfish-regrow-arms.png"
+},
+{
+  "id": "do-ants-walk-in-lines",
+  "title": "Why do ants walk in lines?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-ants-walk-in-lines.png"
+},
+{
+  "id": "do-bats-sleep-upside-down",
+  "title": "Why do bats sleep upside down?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-bats-sleep-upside-down.png"
+},
+{
+  "id": "do-bats-use-echolocation",
+  "title": "Why do bats use echolocation?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-bats-use-echolocation.png"
+},
+{
+  "id": "do-beavers-build-dams",
+  "title": "Why do beavers build dams?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-beavers-build-dams.png"
+},
+{
+  "id": "do-bees-dance",
+  "title": "Why do bees dance?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-bees-dance.png"
+},
+{
+  "id": "do-bees-make-honey",
+  "title": "Why do bees make honey?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-bees-make-honey.png"
+},
+{
+  "id": "do-butterflies-have-colourful-wings",
+  "title": "Why do butterflies have colourful wings?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-butterflies-have-colourful-wings.png"
+},
+{
+  "id": "do-camels-have-humps",
+  "title": "Why do camels have humps?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-camels-have-humps.png"
+},
+{
+  "id": "do-cats-land-on-their-feet",
+  "title": "Why do cats land on their feet?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-cats-land-on-their-feet.png"
+},
+{
+  "id": "do-crabs-walk-sideways",
+  "title": "Why do crabs walk sideways?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-crabs-walk-sideways.png"
+},
+{
+  "id": "do-dolphins-use-echolocation",
+  "title": "Why do dolphins use echolocation?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-dolphins-use-echolocation.png"
+},
+{
+  "id": "do-ducks-float",
+  "title": "Why do ducks float?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-ducks-float.png"
+},
+{
+  "id": "do-fireflies-glow",
+  "title": "Why do fireflies glow?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-fireflies-glow.png"
+},
+{
+  "id": "do-fish-swim-in-schools",
+  "title": "Why do fish swim in schools?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-fish-swim-in-schools.png"
+},
+{
+  "id": "do-flamingos-stand-on-one-leg",
+  "title": "Why do flamingos stand on one leg?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-flamingos-stand-on-one-leg.png"
+},
+{
+  "id": "do-frogs-croak",
+  "title": "Why do frogs croak?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-frogs-croak.png"
+},
+{
+  "id": "do-jellyfish-sting",
+  "title": "Why do jellyfish sting?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-jellyfish-sting.png"
+},
+{
+  "id": "do-parrots-copy-sounds",
+  "title": "Why do parrots copy sounds?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-parrots-copy-sounds.png"
+},
+{
+  "id": "do-penguins-huddle-together",
+  "title": "Why do penguins huddle together?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-penguins-huddle-together.png"
+},
+{
+  "id": "do-porcupines-have-quills",
+  "title": "Why do porcupines have quills?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-porcupines-have-quills.png"
+},
+{
+  "id": "do-rabbits-have-long-ears",
+  "title": "Why do rabbits have long ears?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-rabbits-have-long-ears.png"
+},
+{
+  "id": "do-seahorse-fathers-carry-babies",
+  "title": "Why do seahorse fathers carry babies?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-seahorse-fathers-carry-babies.png"
+},
+{
+  "id": "do-skunks-spray-a-bad-smell",
+  "title": "Why do skunks spray a bad smell?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-skunks-spray-a-bad-smell.png"
+},
+{
+  "id": "do-sloths-move-so-slowly",
+  "title": "Why do sloths move so slowly?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-sloths-move-so-slowly.png"
+},
+{
+  "id": "do-snakes-flick-their-tongues",
+  "title": "Why do snakes flick their tongues?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-snakes-flick-their-tongues.png"
+},
+{
+  "id": "do-squirrels-bury-nuts",
+  "title": "Why do squirrels bury nuts?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-squirrels-bury-nuts.png"
+},
+{
+  "id": "do-whales-have-blowholes",
+  "title": "Why do whales have blowholes?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-whales-have-blowholes.png"
+},
+{
+  "id": "do-whales-sing",
+  "title": "Why do whales sing?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-whales-sing.png"
+},
+{
+  "id": "do-worms-come-out-after-rain",
+  "title": "Why do worms come out after rain?",
+  "category": "animals",
+  "cardImage": "/curious_whole_do-worms-come-out-after-rain.png"
+}
 ];
 
 export const TOPIC_DETAILS = {
@@ -5794,5 +5999,686 @@ export const TOPIC_DETAILS = {
       "correctIndex": 0,
       "explanation": "Surface premelting & friction! Even below 0°C, the outermost molecular layer of ice is disordered like liquid water, and blade friction creates a lubricating liquid film!"
     }
+  }
+,
+  "are-ants-so-strong": {
+      "image": "/curious_are-ants-so-strong.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why ants so strong??",
+          "options": [
+              "Ants seem super strong because their tiny bodies have lots of muscle for th... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Ants seem super strong because their tiny bodies have lots of muscle for their weight, and being small means their legs and exoskeleton can support heavy loads more easily."
+      }
+  },
+  "are-flamingos-pink": {
+      "image": "/curious_are-flamingos-pink.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why flamingos pink??",
+          "options": [
+              "Flamingos are pink because they eat foods like tiny shrimp and algae that c... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Flamingos are pink because they eat foods like tiny shrimp and algae that contain natural red-orange pigments called carotenoids."
+      }
+  },
+  "can-geckos-walk-on-walls": {
+      "image": "/curious_can-geckos-walk-on-walls.png",
+      "bgColor": "border-blue-400",
+      "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
+      "quizBg": "bg-blue-50 border-blue-200",
+      "quizText": "text-blue-950",
+      "quizBadge": "bg-blue-200 text-blue-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why geckos walk on walls??",
+          "options": [
+              "Geckos can walk on walls because their toes are covered with millions of ti... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Geckos can walk on walls because their toes are covered with millions of tiny hairs that make very weak attractions with the wall, and together those attractions are strong enough to hold them up."
+      }
+  },
+  "can-owls-turn-their-heads-so-far": {
+      "image": "/curious_can-owls-turn-their-heads-so-far.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why owls turn their heads so far??",
+          "options": [
+              "Owls can turn their heads up to about 270 degrees because they have extra n... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Owls can turn their heads up to about 270 degrees because they have extra neck bones, flexible joints, and specially arranged blood vessels that keep blood flowing to their brains."
+      }
+  },
+  "can-starfish-regrow-arms": {
+      "image": "/curious_can-starfish-regrow-arms.png",
+      "bgColor": "border-rose-400",
+      "accentColor": "from-rose-400 via-pink-300 to-red-400",
+      "quizBg": "bg-rose-50 border-rose-200",
+      "quizText": "text-rose-950",
+      "quizBadge": "bg-rose-200 text-rose-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why starfish regrow arms??",
+          "options": [
+              "Starfish can regrow arms because their bodies contain special cells that ca... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Starfish can regrow arms because their bodies contain special cells that can build new tissues when an arm is lost or injured."
+      }
+  },
+  "do-ants-walk-in-lines": {
+      "image": "/curious_do-ants-walk-in-lines.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why ants walk in lines??",
+          "options": [
+              "Ants often walk in lines because they leave scented chemical trails called ... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Ants often walk in lines because they leave scented chemical trails called pheromones that help other ants find food and travel back to their nest."
+      }
+  },
+  "do-bats-sleep-upside-down": {
+      "image": "/curious_do-bats-sleep-upside-down.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why bats sleep upside down??",
+          "options": [
+              "Bats sleep upside down because their feet can lock onto a branch or cave ce... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Bats sleep upside down because their feet can lock onto a branch or cave ceiling, letting them rest safely and drop quickly into flight when they wake up."
+      }
+  },
+  "do-bats-use-echolocation": {
+      "image": "/curious_do-bats-use-echolocation.png",
+      "bgColor": "border-blue-400",
+      "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
+      "quizBg": "bg-blue-50 border-blue-200",
+      "quizText": "text-blue-950",
+      "quizBadge": "bg-blue-200 text-blue-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why bats use echolocation??",
+          "options": [
+              "Bats use echolocation by making sounds and listening to the echoes so they ... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Bats use echolocation by making sounds and listening to the echoes so they can find their way and catch food, even in the dark."
+      }
+  },
+  "do-beavers-build-dams": {
+      "image": "/curious_do-beavers-build-dams.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why beavers build dams??",
+          "options": [
+              "Beavers build dams to slow flowing water and create deep ponds where they c... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Beavers build dams to slow flowing water and create deep ponds where they can make safe homes, find food, and escape from predators."
+      }
+  },
+  "do-bees-dance": {
+      "image": "/curious_do-bees-dance.png",
+      "bgColor": "border-rose-400",
+      "accentColor": "from-rose-400 via-pink-300 to-red-400",
+      "quizBg": "bg-rose-50 border-rose-200",
+      "quizText": "text-rose-950",
+      "quizBadge": "bg-rose-200 text-rose-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why bees dance??",
+          "options": [
+              "Bees dance to tell other bees where to find good flowers with nectar and po... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Bees dance to tell other bees where to find good flowers with nectar and pollen."
+      }
+  },
+  "do-bees-make-honey": {
+      "image": "/curious_do-bees-make-honey.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why bees make honey??",
+          "options": [
+              "Bees make honey to store food that gives their colony energy when flowers a... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Bees make honey to store food that gives their colony energy when flowers are not blooming."
+      }
+  },
+  "do-butterflies-have-colourful-wings": {
+      "image": "/curious_do-butterflies-have-colourful-wings.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why butterflies have colourful wings??",
+          "options": [
+              "Butterflies have colourful wings to help them find mates, hide from danger,... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Butterflies have colourful wings to help them find mates, hide from danger, warn predators, and sometimes blend in with flowers."
+      }
+  },
+  "do-camels-have-humps": {
+      "image": "/curious_do-camels-have-humps.png",
+      "bgColor": "border-blue-400",
+      "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
+      "quizBg": "bg-blue-50 border-blue-200",
+      "quizText": "text-blue-950",
+      "quizBadge": "bg-blue-200 text-blue-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why camels have humps??",
+          "options": [
+              "Camels have humps because the humps store fat, which gives them energy when... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Camels have humps because the humps store fat, which gives them energy when food is hard to find in the desert."
+      }
+  },
+  "do-cats-land-on-their-feet": {
+      "image": "/curious_do-cats-land-on-their-feet.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why cats land on their feet??",
+          "options": [
+              "Cats often land on their feet because their flexible bodies and quick refle... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Cats often land on their feet because their flexible bodies and quick reflexes help them twist around in the air and prepare for landing."
+      }
+  },
+  "do-crabs-walk-sideways": {
+      "image": "/curious_do-crabs-walk-sideways.png",
+      "bgColor": "border-rose-400",
+      "accentColor": "from-rose-400 via-pink-300 to-red-400",
+      "quizBg": "bg-rose-50 border-rose-200",
+      "quizText": "text-rose-950",
+      "quizBadge": "bg-rose-200 text-rose-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why crabs walk sideways??",
+          "options": [
+              "Crabs usually walk sideways because their stiff, jointed legs bend best fro... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Crabs usually walk sideways because their stiff, jointed legs bend best from side to side, helping them move quickly across the ground."
+      }
+  },
+  "do-dolphins-use-echolocation": {
+      "image": "/curious_do-dolphins-use-echolocation.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why dolphins use echolocation??",
+          "options": [
+              "Dolphins use echolocation by making clicks and listening for echoes to find... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Dolphins use echolocation by making clicks and listening for echoes to find food, avoid objects, and navigate in dark or cloudy water."
+      }
+  },
+  "do-ducks-float": {
+      "image": "/curious_do-ducks-float.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why ducks float??",
+          "options": [
+              "Ducks float because their bodies are lighter than the water they push aside... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Ducks float because their bodies are lighter than the water they push aside, and their oily feathers help keep water from soaking in."
+      }
+  },
+  "do-fireflies-glow": {
+      "image": "/curious_do-fireflies-glow.png",
+      "bgColor": "border-blue-400",
+      "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
+      "quizBg": "bg-blue-50 border-blue-200",
+      "quizText": "text-blue-950",
+      "quizBadge": "bg-blue-200 text-blue-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why fireflies glow??",
+          "options": [
+              "Fireflies glow because a special chemical reaction inside their bodies make... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Fireflies glow because a special chemical reaction inside their bodies makes light with very little heat."
+      }
+  },
+  "do-fish-swim-in-schools": {
+      "image": "/curious_do-fish-swim-in-schools.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why fish swim in schools??",
+          "options": [
+              "Fish swim in schools because staying together can help them find food, save... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Fish swim in schools because staying together can help them find food, save energy, and stay safer from predators."
+      }
+  },
+  "do-flamingos-stand-on-one-leg": {
+      "image": "/curious_do-flamingos-stand-on-one-leg.png",
+      "bgColor": "border-rose-400",
+      "accentColor": "from-rose-400 via-pink-300 to-red-400",
+      "quizBg": "bg-rose-50 border-rose-200",
+      "quizText": "text-rose-950",
+      "quizBadge": "bg-rose-200 text-rose-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why flamingos stand on one leg??",
+          "options": [
+              "Flamingos often stand on one leg because it helps them save body heat and r... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Flamingos often stand on one leg because it helps them save body heat and rest their muscles while they balance easily."
+      }
+  },
+  "do-frogs-croak": {
+      "image": "/curious_do-frogs-croak.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why frogs croak??",
+          "options": [
+              "Frogs croak mainly to communicate, especially when males call to attract ma... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Frogs croak mainly to communicate, especially when males call to attract mates and tell other frogs where they are."
+      }
+  },
+  "do-jellyfish-sting": {
+      "image": "/curious_do-jellyfish-sting.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why jellyfish sting??",
+          "options": [
+              "Jellyfish sting to catch tiny animals for food and to protect themselves fr... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Jellyfish sting to catch tiny animals for food and to protect themselves from danger."
+      }
+  },
+  "do-parrots-copy-sounds": {
+      "image": "/curious_do-parrots-copy-sounds.png",
+      "bgColor": "border-blue-400",
+      "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
+      "quizBg": "bg-blue-50 border-blue-200",
+      "quizText": "text-blue-950",
+      "quizBadge": "bg-blue-200 text-blue-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why parrots copy sounds??",
+          "options": [
+              "Parrots copy sounds because they are social birds that use calls to communi... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Parrots copy sounds because they are social birds that use calls to communicate with their flock, and they can learn new sounds by listening and practicing."
+      }
+  },
+  "do-penguins-huddle-together": {
+      "image": "/curious_do-penguins-huddle-together.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why penguins huddle together??",
+          "options": [
+              "Penguins huddle together to share body heat and stay warmer in their cold, ... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Penguins huddle together to share body heat and stay warmer in their cold, windy homes."
+      }
+  },
+  "do-porcupines-have-quills": {
+      "image": "/curious_do-porcupines-have-quills.png",
+      "bgColor": "border-rose-400",
+      "accentColor": "from-rose-400 via-pink-300 to-red-400",
+      "quizBg": "bg-rose-50 border-rose-200",
+      "quizText": "text-rose-950",
+      "quizBadge": "bg-rose-200 text-rose-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why porcupines have quills??",
+          "options": [
+              "Porcupines have sharp quills to protect themselves from animals that might ... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Porcupines have sharp quills to protect themselves from animals that might try to hurt or eat them."
+      }
+  },
+  "do-rabbits-have-long-ears": {
+      "image": "/curious_do-rabbits-have-long-ears.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why rabbits have long ears??",
+          "options": [
+              "Rabbits have long ears that help them hear danger from far away and release... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Rabbits have long ears that help them hear danger from far away and release extra body heat to stay cool."
+      }
+  },
+  "do-seahorse-fathers-carry-babies": {
+      "image": "/curious_do-seahorse-fathers-carry-babies.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why seahorse fathers carry babies??",
+          "options": [
+              "Seahorse fathers carry the eggs in a special brood pouch, where the babies ... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Seahorse fathers carry the eggs in a special brood pouch, where the babies can grow safely until they are ready to be born."
+      }
+  },
+  "do-skunks-spray-a-bad-smell": {
+      "image": "/curious_do-skunks-spray-a-bad-smell.png",
+      "bgColor": "border-blue-400",
+      "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
+      "quizBg": "bg-blue-50 border-blue-200",
+      "quizText": "text-blue-950",
+      "quizBadge": "bg-blue-200 text-blue-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why skunks spray a bad smell??",
+          "options": [
+              "Skunks spray a strong-smelling liquid to warn predators and give themselves... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Skunks spray a strong-smelling liquid to warn predators and give themselves time to escape safely."
+      }
+  },
+  "do-sloths-move-so-slowly": {
+      "image": "/curious_do-sloths-move-so-slowly.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why sloths move so slowly??",
+          "options": [
+              "Sloths move slowly because their bodies save energy while they eat low-ener... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Sloths move slowly because their bodies save energy while they eat low-energy leaves and live safely high in trees."
+      }
+  },
+  "do-snakes-flick-their-tongues": {
+      "image": "/curious_do-snakes-flick-their-tongues.png",
+      "bgColor": "border-rose-400",
+      "accentColor": "from-rose-400 via-pink-300 to-red-400",
+      "quizBg": "bg-rose-50 border-rose-200",
+      "quizText": "text-rose-950",
+      "quizBadge": "bg-rose-200 text-rose-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why snakes flick their tongues??",
+          "options": [
+              "Snakes flick their tongues to collect tiny scent particles from the air or ... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Snakes flick their tongues to collect tiny scent particles from the air or ground and bring them to a special smell-sensing organ in the roof of their mouths."
+      }
+  },
+  "do-squirrels-bury-nuts": {
+      "image": "/curious_do-squirrels-bury-nuts.png",
+      "bgColor": "border-emerald-400",
+      "accentColor": "from-emerald-400 via-teal-300 to-green-500",
+      "quizBg": "bg-emerald-50 border-emerald-200",
+      "quizText": "text-emerald-950",
+      "quizBadge": "bg-emerald-200 text-emerald-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why squirrels bury nuts??",
+          "options": [
+              "Squirrels bury nuts to save food for later, especially when food is harder ... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Squirrels bury nuts to save food for later, especially when food is harder to find in winter."
+      }
+  },
+  "do-whales-have-blowholes": {
+      "image": "/curious_do-whales-have-blowholes.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-orange-500",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why whales have blowholes??",
+          "options": [
+              "Whales have blowholes on top of their heads so they can quickly breathe air... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Whales have blowholes on top of their heads so they can quickly breathe air from the surface while keeping most of their huge bodies underwater."
+      }
+  },
+  "do-whales-sing": {
+      "image": "/curious_do-whales-sing.png",
+      "bgColor": "border-blue-400",
+      "accentColor": "from-blue-400 via-sky-300 to-indigo-400",
+      "quizBg": "bg-blue-50 border-blue-200",
+      "quizText": "text-blue-950",
+      "quizBadge": "bg-blue-200 text-blue-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why whales sing??",
+          "options": [
+              "Whales sing to communicate, especially to find mates, stay in touch, and sh... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Whales sing to communicate, especially to find mates, stay in touch, and share messages across long distances underwater."
+      }
+  },
+  "do-worms-come-out-after-rain": {
+      "image": "/curious_do-worms-come-out-after-rain.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-pink-300 to-indigo-500",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "NATURE IS FULL OF WONDERS! Keep exploring, questioning, and learning about our amazing world! 🐾🌟",
+      "quiz": {
+          "question": "What is the main reason why worms come out after rain??",
+          "options": [
+              "Worms often come to the surface after rain because the wet ground helps the... ✨",
+              "It is completely random with no scientific explanation ❓",
+              "They do it just to show off to other creatures 🎭",
+              "Scientists have never figured out how it works 🔬"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! Worms often come to the surface after rain because the wet ground helps them breathe through their skin and travel safely, while very flooded burrows may make them move away."
+      }
   }
 };
