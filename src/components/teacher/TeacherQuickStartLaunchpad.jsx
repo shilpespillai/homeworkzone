@@ -15,7 +15,8 @@ import {
   HelpCircle,
   ArrowRight,
   Flame,
-  Trophy
+  Trophy,
+  KeyRound
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -82,50 +83,50 @@ export default function TeacherQuickStartLaunchpad({
             setIsDismissed(false);
             try { localStorage.removeItem('hwz_teacher_launchpad_dismissed'); } catch (e) {}
           }}
-          className="px-3.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-black flex items-center gap-1.5 border border-indigo-200 shadow-sm transition-all cursor-pointer"
+          className="px-4 py-2 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-800 text-xs font-black flex items-center gap-2 border border-orange-200 shadow-sm transition-all cursor-pointer"
         >
-          <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-          <span>Show Teacher Launchpad ({completedCount}/3)</span>
+          <Sparkles className="w-4 h-4 text-orange-600" />
+          <span>Show Teacher Launchpad ({completedCount}/3 Complete)</span>
         </button>
       </div>
     );
   }
 
   return (
-    <div className="bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 text-white rounded-[32px] p-6 md:p-8 shadow-xl border border-indigo-500/20 relative overflow-hidden space-y-6">
+    <div className="bg-gradient-to-br from-stone-900 via-slate-900 to-emerald-950 text-white rounded-[32px] p-6 md:p-8 shadow-xl border-2 border-emerald-500/20 relative overflow-hidden space-y-6">
       
-      {/* Background Decorative Glow */}
-      <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-indigo-500/10 blur-3xl pointer-events-none" />
-      <div className="absolute -left-16 -bottom-16 w-64 h-64 rounded-full bg-purple-500/10 blur-3xl pointer-events-none" />
+      {/* Background Decorative Warm Orange & Emerald Glows */}
+      <div className="absolute -right-16 -top-16 w-72 h-72 rounded-full bg-orange-500/15 blur-3xl pointer-events-none" />
+      <div className="absolute -left-16 -bottom-16 w-72 h-72 rounded-full bg-emerald-500/15 blur-3xl pointer-events-none" />
 
       {/* Header Row */}
       <div className="flex flex-wrap items-center justify-between gap-4 relative z-10">
-        <div className="space-y-1">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-[11px] font-black uppercase tracking-wider border border-indigo-400/20">
-            <Sparkles className="w-3.5 h-3.5 text-yellow-400 animate-spin-slow" />
+        <div className="space-y-1.5">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-500/20 text-orange-300 text-[11px] font-black uppercase tracking-wider border border-orange-400/30">
+            <Sparkles className="w-3.5 h-3.5 text-orange-400 animate-spin-slow" />
             <span>Teacher Quick-Start Launchpad</span>
           </div>
           <h2 className="text-xl md:text-2xl font-black text-white flex items-center gap-2">
             <span>{allComplete ? '🎉 Setup Complete — You are Ready to Teach!' : 'Get Your Classroom Ready in 3 Simple Steps'}</span>
           </h2>
-          <p className="text-xs md:text-sm text-indigo-200 font-medium max-w-2xl">
+          <p className="text-xs md:text-sm text-stone-300 font-medium max-w-2xl">
             {allComplete 
-              ? 'All 3 foundation steps are set up! Your students can log in, take assignments, and build concept mastery.'
+              ? 'All 3 foundation steps are set up! Your students can log in with your code, take assignments, and build mastery.'
               : 'Follow these 3 quick steps to launch your digital classroom, onboard your students, and publish your first assignment.'}
           </p>
         </div>
 
         <div className="flex items-center gap-2.5">
           {/* Progress Pill */}
-          <div className="px-4 py-2 rounded-2xl bg-white/10 border border-white/10 backdrop-blur-sm flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-black text-white">{completedCount} of 3 Complete ({progressPercent}%)</span>
+          <div className="px-4 py-2 rounded-2xl bg-emerald-950/70 border border-emerald-400/30 backdrop-blur-sm flex items-center gap-2 shadow-inner">
+            <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+            <span className="text-xs font-black text-emerald-300">{completedCount} of 3 Complete ({progressPercent}%)</span>
           </div>
 
           {/* Minimize / Expand Toggle */}
           <button
             onClick={toggleCollapse}
-            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-stone-200 hover:text-white transition-colors cursor-pointer"
             title={isCollapsed ? "Expand Launchpad" : "Minimize Launchpad"}
           >
             {isCollapsed ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
@@ -135,7 +136,7 @@ export default function TeacherQuickStartLaunchpad({
           {allComplete && (
             <button
               onClick={handleDismiss}
-              className="p-2 rounded-xl bg-white/10 hover:bg-rose-500/30 text-white/80 hover:text-white transition-colors cursor-pointer"
+              className="p-2 rounded-xl bg-white/10 hover:bg-rose-500/30 text-stone-300 hover:text-white transition-colors cursor-pointer"
               title="Dismiss Launchpad"
             >
               <X className="w-4 h-4" />
@@ -144,10 +145,10 @@ export default function TeacherQuickStartLaunchpad({
         </div>
       </div>
 
-      {/* Progress Bar */}
-      <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden relative z-10">
+      {/* Progress Bar with Orange to Emerald Gradient */}
+      <div className="w-full bg-slate-800/80 rounded-full h-2.5 overflow-hidden border border-white/5 relative z-10">
         <motion.div 
-          className="h-full bg-gradient-to-r from-yellow-400 via-emerald-400 to-teal-300 rounded-full shadow-[0_0_12px_rgba(52,211,153,0.5)]"
+          className="h-full bg-gradient-to-r from-amber-400 via-orange-500 to-emerald-400 rounded-full shadow-[0_0_14px_rgba(249,115,22,0.5)]"
           initial={{ width: 0 }}
           animate={{ width: `${progressPercent}%` }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
@@ -165,15 +166,15 @@ export default function TeacherQuickStartLaunchpad({
             className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 relative z-10"
           >
             
-            {/* STEP 1: CREATE CLASSROOM */}
+            {/* STEP 1: CREATE CLASSROOM (Warm Amber/Orange Accent) */}
             <div className={`p-5 rounded-2xl border transition-all flex flex-col justify-between space-y-4 ${
               step1Done 
-                ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-100' 
-                : 'bg-white/5 border-white/15 text-white hover:border-indigo-400 hover:bg-white/10'
+                ? 'bg-emerald-950/50 border-emerald-500/40 text-emerald-100' 
+                : 'bg-stone-900/80 border-orange-500/30 text-white hover:border-orange-400 hover:bg-stone-900'
             }`}>
-              <div className="space-y-2">
+              <div className="space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-indigo-500/30 text-indigo-200 border border-indigo-400/30">
+                  <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-orange-500/25 text-orange-300 border border-orange-400/30">
                     Step 1
                   </span>
                   {step1Done ? (
@@ -182,7 +183,7 @@ export default function TeacherQuickStartLaunchpad({
                       <span>Completed</span>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-1 text-yellow-300 text-xs font-black">
+                    <div className="flex items-center gap-1 text-orange-300 text-xs font-black">
                       <Circle className="w-3.5 h-3.5" />
                       <span>To Do</span>
                     </div>
@@ -190,7 +191,7 @@ export default function TeacherQuickStartLaunchpad({
                 </div>
 
                 <div className="flex items-center gap-2.5 pt-1">
-                  <div className="w-9 h-9 rounded-xl bg-indigo-600/50 flex items-center justify-center text-lg shrink-0">
+                  <div className="w-9 h-9 rounded-xl bg-orange-500/20 text-orange-300 border border-orange-500/30 flex items-center justify-center text-lg shrink-0">
                     🏫
                   </div>
                   <h3 className="text-base font-black text-white">
@@ -198,7 +199,7 @@ export default function TeacherQuickStartLaunchpad({
                   </h3>
                 </div>
 
-                <p className="text-xs text-indigo-200/80 leading-relaxed font-medium">
+                <p className="text-xs text-stone-300 leading-relaxed font-medium">
                   {step1Done 
                     ? `Active workspace created: "${classrooms[0]?.name || 'Your Class'}". You can add more classes anytime.`
                     : 'Set up your first classroom grade (e.g. "Year 5 Blue") to organize your students.'}
@@ -213,8 +214,8 @@ export default function TeacherQuickStartLaunchpad({
                   }}
                   className={`w-full py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95 ${
                     step1Done 
-                      ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30' 
-                      : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/30'
+                      ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40' 
+                      : 'bg-orange-600 hover:bg-orange-500 text-white shadow-lg shadow-orange-600/30'
                   }`}
                 >
                   <span>{step1Done ? 'Manage Classrooms' : 'Create Classroom →'}</span>
@@ -223,15 +224,15 @@ export default function TeacherQuickStartLaunchpad({
               </div>
             </div>
 
-            {/* STEP 2: ADD STUDENTS & SHARE TEACHER CODE */}
+            {/* STEP 2: ADD STUDENTS & SHARE TEACHER CODE (Fresh Emerald Green Accent) */}
             <div className={`p-5 rounded-2xl border transition-all flex flex-col justify-between space-y-4 ${
               step2Done 
-                ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-100' 
-                : 'bg-white/5 border-white/15 text-white hover:border-indigo-400 hover:bg-white/10'
+                ? 'bg-emerald-950/50 border-emerald-500/40 text-emerald-100' 
+                : 'bg-stone-900/80 border-emerald-500/30 text-white hover:border-emerald-400 hover:bg-stone-900'
             }`}>
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-indigo-500/30 text-indigo-200 border border-indigo-400/30">
+                  <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-emerald-500/25 text-emerald-300 border border-emerald-400/30">
                     Step 2
                   </span>
                   {step2Done ? (
@@ -240,7 +241,7 @@ export default function TeacherQuickStartLaunchpad({
                       <span>Completed</span>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-1 text-yellow-300 text-xs font-black">
+                    <div className="flex items-center gap-1 text-emerald-300 text-xs font-black">
                       <Circle className="w-3.5 h-3.5" />
                       <span>To Do</span>
                     </div>
@@ -248,7 +249,7 @@ export default function TeacherQuickStartLaunchpad({
                 </div>
 
                 <div className="flex items-center gap-2.5 pt-1">
-                  <div className="w-9 h-9 rounded-xl bg-orange-600/50 flex items-center justify-center text-lg shrink-0">
+                  <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0">
                     👥
                   </div>
                   <h3 className="text-base font-black text-white">
@@ -256,37 +257,38 @@ export default function TeacherQuickStartLaunchpad({
                   </h3>
                 </div>
 
-                <p className="text-xs text-indigo-200/90 leading-relaxed font-medium">
+                <p className="text-xs text-stone-300 leading-relaxed font-medium">
                   {step2Done 
                     ? `✅ ${allStudents.length} student(s) enrolled! Give them your Teacher Code below so they can log in via the Student Portal.`
                     : 'Add your student roster, then give them your Teacher Code to log into the Student Portal.'}
                 </p>
 
-                {/* Student Login Guide Callout Box */}
-                <div className="p-3 rounded-xl bg-indigo-950/60 border border-indigo-400/25 space-y-2">
-                  <div className="flex items-center gap-1.5 text-[11px] font-black text-yellow-300">
-                    <span>🔑 How Students Log In:</span>
+                {/* Student Login Guide Box with Orangish/Greenish Tint */}
+                <div className="p-3 rounded-xl bg-stone-950/80 border border-emerald-500/30 space-y-2">
+                  <div className="flex items-center gap-1.5 text-[11px] font-black text-orange-400">
+                    <KeyRound className="w-3.5 h-3.5 text-orange-400" />
+                    <span>How Students Log In:</span>
                   </div>
-                  <ol className="text-[11px] text-indigo-100/90 space-y-1 list-decimal list-inside font-medium leading-snug">
-                    <li>Open <strong>Student Portal</strong> on any phone, tablet, or laptop.</li>
-                    <li>Enter Teacher Code: <strong className="font-mono text-yellow-300 uppercase tracking-wider">{teacherCode || 'CODE'}</strong>.</li>
+                  <ol className="text-[11px] text-stone-200 space-y-1 list-decimal list-inside font-medium leading-snug">
+                    <li>Open <strong>Student Portal</strong> on any phone or laptop.</li>
+                    <li>Enter Code: <strong className="font-mono text-orange-400 uppercase tracking-wider">{teacherCode || 'CODE'}</strong>.</li>
                     <li>Select their name to start learning!</li>
                   </ol>
                 </div>
 
                 {/* Quick Copy Code Badge */}
                 {teacherCode && (
-                  <div className="p-2.5 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between gap-2">
+                  <div className="p-2.5 rounded-xl bg-black/60 border border-orange-500/30 flex items-center justify-between gap-2">
                     <div className="space-y-0.5">
-                      <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Teacher Code</span>
-                      <span className="text-sm font-black text-yellow-300 tracking-wider font-mono">{teacherCode.toUpperCase()}</span>
+                      <span className="text-[9px] font-bold text-stone-400 uppercase tracking-widest block">Teacher Code</span>
+                      <span className="text-sm font-black text-orange-400 tracking-wider font-mono">{teacherCode.toUpperCase()}</span>
                     </div>
                     <button
                       onClick={handleCopyCode}
-                      className="px-3 py-1.5 rounded-lg bg-white/15 hover:bg-white/25 text-white text-xs font-black flex items-center gap-1 cursor-pointer transition-all active:scale-95 shadow-sm"
+                      className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black flex items-center gap-1 cursor-pointer transition-all active:scale-95 shadow-md shadow-emerald-900/30"
                       title="Copy code for students"
                     >
-                      {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-yellow-400" />}
+                      {copiedCode ? <Check className="w-3.5 h-3.5 text-white" /> : <Copy className="w-3.5 h-3.5 text-white" />}
                       <span>{copiedCode ? 'Copied Code!' : 'Copy Code'}</span>
                     </button>
                   </div>
@@ -298,8 +300,8 @@ export default function TeacherQuickStartLaunchpad({
                   onClick={() => onNavigateTab && onNavigateTab('My Classes')}
                   className={`w-full py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95 ${
                     step2Done 
-                      ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30' 
-                      : 'bg-orange-600 hover:bg-orange-500 text-white shadow-lg shadow-orange-600/30'
+                      ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40' 
+                      : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/30'
                   }`}
                 >
                   <span>{step2Done ? 'View Student List' : 'Add Students →'}</span>
@@ -308,15 +310,15 @@ export default function TeacherQuickStartLaunchpad({
               </div>
             </div>
 
-            {/* STEP 3: GENERATE FIRST AI ASSIGNMENT */}
+            {/* STEP 3: GENERATE FIRST AI ASSIGNMENT (Orange + Emerald Fusion Accent) */}
             <div className={`p-5 rounded-2xl border transition-all flex flex-col justify-between space-y-4 ${
               step3Done 
-                ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-100' 
-                : 'bg-white/5 border-white/15 text-white hover:border-indigo-400 hover:bg-white/10'
+                ? 'bg-emerald-950/50 border-emerald-500/40 text-emerald-100' 
+                : 'bg-stone-900/80 border-amber-500/30 text-white hover:border-amber-400 hover:bg-stone-900'
             }`}>
-              <div className="space-y-2">
+              <div className="space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-indigo-500/30 text-indigo-200 border border-indigo-400/30">
+                  <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-amber-500/25 text-amber-300 border border-amber-400/30">
                     Step 3
                   </span>
                   {step3Done ? (
@@ -325,7 +327,7 @@ export default function TeacherQuickStartLaunchpad({
                       <span>Completed</span>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-1 text-yellow-300 text-xs font-black">
+                    <div className="flex items-center gap-1 text-amber-300 text-xs font-black">
                       <Circle className="w-3.5 h-3.5" />
                       <span>To Do</span>
                     </div>
@@ -333,7 +335,7 @@ export default function TeacherQuickStartLaunchpad({
                 </div>
 
                 <div className="flex items-center gap-2.5 pt-1">
-                  <div className="w-9 h-9 rounded-xl bg-purple-600/50 flex items-center justify-center text-lg shrink-0">
+                  <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-center text-lg shrink-0">
                     ✨
                   </div>
                   <h3 className="text-base font-black text-white">
@@ -341,7 +343,7 @@ export default function TeacherQuickStartLaunchpad({
                   </h3>
                 </div>
 
-                <p className="text-xs text-indigo-200/80 leading-relaxed font-medium">
+                <p className="text-xs text-stone-300 leading-relaxed font-medium">
                   {step3Done 
                     ? `${allHomeworks.filter(h => h.status === 'published').length} active assignment(s) published for students to complete.`
                     : 'Generate fresh Maths, English, Science, or NAPLAN assignments tailored to your grade curriculum.'}
@@ -353,8 +355,8 @@ export default function TeacherQuickStartLaunchpad({
                   onClick={() => onNavigateTab && onNavigateTab('Homework/Test Builder')}
                   className={`w-full py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95 ${
                     step3Done 
-                      ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30' 
-                      : 'bg-purple-600 hover:bg-purple-500 text-white shadow-lg shadow-purple-600/30'
+                      ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40' 
+                      : 'bg-gradient-to-r from-orange-600 to-emerald-600 hover:from-orange-500 hover:to-emerald-500 text-white shadow-lg shadow-orange-600/25'
                   }`}
                 >
                   <span>{step3Done ? 'Open AI Builder' : 'Generate Homework ✨'}</span>
