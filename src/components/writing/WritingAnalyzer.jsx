@@ -25,6 +25,8 @@ import {
 import { generateContent, getModelForGrade } from '../../utils/aiClient';
 import { WRITING_GENRES, synthesizeExemplarFallback } from '../../data/writingTemplates';
 import VisualFeedbackCard from './VisualFeedbackCard';
+import { cleanFirestorePayload } from '../../utils/cleanFirestorePayload';
+import { db } from '../../firebase';
 import { 
   collection, 
   doc, 
@@ -159,73 +161,47 @@ export default function WritingAnalyzer() {
       const userCtx = getActiveUserContext();
       const cloudDocs = [];
 
-      // Query saved_essays from Firestore
-      if (userCtx.teacherUid && userCtx.studentName) {
-        const q1 = query(
-          collection(db, 'saved_essays'), 
-          where('teacherUid', '==', userCtx.teacherUid),
-          where('studentName', '==', userCtx.studentName)
-        );
-        const snap1 = await getDocs(q1);
-        snap1.forEach(d => cloudDocs.push(d.data()));
-      } else if (userCtx.teacherUid) {
-        const q2 = query(
-          collection(db, 'saved_essays'), 
-          where('teacherUid', '==', userCtx.teacherUid)
-        );
-        const snap2 = await getDocs(q2);
-        snap2.forEach(d => cloudDocs.push(d.data()));
-      }
-
-      // Also fallback query recent essays in case general essays were saved
+      // Query saved_essays from Firestore directly
       try {
-        const qRecent = query(
-          collection(db, 'saved_essays'), 
-          orderBy('timestamp', 'desc'), 
-          limit(50)
-        );
-        const snapRecent = await getDocs(qRecent);
-        snapRecent.forEach(d => {
+        const snap = await getDocs(collection(db, 'saved_essays'));
+        snap.forEach(d => {
           const data = d.data();
-          if (!cloudDocs.some(x => x.id === data.id)) {
-            if (!userCtx.studentName || data.studentName === userCtx.studentName || !data.studentName) {
-              cloudDocs.push(data);
-            }
+          if (data && (data.id || d.id)) {
+            cloudDocs.push({
+              id: data.id || d.id,
+              ...data
+            });
           }
         });
       } catch (err) {
-        // Fallback without orderBy if composite index is not yet built
-        const snapAll = await getDocs(query(collection(db, 'saved_essays'), limit(50)));
-        snapAll.forEach(d => {
-          const data = d.data();
-          if (!cloudDocs.some(x => x.id === data.id)) {
-            if (!userCtx.studentName || data.studentName === userCtx.studentName || !data.studentName) {
-              cloudDocs.push(data);
-            }
-          }
-        });
+        console.warn("Error querying saved_essays collection:", err);
       }
 
       // Merge with localStorage
       const storedHistory = JSON.parse(localStorage.getItem(STORAGE_KEY_HISTORY) || '[]');
       const mergedMap = new Map();
 
-      // Cloud docs
+      // Put cloud docs in map
       cloudDocs.forEach(item => {
         if (item && item.id) mergedMap.set(item.id, item);
       });
 
-      // Local docs (if any wasn't synced to cloud, backfill it)
+      // Put local docs in map & backfill any unsynced ones to cloud
       storedHistory.forEach(item => {
         if (item && item.id) {
           if (!mergedMap.has(item.id)) {
             mergedMap.set(item.id, item);
             try {
-              setDoc(doc(db, 'saved_essays', item.id), {
-                ...item,
-                ...userCtx,
-                createdAt: serverTimestamp()
-              }, { merge: true });
+              if (db) {
+                const backfillPayload = cleanFirestorePayload({
+                  ...item,
+                  teacherUid: userCtx.teacherUid || item.teacherUid || null,
+                  studentName: userCtx.studentName || item.studentName || null,
+                  classroomId: userCtx.classroomId || item.classroomId || null,
+                  createdAt: serverTimestamp()
+                });
+                setDoc(doc(db, 'saved_essays', item.id), backfillPayload, { merge: true });
+              }
             } catch (e) {}
           }
         }
@@ -234,10 +210,12 @@ export default function WritingAnalyzer() {
       const sorted = Array.from(mergedMap.values()).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
       if (sorted.length > 0) {
         setSavedHistory(sorted);
-        localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(sorted));
+        try {
+          localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(sorted));
+        } catch (e) {}
       }
     } catch (err) {
-      console.warn("Error fetching cloud saved essays:", err);
+      console.warn("Error in fetchCloudSavedEssays:", err);
     }
   };
 
@@ -296,7 +274,10 @@ export default function WritingAnalyzer() {
       grade,
       studentDraft,
       analysisData: finalAnalysisData,
-      ...userCtx
+      teacherUid: userCtx.teacherUid || null,
+      studentName: userCtx.studentName || null,
+      classroomId: userCtx.classroomId || null,
+      userEmail: userCtx.userEmail || null
     };
 
     // Update local state and localStorage
@@ -312,10 +293,11 @@ export default function WritingAnalyzer() {
     // Cloud backup sync to Firestore saved_essays collection
     try {
       if (db) {
-        await setDoc(doc(db, 'saved_essays', newEntry.id), {
+        const payload = cleanFirestorePayload({
           ...newEntry,
           createdAt: serverTimestamp()
-        }, { merge: true });
+        });
+        await setDoc(doc(db, 'saved_essays', newEntry.id), payload, { merge: true });
       }
     } catch (err) {
       console.warn("Firestore saved_essays sync error:", err);
