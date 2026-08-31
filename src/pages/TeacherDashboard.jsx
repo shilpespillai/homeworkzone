@@ -6515,34 +6515,57 @@ Include a balanced combination of question types such as:
                );
             }
 
+            // Filter out tests, exams, quizzes, mock papers - only keep real core subjects
+            const isTestOrExamSubject = (s = '') => {
+               const lower = (s || '').toLowerCase();
+               return (
+                  lower.includes('test') || 
+                  lower.includes('quiz') || 
+                  lower.includes('exam') || 
+                  lower.includes('naplan') || 
+                  lower.includes('icas') || 
+                  lower.includes('mock') || 
+                  lower.includes('assessment') || 
+                  lower.includes('paper') ||
+                  lower.includes('diagnostic') ||
+                  lower.includes('term') ||
+                  lower.includes('competition')
+               );
+            };
+
             // Normalize subject names for clean filtering & deduplication
             const normalizeSubjectName = (name = '') => {
                const s = (name || '').trim();
                const lower = s.toLowerCase();
-               if (lower === 'maths' || lower === 'math') return 'Mathematics';
-               if (lower === 'olympiad' || lower === 'olympiad maths') return 'Logical Reasoning';
-               if (lower === 'logical reasoning' || lower === 'logic') return 'Logical Reasoning';
-               if (lower === 'english' || lower === 'literacy') return 'English';
-               if (lower === 'science') return 'Science';
+               if (lower === 'maths' || lower === 'math' || lower.includes('numeracy')) return 'Mathematics';
+               if (lower === 'olympiad' || lower === 'olympiad maths' || lower === 'logical reasoning' || lower === 'logic' || lower.includes('reasoning')) return 'Logical Reasoning';
+               if (lower === 'english' || lower === 'literacy' || lower === 'reading' || lower === 'writing' || lower === 'grammar') return 'English';
+               if (lower === 'science' || lower.includes('physics') || lower.includes('chemistry') || lower.includes('biology')) return 'Science';
                if (lower === 'hindi') return 'Hindi';
+               if (lower === 'vocabulary' || lower === 'vocab' || lower === 'vocabularly') return 'Vocabulary';
+               if (lower === 'computer science' || lower === 'coding') return 'Computer Science';
+               if (lower === 'financial literacy') return 'Financial Literacy';
+               if (lower === 'environmental science') return 'Environmental Science';
+               if (lower === 'history' || lower === 'social studies') return 'History';
+               if (lower === 'geography') return 'Geography';
                return s.charAt(0).toUpperCase() + s.slice(1);
             };
 
-            // Dynamically collect all subjects from Grade Core Curriculum + Teacher Custom Prompts + Assigned Homeworks
+            // Only Real Core Subjects (Grade Curriculum + Active Custom Subject Prompts)
             const baseSubjects = ['English', 'Mathematics', 'Science', 'Logical Reasoning', 'Hindi'];
             const promptSubjects = Object.keys(subjectPrompts || {})
-               .filter(k => subjectPrompts[k] !== null && typeof k === 'string' && k.trim().length > 0)
+               .filter(k => {
+                  const val = subjectPrompts[k];
+                  if (val === null || val === undefined) return false;
+                  if (typeof k !== 'string' || !k.trim()) return false;
+                  if (isTestOrExamSubject(k)) return false;
+                  return true;
+               })
                .map(normalizeSubjectName);
-            const homeworkSubjects = currentHomeworks
-               .filter(h => h.subject && typeof h.subject === 'string' && h.subject.trim().length > 0)
-               .map(h => normalizeSubjectName(h.subject));
-            const classCustomSubjects = (activeClassroom?.subjects || []).map(normalizeSubjectName);
 
             const gradeSubjectsList = Array.from(new Set([
                ...baseSubjects,
-               ...promptSubjects,
-               ...homeworkSubjects,
-               ...classCustomSubjects
+               ...promptSubjects
             ])).filter(Boolean);
 
             const checkSubjectMatchesFilter = (umbrellaSubject, hwSubject, selectedSubject, subtopic = '') => {
