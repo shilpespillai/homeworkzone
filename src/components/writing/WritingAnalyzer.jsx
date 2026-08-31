@@ -25,11 +25,37 @@ import {
 import { generateContent, getModelForGrade } from '../../utils/aiClient';
 import { WRITING_GENRES, synthesizeExemplarFallback } from '../../data/writingTemplates';
 import VisualFeedbackCard from './VisualFeedbackCard';
-import { db } from '../../firebase';
-import { doc, setDoc, arrayUnion } from 'firebase/firestore';
+import { 
+  collection, 
+  doc, 
+  setDoc, 
+  getDocs, 
+  deleteDoc, 
+  query, 
+  where, 
+  orderBy, 
+  limit, 
+  serverTimestamp,
+  arrayUnion 
+} from 'firebase/firestore';
 
 const STORAGE_KEY_HISTORY = 'hwz_saved_essays_history';
 const STORAGE_KEY_LAST_SESSION = 'hwz_last_writing_session';
+
+const getActiveUserContext = () => {
+  try {
+    const activeStudent = JSON.parse(localStorage.getItem('hwz_active_student') || 'null');
+    const activeTeacher = JSON.parse(localStorage.getItem('hwz_teacher_user') || 'null');
+    return {
+      teacherUid: activeStudent?.teacher?.uid || activeTeacher?.uid || null,
+      studentName: activeStudent?.name || null,
+      classroomId: activeStudent?.classroom?.id || null,
+      userEmail: activeTeacher?.email || activeStudent?.teacher?.email || null,
+    };
+  } catch (e) {
+    return {};
+  }
+};
 
 const SAMPLE_DRAFTS = {
   persuasive: {
@@ -126,7 +152,96 @@ export default function WritingAnalyzer() {
 
   const activeGenre = WRITING_GENRES[genreKey] || WRITING_GENRES.persuasive;
 
-  // 1. On Mount: Load saved history and restore last session if available
+  // 1. Fetch Cloud Saved Essays from Firestore and merge with local cache
+  const fetchCloudSavedEssays = async () => {
+    if (!db) return;
+    try {
+      const userCtx = getActiveUserContext();
+      const cloudDocs = [];
+
+      // Query saved_essays from Firestore
+      if (userCtx.teacherUid && userCtx.studentName) {
+        const q1 = query(
+          collection(db, 'saved_essays'), 
+          where('teacherUid', '==', userCtx.teacherUid),
+          where('studentName', '==', userCtx.studentName)
+        );
+        const snap1 = await getDocs(q1);
+        snap1.forEach(d => cloudDocs.push(d.data()));
+      } else if (userCtx.teacherUid) {
+        const q2 = query(
+          collection(db, 'saved_essays'), 
+          where('teacherUid', '==', userCtx.teacherUid)
+        );
+        const snap2 = await getDocs(q2);
+        snap2.forEach(d => cloudDocs.push(d.data()));
+      }
+
+      // Also fallback query recent essays in case general essays were saved
+      try {
+        const qRecent = query(
+          collection(db, 'saved_essays'), 
+          orderBy('timestamp', 'desc'), 
+          limit(50)
+        );
+        const snapRecent = await getDocs(qRecent);
+        snapRecent.forEach(d => {
+          const data = d.data();
+          if (!cloudDocs.some(x => x.id === data.id)) {
+            if (!userCtx.studentName || data.studentName === userCtx.studentName || !data.studentName) {
+              cloudDocs.push(data);
+            }
+          }
+        });
+      } catch (err) {
+        // Fallback without orderBy if composite index is not yet built
+        const snapAll = await getDocs(query(collection(db, 'saved_essays'), limit(50)));
+        snapAll.forEach(d => {
+          const data = d.data();
+          if (!cloudDocs.some(x => x.id === data.id)) {
+            if (!userCtx.studentName || data.studentName === userCtx.studentName || !data.studentName) {
+              cloudDocs.push(data);
+            }
+          }
+        });
+      }
+
+      // Merge with localStorage
+      const storedHistory = JSON.parse(localStorage.getItem(STORAGE_KEY_HISTORY) || '[]');
+      const mergedMap = new Map();
+
+      // Cloud docs
+      cloudDocs.forEach(item => {
+        if (item && item.id) mergedMap.set(item.id, item);
+      });
+
+      // Local docs (if any wasn't synced to cloud, backfill it)
+      storedHistory.forEach(item => {
+        if (item && item.id) {
+          if (!mergedMap.has(item.id)) {
+            mergedMap.set(item.id, item);
+            try {
+              setDoc(doc(db, 'saved_essays', item.id), {
+                ...item,
+                ...userCtx,
+                createdAt: serverTimestamp()
+              }, { merge: true });
+            } catch (e) {}
+          }
+        }
+      });
+
+      const sorted = Array.from(mergedMap.values()).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+      if (sorted.length > 0) {
+        setSavedHistory(sorted);
+        localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(sorted));
+      }
+    } catch (err) {
+      console.warn("Error fetching cloud saved essays:", err);
+    }
+  };
+
+  // 1. On Mount: Load saved history and restore last session if available + sync cloud
   useEffect(() => {
     try {
       const storedHistory = JSON.parse(localStorage.getItem(STORAGE_KEY_HISTORY) || '[]');
@@ -140,7 +255,6 @@ export default function WritingAnalyzer() {
         setGrade(lastSession.grade || 'Grade 5');
         setAnalysisData(lastSession.analysisData);
       } else if (storedHistory.length > 0) {
-        // If last session wasn't explicitly set, restore the most recent saved essay
         const latest = storedHistory[0];
         setTopic(latest.topic || '');
         setStudentDraft(latest.studentDraft || '');
@@ -151,10 +265,21 @@ export default function WritingAnalyzer() {
     } catch (e) {
       console.warn("Error restoring writing history:", e);
     }
+
+    // Sync from Firestore in background
+    fetchCloudSavedEssays();
   }, []);
 
-  // Save new essay to history & persist
+  // Sync on modal open
+  useEffect(() => {
+    if (isHistoryModalOpen) {
+      fetchCloudSavedEssays();
+    }
+  }, [isHistoryModalOpen]);
+
+  // Save new essay to history & persist in Cloud Firestore & LocalStorage
   const saveEssayToHistory = async (finalAnalysisData) => {
+    const userCtx = getActiveUserContext();
     const newEntry = {
       id: `essay_${Date.now()}`,
       timestamp: Date.now(),
@@ -170,7 +295,8 @@ export default function WritingAnalyzer() {
       genreName: activeGenre.name,
       grade,
       studentDraft,
-      analysisData: finalAnalysisData
+      analysisData: finalAnalysisData,
+      ...userCtx
     };
 
     // Update local state and localStorage
@@ -183,32 +309,16 @@ export default function WritingAnalyzer() {
       console.warn("Failed to write to localStorage:", e);
     }
 
-    // Cloud backup sync if student is logged in
+    // Cloud backup sync to Firestore saved_essays collection
     try {
-      const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student') || 'null');
-      if (savedStudent?.teacher?.uid && savedStudent?.classroom?.id && savedStudent?.name) {
-        const studentRef = doc(
-          db, 
-          'teachers', 
-          savedStudent.teacher.uid, 
-          'classrooms', 
-          savedStudent.classroom.id, 
-          'students', 
-          savedStudent.name.toLowerCase().trim()
-        );
-        await setDoc(studentRef, {
-          savedWritingSummaries: arrayUnion({
-            id: newEntry.id,
-            timestamp: newEntry.timestamp,
-            dateStr: newEntry.dateStr,
-            topic: newEntry.topic,
-            genreKey: newEntry.genreKey,
-            grade: newEntry.grade
-          })
+      if (db) {
+        await setDoc(doc(db, 'saved_essays', newEntry.id), {
+          ...newEntry,
+          createdAt: serverTimestamp()
         }, { merge: true });
       }
     } catch (err) {
-      console.warn("Firestore sync skipped:", err);
+      console.warn("Firestore saved_essays sync error:", err);
     }
   };
 
@@ -226,14 +336,23 @@ export default function WritingAnalyzer() {
     } catch (e) {}
   };
 
-  // Delete a saved essay from history
-  const handleDeleteSavedEssay = (id, e) => {
+  // Delete a saved essay from history (local + cloud)
+  const handleDeleteSavedEssay = async (id, e) => {
     e.stopPropagation();
     const updated = savedHistory.filter(item => item.id !== id);
     setSavedHistory(updated);
     try {
       localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(updated));
     } catch (err) {}
+
+    // Delete from Firestore
+    try {
+      if (db && id) {
+        await deleteDoc(doc(db, 'saved_essays', id));
+      }
+    } catch (err) {
+      console.warn("Error deleting essay from Firestore:", err);
+    }
   };
 
   // Start fresh essay
