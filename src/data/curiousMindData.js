@@ -1391,813 +1391,331 @@ export const TOPICS = [
     "title": "Why is ice slippery?",
     "category": "physics_everyday",
     "cardImage": "/curious_why_is_ice_slippery.png"
+  },
+  {
+    "id": "are-ants-so-strong",
+    "title": "Why are ants so strong?",
+    "category": "animals",
+    "cardImage": "/curious_whole_are-ants-so-strong.png"
+  },
+  {
+    "id": "are-flamingos-pink",
+    "title": "Why are flamingos pink?",
+    "category": "animals",
+    "cardImage": "/curious_whole_are-flamingos-pink.png"
+  },
+  {
+    "id": "can-geckos-walk-on-walls",
+    "title": "Why can geckos walk on walls?",
+    "category": "animals",
+    "cardImage": "/curious_whole_can-geckos-walk-on-walls.png"
+  },
+  {
+    "id": "can-owls-turn-their-heads-so-far",
+    "title": "Why can owls turn their heads so far?",
+    "category": "animals",
+    "cardImage": "/curious_whole_can-owls-turn-their-heads-so-far.png"
+  },
+  {
+    "id": "can-starfish-regrow-arms",
+    "title": "Why can starfish regrow arms?",
+    "category": "animals",
+    "cardImage": "/curious_whole_can-starfish-regrow-arms.png"
+  },
+  {
+    "id": "do-ants-walk-in-lines",
+    "title": "Why do ants walk in lines?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-ants-walk-in-lines.png"
+  },
+  {
+    "id": "do-bats-sleep-upside-down",
+    "title": "Why do bats sleep upside down?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-bats-sleep-upside-down.png"
+  },
+  {
+    "id": "do-bats-use-echolocation",
+    "title": "Why do bats use echolocation?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-bats-use-echolocation.png"
+  },
+  {
+    "id": "do-beavers-build-dams",
+    "title": "Why do beavers build dams?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-beavers-build-dams.png"
+  },
+  {
+    "id": "do-bees-dance",
+    "title": "Why do bees dance?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-bees-dance.png"
+  },
+  {
+    "id": "do-bees-make-honey",
+    "title": "Why do bees make honey?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-bees-make-honey.png"
+  },
+  {
+    "id": "do-butterflies-have-colourful-wings",
+    "title": "Why do butterflies have colourful wings?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-butterflies-have-colourful-wings.png"
+  },
+  {
+    "id": "do-camels-have-humps",
+    "title": "Why do camels have humps?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-camels-have-humps.png"
+  },
+  {
+    "id": "do-cats-land-on-their-feet",
+    "title": "Why do cats land on their feet?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-cats-land-on-their-feet.png"
+  },
+  {
+    "id": "do-crabs-walk-sideways",
+    "title": "Why do crabs walk sideways?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-crabs-walk-sideways.png"
+  },
+  {
+    "id": "do-dolphins-use-echolocation",
+    "title": "Why do dolphins use echolocation?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-dolphins-use-echolocation.png"
+  },
+  {
+    "id": "do-ducks-float",
+    "title": "Why do ducks float?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-ducks-float.png"
+  },
+  {
+    "id": "do-fireflies-glow",
+    "title": "Why do fireflies glow?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-fireflies-glow.png"
+  },
+  {
+    "id": "do-fish-swim-in-schools",
+    "title": "Why do fish swim in schools?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-fish-swim-in-schools.png"
+  },
+  {
+    "id": "do-flamingos-stand-on-one-leg",
+    "title": "Why do flamingos stand on one leg?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-flamingos-stand-on-one-leg.png"
+  },
+  {
+    "id": "do-frogs-croak",
+    "title": "Why do frogs croak?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-frogs-croak.png"
+  },
+  {
+    "id": "do-jellyfish-sting",
+    "title": "Why do jellyfish sting?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-jellyfish-sting.png"
+  },
+  {
+    "id": "do-parrots-copy-sounds",
+    "title": "Why do parrots copy sounds?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-parrots-copy-sounds.png"
+  },
+  {
+    "id": "do-penguins-huddle-together",
+    "title": "Why do penguins huddle together?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-penguins-huddle-together.png"
+  },
+  {
+    "id": "do-porcupines-have-quills",
+    "title": "Why do porcupines have quills?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-porcupines-have-quills.png"
+  },
+  {
+    "id": "do-rabbits-have-long-ears",
+    "title": "Why do rabbits have long ears?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-rabbits-have-long-ears.png"
+  },
+  {
+    "id": "do-seahorse-fathers-carry-babies",
+    "title": "Why do seahorse fathers carry babies?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-seahorse-fathers-carry-babies.png"
+  },
+  {
+    "id": "do-skunks-spray-a-bad-smell",
+    "title": "Why do skunks spray a bad smell?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-skunks-spray-a-bad-smell.png"
+  },
+  {
+    "id": "do-sloths-move-so-slowly",
+    "title": "Why do sloths move so slowly?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-sloths-move-so-slowly.png"
+  },
+  {
+    "id": "do-snakes-flick-their-tongues",
+    "title": "Why do snakes flick their tongues?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-snakes-flick-their-tongues.png"
+  },
+  {
+    "id": "do-squirrels-bury-nuts",
+    "title": "Why do squirrels bury nuts?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-squirrels-bury-nuts.png"
+  },
+  {
+    "id": "do-whales-have-blowholes",
+    "title": "Why do whales have blowholes?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-whales-have-blowholes.png"
+  },
+  {
+    "id": "do-whales-sing",
+    "title": "Why do whales sing?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-whales-sing.png"
+  },
+  {
+    "id": "do-worms-come-out-after-rain",
+    "title": "Why do worms come out after rain?",
+    "category": "animals",
+    "cardImage": "/curious_whole_do-worms-come-out-after-rain.png"
+  },
+  {
+    "id": "are-no-two-snowflakes-exactly-alike",
+    "title": "Why are no two snowflakes exactly alike?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_are-no-two-snowflakes-exactly-alike.png"
+  },
+  {
+    "id": "can-music-give-us-goosebumps",
+    "title": "Why can music give us goosebumps?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_can-music-give-us-goosebumps.png"
+  },
+  {
+    "id": "can-some-insects-walk-on-water",
+    "title": "Why can some insects walk on water?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_can-some-insects-walk-on-water.png"
+  },
+  {
+    "id": "can-some-ocean-water-glow-at-night",
+    "title": "Why can some ocean water glow at night?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_can-some-ocean-water-glow-at-night.png"
+  },
+  {
+    "id": "cant-we-tickle-ourselves",
+    "title": "Why can't we tickle ourselves?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_cant-we-tickle-ourselves.png"
+  },
+  {
+    "id": "do-bubbles-become-round",
+    "title": "Why do bubbles become round?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_do-bubbles-become-round.png"
+  },
+  {
+    "id": "do-cds-show-rainbow-colours",
+    "title": "Why do CDs show rainbow colours?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_do-cds-show-rainbow-colours.png"
+  },
+  {
+    "id": "do-honeycombs-have-hexagonal-cells",
+    "title": "Why do honeycombs have hexagonal cells?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_do-honeycombs-have-hexagonal-cells.png"
+  },
+  {
+    "id": "do-mirages-happen",
+    "title": "Why do mirages happen?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_do-mirages-happen.png"
+  },
+  {
+    "id": "do-our-eyes-need-time-to-adjust-to-darkness",
+    "title": "Why do our eyes need time to adjust to darkness?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_do-our-eyes-need-time-to-adjust-to-darkness.png"
+  },
+  {
+    "id": "do-soap-bubbles-show-rainbow-colours",
+    "title": "Why do soap bubbles show rainbow colours?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_do-soap-bubbles-show-rainbow-colours.png"
+  },
+  {
+    "id": "do-we-get-brain-freeze",
+    "title": "Why do we get brain freeze?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_do-we-get-brain-freeze.png"
+  },
+  {
+    "id": "does-a-seashell-sound-like-the-ocean",
+    "title": "Why does a seashell sound like the ocean?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_does-a-seashell-sound-like-the-ocean.png"
+  },
+  {
+    "id": "does-fresh-rain-have-a-special-smell",
+    "title": "Why does fresh rain have a special smell?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_does-fresh-rain-have-a-special-smell.png"
+  },
+  {
+    "id": "does-hair-stand-up-with-static-electricity",
+    "title": "Why does hair stand up with static electricity?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_does-hair-stand-up-with-static-electricity.png"
+  },
+  {
+    "id": "does-helium-make-our-voice-sound-funny",
+    "title": "Why does helium make our voice sound funny?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_does-helium-make-our-voice-sound-funny.png"
+  },
+  {
+    "id": "does-our-voice-sound-different-in-recordings",
+    "title": "Why does our voice sound different in recordings?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_does-our-voice-sound-different-in-recordings.png"
+  },
+  {
+    "id": "does-snow-make-everything-quieter",
+    "title": "Why does snow make everything quieter?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_does-snow-make-everything-quieter.png"
+  },
+  {
+    "id": "does-the-moon-look-bigger-near-the-horizon",
+    "title": "Why does the Moon look bigger near the horizon?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_does-the-moon-look-bigger-near-the-horizon.png"
+  },
+  {
+    "id": "does-wet-sand-make-better-sandcastles",
+    "title": "Why does wet sand make better sandcastles?",
+    "category": "fun_surprising",
+    "cardImage": "/curious_whole_does-wet-sand-make-better-sandcastles.png"
   }
-,
-{
-  "id": "are-ants-so-strong",
-  "title": "Why are ants so strong?",
-  "category": "animals",
-  "cardImage": "/curious_whole_are-ants-so-strong.png"
-},
-{
-  "id": "are-flamingos-pink",
-  "title": "Why are flamingos pink?",
-  "category": "animals",
-  "cardImage": "/curious_whole_are-flamingos-pink.png"
-},
-{
-  "id": "can-geckos-walk-on-walls",
-  "title": "Why can geckos walk on walls?",
-  "category": "animals",
-  "cardImage": "/curious_whole_can-geckos-walk-on-walls.png"
-},
-{
-  "id": "can-owls-turn-their-heads-so-far",
-  "title": "Why can owls turn their heads so far?",
-  "category": "animals",
-  "cardImage": "/curious_whole_can-owls-turn-their-heads-so-far.png"
-},
-{
-  "id": "can-starfish-regrow-arms",
-  "title": "Why can starfish regrow arms?",
-  "category": "animals",
-  "cardImage": "/curious_whole_can-starfish-regrow-arms.png"
-},
-{
-  "id": "do-ants-walk-in-lines",
-  "title": "Why do ants walk in lines?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-ants-walk-in-lines.png"
-},
-{
-  "id": "do-bats-sleep-upside-down",
-  "title": "Why do bats sleep upside down?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-bats-sleep-upside-down.png"
-},
-{
-  "id": "do-bats-use-echolocation",
-  "title": "Why do bats use echolocation?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-bats-use-echolocation.png"
-},
-{
-  "id": "do-beavers-build-dams",
-  "title": "Why do beavers build dams?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-beavers-build-dams.png"
-},
-{
-  "id": "do-bees-dance",
-  "title": "Why do bees dance?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-bees-dance.png"
-},
-{
-  "id": "do-bees-make-honey",
-  "title": "Why do bees make honey?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-bees-make-honey.png"
-},
-{
-  "id": "do-butterflies-have-colourful-wings",
-  "title": "Why do butterflies have colourful wings?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-butterflies-have-colourful-wings.png"
-},
-{
-  "id": "do-camels-have-humps",
-  "title": "Why do camels have humps?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-camels-have-humps.png"
-},
-{
-  "id": "do-cats-land-on-their-feet",
-  "title": "Why do cats land on their feet?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-cats-land-on-their-feet.png"
-},
-{
-  "id": "do-crabs-walk-sideways",
-  "title": "Why do crabs walk sideways?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-crabs-walk-sideways.png"
-},
-{
-  "id": "do-dolphins-use-echolocation",
-  "title": "Why do dolphins use echolocation?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-dolphins-use-echolocation.png"
-},
-{
-  "id": "do-ducks-float",
-  "title": "Why do ducks float?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-ducks-float.png"
-},
-{
-  "id": "do-fireflies-glow",
-  "title": "Why do fireflies glow?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-fireflies-glow.png"
-},
-{
-  "id": "do-fish-swim-in-schools",
-  "title": "Why do fish swim in schools?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-fish-swim-in-schools.png"
-},
-{
-  "id": "do-flamingos-stand-on-one-leg",
-  "title": "Why do flamingos stand on one leg?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-flamingos-stand-on-one-leg.png"
-},
-{
-  "id": "do-frogs-croak",
-  "title": "Why do frogs croak?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-frogs-croak.png"
-},
-{
-  "id": "do-jellyfish-sting",
-  "title": "Why do jellyfish sting?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-jellyfish-sting.png"
-},
-{
-  "id": "do-parrots-copy-sounds",
-  "title": "Why do parrots copy sounds?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-parrots-copy-sounds.png"
-},
-{
-  "id": "do-penguins-huddle-together",
-  "title": "Why do penguins huddle together?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-penguins-huddle-together.png"
-},
-{
-  "id": "do-porcupines-have-quills",
-  "title": "Why do porcupines have quills?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-porcupines-have-quills.png"
-},
-{
-  "id": "do-rabbits-have-long-ears",
-  "title": "Why do rabbits have long ears?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-rabbits-have-long-ears.png"
-},
-{
-  "id": "do-seahorse-fathers-carry-babies",
-  "title": "Why do seahorse fathers carry babies?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-seahorse-fathers-carry-babies.png"
-},
-{
-  "id": "do-skunks-spray-a-bad-smell",
-  "title": "Why do skunks spray a bad smell?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-skunks-spray-a-bad-smell.png"
-},
-{
-  "id": "do-sloths-move-so-slowly",
-  "title": "Why do sloths move so slowly?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-sloths-move-so-slowly.png"
-},
-{
-  "id": "do-snakes-flick-their-tongues",
-  "title": "Why do snakes flick their tongues?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-snakes-flick-their-tongues.png"
-},
-{
-  "id": "do-squirrels-bury-nuts",
-  "title": "Why do squirrels bury nuts?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-squirrels-bury-nuts.png"
-},
-{
-  "id": "do-whales-have-blowholes",
-  "title": "Why do whales have blowholes?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-whales-have-blowholes.png"
-},
-{
-  "id": "do-whales-sing",
-  "title": "Why do whales sing?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-whales-sing.png"
-},
-{
-  "id": "do-worms-come-out-after-rain",
-  "title": "Why do worms come out after rain?",
-  "category": "animals",
-  "cardImage": "/curious_whole_do-worms-come-out-after-rain.png"
-}
-,
-{
-  "id": "are-no-two-snowflakes-exactly-alike",
-  "title": "Why are no two snowflakes exactly alike?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_are-no-two-snowflakes-exactly-alike.png"
-},
-{
-  "id": "are-stars-different-colours",
-  "title": "Why are stars different colours?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_are-stars-different-colours.png"
-},
-{
-  "id": "can-huge-steel-ships-float",
-  "title": "Why can huge steel ships float?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_can-huge-steel-ships-float.png"
-},
-{
-  "id": "can-music-give-us-goosebumps",
-  "title": "Why can music give us goosebumps?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_can-music-give-us-goosebumps.png"
-},
-{
-  "id": "can-rockets-work-in-space",
-  "title": "Why can rockets work in space?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_can-rockets-work-in-space.png"
-},
-{
-  "id": "can-some-insects-walk-on-water",
-  "title": "Why can some insects walk on water?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_can-some-insects-walk-on-water.png"
-},
-{
-  "id": "can-some-ocean-water-glow-at-night",
-  "title": "Why can some ocean water glow at night?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_can-some-ocean-water-glow-at-night.png"
-},
-{
-  "id": "can-we-see-objects",
-  "title": "Why can we see objects?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_can-we-see-objects.png"
-},
-{
-  "id": "cant-light-escape-a-black-hole",
-  "title": "Why can't light escape a black hole?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_cant-light-escape-a-black-hole.png"
-},
-{
-  "id": "cant-we-tickle-ourselves",
-  "title": "Why can't we tickle ourselves?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_cant-we-tickle-ourselves.png"
-},
-{
-  "id": "do-aeroplanes-fly",
-  "title": "Why do aeroplanes fly?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-aeroplanes-fly.png"
-},
-{
-  "id": "do-astronauts-float",
-  "title": "Why do astronauts float?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-astronauts-float.png"
-},
-{
-  "id": "do-astronauts-wear-spacesuits",
-  "title": "Why do astronauts wear spacesuits?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-astronauts-wear-spacesuits.png"
-},
-{
-  "id": "do-auroras-happen",
-  "title": "Why do auroras happen?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-auroras-happen.png"
-},
-{
-  "id": "do-balls-bounce",
-  "title": "Why do balls bounce?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-balls-bounce.png"
-},
-{
-  "id": "do-batteries-produce-electricity",
-  "title": "Why do batteries produce electricity?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-batteries-produce-electricity.png"
-},
-{
-  "id": "do-black-holes-form",
-  "title": "Why do black holes form?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-black-holes-form.png"
-},
-{
-  "id": "do-boats-float",
-  "title": "Why do boats float?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-boats-float.png"
-},
-{
-  "id": "do-boomerangs-come-back",
-  "title": "Why do boomerangs come back?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-boomerangs-come-back.png"
-},
-{
-  "id": "do-bubbles-become-round",
-  "title": "Why do bubbles become round?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-bubbles-become-round.png"
-},
-{
-  "id": "do-bubbles-rise-in-water",
-  "title": "Why do bubbles rise in water?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-bubbles-rise-in-water.png"
-},
-{
-  "id": "do-cds-show-rainbow-colours",
-  "title": "Why do CDs show rainbow colours?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-cds-show-rainbow-colours.png"
-},
-{
-  "id": "do-comets-have-tails",
-  "title": "Why do comets have tails?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-comets-have-tails.png"
-},
-{
-  "id": "do-echoes-happen",
-  "title": "Why do echoes happen?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-echoes-happen.png"
-},
-{
-  "id": "do-gears-work",
-  "title": "Why do gears work?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-gears-work.png"
-},
-{
-  "id": "do-helicopters-hover",
-  "title": "Why do helicopters hover?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-helicopters-hover.png"
-},
-{
-  "id": "do-helium-balloons-rise",
-  "title": "Why do helium balloons rise?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-helium-balloons-rise.png"
-},
-{
-  "id": "do-honeycombs-have-hexagonal-cells",
-  "title": "Why do honeycombs have hexagonal cells?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-honeycombs-have-hexagonal-cells.png"
-},
-{
-  "id": "do-hot-air-balloons-rise",
-  "title": "Why do hot-air balloons rise?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-hot-air-balloons-rise.png"
-},
-{
-  "id": "do-kites-fly",
-  "title": "Why do kites fly?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-kites-fly.png"
-},
-{
-  "id": "do-levers-make-lifting-easier",
-  "title": "Why do levers make lifting easier?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-levers-make-lifting-easier.png"
-},
-{
-  "id": "do-lunar-eclipses-happen",
-  "title": "Why do lunar eclipses happen?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-lunar-eclipses-happen.png"
-},
-{
-  "id": "do-magnets-attract-some-metals",
-  "title": "Why do magnets attract some metals?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-magnets-attract-some-metals.png"
-},
-{
-  "id": "do-magnifying-glasses-make-things-look-bigger",
-  "title": "Why do magnifying glasses make things look bigger?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-magnifying-glasses-make-things-look-bigger.png"
-},
-{
-  "id": "do-meteors-glow",
-  "title": "Why do meteors glow?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-meteors-glow.png"
-},
-{
-  "id": "do-mirages-happen",
-  "title": "Why do mirages happen?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-mirages-happen.png"
-},
-{
-  "id": "do-mirrors-reflect-us",
-  "title": "Why do mirrors reflect us?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-mirrors-reflect-us.png"
-},
-{
-  "id": "do-musical-instruments-make-different-sounds",
-  "title": "Why do musical instruments make different sounds?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-musical-instruments-make-different-sounds.png"
-},
-{
-  "id": "do-our-eyes-need-time-to-adjust-to-darkness",
-  "title": "Why do our eyes need time to adjust to darkness?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-our-eyes-need-time-to-adjust-to-darkness.png"
-},
-{
-  "id": "do-parachutes-slow-us-down",
-  "title": "Why do parachutes slow us down?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-parachutes-slow-us-down.png"
-},
-{
-  "id": "do-prisms-make-rainbows",
-  "title": "Why do prisms make rainbows?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-prisms-make-rainbows.png"
-},
-{
-  "id": "do-pulleys-make-lifting-easier",
-  "title": "Why do pulleys make lifting easier?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-pulleys-make-lifting-easier.png"
-},
-{
-  "id": "do-rockets-need-so-much-fuel",
-  "title": "Why do rockets need so much fuel?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-rockets-need-so-much-fuel.png"
-},
-{
-  "id": "do-satellites-stay-in-orbit",
-  "title": "Why do satellites stay in orbit?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-satellites-stay-in-orbit.png"
-},
-{
-  "id": "do-seatbelts-protect-us",
-  "title": "Why do seatbelts protect us?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-seatbelts-protect-us.png"
-},
-{
-  "id": "do-shadows-form",
-  "title": "Why do shadows form?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-shadows-form.png"
-},
-{
-  "id": "do-soap-bubbles-show-rainbow-colours",
-  "title": "Why do soap bubbles show rainbow colours?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-soap-bubbles-show-rainbow-colours.png"
-},
-{
-  "id": "do-solar-eclipses-happen",
-  "title": "Why do solar eclipses happen?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-solar-eclipses-happen.png"
-},
-{
-  "id": "do-stars-eventually-die",
-  "title": "Why do stars eventually die?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-stars-eventually-die.png"
-},
-{
-  "id": "do-stars-twinkle",
-  "title": "Why do stars twinkle?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-stars-twinkle.png"
-},
-{
-  "id": "do-submarines-sink-and-rise",
-  "title": "Why do submarines sink and rise?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-submarines-sink-and-rise.png"
-},
-{
-  "id": "do-telescopes-let-us-see-into-the-past",
-  "title": "Why do telescopes let us see into the past?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-telescopes-let-us-see-into-the-past.png"
-},
-{
-  "id": "do-things-fall-down",
-  "title": "Why do things fall down?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-things-fall-down.png"
-},
-{
-  "id": "do-tyres-have-tread",
-  "title": "Why do tyres have tread?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-tyres-have-tread.png"
-},
-{
-  "id": "do-we-get-brain-freeze",
-  "title": "Why do we get brain freeze?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-we-get-brain-freeze.png"
-},
-{
-  "id": "do-we-have-seasons",
-  "title": "Why do we have seasons?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-we-have-seasons.png"
-},
-{
-  "id": "do-we-need-friction-to-walk",
-  "title": "Why do we need friction to walk?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-we-need-friction-to-walk.png"
-},
-{
-  "id": "do-wheels-make-moving-things-easier",
-  "title": "Why do wheels make moving things easier?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_do-wheels-make-moving-things-easier.png"
-},
-{
-  "id": "does-a-bicycle-stay-balanced-while-moving",
-  "title": "Why does a bicycle stay balanced while moving?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-a-bicycle-stay-balanced-while-moving.png"
-},
-{
-  "id": "does-a-compass-point-north",
-  "title": "Why does a compass point north?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-a-compass-point-north.png"
-},
-{
-  "id": "does-a-light-bulb-glow",
-  "title": "Why does a light bulb glow?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-a-light-bulb-glow.png"
-},
-{
-  "id": "does-a-seashell-sound-like-the-ocean",
-  "title": "Why does a seashell sound like the ocean?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-a-seashell-sound-like-the-ocean.png"
-},
-{
-  "id": "does-a-straw-look-bent-in-water",
-  "title": "Why does a straw look bent in water?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-a-straw-look-bent-in-water.png"
-},
-{
-  "id": "does-boiling-water-make-bubbles",
-  "title": "Why does boiling water make bubbles?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-boiling-water-make-bubbles.png"
-},
-{
-  "id": "does-earth-orbit-the-sun",
-  "title": "Why does Earth orbit the Sun?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-earth-orbit-the-sun.png"
-},
-{
-  "id": "does-fresh-rain-have-a-special-smell",
-  "title": "Why does fresh rain have a special smell?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-fresh-rain-have-a-special-smell.png"
-},
-{
-  "id": "does-gravity-exist",
-  "title": "Why does gravity exist?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-gravity-exist.png"
-},
-{
-  "id": "does-hair-stand-up-with-static-electricity",
-  "title": "Why does hair stand up with static electricity?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-hair-stand-up-with-static-electricity.png"
-},
-{
-  "id": "does-helium-make-our-voice-sound-funny",
-  "title": "Why does helium make our voice sound funny?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-helium-make-our-voice-sound-funny.png"
-},
-{
-  "id": "does-ice-melt",
-  "title": "Why does ice melt?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-ice-melt.png"
-},
-{
-  "id": "does-insulation-keep-us-warm",
-  "title": "Why does insulation keep us warm?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-insulation-keep-us-warm.png"
-},
-{
-  "id": "does-metal-feel-colder-than-wood",
-  "title": "Why does metal feel colder than wood?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-metal-feel-colder-than-wood.png"
-},
-{
-  "id": "does-oil-float-on-water",
-  "title": "Why does oil float on water?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-oil-float-on-water.png"
-},
-{
-  "id": "does-our-voice-sound-different-in-recordings",
-  "title": "Why does our voice sound different in recordings?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-our-voice-sound-different-in-recordings.png"
-},
-{
-  "id": "does-popcorn-pop",
-  "title": "Why does popcorn pop?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-popcorn-pop.png"
-},
-{
-  "id": "does-saturn-have-rings",
-  "title": "Why does Saturn have rings?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-saturn-have-rings.png"
-},
-{
-  "id": "does-snow-make-everything-quieter",
-  "title": "Why does snow make everything quieter?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-snow-make-everything-quieter.png"
-},
-{
-  "id": "does-sound-exist",
-  "title": "Why does sound exist?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-sound-exist.png"
-},
-{
-  "id": "does-static-electricity-happen",
-  "title": "Why does static electricity happen?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-static-electricity-happen.png"
-},
-{
-  "id": "does-the-moon-cause-tides",
-  "title": "Why does the Moon cause tides?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-the-moon-cause-tides.png"
-},
-{
-  "id": "does-the-moon-change-shape",
-  "title": "Why does the Moon change shape?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-the-moon-change-shape.png"
-},
-{
-  "id": "does-the-moon-have-craters",
-  "title": "Why does the Moon have craters?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-the-moon-have-craters.png"
-},
-{
-  "id": "does-the-moon-look-bigger-near-the-horizon",
-  "title": "Why does the Moon look bigger near the horizon?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-the-moon-look-bigger-near-the-horizon.png"
-},
-{
-  "id": "does-the-moon-shine",
-  "title": "Why does the Moon shine?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-the-moon-shine.png"
-},
-{
-  "id": "does-uranus-rotate-on-its-side",
-  "title": "Why does Uranus rotate on its side?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-uranus-rotate-on-its-side.png"
-},
-{
-  "id": "does-water-expand-when-it-freezes",
-  "title": "Why does water expand when it freezes?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-water-expand-when-it-freezes.png"
-},
-{
-  "id": "does-water-freeze",
-  "title": "Why does water freeze?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-water-freeze.png"
-},
-{
-  "id": "does-wet-sand-make-better-sandcastles",
-  "title": "Why does wet sand make better sandcastles?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_does-wet-sand-make-better-sandcastles.png"
-},
-{
-  "id": "doesnt-earth-feel-like-it-is-spinning",
-  "title": "Why doesn't Earth feel like it is spinning?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_doesnt-earth-feel-like-it-is-spinning.png"
-},
-{
-  "id": "is-gravity-weaker-on-the-moon",
-  "title": "Why is gravity weaker on the Moon?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_is-gravity-weaker-on-the-moon.png"
-},
-{
-  "id": "is-ice-slippery",
-  "title": "Why is ice slippery?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_is-ice-slippery.png"
-},
-{
-  "id": "is-jupiter-so-big",
-  "title": "Why is Jupiter so big?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_is-jupiter-so-big.png"
-},
-{
-  "id": "is-mars-red",
-  "title": "Why is Mars red?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_is-mars-red.png"
-},
-{
-  "id": "is-our-galaxy-called-the-milky-way",
-  "title": "Why is our galaxy called the Milky Way?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_is-our-galaxy-called-the-milky-way.png"
-},
-{
-  "id": "is-space-dark",
-  "title": "Why is space dark?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_is-space-dark.png"
-},
-{
-  "id": "is-space-silent",
-  "title": "Why is space silent?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_is-space-silent.png"
-},
-{
-  "id": "is-the-sun-so-hot",
-  "title": "Why is the Sun so hot?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_is-the-sun-so-hot.png"
-},
-{
-  "id": "is-the-universe-expanding",
-  "title": "Why is the universe expanding?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_is-the-universe-expanding.png"
-},
-{
-  "id": "is-there-day-and-night",
-  "title": "Why is there day and night?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_is-there-day-and-night.png"
-},
-{
-  "id": "is-venus-so-hot",
-  "title": "Why is Venus so hot?",
-  "category": "fun_surprising",
-  "cardImage": "/curious_whole_is-venus-so-hot.png"
-}
 ];
 
 export const TOPIC_DETAILS = {
