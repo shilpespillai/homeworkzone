@@ -48,10 +48,22 @@ const getActiveUserContext = () => {
   try {
     const activeStudent = JSON.parse(localStorage.getItem('hwz_active_student') || 'null');
     const activeTeacher = JSON.parse(localStorage.getItem('hwz_teacher_user') || 'null');
+    const studentName = activeStudent?.name?.trim() || null;
+    const teacherUid = activeStudent?.teacher?.uid || activeTeacher?.uid || null;
+    const classroomId = activeStudent?.classroom?.id || null;
+    const studentId = activeStudent?.id || activeStudent?.studentId || (studentName ? studentName.toLowerCase() : null);
+
+    // Composite unique student key: teacherUid + classroomId + studentId
+    const studentCompositeKey = (teacherUid && studentId) 
+      ? `${teacherUid}_${classroomId || 'default'}_${studentId.toLowerCase()}`
+      : (studentId ? `guest_${studentId.toLowerCase()}` : null);
+
     return {
-      teacherUid: activeStudent?.teacher?.uid || activeTeacher?.uid || null,
-      studentName: activeStudent?.name || null,
-      classroomId: activeStudent?.classroom?.id || null,
+      studentCompositeKey,
+      studentId,
+      studentName,
+      teacherUid,
+      classroomId,
       userEmail: activeTeacher?.email || activeStudent?.teacher?.email || null,
     };
   } catch (e) {
@@ -170,10 +182,34 @@ export default function WritingAnalyzer() {
         snap.forEach(d => {
           const data = d.data();
           if (data && (data.id || d.id)) {
-            cloudDocs.push({
+            const item = {
               id: data.id || d.id,
               ...data
-            });
+            };
+
+            // Filter against composite student/teacher key:
+            if (userCtx.studentCompositeKey) {
+              const matchesComposite = data.studentCompositeKey === userCtx.studentCompositeKey;
+              const matchesTeacherAndStudent = 
+                data.teacherUid === userCtx.teacherUid && 
+                (
+                  (data.studentName && userCtx.studentName && data.studentName.toLowerCase() === userCtx.studentName.toLowerCase()) ||
+                  (data.studentId && userCtx.studentId && data.studentId.toLowerCase() === userCtx.studentId.toLowerCase())
+                );
+              const isUnassignedLegacy = !data.teacherUid && !data.studentId;
+
+              if (matchesComposite || matchesTeacherAndStudent || isUnassignedLegacy) {
+                cloudDocs.push(item);
+              }
+            } else if (userCtx.teacherUid) {
+              // Teacher logged in: see all essays under their teacher account
+              if (data.teacherUid === userCtx.teacherUid || !data.teacherUid) {
+                cloudDocs.push(item);
+              }
+            } else {
+              // General / Guest / Incognito
+              cloudDocs.push(item);
+            }
           }
         });
       } catch (err) {
@@ -189,7 +225,7 @@ export default function WritingAnalyzer() {
         if (item && item.id) mergedMap.set(item.id, item);
       });
 
-      // Put local docs in map & backfill any unsynced ones to cloud
+      // Put local docs in map & backfill any unsynced ones to cloud with composite key
       for (const item of storedHistory) {
         if (item && item.id) {
           if (!mergedMap.has(item.id)) {
@@ -198,8 +234,10 @@ export default function WritingAnalyzer() {
               if (db) {
                 const backfillPayload = cleanFirestorePayload({
                   ...item,
-                  teacherUid: userCtx.teacherUid || item.teacherUid || null,
+                  studentCompositeKey: userCtx.studentCompositeKey || item.studentCompositeKey || null,
+                  studentId: userCtx.studentId || item.studentId || null,
                   studentName: userCtx.studentName || item.studentName || null,
+                  teacherUid: userCtx.teacherUid || item.teacherUid || null,
                   classroomId: userCtx.classroomId || item.classroomId || null,
                   createdAt: serverTimestamp()
                 });
@@ -281,8 +319,10 @@ export default function WritingAnalyzer() {
       grade,
       studentDraft,
       analysisData: finalAnalysisData,
-      teacherUid: userCtx.teacherUid || null,
+      studentCompositeKey: userCtx.studentCompositeKey || null,
+      studentId: userCtx.studentId || null,
       studentName: userCtx.studentName || null,
+      teacherUid: userCtx.teacherUid || null,
       classroomId: userCtx.classroomId || null,
       userEmail: userCtx.userEmail || null
     };
