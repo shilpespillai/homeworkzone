@@ -105,77 +105,75 @@ export default function CuriousMindHub() {
               {/* Topics Rendering: Grouped Sections when 'all', or filtered grid */}
               {activeCategory === 'all' ? (
                 <div className="space-y-8">
-                  {/* Group 1: Human Body */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2.5">
-                        <span className="text-2xl p-2 rounded-2xl bg-rose-100 text-rose-800">🫀</span>
-                        <div>
-                          <h3 className="text-lg md:text-xl font-black text-slate-900">Human Body</h3>
-                          <p className="text-xs text-slate-500 font-bold">Discover how your amazing body heals, protects, and functions!</p>
+                  {CATEGORIES.filter(c => c.id !== 'all').map((cat) => {
+                    const catTopics = topics.filter(t => t.category === cat.id);
+                    if (catTopics.length === 0) return null;
+
+                    const catDescriptions = {
+                      animals: "Discover amazing adaptations, wildlife wonders, and animal superpowers!",
+                      human_body: "Discover how your amazing body heals, protects, and functions!",
+                      brain_sleep: "Explore how your mind remembers, dreams, and feels feelings!",
+                      physics_everyday: "Fascinating everyday physics, forces, and natural phenomena!",
+                      space: "Journey through planets, stars, galaxies, and cosmic wonders!",
+                      earth_weather: "Learn how oceans, mountains, clouds, and storms shape our world!",
+                      plants: "Uncover how trees talk, plants drink, and flowers bloom!",
+                      food_chemistry: "Tasty science, kitchen reactions, and delicious chemistry secrets!"
+                    };
+
+                    return (
+                      <div key={cat.id} className="space-y-4 pt-2">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2.5">
+                            <span className="text-2xl p-2 rounded-2xl bg-slate-100 border border-slate-200">{cat.icon}</span>
+                            <div>
+                              <h3 className="text-lg md:text-xl font-black text-slate-900">{cat.label}</h3>
+                              <p className="text-xs text-slate-500 font-bold">
+                                {catDescriptions[cat.id] || `Explore curious questions about ${cat.label.toLowerCase()}!`}
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => setActiveCategory(cat.id)}
+                            className={`text-xs font-black px-3 py-1 rounded-full border shadow-2xs hover:scale-105 transition-transform cursor-pointer ${cat.color}`}
+                          >
+                            {catTopics.length} Topics &rarr;
+                          </button>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                          {catTopics.map((topic) => (
+                            <TopicCard 
+                              key={topic.id} 
+                              topic={topic} 
+                              onSelect={() => setSelectedTopicId(topic.id)} 
+                            />
+                          ))}
                         </div>
                       </div>
-                      <span className="text-xs font-black bg-rose-100 text-rose-800 px-3 py-1 rounded-full border border-rose-200">
-                        {topics.filter(t => t.category === 'human_body').length} Topics
-                      </span>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      {topics.filter(t => t.category === 'human_body').map((topic) => (
-                        <TopicCard 
-                          key={topic.id} 
-                          topic={topic} 
-                          onSelect={() => setSelectedTopicId(topic.id)} 
-                        />
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Group 2: Brain, Sleep & Emotions */}
-                  <div className="space-y-4 pt-2">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2.5">
-                        <span className="text-2xl p-2 rounded-2xl bg-purple-100 text-purple-800">🧠</span>
-                        <div>
-                          <h3 className="text-lg md:text-xl font-black text-slate-900">Brain, Sleep &amp; Emotions</h3>
-                          <p className="text-xs text-slate-500 font-bold">Explore how your mind remembers, dreams, and feels feelings!</p>
-                        </div>
-                      </div>
-                      <span className="text-xs font-black bg-purple-100 text-purple-800 px-3 py-1 rounded-full border border-purple-200">
-                        {topics.filter(t => t.category === 'brain_sleep').length} Topics
-                      </span>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      {topics.filter(t => t.category === 'brain_sleep').map((topic) => (
-                        <TopicCard 
-                          key={topic.id} 
-                          topic={topic} 
-                          onSelect={() => setSelectedTopicId(topic.id)} 
-                        />
-                      ))}
-                    </div>
-                  </div>
+                    );
+                  })}
 
                   {/* More Categories Coming Soon Bar */}
-                  <div className="bg-gradient-to-r from-amber-50 via-sky-50 to-indigo-50 border-4 border-slate-100 rounded-[2.5rem] p-6 shadow-sm">
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                      <div className="flex items-center gap-3">
-                        <span className="text-3xl">✨</span>
-                        <div>
-                          <h4 className="text-sm font-black text-slate-900">More Science Discoveries Coming Soon!</h4>
-                          <p className="text-xs font-bold text-slate-500">Animals, Plants, Space, Weather, Physics &amp; Technology are on the way.</p>
+                  {CATEGORIES.filter(c => c.id !== 'all' && topics.filter(t => t.category === c.id).length === 0).length > 0 && (
+                    <div className="bg-gradient-to-r from-amber-50 via-sky-50 to-indigo-50 border-4 border-slate-100 rounded-[2.5rem] p-6 shadow-sm">
+                      <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div className="flex items-center gap-3">
+                          <span className="text-3xl">✨</span>
+                          <div>
+                            <h4 className="text-sm font-black text-slate-900">More Science Discoveries Coming Soon!</h4>
+                            <p className="text-xs font-bold text-slate-500">Plants, Weather, and Technology topics are currently being crafted.</p>
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          {CATEGORIES.filter(c => c.id !== 'all' && topics.filter(t => t.category === c.id).length === 0).map((cat) => (
+                            <span key={cat.id} className="bg-white px-3 py-1 rounded-full text-xs font-black text-slate-700 border border-slate-200 shadow-2xs">
+                              {cat.icon} {cat.label}
+                            </span>
+                          ))}
                         </div>
                       </div>
-                      <div className="flex flex-wrap items-center gap-2">
-                        {['🐾 Animals', '🌿 Plants', '🚀 Space', '🌍 Weather', '⚡ Physics', '🧪 Chemistry'].map((tag, idx) => (
-                          <span key={idx} className="bg-white px-3 py-1 rounded-full text-xs font-black text-slate-700 border border-slate-200 shadow-2xs">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               ) : (
                 /* Filtered Category View */
