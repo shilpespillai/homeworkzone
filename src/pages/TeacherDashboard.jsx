@@ -6515,17 +6515,79 @@ Include a balanced combination of question types such as:
                );
             }
 
-            // Extract the curriculum subjects configured for this grade/classroom
-            const rawClassSubjects = (activeClassroom?.subjects && activeClassroom.subjects.length > 0)
-               ? activeClassroom.subjects
-               : ['English', 'Maths', 'Science', 'Logical Reasoning', 'Hindi'];
-            
-            const gradeSubjectsList = Array.from(new Set(
-               rawClassSubjects.map(s => {
-                  const norm = s.toLowerCase() === 'maths' ? 'Mathematics' : (s.charAt(0).toUpperCase() + s.slice(1));
-                  return norm;
-               })
-            ));
+            // Normalize subject names for clean filtering & deduplication
+            const normalizeSubjectName = (name = '') => {
+               const s = (name || '').trim();
+               const lower = s.toLowerCase();
+               if (lower === 'maths' || lower === 'math') return 'Mathematics';
+               if (lower === 'olympiad' || lower === 'olympiad maths') return 'Logical Reasoning';
+               if (lower === 'logical reasoning' || lower === 'logic') return 'Logical Reasoning';
+               if (lower === 'english' || lower === 'literacy') return 'English';
+               if (lower === 'science') return 'Science';
+               if (lower === 'hindi') return 'Hindi';
+               return s.charAt(0).toUpperCase() + s.slice(1);
+            };
+
+            // Dynamically collect all subjects from Grade Core Curriculum + Teacher Custom Prompts + Assigned Homeworks
+            const baseSubjects = ['English', 'Mathematics', 'Science', 'Logical Reasoning', 'Hindi'];
+            const promptSubjects = Object.keys(subjectPrompts || {})
+               .filter(k => subjectPrompts[k] !== null && typeof k === 'string' && k.trim().length > 0)
+               .map(normalizeSubjectName);
+            const homeworkSubjects = currentHomeworks
+               .filter(h => h.subject && typeof h.subject === 'string' && h.subject.trim().length > 0)
+               .map(h => normalizeSubjectName(h.subject));
+            const classCustomSubjects = (activeClassroom?.subjects || []).map(normalizeSubjectName);
+
+            const gradeSubjectsList = Array.from(new Set([
+               ...baseSubjects,
+               ...promptSubjects,
+               ...homeworkSubjects,
+               ...classCustomSubjects
+            ])).filter(Boolean);
+
+            const checkSubjectMatchesFilter = (umbrellaSubject, hwSubject, selectedSubject, subtopic = '') => {
+               if (!selectedSubject) return true;
+               const selNorm = selectedSubject.toLowerCase().trim();
+               const umbNorm = (umbrellaSubject || '').toLowerCase().trim();
+               const hwNorm = (hwSubject || '').toLowerCase().trim();
+               const topicNorm = (subtopic || '').toLowerCase().trim();
+
+               // Direct match
+               if (umbNorm === selNorm || hwNorm === selNorm) return true;
+
+               // English & Sub-disciplines
+               if (selNorm === 'english') {
+                  return umbNorm === 'english' || hwNorm.includes('english') || hwNorm.includes('vocab') || hwNorm.includes('reading') || hwNorm.includes('writing') || hwNorm.includes('grammar') || hwNorm.includes('spelling');
+               }
+
+               // Mathematics
+               if (selNorm === 'mathematics') {
+                  return umbNorm === 'mathematics' || hwNorm.includes('math') || hwNorm.includes('numeracy');
+               }
+
+               // Science
+               if (selNorm === 'science') {
+                  return umbNorm === 'science' || hwNorm.includes('science');
+               }
+
+               // Logical Reasoning
+               if (selNorm === 'logical reasoning') {
+                  return umbNorm === 'logical reasoning' || hwNorm.includes('logic') || hwNorm.includes('reason') || hwNorm.includes('olympiad');
+               }
+
+               // Vocabulary specific filter
+               if (selNorm.includes('vocab')) {
+                  return hwNorm.includes('vocab') || topicNorm.includes('vocab') || topicNorm.includes('word');
+               }
+
+               // Hindi
+               if (selNorm === 'hindi') {
+                  return umbNorm === 'hindi' || hwNorm.includes('hindi');
+               }
+
+               // General fallback
+               return hwNorm.includes(selNorm) || topicNorm.includes(selNorm) || umbNorm.includes(selNorm);
+            };
 
             // Class-wide concept accuracy for benchmark
             const classSubtopicsData = {};
@@ -6537,8 +6599,8 @@ Include a balanced combination of question types such as:
                   const subtopic = mapToUmbrellaCategory(rawSubtopic, hw.subject);
                   const umbrellaSubject = getSubjectForUmbrellaCategory(subtopic, hw.subject);
                   
-                  // Strict subject filtering by umbrella subject domain!
-                  if (selectedReportSubject && umbrellaSubject !== selectedReportSubject) return;
+                  // Subject filtering supporting both core curriculum & teacher prompt subjects
+                  if (!checkSubjectMatchesFilter(umbrellaSubject, hw.subject, selectedReportSubject, subtopic)) return;
 
                   if (!classSubtopicsData[subtopic]) {
                      classSubtopicsData[subtopic] = {
@@ -6573,8 +6635,8 @@ Include a balanced combination of question types such as:
                   const subtopic = mapToUmbrellaCategory(rawSubtopic, hw.subject);
                   const umbrellaSubject = getSubjectForUmbrellaCategory(subtopic, hw.subject);
                   
-                  // Strict subject filtering by umbrella subject domain!
-                  if (selectedReportSubject && umbrellaSubject !== selectedReportSubject) return;
+                  // Subject filtering supporting both core curriculum & teacher prompt subjects
+                  if (!checkSubjectMatchesFilter(umbrellaSubject, hw.subject, selectedReportSubject, subtopic)) return;
 
                   if (!subtopicsData[subtopic]) {
                      subtopicsData[subtopic] = {
