@@ -75,30 +75,77 @@ const TuitionPayment = ({ studentName, teacher, classroom }) => {
   const CURRENCIES = { USD: '$', EUR: '€', GBP: '£', AUD: 'A$', CAD: 'C$', NZD: 'NZ$', INR: '₹', ZAR: 'R', SGD: 'S$' };
 
   useEffect(() => {
-    if (!teacher?.uid) { setLoading(false); return; }
+    let activeTeacherUid = teacher?.uid;
+    let activeClassroomName = classroom?.name;
+    let activeClassroomId = classroom?.id;
+
+    try {
+      const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student') || 'null');
+      if (!activeTeacherUid) activeTeacherUid = savedStudent?.teacher?.uid || savedStudent?.teacherId || savedStudent?.teacher?.id;
+      if (!activeClassroomName) activeClassroomName = savedStudent?.classroom?.name || savedStudent?.className;
+      if (!activeClassroomId) activeClassroomId = savedStudent?.classroom?.id || savedStudent?.classId;
+    } catch (e) {}
+
+    if (!activeTeacherUid) { 
+      setLoading(false); 
+      return; 
+    }
+
+    const currentStudentGrade = resolveGradeFromClassroomName(activeClassroomName);
+
     const load = async () => {
       try {
-        const ref = doc(db, 'teachers', teacher.uid, 'settings', 'tuitionFees');
+        const ref = doc(db, 'teachers', activeTeacherUid, 'settings', 'tuitionFees');
         const snap = await getDoc(ref);
         let loadedPackages = null;
         if (snap.exists()) {
           const data = snap.data();
           if (data.currency) setCurrency(data.currency);
-          if (data[studentGrade] && data[studentGrade].length) {
-            loadedPackages = data[studentGrade];
+
+          // 1. Try matching student's grade (e.g. "Grade 4" or "Grade 1")
+          if (data[currentStudentGrade] && Array.isArray(data[currentStudentGrade]) && data[currentStudentGrade].length) {
+            loadedPackages = data[currentStudentGrade];
+          } 
+          // 2. Try matching classroom id or name
+          else if (activeClassroomId && data[activeClassroomId] && Array.isArray(data[activeClassroomId])) {
+            loadedPackages = data[activeClassroomId];
+          }
+          else if (activeClassroomName && data[activeClassroomName] && Array.isArray(data[activeClassroomName])) {
+            loadedPackages = data[activeClassroomName];
+          }
+          // 3. Try global / default tuitionPackages
+          else if (data.tuitionPackages && Array.isArray(data.tuitionPackages) && data.tuitionPackages.length) {
+            loadedPackages = data.tuitionPackages;
+          }
+          // 4. Try defaultPackages
+          else if (data.defaultPackages && Array.isArray(data.defaultPackages) && data.defaultPackages.length) {
+            loadedPackages = data.defaultPackages;
+          }
+          // 5. Try ANY grade key in data that has packages with amount > 0
+          else {
+            const anyValidKey = Object.keys(data).find(k => Array.isArray(data[k]) && data[k].length > 0 && data[k].some(p => (Number(p.amount) || 0) > 0));
+            if (anyValidKey) {
+              loadedPackages = data[anyValidKey];
+            } else {
+              const anyArrayKey = Object.keys(data).find(k => Array.isArray(data[k]) && data[k].length > 0);
+              if (anyArrayKey) {
+                loadedPackages = data[anyArrayKey];
+              }
+            }
           }
         }
-        if (loadedPackages) {
+
+        if (loadedPackages && loadedPackages.length > 0) {
           setPackages(
             loadedPackages.map(p => ({
               ...p,
+              amount: Number(p.amount) || 0,
               ...(STYLE_MAP[p.id] || STYLE_MAP.weekly),
             }))
           );
         } else {
           setPackages(DEFAULT_PACKAGES.map(pkg => ({
             ...pkg,
-            amount: 0,
             ...(STYLE_MAP[pkg.id] || STYLE_MAP.weekly),
           })));
         }
@@ -106,14 +153,13 @@ const TuitionPayment = ({ studentName, teacher, classroom }) => {
         console.warn('Could not load tuition fees, using defaults:', e);
         setPackages(DEFAULT_PACKAGES.map(pkg => ({
           ...pkg,
-          amount: 0,
           ...(STYLE_MAP[pkg.id] || STYLE_MAP.weekly),
         })));
       }
       setLoading(false);
     };
     load();
-  }, [teacher?.uid, classroom?.name, studentGrade]);
+  }, [teacher?.uid, classroom?.name, classroom?.id, studentGrade]);
 
   return (
     <motion.div

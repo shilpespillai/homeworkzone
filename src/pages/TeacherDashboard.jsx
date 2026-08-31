@@ -2643,15 +2643,23 @@ Include a balanced combination of question types such as:
     setIsSavingFees(true);
     try {
       const ref = doc(db, 'teachers', user.uid, 'settings', 'tuitionFees');
-      await setDoc(ref, { 
+      const payload = { 
         [selectedTuitionGrade]: tuitionPackages, 
+        tuitionPackages: tuitionPackages,
+        defaultPackages: tuitionPackages,
         currency: tuitionCurrency,
         updatedAt: new Date().toISOString() 
-      }, { merge: true });
+      };
+      if (activeClassroom?.id) payload[activeClassroom.id] = tuitionPackages;
+      if (activeClassroom?.name) payload[activeClassroom.name] = tuitionPackages;
+
+      await setDoc(ref, payload, { merge: true });
       
       setAllGradeFees(prev => ({
         ...prev,
-        [selectedTuitionGrade]: tuitionPackages
+        [selectedTuitionGrade]: tuitionPackages,
+        tuitionPackages: tuitionPackages,
+        defaultPackages: tuitionPackages
       }));
 
       setFeesSaved(true);
