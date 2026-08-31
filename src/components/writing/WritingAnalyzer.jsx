@@ -26,10 +26,12 @@ import { generateContent, getModelForGrade } from '../../utils/aiClient';
 import { WRITING_GENRES, synthesizeExemplarFallback } from '../../data/writingTemplates';
 import VisualFeedbackCard from './VisualFeedbackCard';
 import { cleanFirestorePayload } from '../../utils/cleanFirestorePayload';
-import { db } from '../../firebase';
+import { auth, db } from '../../firebase';
+import { signInAnonymously } from 'firebase/auth';
 import { 
   collection, 
   doc, 
+  getDoc,
   setDoc, 
   getDocs, 
   deleteDoc, 
@@ -167,16 +169,52 @@ export default function WritingAnalyzer() {
   const activeGenre = WRITING_GENRES[genreKey] || WRITING_GENRES.persuasive;
 
   const [isSyncing, setIsSyncing] = useState(false);
+  const [syncFeedback, setSyncFeedback] = useState(null);
 
   // 1. Fetch Cloud Saved Essays from Firestore and merge with local cache
   const fetchCloudSavedEssays = async () => {
     if (!db) return;
     setIsSyncing(true);
     try {
+      if (auth && !auth.currentUser) {
+        try { await signInAnonymously(auth); } catch (e) {}
+      }
+
       const userCtx = getActiveUserContext();
       const cloudDocs = [];
 
-      // Query saved_essays from Firestore directly
+      // A. If student logged in, check student's dedicated document first
+      if (userCtx.teacherUid && userCtx.classroomId && userCtx.studentId) {
+        try {
+          const studentDocRef = doc(
+            db, 
+            'teachers', 
+            userCtx.teacherUid, 
+            'classrooms', 
+            userCtx.classroomId, 
+            'students', 
+            userCtx.studentId
+          );
+          const stSnap = await getDoc(studentDocRef);
+          if (stSnap.exists()) {
+            const stData = stSnap.data();
+            if (Array.isArray(stData.savedEssays)) {
+              stData.savedEssays.forEach(item => {
+                if (item && (item.id || item.topic)) {
+                  cloudDocs.push({
+                    id: item.id || `essay_${item.timestamp || Date.now()}`,
+                    ...item
+                  });
+                }
+              });
+            }
+          }
+        } catch (err) {
+          console.warn("Student doc fetch error:", err);
+        }
+      }
+
+      // B. Query saved_essays collection
       try {
         const snap = await getDocs(collection(db, 'saved_essays'));
         snap.forEach(d => {
@@ -199,16 +237,16 @@ export default function WritingAnalyzer() {
               const isUnassignedLegacy = !data.teacherUid && !data.studentId;
 
               if (matchesComposite || matchesTeacherAndStudent || isUnassignedLegacy) {
-                cloudDocs.push(item);
+                if (!cloudDocs.some(c => c.id === item.id)) cloudDocs.push(item);
               }
             } else if (userCtx.teacherUid) {
               // Teacher logged in: see all essays under their teacher account
               if (data.teacherUid === userCtx.teacherUid || !data.teacherUid) {
-                cloudDocs.push(item);
+                if (!cloudDocs.some(c => c.id === item.id)) cloudDocs.push(item);
               }
             } else {
               // General / Guest / Incognito
-              cloudDocs.push(item);
+              if (!cloudDocs.some(c => c.id === item.id)) cloudDocs.push(item);
             }
           }
         });
@@ -216,7 +254,7 @@ export default function WritingAnalyzer() {
         console.warn("Error querying saved_essays collection:", err);
       }
 
-      // Merge with localStorage
+      // C. Merge with localStorage
       const storedHistory = JSON.parse(localStorage.getItem(STORAGE_KEY_HISTORY) || '[]');
       const mergedMap = new Map();
 
@@ -242,6 +280,21 @@ export default function WritingAnalyzer() {
                   createdAt: serverTimestamp()
                 });
                 await setDoc(doc(db, 'saved_essays', item.id), backfillPayload, { merge: true });
+
+                if (userCtx.teacherUid && userCtx.classroomId && userCtx.studentId) {
+                  const studentDocRef = doc(
+                    db, 
+                    'teachers', 
+                    userCtx.teacherUid, 
+                    'classrooms', 
+                    userCtx.classroomId, 
+                    'students', 
+                    userCtx.studentId
+                  );
+                  await setDoc(studentDocRef, {
+                    savedEssays: arrayUnion(backfillPayload)
+                  }, { merge: true });
+                }
               }
             } catch (e) {
               console.warn("Backfill error:", e);
@@ -257,8 +310,13 @@ export default function WritingAnalyzer() {
           localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(sorted));
         } catch (e) {}
       }
+
+      setSyncFeedback(`Synced ${sorted.length} saved piece(s)`);
+      setTimeout(() => setSyncFeedback(null), 3500);
     } catch (err) {
       console.warn("Error in fetchCloudSavedEssays:", err);
+      setSyncFeedback("Sync complete");
+      setTimeout(() => setSyncFeedback(null), 3500);
     } finally {
       setIsSyncing(false);
     }
@@ -337,7 +395,7 @@ export default function WritingAnalyzer() {
       console.warn("Failed to write to localStorage:", e);
     }
 
-    // Cloud backup sync to Firestore saved_essays collection
+    // Cloud backup sync to Firestore saved_essays collection + student doc
     try {
       if (db) {
         const payload = cleanFirestorePayload({
@@ -345,6 +403,21 @@ export default function WritingAnalyzer() {
           createdAt: serverTimestamp()
         });
         await setDoc(doc(db, 'saved_essays', newEntry.id), payload, { merge: true });
+
+        if (userCtx.teacherUid && userCtx.classroomId && userCtx.studentId) {
+          const studentDocRef = doc(
+            db, 
+            'teachers', 
+            userCtx.teacherUid, 
+            'classrooms', 
+            userCtx.classroomId, 
+            'students', 
+            userCtx.studentId
+          );
+          await setDoc(studentDocRef, {
+            savedEssays: arrayUnion(payload)
+          }, { merge: true });
+        }
       }
     } catch (err) {
       console.warn("Firestore saved_essays sync error:", err);
@@ -747,6 +820,16 @@ Analyze this draft for Grade ${grade} standards. Provide:
                 </button>
               </div>
             </div>
+
+            {/* Sync Feedback Toast Banner */}
+            {syncFeedback && (
+              <div className="bg-indigo-600 text-white px-6 py-2 text-xs font-black flex items-center justify-between animate-fadeIn shadow-inner">
+                <span className="flex items-center gap-2">
+                  <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
+                  {syncFeedback}
+                </span>
+              </div>
+            )}
 
             {/* Modal Filter Tabs */}
             <div className="flex gap-2 p-4 bg-slate-50 border-b border-slate-200 overflow-x-auto no-scrollbar">
