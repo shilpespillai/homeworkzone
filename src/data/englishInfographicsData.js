@@ -337,8 +337,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 4,
     topicNumber: '4.3',
     title: 'Irregular Verb Transformation Map',
-    subtitle: 'Base, past simple and past participle patterns',
-    imageSrc: null
+    subtitle: 'Does this verb follow the regular ‘-ed’ pattern or transform irregularly?',
+    imageSrc: '/infographics/english/irregular_verb_transformation_map.jpg'
   },
   {
     id: '4-4-subject-verb-agreement-detective',
@@ -346,8 +346,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 4,
     topicNumber: '4.4',
     title: 'Subject–Verb Agreement Detective',
-    subtitle: 'Identify singular vs plural subjects and avoid trap phrases',
-    imageSrc: null
+    subtitle: 'What is the true subject, and is it singular or plural?',
+    imageSrc: '/infographics/english/subject_verb_agreement_detective.jpg'
   },
   {
     id: '4-5-active-vs-passive-voice',
@@ -355,8 +355,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 4,
     topicNumber: '4.5',
     title: 'Active vs Passive Voice',
-    subtitle: 'Who does the action and when passive voice is useful',
-    imageSrc: null
+    subtitle: 'Who performs the action, and is that performer important?',
+    imageSrc: '/infographics/english/active_vs_passive_voice.jpg'
   },
   {
     id: '4-6-modal-verbs-degrees-of-certainty',
@@ -364,8 +364,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 4,
     topicNumber: '4.6',
     title: 'Modal Verbs & Degrees of Certainty',
-    subtitle: 'Can, could, may, might, must, should, will and would',
-    imageSrc: null
+    subtitle: 'Is the speaker expressing ability, permission, possibility, advice, certainty or obligation?',
+    imageSrc: '/infographics/english/modal_verbs_degrees_of_certainty.jpg'
   },
   {
     id: '4-7-infinitive-or-gerund',
@@ -373,8 +373,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 4,
     topicNumber: '4.7',
     title: 'Infinitive or Gerund?',
-    subtitle: 'When to use “to swim” vs “swimming” after specific verbs',
-    imageSrc: null
+    subtitle: 'Does this verb naturally require ‘-ing,’ ‘to + verb’ or a meaning-based choice?',
+    imageSrc: '/infographics/english/infinitive_or_gerund.jpg'
   },
 
   // ==========================================
