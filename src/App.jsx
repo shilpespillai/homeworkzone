@@ -3522,13 +3522,10 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
                            {englishExpanded && (
                               <div className="pl-2 space-y-0.5 border-l-2 border-purple-200 ml-2">
                                  {[
-                                    { name: 'Grammar Guide & Rules', emoji: '📜' },
-                                    { name: 'Parts of Speech & Tenses', emoji: '📝' },
-                                    { name: 'Vocabulary & Word Power', emoji: '🔤' },
+                                    { name: 'English Curriculum Tree', emoji: '🌳' },
+                                    { name: 'Writing & Essay Studio', emoji: '✍️' },
                                     { name: 'Reading Comprehension', emoji: '📖' },
-                                    { name: 'Sentence Types & Punctuation', emoji: '✍️' },
-                                    { name: 'Creative Writing Studio', emoji: '🎨' },
-                                    { name: 'Writing & Essay Studio', emoji: '⚡' }
+                                    { name: 'Vocabulary & Word Power', emoji: '🔤' }
                                  ].map((topic) => (
                                     <button
                                        key={topic.name}
@@ -4321,18 +4318,21 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
                <MathFormulaSheetHub />
             )}
 
-            {(activeNav === 'Learning: Grammar Guide & Rules' ||
+            {(activeNav.includes('English') ||
+              activeNav === 'Learning: English Curriculum Tree' ||
+              activeNav === 'Learning: Grammar Guide & Rules' ||
               activeNav === 'Learning: Parts of Speech & Tenses' ||
               activeNav === 'Learning: Vocabulary & Word Power' ||
               activeNav === 'Learning: Reading Comprehension' ||
               activeNav === 'Learning: Sentence Types & Punctuation' ||
               activeNav === 'Learning: Creative Writing Studio' ||
-              activeNav === 'Learning: Writing & Essay Studio' ||
-              activeNav === 'Learning: English') && (
-               <EnglishHub topicName={activeNav.replace('Learning: ', '')} />
+              activeNav === 'Learning: Writing & Essay Studio') && (
+                <EnglishHub topicName={activeNav.replace('Learning: ', '')} />
             )}
 
             {activeNav.startsWith('Learning: ') && 
+             !activeNav.includes('English') &&
+             activeNav !== 'Learning: English Curriculum Tree' &&
              activeNav !== 'Learning: Curious Questions' &&
              activeNav !== 'Learning: Formula Sheet' &&
              activeNav !== 'Learning: Grammar Guide & Rules' &&
@@ -4342,7 +4342,6 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
              activeNav !== 'Learning: Sentence Types & Punctuation' &&
              activeNav !== 'Learning: Creative Writing Studio' &&
              activeNav !== 'Learning: Writing & Essay Studio' &&
-             activeNav !== 'Learning: English' &&
              activeNav !== 'Learning: Body and Functions' && 
              activeNav !== 'Learning: Types of Teeth & Functions' && 
              activeNav !== 'Learning: Nutrition & Balanced Diet' && 

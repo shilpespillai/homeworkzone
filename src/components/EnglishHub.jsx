@@ -36,11 +36,11 @@ import {
 import confetti from 'canvas-confetti';
 import WritingAnalyzer from './writing/WritingAnalyzer';
 import NarrativeImageAnalyzer from './writing/NarrativeImageAnalyzer';
-import EnglishInfographicViewer from './EnglishInfographicViewer';
+import EnglishKnowledgeTree from './EnglishKnowledgeTree';
 
 export default function EnglishHub({ topicName }) {
   const [activeTab, setActiveTab] = useState(
-    topicName ? getTabFromTopic(topicName) : 'infographics'
+    topicName ? getTabFromTopic(topicName) : 'tree'
   );
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [activeModalImage, setActiveModalImage] = useState(null); // stores { src, title, subtitle }
@@ -56,17 +56,17 @@ export default function EnglishHub({ topicName }) {
   const [quizScore, setQuizScore] = useState(null);
 
   function getTabFromTopic(topic) {
-    if (topic?.includes('Infographic') || topic?.includes('Masterclass') || topic?.includes('Poster')) return 'infographics';
-    if (topic?.includes('Grammar') || topic?.includes('Guide') || topic?.includes('Foundations')) return 'infographics';
-    if (topic?.includes('Sentence') || topic?.includes('Punctuation') || topic?.includes('Clauses')) return 'infographics';
-    if (topic?.includes('Parts') || topic?.includes('Tenses') || topic?.includes('Verbs')) return 'infographics';
-    if (topic?.includes('Confused') || topic?.includes('Rules')) return 'infographics';
+    if (topic?.includes('Tree') || topic?.includes('Curriculum') || topic?.includes('Infographic') || topic?.includes('Masterclass') || topic?.includes('Poster')) return 'tree';
+    if (topic?.includes('Grammar') || topic?.includes('Guide') || topic?.includes('Foundations')) return 'tree';
+    if (topic?.includes('Sentence') || topic?.includes('Punctuation') || topic?.includes('Clauses')) return 'tree';
+    if (topic?.includes('Parts') || topic?.includes('Tenses') || topic?.includes('Verbs')) return 'tree';
+    if (topic?.includes('Confused') || topic?.includes('Rules')) return 'tree';
     if (topic?.includes('Essay') || topic?.includes('Visual') || topic?.includes('Feedback') || topic?.includes('Exemplar')) return 'visual-feedback';
     if (topic?.includes('Vocabulary') || topic?.includes('Spelling')) return 'vocab';
     if (topic?.includes('Reading') || topic?.includes('Comprehension')) return 'reading';
     if (topic?.includes('Creative') || topic?.includes('Narrative') || topic?.includes('Writing')) return 'writing';
     if (topic?.includes('Quiz') || topic?.includes('Master')) return 'quiz';
-    return 'infographics';
+    return 'tree';
   }
 
   // Sync activeTab whenever the sidebar changes the topicName prop
@@ -521,13 +521,11 @@ export default function EnglishHub({ topicName }) {
       {/* --- Top Navigation Tabs --- */}
       <div className="bg-white rounded-3xl p-2 border border-slate-200 shadow-sm flex flex-wrap gap-2">
         {[
-          { id: 'infographics', label: '🌟 54 Infographics Masterclass', badge: 'All 7 Levels' },
+          { id: 'tree', label: '🌳 Curriculum Knowledge Tree', badge: 'All 7 Branches' },
           { id: 'grammar', label: '📜 Grammar Poster', badge: 'Wall Poster' },
-          { id: 'parts', label: '🪄 Parts of Speech', badge: '9 Types' },
           { id: 'reading', label: '📖 Reading Comprehension', badge: '3 Passages' },
           { id: 'visual-feedback', label: '✍️ Writing Studio', badge: 'AI Feedback' },
-          { id: 'vocab', label: '🔤 Vocabulary Power', badge: 'Flashcards' },
-          { id: 'quiz', label: '🏆 English Quiz', badge: 'Challenge' }
+          { id: 'vocab', label: '🔤 Vocabulary Power', badge: 'Flashcards' }
         ].map((tab) => {
           const isActive = activeTab === tab.id;
           return (
@@ -549,9 +547,9 @@ export default function EnglishHub({ topicName }) {
         })}
       </div>
 
-      {/* ==================================== TAB 0: 54 INFOGRAPHICS MASTERCLASS ==================================== */}
-      {activeTab === 'infographics' && (
-        <EnglishInfographicViewer />
+      {/* ==================================== TAB 0: CURRICULUM KNOWLEDGE TREE ==================================== */}
+      {activeTab === 'tree' && (
+        <EnglishKnowledgeTree selectedTopicName={topicName} />
       )}
 
       {/* ==================================== TAB 1: GRAMMAR GUIDE POSTER ==================================== */}
