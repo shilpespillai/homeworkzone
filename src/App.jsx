@@ -5863,56 +5863,11 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                       <input
                         type="text"
                         value={code}
-                        onChange={(e) => { 
-                          const val = e.target.value;
-                          setCode(val); 
-                          setShowPwField(false);
-                          if (val.trim().length >= 4) {
-                            fetchClassroomsForCode(val);
-                          } else {
-                            setAvailableClassrooms([]);
-                            setSelectedClassId('');
-                          }
-                        }}
-                        onBlur={() => {
-                          if (code.trim().length >= 3) {
-                            fetchClassroomsForCode(code);
-                          }
-                        }}
+                        onChange={(e) => { setCode(e.target.value); setShowPwField(false); }}
                         placeholder="e.g. HWZ123"
                         required
                         className="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 outline-none focus:border-blue-400 transition-colors font-bold text-center text-lg tracking-widest uppercase"
                       />
-                    </div>
-
-                    {/* Class / Grade Selector Auto-Populated from Teacher Code */}
-                    <div>
-                      <label className="text-xs font-bold uppercase text-slate-400 tracking-wider block mb-1.5 flex items-center justify-between">
-                        <span>Your Grade / Class</span>
-                        {loadingClassrooms && (
-                          <span className="text-[10px] text-blue-500 font-bold animate-pulse">Loading grades...</span>
-                        )}
-                      </label>
-                      {availableClassrooms.length > 0 ? (
-                        <select
-                          value={selectedClassId}
-                          onChange={(e) => setSelectedClassId(e.target.value)}
-                          required
-                          className="w-full px-4 py-3 rounded-2xl border-2 border-emerald-300 bg-emerald-50/50 outline-none focus:border-emerald-500 transition-colors font-black text-center text-base text-slate-800 cursor-pointer shadow-sm"
-                        >
-                          {availableClassrooms.map((c) => (
-                            <option key={c.id} value={c.id}>
-                              🎓 {c.name}
-                            </option>
-                          ))}
-                        </select>
-                      ) : (
-                        <div className="w-full px-4 py-3 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 text-center text-xs font-semibold text-slate-400">
-                          {code.trim().length >= 3 
-                            ? (loadingClassrooms ? 'Fetching your teacher’s grades...' : 'Grades will appear here once valid Teacher Code is entered') 
-                            : 'Enter Teacher Code above to load your grade options'}
-                        </div>
-                      )}
                     </div>
 
                     <div>
@@ -6018,10 +5973,35 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                 <div className="text-5xl">🔐</div>
                 <h2 className="text-2xl font-black text-slate-800">Create Your Password</h2>
                 <p className="text-sm text-slate-500">
-                  Hi <strong>{pendingStudentInfo.matchedStudentName}</strong>! This is your first time logging in.
+                  Hi <strong>{pendingStudentInfo.studentName || pendingStudentInfo.matchedStudentName}</strong>! This is your first time logging in.
                   Please create a secret password — you'll need it every time you log in.
                 </p>
               </div>
+
+              {pendingStudentInfo.multipleNewStudents && (
+                <div className="space-y-1.5 text-left">
+                  <label className="text-xs font-bold uppercase text-slate-400 tracking-wider block">Which Class Are You In?</label>
+                  <select
+                    value={pendingStudentInfo.classId || pendingStudentInfo.options?.[0]?.classId}
+                    onChange={(e) => {
+                      const sel = pendingStudentInfo.options?.find(o => o.classId === e.target.value);
+                      if (sel) {
+                        setPendingStudentInfo(prev => ({
+                          ...prev,
+                          classId: sel.classId,
+                          studentId: sel.studentId,
+                          classroom: sel.classroom
+                        }));
+                      }
+                    }}
+                    className="w-full px-4 py-2.5 rounded-2xl border-2 border-emerald-300 bg-emerald-50 text-sm font-bold text-slate-800"
+                  >
+                    {pendingStudentInfo.options?.map(opt => (
+                      <option key={opt.classId} value={opt.classId}>🎓 {opt.className}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
               {createPwError && (
                 <div className="bg-rose-50 border border-rose-200 text-rose-600 px-4 py-3 rounded-2xl text-sm font-semibold text-center">
@@ -6132,56 +6112,15 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
   );
 };
 
-// --- (LoginPage with Auto-Populated Grade Selection) ---
+// --- (LoginPage with Password-Based Auto-Routing) ---
 const LoginPage = ({ role, onLogin }) => {
   const navigate = useNavigate();
   const [code, setCode] = useState('');
   const [studentName, setStudentName] = useState('');
-  const [availableClassrooms, setAvailableClassrooms] = useState([]);
-  const [selectedClassId, setSelectedClassId] = useState('');
-  const [loadingClassrooms, setLoadingClassrooms] = useState(false);
+  const [studentPassword, setStudentPassword] = useState('');
+  const [showPwField, setShowPwField] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
-
-  const fetchClassroomsForCode = async (inputCode) => {
-    if (!inputCode || inputCode.trim().length < 3) {
-      setAvailableClassrooms([]);
-      setSelectedClassId('');
-      return;
-    }
-    setLoadingClassrooms(true);
-    try {
-      const cleanCode = inputCode.trim().toUpperCase();
-      const q = query(collection(db, 'teachers'), where('teacherCode', '==', cleanCode), limit(1));
-      const snap = await getDocs(q);
-      if (!snap.empty) {
-        const teacherDoc = snap.docs[0];
-        const classesSnap = await getDocs(collection(db, 'teachers', teacherDoc.id, 'classrooms'));
-        const classes = classesSnap.docs.map(d => ({
-          id: d.id,
-          name: d.data().name || 'Class',
-          grade: d.data().name || 'Grade'
-        }));
-        setAvailableClassrooms(classes);
-        if (classes.length > 0) {
-          setSelectedClassId(prev => {
-            const exists = classes.some(c => c.id === prev);
-            return exists ? prev : classes[0].id;
-          });
-        } else {
-          setSelectedClassId('');
-        }
-      } else {
-        setAvailableClassrooms([]);
-        setSelectedClassId('');
-      }
-    } catch (err) {
-      console.warn('Could not auto-fetch classrooms for code:', err);
-      setAvailableClassrooms([]);
-      setSelectedClassId('');
-    }
-    setLoadingClassrooms(false);
-  };
 
   const handleSubmit = async () => {
     setErrorMsg('');
@@ -6222,85 +6161,50 @@ const LoginPage = ({ role, onLogin }) => {
         });
         navigate('/dashboard/teacher');
       } else {
-        // Student login via Teacher Code + Grade Selection + Name Verification
-        try { await signInAnonymously(auth); } catch(e){} 
-        const q = query(collection(db, 'teachers'), where('teacherCode', '==', code.toUpperCase()), limit(1));
-        const querySnapshot = await getDocs(q);
-        
-        if (!querySnapshot.empty) {
-          const teacherDoc = querySnapshot.docs[0];
-          const teacherData = teacherDoc.data();
-          
-          // Enforce 7-day trial check for unpaid accounts
-          const isAdminUser = teacherData.isAdmin === true || teacherData.role === 'admin';
-          const teacherBilling = teacherData.billing;
-          const isPaid = teacherBilling && ['active', 'trialing'].includes(teacherBilling.status);
-          if (!isPaid && !isAdminUser) {
-            const rawCreated = teacherData.createdAt || teacherBilling?.createdAt;
-            if (rawCreated) {
-              const createdDate = new Date(rawCreated);
-              const today = new Date();
-              const diffTime = today - createdDate;
-              const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-              if (diffDays > 7) {
-                setErrorMsg("Your classroom's trial has expired. Ask your teacher/parent to subscribe to unlock the Homework Zone! 🔒");
-                setIsLoading(false);
-                return;
-              }
+        // Secure Student Login via Backend Auth API (with Password Auto-Routing)
+        try {
+          const res = await fetch('/api/student-auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'verify',
+              teacherCode: code,
+              studentName: studentName,
+              password: showPwField ? studentPassword : ''
+            })
+          });
+
+          const data = await res.json();
+
+          if (!res.ok || !data.success) {
+            setErrorMsg(data.error || 'Login failed. Please check your code and name!');
+            setIsLoading(false);
+            return;
+          }
+
+          if (data.requiresPassword) {
+            setShowPwField(true);
+            setIsLoading(false);
+            return;
+          }
+
+          if (data.customToken) {
+            try {
+              await signInWithCustomToken(auth, data.customToken);
+            } catch (e) {
+              console.warn('Custom token sign-in notice:', e);
             }
           }
 
-          // Verify if student name is on the approved list (Targeted to selectedClassId if set)
-          const classroomsRef = collection(db, 'teachers', teacherDoc.id, 'classrooms');
-          const classroomsSnap = await getDocs(classroomsRef);
-          
-          let studentFound = false;
-          let studentClass = null;
-          let matchedStudentName = null;
-
-          const normalizeName = (name) => (name || '').trim().toLowerCase().replace(/\s+/g, ' ');
-          const cleanInputName = normalizeName(studentName);
-
-          const classDocsToSearch = selectedClassId 
-            ? classroomsSnap.docs.filter(d => d.id === selectedClassId)
-            : classroomsSnap.docs;
-
-          for (const classDoc of classDocsToSearch) {
-             const studentsRef = collection(db, 'teachers', teacherDoc.id, 'classrooms', classDoc.id, 'students');
-             const studentsSnap = await getDocs(studentsRef);
-             
-             const matchedDoc = studentsSnap.docs.find(stDoc => {
-                const stData = stDoc.data();
-                return normalizeName(stDoc.id) === cleanInputName || 
-                       normalizeName(stData.name) === cleanInputName;
-             });
-
-             if (matchedDoc) {
-                studentFound = true;
-                studentClass = { id: classDoc.id, ...classDoc.data() };
-                matchedStudentName = (matchedDoc.data().name || matchedDoc.id).trim();
-                // Check if student is paused by the teacher
-                const studentStatus = matchedDoc.data().status;
-                if (studentStatus === 'paused') {
-                   setErrorMsg("Your account has been paused by your teacher. Please speak to your teacher to restore access. 🔒");
-                   alert("Your account has been paused by your teacher. Please speak to your teacher to restore access. 🔒");
-                   setIsLoading(false);
-                   return;
-                }
-                break;
-             }
-          }
-
-          if (studentFound) {
-             onLogin({ teacher: { uid: teacherDoc.id, ...teacherData }, name: matchedStudentName, classroom: studentClass });
-             navigate('/dashboard/student');
-          } else {
-             setErrorMsg("Oops! Your name isn't on the class list for this grade. Please check your grade and name! 🍎");
-             alert("Oops! Your name isn't on the class list for this grade. Please check your grade and name! 🍎");
-          }
-        } else {
-          setErrorMsg("Invalid Teacher Code. Please check with your teacher! 🔍");
-          alert("Invalid Teacher Code. Please check with your teacher! 🔍");
+          onLogin({
+            teacher: data.teacher,
+            name: data.studentName,
+            classroom: data.classroom
+          });
+          navigate('/dashboard/student');
+        } catch (apiErr) {
+          console.error("Student login API error:", apiErr);
+          setErrorMsg("Login failed. Please try again! 🔄");
         }
       }
     } catch (error) {
@@ -6371,54 +6275,10 @@ const LoginPage = ({ role, onLogin }) => {
                 <input 
                   type="text" 
                   value={code}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setCode(val);
-                    if (val.trim().length >= 4) {
-                      fetchClassroomsForCode(val);
-                    } else {
-                      setAvailableClassrooms([]);
-                      setSelectedClassId('');
-                    }
-                  }}
-                  onBlur={() => {
-                    if (code.trim().length >= 3) {
-                      fetchClassroomsForCode(code);
-                    }
-                  }}
+                  onChange={(e) => { setCode(e.target.value); setShowPwField(false); }}
                   placeholder="EX: HWZ123" 
                   className="w-full p-4 rounded-2xl border-4 border-slate-100 outline-none focus:border-[#38BDF8] transition-all font-semibold text-center text-xl tracking-widest uppercase" 
                 />
-              </div>
-
-              {/* Class / Grade Selector Auto-Populated from Teacher Code */}
-              <div className="space-y-2 text-left">
-                <label className="text-[10px] font-semibold uppercase text-slate-400 tracking-[0.1em] block ml-4 flex items-center justify-between">
-                  <span>Your Grade / Class</span>
-                  {loadingClassrooms && (
-                    <span className="text-[10px] text-blue-500 font-bold animate-pulse">Loading grades...</span>
-                  )}
-                </label>
-                {availableClassrooms.length > 0 ? (
-                  <select
-                    value={selectedClassId}
-                    onChange={(e) => setSelectedClassId(e.target.value)}
-                    required
-                    className="w-full p-4 rounded-2xl border-4 border-emerald-300 bg-emerald-50/60 outline-none focus:border-emerald-500 transition-all font-black text-center text-lg text-slate-800 cursor-pointer shadow-sm"
-                  >
-                    {availableClassrooms.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        🎓 {c.name}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <div className="w-full p-3.5 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 text-center text-xs font-semibold text-slate-400">
-                    {code.trim().length >= 3 
-                      ? (loadingClassrooms ? 'Fetching grades...' : 'Grades will appear here once valid Teacher Code is entered') 
-                      : 'Enter Teacher Code above to load your grade options'}
-                  </div>
-                )}
               </div>
 
               <div className="space-y-2">
@@ -6426,11 +6286,26 @@ const LoginPage = ({ role, onLogin }) => {
                 <input 
                   type="text" 
                   value={studentName}
-                  onChange={(e) => setStudentName(e.target.value)}
+                  onChange={(e) => { setStudentName(e.target.value); setShowPwField(false); }}
                   placeholder="e.g., Alex" 
                   className="w-full p-4 rounded-2xl border-4 border-slate-100 outline-none focus:border-[#38BDF8] transition-all font-semibold text-center text-xl uppercase tracking-widest" 
                 />
               </div>
+
+              {showPwField && (
+                <div className="space-y-2">
+                  <label className="text-[10px] font-semibold uppercase text-slate-400 tracking-[0.1em] block text-left ml-4">🔒 Password</label>
+                  <input 
+                    type="password" 
+                    value={studentPassword}
+                    onChange={(e) => setStudentPassword(e.target.value)}
+                    placeholder="Enter your password" 
+                    autoFocus
+                    className="w-full p-4 rounded-2xl border-4 border-blue-300 outline-none focus:border-blue-500 transition-all font-semibold text-center text-xl tracking-widest" 
+                  />
+                  <p className="text-xs text-slate-400 text-center">Enter the password you created on your first login.</p>
+                </div>
+              )}
             </div>
           )}
         </div>

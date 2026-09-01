@@ -147,98 +147,108 @@ export default async function handler(req, res) {
       }
     }
 
-    // 3. Search classrooms for the student (filter by selectedClassId/classId if provided)
-    const targetClassId = classId || selectedClassId;
+    // 3. Search classrooms for all students matching the given name
     const classroomsSnap = await db.collection('teachers').doc(teacherIdFound).collection('classrooms').get();
-    let studentFound = false;
-    let matchedClassData = null;
-    let matchedClassId = null;
-    let matchedStudentDocId = null;
-    let matchedStudentData = null;
+    const allMatches = [];
 
-    const filteredClassDocs = targetClassId 
-      ? classroomsSnap.docs.filter(d => d.id === targetClassId)
-      : classroomsSnap.docs;
-
-    for (const cDoc of filteredClassDocs) {
+    for (const cDoc of classroomsSnap.docs) {
       const studentsSnap = await db.collection('teachers').doc(teacherIdFound).collection('classrooms').doc(cDoc.id).collection('students').get();
-      const matched = studentsSnap.docs.find(stDoc => {
+      for (const stDoc of studentsSnap.docs) {
         const stData = stDoc.data();
-        return normalizeName(stDoc.id) === cleanInputName || normalizeName(stData.name) === cleanInputName;
-      });
-
-      if (matched) {
-        studentFound = true;
-        matchedClassId = cDoc.id;
-        matchedClassData = { id: cDoc.id, ...cDoc.data() };
-        matchedStudentDocId = matched.id;
-        matchedStudentData = matched.data();
-        break;
+        if (normalizeName(stDoc.id) === cleanInputName || normalizeName(stData.name) === cleanInputName) {
+          allMatches.push({
+            classId: cDoc.id,
+            classData: { id: cDoc.id, ...cDoc.data() },
+            studentDocId: stDoc.id,
+            studentData: stData
+          });
+        }
       }
     }
 
-    if (!studentFound) {
+    if (allMatches.length === 0) {
       return res.status(404).json({ error: "Oops! Your name isn't on the class list yet. Talk to your teacher to join!" });
     }
 
-    // 4. Check paused or quota locked
-    if (matchedStudentData.isQuotaLocked) {
-      return res.status(403).json({ error: 'Your account has been temporarily locked due to your class plan limits. Please speak to your teacher.' });
-    }
-    if (matchedStudentData.status === 'paused') {
-      return res.status(403).json({ error: 'Your account has been paused by your teacher. Please speak to your teacher to restore access.' });
-    }
+    // 4. If password was provided: Match password hash across all matching student records (Auto-Routing)
+    if (password) {
+      const inputHash = hashPasswordNode(password);
+      const matchedRecord = allMatches.find(m => m.studentData.passwordHash && m.studentData.passwordHash === inputHash);
 
-    const storedHash = matchedStudentData.passwordHash;
-    const finalStudentName = (matchedStudentData.name || matchedStudentDocId).trim();
+      if (!matchedRecord) {
+        return res.status(401).json({ error: 'Incorrect password. Please try again!' });
+      }
 
-    // 5. First-time student without password
-    if (!storedHash) {
+      // Check paused or quota locked
+      if (matchedRecord.studentData.isQuotaLocked) {
+        return res.status(403).json({ error: 'Your account has been temporarily locked due to your class plan limits. Please speak to your teacher.' });
+      }
+      if (matchedRecord.studentData.status === 'paused') {
+        return res.status(403).json({ error: 'Your account has been paused by your teacher. Please speak to your teacher to restore access.' });
+      }
+
+      const finalStudentName = (matchedRecord.studentData.name || matchedRecord.studentDocId).trim();
+      let customToken = null;
+      try {
+        customToken = await admin.auth().createCustomToken(`student_${teacherIdFound}_${matchedRecord.studentDocId}`, {
+          role: 'student',
+          teacherId: teacherIdFound,
+          classId: matchedRecord.classId,
+          studentName: finalStudentName
+        });
+      } catch (authErr) {
+        console.warn('Custom token creation skipped/failed:', authErr.message);
+      }
+
       return res.status(200).json({
         success: true,
-        needsPasswordSetup: true,
-        teacherId: teacherIdFound,
-        classId: matchedClassId,
-        studentId: matchedStudentDocId,
+        customToken,
         studentName: finalStudentName,
-        classroom: matchedClassData,
+        classroom: matchedRecord.classData,
         teacher: { uid: teacherIdFound, ...teacherData }
       });
     }
 
-    // 6. Returning student without password entered yet
-    if (!password) {
+    // 5. If NO password provided yet: Check whether matching students have a password set
+    const recordsWithPassword = allMatches.filter(m => !!m.studentData.passwordHash);
+
+    if (recordsWithPassword.length > 0) {
+      // Prompt for password (password input will auto-route to correct grade)
       return res.status(200).json({
         success: true,
         requiresPassword: true,
-        studentName: finalStudentName
+        studentName: (allMatches[0].studentData.name || allMatches[0].studentDocId).trim()
       });
     }
 
-    // 7. Verify password
-    const inputHash = hashPasswordNode(password);
-    if (inputHash !== storedHash) {
-      return res.status(401).json({ error: 'Incorrect password. Please try again!' });
-    }
-
-    // 8. Password matches -> create custom token
-    let customToken = null;
-    try {
-      customToken = await admin.auth().createCustomToken(`student_${teacherIdFound}_${matchedStudentDocId}`, {
-        role: 'student',
+    // 6. First-time student without password yet
+    if (allMatches.length === 1) {
+      const single = allMatches[0];
+      return res.status(200).json({
+        success: true,
+        needsPasswordSetup: true,
         teacherId: teacherIdFound,
-        classId: matchedClassId,
-        studentName: finalStudentName
+        classId: single.classId,
+        studentId: single.studentDocId,
+        studentName: (single.studentData.name || single.studentDocId).trim(),
+        classroom: single.classData,
+        teacher: { uid: teacherIdFound, ...teacherData }
       });
-    } catch (authErr) {
-      console.warn('Custom token creation skipped/failed:', authErr.message);
     }
 
+    // If multiple brand-new students with same name haven't set passwords yet
     return res.status(200).json({
       success: true,
-      customToken,
-      studentName: finalStudentName,
-      classroom: matchedClassData,
+      needsPasswordSetup: true,
+      multipleNewStudents: true,
+      options: allMatches.map(m => ({
+        classId: m.classId,
+        className: m.classData.name || 'Class',
+        studentId: m.studentDocId,
+        studentName: (m.studentData.name || m.studentDocId).trim(),
+        classroom: m.classData
+      })),
+      teacherId: teacherIdFound,
       teacher: { uid: teacherIdFound, ...teacherData }
     });
 
