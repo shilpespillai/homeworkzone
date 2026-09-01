@@ -176,8 +176,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 2,
     topicNumber: '2.2',
     title: 'Sentence Fragment Repair Shop',
-    subtitle: 'Identify and repair missing subjects, verbs and incomplete thoughts',
-    imageSrc: null
+    subtitle: 'What essential sentence component is missing? Grammar Garage',
+    imageSrc: '/infographics/english/sentence_fragment_repair_shop.jpg'
   },
   {
     id: '2-3-run-on-sentence-rescue',
@@ -193,9 +193,9 @@ export const ENGLISH_INFOGRAPHICS = [
     domainId: 'sentence-construction',
     levelNumber: 2,
     topicNumber: '2.4',
-    title: 'Four Sentence Types',
-    subtitle: 'Declarative, interrogative, imperative and exclamatory sentences',
-    imageSrc: null
+    title: 'The Four Sentence Types',
+    subtitle: 'What is the sentence doing—stating, asking, commanding or expressing strong emotion?',
+    imageSrc: '/infographics/english/the_four_sentence_types.jpg'
   },
   {
     id: '2-5-simple-compound-complex-sentences',
@@ -212,8 +212,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 2,
     topicNumber: '2.6',
     title: 'Compound-Complex Sentence Builder',
-    subtitle: 'Visual assembly line for multi-clause sentences',
-    imageSrc: null
+    subtitle: 'Can we locate two complete ideas and at least one dependent idea?',
+    imageSrc: '/infographics/english/compound_complex_sentence_builder.jpg'
   },
   {
     id: '2-7-subject-predicate-detective',
@@ -498,17 +498,17 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 6,
     topicNumber: '6.6',
     title: 'Fewer vs Less & Much vs Many',
-    subtitle: 'Countable items vs uncountable quantities',
-    imageSrc: null
+    subtitle: 'Countable vs Uncountable (Quantity / Amount)',
+    imageSrc: '/infographics/english/fewer_vs_less_much_vs_many.jpg'
   },
   {
     id: '6-7-lie-vs-lay-sit-vs-set-rise-vs-raise',
     domainId: 'commonly-confused',
     levelNumber: 6,
     topicNumber: '6.7',
-    title: 'Lie vs Lay, Sit vs Set, Rise vs Raise',
-    subtitle: 'Actions with and without direct objects',
-    imageSrc: null
+    title: 'Lie vs Lay | Sit vs Set | Rise vs Raise',
+    subtitle: 'Is the subject doing the action itself, or performing the action on something?',
+    imageSrc: '/infographics/english/lie_lay_sit_set_rise_raise.jpg'
   },
 
   // ==========================================
