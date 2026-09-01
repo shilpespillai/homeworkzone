@@ -306,8 +306,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 3,
     topicNumber: '3.6',
     title: 'Participial, Gerund & Infinitive Phrases',
-    subtitle: 'Verbs acting as adjectives, nouns or adverbs',
-    imageSrc: null
+    subtitle: 'One verb. Many forms. Different jobs! (Describing, Naming, or Beginning with "to")',
+    imageSrc: '/infographics/english/participle_gerund_infinitive_phrases.jpg'
   },
 
   // ==========================================
@@ -452,18 +452,18 @@ export const ENGLISH_INFOGRAPHICS = [
     domainId: 'commonly-confused',
     levelNumber: 6,
     topicNumber: '6.1',
-    title: 'Your vs You’re & Their vs There vs They’re',
-    subtitle: 'Rules and substitution tricks for high-frequency confusions',
-    imageSrc: null
+    title: 'Your vs You’re | Their vs There vs They’re',
+    subtitle: 'Different spellings. Different meanings. Use the tests!',
+    imageSrc: '/infographics/english/your_youre_their_there_theyre.jpg'
   },
   {
     id: '6-2-its-vs-its-whose-vs-whos',
     domainId: 'commonly-confused',
     levelNumber: 6,
     topicNumber: '6.2',
-    title: 'Its vs It’s & Whose vs Who’s',
-    subtitle: 'Possession vs contraction checks',
-    imageSrc: null
+    title: 'Its vs It’s | Whose vs Who’s',
+    subtitle: 'Possessive or contraction? Meaning matters!',
+    imageSrc: '/infographics/english/its_its_whose_whos.jpg'
   },
   {
     id: '6-3-to-too-and-two',
@@ -479,9 +479,9 @@ export const ENGLISH_INFOGRAPHICS = [
     domainId: 'commonly-confused',
     levelNumber: 6,
     topicNumber: '6.4',
-    title: 'Then vs Than & Affect vs Effect',
-    subtitle: 'Time vs comparison, and action vs result comparisons',
-    imageSrc: null
+    title: 'Then vs Than | Affect vs Effect',
+    subtitle: 'Time, comparison, influence or result comparisons',
+    imageSrc: '/infographics/english/then_than_affect_effect.jpg'
   },
   {
     id: '6-5-who-vs-whom',
@@ -489,8 +489,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 6,
     topicNumber: '6.5',
     title: 'Who vs Whom',
-    subtitle: 'The “He / Him” replacement rule',
-    imageSrc: null
+    subtitle: 'Subject or Object? Use the HE/HIM Test!',
+    imageSrc: '/infographics/english/who_vs_whom.jpg'
   },
   {
     id: '6-6-fewer-vs-less-much-vs-many',
