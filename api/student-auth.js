@@ -31,7 +31,29 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { action = 'verify', teacherCode, studentName, password, teacherId, classId, studentId, newPassword, messageIds } = req.body || {};
+    const { action = 'verify', teacherCode, studentName, password, teacherId, classId, selectedClassId, studentId, newPassword, messageIds } = req.body || {};
+
+    if (action === 'get-classes') {
+      if (!teacherCode) return res.status(400).json({ error: 'Missing teacherCode' });
+      const cleanCode = teacherCode.toUpperCase().trim();
+      const teachersSnap = await db.collection('teachers').where('teacherCode', '==', cleanCode).limit(1).get();
+      if (teachersSnap.empty) {
+        return res.status(404).json({ error: 'Invalid Teacher Code.' });
+      }
+      const tDoc = teachersSnap.docs[0];
+      const classroomsSnap = await db.collection('teachers').doc(tDoc.id).collection('classrooms').get();
+      const classrooms = classroomsSnap.docs.map(d => ({
+        id: d.id,
+        name: d.data().name || 'Class',
+        grade: d.data().name || 'Grade 1'
+      }));
+      return res.status(200).json({
+        success: true,
+        teacherId: tDoc.id,
+        teacherName: tDoc.data().displayName || tDoc.data().name || 'Teacher',
+        classrooms
+      });
+    }
 
     if (action === 'mark-read') {
       if (Array.isArray(messageIds) && messageIds.length > 0) {
@@ -125,7 +147,8 @@ export default async function handler(req, res) {
       }
     }
 
-    // 3. Search classrooms for the student
+    // 3. Search classrooms for the student (filter by selectedClassId/classId if provided)
+    const targetClassId = classId || selectedClassId;
     const classroomsSnap = await db.collection('teachers').doc(teacherIdFound).collection('classrooms').get();
     let studentFound = false;
     let matchedClassData = null;
@@ -133,7 +156,11 @@ export default async function handler(req, res) {
     let matchedStudentDocId = null;
     let matchedStudentData = null;
 
-    for (const cDoc of classroomsSnap.docs) {
+    const filteredClassDocs = targetClassId 
+      ? classroomsSnap.docs.filter(d => d.id === targetClassId)
+      : classroomsSnap.docs;
+
+    for (const cDoc of filteredClassDocs) {
       const studentsSnap = await db.collection('teachers').doc(teacherIdFound).collection('classrooms').doc(cDoc.id).collection('students').get();
       const matched = studentsSnap.docs.find(stDoc => {
         const stData = stDoc.data();
