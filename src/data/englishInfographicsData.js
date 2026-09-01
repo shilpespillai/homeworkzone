@@ -556,8 +556,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 7,
     topicNumber: '7.5',
     title: 'Formal vs Informal Language',
-    subtitle: 'Word choice and structure for different audiences',
-    imageSrc: null
+    subtitle: 'Who is the audience, and what level of formality does the situation require?',
+    imageSrc: '/infographics/english/formal_vs_informal_language.jpg'
   },
   {
     id: '7-6-editing-detective-checklist-cups',
