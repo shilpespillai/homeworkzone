@@ -318,9 +318,9 @@ export const ENGLISH_INFOGRAPHICS = [
     domainId: 'verb-mastery',
     levelNumber: 4,
     topicNumber: '4.1',
-    title: 'Complete English Tense Timeline',
-    subtitle: 'Past, present and future across simple, continuous, perfect and perfect continuous',
-    imageSrc: null
+    title: 'The Complete English Tense Timeline',
+    subtitle: 'When does the action happen, and is it habitual, continuing, completed or continuing over time?',
+    imageSrc: '/infographics/english/complete_english_tense_timeline.jpg'
   },
   {
     id: '4-2-choosing-the-correct-tense',
@@ -328,8 +328,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 4,
     topicNumber: '4.2',
     title: 'Choosing the Correct Tense',
-    subtitle: 'Time words: yesterday, right now, already, since and tomorrow',
-    imageSrc: null
+    subtitle: 'What does the sentence reveal about the timing and state of the action?',
+    imageSrc: '/infographics/english/choosing_the_correct_tense.jpg'
   },
   {
     id: '4-3-irregular-verb-transformation-map',
@@ -573,9 +573,9 @@ export const ENGLISH_INFOGRAPHICS = [
     domainId: 'writing-improvement',
     levelNumber: 7,
     topicNumber: '7.7',
-    title: 'Proofreading in Five Passes',
-    subtitle: 'Meaning $\\rightarrow$ sentences $\\rightarrow$ verbs $\\rightarrow$ punctuation $\\rightarrow$ spelling',
-    imageSrc: null
+    title: 'Five Focused Proofreading Rounds',
+    subtitle: 'Can one careful check focus on only one category of errors? (Meaning, Sentences, Verbs, Punctuation, Spelling)',
+    imageSrc: '/infographics/english/five_focused_proofreading_rounds.jpg'
   },
   {
     id: '7-8-avoiding-repetition',
@@ -583,8 +583,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 7,
     topicNumber: '7.8',
     title: 'Avoiding Repetition',
-    subtitle: 'Synonyms, pronouns and rephrasing techniques',
-    imageSrc: null
+    subtitle: 'Is repetition helping understanding, creating emphasis or merely making the writing dull?',
+    imageSrc: '/infographics/english/avoiding_repetition.jpg'
   },
   {
     id: '7-9-parallel-structure',
@@ -592,7 +592,7 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 7,
     topicNumber: '7.9',
     title: 'Parallel Structure',
-    subtitle: 'Keep items in lists and series matching grammatically',
-    imageSrc: null
+    subtitle: 'Do all connected items use the same grammatical form? (Lists, Comparisons, Paired Constructions)',
+    imageSrc: '/infographics/english/parallel_structure.jpg'
   }
 ];
