@@ -1289,15 +1289,8 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [tuitionCurrency, setTuitionCurrency] = useState('USD');
   const CURRENCIES = { USD: '$', EUR: '€', GBP: '£', AUD: 'A$', CAD: 'C$', NZD: 'NZ$', INR: '₹', ZAR: 'R', SGD: 'S$' };
   
-  const [selectedTuitionGrade, setSelectedTuitionGrade] = useState(() => {
-    return resolveGradeFromClassroomName(activeClassroom?.name) || 'Grade 4';
-  });
-
-  useEffect(() => {
-    if (activeClassroom?.name) {
-      setSelectedTuitionGrade(resolveGradeFromClassroomName(activeClassroom.name));
-    }
-  }, [activeClassroom?.name]);
+  // selectedTuitionGrade is directly derived from the top header activeClassroom filter
+  const selectedTuitionGrade = resolveGradeFromClassroomName(activeClassroom?.name);
 
   const getPackagesForStudent = (student) => {
     const grade = resolveGradeFromClassroomName(student.className);
@@ -8949,55 +8942,23 @@ Include a balanced combination of question types such as:
                      </div>
                   </div>
 
-                  {/* Info banner */}
-                  <div className="bg-green-50 border border-green-300 rounded-[24px] p-5 flex items-center gap-4">
-                     <div className="w-10 h-10 bg-green-100 rounded-2xl flex items-center justify-center shrink-0">
-                        <DollarSign className="w-5 h-5 text-orange-600" />
-                     </div>
-                     <div>
-                        <p className="text-sm font-bold text-orange-800">Live Pricing by Grade</p>
-                        <p className="text-xs text-orange-600 font-medium mt-0.5">
-                           Prices are saved specifically for each grade level. Select a grade below to configure its unique fee schedule. Students will see the fees matching their enrolled grade.
-                        </p>
-                     </div>
-                  </div>
-
-                  {/* Grade Selection Bar */}
-                  <div className="bg-white rounded-[28px] border-2 border-slate-100 p-5 space-y-3 shadow-sm">
-                     <div className="flex items-center justify-between">
-                        <label className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-2">
-                           <span>Configuring Fee Schedule For:</span>
-                           <span className="text-orange-600 font-black bg-orange-50 px-2.5 py-0.5 rounded-lg border border-orange-200">{selectedTuitionGrade}</span>
-                        </label>
-                        <span className="text-[11px] text-slate-500 font-semibold">
-                           💡 Each grade has its own distinct fee schedule
-                        </span>
-                     </div>
-                     <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-                        {['Kindergarten / Prep', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'].map((g) => {
-                           const isSelected = selectedTuitionGrade === g;
-                           const hasCustomFees = allGradeFees[g] && allGradeFees[g].some(p => Number(p.amount) > 0);
-                           const isClassroomGrade = classrooms.some(c => resolveGradeFromClassroomName(c.name) === g);
-                           return (
-                              <button
-                                 key={g}
-                                 onClick={() => setSelectedTuitionGrade(g)}
-                                 className={`px-4 py-2 rounded-2xl text-xs font-black shrink-0 transition-all cursor-pointer flex items-center gap-1.5 border-2 ${
-                                    isSelected
-                                       ? 'bg-emerald-600 text-white border-emerald-600 shadow-md shadow-emerald-600/20 scale-[1.03]'
-                                       : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-white hover:border-slate-300'
-                                 }`}
-                              >
-                                 <span>{g}</span>
-                                 {isClassroomGrade && (
-                                    <span className={`w-2 h-2 rounded-full ${isSelected ? 'bg-amber-300' : 'bg-orange-500'}`} title="You have active classes in this grade" />
-                                 )}
-                                 {hasCustomFees && !isSelected && (
-                                    <span className="text-[9px] text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded font-black">Set</span>
-                                 )}
-                              </button>
-                           );
-                        })}
+                  {/* Info banner with Active Grade Pill */}
+                  <div className="bg-gradient-to-r from-orange-50/80 via-emerald-50/80 to-teal-50/80 border-2 border-orange-200/80 rounded-[28px] p-5 flex items-center justify-between gap-4 shadow-sm">
+                     <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shrink-0 shadow-sm border border-orange-200">
+                           <DollarSign className="w-6 h-6 text-orange-600" />
+                        </div>
+                        <div>
+                           <div className="flex items-center gap-2">
+                              <p className="text-sm font-black text-slate-900">Configuring Fee Schedule For:</p>
+                              <span className="text-xs font-black text-orange-700 bg-white px-3 py-1 rounded-full border border-orange-300 shadow-sm">
+                                 ⚡ {activeClassroom?.name ? `${activeClassroom.name} (${selectedTuitionGrade})` : selectedTuitionGrade}
+                              </span>
+                           </div>
+                           <p className="text-xs text-slate-600 font-semibold mt-1">
+                              Prices set below apply to this grade. To configure fees for another grade, switch classes using the grade dropdown in the top header.
+                           </p>
+                        </div>
                      </div>
                   </div>
 
