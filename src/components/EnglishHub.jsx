@@ -36,10 +36,11 @@ import {
 import confetti from 'canvas-confetti';
 import WritingAnalyzer from './writing/WritingAnalyzer';
 import NarrativeImageAnalyzer from './writing/NarrativeImageAnalyzer';
+import EnglishInfographicViewer from './EnglishInfographicViewer';
 
 export default function EnglishHub({ topicName }) {
   const [activeTab, setActiveTab] = useState(
-    topicName ? getTabFromTopic(topicName) : 'grammar'
+    topicName ? getTabFromTopic(topicName) : 'infographics'
   );
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [activeModalImage, setActiveModalImage] = useState(null); // stores { src, title, subtitle }
@@ -55,15 +56,17 @@ export default function EnglishHub({ topicName }) {
   const [quizScore, setQuizScore] = useState(null);
 
   function getTabFromTopic(topic) {
+    if (topic?.includes('Infographic') || topic?.includes('Masterclass') || topic?.includes('Poster')) return 'infographics';
+    if (topic?.includes('Grammar') || topic?.includes('Guide') || topic?.includes('Foundations')) return 'infographics';
+    if (topic?.includes('Sentence') || topic?.includes('Punctuation') || topic?.includes('Clauses')) return 'infographics';
+    if (topic?.includes('Parts') || topic?.includes('Tenses') || topic?.includes('Verbs')) return 'infographics';
+    if (topic?.includes('Confused') || topic?.includes('Rules')) return 'infographics';
     if (topic?.includes('Essay') || topic?.includes('Visual') || topic?.includes('Feedback') || topic?.includes('Exemplar')) return 'visual-feedback';
-    if (topic?.includes('Grammar') || topic?.includes('Guide')) return 'grammar';
     if (topic?.includes('Vocabulary') || topic?.includes('Spelling')) return 'vocab';
     if (topic?.includes('Reading') || topic?.includes('Comprehension')) return 'reading';
-    if (topic?.includes('Sentence') || topic?.includes('Punctuation')) return 'punctuation';
     if (topic?.includes('Creative') || topic?.includes('Narrative') || topic?.includes('Writing')) return 'writing';
-    if (topic?.includes('Parts') || topic?.includes('Tenses')) return 'parts';
     if (topic?.includes('Quiz') || topic?.includes('Master')) return 'quiz';
-    return 'grammar';
+    return 'infographics';
   }
 
   // Sync activeTab whenever the sidebar changes the topicName prop
@@ -506,7 +509,7 @@ export default function EnglishHub({ topicName }) {
               {isPlayingAudio ? 'Stop Audio' : 'Listen to Introduction'}
             </button>
             <span className="text-xs font-bold bg-indigo-900/50 px-3 py-1.5 rounded-lg border border-purple-400/20">
-              Grammar Poster • Reading Infographic • Narrative Writing Framework
+              54 Progressive Infographics • Grammar • Sentences • Clauses • Verbs • Punctuation • Writing
             </span>
           </div>
         </div>
@@ -515,7 +518,41 @@ export default function EnglishHub({ topicName }) {
         </div>
       </div>
 
+      {/* --- Top Navigation Tabs --- */}
+      <div className="bg-white rounded-3xl p-2 border border-slate-200 shadow-sm flex flex-wrap gap-2">
+        {[
+          { id: 'infographics', label: '🌟 54 Infographics Masterclass', badge: 'All 7 Levels' },
+          { id: 'grammar', label: '📜 Grammar Poster', badge: 'Wall Poster' },
+          { id: 'parts', label: '🪄 Parts of Speech', badge: '9 Types' },
+          { id: 'reading', label: '📖 Reading Comprehension', badge: '3 Passages' },
+          { id: 'visual-feedback', label: '✍️ Writing Studio', badge: 'AI Feedback' },
+          { id: 'vocab', label: '🔤 Vocabulary Power', badge: 'Flashcards' },
+          { id: 'quiz', label: '🏆 English Quiz', badge: 'Challenge' }
+        ].map((tab) => {
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-4 py-2.5 rounded-2xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer ${
+                isActive
+                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20 scale-[1.02]'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              }`}
+            >
+              <span>{tab.label}</span>
+              <span className={`text-[9px] font-black px-1.5 py-0.5 rounded-md ${isActive ? 'bg-white/25 text-white' : 'bg-slate-200 text-slate-600'}`}>
+                {tab.badge}
+              </span>
+            </button>
+          );
+        })}
+      </div>
 
+      {/* ==================================== TAB 0: 54 INFOGRAPHICS MASTERCLASS ==================================== */}
+      {activeTab === 'infographics' && (
+        <EnglishInfographicViewer />
+      )}
 
       {/* ==================================== TAB 1: GRAMMAR GUIDE POSTER ==================================== */}
       {activeTab === 'grammar' && (
