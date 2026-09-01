@@ -67,9 +67,7 @@ import {
   Map,
   CreditCard,
   Palette,
-  Globe,
-  GripVertical,
-  RotateCcw
+  Globe
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -2566,102 +2564,6 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
   
   const [unreadMessageCount, setUnreadMessageCount] = useState(0);
   const isInitialLoadRef = React.useRef(true);
-
-  // Draggable sidebar nav order state with localStorage persistence
-  const navStorageKey = useMemo(() => {
-    return `hz_student_nav_order_${(studentName || 'default').toLowerCase().replace(/\s+/g, '_')}`;
-  }, [studentName]);
-
-  const DEFAULT_STUDENT_NAV_KEYS = useMemo(() => [
-    'Dashboard',
-    'My Homework',
-    'Exam Arena',
-    'Mission Reports',
-    'My Profile',
-    'Adventure Maze',
-    'My Messages',
-    'My Rewards',
-    'Tuition & Fees',
-    'Child Report',
-    'Learning Academy',
-    'Library Zone',
-    'Arts & Fun'
-  ], []);
-
-  const [navOrder, setNavOrder] = useState(() => {
-    try {
-      const key = `hz_student_nav_order_${(studentName || 'default').toLowerCase().replace(/\s+/g, '_')}`;
-      const saved = localStorage.getItem(key);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          const validKeys = parsed.filter(k => DEFAULT_STUDENT_NAV_KEYS.includes(k));
-          const missingKeys = DEFAULT_STUDENT_NAV_KEYS.filter(k => !validKeys.includes(k));
-          return [...validKeys, ...missingKeys];
-        }
-      }
-    } catch(e) {}
-    return DEFAULT_STUDENT_NAV_KEYS;
-  });
-
-  const [draggedNavKey, setDraggedNavKey] = useState(null);
-  const [dragOverNavKey, setDragOverNavKey] = useState(null);
-
-  const handleNavDragStart = (e, key) => {
-    setDraggedNavKey(key);
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', key);
-  };
-
-  const handleNavDragOver = (e, key) => {
-    e.preventDefault();
-    if (draggedNavKey === key) return;
-    setDragOverNavKey(key);
-    e.dataTransfer.dropEffect = 'move';
-  };
-
-  const handleNavDrop = (e, targetKey) => {
-    e.preventDefault();
-    if (!draggedNavKey || draggedNavKey === targetKey) {
-      setDraggedNavKey(null);
-      setDragOverNavKey(null);
-      return;
-    }
-
-    const currentOrder = [...navOrder];
-    const fromIndex = currentOrder.indexOf(draggedNavKey);
-    const toIndex = currentOrder.indexOf(targetKey);
-
-    if (fromIndex !== -1 && toIndex !== -1) {
-      currentOrder.splice(fromIndex, 1);
-      currentOrder.splice(toIndex, 0, draggedNavKey);
-      setNavOrder(currentOrder);
-      try {
-        localStorage.setItem(navStorageKey, JSON.stringify(currentOrder));
-      } catch(e) {}
-      if (window.showToast) {
-        window.showToast({ message: '✨ Sidebar order updated!', type: 'success' });
-      }
-    }
-
-    setDraggedNavKey(null);
-    setDragOverNavKey(null);
-  };
-
-  const handleNavDragEnd = () => {
-    setDraggedNavKey(null);
-    setDragOverNavKey(null);
-  };
-
-  const resetNavOrder = () => {
-    setNavOrder(DEFAULT_STUDENT_NAV_KEYS);
-    try {
-      localStorage.removeItem(navStorageKey);
-    } catch(e) {}
-    if (window.showToast) {
-      window.showToast({ message: '🔄 Sidebar order reset to default!', type: 'info' });
-    }
-  };
   
   // Real-time listener for new messages
   useEffect(() => {
@@ -3437,504 +3339,225 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
            </div>
         </div>
 
-        {/* Reorderable Navigation List */}
-        <div className="flex items-center justify-between px-6 pb-1 text-[10px] font-bold text-slate-400">
-          <span className="flex items-center gap-1 opacity-70">
-            <GripVertical className="w-3 h-3 text-orange-400" />
-            Drag to reorder
-          </span>
-          <button
-            onClick={resetNavOrder}
-            title="Reset to default order"
-            className="text-[10px] font-bold text-slate-400 hover:text-orange-600 transition-colors flex items-center gap-1 px-1.5 py-0.5 rounded hover:bg-orange-50"
-          >
-            <RotateCcw className="w-2.5 h-2.5" />
-            Reset
-          </button>
-        </div>
-
         <nav className="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar">
-          {navOrder.map((navKey) => {
-            if (navKey === 'My Messages' && classroom?.chatDisabled) return null;
-            if (navKey === 'Library Zone' && classroom?.name && parseInt(classroom.name.match(/\d+/)?.[0] || '3', 10) > 8) return null;
+           <SidebarNavItem icon={<LayoutDashboard className="w-5 h-5" />} label="Dashboard" active={activeNav === 'Dashboard'} color="text-red-500" onClick={() => setActiveNav('Dashboard')} />
+           <SidebarNavItem icon={<img src="/ic-homework.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Homework" />} label="My Homework" active={activeNav === 'My Homework'} color="text-pink-500" onClick={() => setActiveNav('My Homework')} />
+           <SidebarNavItem icon={<Award className="w-5 h-5" />} label="Exam Arena" active={activeNav === 'Exam Arena'} color="text-rose-500" onClick={() => setActiveNav('Exam Arena')} />
+           <SidebarNavItem icon={<Trophy className="w-5 h-5" />} label="Mission Reports" active={activeNav === 'Mission Reports'} color="text-emerald-500" onClick={() => setActiveNav('Mission Reports')} />
+           <SidebarNavItem icon={<User className="w-5 h-5" />} label="My Profile" active={activeNav === 'My Profile'} color="text-green-500" onClick={() => setActiveNav('My Profile')} />
+            <SidebarNavItem icon={<Compass className="w-5 h-5" />} label="Adventure Maze" active={activeNav === 'Adventure Maze'} color="text-amber-500" onClick={() => setActiveNav('Adventure Maze')} />
+           {!classroom?.chatDisabled && (
+              <SidebarNavItem icon={<img src="/ic-messages.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Messages" />} label="My Messages" active={activeNav === 'My Messages'} color="text-cyan-500" onClick={() => setActiveNav('My Messages')} badge={unreadMessageCount} />
+           )}
+           <SidebarNavItem icon={<img src="/ic-rewards.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Rewards" />} label="My Rewards" active={activeNav === 'My Rewards'} color="text-orange-500" onClick={() => setActiveNav('My Rewards')} />
+           <SidebarNavItem icon={<CreditCard className="w-5 h-5" />} label="Tuition & Fees" active={activeNav === 'Tuition & Fees'} color="text-green-500" onClick={() => setActiveNav('Tuition & Fees')} />
+           <SidebarNavItem icon={<FileText className="w-5 h-5" />} label="Child Report" active={activeNav === 'Child Report'} color="text-rose-500" onClick={() => setActiveNav('Child Report')} />
 
-            const isDragging = draggedNavKey === navKey;
-            const isDragOver = dragOverNavKey === navKey;
-
-            if (navKey === 'Dashboard') {
-              return (
-                <SidebarNavItem 
-                  key="Dashboard"
-                  icon={<LayoutDashboard className="w-5 h-5" />} 
-                  label="Dashboard" 
-                  active={activeNav === 'Dashboard'} 
-                  color="text-red-500" 
-                  onClick={() => setActiveNav('Dashboard')} 
-                  draggable={true}
-                  onDragStart={(e) => handleNavDragStart(e, 'Dashboard')}
-                  onDragOver={(e) => handleNavDragOver(e, 'Dashboard')}
-                  onDragLeave={() => setDragOverNavKey(null)}
-                  onDrop={(e) => handleNavDrop(e, 'Dashboard')}
-                  onDragEnd={handleNavDragEnd}
-                  isDragging={isDragging}
-                  isDragOver={isDragOver}
-                />
-              );
-            }
-
-            if (navKey === 'My Homework') {
-              return (
-                <SidebarNavItem 
-                  key="My Homework"
-                  icon={<img src="/ic-homework.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Homework" />} 
-                  label="My Homework" 
-                  active={activeNav === 'My Homework'} 
-                  color="text-pink-500" 
-                  onClick={() => setActiveNav('My Homework')} 
-                  draggable={true}
-                  onDragStart={(e) => handleNavDragStart(e, 'My Homework')}
-                  onDragOver={(e) => handleNavDragOver(e, 'My Homework')}
-                  onDragLeave={() => setDragOverNavKey(null)}
-                  onDrop={(e) => handleNavDrop(e, 'My Homework')}
-                  onDragEnd={handleNavDragEnd}
-                  isDragging={isDragging}
-                  isDragOver={isDragOver}
-                />
-              );
-            }
-
-            if (navKey === 'Exam Arena') {
-              return (
-                <SidebarNavItem 
-                  key="Exam Arena"
-                  icon={<Award className="w-5 h-5" />} 
-                  label="Exam Arena" 
-                  active={activeNav === 'Exam Arena'} 
-                  color="text-rose-500" 
-                  onClick={() => setActiveNav('Exam Arena')} 
-                  draggable={true}
-                  onDragStart={(e) => handleNavDragStart(e, 'Exam Arena')}
-                  onDragOver={(e) => handleNavDragOver(e, 'Exam Arena')}
-                  onDragLeave={() => setDragOverNavKey(null)}
-                  onDrop={(e) => handleNavDrop(e, 'Exam Arena')}
-                  onDragEnd={handleNavDragEnd}
-                  isDragging={isDragging}
-                  isDragOver={isDragOver}
-                />
-              );
-            }
-
-            if (navKey === 'Mission Reports') {
-              return (
-                <SidebarNavItem 
-                  key="Mission Reports"
-                  icon={<Trophy className="w-5 h-5" />} 
-                  label="Mission Reports" 
-                  active={activeNav === 'Mission Reports'} 
-                  color="text-emerald-500" 
-                  onClick={() => setActiveNav('Mission Reports')} 
-                  draggable={true}
-                  onDragStart={(e) => handleNavDragStart(e, 'Mission Reports')}
-                  onDragOver={(e) => handleNavDragOver(e, 'Mission Reports')}
-                  onDragLeave={() => setDragOverNavKey(null)}
-                  onDrop={(e) => handleNavDrop(e, 'Mission Reports')}
-                  onDragEnd={handleNavDragEnd}
-                  isDragging={isDragging}
-                  isDragOver={isDragOver}
-                />
-              );
-            }
-
-            if (navKey === 'My Profile') {
-              return (
-                <SidebarNavItem 
-                  key="My Profile"
-                  icon={<User className="w-5 h-5" />} 
-                  label="My Profile" 
-                  active={activeNav === 'My Profile'} 
-                  color="text-green-500" 
-                  onClick={() => setActiveNav('My Profile')} 
-                  draggable={true}
-                  onDragStart={(e) => handleNavDragStart(e, 'My Profile')}
-                  onDragOver={(e) => handleNavDragOver(e, 'My Profile')}
-                  onDragLeave={() => setDragOverNavKey(null)}
-                  onDrop={(e) => handleNavDrop(e, 'My Profile')}
-                  onDragEnd={handleNavDragEnd}
-                  isDragging={isDragging}
-                  isDragOver={isDragOver}
-                />
-              );
-            }
-
-            if (navKey === 'Adventure Maze') {
-              return (
-                <SidebarNavItem 
-                  key="Adventure Maze"
-                  icon={<Compass className="w-5 h-5" />} 
-                  label="Adventure Maze" 
-                  active={activeNav === 'Adventure Maze'} 
-                  color="text-amber-500" 
-                  onClick={() => setActiveNav('Adventure Maze')} 
-                  draggable={true}
-                  onDragStart={(e) => handleNavDragStart(e, 'Adventure Maze')}
-                  onDragOver={(e) => handleNavDragOver(e, 'Adventure Maze')}
-                  onDragLeave={() => setDragOverNavKey(null)}
-                  onDrop={(e) => handleNavDrop(e, 'Adventure Maze')}
-                  onDragEnd={handleNavDragEnd}
-                  isDragging={isDragging}
-                  isDragOver={isDragOver}
-                />
-              );
-            }
-
-            if (navKey === 'My Messages') {
-              return (
-                <SidebarNavItem 
-                  key="My Messages"
-                  icon={<img src="/ic-messages.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Messages" />} 
-                  label="My Messages" 
-                  active={activeNav === 'My Messages'} 
-                  color="text-cyan-500" 
-                  onClick={() => setActiveNav('My Messages')} 
-                  badge={unreadMessageCount} 
-                  draggable={true}
-                  onDragStart={(e) => handleNavDragStart(e, 'My Messages')}
-                  onDragOver={(e) => handleNavDragOver(e, 'My Messages')}
-                  onDragLeave={() => setDragOverNavKey(null)}
-                  onDrop={(e) => handleNavDrop(e, 'My Messages')}
-                  onDragEnd={handleNavDragEnd}
-                  isDragging={isDragging}
-                  isDragOver={isDragOver}
-                />
-              );
-            }
-
-            if (navKey === 'My Rewards') {
-              return (
-                <SidebarNavItem 
-                  key="My Rewards"
-                  icon={<img src="/ic-rewards.png" className="w-6 h-6 object-contain mix-blend-multiply" alt="Rewards" />} 
-                  label="My Rewards" 
-                  active={activeNav === 'My Rewards'} 
-                  color="text-orange-500" 
-                  onClick={() => setActiveNav('My Rewards')} 
-                  draggable={true}
-                  onDragStart={(e) => handleNavDragStart(e, 'My Rewards')}
-                  onDragOver={(e) => handleNavDragOver(e, 'My Rewards')}
-                  onDragLeave={() => setDragOverNavKey(null)}
-                  onDrop={(e) => handleNavDrop(e, 'My Rewards')}
-                  onDragEnd={handleNavDragEnd}
-                  isDragging={isDragging}
-                  isDragOver={isDragOver}
-                />
-              );
-            }
-
-            if (navKey === 'Tuition & Fees') {
-              return (
-                <SidebarNavItem 
-                  key="Tuition & Fees"
-                  icon={<CreditCard className="w-5 h-5" />} 
-                  label="Tuition & Fees" 
-                  active={activeNav === 'Tuition & Fees'} 
-                  color="text-green-500" 
-                  onClick={() => setActiveNav('Tuition & Fees')} 
-                  draggable={true}
-                  onDragStart={(e) => handleNavDragStart(e, 'Tuition & Fees')}
-                  onDragOver={(e) => handleNavDragOver(e, 'Tuition & Fees')}
-                  onDragLeave={() => setDragOverNavKey(null)}
-                  onDrop={(e) => handleNavDrop(e, 'Tuition & Fees')}
-                  onDragEnd={handleNavDragEnd}
-                  isDragging={isDragging}
-                  isDragOver={isDragOver}
-                />
-              );
-            }
-
-            if (navKey === 'Child Report') {
-              return (
-                <SidebarNavItem 
-                  key="Child Report"
-                  icon={<FileText className="w-5 h-5" />} 
-                  label="Child Report" 
-                  active={activeNav === 'Child Report'} 
-                  color="text-rose-500" 
-                  onClick={() => setActiveNav('Child Report')} 
-                  draggable={true}
-                  onDragStart={(e) => handleNavDragStart(e, 'Child Report')}
-                  onDragOver={(e) => handleNavDragOver(e, 'Child Report')}
-                  onDragLeave={() => setDragOverNavKey(null)}
-                  onDrop={(e) => handleNavDrop(e, 'Child Report')}
-                  onDragEnd={handleNavDragEnd}
-                  isDragging={isDragging}
-                  isDragOver={isDragOver}
-                />
-              );
-            }
-
-            if (navKey === 'Learning Academy') {
-              return (
-                <div 
-                  key="Learning Academy"
-                  className={`space-y-1 transition-all duration-150 ${isDragging ? 'opacity-35 scale-[0.97]' : ''}`}
-                  draggable={true}
-                  onDragStart={(e) => handleNavDragStart(e, 'Learning Academy')}
-                  onDragOver={(e) => handleNavDragOver(e, 'Learning Academy')}
-                  onDragLeave={() => setDragOverNavKey(null)}
-                  onDrop={(e) => handleNavDrop(e, 'Learning Academy')}
-                  onDragEnd={handleNavDragEnd}
-                >
-                  {isDragOver && (
-                    <div className="h-1.5 w-full bg-gradient-to-r from-orange-400 to-amber-400 rounded-full mb-1 animate-pulse shadow-sm mx-4" />
-                  )}
-                  <div className="px-4">
-                    <button
-                      onClick={() => setLearningExpanded(!learningExpanded)}
-                      className={`w-full flex items-center justify-between px-5 py-3.5 rounded-2xl text-xs font-black transition-all group cursor-grab active:cursor-grabbing ${
-                        activeNav.startsWith('Learning: ')
-                          ? 'bg-green-50 text-[#EA580C]'
-                          : 'text-[#166534] hover:bg-slate-50 hover:text-[#14532d]'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3.5">
-                        <div className="opacity-0 group-hover:opacity-60 hover:!opacity-100 transition-opacity text-slate-400 hover:text-orange-500 shrink-0">
-                          <GripVertical className="w-3.5 h-3.5" />
-                        </div>
-                        <BookOpen className="w-5 h-5 text-orange-500 shrink-0" />
-                        <span className="text-sm font-semibold">Learning Academy</span>
-                      </div>
-                      <span className="text-[10px] font-black text-[#166534]">
-                        {learningExpanded ? '▲' : '▼'}
-                      </span>
-                    </button>
+            {/* Learning collapsible section */}
+            <div className="space-y-1">
+               <button
+                  onClick={() => setLearningExpanded(!learningExpanded)}
+                  className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-black transition-all ${
+                     activeNav.startsWith('Learning: ')
+                        ? 'bg-green-50 text-[#EA580C]'
+                        : 'text-[#166534] hover:bg-slate-50 hover:text-[#14532d]'
+                  }`}
+               >
+                  <div className="flex items-center gap-3">
+                     <BookOpen className="w-5 h-5 text-orange-500" />
+                     <span>Learning Academy</span>
                   </div>
-                  
-                  <AnimatePresence>
-                    {learningExpanded && (
-                      <motion.div
+                  <span className="text-[10px] font-black text-[#166534]">
+                     {learningExpanded ? '▲' : '▼'}
+                  </span>
+               </button>
+               
+               <AnimatePresence>
+                  {learningExpanded && (
+                     <motion.div
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         className="pl-4 mt-1 space-y-2 overflow-hidden text-left"
-                      >
-                        {/* Umbrella 0: CURIOUS MIND */}
+                     >
+                         {/* Umbrella 0: CURIOUS MIND */}
+                         <div className="space-y-1">
+                            <button
+                               onClick={() => setCuriousExpanded(!curiousExpanded)}
+                               className="w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-[11px] font-black text-amber-700 bg-amber-50/70 hover:bg-amber-100/60 uppercase tracking-wider cursor-pointer"
+                            >
+                               <span className="flex items-center gap-1.5">🧠 CURIOUS MIND</span>
+                               <span className="text-[9px]">{curiousExpanded ? '▲' : '▼'}</span>
+                            </button>
+
+                            {curiousExpanded && (
+                               <div className="pl-2 space-y-0.5 border-l-2 border-amber-200 ml-2">
+                                  {[
+                                     { name: 'Curious Questions', emoji: '💡' }
+                                  ].map((concept) => (
+                                     <button
+                                        key={concept.name}
+                                        onClick={() => {
+                                           setActiveNav(`Learning: ${concept.name}`);
+                                        }}
+                                        className={`w-full text-left px-3 py-2 rounded-xl text-[11px] font-black transition-all flex items-center justify-between cursor-pointer ${
+                                           activeNav === `Learning: ${concept.name}`
+                                              ? 'bg-amber-100 text-amber-800 font-extrabold shadow-sm'
+                                              : 'text-[#166534] hover:text-[#14532d] hover:bg-slate-50/60'
+                                        }`}
+                                     >
+                                        <span>{concept.emoji} {concept.name}</span>
+                                     </button>
+                                  ))}
+                               </div>
+                            )}
+                         </div>
+
+                         {/* Umbrella 1: MATHS */}
                         <div className="space-y-1">
-                          <button
-                            onClick={() => setCuriousExpanded(!curiousExpanded)}
-                            className="w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-[11px] font-black text-amber-700 bg-amber-50/70 hover:bg-amber-100/60 uppercase tracking-wider cursor-pointer"
-                          >
-                            <span className="flex items-center gap-1.5">🧠 CURIOUS MIND</span>
-                            <span className="text-[9px]">{curiousExpanded ? '▲' : '▼'}</span>
-                          </button>
+                           <button
+                              onClick={() => setMathsExpanded(!mathsExpanded)}
+                              className="w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-[11px] font-black text-blue-700 bg-blue-50/70 hover:bg-blue-100/60 uppercase tracking-wider cursor-pointer"
+                           >
+                              <span className="flex items-center gap-1.5">🧮 MATHS</span>
+                              <span className="text-[9px]">{mathsExpanded ? '▲' : '▼'}</span>
+                           </button>
 
-                          {curiousExpanded && (
-                            <div className="pl-2 space-y-0.5 border-l-2 border-amber-200 ml-2">
-                              {[
-                                { name: 'Curious Questions', emoji: '💡' }
-                              ].map((concept) => (
-                                <button
-                                  key={concept.name}
-                                  onClick={() => {
-                                    setActiveNav(`Learning: ${concept.name}`);
-                                  }}
-                                  className={`w-full text-left px-3 py-2 rounded-xl text-[11px] font-black transition-all flex items-center justify-between cursor-pointer ${
-                                    activeNav === `Learning: ${concept.name}`
-                                      ? 'bg-amber-100 text-amber-800 font-extrabold shadow-sm'
-                                      : 'text-[#166534] hover:text-[#14532d] hover:bg-slate-50/60'
-                                  }`}
-                                >
-                                  <span>{concept.emoji} {concept.name}</span>
-                                </button>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Umbrella 1: MATHS */}
-                        <div className="space-y-1">
-                          <button
-                            onClick={() => setMathsExpanded(!mathsExpanded)}
-                            className="w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-[11px] font-black text-blue-700 bg-blue-50/70 hover:bg-blue-100/60 uppercase tracking-wider cursor-pointer"
-                          >
-                            <span className="flex items-center gap-1.5">🧮 MATHS</span>
-                            <span className="text-[9px]">{mathsExpanded ? '▲' : '▼'}</span>
-                          </button>
-
-                          {mathsExpanded && (
-                            <div className="pl-2 space-y-0.5 border-l-2 border-blue-200 ml-2">
-                              {[
-                                { name: 'Formula Sheet', emoji: '📐' },
-                                { name: 'Numbers & Place Value', emoji: '🔢' },
-                                { name: 'Arithmetic & Operations', emoji: '🧮' },
-                                { name: 'Fractions & Decimals', emoji: '🍕' },
-                                { name: 'Measurement & Money', emoji: '📏' },
-                                { name: 'Profit & Loss', emoji: '💰' },
-                                { name: 'Time & Clocks', emoji: '⏰' },
-                                { name: 'Geometry & Shapes', emoji: '📐' },
-                                { name: 'Algebra & Patterns', emoji: '⚡' },
-                                { name: 'Data & Probability', emoji: '📊' },
-                                { name: 'Vedic Maths', emoji: '🧮' }
-                              ].map((concept) => (
-                                <button
-                                  key={concept.name}
-                                  onClick={() => {
-                                    setActiveMathConcept(concept.name);
-                                    setActiveNav(`Learning: ${concept.name}`);
-                                  }}
-                                  className={`w-full text-left px-3 py-2 rounded-xl text-[11px] font-black transition-all flex items-center justify-between cursor-pointer ${
-                                    activeNav === `Learning: ${concept.name}`
-                                      ? 'bg-blue-100 text-blue-800 font-extrabold shadow-sm'
-                                      : 'text-[#166534] hover:text-[#14532d] hover:bg-slate-50/60'
-                                  }`}
-                                >
-                                  <span>{concept.emoji} {concept.name}</span>
-                                </button>
-                              ))}
-                            </div>
-                          )}
+                           {mathsExpanded && (
+                              <div className="pl-2 space-y-0.5 border-l-2 border-blue-200 ml-2">
+                                 {[
+                                    { name: 'Formula Sheet', emoji: '📐' },
+                                    { name: 'Numbers & Place Value', emoji: '🔢' },
+                                    { name: 'Arithmetic & Operations', emoji: '🧮' },
+                                    { name: 'Fractions & Decimals', emoji: '🍕' },
+                                    { name: 'Measurement & Money', emoji: '📏' },
+                                    { name: 'Profit & Loss', emoji: '💰' },
+                                    { name: 'Time & Clocks', emoji: '⏰' },
+                                    { name: 'Geometry & Shapes', emoji: '📐' },
+                                    { name: 'Algebra & Patterns', emoji: '⚡' },
+                                    { name: 'Data & Probability', emoji: '📊' },
+                                    { name: 'Vedic Maths', emoji: '🧮' }
+                                 ].map((concept) => (
+                                    <button
+                                       key={concept.name}
+                                       onClick={() => {
+                                          setActiveMathConcept(concept.name);
+                                          setActiveNav(`Learning: ${concept.name}`);
+                                       }}
+                                       className={`w-full text-left px-3 py-2 rounded-xl text-[11px] font-black transition-all flex items-center justify-between cursor-pointer ${
+                                          activeNav === `Learning: ${concept.name}`
+                                             ? 'bg-blue-100 text-blue-800 font-extrabold shadow-sm'
+                                             : 'text-[#166534] hover:text-[#14532d] hover:bg-slate-50/60'
+                                       }`}
+                                    >
+                                       <span>{concept.emoji} {concept.name}</span>
+                                    </button>
+                                 ))}
+                              </div>
+                           )}
                         </div>
 
                         {/* Umbrella 2: SCIENCE */}
                         <div className="space-y-1">
-                          <button
-                            onClick={() => setScienceExpanded(!scienceExpanded)}
-                            className="w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-[11px] font-black text-emerald-700 bg-emerald-50/70 hover:bg-emerald-100/60 uppercase tracking-wider cursor-pointer"
-                          >
-                            <span className="flex items-center gap-1.5">🔬 SCIENCE</span>
-                            <span className="text-[9px]">{scienceExpanded ? '▲' : '▼'}</span>
-                          </button>
+                           <button
+                              onClick={() => setScienceExpanded(!scienceExpanded)}
+                              className="w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-[11px] font-black text-emerald-700 bg-emerald-50/70 hover:bg-emerald-100/60 uppercase tracking-wider cursor-pointer"
+                           >
+                              <span className="flex items-center gap-1.5">🔬 SCIENCE</span>
+                              <span className="text-[9px]">{scienceExpanded ? '▲' : '▼'}</span>
+                           </button>
 
-                          {scienceExpanded && (
-                            <div className="pl-2 space-y-0.5 border-l-2 border-emerald-200 ml-2">
-                              {[
-                                { name: 'Body and Functions', emoji: '🫀' },
-                                { name: 'Types of Teeth & Functions', emoji: '🦷' },
-                                { name: 'Nutrition & Balanced Diet', emoji: '🥗' },
-                                { name: 'The Water Cycle', emoji: '💧' },
-                                { name: 'States of Matter', emoji: '🧊' },
-                                { name: 'Classification of Living Things', emoji: '🦁' },
-                                { name: 'Astronomy & Space', emoji: '🚀' },
-                                { name: 'Plants & Botany', emoji: '🌻' },
-                                { name: 'Electricity & Circuits', emoji: '⚡' },
-                                { name: 'Force & Motion', emoji: '🚴' },
-                                { name: 'Materials & Properties', emoji: '🪵' },
-                                { name: 'Ecosystems & Food Chains', emoji: '🌾' },
-                                { name: 'Heat & Thermal Energy', emoji: '🌡️' },
-                                { name: 'Conservation & Sea Turtles', emoji: '🐢' },
-                                { name: 'Fossils & Ancient Life', emoji: '🦴' },
-                                { name: 'Magnets & Magnetic Forces', emoji: '🧲' },
-                                { name: 'Light & Optics', emoji: '💡' },
-                                { name: 'Traits & Heredity', emoji: '🧬' },
-                                { name: 'Rocks & Minerals', emoji: '🪨' },
-                                { name: 'Units of Measurement', emoji: '📏' }
-                              ].map((topic) => (
-                                <button
-                                  key={topic.name}
-                                  onClick={() => {
-                                    setActiveNav(`Learning: ${topic.name}`);
-                                  }}
-                                  className={`w-full text-left px-3 py-2 rounded-xl text-[11px] font-black transition-all flex items-center justify-between cursor-pointer ${
-                                    activeNav === `Learning: ${topic.name}`
-                                      ? 'bg-emerald-100 text-emerald-800 font-extrabold shadow-sm'
-                                      : 'text-[#166534] hover:text-[#14532d] hover:bg-slate-50/60'
-                                  }`}
-                                >
-                                  <span>{topic.emoji} {topic.name}</span>
-                                </button>
-                              ))}
-                            </div>
-                          )}
+                           {scienceExpanded && (
+                              <div className="pl-2 space-y-0.5 border-l-2 border-emerald-200 ml-2">
+                                 {[
+                                    { name: 'Body and Functions', emoji: '🫀' },
+                                    { name: 'Types of Teeth & Functions', emoji: '🦷' },
+                                    { name: 'Nutrition & Balanced Diet', emoji: '🥗' },
+                                    { name: 'The Water Cycle', emoji: '💧' },
+                                    { name: 'States of Matter', emoji: '🧊' },
+                                    { name: 'Classification of Living Things', emoji: '🦁' },
+                                    { name: 'Astronomy & Space', emoji: '🚀' },
+                                    { name: 'Plants & Botany', emoji: '🌻' },
+                                    { name: 'Electricity & Circuits', emoji: '⚡' },
+                                    { name: 'Force & Motion', emoji: '🚴' },
+                                    { name: 'Materials & Properties', emoji: '🪵' },
+                                    { name: 'Ecosystems & Food Chains', emoji: '🌾' },
+                                    { name: 'Heat & Thermal Energy', emoji: '🌡️' },
+                                    { name: 'Conservation & Sea Turtles', emoji: '🐢' },
+                                    { name: 'Fossils & Ancient Life', emoji: '🦴' },
+                                     { name: 'Magnets & Magnetic Forces', emoji: '🧲' },
+                                     { name: 'Light & Optics', emoji: '💡' },
+                                     { name: 'Traits & Heredity', emoji: '🧬' },
+                                     { name: 'Rocks & Minerals', emoji: '🪨' },
+                                     { name: 'Units of Measurement', emoji: '📏' }
+                                 ].map((topic) => (
+                                    <button
+                                       key={topic.name}
+                                       onClick={() => {
+                                          setActiveNav(`Learning: ${topic.name}`);
+                                       }}
+                                       className={`w-full text-left px-3 py-2 rounded-xl text-[11px] font-black transition-all flex items-center justify-between cursor-pointer ${
+                                          activeNav === `Learning: ${topic.name}`
+                                             ? 'bg-emerald-100 text-emerald-800 font-extrabold shadow-sm'
+                                             : 'text-[#166534] hover:text-[#14532d] hover:bg-slate-50/60'
+                                       }`}
+                                    >
+                                       <span>{topic.emoji} {topic.name}</span>
+                                    </button>
+                                 ))}
+                              </div>
+                           )}
                         </div>
 
                         {/* Umbrella 3: ENGLISH */}
                         <div className="space-y-1">
-                          <button
-                            onClick={() => setEnglishExpanded(!englishExpanded)}
-                            className="w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-[11px] font-black text-purple-700 bg-purple-50/70 hover:bg-purple-100/60 uppercase tracking-wider cursor-pointer"
-                          >
-                            <span className="flex items-center gap-1.5">📚 ENGLISH</span>
-                            <span className="text-[9px]">{englishExpanded ? '▲' : '▼'}</span>
-                          </button>
+                           <button
+                              onClick={() => setEnglishExpanded(!englishExpanded)}
+                              className="w-full flex items-center justify-between px-3 py-1.5 rounded-xl text-[11px] font-black text-purple-700 bg-purple-50/70 hover:bg-purple-100/60 uppercase tracking-wider cursor-pointer"
+                           >
+                              <span className="flex items-center gap-1.5">📚 ENGLISH</span>
+                              <span className="text-[9px]">{englishExpanded ? '▲' : '▼'}</span>
+                           </button>
 
-                          {englishExpanded && (
-                            <div className="pl-2 space-y-0.5 border-l-2 border-purple-200 ml-2">
-                              {[
-                                { name: 'Grammar Guide & Rules', emoji: '📜' },
-                                { name: 'Parts of Speech & Tenses', emoji: '📝' },
-                                { name: 'Vocabulary & Word Power', emoji: '🔤' },
-                                { name: 'Reading Comprehension', emoji: '📖' },
-                                { name: 'Sentence Types & Punctuation', emoji: '✍️' },
-                                { name: 'Creative Writing Studio', emoji: '🎨' },
-                                { name: 'Writing & Essay Studio', emoji: '⚡' }
-                              ].map((topic) => (
-                                <button
-                                  key={topic.name}
-                                  onClick={() => {
-                                    setActiveNav(`Learning: ${topic.name}`);
-                                  }}
-                                  className={`w-full text-left px-3 py-2 rounded-xl text-[11px] font-black transition-all flex items-center justify-between cursor-pointer ${
-                                    activeNav === `Learning: ${topic.name}`
-                                      ? 'bg-purple-100 text-purple-800 font-extrabold shadow-sm'
-                                      : 'text-[#166534] hover:text-[#14532d] hover:bg-slate-50/60'
-                                  }`}
-                                >
-                                  <span>{topic.emoji} {topic.name}</span>
-                                </button>
-                              ))}
-                            </div>
-                          )}
+                           {englishExpanded && (
+                              <div className="pl-2 space-y-0.5 border-l-2 border-purple-200 ml-2">
+                                 {[
+                                    { name: 'Grammar Guide & Rules', emoji: '📜' },
+                                    { name: 'Parts of Speech & Tenses', emoji: '📝' },
+                                    { name: 'Vocabulary & Word Power', emoji: '🔤' },
+                                    { name: 'Reading Comprehension', emoji: '📖' },
+                                    { name: 'Sentence Types & Punctuation', emoji: '✍️' },
+                                    { name: 'Creative Writing Studio', emoji: '🎨' },
+                                    { name: 'Writing & Essay Studio', emoji: '⚡' }
+                                 ].map((topic) => (
+                                    <button
+                                       key={topic.name}
+                                       onClick={() => {
+                                          setActiveNav(`Learning: ${topic.name}`);
+                                       }}
+                                       className={`w-full text-left px-3 py-2 rounded-xl text-[11px] font-black transition-all flex items-center justify-between cursor-pointer ${
+                                          activeNav === `Learning: ${topic.name}`
+                                             ? 'bg-purple-100 text-purple-800 font-extrabold shadow-sm'
+                                             : 'text-[#166534] hover:text-[#14532d] hover:bg-slate-50/60'
+                                       }`}
+                                    >
+                                       <span>{topic.emoji} {topic.name}</span>
+                                    </button>
+                                 ))}
+                              </div>
+                           )}
                         </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            }
-
-            if (navKey === 'Library Zone') {
-              return (
-                <SidebarNavItem 
-                  key="Library Zone"
-                  icon={<Book className="w-5 h-5" />} 
-                  label="Library Zone" 
-                  active={activeNav === 'Library Zone'} 
-                  color="text-blue-500" 
-                  onClick={() => setActiveNav('Library Zone')} 
-                  draggable={true}
-                  onDragStart={(e) => handleNavDragStart(e, 'Library Zone')}
-                  onDragOver={(e) => handleNavDragOver(e, 'Library Zone')}
-                  onDragLeave={() => setDragOverNavKey(null)}
-                  onDrop={(e) => handleNavDrop(e, 'Library Zone')}
-                  onDragEnd={handleNavDragEnd}
-                  isDragging={isDragging}
-                  isDragOver={isDragOver}
-                />
-              );
-            }
-
-            if (navKey === 'Arts & Fun') {
-              return (
-                <SidebarNavItem 
-                  key="Arts & Fun"
-                  icon={<Palette className="w-5 h-5" />} 
-                  label="Arts & Fun" 
-                  active={activeNav === 'Arts & Fun'} 
-                  color="text-orange-500" 
-                  onClick={() => setActiveNav('Arts & Fun')} 
-                  draggable={true}
-                  onDragStart={(e) => handleNavDragStart(e, 'Arts & Fun')}
-                  onDragOver={(e) => handleNavDragOver(e, 'Arts & Fun')}
-                  onDragLeave={() => setDragOverNavKey(null)}
-                  onDrop={(e) => handleNavDrop(e, 'Arts & Fun')}
-                  onDragEnd={handleNavDragEnd}
-                  isDragging={isDragging}
-                  isDragOver={isDragOver}
-                />
-              );
-            }
-
-            return null;
-          })}
+                     </motion.div>
+                  )}
+               </AnimatePresence>
+            </div>
+           <div className="pt-4 pb-1 px-8 text-[10px] font-black text-[#166534] uppercase tracking-widest flex items-center gap-2 select-none border-t border-slate-50 mt-2">
+              <span>🎉</span> Fun Activities
+           </div>
+           {(!classroom?.name || (parseInt(classroom.name.match(/\d+/)?.[0] || '3', 10) <= 8)) && (
+             <SidebarNavItem icon={<Book className="w-5 h-5" />} label="Library Zone" active={activeNav === 'Library Zone'} color="text-blue-500" onClick={() => setActiveNav('Library Zone')} />
+           )}
+           <SidebarNavItem icon={<Palette className="w-5 h-5" />} label="Arts & Fun" active={activeNav === 'Arts & Fun'} color="text-orange-500" onClick={() => setActiveNav('Arts & Fun')} />
         </nav>
 
         {/* Mascot Bottom */}
@@ -4757,55 +4380,24 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
   );
 };
 
-const SidebarNavItem = ({ 
-  icon, 
-  label, 
-  active, 
-  color, 
-  onClick, 
-  badge,
-  draggable = false,
-  onDragStart,
-  onDragOver,
-  onDragLeave,
-  onDrop,
-  onDragEnd,
-  isDragging = false,
-  isDragOver = false
-}) => (
-  <div 
-    className={`px-4 transition-all duration-150 ${isDragging ? 'opacity-35 scale-[0.97]' : ''}`}
-    draggable={draggable}
-    onDragStart={onDragStart}
-    onDragOver={onDragOver}
-    onDragLeave={onDragLeave}
-    onDrop={onDrop}
-    onDragEnd={onDragEnd}
-  >
-    {isDragOver && (
-      <div className="h-1.5 w-full bg-gradient-to-r from-orange-400 to-amber-400 rounded-full mb-1 animate-pulse shadow-sm" />
-    )}
+const SidebarNavItem = ({ icon, label, active, color, onClick, badge }) => (
+  <div className="px-4">
     <button 
       onClick={onClick}
-      className={`w-full flex items-center justify-between gap-3 px-5 py-3.5 cursor-pointer transition-all group rounded-2xl ${
+      className={`w-full flex items-center justify-between gap-4 px-6 py-3.5 cursor-pointer transition-all group rounded-2xl ${
         active 
           ? 'bg-[#EA580C] text-white shadow-lg shadow-orange-200 font-semibold' 
           : 'text-[#166534] hover:bg-slate-50 hover:text-[#14532d]'
-      } ${draggable ? 'cursor-grab active:cursor-grabbing' : ''}`}
+      }`}
     >
-      <div className="flex items-center gap-3.5 flex-1 min-w-0">
-        {draggable && (
-          <div className="opacity-0 group-hover:opacity-60 hover:!opacity-100 transition-opacity cursor-grab active:cursor-grabbing text-slate-400 hover:text-orange-500 shrink-0">
-            <GripVertical className="w-3.5 h-3.5" />
-          </div>
-        )}
-        <div className={`w-5 h-5 flex-center shrink-0 transition-transform group-hover:scale-110 ${active ? 'text-white' : color}`}>
+      <div className="flex items-center gap-4">
+        <div className={`w-5 h-5 flex-center transition-transform group-hover:scale-110 ${active ? 'text-white' : color}`}>
            {React.isValidElement(icon) && icon.type === 'img' ? icon : React.cloneElement(icon, { size: 20, strokeWidth: 3 })}
         </div>
-        <span className="text-sm tracking-tight truncate text-left">{label}</span>
+        <span className="text-sm tracking-tight">{label}</span>
       </div>
       {badge > 0 && (
-        <span className="bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full min-w-[20px] text-center shrink-0">
+        <span className="bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full min-w-[20px] text-center">
           {badge}
         </span>
       )}
