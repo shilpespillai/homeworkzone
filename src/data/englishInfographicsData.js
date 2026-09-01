@@ -184,9 +184,9 @@ export const ENGLISH_INFOGRAPHICS = [
     domainId: 'sentence-construction',
     levelNumber: 2,
     topicNumber: '2.3',
-    title: 'Run-on Sentence Rescue',
-    subtitle: 'Separate run-ons with full stops, conjunctions or semicolons',
-    imageSrc: null
+    title: 'Run-on Sentence Rescue!',
+    subtitle: 'Are two complete sentences incorrectly joined? (Fused vs Comma Splice)',
+    imageSrc: '/infographics/english/run_on_sentence_rescue.jpg'
   },
   {
     id: '2-4-four-sentence-types',
@@ -203,8 +203,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 2,
     topicNumber: '2.5',
     title: 'Simple, Compound & Complex Sentences',
-    subtitle: 'How clauses combine for sentence variety',
-    imageSrc: null
+    subtitle: 'How many clauses are present, and which ones can stand alone?',
+    imageSrc: '/infographics/english/simple_compound_complex_sentences.jpg'
   },
   {
     id: '2-6-compound-complex-sentence-builder',
@@ -221,8 +221,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 2,
     topicNumber: '2.7',
     title: 'Subject & Predicate Detective',
-    subtitle: 'Find who or what the sentence is about and what happens',
-    imageSrc: null
+    subtitle: 'Who or what is the sentence about, and what is being said about it?',
+    imageSrc: '/infographics/english/subject_and_predicate_detective.jpg'
   },
   {
     id: '2-8-direct-and-indirect-objects',
@@ -261,8 +261,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 3,
     topicNumber: '3.1',
     title: 'Independent vs Dependent Clauses',
-    subtitle: 'The “Stand Alone” test for identifying clause independence',
-    imageSrc: null
+    subtitle: 'Can this clause stand alone and make complete sense?',
+    imageSrc: '/infographics/english/independent_vs_dependent_clauses.jpg'
   },
   {
     id: '3-2-phrase-or-clause',
@@ -422,8 +422,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 5,
     topicNumber: '5.5',
     title: 'Colon, Semicolon or Dash?',
-    subtitle: 'Compare when each punctuation mark works best',
-    imageSrc: null
+    subtitle: 'Are we introducing information, linking complete ideas or creating emphasis?',
+    imageSrc: '/infographics/english/colon_semicolon_dash.jpg'
   },
   {
     id: '5-6-capital-letter-checklist',
@@ -520,8 +520,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 7,
     topicNumber: '7.1',
     title: 'Weak Sentence to Powerful Sentence',
-    subtitle: 'Upgrading weak verbs, vague nouns and repetitive phrasing',
-    imageSrc: null
+    subtitle: 'Which words can be made more precise without overloading the sentence?',
+    imageSrc: '/infographics/english/weak_to_powerful_sentences.jpg'
   },
   {
     id: '7-2-show-dont-tell',
@@ -529,8 +529,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 7,
     topicNumber: '7.2',
     title: 'Show, Don’t Tell',
-    subtitle: 'Sensory details, physical actions and thoughts in place of labels',
-    imageSrc: null
+    subtitle: 'What would a reader see, hear, feel or notice if this emotion were happening?',
+    imageSrc: '/infographics/english/show_dont_tell.jpg'
   },
   {
     id: '7-3-vary-your-sentence-openers',
@@ -538,8 +538,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 7,
     topicNumber: '7.3',
     title: 'Vary Your Sentence Openers',
-    subtitle: 'Time, place, -ing, -ed, -ly and conjunction starters',
-    imageSrc: null
+    subtitle: 'Have too many nearby sentences started in the same way?',
+    imageSrc: '/infographics/english/vary_your_sentence_openers.jpg'
   },
   {
     id: '7-4-transition-words-by-purpose',
@@ -564,9 +564,9 @@ export const ENGLISH_INFOGRAPHICS = [
     domainId: 'writing-improvement',
     levelNumber: 7,
     topicNumber: '7.6',
-    title: 'Editing Detective Checklist (CUPS)',
-    subtitle: 'Capitalisation, Usage, Punctuation and Spelling protocol',
-    imageSrc: null
+    title: 'Edit with CUPS',
+    subtitle: 'One editing job at a time! (Capitalisation, Usage, Punctuation, Spelling)',
+    imageSrc: '/infographics/english/edit_with_cups.jpg'
   },
   {
     id: '7-7-proofreading-in-five-passes',
