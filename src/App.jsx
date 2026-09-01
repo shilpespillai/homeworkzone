@@ -3524,8 +3524,7 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
                                  {[
                                     { name: 'English Curriculum Tree', emoji: '🌳' },
                                     { name: 'Writing & Essay Studio', emoji: '✍️' },
-                                    { name: 'Reading Comprehension', emoji: '📖' },
-                                    { name: 'Vocabulary & Word Power', emoji: '🔤' }
+                                    { name: 'Reading Comprehension', emoji: '📖' }
                                  ].map((topic) => (
                                     <button
                                        key={topic.name}

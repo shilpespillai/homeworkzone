@@ -524,8 +524,7 @@ export default function EnglishHub({ topicName }) {
           { id: 'tree', label: '🌳 Curriculum Knowledge Tree', badge: 'All 7 Branches' },
           { id: 'grammar', label: '📜 Grammar Poster', badge: 'Wall Poster' },
           { id: 'reading', label: '📖 Reading Comprehension', badge: '3 Passages' },
-          { id: 'visual-feedback', label: '✍️ Writing Studio', badge: 'AI Feedback' },
-          { id: 'vocab', label: '🔤 Vocabulary Power', badge: 'Flashcards' }
+          { id: 'visual-feedback', label: '✍️ Writing Studio', badge: 'AI Feedback' }
         ].map((tab) => {
           const isActive = activeTab === tab.id;
           return (
