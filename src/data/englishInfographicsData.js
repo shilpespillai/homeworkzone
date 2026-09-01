@@ -90,9 +90,9 @@ export const ENGLISH_INFOGRAPHICS = [
     domainId: 'foundations',
     levelNumber: 1,
     topicNumber: '1.1',
-    title: 'Parts of Speech Town',
-    subtitle: 'Nouns, pronouns, verbs, adjectives, adverbs, prepositions, conjunctions & interjections',
-    imageSrc: null
+    title: 'Welcome to Parts of Speech Town',
+    subtitle: 'Every word has a job. Discover what each word is doing!',
+    imageSrc: '/infographics/english/parts_of_speech_town.jpg'
   },
   {
     id: '1-2-how-to-identify-parts-of-speech',
@@ -126,9 +126,9 @@ export const ENGLISH_INFOGRAPHICS = [
     domainId: 'foundations',
     levelNumber: 1,
     topicNumber: '1.5',
-    title: 'Action, Linking & Helping Verbs',
-    subtitle: 'Visual tests for distinguishing the three verb types',
-    imageSrc: null
+    title: 'What Kind of Verb Is It?',
+    subtitle: 'Action Verbs, Linking Verbs, Auxiliary (Helping) Verbs',
+    imageSrc: '/infographics/english/action_linking_helping_verbs.jpg'
   },
   {
     id: '1-6-adjective-or-adverb',
@@ -431,8 +431,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 5,
     topicNumber: '5.6',
     title: 'Capital Letter Checklist',
-    subtitle: 'MINTS checklist and proper nouns requiring capitals',
-    imageSrc: null
+    subtitle: 'Is this word beginning a sentence or naming a specific person, place, event or title?',
+    imageSrc: '/infographics/english/capital_letter_checklist.jpg'
   },
   {
     id: '5-7-dialogue-punctuation-masterclass',
@@ -440,8 +440,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 5,
     topicNumber: '5.7',
     title: 'Dialogue Punctuation Masterclass',
-    subtitle: 'Speech before, speech after and speech interrupted by tags',
-    imageSrc: null
+    subtitle: 'Who is speaking, where does the speech begin and end, and who speaks next?',
+    imageSrc: '/infographics/english/dialogue_punctuation_masterclass.jpg'
   },
 
   // ==========================================
@@ -547,8 +547,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 7,
     topicNumber: '7.4',
     title: 'Transition Words by Purpose',
-    subtitle: 'Addition, contrast, cause, sequence, example and conclusion words',
-    imageSrc: null
+    subtitle: 'What relationship should the reader understand between these ideas?',
+    imageSrc: '/infographics/english/transition_words_by_purpose.jpg'
   },
   {
     id: '7-5-formal-vs-informal-language',
