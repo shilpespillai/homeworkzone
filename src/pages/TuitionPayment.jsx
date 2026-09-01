@@ -12,10 +12,10 @@ import {
   HelpCircle,
 } from 'lucide-react';
 import { db } from '../firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 
 // ─── Fee Card ─────────────────────────────────────────────────────────────────
-const FeeCard = ({ amount, label, description, icon, color, gradient, delay, currency = 'USD', currencySymbol = '$' }) => (
+const FeeCard = ({ amount, label, description, icon, color, gradient, delay, currency = 'AUD', currencySymbol = 'A$' }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -32,7 +32,7 @@ const FeeCard = ({ amount, label, description, icon, color, gradient, delay, cur
         </div>
         <div className="text-right">
           <p className="text-4xl font-black text-slate-800 tracking-tight">{currencySymbol}{amount}</p>
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mt-0.5">{currency}</p>
+          <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-0.5">{currency}</p>
         </div>
       </div>
       <h3 className="text-base font-bold text-slate-800 leading-tight">{label}</h3>
@@ -70,7 +70,14 @@ const TuitionPayment = ({ studentName, teacher, classroom }) => {
 
   const studentGrade = resolveGradeFromClassroomName(classroom?.name);
   const [packages, setPackages] = useState(DEFAULT_PACKAGES);
-  const [currency, setCurrency] = useState('USD');
+  const [currency, setCurrency] = useState(() => {
+    try {
+      const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student') || 'null');
+      return teacher?.currency || teacher?.tuitionCurrency || savedStudent?.teacher?.currency || savedStudent?.teacher?.tuitionCurrency || localStorage.getItem('hwz_teacher_tuition_currency') || 'AUD';
+    } catch (e) {
+      return 'AUD';
+    }
+  });
   const [loading, setLoading] = useState(true);
   const CURRENCIES = { USD: '$', EUR: '€', GBP: '£', AUD: 'A$', CAD: 'C$', NZD: 'NZ$', INR: '₹', ZAR: 'R', SGD: 'S$' };
 
@@ -92,15 +99,15 @@ const TuitionPayment = ({ studentName, teacher, classroom }) => {
     }
 
     const currentStudentGrade = resolveGradeFromClassroomName(activeClassroomName);
+    const ref = doc(db, 'teachers', activeTeacherUid, 'settings', 'tuitionFees');
 
-    const load = async () => {
+    const unsubscribe = onSnapshot(ref, (snap) => {
       try {
-        const ref = doc(db, 'teachers', activeTeacherUid, 'settings', 'tuitionFees');
-        const snap = await getDoc(ref);
         let loadedPackages = null;
         if (snap.exists()) {
           const data = snap.data();
-          if (data.currency) setCurrency(data.currency);
+          const loadedCur = data.currency || data.tuitionCurrency || teacher?.currency || teacher?.tuitionCurrency;
+          if (loadedCur) setCurrency(loadedCur);
 
           // 1. Try matching student's grade (e.g. "Grade 4" or "Grade 1")
           if (data[currentStudentGrade] && Array.isArray(data[currentStudentGrade]) && data[currentStudentGrade].length) {
@@ -136,6 +143,9 @@ const TuitionPayment = ({ studentName, teacher, classroom }) => {
         }
 
         if (loadedPackages && loadedPackages.length > 0) {
+          if (loadedPackages[0]?.currency) {
+            setCurrency(loadedPackages[0].currency);
+          }
           setPackages(
             loadedPackages.map(p => ({
               ...p,
@@ -150,15 +160,15 @@ const TuitionPayment = ({ studentName, teacher, classroom }) => {
           })));
         }
       } catch (e) {
-        console.warn('Could not load tuition fees, using defaults:', e);
-        setPackages(DEFAULT_PACKAGES.map(pkg => ({
-          ...pkg,
-          ...(STYLE_MAP[pkg.id] || STYLE_MAP.weekly),
-        })));
+        console.warn('Could not process tuition fees snapshot:', e);
       }
       setLoading(false);
-    };
-    load();
+    }, (err) => {
+      console.warn('Tuition fees listener error:', err);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, [teacher?.uid, classroom?.name, classroom?.id, studentGrade]);
 
   return (

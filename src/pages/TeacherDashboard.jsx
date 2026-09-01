@@ -2642,24 +2642,42 @@ Include a balanced combination of question types such as:
     if (!user?.uid) return;
     setIsSavingFees(true);
     try {
-      const ref = doc(db, 'teachers', user.uid, 'settings', 'tuitionFees');
-      const payload = { 
-        [selectedTuitionGrade]: tuitionPackages, 
-        tuitionPackages: tuitionPackages,
-        defaultPackages: tuitionPackages,
+      const enrichedPackages = tuitionPackages.map(pkg => ({
+        ...pkg,
+        amount: Number(pkg.amount) || 0,
         currency: tuitionCurrency,
+        currencySymbol: CURRENCIES[tuitionCurrency] || '$'
+      }));
+
+      const ref = doc(db, 'teachers', user.uid, 'settings', 'tuitionFees');
+      const teacherDocRef = doc(db, 'teachers', user.uid);
+      const payload = { 
+        [selectedTuitionGrade]: enrichedPackages, 
+        tuitionPackages: enrichedPackages,
+        defaultPackages: enrichedPackages,
+        currency: tuitionCurrency,
+        tuitionCurrency: tuitionCurrency,
+        currencySymbol: CURRENCIES[tuitionCurrency] || '$',
         updatedAt: new Date().toISOString() 
       };
-      if (activeClassroom?.id) payload[activeClassroom.id] = tuitionPackages;
-      if (activeClassroom?.name) payload[activeClassroom.name] = tuitionPackages;
+      if (activeClassroom?.id) payload[activeClassroom.id] = enrichedPackages;
+      if (activeClassroom?.name) payload[activeClassroom.name] = enrichedPackages;
 
-      await setDoc(ref, payload, { merge: true });
+      await Promise.all([
+        setDoc(ref, payload, { merge: true }),
+        setDoc(teacherDocRef, { currency: tuitionCurrency, tuitionCurrency }, { merge: true })
+      ]);
       
+      try {
+        localStorage.setItem('hwz_teacher_tuition_currency', tuitionCurrency);
+      } catch (e) {}
+
       setAllGradeFees(prev => ({
         ...prev,
-        [selectedTuitionGrade]: tuitionPackages,
-        tuitionPackages: tuitionPackages,
-        defaultPackages: tuitionPackages
+        [selectedTuitionGrade]: enrichedPackages,
+        tuitionPackages: enrichedPackages,
+        defaultPackages: enrichedPackages,
+        currency: tuitionCurrency
       }));
 
       setFeesSaved(true);
