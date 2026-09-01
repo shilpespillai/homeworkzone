@@ -270,8 +270,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 3,
     topicNumber: '3.2',
     title: 'Phrase or Clause?',
-    subtitle: 'Check whether a subject and verb work together',
-    imageSrc: null
+    subtitle: 'Does the word group contain its own subject–verb combination?',
+    imageSrc: '/infographics/english/phrase_or_clause.jpg'
   },
   {
     id: '3-3-noun-adjective-and-adverb-clauses',
@@ -279,8 +279,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 3,
     topicNumber: '3.3',
     title: 'Noun, Adjective & Adverb Clauses',
-    subtitle: 'Identify the role of each subordinate clause in a sentence',
-    imageSrc: null
+    subtitle: 'Three jobs for subordinate clauses! What job does the entire clause perform?',
+    imageSrc: '/infographics/english/noun_adjective_adverb_clauses.jpg'
   },
   {
     id: '3-4-relative-clauses',
@@ -288,8 +288,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 3,
     topicNumber: '3.4',
     title: 'Relative Clauses',
-    subtitle: 'Who, whom, whose, which and that connecting clauses to nouns',
-    imageSrc: null
+    subtitle: 'Extra information that tells us more about a noun. Which noun is being described?',
+    imageSrc: '/infographics/english/relative_clauses.jpg'
   },
   {
     id: '3-5-prepositional-phrases',
@@ -297,8 +297,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 3,
     topicNumber: '3.5',
     title: 'Prepositional Phrases',
-    subtitle: 'Preposition, object and the information added to the sentence',
-    imageSrc: null
+    subtitle: 'Add detail. Show time, place, direction or more! Where does the phrase begin?',
+    imageSrc: '/infographics/english/prepositional_phrases.jpg'
   },
   {
     id: '3-6-participial-gerund-infinitive-phrases',
