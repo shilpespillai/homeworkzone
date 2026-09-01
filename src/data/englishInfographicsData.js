@@ -146,7 +146,7 @@ export const ENGLISH_INFOGRAPHICS = [
     topicNumber: '1.7',
     title: 'Preposition Position Map',
     subtitle: 'Above, below, across, through, beside, between and beyond in one scene',
-    imageSrc: null
+    imageSrc: '/infographics/english/preposition_position_map.jpg'
   },
   {
     id: '1-8-conjunction-junction',
@@ -155,7 +155,7 @@ export const ENGLISH_INFOGRAPHICS = [
     topicNumber: '1.8',
     title: 'Conjunction Junction',
     subtitle: 'Coordinating, subordinating and correlative conjunctions',
-    imageSrc: null
+    imageSrc: '/infographics/english/conjunction_junction.jpg'
   },
 
   // ==========================================
@@ -168,7 +168,7 @@ export const ENGLISH_INFOGRAPHICS = [
     topicNumber: '2.1',
     title: 'Anatomy of a Complete Sentence',
     subtitle: 'Subject + predicate + complete thought',
-    imageSrc: null
+    imageSrc: '/infographics/english/anatomy_of_a_complete_sentence.jpg'
   },
   {
     id: '2-2-sentence-fragment-repair-shop',
@@ -405,7 +405,7 @@ export const ENGLISH_INFOGRAPHICS = [
     topicNumber: '5.3',
     title: 'Apostrophe Detective',
     subtitle: 'Contractions vs singular possession vs plural possession',
-    imageSrc: null
+    imageSrc: '/infographics/english/apostrophe_detective.jpg'
   },
   {
     id: '5-4-direct-speech-formula',
@@ -414,7 +414,7 @@ export const ENGLISH_INFOGRAPHICS = [
     topicNumber: '5.4',
     title: 'Direct Speech Formula',
     subtitle: 'Speech marks, commas, capital letters and dialogue tags',
-    imageSrc: null
+    imageSrc: '/infographics/english/direct_speech_formula.jpg'
   },
   {
     id: '5-5-colon-semicolon-or-dash',
