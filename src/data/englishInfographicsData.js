@@ -230,8 +230,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 2,
     topicNumber: '2.8',
     title: 'Direct & Indirect Objects',
-    subtitle: 'Verb + what? (Direct) and Verb + whom? (Indirect)',
-    imageSrc: null
+    subtitle: 'What receives the action, and who receives that thing?',
+    imageSrc: '/infographics/english/direct_and_indirect_objects.jpg'
   },
   {
     id: '2-9-sentence-expansion-ladder',
@@ -239,8 +239,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 2,
     topicNumber: '2.9',
     title: 'Sentence Expansion Ladder',
-    subtitle: 'Grow “The dog ran” into a vivid, descriptive sentence step by step',
-    imageSrc: null
+    subtitle: 'What useful information can be added without making the sentence confusing?',
+    imageSrc: '/infographics/english/sentence_expansion_ladder.jpg'
   },
   {
     id: '2-10-sentence-combining-laboratory',
@@ -248,8 +248,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 2,
     topicNumber: '2.10',
     title: 'Sentence Combining Laboratory',
-    subtitle: 'Turn short, choppy sentences into fluent writing',
-    imageSrc: null
+    subtitle: 'Which repeated ideas can be combined to improve fluency?',
+    imageSrc: '/infographics/english/sentence_combining_laboratory.jpg'
   },
 
   // ==========================================
@@ -385,9 +385,9 @@ export const ENGLISH_INFOGRAPHICS = [
     domainId: 'punctuation-capitalisation',
     levelNumber: 5,
     topicNumber: '5.1',
-    title: 'Punctuation Detectives Master Poster',
-    subtitle: 'The full punctuation system in one reference poster',
-    imageSrc: null
+    title: 'Punctuation Job Centre',
+    subtitle: 'What job must the punctuation perform at this point in the sentence?',
+    imageSrc: '/infographics/english/punctuation_job_centre.jpg'
   },
   {
     id: '5-2-comma-decision-tree',
@@ -395,8 +395,8 @@ export const ENGLISH_INFOGRAPHICS = [
     levelNumber: 5,
     topicNumber: '5.2',
     title: 'Comma Decision Tree',
-    subtitle: 'Lists, introductory clauses, compound sentences and extra information',
-    imageSrc: null
+    subtitle: 'Is the comma separating equal items, clauses, introductions or removable information?',
+    imageSrc: '/infographics/english/comma_decision_tree.jpg'
   },
   {
     id: '5-3-apostrophe-detective',
