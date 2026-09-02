@@ -6553,24 +6553,37 @@ export default function App() {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         if (user.isAnonymous) { console.log('App: Anonymous auth'); setIsLoading(false); return; }
-          const isEmailProvider = user.providerData.some(p => p.providerId === 'password');
+        
+        // 🔒 If the authenticated user is a student (uid starts with student_), do NOT log them into Teacher Dashboard!
+        if (user.uid.startsWith('student_')) {
+          console.log('App: Student auth token active. Skipping teacher login.');
+          setCurrentUser(null);
+          setIsLoading(false);
+          return;
+        }
+
+        const isEmailProvider = user.providerData.some(p => p.providerId === 'password');
         if (isEmailProvider && !user.emailVerified) {
           console.log("App: Email not verified. Auto-login skipped.");
           setCurrentUser(null);
           setIsLoading(false);
           return;
         }
+
         const userDoc = doc(db, 'teachers', user.uid);
         const docSnap = await getDoc(userDoc);
-        const userData = docSnap.exists() ? { 
+        if (!docSnap.exists()) {
+          console.warn("App: Authenticated user does not have a teacher profile.");
+          setCurrentUser(null);
+          setIsLoading(false);
+          return;
+        }
+
+        const userData = { 
           uid: user.uid, 
           email: user.email, 
           displayName: user.displayName, 
           ...docSnap.data() 
-        } : { 
-          uid: user.uid, 
-          email: user.email, 
-          displayName: user.displayName 
         };
         console.log("App: Setting currentUser:", userData);
         setCurrentUser(userData);

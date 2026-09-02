@@ -5185,7 +5185,7 @@ Include a balanced combination of question types such as:
                      classrooms={classrooms}
                      allStudents={allStudents}
                      allHomeworks={allHomeworks}
-                     teacherCode={user?.teacherCode || teacherData?.teacherCode || user?.uid?.slice(0, 6).toUpperCase()}
+                     teacherCode={user?.teacherCode || teacherData?.teacherCode || ''}
                      onNavigateTab={setActiveTab}
                      onOpenCreateClass={() => {
                        setActiveTab('My Classes');
@@ -9656,7 +9656,7 @@ Include a balanced combination of question types such as:
 
             <div className="bg-slate-50 border border-slate-100 rounded-2xl px-4 py-2 flex flex-col items-center w-full">
                <span className="text-[9px] font-black uppercase tracking-widest text-[#166534]">Teacher Code</span>
-               <span className="text-sm font-black text-slate-700 tracking-wider">{user?.teacherCode || user?.uid?.slice(0, 6).toUpperCase()}</span>
+               <span className="text-sm font-black text-slate-700 tracking-wider">{user?.teacherCode || teacherData?.teacherCode || ''}</span>
             </div>
          </div>
 
@@ -9797,8 +9797,8 @@ Include a balanced combination of question types such as:
                  <div className="flex items-center gap-6">
                   <div className="flex items-center gap-4">
                     <div className="flex flex-col items-end">
-                       <span className="text-sm font-bold text-slate-800">{user?.displayName || 'Teacher'}</span>
-                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{user?.email || 'Administrator'}</span>
+                       <span className="text-sm font-bold text-slate-800">{user?.displayName || teacherData?.displayName || 'Teacher'}</span>
+                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{user?.email || teacherData?.email || ''}</span>
                     </div>
                     <button 
                       onClick={onLogout}
