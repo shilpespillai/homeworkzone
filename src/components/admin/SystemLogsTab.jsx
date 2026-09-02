@@ -42,7 +42,17 @@ export default function SystemLogsTab({ adminTeachers = [] }) {
   };
 
   useEffect(() => {
-    fetchLogs();
+    setIsLoading(true);
+    const q = query(collection(db, 'error_logs'), orderBy('timestamp', 'desc'), limit(150));
+    const unsubscribe = onSnapshot(q, (snap) => {
+      setLogs(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      setIsLoading(false);
+    }, (err) => {
+      console.warn("Failed listening to error logs in real-time:", err);
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const copyToClipboard = (text, id) => {

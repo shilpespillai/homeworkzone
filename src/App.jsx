@@ -2958,27 +2958,56 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
    }, [classroom?.id, teacher?.uid, studentName]);
 
    useEffect(() => {
-      if (classroom?.chatDisabled && activeNav === 'My Messages') {
-         setActiveNav('Dashboard');
-      }
-   }, [classroom?.chatDisabled, activeNav]);
-
-   useEffect(() => {
       const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student'));
       const actualClassroom = classroom || savedStudent?.classroom;
       const actualTeacher = teacher || savedStudent?.teacher;
-      if (actualClassroom?.id && actualTeacher?.uid) {
-         const classRef = doc(db, 'teachers', actualTeacher.uid, 'classrooms', actualClassroom.id);
-         const unsubscribe = onSnapshot(classRef, (snapshot) => {
-            if (snapshot.exists()) {
-               setClassroom({ id: snapshot.id, ...snapshot.data() });
+      let unsubscribeSubmissions = null;
+      let unsubscribeStudents = null;
+
+      const setupRealtimeStudentFeeds = async () => {
+         if (!actualClassroom?.id || !studentName) return;
+         let teacherUid = actualTeacher?.uid;
+         if (!teacherUid && actualTeacher?.teacherCode) {
+            const teacherQ = query(collection(db, 'teachers'), where('teacherCode', '==', actualTeacher.teacherCode.toUpperCase().trim()), limit(1));
+            const teacherSnap = await getDocs(teacherQ);
+            if (!teacherSnap.empty) {
+               teacherUid = teacherSnap.docs[0].id;
             }
+         }
+         if (!teacherUid) return;
+
+         // 1. Real-time Submissions & Teacher Grading / Feedback
+         const subQ = query(
+            collection(db, 'submissions'),
+            where('teacherId', '==', teacherUid),
+            where('classId', '==', actualClassroom.id)
+         );
+         unsubscribeSubmissions = onSnapshot(subQ, (snap) => {
+            const cleanName = studentName?.trim().toLowerCase();
+            const subList = snap.docs
+               .map(d => ({ id: d.id, ...d.data() }))
+               .filter(s => (s.studentName || '').trim().toLowerCase() === cleanName);
+            setSubmissions(subList);
          }, (err) => {
-            console.error("Classroom onSnapshot error:", err);
+            console.error("Realtime submissions listener error:", err);
          });
-         return () => unsubscribe();
-      }
-   }, [classroom?.id, teacher?.uid]);
+
+         // 2. Real-time Classroom Student Roster (Adventure Maze & Leaderboard Sync)
+         const studentsRef = collection(db, 'teachers', teacherUid, 'classrooms', actualClassroom.id, 'students');
+         unsubscribeStudents = onSnapshot(studentsRef, (snap) => {
+            setClassroomStudents(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+         }, (err) => {
+            console.error("Realtime classroom students listener error:", err);
+         });
+      };
+
+      setupRealtimeStudentFeeds();
+
+      return () => {
+         if (unsubscribeSubmissions) unsubscribeSubmissions();
+         if (unsubscribeStudents) unsubscribeStudents();
+      };
+   }, [classroom?.id, teacher?.uid, teacher?.teacherCode, studentName]);
 
    useEffect(() => {
       if (classroom?.chatDisabled && activeNav === 'My Messages') {

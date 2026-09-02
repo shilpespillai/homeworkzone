@@ -469,23 +469,23 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
   };
 
   useEffect(() => {
-    const fetchStudents = async () => {
-      if (!user?.uid || !activeClassroom?.id) {
-        setStudents([]);
-        return;
-      }
-      setIsLoadingStudents(true);
-      try {
-        const snap = await getDocs(collection(db, 'teachers', user.uid, 'classrooms', activeClassroom.id, 'students'));
-        const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setStudents(list);
-      } catch (err) {
-        console.error("Error fetching students for scheduler:", err);
-      }
+    if (!user?.uid || !activeClassroom?.id) {
+      setStudents([]);
+      return;
+    }
+    setIsLoadingStudents(true);
+    const studentsRef = collection(db, 'teachers', user.uid, 'classrooms', activeClassroom.id, 'students');
+    const unsubscribe = onSnapshot(studentsRef, (snap) => {
+      const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setStudents(list);
       setIsLoadingStudents(false);
-    };
-    fetchStudents();
-  }, [activeClassroom?.id, user]);
+    }, (err) => {
+      console.error("Error listening to students for scheduler:", err);
+      setIsLoadingStudents(false);
+    });
+
+    return () => unsubscribe();
+  }, [activeClassroom?.id, user?.uid]);
 
   const dynamicSubjects = useMemo(() => {
     const list = [...SUBJECTS];
@@ -1013,12 +1013,45 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
   };
 
   useEffect(() => {
-    if (user?.uid) {
-      fetchScheduledHistory();
-      fetchRecurringSchedules();
-      checkAndRunAutomations();
-    }
-  }, [user]);
+    if (!user?.uid) return;
+
+    // Real-time listener for scheduled homeworks
+    const hwQ = query(collection(db, 'homeworks'), where('teacherId', '==', user.uid));
+    const unsubHw = onSnapshot(hwQ, (snap) => {
+      const items = snap.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+      items.sort((a, b) => {
+        const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
+        const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
+        return timeB - timeA;
+      });
+      setScheduledItems(items);
+      setIsLoadingHistory(false);
+    }, (err) => {
+      console.error("Realtime homeworks listener error:", err);
+      setIsLoadingHistory(false);
+    });
+
+    // Real-time listener for recurring schedules
+    const schedQ = query(collection(db, 'recurring_schedules'), where('teacherId', '==', user.uid));
+    const unsubSched = onSnapshot(schedQ, (snap) => {
+      const list = snap.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+      list.sort((a, b) => {
+        const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt ? Date.now() : 0);
+        const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt ? Date.now() : 0);
+        return timeB - timeA;
+      });
+      setRecurringItems(list);
+    }, (err) => {
+      console.error("Realtime recurring schedules listener error:", err);
+    });
+
+    checkAndRunAutomations();
+
+    return () => {
+      unsubHw();
+      unsubSched();
+    };
+  }, [user?.uid]);
 
   const handleClassToggle = (classId) => {
     setFormData(prev => {

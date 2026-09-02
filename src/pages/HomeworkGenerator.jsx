@@ -536,23 +536,23 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   };
 
   useEffect(() => {
-    const fetchStudents = async () => {
-      if (!user?.uid || !formData.classId) {
-        setStudents([]);
-        return;
-      }
-      setIsLoadingStudents(true);
-      try {
-        const snap = await getDocs(collection(db, 'teachers', user.uid, 'classrooms', formData.classId, 'students'));
-        const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setStudents(list);
-      } catch (err) {
-        console.error("Error fetching students for generator:", err);
-      }
+    if (!user?.uid || !formData.classId) {
+      setStudents([]);
+      return;
+    }
+    setIsLoadingStudents(true);
+    const studentsRef = collection(db, 'teachers', user.uid, 'classrooms', formData.classId, 'students');
+    const unsubscribe = onSnapshot(studentsRef, (snap) => {
+      const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setStudents(list);
       setIsLoadingStudents(false);
-    };
-    fetchStudents();
-  }, [formData.classId, user]);
+    }, (err) => {
+      console.error("Error listening to students for generator:", err);
+      setIsLoadingStudents(false);
+    });
+
+    return () => unsubscribe();
+  }, [formData.classId, user?.uid]);
 
   const lastSubjectRef = useRef(formData.subject);
 
