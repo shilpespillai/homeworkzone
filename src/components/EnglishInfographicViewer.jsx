@@ -32,9 +32,22 @@ export default function EnglishInfographicViewer({ initialTopicId }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [activePosterModal, setActivePosterModal] = useState(null); // stores active infographic item
   const [zoomScale, setZoomScale] = useState(1);
+
+  const activeStudent = useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem('hwz_active_student') || 'null');
+    } catch (e) {
+      return null;
+    }
+  }, []);
+
+  const storageKey = activeStudent?.name 
+    ? `hz_english_infographics_completed_${activeStudent.name.trim().toLowerCase()}` 
+    : 'hz_english_infographics_completed';
+
   const [completedTopics, setCompletedTopics] = useState(() => {
     try {
-      const saved = localStorage.getItem('hz_english_infographics_completed');
+      const saved = localStorage.getItem(storageKey);
       return saved ? new Set(JSON.parse(saved)) : new Set();
     } catch (e) {
       return new Set();
@@ -62,7 +75,7 @@ export default function EnglishInfographicViewer({ initialTopicId }) {
         });
       }
       try {
-        localStorage.setItem('hz_english_infographics_completed', JSON.stringify([...next]));
+        localStorage.setItem(storageKey, JSON.stringify([...next]));
       } catch (e) {}
       return next;
     });
