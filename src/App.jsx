@@ -963,10 +963,10 @@ const getHomeworkDate = (hw) => {
 
 export const isExamAssignment = (hw) => {
   if (!hw) return false;
-  // If explicitly created as a homework assignment, it ALWAYS stays in My Assignments!
-  if (hw.type === 'homework' && !hw.isExamPaper && !hw.examPreset) return false;
-  // Only items explicitly created as a classroom test or an exam paper go to Exam Arena
-  if (hw.type === 'test' || hw.isExamPaper === true || Boolean(hw.examPreset)) return true;
+  // If explicitly created as homework, it ALWAYS stays in My Assignments!
+  if (hw.type === 'homework') return false;
+  // Only items explicitly created as a test or with an exam preset go to Exam Arena
+  if (hw.type === 'test' || Boolean(hw.examPreset)) return true;
   return false;
 };
 
@@ -1370,15 +1370,7 @@ const MyHomework = ({ studentName, teacher, onStartMission, homeworks: initialHo
                const hwQ = query(collection(db, 'homeworks'), where('teacherId', '==', savedStudent.teacher.uid), where('assignedClassId', '==', savedStudent.classroom.id));
                const hwSnap = await getDocs(hwQ);
                const cleanStudentId = studentName?.trim().toLowerCase();
-               const hwList = hwSnap.docs.map(doc => {
-                  const data = doc.data();
-                  const isExam = isExamAssignment(data);
-                  if (isExam && data.type !== 'test') {
-                     data.type = 'test';
-                     data.isExamPaper = true;
-                  }
-                  return { id: doc.id, ...data };
-               })
+               const hwList = hwSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }))
                   .filter(hw => {
                      if (hw.status === 'draft') return false;
                      if (hw.status === 'scheduled') {
@@ -2902,14 +2894,7 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
             const hwQ = query(collection(db, 'homeworks'), where('teacherId', '==', teacherUid), where('assignedClassId', '==', actualClassroom.id));
             unsubscribe = onSnapshot(hwQ, (hwSnap) => {
                const cleanStudentId = studentName?.trim().toLowerCase();
-               const hwList = hwSnap.docs.map(doc => {
-                  const data = doc.data();
-                  const isNaplan = (data.title || '').toLowerCase().includes('naplan') || (data.subject || '').toLowerCase().includes('naplan');
-                  if (isNaplan && data.type !== 'test') {
-                     data.type = 'test';
-                  }
-                  return { id: doc.id, ...data };
-               }).filter(hw => {
+               const hwList = hwSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })).filter(hw => {
                   if (hw.status === 'draft') return false;
                   if (hw.status === 'scheduled') {
                      if (!hw.scheduledRelease?.date) return false;
