@@ -255,8 +255,6 @@ export const DEFAULT_SUBJECT_PROMPTS = {
   science: getSciencePromptTemplate(),
   english: getEnglishPromptTemplate(),
   vocabulary: getVocabularyPromptTemplate(),
-  naplan_reading: getNaplanReadingPromptTemplate(),
-  naplan_language_conventions: getNaplanLanguageConventionsPromptTemplate(),
   logical_reasoning: getPremiumPromptTemplate('Logical Reasoning'),
   olympiad: getPremiumPromptTemplate('Olympiad Maths'),
   hindi: getPremiumPromptTemplate('Hindi')

@@ -8754,7 +8754,18 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
           }
            case 'My Prompts': {
               const currentPrompts = (isPromptAdmin && promptViewMode === 'global') ? masterPromptsMap : subjectPrompts;
-              const activeSubjectKeys = Object.keys(currentPrompts || {}).filter(k => currentPrompts[k] !== null);
+              const isExamKey = (k) => {
+                 const lk = (k || '').toLowerCase().trim();
+                 return (
+                    lk.startsWith('naplan') || 
+                    lk.startsWith('digital_sat') || 
+                    lk.startsWith('act_') || 
+                    lk.startsWith('icas_') || 
+                    lk.startsWith('seamo_') || 
+                    lk.startsWith('nsw_selective')
+                 );
+              };
+              const activeSubjectKeys = Object.keys(currentPrompts || {}).filter(k => currentPrompts[k] !== null && !isExamKey(k));
 
               return (
                  <div className="px-6 sm:px-10 py-10 space-y-8 min-h-[calc(100vh-64px)] pb-40 relative font-sans">

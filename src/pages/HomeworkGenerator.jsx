@@ -579,10 +579,22 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
 
   const getDynamicSubjects = () => {
     const list = [...SUBJECTS];
+    const isExamKey = (k) => {
+      const lk = (k || '').toLowerCase().trim();
+      return (
+        lk.startsWith('naplan') || 
+        lk.startsWith('digital_sat') || 
+        lk.startsWith('act_') || 
+        lk.startsWith('icas_') || 
+        lk.startsWith('seamo_') || 
+        lk.startsWith('nsw_selective')
+      );
+    };
+
     if (subjectPrompts) {
       Object.keys(subjectPrompts).forEach(key => {
-        if (subjectPrompts[key] === null) return;
-        const lowerKey = key.toLowerCase();
+        if (subjectPrompts[key] === null || isExamKey(key)) return;
+        const lowerKey = key.toLowerCase().trim();
         if (!list.some(s => s.id === lowerKey)) {
           const style = resolveCustomSubjectStyle(key);
           list.push({
@@ -600,23 +612,23 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
     }
     if (activeClassroom?.subjects) {
       activeClassroom.subjects.forEach(subjectName => {
-        const lowerKey = subjectName.toLowerCase();
+        if (isExamKey(subjectName)) return;
+        const lowerKey = subjectName.toLowerCase().trim();
         if (!list.some(s => s.id === lowerKey)) {
           const style = resolveCustomSubjectStyle(subjectName);
           list.push({
             id: lowerKey,
-            name: subjectName,
+            name: subjectName.charAt(0).toUpperCase() + subjectName.slice(1),
             titleColor: style.titleColor,
             bgColor: style.bgColor,
             borderColor: style.borderColor,
             selectedBorder: style.selectedBorder,
-            desc: `Custom subject for ${activeClassroom.name}!`,
+            desc: `Classroom subject: ${subjectName}`,
             renderGraphic: style.renderIcon
           });
         }
       });
     }
-
     return list;
   };
   
