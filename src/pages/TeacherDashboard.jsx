@@ -86,7 +86,7 @@ import { DEFAULT_SUBJECT_PROMPTS, getPremiumPromptTemplate, getMasterDefaultProm
 import { db } from '../firebase';
 import { checkCanGeneratePaper } from '../utils/quotaManager';
 import SystemLogsTab from '../components/admin/SystemLogsTab';
-import { collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where, onSnapshot, addDoc, collectionGroup, updateDoc, limit, getDocsFromServer, increment } from 'firebase/firestore';
+import { deleteField, collection, doc, getDoc, setDoc, getDocs, query, orderBy, deleteDoc, where, onSnapshot, addDoc, collectionGroup, updateDoc, limit, getDocsFromServer, increment } from 'firebase/firestore';
 import HomeworkGenerator from './HomeworkGenerator';
 import HomeworkScheduler from './HomeworkScheduler';
 import TestReportsDashboard from '../components/TestReportsDashboard';
@@ -1891,26 +1891,26 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
   };
 
   const handleDeleteSubject = async (subKey) => {
-    if (await window.confirmCustom(`Are you sure you want to delete the generic prompt for "${subKey}"?`)) {
+    if (await window.confirmCustom(`Are you sure you want to delete the prompt for "${subKey}"?`)) {
       if (isPromptAdmin && promptViewMode === 'global') {
         const updated = { ...masterPromptsMap };
-        updated[subKey] = null;
+        delete updated[subKey];
         setMasterPromptsMap(updated);
         if (user?.uid) {
           try {
-            await saveMasterDefaultPromptsIfAdmin(db, user, updated);
+            await saveMasterDefaultPromptsIfAdmin(db, user, updated, subKey);
           } catch (err) {
             console.error("Failed to delete from global master:", err);
           }
         }
       } else {
         const updated = { ...subjectPrompts };
-        updated[subKey] = null;
+        delete updated[subKey];
         setSubjectPrompts(updated);
         if (user?.uid) {
           try {
             await updateDoc(doc(db, 'teachers', user.uid), {
-              subjectPrompts: updated
+              [`subjectPrompts.${subKey}`]: deleteField()
             });
           } catch (err) {
             console.error("Failed to delete subject prompt from database:", err);

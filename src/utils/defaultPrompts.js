@@ -274,12 +274,23 @@ export const getMasterDefaultPrompts = async (db) => {
     const sysDoc = await getDoc(doc(db, 'system', 'default_subject_prompts'));
     if (sysDoc.exists() && sysDoc.data().subjectPrompts) {
       let adminPrompts = sysDoc.data().subjectPrompts;
-      Object.keys(adminPrompts).forEach(k => { if (adminPrompts[k] === null) delete adminPrompts[k]; });
+      const deletedSubjects = Array.isArray(sysDoc.data().deletedSubjects) ? sysDoc.data().deletedSubjects : [];
+      
+      Object.keys(adminPrompts).forEach(k => { 
+        if (adminPrompts[k] === null || adminPrompts[k] === undefined) delete adminPrompts[k]; 
+      });
       
       if (!adminPrompts.vocabulary || adminPrompts.vocabulary.includes('Vocabulary & Word Power')) {
         adminPrompts.vocabulary = getVocabularyPromptTemplate();
       }
-      return { ...masterPrompts, ...adminPrompts };
+
+      const merged = { ...masterPrompts, ...adminPrompts };
+      // Explicitly delete any subjects marked as deleted by admin
+      deletedSubjects.forEach(dKey => {
+        delete merged[dKey];
+      });
+
+      return merged;
     }
 
     // Legacy fallback to admin teacher doc
@@ -289,7 +300,7 @@ export const getMasterDefaultPrompts = async (db) => {
       const adminData = snap.docs[0].data();
       if (adminData.subjectPrompts) {
         let adminPrompts = adminData.subjectPrompts;
-        Object.keys(adminPrompts).forEach(k => { if (adminPrompts[k] === null) delete adminPrompts[k]; });
+        Object.keys(adminPrompts).forEach(k => { if (adminPrompts[k] === null || adminPrompts[k] === undefined) delete adminPrompts[k]; });
         return { ...masterPrompts, ...adminPrompts };
       }
     }
@@ -303,15 +314,34 @@ export const getMasterDefaultPrompts = async (db) => {
 /**
  * Saves prompts to system default if user is shilpeshpillai81@gmail.com
  */
-export const saveMasterDefaultPromptsIfAdmin = async (db, user, prompts) => {
+export const saveMasterDefaultPromptsIfAdmin = async (db, user, prompts, deletedSubjectKey = null) => {
   if (!db || !user?.email || !prompts) return;
   if (user.email.toLowerCase().trim() === ADMIN_EMAIL) {
     try {
-      await setDoc(doc(db, 'system', 'default_subject_prompts'), {
-        subjectPrompts: prompts,
+      const cleanPrompts = {};
+      Object.keys(prompts).forEach(k => {
+        if (prompts[k] !== null && prompts[k] !== undefined) {
+          cleanPrompts[k] = prompts[k];
+        }
+      });
+      
+      const docRef = doc(db, 'system', 'default_subject_prompts');
+      const snap = await getDoc(docRef);
+      let deletedList = (snap.exists() && Array.isArray(snap.data().deletedSubjects)) ? snap.data().deletedSubjects : [];
+      if (deletedSubjectKey && !deletedList.includes(deletedSubjectKey)) {
+        deletedList.push(deletedSubjectKey);
+      }
+      // If a subject was re-added, remove it from deletedList
+      Object.keys(cleanPrompts).forEach(k => {
+        deletedList = deletedList.filter(d => d !== k);
+      });
+
+      await setDoc(docRef, {
+        subjectPrompts: cleanPrompts,
+        deletedSubjects: deletedList,
         updatedAt: new Date().toISOString(),
         updatedBy: user.email
-      }, { merge: true });
+      }); // Full setDoc to accurately reflect deleted keys without phantom merges
     } catch (err) {
       console.error("Failed to save admin default prompts to system doc:", err);
     }
