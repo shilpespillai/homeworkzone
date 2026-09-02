@@ -1690,7 +1690,12 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const handleOpenPromptModal = (subKey) => {
     setActivePromptModalSubject(subKey);
     const currentMap = (isPromptAdmin && promptViewMode === 'global') ? masterPromptsMap : subjectPrompts;
-    setEditingPromptContent(currentMap[subKey] || getPremiumPromptTemplate(subKey));
+    const existing = currentMap[subKey];
+    if (existing && !existing.startsWith("Generating")) {
+      setEditingPromptContent(existing);
+    } else {
+      setEditingPromptContent(getPremiumPromptTemplate(subKey));
+    }
   };
 
   const handleSaveModalPrompt = async () => {
@@ -1841,20 +1846,47 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
         systemInstruction: "You are a master AI prompt engineer and psychometric curriculum specialist. Output ONLY the raw prompt template text.",
         provider: "claude-sonnet"
       });
-      if (generatedText) {
-        if (isPromptAdmin && promptViewMode === 'global') {
-          setMasterPromptsMap(prev => ({ ...prev, [cleanName]: generatedText.trim() }));
-        } else {
-          setSubjectPrompts(prev => ({ ...prev, [cleanName]: generatedText.trim() }));
-        }
+      const finalText = (generatedText && generatedText.trim()) || getPremiumPromptTemplate(cleanName);
+      
+      if (isPromptAdmin && promptViewMode === 'global') {
+        setMasterPromptsMap(prev => {
+          const updated = { ...prev, [cleanName]: finalText };
+          if (user?.uid) {
+            saveMasterDefaultPromptsIfAdmin(db, user, updated).catch(console.error);
+          }
+          return updated;
+        });
+      } else {
+        setSubjectPrompts(prev => {
+          const updated = { ...prev, [cleanName]: finalText };
+          if (user?.uid) {
+            updateDoc(doc(db, 'teachers', user.uid), { subjectPrompts: updated }).catch(console.error);
+          }
+          return updated;
+        });
       }
+      
+      // Also update open modal if currently viewing this subject
+      setActivePromptModalSubject(curr => {
+        if (curr === cleanName) {
+          setEditingPromptContent(finalText);
+        }
+        return curr;
+      });
     } catch (err) {
       console.error("AI prompt generation error:", err);
+      const fallbackText = getPremiumPromptTemplate(cleanName);
       if (isPromptAdmin && promptViewMode === 'global') {
-        setMasterPromptsMap(prev => ({ ...prev, [cleanName]: getPremiumPromptTemplate(cleanName) }));
+        setMasterPromptsMap(prev => ({ ...prev, [cleanName]: fallbackText }));
       } else {
-        setSubjectPrompts(prev => ({ ...prev, [cleanName]: getPremiumPromptTemplate(cleanName) }));
+        setSubjectPrompts(prev => ({ ...prev, [cleanName]: fallbackText }));
       }
+      setActivePromptModalSubject(curr => {
+        if (curr === cleanName) {
+          setEditingPromptContent(fallbackText);
+        }
+        return curr;
+      });
     }
   };
 
