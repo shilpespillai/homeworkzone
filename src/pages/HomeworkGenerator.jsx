@@ -1812,7 +1812,7 @@ EXPECTED JSON SCHEMA:
     }
   };
 
-  const handlePublish = async () => {
+    const handlePublish = async () => {
     if (checkLimitAndTrigger()) return;
     if (!formData.title) {
       alert("Please enter a title for the homework! 📝");
@@ -1841,6 +1841,27 @@ EXPECTED JSON SCHEMA:
       const isExam = assignmentType === 'test' || Boolean(formData.examPreset);
       const finalType = isExam ? 'test' : 'homework';
 
+      // ⚡ 1-PASS UPFRONT: Extract pre-generated explanations directly from questions
+      const questionExplanations = {};
+      const missingExplanationQs = [];
+      questionsToSave.forEach((q, idx) => {
+        const qId = String(q.id || idx + 1);
+        if (q.explanation && typeof q.explanation === 'string' && q.explanation.trim()) {
+          questionExplanations[qId] = q.explanation.trim();
+        } else {
+          missingExplanationQs.push(q);
+        }
+      });
+
+      if (missingExplanationQs.length > 0 && !isSpatialReasoning) {
+        try {
+          const fallbackExps = await generateExplanations(missingExplanationQs, formData.subject, getModelForGrade(publishGrade, formData.subject, activeModel));
+          Object.assign(questionExplanations, fallbackExps);
+        } catch (e) {
+          console.warn("Fallback explanation generation error:", e);
+        }
+      }
+
       const payload = cleanFirestorePayload({
         title: formData.title || '',
         subject: formData.subject || 'maths',
@@ -1857,7 +1878,7 @@ EXPECTED JSON SCHEMA:
         assignType: formData.assignType || 'all',
         assignedStudentIds: formData.assignType === 'students' ? (formData.assignedStudentIds || []) : [],
         status: 'published',
-        type: isExam ? 'test' : 'homework',
+        type: finalType,
         isExamPaper: isExam,
         examPreset: isExam ? (formData.examPreset || null) : null,
         timeLimit: formData.timeLimit || '30',
