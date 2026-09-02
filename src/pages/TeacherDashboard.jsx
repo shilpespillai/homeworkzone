@@ -1826,9 +1826,19 @@ Include a balanced combination of question types such as:
 
     try {
       const generatedText = await generateContent({
-        prompt: `Write a highly detailed, customized, and structured instruction prompt template for another AI to generate high-quality worksheets and questions specifically for the subject: "${displaySubject}". The generated prompt must contain subject-specific details (for example, if the subject is "${displaySubject}", the instructions must specify key concepts, terminology, question structures, and topics unique to "${displaySubject}"). It should dynamically cater to the grade and difficulty level selected. Do not write a generic template containing '{SUBJECT}'. Write a concrete prompt tailored specifically to "${displaySubject}". Output only the prompt text itself, with no explanations or markdown quotes.`,
-        systemInstruction: "You are an expert AI prompt engineer. Write a highly detailed, professional, structured instruction prompt for another AI to generate high-quality worksheets and questions. Output ONLY the resulting prompt.",
-        provider: "gemini"
+        prompt: `You are a world-class educational curriculum architect and master prompt engineer. 
+Write a highly detailed, comprehensive, and rigorous instruction prompt template for another AI to generate authentic, high-quality assessment papers, tests, and homework specifically for the subject / exam: "${displaySubject}".
+
+The generated prompt MUST establish a dedicated, distinct educational and exam profile for "${displaySubject}":
+1. Subject Identity & Syllabus Scope: Clearly define the core domains, fundamental terminology, and conceptual boundaries of "${displaySubject}".
+2. Grade & Difficulty Calibration: Include dynamic placeholders {GRADE}, {TOPIC}, {DIFFICULTY}, and {QUESTION_COUNT} with explicit calibration instructions.
+3. Multi-Dimensional Cognitive Rigor: Require questions spanning conceptual understanding, procedural computation/skill, authentic real-world applications, logical reasoning, multi-step problem solving, and error analysis.
+4. Specific Question Typologies & Rules: Detail the exact question structures (MCQ, short answer, diagram interpretation, etc.) suited specifically for "${displaySubject}".
+5. Strict Anti-Triviality & Verification Rules: Mandate 100% factual/mathematical accuracy and strict avoidance of trivial questions.
+
+Write a concrete, production-ready master prompt tailored specifically to "${displaySubject}". Output ONLY the resulting prompt text itself, with no surrounding explanations or conversational markdown quotes.`,
+        systemInstruction: "You are a master AI prompt engineer and psychometric curriculum specialist. Output ONLY the raw prompt template text.",
+        provider: "claude-sonnet"
       });
       if (generatedText) {
         if (isPromptAdmin && promptViewMode === 'global') {
@@ -8903,7 +8913,7 @@ Include a balanced combination of question types such as:
                                                              const generatedText = await generateContent({
                                                                 prompt: `Write a highly detailed, customized, and structured instruction prompt template for another AI to generate high-quality worksheets and questions specifically for the subject: "${activePromptModalSubject}". The generated prompt must contain subject-specific details (key concepts, terminology, question structures, and topics unique to "${activePromptModalSubject}"). It should dynamically cater to the grade and difficulty level selected. Do not write a generic template containing '{SUBJECT}'. Write a concrete prompt tailored specifically to "${activePromptModalSubject}". Output only the prompt text itself, with no explanations or markdown quotes.`,
                                                                 systemInstruction: "You are an expert AI prompt engineer. Write a highly detailed, professional, structured instruction prompt for another AI to generate high-quality worksheets and questions. Output ONLY the resulting prompt.",
-                                                                provider: "gemini"
+                                                                provider: "claude-sonnet"
                                                              });
                                                              if (generatedText) {
                                                                 setEditingPromptContent(generatedText.trim());
