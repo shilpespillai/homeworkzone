@@ -42,7 +42,7 @@ import CurriculumModal from '../components/CurriculumModal';
 import { curriculum } from '../data/curriculum';
 import { sanitizeQuestionData, getCurriculumSubjectKey, getSmartTopicTitle, cleanCategoryName } from '../utils/homeworkShared';
 import { DEFAULT_SUBJECT_PROMPTS, getMasterDefaultPrompts, getMasterPrompt } from '../utils/defaultPrompts';
-import { checkCanGeneratePaper } from '../utils/quotaManager';
+import { checkCanGeneratePaper, recordPaperGeneration } from '../utils/quotaManager';
 import { fetchPricing } from '../utils/pricingConfig';
 import PaperQuotaBoosterModal from '../components/PaperQuotaBoosterModal';
 
@@ -328,7 +328,7 @@ const compilePrompt = (customPrompt, params) => {
   return compiled;
 };
 
-export default function HomeworkScheduler({ user, classrooms = [], activeClassroom, subjectPrompts = {}, onHomeworkScheduled, teacherBilling, allHomeworks = [], setDashboardTab, isAdmin, isSuperUser }) {
+export default function HomeworkScheduler({ user, classrooms = [], activeClassroom, subjectPrompts = {}, onHomeworkScheduled, teacherBilling, teacherData, allHomeworks = [], setDashboardTab, isAdmin, isSuperUser }) {
   const [formData, setFormData] = useState({
     subject: 'maths',
     topic: '',
@@ -365,6 +365,8 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
 
   const quotaInfo = checkCanGeneratePaper({
     user,
+    teacherProfile: teacherData || teacherBilling || {},
+    teacherBilling,
     isAdmin,
     isSuperUser,
     activePlanId,
@@ -1031,6 +1033,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
           createdAt: serverTimestamp()
         };
         await addDoc(collection(db, 'homeworks'), cleanFirestorePayload(payload));
+        await recordPaperGeneration(db, user?.uid);
       }
     } catch (err) {
       console.error("Execute recurring generation error:", err);
@@ -1389,6 +1392,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         };
 
         await addDoc(collection(db, 'homeworks'), cleanFirestorePayload(payload));
+        await recordPaperGeneration(db, user?.uid);
       }
 
       alert(`Successfully generated and scheduled homework! 🎉`);

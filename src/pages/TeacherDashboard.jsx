@@ -5213,6 +5213,8 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
              
              const quotaInfo = checkCanGeneratePaper({
                 user,
+                teacherProfile: teacherData || teacherBilling || {},
+                teacherBilling,
                 isAdmin: isAdminUser,
                 isSuperUser: false,
                 activePlanId,
@@ -6349,6 +6351,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                         fetchDashboardSubmissions();
                       }} 
                       teacherBilling={teacherBilling}
+                      teacherData={teacherData}
                       allHomeworks={allHomeworks}
                       setDashboardTab={setActiveTab}
                       isAdmin={isAdminUser}
@@ -6369,6 +6372,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                          fetchDashboardSubmissions();
                       }}
                       teacherBilling={teacherBilling}
+                      teacherData={teacherData}
                       allHomeworks={allHomeworks}
                       setDashboardTab={setActiveTab}
                       isAdmin={isAdminUser}

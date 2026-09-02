@@ -64,7 +64,7 @@ import { SUPPORTED_LANGUAGES, getLanguageObj } from '../utils/languages';
 import { getSmartTopicTitle, getCurriculumSubjectKey, sanitizeQuestionData } from '../utils/homeworkShared';
 import InternationalExamHubView from '../components/InternationalExamHubView';
 import PaperQuotaBoosterModal from '../components/PaperQuotaBoosterModal';
-import { checkCanGeneratePaper, getBaseQuotaForPlan } from '../utils/quotaManager';
+import { checkCanGeneratePaper, getBaseQuotaForPlan, recordPaperGeneration } from '../utils/quotaManager';
 import { fetchPricing } from '../utils/pricingConfig';
 
 export const resolveCustomSubjectStyle = (name) => {
@@ -352,7 +352,7 @@ const SUBJECTS = [
   }
 ];
 
-export default function HomeworkGenerator({ user, classrooms = [], activeClassroom, initialDraft, initialExam, subjectPrompts, onHomeworkCreated, teacherBilling, allHomeworks = [], setDashboardTab, isAdmin, isSuperUser }) {
+export default function HomeworkGenerator({ user, classrooms = [], activeClassroom, initialDraft, initialExam, subjectPrompts, onHomeworkCreated, teacherBilling, teacherData, allHomeworks = [], setDashboardTab, isAdmin, isSuperUser }) {
   const [assignmentType, setAssignmentType] = useState(initialDraft ? (initialDraft.type || 'homework') : (initialExam ? 'test' : null));
   const [formData, setFormData] = useState({
     subject: initialExam ? initialExam.subject : 'maths',
@@ -373,44 +373,57 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   });
 
   useEffect(() => {
-    if (initialExam) {
-      setFormData(prev => ({
-        ...prev,
+    // Reset/initialize form if initialDraft or initialExam changes
+    if (initialDraft) {
+      setAssignmentType(initialDraft.type || 'homework');
+      setFormData({
+        subject: initialDraft.subject || 'maths',
+        title: initialDraft.title || '',
+        instructions: initialDraft.instructions || '',
+        aiPrompt: initialDraft.aiPrompt || '',
+        classId: initialDraft.assignedClassId || '',
+        dueDate: initialDraft.dueDate || '',
+        time: initialDraft.time || '',
+        points: initialDraft.points || '10',
+        timeLimit: initialDraft.timeLimit || '30',
+        marksPerQuestion: initialDraft.marksPerQuestion || '5',
+        assignType: initialDraft.assignType || 'all',
+        assignedStudentIds: initialDraft.assignedStudentIds || [],
+        difficulty: initialDraft.difficulty || 'Medium',
+        examPreset: initialDraft.examPreset || null,
+        isExamPaper: initialDraft.isExamPaper || false
+      });
+      if (initialDraft.questions && initialDraft.questions.length > 0) {
+        setGeneratedQuestions(initialDraft.questions);
+        setCurrentStep('preview');
+      }
+    } else if (initialExam) {
+      setAssignmentType('test');
+      setFormData({
         subject: initialExam.subject,
         title: `${initialExam.name} Practice Paper`,
         instructions: `Read each question carefully. You are on a ${initialExam.defaultTime}-minute timer! ⏳`,
         aiPrompt: initialExam.promptInstruction,
+        classId: activeClassroom?.id || '',
+        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        time: '',
+        points: '10',
         timeLimit: String(initialExam.defaultTime),
+        marksPerQuestion: '5',
+        assignType: 'all',
+        assignedStudentIds: [],
+        difficulty: 'Medium',
         examPreset: initialExam.id,
         isExamPaper: true
-      }));
-      setQuestionCount(Math.min(50, initialExam.defaultQuestions || 5));
-      setIsCurriculumMode(false);
-      setAssignmentType('test');
+      });
     }
-  }, [initialExam]);
+  }, [initialDraft, initialExam, activeClassroom]);
 
-  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  // Handle URL callback for successful booster credit purchase
   const [showBoosterModal, setShowBoosterModal] = useState(false);
-  const [topUpCredits, setTopUpCredits] = useState(0);
+  const topUpCredits = teacherBilling?.topUpCredits || 0;
 
   useEffect(() => {
-    if (!user?.uid) return;
-    const fetchTopUpCredits = async () => {
-      try {
-        const teacherDoc = await getDoc(doc(db, 'teachers', user.uid));
-        if (teacherDoc.exists() && teacherDoc.data().topUpCredits) {
-          setTopUpCredits(teacherDoc.data().topUpCredits);
-        }
-      } catch (err) {
-        console.warn("Failed to fetch top-up credits:", err);
-      }
-    };
-    fetchTopUpCredits();
-  }, [user?.uid]);
-
-  useEffect(() => {
-    if (!user?.uid) return;
     const params = new URLSearchParams(window.location.search);
     if (params.get('booster_success') === 'true') {
       const addedCredits = parseInt(params.get('credits'), 10) || 15;
@@ -427,11 +440,14 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
 
   const quotaInfo = checkCanGeneratePaper({
     user,
+    teacherProfile: teacherData || teacherBilling || {},
+    teacherBilling,
     isAdmin,
     isSuperUser,
     activePlanId,
     allHomeworks,
-    topUpCredits
+    topUpCredits,
+    pricing: pricingData || undefined
   });
 
   const hasReachedLimit = !quotaInfo.canGenerate;
@@ -1875,6 +1891,7 @@ EXPECTED JSON SCHEMA:
         await setDoc(doc(db, 'homeworks', initialDraft.id), payload, { merge: true });
       } else {
         await addDoc(collection(db, 'homeworks'), payload);
+        await recordPaperGeneration(db, user?.uid);
       }
       alert("Homework Published Successfully! 🚀");
       
@@ -2017,6 +2034,7 @@ EXPECTED JSON SCHEMA:
         await setDoc(doc(db, 'homeworks', initialDraft.id), payload, { merge: true });
       } else {
         await addDoc(collection(db, 'homeworks'), payload);
+        await recordPaperGeneration(db, user?.uid);
       }
       alert("Homework Saved as Draft! 📝🚀");
       

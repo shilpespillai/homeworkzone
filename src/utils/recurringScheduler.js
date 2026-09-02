@@ -15,6 +15,7 @@ import { generateExplanations } from './generateExplanations';
 import { safeParseAiJson } from './safeParseAiJson';
 import { cleanFirestorePayload } from './cleanFirestorePayload';
 import { DEFAULT_SUBJECT_PROMPTS, getMasterDefaultPrompts, getMasterPrompt } from './defaultPrompts';
+import { recordPaperGeneration } from './quotaManager';
 import { getLanguageObj } from './languages';
 
 // Local helper to format date
@@ -280,6 +281,7 @@ CRITICAL VISUAL RULES:
         createdAt: serverTimestamp()
       };
       await addDoc(collection(db, 'homeworks'), cleanFirestorePayload(payload));
+      await recordPaperGeneration(db, teacherUid);
     }
     return true;
   } catch (err) {
