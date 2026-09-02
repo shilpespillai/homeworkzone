@@ -963,18 +963,11 @@ const getHomeworkDate = (hw) => {
 
 export const isExamAssignment = (hw) => {
   if (!hw) return false;
-  if (hw.type === 'test' || hw.isExamPaper === true || !!hw.examPreset) return true;
-  const title = (hw.title || '').toLowerCase();
-  const subject = (hw.subject || '').toLowerCase();
-  const topic = (hw.topic || '').toLowerCase();
-  
-  const examKeywords = [
-    'naplan', 'icas', 'sat ', 'sat:', 'act ', 'act:', 'gmat', 'psle',
-    'selective', 'acer', 'cat4', '11+', '13+', 'gcse', 'olympiad',
-    'imo', 'nso', 'ieo', 'amc 8', 'amc 10', 'amc 12', 'seamo', 'sasmo',
-    'common entrance', 'exam paper', 'mock exam', 'practice exam'
-  ];
-  return examKeywords.some(k => title.includes(k) || subject.includes(k) || topic.includes(k));
+  // If explicitly created as a homework assignment, it ALWAYS stays in My Assignments!
+  if (hw.type === 'homework' && !hw.isExamPaper && !hw.examPreset) return false;
+  // Only items explicitly created as a classroom test or an exam paper go to Exam Arena
+  if (hw.type === 'test' || hw.isExamPaper === true || Boolean(hw.examPreset)) return true;
+  return false;
 };
 
 export const resolveExamProgram = (hw) => {
@@ -1016,7 +1009,7 @@ export const resolveExamProgram = (hw) => {
       img: '/subject_olympiad.png'
     };
   }
-  if (text.includes('sat') || text.includes('act') || text.includes('gmat')) {
+  if (/\b(sat|act|gmat|digital_sat)\b/i.test(text)) {
     return {
       key: 'SAT & College Prep',
       name: 'SAT / ACT College Prep',
