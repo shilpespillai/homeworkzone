@@ -1683,8 +1683,8 @@ EXPECTED JSON SCHEMA:
       let questions = [];
       let passage = null;
 
-      // Chunk size cap: Max 10 questions per batch to eliminate any possibility of token truncation!
-      const CHUNK_SIZE = 10;
+      // Chunk size cap: Max 5 questions per batch to eliminate any possibility of token truncation!
+      const CHUNK_SIZE = 5;
       const chunkCounts = [];
       let remainingToAssign = questionCount;
       while (remainingToAssign > 0) {
@@ -1719,19 +1719,29 @@ EXPECTED JSON SCHEMA:
         }
       }
 
-      // SELF-HEALING TOP-UP PASS: If collected questions < questionCount, fetch deficit in a quick top-up pass!
+      // SELF-HEALING TOP-UP PASS: If collected questions < questionCount, fetch deficit in parallel batches of 5!
       if (collectedQuestions.length < questionCount) {
-        const deficit = questionCount - collectedQuestions.length;
-        console.warn(`⚠️ [HWZ SELF-HEALING ENGINE] Deficit of ${deficit} questions detected (${collectedQuestions.length}/${questionCount}). Launching top-up pass...`);
+        let deficit = questionCount - collectedQuestions.length;
+        console.warn(`⚠️ [HWZ SELF-HEALING ENGINE] Deficit of ${deficit} questions detected (${collectedQuestions.length}/${questionCount}). Launching parallel top-up pass...`);
+        const topUpChunks = [];
+        while (deficit > 0) {
+          const c = Math.min(deficit, CHUNK_SIZE);
+          topUpChunks.push(c);
+          deficit -= c;
+        }
         try {
-          const topUpRes = await generateContent({
-            prompt: getPromptForCount(deficit, `TOPUP-${Date.now()}`),
-            responseMimeType: 'application/json',
-            provider: tieredModel
-          });
-          const parsedTopUp = safeParseAiJson(topUpRes);
-          const topUpQs = Array.isArray(parsedTopUp.questions || parsedTopUp) ? (parsedTopUp.questions || parsedTopUp) : [];
-          collectedQuestions.push(...topUpQs.map(sanitizeQuestionData));
+          const topUpPromises = topUpChunks.map((cnt, i) =>
+            generateContent({
+              prompt: getPromptForCount(cnt, `TOPUP-${i + 1}-${Date.now()}`),
+              responseMimeType: 'application/json',
+              provider: tieredModel
+            }).then(res => safeParseAiJson(res)).catch(() => ({ questions: [] }))
+          );
+          const topUpResults = await Promise.all(topUpPromises);
+          for (const resObj of topUpResults) {
+            const topUpQs = Array.isArray(resObj.questions || resObj) ? (resObj.questions || resObj) : [];
+            collectedQuestions.push(...topUpQs.map(sanitizeQuestionData));
+          }
         } catch (e) {
           console.error("[HWZ SELF-HEALING ENGINE] Top-up pass encountered issue:", e);
         }

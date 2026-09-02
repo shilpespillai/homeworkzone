@@ -153,6 +153,22 @@ export function safeParseAiJson(rawText) {
     } catch (_) { /* fall through */ }
   }
 
+  // Step 7: Resilient Question Object Extraction (rescues all completed question items if stream was truncated)
+  if (text.includes('"questions"') || text.includes('"options"')) {
+    const questions = [];
+    const questionBlockRegex = /\{\s*"id"\s*:\s*\d+[\s\S]*?"answer"\s*:\s*(?:"[^"\\]*(?:\\.[^"\\]*)*"|'[^'\\]*(?:\\.[^'\\]*)*'|\d+)[\s\S]*?\}/g;
+    let match;
+    while ((match = questionBlockRegex.exec(text)) !== null) {
+      try {
+        const item = JSON.parse(removeTrailingCommas(fixUnescapedControlChars(match[0])));
+        questions.push(item);
+      } catch (_) {}
+    }
+    if (questions.length > 0) {
+      return { questions };
+    }
+  }
+
   // All attempts failed — throw with informative context
   const preview = rawText.slice(0, 200);
   throw new SyntaxError(
