@@ -420,6 +420,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   }, [initialDraft, initialExam, activeClassroom]);
 
   // Handle URL callback for successful booster credit purchase
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [showBoosterModal, setShowBoosterModal] = useState(false);
   const topUpCredits = teacherBilling?.topUpCredits || 0;
 
