@@ -44,8 +44,14 @@ export const sanitizeQuestionData = (q) => {
   let options = q.options;
   let answer = q.answer;
   if (Array.isArray(options)) {
-    const cleanedOptions = options.map(opt => {
-      if (typeof opt !== 'string') return opt;
+    const flatOptions = options.flat(Infinity);
+    const cleanedOptions = flatOptions.map(opt => {
+      if (typeof opt !== 'string') {
+        if (typeof opt === 'object' && opt !== null) {
+          return cleanOptionText(String(opt.text || opt.label || opt.value || JSON.stringify(opt)));
+        }
+        return cleanOptionText(String(opt ?? ''));
+      }
       if (/[\u0900-\u097F]/.test(opt) || /[^\x00-\x7F]/.test(opt)) {
         return cleanOptionText(opt.replace(/\s*\([A-Za-z\s,-]+\)$/, '').trim());
       }

@@ -2,10 +2,11 @@
  * Recursively sanitizes an object or array for Firestore write operations (addDoc, setDoc, updateDoc).
  * - Removes keys with `undefined` values from objects
  * - Converts `undefined` elements in arrays to `null`
+ * - Flattens and eliminates any nested arrays (Firestore strictly forbids nested arrays)
  * - Preserves Firestore FieldValue sentinels (e.g. serverTimestamp()) and Date/Timestamp objects
  *
  * @param {*} data - The data payload to sanitize
- * @returns {*} The sanitized data payload free of `undefined`
+ * @returns {*} The sanitized data payload free of `undefined` and nested arrays
  */
 export function cleanFirestorePayload(data) {
   if (data === undefined) return null;
@@ -17,7 +18,16 @@ export function cleanFirestorePayload(data) {
   }
 
   if (Array.isArray(data)) {
-    return data.map(item => (item === undefined ? null : cleanFirestorePayload(item)));
+    // Flatten any directly nested multi-dimensional arrays
+    const flat = data.flat(Infinity);
+    return flat.map(item => {
+      if (item === undefined) return null;
+      if (Array.isArray(item)) {
+        // As an ultimate guard, convert any lingering inner array to safe primitive representation
+        return item.map(sub => (typeof sub === 'object' ? JSON.stringify(sub) : String(sub ?? ''))).join(', ');
+      }
+      return cleanFirestorePayload(item);
+    });
   }
 
   const cleaned = {};
