@@ -196,24 +196,28 @@ FORMATTING RULES:
     subject: 'maths',
     defaultQuestions: 32,
     defaultTime: 45,
-    promptInstruction: `You are an ACARA (Australian Curriculum Assessment and Reporting Authority) NAPLAN test author. Generate an authentic NAPLAN Numeracy practice examination paper aligned with the Australian Curriculum, modelled on post-2023 NAPLAN Adaptive Testing format administered via the National Assessment Platform (NAP).
+    promptInstruction: `You are an expert ACARA (Australian Curriculum Assessment and Reporting Authority) NAPLAN test author. Generate an authentic NAPLAN Numeracy practice examination paper aligned with the Australian Curriculum (v9.0), modelled on the post-2023 NAPLAN online adaptive format administered via the National Assessment Platform (NAP) for Year {GRADE} students.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
-• ACARA National Benchmark Rigor (Mix of Band 5–8 Progressive Challenge Questions from actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} NAPLAN papers).
-• Feature authentic Australian real-world contexts (AFL footy scores, BBQ measurements, Australian wildlife population data, NSW/VIC geography, AUD currency).
-• Non-calculator mental strategy required.
-• VISUAL DIAGRAM MANDATE (CRITICAL): AT LEAST 40% of questions MUST be VISUAL DIAGRAM-BASED containing valid "svgCode" (column graphs, dot plots, pie charts, geometry shapes, angle diagrams, analogue clocks, measurement rulers, or number lines).
+• ACARA Proficiency Bands Progression: Questions must progress cleanly across NAPLAN proficiency standards: Developing → Strong → Exceeding.
+• Authentic Australian Real-World Contexts: Use genuine Australian scenarios throughout — AFL/NRL footy scores, sausage sizzle/BBQ measurements, native Australian wildlife data (koalas, kangaroos, wombats), suburb & road distances (Sydney, Melbourne, Brisbane, Perth), metric units (km, m, cm, mm, kg, g, L, mL, °C), and AUD ($ / c).
+• Mental Strategy & Non-Calculator Focus: For non-calculator questions, ensure numbers resolve cleanly through conceptual strategy and mental mathematics shortcuts (Gauss pairing, ratio scaling, factors, benchmark percentages) rather than tedious arithmetic.
 
-OFFICIAL NAPLAN SYLLABUS BREAKDOWN:
-1. NUMBER & ALGEBRA (40%): Operations with whole numbers, fractions, decimals, percentages, money, ratios, and number patterns. Algebraic expressions, linear equations, and index laws.
-2. MEASUREMENT & GEOMETRY (35%): 12h/24h time conversion, timetables, perimeter, area, volume of prisms, angle properties, and grid map directions.
-3. STATISTICS & PROBABILITY (25%): Interpreting column graphs, dot plots, pie charts, mean/median/range, and chance probabilities.
+OFFICIAL NAPLAN SYLLABUS STRAND BREAKDOWN:
+1. NUMBER & ALGEBRA (~40%): Operations with whole numbers, fractions, decimals, percentages, money, ratios, algebraic expressions, linear equations, and index laws.
+2. MEASUREMENT & GEOMETRY (~35%): 12h/24h time conversion, timetables, perimeter, area, volume of prisms, angle properties, and grid map coordinates.
+3. STATISTICS & PROBABILITY (~25%): Interpreting column graphs, dot plots, pie charts, mean/median/range, and chance probabilities.
 
-FORMATTING RULES:
-• Use authentic Australian contexts throughout.
-• Clearly demarcate questions between Non-Calculator (mental strategy) and Calculator-Allowed problems.
-• 4 options (A, B, C, D) per question.
-• Provide clear step-by-step Australian Curriculum working.`,
+VISUAL DIAGRAM MANDATE (CRITICAL — AT LEAST 40% TO 60% OF QUESTIONS):
+• Clocks: Insert [CLOCK:HH:MM] directly in the question text.
+• Column & Bar Charts: Include "chartData" object (use value: -1 for target/missing bars to render as "?").
+• Number Lines: Include "numberLineData" object.
+• 2D/3D Geometry, Angle Diagrams, Nets, Fractions: Include clean "svgCode" with viewBox='0 0 200 200'.
+
+FORMATTING & INTEGRITY RULES:
+• 4 options (A, B, C, D) per multiple-choice question or text numeric entry.
+• Clearly demarcate questions between Non-Calculator and Calculator-Allowed problems.
+• Provide clear step-by-step Australian Curriculum working in the explanation.`,
   },
   {
     id: 'naplan_reading',
@@ -225,27 +229,41 @@ FORMATTING RULES:
     subject: 'english',
     defaultQuestions: 30,
     defaultTime: 45,
-    promptInstruction: `You are an ACARA (Australian Curriculum Assessment and Reporting Authority) NAPLAN Reading test author. Generate an authentic NAPLAN Reading practice examination aligned with the post-2023 adaptive NAPLAN format on the National Assessment Platform (NAP), modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} NAPLAN Reading released items.
+    promptInstruction: `You are an expert ACARA (Australian Curriculum Assessment and Reporting Authority) NAPLAN Reading test author. Generate an authentic NAPLAN Reading practice examination aligned with the post-2023 National Assessment Platform (NAP) adaptive testing format for Year {GRADE} students.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
-• ACARA National Benchmark Rigor (Band 5–8 difficulty progression).
-• Passages MUST reflect real NAPLAN text types: imaginative narratives, informative reports, persuasive texts, procedural texts, and poetry.
-• Questions must progress from literal retrieval → inferential → evaluative within each passage, exactly as per NAPLAN released item design principles.
-• Use authentic Australian contexts: wildlife documentaries, Australian geography, Indigenous stories (with sensitivity), community events, sporting reports.
+• ACARA National Benchmark Rigor (Progressive difficulty: Developing → Strong → Exceeding).
+• Original Stimulus Passages: Write 2–3 short original passages spanning diverse text types (imaginative narrative, informative report, persuasive argument, poem, or community notice) appropriate for Year {GRADE}.
+• Cognitive Coverage:
+  1. Literal Comprehension (25%): Stated details, sequence of events.
+  2. Inferential Comprehension (35%): Character motives, implied outcomes, reading between the lines.
+  3. Evaluative / Critical Comprehension (25%): Author's craft, text structure, audience, and persuasive devices.
+  4. Vocabulary in Context (15%): Meaning of words and figurative phrases in passage context.
 
-OFFICIAL NAPLAN READING SYLLABUS BREAKDOWN (30 Questions / 45 Minutes):
-1. LITERAL COMPREHENSION (25%): Finding explicitly stated information — who, what, where, when. Matching vocabulary in context.
-2. INFERENTIAL COMPREHENSION (35%): Drawing conclusions from implied information. Predicting consequences. Understanding character motives.
-3. EVALUATIVE / CRITICAL COMPREHENSION (25%): Evaluating author's purpose and persuasive techniques. Identifying audience, viewpoint, and text effectiveness.
-4. APPRECIATING LITERARY LANGUAGE (15%): Recognising figurative language (simile, metaphor, alliteration, personification) and explaining its effect.
-
-PASSAGE RULES:
-• Generate 4 short diverse texts (narrative, informational, persuasive, poetic) each 80–300 words.
-• Include 1 visual text (e.g. poster, advertisement, infographic described or rendered as svgCode).
+PASSAGE & QUESTION LINKING SCHEMA:
+Provide passages in the "passages" array:
+{
+  "passages": [
+    { "id": 1, "title": "Passage Title", "textType": "narrative | informative | persuasive | poem", "text": "Passage text..." }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "passageId": 1,
+      "text": "Why does the character...",
+      "questionType": "multiple_choice",
+      "cognitiveSkill": "Inferential Comprehension",
+      "options": ["A", "B", "C", "D"],
+      "answer": "B",
+      "explanation": "Explanation citing specific evidence from the passage."
+    }
+  ]
+}
 
 FORMATTING RULES:
 • 4 options (A, B, C, D) per question.
-• Explanations must quote or cite the relevant section of the passage.`,
+• 0% visual diagram clutter on reading passages.
+• Explanations must quote or cite the relevant lines of the passage.`,
   },
   {
     id: 'naplan_conventions',
@@ -257,21 +275,21 @@ FORMATTING RULES:
     subject: 'english',
     defaultQuestions: 35,
     defaultTime: 45,
-    promptInstruction: `You are an ACARA (Australian Curriculum Assessment and Reporting Authority) NAPLAN Conventions of Language test author. Generate an authentic NAPLAN Conventions of Language practice examination aligned with the post-2023 National Assessment Platform (NAP) standards, modelled on official ${new Date().getFullYear() - 5}-${new Date().getFullYear()} NAPLAN released test papers.
+    promptInstruction: `You are an expert ACARA (Australian Curriculum Assessment and Reporting Authority) NAPLAN Conventions of Language test author. Generate an authentic NAPLAN Conventions of Language practice examination aligned with the post-2023 National Assessment Platform (NAP) standards for Year {GRADE} students.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
-• ACARA National Benchmark Rigor (Bands 3–9 progressive challenge across Spelling, Grammar, and Punctuation).
-• Feature authentic Australian contexts (Australian places, fauna, community life, school scenarios).
-• Include real test item types: identification of misspelled words in sentences, punctuation correction, subject-verb agreement, and clause analysis.
+• ACARA National Benchmark Rigor across Spelling, Grammar, and Punctuation.
+• Authentic Australian English conventions (standard Australian spelling: colour, organise, theatre, metre).
 
-OFFICIAL NAPLAN CONVENTIONS OF LANGUAGE SYLLABUS BREAKDOWN (35 Questions / 45 Minutes):
-1. SPELLING (40%): Correcting misspelled words in context (double consonants, silent letters, suffixes like -tion/-sion, irregular plurals, homophones like their/there/they're, principal/principle, effect/affect).
-2. GRAMMAR (35%): Subject-verb agreement, verb tense consistency, pronoun-antecedent agreement, prepositions, subordinating conjunctions, identifying nouns, verbs, adjectives, adverbs, and complex clause structures.
-3. PUNCTUATION (25%): Apostrophes of possession vs contraction, speech marks for direct quotes, commas in complex sentences, capital letters for proper nouns, colons, and semicolons.
+MANDATORY QUESTION PATTERN VARIETY:
+1. Spelling Correction (40%): A sentence with one word misspelled in bold — student types the correct spelling ("questionType": "text").
+2. Grammar Multiple Choice (35%): Tense agreement, parts of speech, and clause syntax.
+3. Identify the Error: Spotting which underlined section contains a punctuation/grammar flaw.
+4. Sentence Combining & Punctuation (25%): Joining clauses with correct quotation marks, apostrophes of possession, and commas.
 
 FORMATTING RULES:
-• 4 options (A, B, C, D) per question.
-• Explanations must explicitly state the grammar rule, correct spelling rule, or punctuation convention applied.`,
+• 4 options (A, B, C, D) for MCQ or short typed text for spelling corrections.
+• Explanations must state the exact Australian English grammar rule, spelling convention, or punctuation principle applied.`,
   },
   {
     id: 'amc_primary',
