@@ -58,6 +58,7 @@ import DynamicVennDiagram from '../components/DynamicVennDiagram';
 import EarlyMathVisualizer from '../components/EarlyMathVisualizer';
 import { ClockFace, parseQuestionText } from '../components/ClockFace';
 import CurriculumModal from '../components/CurriculumModal';
+import { getMasterPrompt } from '../services/promptsMasterRegistry';
 import { curriculum } from '../data/curriculum';
 import { SUPPORTED_LANGUAGES, getLanguageObj } from '../utils/languages';
 import { getSmartTopicTitle, getCurriculumSubjectKey, sanitizeQuestionData } from '../utils/homeworkShared';
@@ -561,18 +562,16 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
     // isExamPaper is set when any International Exam preset is selected.
     if (formData.isExamPaper) return;
 
-    if (subjectPrompts) {
-      const normSubject = formData.subject.toLowerCase();
-      const matchedKey = Object.keys(subjectPrompts).find(k => k.toLowerCase() === normSubject);
-      
-      // Auto-fill on manual subject change, or if it is the first load and aiPrompt is empty
-      if (formData.subject !== lastSubjectRef.current || !formData.aiPrompt) {
-        lastSubjectRef.current = formData.subject;
-        if (matchedKey && subjectPrompts[matchedKey]) {
-          setFormData(prev => ({ ...prev, aiPrompt: subjectPrompts[matchedKey] }));
-        } else if (formData.subject !== lastSubjectRef.current) {
-          setFormData(prev => ({ ...prev, aiPrompt: '' }));
-        }
+    const normSubject = (formData.subject || '').toLowerCase();
+    const matchedKey = subjectPrompts ? Object.keys(subjectPrompts).find(k => k.toLowerCase() === normSubject) : null;
+    
+    // Auto-fill on manual subject change, or if it is the first load and aiPrompt is empty
+    if (formData.subject !== lastSubjectRef.current || !formData.aiPrompt) {
+      lastSubjectRef.current = formData.subject;
+      if (matchedKey && subjectPrompts[matchedKey]) {
+        setFormData(prev => ({ ...prev, aiPrompt: subjectPrompts[matchedKey] }));
+      } else {
+        setFormData(prev => ({ ...prev, aiPrompt: getMasterPrompt(formData.subject) }));
       }
     }
   }, [formData.subject, subjectPrompts, formData.isExamPaper]);

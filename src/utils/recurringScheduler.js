@@ -14,7 +14,7 @@ import { fetchWithRetry, generateContent } from './aiClient';
 import { generateExplanations } from './generateExplanations';
 import { safeParseAiJson } from './safeParseAiJson';
 import { cleanFirestorePayload } from './cleanFirestorePayload';
-import { DEFAULT_SUBJECT_PROMPTS, getMasterDefaultPrompts } from './defaultPrompts';
+import { DEFAULT_SUBJECT_PROMPTS, getMasterDefaultPrompts, getMasterPrompt } from './defaultPrompts';
 import { getLanguageObj } from './languages';
 
 // Local helper to format date
@@ -118,7 +118,7 @@ export const executeRecurringGeneration = async (sched, teacherUid, teacherCode)
 
     const normSubject = sched.subject.toLowerCase();
     const matchedKey = teacherPrompts ? Object.keys(teacherPrompts).find(k => k.toLowerCase() === normSubject) : null;
-    const customPrompt = (matchedKey && teacherPrompts[matchedKey]) ? teacherPrompts[matchedKey] : '';
+    const customPrompt = (matchedKey && teacherPrompts[matchedKey]) ? teacherPrompts[matchedKey] : getMasterPrompt(sched.subject);
 
     const qualityRules = `
 CRITICAL ACCURACY & QUALITY RULES:

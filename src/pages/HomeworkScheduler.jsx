@@ -41,7 +41,7 @@ import { SUPPORTED_LANGUAGES, getLanguageObj } from '../utils/languages';
 import CurriculumModal from '../components/CurriculumModal';
 import { curriculum } from '../data/curriculum';
 import { sanitizeQuestionData, getCurriculumSubjectKey, getSmartTopicTitle, cleanCategoryName } from '../utils/homeworkShared';
-import { DEFAULT_SUBJECT_PROMPTS, getMasterDefaultPrompts } from '../utils/defaultPrompts';
+import { DEFAULT_SUBJECT_PROMPTS, getMasterDefaultPrompts, getMasterPrompt } from '../utils/defaultPrompts';
 import { checkCanGeneratePaper } from '../utils/quotaManager';
 import { fetchPricing } from '../utils/pricingConfig';
 import PaperQuotaBoosterModal from '../components/PaperQuotaBoosterModal';
@@ -1202,7 +1202,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
       // Fetch custom prompt from My Prompts (case-insensitive subject matching)
       const normSubject = formData.subject.toLowerCase();
       const matchedKey = subjectPrompts ? Object.keys(subjectPrompts).find(k => k.toLowerCase() === normSubject) : null;
-      const customPrompt = (matchedKey && subjectPrompts[matchedKey]) ? subjectPrompts[matchedKey] : '';
+      const customPrompt = (matchedKey && subjectPrompts[matchedKey]) ? subjectPrompts[matchedKey] : getMasterPrompt(formData.subject);
       let prompt = "";
       if (customPrompt) {
         prompt = compilePrompt(customPrompt, {
