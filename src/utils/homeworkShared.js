@@ -67,7 +67,11 @@ export const sanitizeQuestionData = (q) => {
     }
     options = cleanedOptions;
   }
-  return { ...q, text, options, answer };
+  let explanation = q.explanation;
+  if (explanation && typeof explanation !== 'string') {
+    explanation = String(explanation);
+  }
+  return { ...q, text, options, answer, ...(explanation ? { explanation: explanation.trim() } : {}) };
 };
 
 export const cleanCategoryName = (cat) => {

@@ -1672,6 +1672,7 @@ EXPECTED JSON SCHEMA:
            - "options" (array of exactly 4 strings for multiple_choice)
            - "answer" (string/number answer matching target)
            - "subtopic" (string, concept under main topic)
+           - "explanation" (string, a clear 2 to 4 sentence step-by-step worked solution, formula, or grammar rationale explaining why the answer is correct)
            - "chartData", "geometryData", "gridMapData", "numberLineData", "instrumentData", "blockData", "svgCode" (for visual questions)
         2. "passage": an optional string if required for reading text.
         
@@ -1795,11 +1796,26 @@ EXPECTED JSON SCHEMA:
       const isNaplan = (formData.title || '').toLowerCase().includes('naplan') || (formData.aiPrompt || '').toLowerCase().includes('naplan');
       const finalType = isNaplan ? 'test' : assignmentType;
 
-      // Pre-generate explanations for all questions (one API call at creation time)
-      // so students never trigger live AI calls when submitting.
-      let questionExplanations = {};
-      if (questionsToSave.length > 0 && !isSpatialReasoning) {
-        questionExplanations = await generateExplanations(questionsToSave, formData.subject, getModelForGrade(publishGrade, formData.subject, activeModel));
+      // ⚡ 1-PASS UPFRONT: Extract pre-generated explanations directly from questions
+      const questionExplanations = {};
+      const missingExplanationQs = [];
+      questionsToSave.forEach((q, idx) => {
+        const qId = String(q.id || idx + 1);
+        if (q.explanation && typeof q.explanation === 'string' && q.explanation.trim()) {
+          questionExplanations[qId] = q.explanation.trim();
+        } else {
+          missingExplanationQs.push(q);
+        }
+      });
+
+      // Lightweight fallback: only if legacy questions without explanation exist, fetch for the missing ones
+      if (missingExplanationQs.length > 0 && !isSpatialReasoning) {
+        try {
+          const fallbackExps = await generateExplanations(missingExplanationQs, formData.subject, getModelForGrade(publishGrade, formData.subject, activeModel));
+          Object.assign(questionExplanations, fallbackExps);
+        } catch (e) {
+          console.warn("Fallback explanation generation error:", e);
+        }
       }
 
       const isExam = finalType === 'test' || !!formData.examPreset || !!formData.isExamPaper;
@@ -1928,11 +1944,25 @@ EXPECTED JSON SCHEMA:
       const isNaplan = (formData.title || '').toLowerCase().includes('naplan') || (formData.aiPrompt || '').toLowerCase().includes('naplan');
       const finalType = isNaplan ? 'test' : assignmentType;
 
-      // Pre-generate explanations at draft-save time as well,
-      // so they are ready when the draft is later published.
-      let questionExplanations = {};
-      if (questionsToSave.length > 0 && !isSpatialReasoning) {
-        questionExplanations = await generateExplanations(questionsToSave, formData.subject, getModelForGrade(draftGrade, formData.subject, activeModel));
+      // ⚡ 1-PASS UPFRONT: Extract pre-generated explanations directly from questions
+      const questionExplanations = {};
+      const missingExplanationQs = [];
+      questionsToSave.forEach((q, idx) => {
+        const qId = String(q.id || idx + 1);
+        if (q.explanation && typeof q.explanation === 'string' && q.explanation.trim()) {
+          questionExplanations[qId] = q.explanation.trim();
+        } else {
+          missingExplanationQs.push(q);
+        }
+      });
+
+      if (missingExplanationQs.length > 0 && !isSpatialReasoning) {
+        try {
+          const fallbackExps = await generateExplanations(missingExplanationQs, formData.subject, getModelForGrade(draftGrade, formData.subject, activeModel));
+          Object.assign(questionExplanations, fallbackExps);
+        } catch (e) {
+          console.warn("Fallback draft explanation generation error:", e);
+        }
       }
 
       const payload = cleanFirestorePayload({

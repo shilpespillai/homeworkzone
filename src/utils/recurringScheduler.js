@@ -169,7 +169,7 @@ CRITICAL VISUAL RULES:
         questionCount: sched.questionCount || 5,
         points: sched.points || '10'
       });
-      prompt += `\n\n${qualityRules}\n\nReturn ONLY a JSON object with a single key "questions" containing an array of exactly ${sched.questionCount || 5} objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), "subtopic" (string, a specific subtopic or concept under the main topic, e.g. "Adding Fractions", "Identifying Nouns", "Photosynthesis", etc.), and optionally "chartData", "geometryData", or "imagePrompt". Do not include any markdown formatting.`;
+      prompt += `\n\n${qualityRules}\n\nReturn ONLY a JSON object with a single key "questions" containing an array of exactly ${sched.questionCount || 5} objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), "subtopic" (string, a specific subtopic or concept under the main topic, e.g. "Adding Fractions", "Identifying Nouns", "Photosynthesis", etc.), "explanation" (string, a clear 2 to 4 sentence step-by-step worked solution, formula, or grammar rationale explaining why the answer is correct), and optionally "chartData", "geometryData", or "imagePrompt". Do not include any markdown formatting.`;
     } else {
       prompt = `You are an expert curriculum designer. 
       Create a ${sched.questionCount || 5}-question multiple-choice quiz for students on the following:
@@ -183,7 +183,7 @@ CRITICAL VISUAL RULES:
 
       ${qualityRules}
 
-      Return ONLY a JSON object with a single key "questions" containing an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), "subtopic" (string, a specific subtopic or concept under the main topic, e.g. "Adding Fractions", "Identifying Nouns", "Photosynthesis", etc.), and optionally "chartData", "geometryData", or "imagePrompt". Do not include any markdown formatting.`;
+      Return ONLY a JSON object with a single key "questions" containing an array of objects. Each object must have: "id" (number), "text" (string, the question), "options" (array of exactly 4 strings), "answer" (string, matching one option exactly), "subtopic" (string, a specific subtopic or concept under the main topic, e.g. "Adding Fractions", "Identifying Nouns", "Photosynthesis", etc.), "explanation" (string, a clear 2 to 4 sentence step-by-step worked solution, formula, or grammar rationale explaining why the answer is correct), and optionally "chartData", "geometryData", or "imagePrompt". Do not include any markdown formatting.`;
     }
 
     if (sched.targetLanguage && sched.targetLanguage !== 'en') {
@@ -217,8 +217,26 @@ CRITICAL VISUAL RULES:
     futureDue.setDate(futureDue.getDate() + (sched.dueDateOffset || 7));
     const formattedDueDate = futureDue.toISOString().split('T')[0];
 
-    // Pre-generate explanations once — shared by all students (zero runtime AI calls at submission)
-    const questionExplanations = await generateExplanations(questions, sched.subject, activeModel);
+    // ⚡ 1-PASS UPFRONT: Extract pre-generated explanations directly from questions
+    const questionExplanations = {};
+    const missingExplanationQs = [];
+    questions.forEach((q, idx) => {
+      const qId = String(q.id || idx + 1);
+      if (q.explanation && typeof q.explanation === 'string' && q.explanation.trim()) {
+        questionExplanations[qId] = q.explanation.trim();
+      } else {
+        missingExplanationQs.push(q);
+      }
+    });
+
+    if (missingExplanationQs.length > 0) {
+      try {
+        const fallbackExps = await generateExplanations(missingExplanationQs, sched.subject, activeModel);
+        Object.assign(questionExplanations, fallbackExps);
+      } catch (e) {
+        console.warn("Fallback explanation generation error:", e);
+      }
+    }
 
     for (const classId of sched.selectedClasses) {
       const statusVal = sched.publishType === 'draft' 

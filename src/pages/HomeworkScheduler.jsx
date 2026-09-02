@@ -883,7 +883,6 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
            - Do NOT prepend letters (e.g., A., B., C., D.) to the option strings.
            - ABSOLUTE NO UNREQUESTED TRANSLATIONS RULE: For Hindi, foreign languages, or non-English content, DO NOT include English translations in parentheses inside option strings (e.g. NEVER write "लाल (red)" or "हरा (green)"). Option strings MUST contain ONLY the target language text (e.g. "लाल", "हरा"). Appending English translations in option choices ruins language testing and reveals answers to students! DO NOT include full English translation sentences in parentheses inside question text (e.g. NEVER write "(Read this: 'This is a red flower.' What color is the flower?)"). Keep question text purely in the target language unless specifically asked for a translation task.
            - ABSOLUTE NON-TRIVIAL QUESTION RULE: Never write self-answering questions where the prompt sentence states the exact answer being asked (e.g. DO NOT write "This is a red flower. What color is the flower?" where the answer "red" is literally given in the sentence context!). Questions must test genuine comprehension or vocabulary.
-
         Return ONLY a JSON object containing:
         1. "questions": an array of objects. Each object must have: 
            - "id" (number)
@@ -892,6 +891,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
            - "options" (array of exactly 4 strings)
            - "answer" (string, must match one option exactly)
            - "subtopic" (string, specific subtopic or concept)
+           - "explanation" (string, a clear 2 to 4 sentence step-by-step worked solution, formula, or grammar rationale explaining why the answer is correct)
            - "imagePrompt" (string, OPTIONAL. ONLY for decorative or real-world photos. NEVER use for math diagrams)
            - "svgCode" (string, OPTIONAL. For custom diagrams, geometry shapes, fraction models, mirror images, spinner layouts, etc.)
            - "chartData" (object, OPTIONAL. For bar, line, pie, or table visuals)
@@ -958,8 +958,26 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
       futureDue.setDate(futureDue.getDate() + (sched.dueDateOffset || 7));
       const formattedDueDate = futureDue.toISOString().split('T')[0];
 
-      // Pre-generate explanations once — all students share them (zero runtime AI calls)
-      const questionExplanations = await generateExplanations(questions, sched.subject, tieredModel1);
+      // ⚡ 1-PASS UPFRONT: Extract pre-generated explanations directly from questions
+      const questionExplanations = {};
+      const missingExplanationQs = [];
+      questions.forEach((q, idx) => {
+        const qId = String(q.id || idx + 1);
+        if (q.explanation && typeof q.explanation === 'string' && q.explanation.trim()) {
+          questionExplanations[qId] = q.explanation.trim();
+        } else {
+          missingExplanationQs.push(q);
+        }
+      });
+
+      if (missingExplanationQs.length > 0) {
+        try {
+          const fallbackExps = await generateExplanations(missingExplanationQs, sched.subject, tieredModel1);
+          Object.assign(questionExplanations, fallbackExps);
+        } catch (e) {
+          console.warn("Fallback explanation generation error:", e);
+        }
+      }
 
       for (const classId of sched.selectedClasses) {
         const statusVal = sched.publishType === 'draft' 
@@ -1239,6 +1257,7 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
            - "options" (array of exactly 4 strings)
            - "answer" (string, must match one option exactly)
            - "subtopic" (string, specific subtopic or concept)
+           - "explanation" (string, a clear 2 to 4 sentence step-by-step worked solution, formula, or grammar rationale explaining why the answer is correct)
            - "imagePrompt" (string, OPTIONAL. ONLY for decorative or real-world photos. NEVER use for math diagrams)
            - "svgCode" (string, OPTIONAL. For custom diagrams, geometry shapes, fraction models, mirror images, spinner layouts, etc.)
            - "chartData" (object, OPTIONAL. For bar, line, pie, or table visuals)
@@ -1294,8 +1313,26 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
         throw new Error("Invalid questions array returned from AI.");
       }
 
-      // Pre-generate explanations once for all students (zero runtime AI at submission)
-      const questionExplanations = await generateExplanations(questions, formData.subject, tieredModel2);
+      // ⚡ 1-PASS UPFRONT: Extract pre-generated explanations directly from questions
+      const questionExplanations = {};
+      const missingExplanationQs = [];
+      questions.forEach((q, idx) => {
+        const qId = String(q.id || idx + 1);
+        if (q.explanation && typeof q.explanation === 'string' && q.explanation.trim()) {
+          questionExplanations[qId] = q.explanation.trim();
+        } else {
+          missingExplanationQs.push(q);
+        }
+      });
+
+      if (missingExplanationQs.length > 0) {
+        try {
+          const fallbackExps = await generateExplanations(missingExplanationQs, formData.subject, tieredModel2);
+          Object.assign(questionExplanations, fallbackExps);
+        } catch (e) {
+          console.warn("Fallback explanation generation error:", e);
+        }
+      }
 
       // Save homeworks
       for (const classId of formData.selectedClasses) {
