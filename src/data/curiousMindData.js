@@ -73,6 +73,66 @@ export const CATEGORIES = [
 
 export const TOPICS = [
   {
+    "id": "why_do_nightmares_happen",
+    "title": "Why do nightmares happen?",
+    "category": "brain_sleep",
+    "cardImage": "/curious_why_do_nightmares_happen_thumb.png"
+  },
+  {
+    "id": "why_do_optical_illusions_fool_our_brains",
+    "title": "Why do optical illusions fool our brains?",
+    "category": "brain_sleep",
+    "cardImage": "/curious_why_do_optical_illusions_fool_our_brains_thumb.png"
+  },
+  {
+    "id": "why_do_songs_get_stuck_in_our_heads",
+    "title": "Why do songs get stuck in our heads?",
+    "category": "brain_sleep",
+    "cardImage": "/curious_why_do_songs_get_stuck_in_our_heads_thumb.png"
+  },
+  {
+    "id": "why_do_we_daydream",
+    "title": "Why do we daydream?",
+    "category": "brain_sleep",
+    "cardImage": "/curious_why_do_we_daydream_thumb.png"
+  },
+  {
+    "id": "why_do_we_forget_most_of_our_dreams",
+    "title": "Why do we forget most of our dreams?",
+    "category": "brain_sleep",
+    "cardImage": "/curious_why_do_we_forget_most_of_our_dreams_thumb.png"
+  },
+  {
+    "id": "why_do_we_have_an_imagination",
+    "title": "Why do we have an imagination?",
+    "category": "brain_sleep",
+    "cardImage": "/curious_why_do_we_have_an_imagination_thumb.png"
+  },
+  {
+    "id": "why_does_fear_make_our_heart_beat_faster",
+    "title": "Why does fear make our heart beat faster?",
+    "category": "brain_sleep",
+    "cardImage": "/curious_why_does_fear_make_our_heart_beat_faster_thumb.png"
+  },
+  {
+    "id": "why_does_sleep_help_us_learn",
+    "title": "Why does sleep help us learn?",
+    "category": "brain_sleep",
+    "cardImage": "/curious_why_does_sleep_help_us_learn_thumb.png"
+  },
+  {
+    "id": "why_does_time_seem_faster_when_we_are_having_fun",
+    "title": "Why does time seem faster when we are having fun?",
+    "category": "brain_sleep",
+    "cardImage": "/curious_why_does_time_seem_faster_when_we_are_having_fun_thumb.png"
+  },
+  {
+    "id": "why_is_laughter_contagious",
+    "title": "Why is laughter contagious?",
+    "category": "brain_sleep",
+    "cardImage": "/curious_why_is_laughter_contagious_thumb.png"
+  },
+  {
     "id": "goosebumps",
     "title": "Why Do Humans Get Goosebumps?",
     "category": "human_body",
@@ -1719,6 +1779,206 @@ export const TOPICS = [
 ];
 
 export const TOPIC_DETAILS = {
+  "why_do_nightmares_happen": {
+      "image": "/curious_why_do_nightmares_happen.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-pink-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "YOUR BRAIN IS BRILLIANT! Nightmares are just dreams, and they end as soon as you wake up! 🌙✨",
+      "quiz": {
+          "question": "During which sleep stage do our most vivid dreams and nightmares usually happen?",
+          "options": [
+              "REM (Rapid Eye Movement) Sleep 👁️",
+              "Light Dozing Stage 😴",
+              "Deep Snoring Sleep 💤",
+              "Waking Up Stage ⏰"
+          ],
+          "correctIndex": 0,
+          "explanation": "Super! During REM sleep, our brain is very active and processes memories, thoughts, and feelings into vivid dreams."
+      }
+  },
+  "why_do_optical_illusions_fool_our_brains": {
+      "image": "/curious_why_do_optical_illusions_fool_our_brains.png",
+      "bgColor": "border-indigo-400",
+      "accentColor": "from-indigo-400 via-purple-300 to-sky-400",
+      "quizBg": "bg-indigo-50 border-indigo-200",
+      "quizText": "text-indigo-950",
+      "quizBadge": "bg-indigo-200 text-indigo-800",
+      "footer": "SEEING IS BELIEVING... OR IS IT? Your brain makes smart guesses to understand the world! 🎨🧠",
+      "quiz": {
+          "question": "Why does an optical illusion fool us?",
+          "options": [
+              "Our eyes stop working 🙈",
+              "Our brain takes shortcuts and makes quick guesses 🧠",
+              "The colors disappear 🌈",
+              "The picture moves on its own 🪄"
+          ],
+          "correctIndex": 1,
+          "explanation": "Spot on! Our brains process visual information super fast by using patterns and past experiences, which optical illusions cleverly trick!"
+      }
+  },
+  "why_do_songs_get_stuck_in_our_heads": {
+      "image": "/curious_why_do_songs_get_stuck_in_our_heads.png",
+      "bgColor": "border-pink-400",
+      "accentColor": "from-pink-400 via-rose-300 to-purple-400",
+      "quizBg": "bg-pink-50 border-pink-200",
+      "quizText": "text-pink-950",
+      "quizBadge": "bg-pink-200 text-pink-800",
+      "footer": "KEEP ON HUMMING! Earworms happen because your brain loves catchy tunes and rhythm! 🎵🎧",
+      "quiz": {
+          "question": "What is the common fun nickname scientists give to a catchy song stuck on loop in your head?",
+          "options": [
+              "Brain Bug 🐛",
+              "An Earworm 🪱🎶",
+              "Musical Sneeze 🤧",
+              "Tune Trap 🪤"
+          ],
+          "correctIndex": 1,
+          "explanation": "Awesome! Scientists call a sticky tune an earworm (or involuntary musical imagery) because the brain keeps replaying catchy melody loops."
+      }
+  },
+  "why_do_we_daydream": {
+      "image": "/curious_why_do_we_daydream.png",
+      "bgColor": "border-sky-400",
+      "accentColor": "from-sky-400 via-indigo-300 to-purple-400",
+      "quizBg": "bg-sky-50 border-sky-200",
+      "quizText": "text-sky-950",
+      "quizBadge": "bg-sky-200 text-sky-800",
+      "footer": "LET YOUR MIND WANDER! Daydreaming sparks creativity and helps you solve problems! ☁️✨",
+      "quiz": {
+          "question": "What happens in your brain when you are daydreaming during a quiet moment?",
+          "options": [
+              "The brain turns off completely 💤",
+              "A network of brain areas connects memories and creative thoughts 🧠💭",
+              "Your eyes fall asleep 😴",
+              "You forget everything you know ❌"
+          ],
+          "correctIndex": 1,
+          "explanation": "Great job! When our focus relaxes, the brain's default mode network becomes active, exploring memories, planning, and creating new ideas!"
+      }
+  },
+  "why_do_we_forget_most_of_our_dreams": {
+      "image": "/curious_why_do_we_forget_most_of_our_dreams.png",
+      "bgColor": "border-violet-400",
+      "accentColor": "from-violet-400 via-purple-300 to-indigo-400",
+      "quizBg": "bg-violet-50 border-violet-200",
+      "quizText": "text-violet-950",
+      "quizBadge": "bg-violet-200 text-violet-800",
+      "footer": "SWEET DREAMS! Keeping a dream journal by your bed can help you capture dream memories before they fade! 📖✨",
+      "quiz": {
+          "question": "Why do dream memories fade so quickly when we wake up?",
+          "options": [
+              "The brain's long-term memory saving system is less active during sleep 🧠💾",
+              "Dreams never really happened 🙅",
+              "Sunlight erases memories ☀️",
+              "Our ears wake up before our brain 👂"
+          ],
+          "correctIndex": 0,
+          "explanation": "Spot on! The parts of the brain that store long-term memories are quiet during dream sleep, so unless you recall a dream right away, it quickly fades."
+      }
+  },
+  "why_do_we_have_an_imagination": {
+      "image": "/curious_why_do_we_have_an_imagination.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-purple-300 to-sky-400",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "IMAGINATION HAS NO LIMITS! Combining memories and new ideas lets you build the future! 🚀🎨",
+      "quiz": {
+          "question": "How does the brain create new imaginative ideas?",
+          "options": [
+              "It only copies what is right in front of you 📸",
+              "It combines past memories, feelings, and concepts in brand new ways 🧩💡",
+              "It uses magic dust 🪄",
+              "It forgets everything else 🗑️"
+          ],
+          "correctIndex": 1,
+          "explanation": "Exactly! Imagination lets your brain remix memories, experiences, and sensory details to picture possibilities that don't exist yet."
+      }
+  },
+  "why_does_fear_make_our_heart_beat_faster": {
+      "image": "/curious_why_does_fear_make_our_heart_beat_faster.png",
+      "bgColor": "border-rose-400",
+      "accentColor": "from-rose-400 via-red-300 to-orange-400",
+      "quizBg": "bg-rose-50 border-rose-200",
+      "quizText": "text-rose-950",
+      "quizBadge": "bg-rose-200 text-rose-800",
+      "footer": "YOUR BODY'S BUILT-IN SHIELD! The fight-or-flight response gives you instant energy to stay safe! 🛡️⚡",
+      "quiz": {
+          "question": "What chemical messenger does the brain release during a sudden scare to speed up the heart?",
+          "options": [
+              "Adrenaline ⚡",
+              "Melatonin 😴",
+              "Chlorophyll 🌿",
+              "Calcium 🥛"
+          ],
+          "correctIndex": 0,
+          "explanation": "Brilliant! Adrenaline is the body's emergency messenger that tells your heart to pump faster, delivering extra oxygen to muscles."
+      }
+  },
+  "why_does_sleep_help_us_learn": {
+      "image": "/curious_why_does_sleep_help_us_learn.png",
+      "bgColor": "border-purple-400",
+      "accentColor": "from-purple-400 via-indigo-300 to-emerald-400",
+      "quizBg": "bg-purple-50 border-purple-200",
+      "quizText": "text-purple-950",
+      "quizBadge": "bg-purple-200 text-purple-800",
+      "footer": "SLEEP TIGHT, WAKE UP BRIGHT! While you sleep, your brain rehearses and files away everything you learned! 📚💤",
+      "quiz": {
+          "question": "What does your brain do with new skills and memories while you are sleeping?",
+          "options": [
+              "It erases everything to make room 🧹",
+              "It practices, organizes, and strengthens memories 🧠📂",
+              "It takes a vacation to the beach 🏖️",
+              "It stops talking to your body 🔌"
+          ],
+          "correctIndex": 1,
+          "explanation": "Super! During sleep, the brain replays and consolidates the day's experiences, locking them into long-term memory."
+      }
+  },
+  "why_does_time_seem_faster_when_we_are_having_fun": {
+      "image": "/curious_why_does_time_seem_faster_when_we_are_having_fun.png",
+      "bgColor": "border-amber-400",
+      "accentColor": "from-amber-400 via-yellow-300 to-sky-400",
+      "quizBg": "bg-amber-50 border-amber-200",
+      "quizText": "text-amber-950",
+      "quizBadge": "bg-amber-200 text-amber-800",
+      "footer": "TIME FLIES WHEN YOU'RE HAVING FUN! Deep focus and excitement make moments fly by in a flash! ⏱️🎉",
+      "quiz": {
+          "question": "Why does time feel like it passes quickly when you are playing an exciting game?",
+          "options": [
+              "Clocks actually run faster 🕰️",
+              "Your brain is focused on the fun instead of counting passing minutes 🎮🧠",
+              "The Earth spins faster 🌍",
+              "Seconds get shorter ⏳"
+          ],
+          "correctIndex": 1,
+          "explanation": "Correct! When your attention is absorbed in an enjoyable activity, your brain isn't tracking time intervals, making it feel like it flew by!"
+      }
+  },
+  "why_is_laughter_contagious": {
+      "image": "/curious_why_is_laughter_contagious.png",
+      "bgColor": "border-yellow-400",
+      "accentColor": "from-yellow-400 via-orange-300 to-pink-400",
+      "quizBg": "bg-yellow-50 border-yellow-200",
+      "quizText": "text-yellow-950",
+      "quizBadge": "bg-yellow-200 text-yellow-800",
+      "footer": "LAUGHTER IS THE BEST MEDICINE! Sharing giggles and smiles connects our brains and makes everyone happier! 😄💛",
+      "quiz": {
+          "question": "Why do we often start giggling when we hear someone else laughing?",
+          "options": [
+              "Our brain automatically mirrors happy sounds and social signals 🧠😄",
+              "It is a rule in school 🏫",
+              "Laughter is a sneezing reflex 🤧",
+              "We are forced by sound waves 🔊"
+          ],
+          "correctIndex": 0,
+          "explanation": "Wonderful! Laughter is a powerful social connector. Our brain's mirror systems recognize the joyful sound and automatically trigger a smile or chuckle!"
+      }
+  },
   "goosebumps": {
     "image": "/curious_goosebumps.png",
     "bgColor": "border-orange-400",
