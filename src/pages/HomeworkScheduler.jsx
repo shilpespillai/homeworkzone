@@ -286,15 +286,15 @@ const SUBJECTS = [
     )
   },
   { 
-    id: 'critical_thinking', 
-    name: 'Critical Thinking', 
+    id: 'logical_reasoning', 
+    name: 'Logical Reasoning', 
     titleColor: 'text-amber-600',
     bgColor: 'bg-[#fffbeb]', 
     borderColor: 'border-amber-200',
     selectedBorder: 'border-amber-500 ring-4 ring-amber-100',
-    desc: 'Logic, fallacies & problem solving!',
+    desc: 'Logic, puzzles, patterns & problem solving!',
     renderGraphic: () => (
-      <div className="w-16 h-20 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 shadow-inner border-4 border-amber-200">
+      <div className="w-16 h-20 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 shadow-inner overflow-hidden border-4 border-amber-200">
         <Lightbulb className="w-10 h-10 text-amber-500" />
       </div>
     )
