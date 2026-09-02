@@ -2096,10 +2096,44 @@ Include a balanced combination of question types such as:
   };
 
   useEffect(() => {
-    if (user?.uid) {
-      fetchClassrooms();
-    }
-  }, [user]);
+    if (!user?.uid) return;
+    const q = query(collection(db, 'teachers', user.uid, 'classrooms'));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const getGradeNumber = (name) => {
+        if (!name) return 999;
+        const match = name.match(/\d+/);
+        return match ? parseInt(match[0], 10) : 999;
+      };
+
+      const list = querySnapshot.docs.map(docSnapshot => ({
+        id: docSnapshot.id,
+        ...docSnapshot.data()
+      }));
+
+      list.sort((a, b) => {
+        const gradeA = getGradeNumber(a.name);
+        const gradeB = getGradeNumber(b.name);
+        if (gradeA !== gradeB) return gradeA - gradeB;
+        return (a.name || '').localeCompare(b.name || '');
+      });
+
+      setClassrooms([...list]);
+      
+      setActiveClassroom(prev => {
+        if (!prev && list.length > 0) return list[0];
+        if (prev && !list.some(c => c.id === prev.id)) return list[0] || null;
+        if (prev) {
+          const updated = list.find(c => c.id === prev.id);
+          return updated ? { ...prev, ...updated } : prev;
+        }
+        return prev;
+      });
+    }, (err) => {
+      console.error("TeacherDashboard: Listen Classrooms Error:", err);
+    });
+
+    return () => unsubscribe();
+  }, [user?.uid]);
 
   useEffect(() => {
     if (user?.uid && activeClassroom) {
@@ -2402,7 +2436,7 @@ Include a balanced combination of question types such as:
   };
 
   const fetchDashboardSubmissions = async () => {
-    if (!user) return;
+    if (!user?.uid) return;
     try {
       const hwQ = query(collection(db, 'homeworks'), where('teacherId', '==', user.uid));
       const hwSnap = await getDocs(hwQ);
@@ -2426,8 +2460,33 @@ Include a balanced combination of question types such as:
   };
 
   useEffect(() => {
-    if (user) fetchDashboardSubmissions();
-  }, [user]);
+    if (!user?.uid) return;
+
+    const hwQ = query(collection(db, 'homeworks'), where('teacherId', '==', user.uid));
+    const unsubHw = onSnapshot(hwQ, (hwSnap) => {
+      const hwMap = {};
+      const hwList = [];
+      hwSnap.docs.forEach(d => {
+         const data = d.data();
+         hwMap[d.id] = data.assignedClassId;
+         hwList.push({ id: d.id, ...data });
+      });
+      setAllHomeworks(hwList);
+    }, (err) => console.error("Error listening to homeworks:", err));
+
+    const subQ = query(collection(db, 'submissions'), where('teacherId', '==', user.uid));
+    const unsubSub = onSnapshot(subQ, (snap) => {
+      setAllSubmissions(snap.docs.map(d => ({ 
+         id: d.id, 
+         ...d.data()
+      })));
+    }, (err) => console.error("Error listening to submissions:", err));
+
+    return () => {
+      unsubHw();
+      unsubSub();
+    };
+  }, [user?.uid]);
 
   useEffect(() => {
     const now = new Date();
@@ -5914,32 +5973,35 @@ Include a balanced combination of question types such as:
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
-                     {classrooms.map((room, i) => (
-                        <ClassCard 
-                           key={room.id}
-                           name={room.name}
-                           students={room.studentCount || 0}
-                           bgColor={['bg-[#F3E8FF]', 'bg-[#FFF9DB]', 'bg-[#E6FCF5]', 'bg-[#E0F2FE]', 'bg-[#FFF0F0]'][i % 5]} 
-                           kidsImg={CLASS_IMAGES[i % CLASS_IMAGES.length]} 
-                           subjects={(room.subjects || ['English', 'Maths', 'Science']).map(sub => ({
-                               name: sub,
-                               icon: SUBJECT_ICONS[sub] || '/ic-homework.png'
-                            }))}
-                           onDelete={() => handleDeleteClassroom(room.id)}
-                           onEdit={() => {
-                              setEditingClass(room);
-                              setEditClassName(room.name);
-                              setSelectedEditSubjects(room.subjects || []);
-                              setEditChatDisabled(room.chatDisabled || false);
-                              setShowEditClassModal(true);
-                           }}
-                            onView={() => { 
-                               setActiveClassroom(room); 
-                               setFilterClass(room.name);
-                               setActiveTab('Students'); 
-                            }}
-                        />
-                     ))}
+                     {classrooms.map((room, i) => {
+                        const classStudentCount = allStudents.filter(s => s.classId === room.id).length;
+                        return (
+                           <ClassCard 
+                              key={room.id}
+                              name={room.name}
+                              students={classStudentCount}
+                              bgColor={['bg-[#F3E8FF]', 'bg-[#FFF9DB]', 'bg-[#E6FCF5]', 'bg-[#E0F2FE]', 'bg-[#FFF0F0]'][i % 5]} 
+                              kidsImg={CLASS_IMAGES[i % CLASS_IMAGES.length]} 
+                              subjects={(room.subjects || ['English', 'Maths', 'Science']).map(sub => ({
+                                  name: sub,
+                                  icon: SUBJECT_ICONS[sub] || '/ic-homework.png'
+                               }))}
+                              onDelete={() => handleDeleteClassroom(room.id)}
+                              onEdit={() => {
+                                 setEditingClass(room);
+                                 setEditClassName(room.name);
+                                 setSelectedEditSubjects(room.subjects || []);
+                                 setEditChatDisabled(room.chatDisabled || false);
+                                 setShowEditClassModal(true);
+                              }}
+                               onView={() => { 
+                                  setActiveClassroom(room); 
+                                  setFilterClass(room.name);
+                                  setActiveTab('Students'); 
+                               }}
+                           />
+                        );
+                     })}
                      
                      {classrooms.length === 0 && (
                        <div className="col-span-full py-20 flex flex-col items-center justify-center text-center space-y-6">
