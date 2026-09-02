@@ -1835,32 +1835,8 @@ EXPECTED JSON SCHEMA:
       const questionsToSave = generatedQuestions || [];
 
       const isSpatialReasoning = (formData.title || '').toLowerCase().includes('spatial') || (formData.aiPrompt || '').toLowerCase().includes('spatial');
-      const isNaplan = (formData.title || '').toLowerCase().includes('naplan') || (formData.aiPrompt || '').toLowerCase().includes('naplan');
-      const finalType = isNaplan ? 'test' : assignmentType;
-
-      // ⚡ 1-PASS UPFRONT: Extract pre-generated explanations directly from questions
-      const questionExplanations = {};
-      const missingExplanationQs = [];
-      questionsToSave.forEach((q, idx) => {
-        const qId = String(q.id || idx + 1);
-        if (q.explanation && typeof q.explanation === 'string' && q.explanation.trim()) {
-          questionExplanations[qId] = q.explanation.trim();
-        } else {
-          missingExplanationQs.push(q);
-        }
-      });
-
-      // Lightweight fallback: only if legacy questions without explanation exist, fetch for the missing ones
-      if (missingExplanationQs.length > 0 && !isSpatialReasoning) {
-        try {
-          const fallbackExps = await generateExplanations(missingExplanationQs, formData.subject, getModelForGrade(publishGrade, formData.subject, activeModel));
-          Object.assign(questionExplanations, fallbackExps);
-        } catch (e) {
-          console.warn("Fallback explanation generation error:", e);
-        }
-      }
-
-      const isExam = finalType === 'test' || !!formData.examPreset || !!formData.isExamPaper;
+      const isExam = assignmentType === 'test' || Boolean(formData.examPreset);
+      const finalType = isExam ? 'test' : 'homework';
 
       const payload = cleanFirestorePayload({
         title: formData.title || '',
@@ -1984,8 +1960,8 @@ EXPECTED JSON SCHEMA:
       const questionsToSave = generatedQuestions || [];
 
       const isSpatialReasoning = (formData.title || '').toLowerCase().includes('spatial') || (formData.aiPrompt || '').toLowerCase().includes('spatial');
-      const isNaplan = (formData.title || '').toLowerCase().includes('naplan') || (formData.aiPrompt || '').toLowerCase().includes('naplan');
-      const finalType = isNaplan ? 'test' : assignmentType;
+      const isExam = assignmentType === 'test' || Boolean(formData.examPreset);
+      const finalType = isExam ? 'test' : 'homework';
 
       // ⚡ 1-PASS UPFRONT: Extract pre-generated explanations directly from questions
       const questionExplanations = {};
@@ -2024,7 +2000,9 @@ EXPECTED JSON SCHEMA:
         assignType: formData.assignType || 'all',
         assignedStudentIds: formData.assignType === 'students' ? (formData.assignedStudentIds || []) : [],
         status: 'draft',
-        type: finalType || 'homework',
+        type: finalType,
+        isExamPaper: isExam,
+        examPreset: isExam ? (formData.examPreset || null) : null,
         timeLimit: formData.timeLimit || '30',
         marksPerQuestion: formData.marksPerQuestion || '5',
         difficulty: formData.difficulty || 'Medium',
