@@ -205,6 +205,9 @@ CRITICAL VISUAL RULES:
 
     const parsed = safeParseAiJson(textResponse);
     const questions = parsed.questions || parsed;
+    const passage = parsed.passages 
+      ? (Array.isArray(parsed.passages) ? parsed.passages.map(p => `### ${p.title || 'Passage ' + p.id} (${p.textType || 'Text'})\n\n${p.text}`).join('\n\n---\n\n') : parsed.passages)
+      : (parsed.passage || null);
 
     if (!Array.isArray(questions) || questions.length === 0) {
       await updateDoc(schedRef, { lastRun: originalLastRun });
@@ -252,6 +255,7 @@ CRITICAL VISUAL RULES:
         time: sched.dueTime || '17:00',
         points: sched.points || '10',
         questions: questions,
+        ...(passage ? { passage } : {}),
         questionExplanations,
         teacherId: teacherUid,
         teacherName: sched.teacherName || resolvedTeacherName,

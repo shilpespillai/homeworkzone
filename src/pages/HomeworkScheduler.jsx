@@ -943,7 +943,9 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
       const parsed = JSON.parse(textResponse);
       const rawQuestions = parsed.questions || parsed;
       const questions = Array.isArray(rawQuestions) ? rawQuestions.map(sanitizeQuestionData) : rawQuestions;
-      const passage = parsed.passage || null;
+      const passage = parsed.passages 
+        ? (Array.isArray(parsed.passages) ? parsed.passages.map(p => `### ${p.title || 'Passage ' + p.id} (${p.textType || 'Text'})\n\n${p.text}`).join('\n\n---\n\n') : parsed.passages)
+        : (parsed.passage || null);
 
       if (!Array.isArray(questions) || questions.length === 0) {
         // Revert lastRun in Firestore since generation failed to produce questions
@@ -1307,7 +1309,9 @@ export default function HomeworkScheduler({ user, classrooms = [], activeClassro
       const parsed = JSON.parse(textResponse);
       const rawQuestions = parsed.questions || parsed;
       const questions = Array.isArray(rawQuestions) ? rawQuestions.map(sanitizeQuestionData) : rawQuestions;
-      const passage = parsed.passage || null;
+      const passage = parsed.passages 
+        ? (Array.isArray(parsed.passages) ? parsed.passages.map(p => `### ${p.title || 'Passage ' + p.id} (${p.textType || 'Text'})\n\n${p.text}`).join('\n\n---\n\n') : parsed.passages)
+        : (parsed.passage || null);
 
       if (!Array.isArray(questions) || questions.length === 0) {
         throw new Error("Invalid questions array returned from AI.");

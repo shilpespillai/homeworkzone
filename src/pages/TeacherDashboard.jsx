@@ -81,6 +81,7 @@ import {
 } from 'recharts';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import { EXAM_PROFILES } from '../data/examProfiles';
 import { DEFAULT_SUBJECT_PROMPTS, getPremiumPromptTemplate, getMasterDefaultPrompts, saveMasterDefaultPromptsIfAdmin } from '../utils/defaultPrompts';
 import { db } from '../firebase';
 import { checkCanGeneratePaper } from '../utils/quotaManager';
@@ -8831,7 +8832,66 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                        </div>
                     </div>
 
-                    {/* POP-UP EDIT MODAL */}
+                    
+                     {/* Verified Exam Profiles & Schemas Hub (v2) */}
+                     <div className="space-y-4 pt-4 border-t border-slate-200/80">
+                        <div className="flex items-center justify-between">
+                           <div>
+                              <h2 className="text-lg font-black text-[#14532d] flex items-center gap-2">
+                                 <span>🏆</span> Standardized Exam & Competition Profiles ({Object.keys(EXAM_PROFILES || {}).length})
+                              </h2>
+                              <p className="text-xs font-semibold text-slate-500">
+                                 Verified psychometric blueprints, domain weightings, calculator policies, and question counts.
+                              </p>
+                           </div>
+                           <span className="text-xs font-bold text-amber-700 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
+                              v2 Verified Profiles
+                           </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                           {Object.values(EXAM_PROFILES || {}).map((profile) => (
+                              <div
+                                 key={profile.exam_id}
+                                 onClick={() => {
+                                    setActivePromptModalSubject(profile.exam_id);
+                                    if (!subjectPrompts[profile.exam_id]) {
+                                       setEditingPromptContent(
+                                          `// 📜 ${profile.display_name} — Profile Schema & Instructions\n` +
+                                          JSON.stringify(profile, null, 2)
+                                       );
+                                    }
+                                 }}
+                                 className="p-5 rounded-3xl border-2 border-amber-200/70 bg-gradient-to-br from-amber-50/40 via-white to-orange-50/20 hover:border-amber-400 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between"
+                              >
+                                 <div className="space-y-2">
+                                    <div className="flex items-center justify-between">
+                                       <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-md">
+                                          {profile.governing_body || 'Official Body'}
+                                       </span>
+                                       <span className="text-[10px] font-bold text-slate-400">
+                                          {profile.year_levels}
+                                       </span>
+                                    </div>
+                                    <h4 className="font-black text-slate-800 text-sm leading-snug">
+                                       {profile.display_name}
+                                    </h4>
+                                    <div className="space-y-1 text-xs text-slate-600 font-medium">
+                                       <p className="line-clamp-1">⏱️ <span className="font-bold">Time:</span> {profile.time_limit_per_section}</p>
+                                       <p className="line-clamp-1">🧮 <span className="font-bold">Calc:</span> {profile.calculator_policy}</p>
+                                       <p className="line-clamp-1">📊 <span className="font-bold">Domains:</span> {profile.content_domains.map(d => `${d.name} (${d.weight_pct}%)`).join(', ')}</p>
+                                    </div>
+                                 </div>
+                                 <div className="mt-4 pt-3 border-t border-amber-100 flex items-center justify-between text-[11px] font-bold text-amber-700">
+                                    <span>Inspect Profile Schema</span>
+                                    <span>→</span>
+                                 </div>
+                              </div>
+                           ))}
+                        </div>
+                     </div>
+
+                     {/* POP-UP EDIT MODAL */}
                     <AnimatePresence>
                        {activePromptModalSubject && (
                           <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">

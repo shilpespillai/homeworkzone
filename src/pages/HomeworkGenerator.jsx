@@ -1714,8 +1714,12 @@ EXPECTED JSON SCHEMA:
         if (Array.isArray(rawQs)) {
           collectedQuestions.push(...rawQs.map(sanitizeQuestionData));
         }
-        if (!passage && resObj.passage) {
-          passage = resObj.passage;
+        if (!passage) {
+          if (Array.isArray(resObj.passages) && resObj.passages.length > 0) {
+            passage = resObj.passages.map(p => `### ${p.title || 'Passage ' + p.id} (${p.textType || 'Text'})\n\n${p.text}`).join('\n\n---\n\n');
+          } else if (resObj.passage) {
+            passage = resObj.passage;
+          }
         }
       }
 
