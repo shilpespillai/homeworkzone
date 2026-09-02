@@ -39,7 +39,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import { INTERNATIONAL_EXAMS, getNaplanDefaults } from '../data/examPresets';
 import { db } from '../firebase';
-import { collection, addDoc, serverTimestamp, getDocs, query, where, orderBy, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, getDocs, query, where, orderBy, deleteDoc, doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../firebase';
 import { decryptText } from '../utils/crypto';
