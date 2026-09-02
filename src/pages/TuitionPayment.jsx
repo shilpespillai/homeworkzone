@@ -181,17 +181,11 @@ const TuitionPayment = ({ studentName, teacher, classroom }) => {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-semibold text-[#2D3748] tracking-tighter">Tuition & Fees</h1>
-        <p className="text-sm font-medium text-slate-500 mt-1.5 flex items-center gap-2 flex-wrap">
-          Fee schedule for <span className="font-bold text-[#EA580C]">{studentName}</span>
-          {classroom?.name && (
-            <>
-              <span className="text-slate-300">·</span>
-              <span className="text-slate-600 font-semibold">{classroom.name}</span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-gradient-to-r from-green-500 to-orange-600 text-white shadow-sm shadow-orange-100">
-                 ⚡ {studentGrade}
-              </span>
-            </>
-          )}
+        <p className="text-sm font-medium text-slate-500 mt-1.5 flex items-center gap-2">
+          <span>Fee schedule for</span>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-orange-50 text-orange-700 border border-orange-200">
+            {classroom?.name || studentGrade}
+          </span>
         </p>
       </div>
 
