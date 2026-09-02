@@ -1801,6 +1801,9 @@ EXPECTED JSON SCHEMA:
       setGeneratedQuestions(questions);
       setGeneratedPassage(passage);
       setGeneratedModelUsed(tieredModel);
+      if (questions.length > 0 && user?.uid) {
+        recordPaperGeneration(db, user.uid);
+      }
     } catch (err) {
       console.error("AI Gen Error:", err);
       alert("Failed to generate questions. ❌");

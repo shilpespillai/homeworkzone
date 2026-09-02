@@ -16,10 +16,16 @@ export const recordPaperGeneration = async (db, teacherUid) => {
     const now = new Date();
     const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
     
+    let nextTotal = 1;
+    let nextMonth = 1;
+
     if (snap.exists()) {
       const data = snap.data();
       const lastMonthKey = data.currentCycleMonth || '';
       const isNewCycle = lastMonthKey !== currentMonthKey;
+
+      nextTotal = (Number(data.papersGeneratedTotal) || 0) + 1;
+      nextMonth = isNewCycle ? 1 : ((Number(data.papersGeneratedThisMonth) || 0) + 1);
 
       const updateData = {
         papersGeneratedTotal: increment(1),
@@ -41,6 +47,14 @@ export const recordPaperGeneration = async (db, teacherUid) => {
         currentCycleMonth: currentMonthKey,
         lastPaperGeneratedAt: new Date().toISOString()
       }, { merge: true });
+    }
+
+    // Also update client-side water-mark cache for instantaneous feedback
+    if (typeof localStorage !== 'undefined') {
+      try {
+        localStorage.setItem(`hwz_max_papers_${teacherUid}`, String(nextTotal));
+        localStorage.setItem(`hwz_month_papers_${teacherUid}_${currentMonthKey}`, String(nextMonth));
+      } catch (e) {}
     }
   } catch (err) {
     console.error('[quotaManager] Failed to record paper generation:', err);
@@ -84,7 +98,7 @@ export const getBaseQuotaForPlan = (planId, studentCount = 1, pricing = DEFAULT_
 
 /**
  * Checks if a user can generate a new paper.
- * Uses persistent non-decrementing counters so deleting papers does NOT allow cheating quotas.
+ * Uses persistent non-decrementing counters with high-water mark lock so deleting papers can NEVER reduce usage.
  */
 export const checkCanGeneratePaper = ({
   user,
@@ -96,33 +110,70 @@ export const checkCanGeneratePaper = ({
   allHomeworks = [],
   topUpCredits = 0,
   pricing = DEFAULT_PRICING,
+  db = null
 }) => {
   const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
   const isMaxed = simulatedPlan && simulatedPlan.endsWith('_maxed');
   const cleanPlan = isMaxed ? simulatedPlan.replace('_maxed', '') : simulatedPlan;
   const effectivePlan = cleanPlan || activePlanId;
 
-  // Read persistent counters directly from teacher profile / billing doc
+  const teacherUid = user?.uid || teacherProfile?.uid || teacherBilling?.uid || '';
+  const now = new Date();
+  const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+
+  // 1. Read persistent counters directly from teacher profile / billing doc
   const persistentTotal = Number(teacherProfile?.papersGeneratedTotal ?? teacherBilling?.papersGeneratedTotal ?? 0);
   const persistentMonth = Number(teacherProfile?.papersGeneratedThisMonth ?? teacherBilling?.papersGeneratedThisMonth ?? 0);
 
-  // If a new calendar month started since last generation, persistentMonth resets
-  const now = new Date();
-  const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  // 2. Read local client high-water marks (prevents state race conditions)
+  const localStoredTotal = (typeof localStorage !== 'undefined' && teacherUid) 
+    ? Number(localStorage.getItem(`hwz_max_papers_${teacherUid}`) || 0) 
+    : 0;
+  const localStoredMonth = (typeof localStorage !== 'undefined' && teacherUid) 
+    ? Number(localStorage.getItem(`hwz_month_papers_${teacherUid}_${currentMonthKey}`) || 0) 
+    : 0;
+
+  // 3. Document count water-mark
+  const existingDocCount = Array.isArray(allHomeworks) ? allHomeworks.length : 0;
+  const activeMonthlyDocCount = getMonthlyUsageCount(allHomeworks, teacherBilling?.billingCycleResetDate);
+
+  // 4. Calculate unyielding high-water marks (RATCHET: monotonically increasing only)
   const recordedMonthKey = teacherProfile?.currentCycleMonth || teacherBilling?.currentCycleMonth || '';
-  const effectiveMonthUsage = (recordedMonthKey && recordedMonthKey !== currentMonthKey) ? 0 : persistentMonth;
+  const effectivePersistentMonth = (recordedMonthKey && recordedMonthKey !== currentMonthKey) ? 0 : persistentMonth;
+
+  const waterMarkTotal = Math.max(persistentTotal, localStoredTotal, existingDocCount);
+  const waterMarkMonth = Math.max(effectivePersistentMonth, localStoredMonth, activeMonthlyDocCount);
+
+  // 5. If current document count or water-mark exceeds recorded Firestore total, persist it to prevent rollback on delete
+  if (teacherUid && typeof localStorage !== 'undefined') {
+    try {
+      if (waterMarkTotal > localStoredTotal) {
+        localStorage.setItem(`hwz_max_papers_${teacherUid}`, String(waterMarkTotal));
+      }
+      if (waterMarkMonth > localStoredMonth) {
+        localStorage.setItem(`hwz_month_papers_${teacherUid}_${currentMonthKey}`, String(waterMarkMonth));
+      }
+    } catch (e) {}
+  }
+
+  if (db && teacherUid && (waterMarkTotal > persistentTotal || waterMarkMonth > persistentMonth)) {
+    // Asynchronous ratchet backfill to Firestore
+    setDoc(doc(db, 'teachers', teacherUid), {
+      papersGeneratedTotal: waterMarkTotal,
+      papersGeneratedThisMonth: waterMarkMonth,
+      currentCycleMonth: currentMonthKey
+    }, { merge: true }).catch(() => {});
+  }
 
   let usage = 0;
   if (isMaxed) {
     usage = getPaperQuota(effectivePlan, pricing);
   } else if (effectivePlan === 'free' || effectivePlan === 'free_trial' || effectivePlan === 'free_expired') {
-    // For free plans, count cumulative lifetime generated papers (NEVER decrements on delete)
-    const existingDocCount = Array.isArray(allHomeworks) ? allHomeworks.length : 0;
-    usage = Math.max(persistentTotal, existingDocCount);
+    // For free plans: count lifetime cumulative papers (NEVER decreases even if all docs deleted)
+    usage = waterMarkTotal;
   } else {
-    // For paid monthly plans, count papers generated in the active cycle (NEVER decrements on delete)
-    const activeMonthlyDocCount = getMonthlyUsageCount(allHomeworks, teacherBilling?.billingCycleResetDate);
-    usage = Math.max(effectiveMonthUsage, activeMonthlyDocCount);
+    // For paid monthly plans: count papers generated in the active billing cycle
+    usage = waterMarkMonth;
   }
 
   if ((isAdmin || isSuperUser) && !simulatedPlan) {
