@@ -383,7 +383,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
         examPreset: initialExam.id,
         isExamPaper: true
       }));
-      setQuestionCount(initialExam.defaultQuestions);
+      setQuestionCount(Math.min(50, initialExam.defaultQuestions || 5));
       setIsCurriculumMode(false);
       setAssignmentType('test');
     }
@@ -2159,7 +2159,7 @@ EXPECTED JSON SCHEMA:
               const gradeName = resolveGradeFromClassroomName(activeClassroom?.name);
               const naplanDefs = getNaplanDefaults(exam.id, gradeName);
               const finalTime = naplanDefs ? String(naplanDefs.time) : String(exam.defaultTime);
-              const finalQuestions = naplanDefs ? naplanDefs.questions : exam.defaultQuestions;
+              const finalQuestions = Math.min(50, naplanDefs ? naplanDefs.questions : (exam.defaultQuestions || 30));
 
               setFormData(prev => ({
                 ...prev,

@@ -595,8 +595,8 @@ FORMATTING RULES:
     category: 'Government Scholarship',
     gradeRange: 'Grade 10',
     subject: 'critical_thinking',
-    defaultQuestions: 100,
-    defaultTime: 120,
+    defaultQuestions: 50,
+    defaultTime: 60,
     promptInstruction: `You are a question setter for the National Talent Search Examination (NTSE) Mental Ability Test (MAT), administered by NCERT (National Council of Educational Research and Training) for Grade 10 students across India. Generate an authentic NTSE MAT paper modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} Stage 1 State-level NTSE MAT papers.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
@@ -624,8 +624,8 @@ FORMATTING RULES:
     category: 'Government Scholarship',
     gradeRange: 'Grade 10',
     subject: 'maths',
-    defaultQuestions: 100,
-    defaultTime: 120,
+    defaultQuestions: 50,
+    defaultTime: 60,
     promptInstruction: `You are a question setter for the National Talent Search Examination (NTSE) Scholastic Aptitude Test (SAT), administered by NCERT for Grade 10 students. Generate an authentic NTSE SAT paper covering Science, Mathematics, and Social Science as per the official NTSE syllabus, modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} Stage 1 NTSE SAT papers.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
@@ -689,8 +689,8 @@ FORMATTING RULES:
     category: 'Entrance Exam',
     gradeRange: 'Grade 5',
     subject: 'Mental Ability, Arithmetic, Language',
-    defaultQuestions: 80,
-    defaultTime: 120,
+    defaultQuestions: 40,
+    defaultTime: 60,
     promptInstruction: `You are a senior paper setter for the Jawahar Navodaya Vidyalaya Selection Test (JNVST), conducted by CBSE. Generate an authentic JNVST Class 6 entrance exam practice paper strictly benchmarked against actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} JNVST past papers.
 
 CRITICAL: You must perfectly tailor the complexity, vocabulary, and difficulty of these questions to the Grade 5 level (10-12 years old) expected for JNVST.
@@ -717,8 +717,8 @@ FORMATTING RULES:
     category: 'Entrance Exam',
     gradeRange: 'Grade 5 – Grade 8',
     subject: 'Maths, GK, Language, Intelligence',
-    defaultQuestions: 125,
-    defaultTime: 150,
+    defaultQuestions: 50,
+    defaultTime: 60,
     promptInstruction: `You are an examiner for the All India Sainik Schools Entrance Examination (AISSEE), conducted by the NTA. Generate an authentic practice paper for admission to Class 6 or Class 9 strictly benchmarked against actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} AISSEE past papers. (adapt to the user's Grade level).
 
 CRITICAL: You must perfectly tailor the complexity to the Student's specific Year Level provided to you by the system.
@@ -774,8 +774,8 @@ FORMATTING RULES:
     category: 'Olympiad',
     gradeRange: 'Grade 9 – Grade 10',
     subject: 'science',
-    defaultQuestions: 60,
-    defaultTime: 120,
+    defaultQuestions: 40,
+    defaultTime: 60,
     promptInstruction: `You are an examiner for the Indian Association of Physics Teachers (IAPT). Generate an authentic National Standard Examination in Junior Science (NSEJS) paper strictly benchmarked against actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} NSEJS past papers.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
@@ -825,8 +825,8 @@ FORMATTING RULES:
     category: 'Medical Entrance',
     gradeRange: 'Grade 11 – Grade 12',
     subject: 'science',
-    defaultQuestions: 200,
-    defaultTime: 200,
+    defaultQuestions: 50,
+    defaultTime: 45,
     promptInstruction: `You are an NTA paper setter for NEET (UG) (National Eligibility cum Entrance Test). Generate an authentic NEET UG practice paper strictly benchmarked against actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} NTA NEET past papers.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
@@ -851,8 +851,8 @@ FORMATTING RULES:
     category: 'Olympiad',
     gradeRange: 'Grade 2 – Grade 12',
     subject: 'Maths and Science',
-    defaultQuestions: 60,
-    defaultTime: 60,
+    defaultQuestions: 40,
+    defaultTime: 50,
     promptInstruction: `You are an examiner for the Unified Council. Generate an authentic NSTSE (National Level Science Talent Search Examination) paper strictly benchmarked against actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} NSTSE past papers.
 
 CRITICAL: Tailor the syllabus and complexity perfectly to the Student's Year Level provided by the system.
@@ -1200,8 +1200,8 @@ FORMATTING RULES:
     category: 'US College Admission',
     gradeRange: 'Grade 9 – Grade 12',
     subject: 'maths',
-    defaultQuestions: 60,
-    defaultTime: 60,
+    defaultQuestions: 45,
+    defaultTime: 45,
     promptInstruction: `You are a question developer for the ACT Mathematics test, administered by ACT Inc. Generate an authentic ACT Math practice paper modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} ACT released tests and official ACT Prep Guide practice tests.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
@@ -1737,8 +1737,8 @@ Output ONLY the practice paper content.`,
     category: 'Selective High School',
     gradeRange: 'Grade 8 - Grade 9',
     subject: 'maths',
-    defaultQuestions: 57,
-    defaultTime: 90,
+    defaultQuestions: 45,
+    defaultTime: 45,
     promptInstruction: `You are an elite academic assessment designer specializing in high-stakes scholarship and selective entry exams.
 
 I am creating an educational app that prepares students for the **SHSAT (Specialized High Schools Admissions Test)** (United States).
