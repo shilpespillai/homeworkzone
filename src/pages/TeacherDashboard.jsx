@@ -2353,6 +2353,12 @@ Include a balanced combination of question types such as:
     }
     
     try {
+      // 1. Delete all students in the subcollection first to trigger real-time student session eviction
+      const studentsSnap = await getDocs(collection(db, 'teachers', user.uid, 'classrooms', classId, 'students'));
+      const studentDeleteOps = studentsSnap.docs.map(d => deleteDoc(d.ref));
+      await Promise.all(studentDeleteOps);
+
+      // 2. Delete the classroom document itself
       const classRef = doc(db, 'teachers', user.uid, 'classrooms', classId);
       console.log("TeacherDashboard: Executing deleteDoc at path:", classRef.path);
       await deleteDoc(classRef);
@@ -2362,7 +2368,6 @@ Include a balanced combination of question types such as:
         setActiveClassroom(null);
       }
       
-      await fetchClassrooms();
       alert("Class deleted successfully! 🗑️✨");
 
       // Trigger seat sync on Stripe for Option A or C

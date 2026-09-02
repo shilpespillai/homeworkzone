@@ -2762,6 +2762,10 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
            if (classDocSnap.exists()) {
               latestClassroom = { id: classDocSnap.id, ...classDocSnap.data() };
               setClassroom(latestClassroom);
+           } else {
+              alert("This classroom has been removed by your teacher.");
+              onLogout();
+              return;
            }
         }
 
@@ -2781,6 +2785,7 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
               setCurrentStudentProfile(studentSnap.data());
            } else {
               // Student has been deleted from classroom/system by teacher
+              alert("Your student profile is no longer enrolled in this class.");
               onLogout();
               return;
            }
@@ -2822,15 +2827,41 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
 
   useEffect(() => {
      fetchData();
-  }, [studentName, classroom?.id, activeNav, teacher?.uid]);
+  }, [studentName, classroom?.id, activeNav, teacher?.uid, teacher?.teacherCode]);
 
   useEffect(() => {
       const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student'));
       const actualClassroom = classroom || savedStudent?.classroom;
       const actualTeacher = teacher || savedStudent?.teacher;
-      if (actualClassroom?.id && actualTeacher?.uid && studentName) {
-         const studentRef = doc(db, 'teachers', actualTeacher.uid, 'classrooms', actualClassroom.id, 'students', studentName?.trim().toLowerCase());
-         const unsubscribe = onSnapshot(studentRef, (snapshot) => {
+      
+      let unsubStudent = null;
+      let unsubClass = null;
+
+      const setupListeners = async () => {
+         if (!actualClassroom?.id || !studentName) return;
+         let teacherUid = actualTeacher?.uid;
+         if (!teacherUid && actualTeacher?.teacherCode) {
+            const teacherQ = query(collection(db, 'teachers'), where('teacherCode', '==', actualTeacher.teacherCode.toUpperCase().trim()), limit(1));
+            const teacherSnap = await getDocs(teacherQ);
+            if (!teacherSnap.empty) {
+               teacherUid = teacherSnap.docs[0].id;
+            }
+         }
+         if (!teacherUid) return;
+
+         // 1. Live listener for the Classroom document itself
+         const classRef = doc(db, 'teachers', teacherUid, 'classrooms', actualClassroom.id);
+         unsubClass = onSnapshot(classRef, (snap) => {
+            if (!snap.exists()) {
+               console.log("Classroom document deleted, logging out student...");
+               alert("This classroom has been removed by your teacher.");
+               onLogout();
+            }
+         }, (err) => console.error("Classroom onSnapshot error:", err));
+
+         // 2. Live listener for the Student document
+         const studentRef = doc(db, 'teachers', teacherUid, 'classrooms', actualClassroom.id, 'students', studentName?.trim().toLowerCase());
+         unsubStudent = onSnapshot(studentRef, (snapshot) => {
             if (snapshot.exists()) {
                const data = snapshot.data();
                if (data.status === 'paused') {
@@ -2842,14 +2873,21 @@ const StudentDashboard = ({ teacher, studentName, classroom: initialClassroom, o
             } else {
                // Student has been deleted from classroom/system by teacher
                console.log("Student document deleted, logging out...");
+               alert("Your student profile is no longer enrolled in this class.");
                onLogout();
             }
          }, (err) => {
             console.error("Student onSnapshot error:", err);
          });
-         return () => unsubscribe();
-      }
-   }, [studentName, classroom?.id, teacher?.uid, onLogout]);
+      };
+
+      setupListeners();
+
+      return () => {
+         if (unsubClass) unsubClass();
+         if (unsubStudent) unsubStudent();
+      };
+   }, [studentName, classroom?.id, teacher?.uid, teacher?.teacherCode, onLogout]);
 
    useEffect(() => {
       const savedStudent = JSON.parse(localStorage.getItem('hwz_active_student'));
