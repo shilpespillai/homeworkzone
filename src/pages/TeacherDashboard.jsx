@@ -1011,6 +1011,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const isSuperUser = SUPER_USER_EMAILS.includes((teacherData?.email || '').toLowerCase().trim()) || teacherData?.isSuperUser === true;
 
   const [adminTeachers, setAdminTeachers] = useState([]);
+  const [deletingTeacherId, setDeletingTeacherId] = useState(null);
   const [adminLoading, setAdminLoading] = useState(false);
   const [adminSearch, setAdminSearch] = useState('');
   const [adminPlanFilter, setAdminPlanFilter] = useState('all');
@@ -1133,6 +1134,79 @@ const TeacherDashboard = ({ user, onLogout }) => {
     } catch (err) {
       console.error('Error toggling super user:', err);
       alert('Failed to update super user status.');
+    }
+  };
+
+  const handleDeleteTeacher = async (targetTeacher) => {
+    if (!isAdminUser) {
+      alert("Only administrators can delete teachers.");
+      return;
+    }
+    const teacherId = targetTeacher.id;
+    const teacherName = targetTeacher.name || targetTeacher.email || teacherId;
+
+    const confirmMsg = `⚠️ PERMANENT CASCADE DELETE ⚠️\n\nAre you sure you want to permanently delete teacher "${teacherName}" (${targetTeacher.email})?\n\nThis will permanently delete:\n• All classrooms and student rosters\n• All generated homework papers & tests\n• All student submissions & gradebook records\n• All recurring schedules, check-ins & messages\n• The entire teacher account profile\n\nWhen this teacher signs up or logs in again, their account will restart 100% from scratch with a fresh 7-day trial and 0 papers generated.\n\nClick OK to permanently delete.`;
+    
+    if (!(await window.confirmCustom(confirmMsg))) return;
+
+    setDeletingTeacherId(teacherId);
+    try {
+      console.log(`[Admin] Starting cascade delete for teacher: ${teacherId} (${teacherName})`);
+
+      // 1. Delete all classrooms and their nested students
+      const classroomsSnap = await getDocs(collection(db, 'teachers', teacherId, 'classrooms')).catch(() => ({ docs: [] }));
+      for (const classDoc of classroomsSnap.docs) {
+        const classId = classDoc.id;
+        const studentsSnap = await getDocs(collection(db, 'teachers', teacherId, 'classrooms', classId, 'students')).catch(() => ({ docs: [] }));
+        const studentDeletePromises = studentsSnap.docs.map(sDoc => deleteDoc(sDoc.ref));
+        await Promise.all(studentDeletePromises);
+        await deleteDoc(classDoc.ref);
+      }
+
+      // 2. Delete teacher payments subcollection
+      const paymentsSnap = await getDocs(collection(db, 'teachers', teacherId, 'payments')).catch(() => ({ docs: [] }));
+      await Promise.all(paymentsSnap.docs.map(pDoc => deleteDoc(pDoc.ref)));
+
+      // 3. Delete root collections scoped by teacherId: homeworks, submissions, recurring_schedules, messages, daily_checkins, students, classrooms
+      const collectionsToPurge = ['homeworks', 'submissions', 'recurring_schedules', 'messages', 'daily_checkins', 'students', 'classrooms'];
+      for (const collName of collectionsToPurge) {
+        try {
+          const q = query(collection(db, collName), where('teacherId', '==', teacherId));
+          const snap = await getDocs(q);
+          const deletePromises = snap.docs.map(d => deleteDoc(d.ref));
+          await Promise.all(deletePromises);
+        } catch (e) {
+          console.warn(`[Admin] Error purging collection ${collName} for teacher ${teacherId}:`, e);
+        }
+      }
+
+      // 4. Delete the teacher document itself
+      await deleteDoc(doc(db, 'teachers', teacherId)).catch(e => console.warn('Teacher doc delete error:', e));
+
+      // 5. Delete from users collection if exists
+      await deleteDoc(doc(db, 'users', teacherId)).catch(() => {});
+
+      // 6. Clear client storage caches for this teacher
+      if (typeof localStorage !== 'undefined') {
+        try {
+          const keysToRemove = [];
+          for (let i = 0; i < localStorage.length; i++) {
+            const k = localStorage.key(i);
+            if (k && k.includes(teacherId)) {
+              keysToRemove.push(k);
+            }
+          }
+          keysToRemove.forEach(k => localStorage.removeItem(k));
+        } catch (e) {}
+      }
+
+      alert(`Teacher "${teacherName}" and all associated data have been permanently deleted! 🗑️✨\n\nTheir trial and paper usage have been reset to zero.`);
+      await fetchAdminData();
+    } catch (err) {
+      console.error("[Admin] Cascade delete failed:", err);
+      alert(`Failed to complete cascade deletion: ${err.message || 'Unknown error'}`);
+    } finally {
+      setDeletingTeacherId(null);
     }
   };
 
@@ -1273,6 +1347,24 @@ const TeacherDashboard = ({ user, onLogout }) => {
           setDoc(doc(db, 'teachers', user.uid), { billing: defaultBilling }, { merge: true })
             .catch(err => console.error("Error setting default billing:", err));
         }
+      } else {
+        const defaultBilling = {
+          planId: 'free',
+          status: 'none',
+          quantity: 0,
+          createdAt: new Date().toISOString()
+        };
+        const initialProfile = {
+          createdAt: new Date().toISOString(),
+          displayName: user.displayName || 'Classroom Teacher',
+          email: user.email || '',
+          billing: defaultBilling,
+          papersGeneratedTotal: 0,
+          papersGeneratedThisMonth: 0
+        };
+        setTeacherData(initialProfile);
+        setTeacherBilling(defaultBilling);
+        setDoc(doc(db, 'teachers', user.uid), initialProfile, { merge: true }).catch(err => console.error("Error creating initial profile:", err));
       }
     }, (err) => console.error("Error listening to teacher billing:", err));
     return () => unsub();
@@ -4228,12 +4320,13 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none text-right" onClick={() => handleAdminSort('mrr')}>Est. MRR</th>
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none text-center" onClick={() => handleAdminSort('conversionStatus')}>Conversion Status</th>
                       <th className="p-4 text-center text-[9px]">Super User</th>
+                      <th className="p-4 text-center text-[9px]">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {sorted.length === 0 ? (
                       <tr>
-                        <td colSpan="9" className="p-8 text-center text-slate-400 font-bold">
+                        <td colSpan="10" className="p-8 text-center text-slate-400 font-bold">
                           No teachers match the filters.
                         </td>
                       </tr>
@@ -4310,6 +4403,20 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                               />
                               <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-violet-500 group-hover:ring-2 group-hover:ring-violet-200 transition-all" />
                             </label>
+                          </td>
+                          <td className="p-4 text-center">
+                            <button
+                              onClick={() => handleDeleteTeacher(teacher)}
+                              disabled={deletingTeacherId === teacher.id}
+                              className="p-2 text-rose-500 hover:text-white hover:bg-rose-600 rounded-xl border border-rose-200 transition-all shadow-sm active:scale-95 disabled:opacity-40 cursor-pointer"
+                              title={`Permanently delete teacher ${teacher.name} and all data`}
+                            >
+                              {deletingTeacherId === teacher.id ? (
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                              ) : (
+                                <Trash2 className="w-4 h-4" />
+                              )}
+                            </button>
                           </td>
                         </tr>
                       ))
