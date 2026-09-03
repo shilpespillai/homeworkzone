@@ -82,7 +82,7 @@ import {
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { EXAM_PROFILES } from '../data/examProfiles';
-import { DEFAULT_SUBJECT_PROMPTS, getPremiumPromptTemplate, getMasterDefaultPrompts, saveMasterDefaultPromptsIfAdmin } from '../utils/defaultPrompts';
+import { DEFAULT_SUBJECT_PROMPTS, getMasterPrompt, getMasterDefaultPrompts, saveMasterDefaultPromptsIfAdmin } from '../utils/defaultPrompts';
 import { db } from '../firebase';
 import { checkCanGeneratePaper } from '../utils/quotaManager';
 import SystemLogsTab from '../components/admin/SystemLogsTab';
@@ -1823,24 +1823,29 @@ const TeacherDashboard = ({ user, onLogout }) => {
     setEditingProfileContent('');
   };
 
-  const handleOpenPromptModal = (subKey) => {
+    const handleOpenPromptModal = (subKey) => {
     if (!subKey) return;
-    setExamModalTab('prompt');
-    const isExam = !!(examProfilesMap[subKey] || EXAM_PROFILES[subKey]);
-    const currentMap = (isPromptAdmin && promptViewMode === 'global') ? masterPromptsMap : subjectPrompts;
-    const promptText = (currentMap && currentMap[subKey] && !currentMap[subKey].startsWith("Generating")) 
-      ? currentMap[subKey] 
-      : (getMasterPrompt(subKey) || getPremiumPromptTemplate(subKey) || '');
-    
-    setEditingPromptContent(promptText);
+    try {
+      setExamModalTab('prompt');
+      const isExam = !!(examProfilesMap[subKey] || EXAM_PROFILES[subKey]);
+      const currentMap = (isPromptAdmin && promptViewMode === 'global') ? masterPromptsMap : subjectPrompts;
+      const promptText = (currentMap && currentMap[subKey] && !currentMap[subKey].startsWith("Generating")) 
+        ? currentMap[subKey] 
+        : (getMasterPrompt(subKey) || '');
+      
+      setEditingPromptContent(promptText);
 
-    if (isExam) {
-      const activeProf = (examProfilesMap && examProfilesMap[subKey]) || EXAM_PROFILES[subKey];
-      setEditingProfileContent(JSON.stringify(activeProf, null, 2));
-    } else {
-      setEditingProfileContent('');
+      if (isExam) {
+        const activeProf = (examProfilesMap && examProfilesMap[subKey]) || EXAM_PROFILES[subKey];
+        setEditingProfileContent(JSON.stringify(activeProf, null, 2));
+      } else {
+        setEditingProfileContent('');
+      }
+      setActivePromptModalSubject(subKey);
+    } catch (err) {
+      console.error("Error opening prompt modal for", subKey, err);
+      setActivePromptModalSubject(subKey);
     }
-    setActivePromptModalSubject(subKey);
   };
 
   
@@ -2017,7 +2022,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
         systemInstruction: "You are a master AI prompt engineer and psychometric curriculum specialist. Output ONLY the raw prompt template text.",
         provider: "claude-sonnet"
       });
-      const finalText = (generatedText && generatedText.trim()) || getPremiumPromptTemplate(cleanName);
+      const finalText = (generatedText && generatedText.trim()) || getMasterPrompt(cleanName);
       
       if (isPromptAdmin && promptViewMode === 'global') {
         setMasterPromptsMap(prev => {
@@ -2046,7 +2051,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
       });
     } catch (err) {
       console.error("AI prompt generation error:", err);
-      const fallbackText = getPremiumPromptTemplate(cleanName);
+      const fallbackText = getMasterPrompt(cleanName);
       if (isPromptAdmin && promptViewMode === 'global') {
         setMasterPromptsMap(prev => ({ ...prev, [cleanName]: fallbackText }));
       } else {
@@ -9266,7 +9271,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                                                      type="button"
                                                      onClick={async () => {
                                                         if (window.confirm(`Reset "${activePromptModalSubject}" prompt back to original default master template?`)) {
-                                                           const defaultText = getMasterPrompt(activePromptModalSubject) || getPremiumPromptTemplate(activePromptModalSubject);
+                                                           const defaultText = getMasterPrompt(activePromptModalSubject) || getMasterPrompt(activePromptModalSubject);
                                                            setEditingPromptContent(defaultText);
                                                         }
                                                      }}
