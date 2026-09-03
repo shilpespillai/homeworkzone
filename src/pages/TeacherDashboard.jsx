@@ -1385,6 +1385,20 @@ const TeacherDashboard = ({ user, onLogout }) => {
         setTeacherData(initialProfile);
         setTeacherBilling(defaultBilling);
         setDoc(doc(db, 'teachers', user.uid), initialProfile, { merge: true }).catch(err => console.error("Error creating initial profile:", err));
+        
+        // Also wipe any old cached paper generation keys on client
+        if (typeof localStorage !== 'undefined' && user?.uid) {
+          try {
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+              const k = localStorage.key(i);
+              if (k && (k.includes(user.uid) || k.startsWith('hwz_max_papers_') || k.startsWith('hwz_month_papers_'))) {
+                keysToRemove.push(k);
+              }
+            }
+            keysToRemove.forEach(k => localStorage.removeItem(k));
+          } catch (e) {}
+        }
       }
     }, (err) => console.error("Error listening to teacher billing:", err));
     return () => unsub();

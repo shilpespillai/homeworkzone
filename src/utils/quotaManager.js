@@ -126,16 +126,30 @@ export const checkCanGeneratePaper = ({
   const persistentMonth = Number(teacherProfile?.papersGeneratedThisMonth ?? teacherBilling?.papersGeneratedThisMonth ?? 0);
 
   // 2. Read local client high-water marks (prevents state race conditions)
-  const localStoredTotal = (typeof localStorage !== 'undefined' && teacherUid) 
+  let localStoredTotal = (typeof localStorage !== 'undefined' && teacherUid) 
     ? Number(localStorage.getItem(`hwz_max_papers_${teacherUid}`) || 0) 
     : 0;
-  const localStoredMonth = (typeof localStorage !== 'undefined' && teacherUid) 
+  let localStoredMonth = (typeof localStorage !== 'undefined' && teacherUid) 
     ? Number(localStorage.getItem(`hwz_month_papers_${teacherUid}_${currentMonthKey}`) || 0) 
     : 0;
 
   // 3. Document count water-mark
   const existingDocCount = Array.isArray(allHomeworks) ? allHomeworks.length : 0;
   const activeMonthlyDocCount = getMonthlyUsageCount(allHomeworks, teacherBilling?.billingCycleResetDate);
+
+  // 🔥 CRITICAL RESET CHECK:
+  // If Firestore explicitly has 0 persistent papers AND 0 existing homework documents (e.g. freshly created or deleted/reset account),
+  // then any stale client localStorage count MUST be purged and disregarded!
+  if (persistentTotal === 0 && existingDocCount === 0) {
+    localStoredTotal = 0;
+    localStoredMonth = 0;
+    if (typeof localStorage !== 'undefined' && teacherUid) {
+      try {
+        localStorage.removeItem(`hwz_max_papers_${teacherUid}`);
+        localStorage.removeItem(`hwz_month_papers_${teacherUid}_${currentMonthKey}`);
+      } catch (e) {}
+    }
+  }
 
   // 4. Calculate unyielding high-water marks (RATCHET: monotonically increasing only)
   const recordedMonthKey = teacherProfile?.currentCycleMonth || teacherBilling?.currentCycleMonth || '';
