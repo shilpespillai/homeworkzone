@@ -1153,6 +1153,26 @@ const TeacherDashboard = ({ user, onLogout }) => {
     try {
       console.log(`[Admin] Starting cascade delete for teacher: ${teacherId} (${teacherName})`);
 
+      // 0. Cancel active Stripe subscription if applicable
+      const subId = targetTeacher.billing?.subscriptionId;
+      const teacherEmail = targetTeacher.email;
+      if (subId || (teacherEmail && targetTeacher.isPaid)) {
+        try {
+          await fetch('/api/cancel-subscription', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              subscriptionId: subId || undefined,
+              email: teacherEmail,
+              immediate: true
+            })
+          });
+          console.log(`[Admin] Stripe subscription immediately cancelled for: ${teacherEmail}`);
+        } catch (stripeErr) {
+          console.warn('[Admin] Note: Stripe cancellation request error:', stripeErr);
+        }
+      }
+
       // 1. Delete all classrooms and their nested students
       const classroomsSnap = await getDocs(collection(db, 'teachers', teacherId, 'classrooms')).catch(() => ({ docs: [] }));
       for (const classDoc of classroomsSnap.docs) {

@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { subscriptionId, resume, email } = req.body;
+    const { subscriptionId, resume, email, immediate } = req.body;
 
     if (!subscriptionId && !email) {
       return res.status(400).json({ error: 'Subscription ID or Email is required' });
@@ -49,6 +49,9 @@ export default async function handler(req, res) {
         subId,
         { cancel_at_period_end: false }
       );
+    } else if (immediate) {
+      // Immediately cancel and terminate subscription
+      subscription = await stripe.subscriptions.cancel(subId);
     } else {
       // Cancel at period end
       subscription = await stripe.subscriptions.update(
