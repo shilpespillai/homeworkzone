@@ -116,6 +116,30 @@ export const EXAM_PROFILES = {
     last_verified: "2026-09-02"
   },
 
+  amc_math_comp: {
+    exam_id: "amc_math_comp",
+    display_name: "Australian Mathematics Competition Practice (Unofficial)",
+    governing_body: "Australian Maths Trust (AMT)",
+    year_levels: "Years 3-12 (Middle Primary, Upper Primary, Junior, Intermediate, Senior)",
+    question_count_per_section: 30,
+    time_limit_per_section: "60 minutes (primary) or 75 minutes (secondary)",
+    calculator_policy: "strictly prohibited for secondary divisions; non-calculator primary standard",
+    answer_choice_count: 4,
+    question_type_mix: "25 multiple_choice (Q1-25) + 5 integer-only constructed response (Q26-30)",
+    scoring: "Escalating mark values from Q1 to Q30; no guessing penalty",
+    content_domains: [
+      { name: "Arithmetic & Number Theory", weight_pct: 25 },
+      { name: "Algebra & Pre-Algebra", weight_pct: 25 },
+      { name: "Geometry & Spatial Reasoning", weight_pct: 25 },
+      { name: "Multi-Step Problem Solving & Heuristics", weight_pct: 25 }
+    ],
+    difficulty_ordering: "strictly ascending by question number with rising points",
+    explanation_depth: "strategy-focused worked solution, fuller proof for Q26-30",
+    svg_visual_target_pct: 30,
+    trademark_note: "AMC is run by the Australian Maths Trust; practice modelled on format",
+    last_verified: "2026-09-03"
+  },
+
   icas_mathematics: {
     exam_id: "icas_mathematics",
     display_name: "ICAS Mathematics Practice (Unofficial)",
@@ -136,6 +160,52 @@ export const EXAM_PROFILES = {
     svg_visual_target_pct: 35,
     trademark_note: "ICAS is a registered trademark of UNSW Global",
     last_verified: "2026-09-02"
+  },
+
+  icas_science: {
+    exam_id: "icas_science",
+    display_name: "ICAS Science Practice (Unofficial)",
+    governing_body: "UNSW Global (ICAS Assessments)",
+    year_levels: "Years 2/3 through 12, tiered by paper",
+    question_count_per_section: 40,
+    time_limit_per_section: "45–60 minutes depending on year level",
+    calculator_policy: "not applicable / basic data references only",
+    answer_choice_count: 4,
+    question_type_mix: "multiple_choice scientific reasoning and data interpretation",
+    content_domains: [
+      { name: "Biological sciences", weight_pct: 25 },
+      { name: "Chemical sciences", weight_pct: 20 },
+      { name: "Physical sciences", weight_pct: 25 },
+      { name: "Earth and space sciences", weight_pct: 15 },
+      { name: "Scientific inquiry and working scientifically", weight_pct: 15 }
+    ],
+    difficulty_ordering: "ascending in complexity",
+    explanation_depth: "2-4 sentences explaining the underlying scientific principle",
+    svg_visual_target_pct: 30,
+    trademark_note: "ICAS is a product of UNSW Global",
+    last_verified: "2026-09-03"
+  },
+
+  icas_english: {
+    exam_id: "icas_english",
+    display_name: "ICAS English Practice (Unofficial)",
+    governing_body: "UNSW Global (ICAS Assessments)",
+    year_levels: "Years 2 through 12 (Papers A-J)",
+    question_count_per_section: 40,
+    time_limit_per_section: "40–60 minutes",
+    calculator_policy: "not applicable",
+    answer_choice_count: 4,
+    question_type_mix: "multiple_choice across diverse literary & informational extracts",
+    content_domains: [
+      { name: "Reading comprehension & Inference", weight_pct: 45 },
+      { name: "Language conventions & Syntax in context", weight_pct: 30 },
+      { name: "Literary analysis & Authorial craft", weight_pct: 25 }
+    ],
+    difficulty_ordering: "ascending in complexity",
+    explanation_depth: "2-4 sentences referencing supporting text",
+    svg_visual_target_pct: 0,
+    trademark_note: "ICAS is a product of UNSW Global",
+    last_verified: "2026-09-03"
   },
 
   seamo_mathematics: {
@@ -168,7 +238,7 @@ export const EXAM_PROFILES = {
     question_count_per_section: 35,
     time_limit_per_section: "40 minutes",
     calculator_policy: "strictly prohibited (non-calculator problem solving)",
-    answer_choice_count: 4,
+    answer_choice_count: 5,
     question_type_mix: "100% multiple_choice with Australian context word problems",
     content_domains: [
       { name: "Number & Algebra (ratio transfers, Gauss sums, rates)", weight_pct: 40 },
@@ -179,7 +249,7 @@ export const EXAM_PROFILES = {
     explanation_depth: "2-4 sentence worked solution",
     svg_visual_target_pct: 40,
     trademark_note: "NSW Selective is a program of the NSW Department of Education",
-    last_verified: "2026-09-02"
+    last_verified: "2026-09-03"
   },
 
   nsw_selective_thinking: {
@@ -202,7 +272,7 @@ export const EXAM_PROFILES = {
     explanation_depth: "step-by-step logical proof",
     svg_visual_target_pct: 25,
     trademark_note: "NSW Selective is a program of the NSW Department of Education",
-    last_verified: "2026-09-02"
+    last_verified: "2026-09-03"
   },
 
   nsw_selective_reading: {
@@ -224,6 +294,72 @@ export const EXAM_PROFILES = {
     explanation_depth: "2-4 sentences referencing passage evidence",
     svg_visual_target_pct: 0,
     trademark_note: "NSW Selective is a program of the NSW Department of Education",
-    last_verified: "2026-09-02"
+    last_verified: "2026-09-03"
+  },
+
+  vic_sehs_maths_reasoning: {
+    exam_id: "vic_sehs_maths_reasoning",
+    display_name: "VIC Selective Entry Mathematical Reasoning Practice (Unofficial)",
+    governing_body: "ACER (on behalf of Victorian Department of Education)",
+    year_levels: "Year 8 sitting for Year 9 entry (Melbourne High, MacRob, Nossal, Suzanne Cory)",
+    question_count_per_section: 35,
+    time_limit_per_section: "30 minutes",
+    calculator_policy: "strictly prohibited (non-calculator reasoning)",
+    answer_choice_count: 4,
+    question_type_mix: "100% multiple_choice aptitude & non-routine problem solving",
+    content_domains: [
+      { name: "Number and algebraic reasoning", weight_pct: 40 },
+      { name: "Measurement and spatial reasoning", weight_pct: 35 },
+      { name: "Data and logical problem-solving", weight_pct: 25 }
+    ],
+    difficulty_ordering: "ascending in complexity",
+    explanation_depth: "2-4 sentence worked solution",
+    svg_visual_target_pct: 30,
+    trademark_note: "ACER Selective Entry test; practice modelled on format",
+    last_verified: "2026-09-03"
+  },
+
+  vic_sehs_general_ability: {
+    exam_id: "vic_sehs_general_ability",
+    display_name: "VIC Selective Entry General Ability Practice (Unofficial)",
+    governing_body: "ACER",
+    year_levels: "Year 8 sitting for Year 9 entry",
+    question_count_per_section: 40,
+    time_limit_per_section: "30 minutes",
+    calculator_policy: "not applicable",
+    answer_choice_count: 4,
+    question_type_mix: "Verbal reasoning (analogies, deductions) and Quantitative logic",
+    content_domains: [
+      { name: "Verbal Analogies & Classification", weight_pct: 35 },
+      { name: "Logical Deduction & Syllogisms", weight_pct: 35 },
+      { name: "Numerical Patterns & Sequences", weight_pct: 30 }
+    ],
+    difficulty_ordering: "speed-based cognitive reasoning",
+    explanation_depth: "concise logical rule explanation",
+    svg_visual_target_pct: 20,
+    trademark_note: "ACER Selective Entry test; practice modelled on format",
+    last_verified: "2026-09-03"
+  },
+
+  wa_gate_aset: {
+    exam_id: "wa_gate_aset",
+    display_name: "WA GATE ASET Practice (Unofficial)",
+    governing_body: "WA Department of Education",
+    year_levels: "Year 6 sitting for Year 7 entry (Perth Modern & Selective Programs)",
+    question_count_per_section: 35,
+    time_limit_per_section: "35 minutes",
+    calculator_policy: "strictly prohibited",
+    answer_choice_count: 4,
+    question_type_mix: "Reading Comprehension, Quantitative Reasoning, Abstract Reasoning",
+    content_domains: [
+      { name: "Quantitative Reasoning & Problem Solving", weight_pct: 40 },
+      { name: "Reading Comprehension", weight_pct: 35 },
+      { name: "Abstract & Spatial Pattern Matrices", weight_pct: 25 }
+    ],
+    difficulty_ordering: "mixed aptitude difficulty",
+    explanation_depth: "step-by-step strategy rationale",
+    svg_visual_target_pct: 30,
+    trademark_note: "ASET is an assessment program of WA Department of Education",
+    last_verified: "2026-09-03"
   }
 };

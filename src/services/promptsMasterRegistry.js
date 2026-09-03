@@ -252,6 +252,117 @@ FORMATTING RULES:
 • 4 options (A, B, C, D) for MCQ or short typed text for spelling corrections.
 • Explanations must state the exact Australian English grammar rule, spelling convention, or punctuation principle applied.`;
 
+
+export const getAmcPromptTemplate = () => `You are an experienced maths competition question-writer creating a practice paper in the style of the Australian Mathematics Competition (AMC) for students in {GRADE}.
+
+**Total questions:** 30 (25 multiple_choice, then 5 integer-answer)
+**Time:** 60 minutes (primary divisions) or 75 minutes (secondary divisions)
+**Calculator:** strictly prohibited
+
+## Structure & Real Competition Features:
+- Questions 1-25: "multiple_choice" with 4 options (A, B, C, D).
+- Questions 26-30: "text", integer-only numeric answer, no options.
+- **Difficulty and mark value rise with question number:** Assign a "marks" value increasing from 3-4 points (Q1-10) to 5-6 points (Q11-20), up to 8-10 points for the final integer questions (Q26-30).
+- No penalty for a wrong or blank answer — design distractors as genuinely plausible wrong turns (common miscalculations, off-by-one errors, units slips).
+
+## Cognitive Coverage:
+1. Multi-Step Problem Solving (AMC signature skill)
+2. Logical Reasoning & Number Theory
+3. Geometry & Spatial Heuristics
+4. Higher-Order Synthesis (Questions 21-30)
+
+## Accuracy:
+Every integer answer (Q26-30) must be a clean, unambiguous positive integer. Include a full strategy explanation.`;
+
+export const getNswSelectiveReadingPromptTemplate = () => `You are a test developer for the NSW Selective High School Placement Test (Reading section), modelled on the NSW Department of Education Selective Schools Reading practice papers delivered via the Janison digital platform.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• Target Cohort: Top 5% academically gifted Year 5/6 students.
+• Reading passages MUST be authentic, sophisticated texts matching the complexity of NSW Stage 3 Extended Reading.
+• Questions must demand inference, figurative language analysis, authorial intent, and vocabulary-in-context reasoning.
+• Include line numbers ([Line 1], [Line 5]) every 5 lines for precise textual referencing.
+
+FOUR-PART TEXT SUITE:
+1. Literary Fiction / Narrative (250–350 words)
+2. Poetry or Lyrical Non-Fiction (150–250 words)
+3. Scientific / Historical / Informational Article (250–350 words)
+4. Persuasive / Commentary or Paired Short Extracts (200–300 words)
+
+OFFICIAL SYLLABUS & DOMAIN BREAKDOWN (30 Questions / 40 Minutes):
+1. INFERENTIAL COMPREHENSION & SUBTEXT (35%)
+2. VOCABULARY IN CONTEXT (20%) — Tier-2/Tier-3 academic vocabulary
+3. LITERARY DEVICES & FIGURATIVE LANGUAGE (15%)
+4. AUTHORIAL INTENT, PERSPECTIVE & TONE (15%)
+5. LITERAL COMPREHENSION & SYNTHESIS (15%)
+
+FORMATTING RULES:
+• 4 options (A, B, C, D) per question.
+• Explanations must cite the specific line or phrase from the passage supporting the answer.`;
+
+export const getNswSelectiveMathPromptTemplate = () => `You are an official test developer for the NSW Selective High School Placement Test (Mathematical Reasoning section) for Year 7 entry.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• Target Cohort: Top 5% academically gifted Year 5/6 students.
+• Strictly Non-Calculator high-order problem solving and heuristics.
+• Australian real-world contexts (metric measurements, AUD $, local scenarios).
+
+OFFICIAL SYLLABUS BREAKDOWN (35 Questions / 40 Minutes):
+1. Number & Algebra (~40%): Ratio transfers, Gauss sum sequences, speed/distance/time, rate problems, modular arithmetic.
+2. Measurement & Geometry (~35%): Composite areas, angle transversals, 3D nets, volume of prisms.
+3. Statistics & Probability (~25%): Multi-variable bar graphs, combination counting, probability trees.
+
+FORMATTING RULES:
+• 5 options (A, B, C, D, E) or 4 options (A, B, C, D).
+• Provide a 2-4 sentence worked heuristic explanation for each question.`;
+
+export const getNswSelectiveThinkingPromptTemplate = () => `You are an official test author for the NSW Selective High School Placement Test (Thinking Skills section) for Year 7 entry.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• Speed & Complex Logic (40 Questions / 40 Minutes).
+• Dual Verbal & Non-Verbal / Spatial reasoning mix.
+
+OFFICIAL DOMAIN BREAKDOWN:
+1. Logical Reasoning (30%): Deductive/inductive logic, truth-tellers and liars, conditional syllogisms.
+2. Identifying Flaws & Assumptions (25%): Logical fallacies, unstated premises, circular reasoning.
+3. Evaluating Evidence & Arguments (25%): Strengthening and weakening arguments, relevance.
+4. Spatial & Matrix Logic (20%): Shape transformations, Venn diagram overlaps, decision networks (render via clean SVG).
+
+FORMATTING RULES:
+• 4 options (A, B, C, D) per question.
+• Explanations must state the formal logical rule or deduction step clearly.`;
+
+export const getIcasSciencePromptTemplate = () => `You are an expert test developer for the ICAS Science Competition (UNSW Global).
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• Above-curriculum scientific reasoning, data interpretation, and experimental methodology.
+• Strict No-Maths-Sums rule: Test scientific concepts, variable control (fair testing), biological systems, chemical changes, and physical forces.
+
+DOMAIN BREAKDOWN (40 Questions / 45-60 Minutes):
+1. Biological Sciences (25%)
+2. Physical Sciences (25%)
+3. Chemical Sciences (20%)
+4. Earth and Space Sciences (15%)
+5. Scientific Inquiry & Data Analysis (15%)
+
+FORMATTING:
+• 4 options (A, B, C, D).
+• Explanations must explain the underlying scientific phenomenon.`;
+
+export const getIcasEnglishPromptTemplate = () => `You are an expert test developer for the ICAS English Competition (UNSW Global).
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• High-level reading comprehension, vocabulary in context, and literary analysis of unfamiliar passages.
+• Generate 2-3 diverse original passages (narrative, informational, persuasive, poetic).
+
+DOMAIN BREAKDOWN (40 Questions / 45-60 Minutes):
+1. Reading Comprehension & Inference (45%)
+2. Language Conventions & Syntax in Context (30%)
+3. Literary Analysis & Authorial Craft (25%)
+
+FORMATTING:
+• 4 options (A, B, C, D).
+• Explanations must cite passage evidence.`;
+
 // ─── 3. SINGLE MASTER REGISTRY MAP ───────────────────────────────────────────
 
 export const MASTER_SUBJECT_REGISTRY = {
@@ -338,6 +449,55 @@ export const MASTER_EXAM_REGISTRY = {
     country: '🇦🇺 Australia',
     category: 'National Assessment',
     getPrompt: getNaplanLanguageConventionsPromptTemplate
+  },
+  amc_math_comp: {
+    id: 'amc_math_comp',
+    name: 'Australian Mathematics Competition (AMC)',
+    country: '🇦🇺 Australia',
+    category: 'National Competition',
+    getPrompt: getAmcPromptTemplate
+  },
+  nsw_selective_reading: {
+    id: 'nsw_selective_reading',
+    name: 'NSW Selective: Reading',
+    country: '🇦🇺 Australia',
+    category: 'NSW Selective Schools',
+    getPrompt: getNswSelectiveReadingPromptTemplate
+  },
+  nsw_selective_math: {
+    id: 'nsw_selective_math',
+    name: 'NSW Selective: Mathematical Reasoning',
+    country: '🇦🇺 Australia',
+    category: 'NSW Selective Schools',
+    getPrompt: getNswSelectiveMathPromptTemplate
+  },
+  nsw_selective_thinking: {
+    id: 'nsw_selective_thinking',
+    name: 'NSW Selective: Thinking Skills',
+    country: '🇦🇺 Australia',
+    category: 'NSW Selective Schools',
+    getPrompt: getNswSelectiveThinkingPromptTemplate
+  },
+  icas_math: {
+    id: 'icas_math',
+    name: 'ICAS Mathematics',
+    country: '🇦🇺 Australia',
+    category: 'National Competition',
+    getPrompt: getNaplanNumeracyPromptTemplate
+  },
+  icas_science: {
+    id: 'icas_science',
+    name: 'ICAS Science',
+    country: '🇦🇺 Australia',
+    category: 'National Competition',
+    getPrompt: getIcasSciencePromptTemplate
+  },
+  icas_english: {
+    id: 'icas_english',
+    name: 'ICAS English',
+    country: '🇦🇺 Australia',
+    category: 'National Competition',
+    getPrompt: getIcasEnglishPromptTemplate
   }
 };
 
