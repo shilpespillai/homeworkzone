@@ -1801,7 +1801,7 @@ export const getNaplanDefaults = (presetId, grade) => {
     return { questions: 40, time: 50 };
   }
 
-  if (presetId === 'naplan_conventions') {
+  if (presetId === 'naplan_conventions' || presetId === 'naplan_language_conventions') {
     if (g <= 3) return { questions: 35, time: 45 };
     if (g <= 5) return { questions: 40, time: 45 };
     if (g <= 7) return { questions: 45, time: 45 };
