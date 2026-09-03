@@ -651,6 +651,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   // Real-time AI key resolution will be done on-the-fly during generation.
   
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isPaperRecorded, setIsPaperRecorded] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [isDiscardingDraft, setIsDiscardingDraft] = useState(false);
@@ -1801,8 +1802,9 @@ EXPECTED JSON SCHEMA:
       setGeneratedQuestions(questions);
       setGeneratedPassage(passage);
       setGeneratedModelUsed(tieredModel);
-      if (questions.length > 0 && user?.uid) {
+      if (questions.length > 0 && user?.uid && !isPaperRecorded) {
         recordPaperGeneration(db, user.uid);
+        setIsPaperRecorded(true);
       }
     } catch (err) {
       console.error("AI Gen Error:", err);
@@ -1813,7 +1815,7 @@ EXPECTED JSON SCHEMA:
   };
 
     const handlePublish = async () => {
-    if (checkLimitAndTrigger()) return;
+    if (!generatedQuestions && checkLimitAndTrigger()) return;
     if (!formData.title) {
       alert("Please enter a title for the homework! 📝");
       return;
@@ -1892,7 +1894,10 @@ EXPECTED JSON SCHEMA:
         await setDoc(doc(db, 'homeworks', initialDraft.id), payload, { merge: true });
       } else {
         await addDoc(collection(db, 'homeworks'), payload);
-        await recordPaperGeneration(db, user?.uid);
+        if (!isPaperRecorded && user?.uid) {
+          await recordPaperGeneration(db, user.uid);
+          setIsPaperRecorded(true);
+        }
       }
       alert("Homework Published Successfully! 🚀");
       
@@ -1914,6 +1919,7 @@ EXPECTED JSON SCHEMA:
       });
       setGeneratedQuestions(null);
       setIsAiAccepted(false);
+      setIsPaperRecorded(false);
       
       if (typeof onHomeworkCreated === 'function') {
         onHomeworkCreated();
@@ -1951,6 +1957,7 @@ EXPECTED JSON SCHEMA:
       });
       setGeneratedQuestions(null);
       setIsAiAccepted(false);
+      setIsPaperRecorded(false);
       
       if (typeof onHomeworkCreated === 'function') {
         onHomeworkCreated();
@@ -1963,7 +1970,7 @@ EXPECTED JSON SCHEMA:
   };
 
   const handleSaveDraft = async () => {
-    if (checkLimitAndTrigger()) return;
+    if (!generatedQuestions && checkLimitAndTrigger()) return;
     if (!formData.title) {
       alert("Please enter a title for the draft! 📝");
       return;
@@ -2037,7 +2044,10 @@ EXPECTED JSON SCHEMA:
         await setDoc(doc(db, 'homeworks', initialDraft.id), payload, { merge: true });
       } else {
         await addDoc(collection(db, 'homeworks'), payload);
-        await recordPaperGeneration(db, user?.uid);
+        if (!isPaperRecorded && user?.uid) {
+          await recordPaperGeneration(db, user.uid);
+          setIsPaperRecorded(true);
+        }
       }
       alert("Homework Saved as Draft! 📝🚀");
       
@@ -2059,6 +2069,7 @@ EXPECTED JSON SCHEMA:
       });
       setGeneratedQuestions(null);
       setIsAiAccepted(false);
+      setIsPaperRecorded(false);
       
       if (typeof onHomeworkCreated === 'function') {
         onHomeworkCreated();
@@ -2874,7 +2885,9 @@ EXPECTED JSON SCHEMA:
                         </>
                       )}
                     </button>
-                         <button onClick={() => {setGeneratedQuestions(null); setIsAiAccepted(false);}} className="text-xs text-rose-500 font-bold hover:underline px-4 py-2 bg-rose-50 rounded-lg">Clear Questions</button>
+                         <button onClick={() => {setGeneratedQuestions(null);
+      setIsAiAccepted(false);
+      setIsPaperRecorded(false);}} className="text-xs text-rose-500 font-bold hover:underline px-4 py-2 bg-rose-50 rounded-lg">Clear Questions</button>
                        </div>
                      </div>
                    )
