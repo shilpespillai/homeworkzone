@@ -30,7 +30,6 @@ export default function TestReportsDashboard({ tests = [], submissions = [], stu
       }
     };
     submissions.forEach(s => addMonth(s.submittedAt));
-    tests.forEach(t => addMonth(t.createdAt));
     
     // Sort from newest to oldest
     return ['All Time', ...Array.from(months).sort((a, b) => new Date(b) - new Date(a))];
@@ -70,16 +69,15 @@ export default function TestReportsDashboard({ tests = [], submissions = [], stu
     const cSubs = getFilteredSubs(targetMonthDate, 'current');
     const pSubs = getFilteredSubs(prevMonthDate, 'prev');
 
-    const getFilteredTests = (tDate, relevantSubs, periodLabel) => {
-      if (monthFilter === 'All Time' && periodLabel === 'current') return tests;
-      if (!tDate) return [];
+    const getFilteredTests = (tDate, relevantSubs) => {
+      // Only show tests that have at least 1 student submission in this period
       return tests.filter(test => {
         return relevantSubs.some(s => s.homeworkId === test.id);
       });
     };
 
-    const cTests = getFilteredTests(targetMonthDate, cSubs, 'current');
-    const pTests = getFilteredTests(prevMonthDate, pSubs, 'prev');
+    const cTests = getFilteredTests(targetMonthDate, cSubs);
+    const pTests = getFilteredTests(prevMonthDate, pSubs);
 
     const cAvg = calcAvg(cSubs);
     const pAvg = calcAvg(pSubs);
@@ -308,13 +306,15 @@ export default function TestReportsDashboard({ tests = [], submissions = [], stu
             );
           })}
           
-          {currentTests.length === 0 && (
-             <div className="col-span-full py-20 text-center">
-                <div className="w-20 h-20 bg-slate-100 text-slate-300 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Search className="w-10 h-10" />
+          {currentTests.filter(t => t.title?.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && (
+             <div className="col-span-full py-16 text-center bg-white rounded-3xl border border-slate-100 p-8 shadow-sm">
+                <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl">
+                  📊
                 </div>
-                <h3 className="text-xl font-bold text-slate-700">No tests found</h3>
-                <p className="text-slate-500 font-medium mt-2">Try adjusting your filters or search query.</p>
+                <h3 className="text-xl font-black text-slate-800">No Test Reports Yet</h3>
+                <p className="text-sm font-bold text-slate-400 max-w-md mx-auto mt-1">
+                  Tests will appear here once students submit their answers.
+                </p>
              </div>
           )}
         </div>
