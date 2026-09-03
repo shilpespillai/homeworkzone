@@ -59,15 +59,21 @@ export const DEFAULT_SUBJECT_PROMPTS = {
   hindi: getGenericSubjectPromptTemplate('Hindi'),
   // Standardized Exam Presets V2
   amc_math_comp: getAmcPromptTemplate(),
+  amc: getAmcPromptTemplate(),
   nsw_selective_reading: getNswSelectiveReadingPromptTemplate(),
   nsw_selective_math: getNswSelectiveMathPromptTemplate(),
   nsw_selective_thinking: getNswSelectiveThinkingPromptTemplate(),
   naplan_numeracy: getNaplanNumeracyPromptTemplate(),
   naplan_reading: getNaplanReadingPromptTemplate(),
   naplan_conventions: getNaplanLanguageConventionsPromptTemplate(),
+  naplan_language_conventions: getNaplanLanguageConventionsPromptTemplate(),
   icas_math: getNaplanNumeracyPromptTemplate(),
+  icas_mathematics: getNaplanNumeracyPromptTemplate(),
   icas_science: getIcasSciencePromptTemplate(),
-  icas_english: getIcasEnglishPromptTemplate()
+  icas_english: getIcasEnglishPromptTemplate(),
+  vic_sehs_maths_reasoning: getNswSelectiveMathPromptTemplate(),
+  vic_sehs_general_ability: getNswSelectiveThinkingPromptTemplate(),
+  wa_gate_aset: getNswSelectiveThinkingPromptTemplate()
 };
 
 /**

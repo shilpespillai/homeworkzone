@@ -450,8 +450,22 @@ export const MASTER_EXAM_REGISTRY = {
     category: 'National Assessment',
     getPrompt: getNaplanLanguageConventionsPromptTemplate
   },
+  naplan_language_conventions: {
+    id: 'naplan_language_conventions',
+    name: 'NAPLAN Language Conventions',
+    country: '🇦🇺 Australia',
+    category: 'National Assessment',
+    getPrompt: getNaplanLanguageConventionsPromptTemplate
+  },
   amc_math_comp: {
     id: 'amc_math_comp',
+    name: 'Australian Mathematics Competition (AMC)',
+    country: '🇦🇺 Australia',
+    category: 'National Competition',
+    getPrompt: getAmcPromptTemplate
+  },
+  amc: {
+    id: 'amc',
     name: 'Australian Mathematics Competition (AMC)',
     country: '🇦🇺 Australia',
     category: 'National Competition',
@@ -485,6 +499,13 @@ export const MASTER_EXAM_REGISTRY = {
     category: 'National Competition',
     getPrompt: getNaplanNumeracyPromptTemplate
   },
+  icas_mathematics: {
+    id: 'icas_mathematics',
+    name: 'ICAS Mathematics',
+    country: '🇦🇺 Australia',
+    category: 'National Competition',
+    getPrompt: getNaplanNumeracyPromptTemplate
+  },
   icas_science: {
     id: 'icas_science',
     name: 'ICAS Science',
@@ -498,6 +519,27 @@ export const MASTER_EXAM_REGISTRY = {
     country: '🇦🇺 Australia',
     category: 'National Competition',
     getPrompt: getIcasEnglishPromptTemplate
+  },
+  vic_sehs_maths_reasoning: {
+    id: 'vic_sehs_maths_reasoning',
+    name: 'VIC Selective Entry: Mathematical Reasoning',
+    country: '🇦🇺 Australia',
+    category: 'Victorian Selective Schools',
+    getPrompt: getNswSelectiveMathPromptTemplate
+  },
+  vic_sehs_general_ability: {
+    id: 'vic_sehs_general_ability',
+    name: 'VIC Selective Entry: General Ability',
+    country: '🇦🇺 Australia',
+    category: 'Victorian Selective Schools',
+    getPrompt: getNswSelectiveThinkingPromptTemplate
+  },
+  wa_gate_aset: {
+    id: 'wa_gate_aset',
+    name: 'WA GATE: Academic Selective Entrance Test (ASET)',
+    country: '🇦🇺 Australia',
+    category: 'WA Selective Schools',
+    getPrompt: getNswSelectiveThinkingPromptTemplate
   }
 };
 
