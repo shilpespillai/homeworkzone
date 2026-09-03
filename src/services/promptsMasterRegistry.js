@@ -510,6 +510,82 @@ FORMATTING RULES:
 • 4 options (A, B, C, D) for Section A heuristics + numeric entry for Section B.
 • Explanations must provide full step-by-step heuristic proofs.`;
 
+
+export const getIcasMathPromptTemplate = () => `You are a UNSW Educational Assessment Australia (EAA) ICAS Mathematics exam setter. Generate an authentic ICAS Mathematics competition paper testing deep problem-solving, mathematical creativity, and non-routine logic for Level {GRADE} students (modelled on official ICAS Mathematics papers).
+
+**Number of questions:** {QUESTION_COUNT}
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• UNSW Global Distinction / High Distinction Competition Rigor.
+• Include non-routine combinatorics, cryptarithms, Pigeonhole Principle, model method, and a dedicated Section C Olympiad challenge tier designed to differentiate top 1% students.
+• Reference authentic ICAS question styles: grid path counting, square arrangement puzzles, age algebra, clock face geometry, and folding nets.
+• VISUAL DIAGRAM MANDATE: AT LEAST 40% of questions MUST be visual diagram-based questions containing valid, high-quality inline "svgCode" (geometry figures, bar graphs, number lines, or logic tables).
+
+OFFICIAL ICAS MATHEMATICS DOMAINS:
+1. HIGH-ORDER PROBLEM SOLVING (30%): Combinatorics, path counting on grid networks, and Pigeonhole Principle.
+2. SPATIAL & GRAPHICAL VISUALIZATION (25%): Nets of 3D solids, rotational symmetry, cube stacks, and shaded region geometry.
+3. NUMBER PATTERNS & ALGEBRA (25%): Modular arithmetic cycles, cryptarithm arithmetic puzzles, balance scales.
+4. DATA & CHANCE (20%): Probability tree diagrams, 3-set Venn diagrams, and stem-and-leaf interpretation.
+
+FORMATTING RULES:
+• 4 options (A, B, C, D) per question with plausible distractor traps.
+• Explanations must detail the problem-solving strategy and elegant solution path.`;
+
+export const getVicSehsMathPromptTemplate = () => `You are an ACER (Australian Council for Educational Research) exam author creating the Victorian Selective Entry High School Exam (Melbourne High, Mac.Robertson Girls', Nossal, Suzanne Cory). Generate an authentic ACER-pattern Mathematical Reasoning examination paper for Year 9 entry.
+
+**Number of questions:** {QUESTION_COUNT}
+**Time Limit:** 30 minutes (Fast-paced: ~50 seconds per question)
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• High-Speed Mathematical Reasoning (ACER Melbourne High / MacRob Entry Standard).
+• Strictly non-calculator. Tests numerical fluency, algebraic manipulation, proportional thinking, and spatial problem-solving.
+• Non-routine heuristics: working backwards, finding invariants, systematic listing, and geometric angle theorems.
+
+OFFICIAL ACER MATHEMATICAL REASONING DOMAINS (NO CALCULATORS ALLOWED):
+1. NUMBER & ALGEBRAIC REASONING (40%): Simultaneous equations, quadratic relationships, exponent rules, ratio transfers, Gauss summation, and modular clock arithmetic.
+2. MEASUREMENT & SPATIAL REASONING (35%): Composite areas, Pythagoras in 3D solids, circle sector formulas, angle transversals across parallel lines, and surface area ratios.
+3. DATA & PROBABILITY LOGIC (25%): Multi-stage probability trees, conditional outcomes, Venn diagrams with 3 overlapping sets, and weighted average problems.
+
+FORMATTING RULES:
+• 4 options (A, B, C, D) per question with realistic mathematical distractors based on common arithmetic/algebraic errors.
+• Explanations must clearly show the concise algebraic or geometric solution pathway.`;
+
+export const getVicSehsGeneralAbilityPromptTemplate = () => `You are an ACER (Australian Council for Educational Research) exam author creating the Victorian Selective Entry High School Exam (Melbourne High, Mac.Robertson Girls', Nossal, Suzanne Cory). Generate an authentic ACER-pattern General Ability (Verbal & Quantitative Reasoning) examination paper for Year 9 entry.
+
+**Number of questions:** {QUESTION_COUNT}
+**Time Limit:** 30 minutes (High-pressure speed test: ~45 seconds per question)
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• Rapid Cognitive Aptitude Rigor (ACER Melbourne High / MacRob Standard).
+• Target high-pressure time limits with multi-variable word analogies, letter-code shift ciphers, deductive syllogisms, and number series matrices.
+
+OFFICIAL ACER GENERAL ABILITY DOMAINS:
+1. VERBAL REASONING & ANALOGIES (35%): Complex Word Analogies (A : B :: C : ?), antonyms/synonyms in context, odd-word-out categorization, and verbal classification.
+2. LOGICAL DEDUCTION & SYLLOGISMS (35%): Deductive syllogisms (All A are B, Some B are C), truth-teller/liar scenarios, statement assumptions, and letter-code substitution ciphers (e.g., +3 / -2 shift rules).
+3. NUMERICAL PATTERNS & SEQUENCES (30%): Number series with alternating operations (e.g., n^2 - 1, Fibonacci variants), 3x3 numerical grid matrices, and symbol-shape arithmetic equations.
+
+FORMATTING RULES:
+• 4 options (A, B, C, D) per question.
+• Explanations must clearly state the exact transformation rule, logical deduction step, or arithmetic sequence formula.`;
+
+export const getWaGateAsetPromptTemplate = () => `You are an official test developer for the Western Australia Gifted and Talented Secondary Selective Entrance Test (GATE ASET), administered by the WA Department of Education for entry into Perth Modern School and selective programs.
+
+**Number of questions:** {QUESTION_COUNT}
+**Target Cohort:** Top 3-5% academically gifted Year 6 students sitting for Year 7 entry.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• WA GATE ASET Aptitude Rigor across Quantitative Reasoning, Reading Comprehension, and Abstract Reasoning.
+• Strictly NON-CALCULATOR. Demands lateral thinking, spatial pattern matrix deduction, high-level vocabulary, and multi-step non-routine math.
+
+OFFICIAL WA GATE ASET DOMAINS:
+1. QUANTITATIVE REASONING (40%): Multi-step rate and ratio problems, balance scale logic, number pattern matrices, combinatorics, and geometry area heuristics.
+2. READING & HUMANITIES REASONING (35%): Short 100-250 word authentic extracts (literary fiction, science, history). Questions test deep inference, figurative language, tone, and authorial intention.
+3. ABSTRACT & SPATIAL REASONING (25%): 3x3 geometric matrix patterns, folding 3D cubes from 2D nets, reflection/rotation transformation sequences, and set classification.
+
+FORMATTING RULES:
+• 4 options (A, B, C, D) per question.
+• Explanations must explain the underlying quantitative shortcut, reading evidence, or spatial transformation rule.`;
+
 export const MASTER_EXAM_REGISTRY = {
   // NAPLAN Suite
   naplan_numeracy: {
@@ -593,28 +669,28 @@ export const MASTER_EXAM_REGISTRY = {
     name: 'ICAS Mathematics',
     country: '🇦🇺 Australia',
     category: 'National Competition',
-    getPrompt: getNaplanNumeracyPromptTemplate
+    getPrompt: getIcasMathPromptTemplate
   },
   icas_mathematics: {
     id: 'icas_mathematics',
     name: 'ICAS Mathematics',
     country: '🇦🇺 Australia',
     category: 'National Competition',
-    getPrompt: getNaplanNumeracyPromptTemplate
+    getPrompt: getIcasMathPromptTemplate
   },
   au_icas_maths: {
     id: 'au_icas_maths',
     name: 'ICAS Mathematics (Australia)',
     country: '🇦🇺 Australia',
     category: 'National Competition',
-    getPrompt: getNaplanNumeracyPromptTemplate
+    getPrompt: getIcasMathPromptTemplate
   },
   nz_icas_maths: {
     id: 'nz_icas_maths',
     name: 'ICAS Mathematics (New Zealand)',
     country: '🇳🇿 New Zealand',
     category: 'National Competition',
-    getPrompt: getNaplanNumeracyPromptTemplate
+    getPrompt: getIcasMathPromptTemplate
   },
   icas_science: {
     id: 'icas_science',
@@ -637,35 +713,35 @@ export const MASTER_EXAM_REGISTRY = {
     name: 'Victorian Selective Entry (ACER Pattern)',
     country: '🇦🇺 Australia',
     category: 'Victorian Selective Schools',
-    getPrompt: getNswSelectiveMathPromptTemplate
+    getPrompt: getVicSehsGeneralAbilityPromptTemplate
   },
   vic_sehs_maths_reasoning: {
     id: 'vic_sehs_maths_reasoning',
     name: 'VIC Selective Entry: Mathematical Reasoning',
     country: '🇦🇺 Australia',
     category: 'Victorian Selective Schools',
-    getPrompt: getNswSelectiveMathPromptTemplate
+    getPrompt: getVicSehsMathPromptTemplate
   },
   vic_sehs_general_ability: {
     id: 'vic_sehs_general_ability',
     name: 'VIC Selective Entry: General Ability',
     country: '🇦🇺 Australia',
     category: 'Victorian Selective Schools',
-    getPrompt: getNswSelectiveThinkingPromptTemplate
+    getPrompt: getVicSehsGeneralAbilityPromptTemplate
   },
   wa_gate_aset: {
     id: 'wa_gate_aset',
     name: 'WA GATE: Academic Selective Entrance Test (ASET)',
     country: '🇦🇺 Australia',
     category: 'WA Selective Schools',
-    getPrompt: getNswSelectiveThinkingPromptTemplate
+    getPrompt: getWaGateAsetPromptTemplate
   },
   wa_gate_aasta: {
     id: 'wa_gate_aasta',
     name: 'WA GATE: Academic Selective Entrance Test (ASET)',
     country: '🇦🇺 Australia',
     category: 'WA Selective Schools',
-    getPrompt: getNswSelectiveThinkingPromptTemplate
+    getPrompt: getWaGateAsetPromptTemplate
   },
 
   // US College Board & ACT Suite
