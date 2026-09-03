@@ -1817,15 +1817,30 @@ const TeacherDashboard = ({ user, onLogout }) => {
     };
   };
 
+  const handleClosePromptModal = () => {
+    setActivePromptModalSubject(null);
+    setEditingPromptContent('');
+    setEditingProfileContent('');
+  };
+
   const handleOpenPromptModal = (subKey) => {
-    setActivePromptModalSubject(subKey);
+    if (!subKey) return;
+    setExamModalTab('prompt');
+    const isExam = !!(examProfilesMap[subKey] || EXAM_PROFILES[subKey]);
     const currentMap = (isPromptAdmin && promptViewMode === 'global') ? masterPromptsMap : subjectPrompts;
-    const existing = currentMap[subKey];
-    if (existing && !existing.startsWith("Generating")) {
-      setEditingPromptContent(existing);
+    const promptText = (currentMap && currentMap[subKey] && !currentMap[subKey].startsWith("Generating")) 
+      ? currentMap[subKey] 
+      : (getMasterPrompt(subKey) || getPremiumPromptTemplate(subKey) || '');
+    
+    setEditingPromptContent(promptText);
+
+    if (isExam) {
+      const activeProf = (examProfilesMap && examProfilesMap[subKey]) || EXAM_PROFILES[subKey];
+      setEditingProfileContent(JSON.stringify(activeProf, null, 2));
     } else {
-      setEditingPromptContent(getPremiumPromptTemplate(subKey));
+      setEditingProfileContent('');
     }
+    setActivePromptModalSubject(subKey);
   };
 
   
@@ -1888,7 +1903,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
       }
     }
     setIsSavingPrompts(false);
-    setActivePromptModalSubject(null);
+    handleClosePromptModal();
   };
   const getStudentAvatar = (name) => {
      const cleanName = name?.trim().toLowerCase();
@@ -9080,16 +9095,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                               {Object.values(examProfilesMap || EXAM_PROFILES || {}).map((profile) => (
                                  <div
                                     key={profile.exam_id}
-                                    onClick={() => {
-                                       const examId = profile.exam_id;
-                                       setActivePromptModalSubject(examId);
-                                       setExamModalTab('prompt');
-                                       const currentMap = (isPromptAdmin && promptViewMode === 'global') ? masterPromptsMap : subjectPrompts;
-                                       const promptText = currentMap[examId] || getMasterPrompt(examId);
-                                       setEditingPromptContent(promptText);
-                                       const activeProf = (examProfilesMap && examProfilesMap[examId]) || profile;
-                                       setEditingProfileContent(JSON.stringify(activeProf, null, 2));
-                                    }}
+                                    onClick={() => handleOpenPromptModal(profile.exam_id)}
                                     className="p-5 rounded-3xl border-2 border-amber-200/70 bg-gradient-to-br from-amber-50/40 via-white to-orange-50/20 hover:border-amber-400 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between"
                                  >
                                     <div className="space-y-2">
@@ -9153,7 +9159,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                                                </div>
                                             </div>
                                             <button
-                                               onClick={() => setActivePromptModalSubject(null)}
+                                               onClick={handleClosePromptModal}
                                                className="p-2 text-slate-400 hover:text-slate-700 hover:bg-white/80 rounded-full transition-colors"
                                             >
                                                <X className="w-5 h-5" />
@@ -9292,7 +9298,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                                          type="button"
                                          onClick={() => {
                                             handleDeleteSubject(activePromptModalSubject);
-                                            setActivePromptModalSubject(null);
+handleClosePromptModal();
                                          }}
                                          className="text-red-500 hover:text-red-700 font-bold text-xs px-3 py-2 rounded-xl hover:bg-red-50 transition-colors flex items-center gap-1.5 cursor-pointer"
                                       >
@@ -9304,7 +9310,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                                    <div className="flex items-center gap-3">
                                       <button
                                          type="button"
-                                         onClick={() => setActivePromptModalSubject(null)}
+                                         onClick={handleClosePromptModal}
                                          className="px-5 py-2.5 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold text-xs rounded-2xl transition-colors cursor-pointer"
                                       >
                                          Cancel
