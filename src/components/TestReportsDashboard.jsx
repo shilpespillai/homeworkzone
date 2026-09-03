@@ -323,18 +323,34 @@ export default function TestReportsDashboard({ tests = [], submissions = [], stu
   }
 
   const testSubmissions = submissions.filter(s => s.homeworkId === selectedTest.id);
-  const leaderboard = testSubmissions.map(sub => {
+  const marksPerQ = selectedTest.marksPerQuestion || 1;
+
+  const sortedSubmissions = [...testSubmissions].sort((a, b) => {
+    const scoreA = a.totalMarksScored !== undefined ? Number(a.totalMarksScored) : (Number(a.correctCount || 0) * marksPerQ);
+    const scoreB = b.totalMarksScored !== undefined ? Number(b.totalMarksScored) : (Number(b.correctCount || 0) * marksPerQ);
+    if (scoreB !== scoreA) {
+      return scoreB - scoreA;
+    }
+    return (Number(b.correctCount) || 0) - (Number(a.correctCount) || 0);
+  });
+
+  let currentRank = 1;
+  const leaderboard = sortedSubmissions.map((sub, idx, arr) => {
+    const scoreA = sub.totalMarksScored !== undefined ? Number(sub.totalMarksScored) : (Number(sub.correctCount || 0) * marksPerQ);
+    if (idx > 0) {
+      const prevSub = arr[idx - 1];
+      const scorePrev = prevSub.totalMarksScored !== undefined ? Number(prevSub.totalMarksScored) : (Number(prevSub.correctCount || 0) * marksPerQ);
+      if (scoreA < scorePrev) {
+        currentRank = idx + 1;
+      }
+    }
+
     const student = students.find(st => st.id === sub.studentId || st.name === sub.studentName);
     return {
       ...sub,
+      rank: currentRank,
       studentData: student || { name: sub.studentName }
     };
-  }).sort((a, b) => {
-    // Sort by marks first, then by completion time (if available, else correctCount)
-    if (b.totalMarksScored !== a.totalMarksScored) {
-      return (b.totalMarksScored || 0) - (a.totalMarksScored || 0);
-    }
-    return (b.correctCount || 0) - (a.correctCount || 0);
   });
 
   const filteredLeaderboard = leaderboard.filter(sub => sub.studentName?.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -401,8 +417,8 @@ export default function TestReportsDashboard({ tests = [], submissions = [], stu
           <AnimatePresence>
             {filteredLeaderboard.map((sub, idx) => {
               // Row Styling variations based on rank
-              const isFirst = idx === 0;
-              const isTop3 = idx < 3;
+              const isFirst = sub.rank === 1;
+              const isTop3 = sub.rank <= 3;
               
               const rowBg = isFirst 
                 ? 'bg-gradient-to-r from-orange-50 to-white' 
@@ -435,7 +451,7 @@ export default function TestReportsDashboard({ tests = [], submissions = [], stu
                     {/* Rank Number Block */}
                     <div className={`w-16 md:w-20 shrink-0 ${rankBg} flex items-center justify-center border-r ${rankBorder} shadow-sm z-10`}>
                       <span className={`skew-x-[12deg] text-3xl md:text-4xl font-extrabold ${rankText} tracking-tighter`}>
-                        {idx + 1}
+                        {sub.rank}
                       </span>
                     </div>
 
