@@ -1706,6 +1706,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [isSavingPrompts, setIsSavingPrompts] = useState(false);
   const [activePromptModalSubject, setActivePromptModalSubject] = useState(null);
   const [editingPromptContent, setEditingPromptContent] = useState('');
+  const [examModalTab, setExamModalTab] = useState('prompt'); // 'prompt' | 'profile'
 
   const resolveSubjectStyle = (name) => {
     const s = (name || '').toLowerCase();
@@ -9043,13 +9044,12 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                                  <div
                                     key={profile.exam_id}
                                     onClick={() => {
-                                       setActivePromptModalSubject(profile.exam_id);
-                                       if (!subjectPrompts[profile.exam_id]) {
-                                          setEditingPromptContent(
-                                             `// 📜 ${profile.display_name} — Profile Schema & Instructions\n` +
-                                             JSON.stringify(profile, null, 2)
-                                          );
-                                       }
+                                       const examId = profile.exam_id;
+                                       setActivePromptModalSubject(examId);
+                                       setExamModalTab('prompt');
+                                       const currentMap = (isPromptAdmin && promptViewMode === 'global') ? masterPromptsMap : subjectPrompts;
+                                       const promptText = currentMap[examId] || getMasterPrompt(examId);
+                                       setEditingPromptContent(promptText);
                                     }}
                                     className="p-5 rounded-3xl border-2 border-amber-200/70 bg-gradient-to-br from-amber-50/40 via-white to-orange-50/20 hover:border-amber-400 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between"
                                  >
@@ -9072,7 +9072,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                                        </div>
                                     </div>
                                     <div className="mt-4 pt-3 border-t border-amber-100 flex items-center justify-between text-[11px] font-bold text-amber-700">
-                                       <span>Inspect Profile Schema</span>
+                                       <span>Edit AI Prompt & Specs</span>
                                        <span>→</span>
                                     </div>
                                  </div>
@@ -9089,123 +9089,180 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                                 initial={{ opacity: 0, scale: 0.95, y: 10 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                                className="bg-white rounded-3xl max-w-2xl w-full border-2 border-slate-200 shadow-2xl overflow-hidden font-sans flex flex-col max-h-[90vh]"
+                                className="bg-white rounded-3xl max-w-3xl w-full border-2 border-slate-200 shadow-2xl overflow-hidden font-sans flex flex-col max-h-[90vh]"
                              >
                                 {/* Modal Header */}
                                 {(() => {
+                                   const isExam = !!EXAM_PROFILES[activePromptModalSubject];
+                                   const profile = EXAM_PROFILES[activePromptModalSubject];
                                    const style = resolveSubjectStyle(activePromptModalSubject);
-                                   const displayName = activePromptModalSubject.charAt(0).toUpperCase() + activePromptModalSubject.slice(1);
+                                   const displayName = profile?.display_name || (activePromptModalSubject.charAt(0).toUpperCase() + activePromptModalSubject.slice(1));
                                    return (
-                                      <div className={`p-6 ${style.bgColor} border-b ${style.borderColor} flex items-center justify-between shrink-0`}>
-                                         <div className="flex items-center gap-3">
-                                            <div className="scale-75 origin-left">
-                                               {style.renderIcon()}
+                                      <div className={`p-5 ${style.bgColor} border-b ${style.borderColor} flex flex-col gap-3 shrink-0`}>
+                                         <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-3">
+                                               <div className="scale-75 origin-left">
+                                                  {style.renderIcon()}
+                                               </div>
+                                               <div>
+                                                  <h3 className={`text-xl font-black capitalize ${style.titleColor}`}>
+                                                     {displayName}
+                                                  </h3>
+                                                  <p className="text-xs font-semibold text-slate-600">
+                                                     {isExam ? 'Admin Master Exam Blueprint & AI Prompt (v2)' : `Edit default prompt template for ${displayName}`}
+                                                  </p>
+                                               </div>
                                             </div>
-                                            <div>
-                                               <h3 className={`text-xl font-black capitalize ${style.titleColor}`}>
-                                                  {displayName} Master Prompt
-                                               </h3>
-                                               <p className="text-xs font-semibold text-slate-600">
-                                                  Edit default prompt template for {displayName}
-                                               </p>
-                                            </div>
+                                            <button
+                                               onClick={() => setActivePromptModalSubject(null)}
+                                               className="p-2 text-slate-400 hover:text-slate-700 hover:bg-white/80 rounded-full transition-colors"
+                                            >
+                                               <X className="w-5 h-5" />
+                                            </button>
                                          </div>
-                                         <button
-                                            onClick={() => setActivePromptModalSubject(null)}
-                                            className="p-2 text-slate-400 hover:text-slate-700 hover:bg-white/80 rounded-full transition-colors"
-                                         >
-                                            <X className="w-5 h-5" />
-                                         </button>
+
+                                         {/* Dual Tab Switcher for Standardized Exams */}
+                                         {isExam && (
+                                            <div className="flex items-center gap-2 bg-white/70 backdrop-blur-sm p-1 rounded-2xl border border-slate-200/80 w-fit self-start">
+                                               <button
+                                                  type="button"
+                                                  onClick={() => setExamModalTab('prompt')}
+                                                  className={`px-4 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                                                     examModalTab === 'prompt'
+                                                        ? 'bg-orange-600 text-white shadow-sm'
+                                                        : 'text-slate-600 hover:text-slate-900 hover:bg-white'
+                                                  }`}
+                                               >
+                                                  <span>📝</span>
+                                                  <span>AI Prompt Template (V2)</span>
+                                               </button>
+                                               <button
+                                                  type="button"
+                                                  onClick={() => setExamModalTab('profile')}
+                                                  className={`px-4 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                                                     examModalTab === 'profile'
+                                                        ? 'bg-orange-600 text-white shadow-sm'
+                                                        : 'text-slate-600 hover:text-slate-900 hover:bg-white'
+                                                  }`}
+                                               >
+                                                  <span>⚙️</span>
+                                                  <span>Exam Blueprint & Specs</span>
+                                               </button>
+                                            </div>
+                                         )}
                                       </div>
                                    );
                                 })()}
 
-                                  {/* Modal Content */}
-                                  <div className="p-6 space-y-4 overflow-y-auto flex-1">
-                                     {(() => {
-                                        const isMasterSubject = (() => {
-                                           if (!activePromptModalSubject) return false;
-                                           const sub = activePromptModalSubject.toLowerCase().trim();
-                                           const masterKeys = Object.keys(masterPromptsMap || {}).map(k => k.toLowerCase().trim());
-                                           const defaultKeys = Object.keys(DEFAULT_SUBJECT_PROMPTS || {}).map(k => k.toLowerCase().trim());
-                                           return masterKeys.includes(sub) || defaultKeys.includes(sub) || sub === "vocabulary";
-                                        })();
+                                {/* Modal Content */}
+                                <div className="p-6 space-y-4 overflow-y-auto flex-1">
+                                   {(() => {
+                                      const isExam = !!EXAM_PROFILES[activePromptModalSubject];
+                                      const profile = EXAM_PROFILES[activePromptModalSubject];
 
-                                        return (
-                                           <div className="flex items-center justify-between gap-2 flex-wrap">
-                                              <label className="text-xs font-black text-slate-700 uppercase tracking-wider">
-                                                 AI Prompt Template
-                                              </label>
-                                              <div className="flex items-center gap-2">
-                                                 {isMasterSubject ? (
-                                                    <button
-                                                       type="button"
-                                                       onClick={async () => {
-                                                          if (window.confirm(`Reset "${activePromptModalSubject}" prompt back to your original default template?`)) {
-                                                             const masterPrompts = await getMasterDefaultPrompts(db);
-                                                             const defaultText = masterPrompts[activePromptModalSubject] || masterPrompts[activePromptModalSubject.toLowerCase()] || getPremiumPromptTemplate(activePromptModalSubject);
-                                                             setEditingPromptContent(defaultText);
-                                                          }
-                                                       }}
-                                                       className="bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-bold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer"
-                                                       title="Reload the original master template prompt generated by admin"
-                                                    >
-                                                       <RotateCcw className="w-3.5 h-3.5 text-slate-600" />
-                                                       <span>Reload Master Template</span>
-                                                    </button>
-                                                 ) : (
-                                                    <button
-                                                       type="button"
-                                                       disabled={editingPromptContent.startsWith("Generating")}
-                                                       onClick={async () => {
-                                                          setEditingPromptContent("Generating premium prompt using AI... Please wait a moment.");
-                                                          try {
-                                                             const generatedText = await generateContent({
-                                                                prompt: `Write a highly detailed, customized, and structured instruction prompt template for another AI to generate high-quality worksheets and questions specifically for the subject: "${activePromptModalSubject}". The generated prompt must contain subject-specific details (key concepts, terminology, question structures, and topics unique to "${activePromptModalSubject}"). It should dynamically cater to the grade and difficulty level selected. Do not write a generic template containing '{SUBJECT}'. Write a concrete prompt tailored specifically to "${activePromptModalSubject}". Output only the prompt text itself, with no explanations or markdown quotes.`,
-                                                                systemInstruction: "You are an expert AI prompt engineer. Write a highly detailed, professional, structured instruction prompt for another AI to generate high-quality worksheets and questions. Output ONLY the resulting prompt.",
-                                                                provider: "claude-sonnet"
-                                                             });
-                                                             if (generatedText) {
-                                                                setEditingPromptContent(generatedText.trim());
-                                                             }
-                                                          } catch (err) {
-                                                             console.error("AI prompt generation error:", err);
-                                                             setEditingPromptContent(getPremiumPromptTemplate(activePromptModalSubject));
-                                                          }
-                                                       }}
-                                                       className="bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 font-bold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer disabled:opacity-50"
-                                                    >
-                                                       <Wand2 className="w-3.5 h-3.5 text-amber-600" />
-                                                       <span>{editingPromptContent.startsWith("Generating") ? "Generating..." : "Auto-Structure Template"}</span>
-                                                    </button>
-                                                 )}
-                                              </div>
-                                           </div>
-                                        );
-                                     })()}
+                                      // 1. If Exam Blueprint Specs Tab is selected
+                                      if (isExam && examModalTab === 'profile') {
+                                         return (
+                                            <div className="space-y-4 text-slate-700">
+                                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1">
+                                                     <p className="text-[10px] font-black uppercase text-slate-400">Governing Body</p>
+                                                     <p className="text-sm font-bold text-slate-800">{profile.governing_body || 'N/A'}</p>
+                                                  </div>
+                                                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1">
+                                                     <p className="text-[10px] font-black uppercase text-slate-400">Target Cohort</p>
+                                                     <p className="text-sm font-bold text-slate-800">{profile.year_levels || 'N/A'}</p>
+                                                  </div>
+                                                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1">
+                                                     <p className="text-[10px] font-black uppercase text-slate-400">⏱️ Time Limit</p>
+                                                     <p className="text-sm font-bold text-slate-800">{typeof profile.time_limit_per_section === 'object' ? JSON.stringify(profile.time_limit_per_section) : (profile.time_limit_per_section || 'N/A')}</p>
+                                                  </div>
+                                                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1">
+                                                     <p className="text-[10px] font-black uppercase text-slate-400">🧮 Calculator Policy</p>
+                                                     <p className="text-sm font-bold text-slate-800">{profile.calculator_policy || 'N/A'}</p>
+                                                  </div>
+                                               </div>
 
-                                   <textarea
-                                      rows={10}
-                                      value={editingPromptContent}
-                                      onChange={(e) => setEditingPromptContent(e.target.value)}
-                                      className="w-full bg-slate-50 border-2 border-slate-200 focus:border-emerald-500 rounded-2xl p-4 text-xs font-mono font-medium text-slate-800 outline-none transition-colors leading-relaxed resize-none shadow-inner"
-                                      placeholder={`Enter custom AI prompt template for ${activePromptModalSubject}...`}
-                                   />
+                                               <div className="p-4 rounded-2xl bg-amber-50/50 border border-amber-200/80 space-y-2">
+                                                  <p className="text-xs font-black uppercase text-amber-900">📊 Content Domains & Weightings</p>
+                                                  <div className="flex flex-wrap gap-2">
+                                                     {(profile.content_domains || []).map((d, i) => (
+                                                        <span key={i} className="px-3 py-1 bg-white border border-amber-200 text-amber-900 font-bold text-xs rounded-xl shadow-xs">
+                                                           {d.name} {d.weight_pct ? `(${d.weight_pct}%)` : ''}
+                                                        </span>
+                                                     ))}
+                                                  </div>
+                                               </div>
+
+                                               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+                                                  <p className="text-xs font-black uppercase text-slate-500">📜 Trademark & Attribution</p>
+                                                  <p className="text-xs text-slate-600 font-medium leading-relaxed">{profile.trademark_note || 'Unofficial practice examination.'}</p>
+                                                  <p className="text-[11px] text-slate-400 font-medium">Last Verified: {profile.last_verified || 'Recent'}</p>
+                                               </div>
+                                            </div>
+                                         );
+                                      }
+
+                                      // 2. Default: AI Prompt Template Tab
+                                      const isMasterSubject = isExam || (() => {
+                                         if (!activePromptModalSubject) return false;
+                                         const sub = activePromptModalSubject.toLowerCase().trim();
+                                         const masterKeys = Object.keys(masterPromptsMap || {}).map(k => k.toLowerCase().trim());
+                                         const defaultKeys = Object.keys(DEFAULT_SUBJECT_PROMPTS || {}).map(k => k.toLowerCase().trim());
+                                         return masterKeys.includes(sub) || defaultKeys.includes(sub) || sub === "vocabulary";
+                                      })();
+
+                                      return (
+                                         <div className="space-y-3">
+                                            <div className="flex items-center justify-between gap-2 flex-wrap">
+                                               <label className="text-xs font-black text-slate-700 uppercase tracking-wider">
+                                                  AI Prompt Template ({isExam ? 'Standardized Exam V2' : 'Classroom Subject'})
+                                               </label>
+                                               <div className="flex items-center gap-2">
+                                                  <button
+                                                     type="button"
+                                                     onClick={async () => {
+                                                        if (window.confirm(`Reset "${activePromptModalSubject}" prompt back to original default master template?`)) {
+                                                           const defaultText = getMasterPrompt(activePromptModalSubject) || getPremiumPromptTemplate(activePromptModalSubject);
+                                                           setEditingPromptContent(defaultText);
+                                                        }
+                                                     }}
+                                                     className="bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-bold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer"
+                                                     title="Reload the original master template prompt"
+                                                  >
+                                                     <RotateCcw className="w-3.5 h-3.5 text-slate-600" />
+                                                     <span>Reload Master Template</span>
+                                                  </button>
+                                               </div>
+                                            </div>
+
+                                            <textarea
+                                               rows={12}
+                                               value={editingPromptContent}
+                                               onChange={(e) => setEditingPromptContent(e.target.value)}
+                                               className="w-full bg-slate-50 border-2 border-slate-200 focus:border-emerald-500 rounded-2xl p-4 text-xs font-mono font-medium text-slate-800 outline-none transition-colors leading-relaxed resize-none shadow-inner"
+                                               placeholder={`Enter custom AI prompt template for ${activePromptModalSubject}...`}
+                                            />
+                                         </div>
+                                      );
+                                   })()}
                                 </div>
 
                                 {/* Modal Footer */}
                                 <div className="p-5 bg-slate-50 border-t border-slate-200 flex items-center justify-between shrink-0">
-                                   <button
-                                      type="button"
-                                      onClick={() => {
-                                         handleDeleteSubject(activePromptModalSubject);
-                                         setActivePromptModalSubject(null);
-                                      }}
-                                      className="text-red-500 hover:text-red-700 font-bold text-xs px-3 py-2 rounded-xl hover:bg-red-50 transition-colors flex items-center gap-1.5 cursor-pointer"
-                                   >
-                                      <Trash2 className="w-4 h-4" />
-                                      <span>Delete Subject</span>
-                                   </button>
+                                   {!EXAM_PROFILES[activePromptModalSubject] ? (
+                                      <button
+                                         type="button"
+                                         onClick={() => {
+                                            handleDeleteSubject(activePromptModalSubject);
+                                            setActivePromptModalSubject(null);
+                                         }}
+                                         className="text-red-500 hover:text-red-700 font-bold text-xs px-3 py-2 rounded-xl hover:bg-red-50 transition-colors flex items-center gap-1.5 cursor-pointer"
+                                      >
+                                         <Trash2 className="w-4 h-4" />
+                                         <span>Delete Subject</span>
+                                      </button>
+                                   ) : <div />}
 
                                    <div className="flex items-center gap-3">
                                       <button
@@ -9215,15 +9272,17 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                                       >
                                          Cancel
                                       </button>
-                                      <button
-                                         type="button"
-                                         disabled={isSavingPrompts}
-                                         onClick={handleSaveModalPrompt}
-                                         className="px-6 py-2.5 bg-orange-600 hover:bg-orange-500 text-white font-black text-xs rounded-2xl shadow-md transition-all active:scale-95 flex items-center gap-2 cursor-pointer disabled:opacity-50"
-                                      >
-                                         <Save className="w-4 h-4" />
-                                         <span>{isSavingPrompts ? 'Saving...' : 'Save Prompt 💾'}</span>
-                                      </button>
+                                      {(!EXAM_PROFILES[activePromptModalSubject] || examModalTab === 'prompt') && (
+                                         <button
+                                            type="button"
+                                            disabled={isSavingPrompts}
+                                            onClick={handleSaveModalPrompt}
+                                            className="px-6 py-2.5 bg-orange-600 hover:bg-orange-500 text-white font-black text-xs rounded-2xl shadow-md transition-all active:scale-95 flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                                         >
+                                            <Save className="w-4 h-4" />
+                                            <span>{isSavingPrompts ? 'Saving...' : 'Save Prompt 💾'}</span>
+                                         </button>
+                                      )}
                                    </div>
                                 </div>
                              </motion.div>

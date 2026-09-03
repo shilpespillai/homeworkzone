@@ -11,6 +11,12 @@ export {
   getNaplanNumeracyPromptTemplate,
   getNaplanReadingPromptTemplate,
   getNaplanLanguageConventionsPromptTemplate,
+  getAmcPromptTemplate,
+  getNswSelectiveReadingPromptTemplate,
+  getNswSelectiveMathPromptTemplate,
+  getNswSelectiveThinkingPromptTemplate,
+  getIcasSciencePromptTemplate,
+  getIcasEnglishPromptTemplate,
   MASTER_SUBJECT_REGISTRY,
   MASTER_EXAM_REGISTRY,
   getMasterPrompt,
@@ -27,8 +33,16 @@ import {
   getVocabularyPromptTemplate,
   getLogicalReasoningPromptTemplate,
   getGenericSubjectPromptTemplate,
+  getNaplanNumeracyPromptTemplate,
   getNaplanReadingPromptTemplate,
-  getNaplanLanguageConventionsPromptTemplate
+  getNaplanLanguageConventionsPromptTemplate,
+  getAmcPromptTemplate,
+  getNswSelectiveReadingPromptTemplate,
+  getNswSelectiveMathPromptTemplate,
+  getNswSelectiveThinkingPromptTemplate,
+  getIcasSciencePromptTemplate,
+  getIcasEnglishPromptTemplate,
+  getMasterPrompt
 } from '../services/promptsMasterRegistry';
 
 export const SUPER_USER_EMAILS = [
@@ -42,7 +56,18 @@ export const DEFAULT_SUBJECT_PROMPTS = {
   vocabulary: getVocabularyPromptTemplate(),
   logical_reasoning: getLogicalReasoningPromptTemplate(),
   olympiad: getGenericSubjectPromptTemplate('Olympiad Maths'),
-  hindi: getGenericSubjectPromptTemplate('Hindi')
+  hindi: getGenericSubjectPromptTemplate('Hindi'),
+  // Standardized Exam Presets V2
+  amc_math_comp: getAmcPromptTemplate(),
+  nsw_selective_reading: getNswSelectiveReadingPromptTemplate(),
+  nsw_selective_math: getNswSelectiveMathPromptTemplate(),
+  nsw_selective_thinking: getNswSelectiveThinkingPromptTemplate(),
+  naplan_numeracy: getNaplanNumeracyPromptTemplate(),
+  naplan_reading: getNaplanReadingPromptTemplate(),
+  naplan_conventions: getNaplanLanguageConventionsPromptTemplate(),
+  icas_math: getNaplanNumeracyPromptTemplate(),
+  icas_science: getIcasSciencePromptTemplate(),
+  icas_english: getIcasEnglishPromptTemplate()
 };
 
 /**
