@@ -428,7 +428,90 @@ export const MASTER_SUBJECT_REGISTRY = {
   }
 };
 
+
+export const getDigitalSatMathPromptTemplate = () => `You are an official US College Board Digital SAT Math test author. Generate an authentic Digital SAT Math section practice paper (Multistage Adaptive Testing format), modelled on College Board Digital SAT Math practice tests (Practice Tests 1–6).
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• US College Board Official Digital SAT Rigor (Adaptive Hard-Module Level Challenge Questions).
+• Feature multi-step quadratics, exponential modeling, circle equations (x-h)^2 + (y-k)^2 = r^2, right-triangle trig, and Student-Produced Response (Grid-In) numerical entry.
+• VISUAL DIAGRAM MANDATE: AT LEAST 30% to 40% of questions must contain valid, high-quality inline "svgCode" (coordinate plane parabolas, circle graphs, right triangles, scatter plots, or data tables).
+• Desmos Graphing Calculator Allowed for All Questions.
+
+OFFICIAL DIGITAL SAT MATH DOMAINS:
+1. ALGEBRA (35%): Linear equations in 1 & 2 variables, systems of linear equations, linear inequalities, and linear models (y = mx + b).
+2. ADVANCED MATH (35%): Quadratic equations, vertex form, discriminant, factoring, exponential functions (y = a*b^x), polynomials, and radicals.
+3. PROBLEM-SOLVING & DATA ANALYSIS (15%): Percentages, ratios, rates, scatter plots, line of best fit, mean/median, standard deviation, and margin of error.
+4. GEOMETRY & TRIGONOMETRY (15%): Right triangle trigonometry (sin, cos, tan), Pythagorean theorem, circle equations, arc length, and sector area.
+
+FORMATTING RULES:
+• ~75% 4-option multiple choice (A, B, C, D) + ~25% Student-Produced Response numeric entry.
+• Explanations must show both algebraic solution steps and Desmos calculator techniques.`;
+
+export const getDigitalSatRwPromptTemplate = () => `You are an official US College Board Digital SAT Reading & Writing test developer. Generate an authentic Digital SAT Reading & Writing module paper, modelled on College Board Digital SAT R&W practice tests.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• US College Board Official Reading & Writing Benchmark Rigor.
+• Feature 25–150 word scholarly/scientific passages with advanced academic vocabulary in context, punctuation boundary rules, and rhetorical synthesis.
+• Exactly 1 question per short passage snippet.
+
+OFFICIAL DIGITAL SAT R&W DOMAINS:
+1. CRAFT & STRUCTURE (28%): Words in Context (tier-2/tier-3 academic vocabulary). Text Structure & Purpose. Cross-Text Connections (paired short extracts).
+2. INFORMATION & IDEAS (26%): Central Ideas & Details, Command of Evidence (Textual & Quantitative charts), Inferences.
+3. STANDARD ENGLISH CONVENTIONS (26%): Boundaries (semicolons, colons, dashes), Subject-Verb agreement, modifier placement.
+4. EXPRESSION OF IDEAS (20%): Rhetorical Synthesis from bullet-point notes and transition words (however, furthermore, consequently).
+
+FORMATTING RULES:
+• Every question MUST feature a short 25–150 word self-contained passage or data table.
+• 4 options (A, B, C, D) per question.
+• Explanations must cite specific textual evidence or grammatical rules.`;
+
+export const getActMathPromptTemplate = () => `You are an official ACT Math test author. Generate an authentic ACT Math practice section for Grade 11-12 students (Enhanced ACT Format).
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• High-speed problem solving (45 Questions / 50 Minutes).
+• 100% Multiple Choice (4 options A, B, C, D under Enhanced ACT format).
+• Calculator Allowed throughout.
+
+OFFICIAL ACT MATH DOMAINS:
+1. PREPARING FOR HIGHER MATH (60%): Number & Quantity, Algebra (quadratics, systems), Functions, Geometry (coordinate, circles, 3D), Statistics & Probability.
+2. INTEGRATING ESSENTIAL SKILLS (40%): Multi-step word problems involving rates, percentages, proportional relationships, and area/perimeter.
+
+FORMATTING RULES:
+• 4 options (A, B, C, D) arranged easiest to hardest.
+• Explanations must show step-by-step mathematical reasoning.`;
+
+export const getActSciencePromptTemplate = () => `You are an official ACT Science test developer. Generate an authentic ACT Science practice section.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• Scientific reasoning, data interpretation, and experimental methodology (NO arithmetic counting math).
+• Based on scientific research summaries, data representations, and conflicting viewpoints.
+
+OFFICIAL ACT SCIENCE DOMAINS:
+1. DATA REPRESENTATION (35%): Interpreting graphs, scatter plots, trend extrapolation, and tables.
+2. RESEARCH SUMMARIES (45%): Understanding experimental design, control variables, and hypotheses.
+3. CONFLICTING VIEWPOINTS (20%): Comparing two differing scientific perspectives or hypotheses.
+
+FORMATTING RULES:
+• 4 options (A, B, C, D).
+• Explanations must explain data trends and scientific experimental logic.`;
+
+export const getSeamoPromptTemplate = () => `You are a Senior Mathematical Olympiad examiner for SEAMO (Southeast Asian Mathematical Olympiad) and Terry Chew Academy.
+
+COMPLEXITY & COGNITIVE RIGOR MANDATE:
+• Non-routine mathematical heuristics, combinatorics, number theory, and model method.
+• Strictly non-calculator Olympiad standard.
+
+OFFICIAL OLYMPIAD STRANDS:
+1. Number Theory & Combinatorics (40%): Pigeonhole principle, modular arithmetic, divisibility rules, permutations.
+2. Geometry & Spatial Heuristics (30%): Model method, area transformation, geometric dissection.
+3. Logic & Non-Routine Heuristics (30%): Working backwards, pattern induction, invariant properties.
+
+FORMATTING RULES:
+• 4 options (A, B, C, D) for Section A heuristics + numeric entry for Section B.
+• Explanations must provide full step-by-step heuristic proofs.`;
+
 export const MASTER_EXAM_REGISTRY = {
+  // NAPLAN Suite
   naplan_numeracy: {
     id: 'naplan_numeracy',
     name: 'NAPLAN Numeracy',
@@ -457,20 +540,8 @@ export const MASTER_EXAM_REGISTRY = {
     category: 'National Assessment',
     getPrompt: getNaplanLanguageConventionsPromptTemplate
   },
-  amc_math_comp: {
-    id: 'amc_math_comp',
-    name: 'Australian Mathematics Competition (AMC)',
-    country: '🇦🇺 Australia',
-    category: 'National Competition',
-    getPrompt: getAmcPromptTemplate
-  },
-  amc: {
-    id: 'amc',
-    name: 'Australian Mathematics Competition (AMC)',
-    country: '🇦🇺 Australia',
-    category: 'National Competition',
-    getPrompt: getAmcPromptTemplate
-  },
+
+  // NSW Selective Suite
   nsw_selective_reading: {
     id: 'nsw_selective_reading',
     name: 'NSW Selective: Reading',
@@ -492,6 +563,31 @@ export const MASTER_EXAM_REGISTRY = {
     category: 'NSW Selective Schools',
     getPrompt: getNswSelectiveThinkingPromptTemplate
   },
+
+  // Australian Mathematics Competition (AMC)
+  amc_math_comp: {
+    id: 'amc_math_comp',
+    name: 'Australian Mathematics Competition (AMC)',
+    country: '🇦🇺 Australia',
+    category: 'National Competition',
+    getPrompt: getAmcPromptTemplate
+  },
+  amc: {
+    id: 'amc',
+    name: 'Australian Mathematics Competition (AMC)',
+    country: '🇦🇺 Australia',
+    category: 'National Competition',
+    getPrompt: getAmcPromptTemplate
+  },
+  amc_primary: {
+    id: 'amc_primary',
+    name: 'Australian Mathematics Competition (AMC Primary)',
+    country: '🇦🇺 Australia',
+    category: 'National Competition',
+    getPrompt: getAmcPromptTemplate
+  },
+
+  // ICAS Suite
   icas_math: {
     id: 'icas_math',
     name: 'ICAS Mathematics',
@@ -503,6 +599,20 @@ export const MASTER_EXAM_REGISTRY = {
     id: 'icas_mathematics',
     name: 'ICAS Mathematics',
     country: '🇦🇺 Australia',
+    category: 'National Competition',
+    getPrompt: getNaplanNumeracyPromptTemplate
+  },
+  au_icas_maths: {
+    id: 'au_icas_maths',
+    name: 'ICAS Mathematics (Australia)',
+    country: '🇦🇺 Australia',
+    category: 'National Competition',
+    getPrompt: getNaplanNumeracyPromptTemplate
+  },
+  nz_icas_maths: {
+    id: 'nz_icas_maths',
+    name: 'ICAS Mathematics (New Zealand)',
+    country: '🇳🇿 New Zealand',
     category: 'National Competition',
     getPrompt: getNaplanNumeracyPromptTemplate
   },
@@ -519,6 +629,15 @@ export const MASTER_EXAM_REGISTRY = {
     country: '🇦🇺 Australia',
     category: 'National Competition',
     getPrompt: getIcasEnglishPromptTemplate
+  },
+
+  // State Selective Entry (VIC & WA)
+  vic_selective_entry: {
+    id: 'vic_selective_entry',
+    name: 'Victorian Selective Entry (ACER Pattern)',
+    country: '🇦🇺 Australia',
+    category: 'Victorian Selective Schools',
+    getPrompt: getNswSelectiveMathPromptTemplate
   },
   vic_sehs_maths_reasoning: {
     id: 'vic_sehs_maths_reasoning',
@@ -540,6 +659,66 @@ export const MASTER_EXAM_REGISTRY = {
     country: '🇦🇺 Australia',
     category: 'WA Selective Schools',
     getPrompt: getNswSelectiveThinkingPromptTemplate
+  },
+  wa_gate_aasta: {
+    id: 'wa_gate_aasta',
+    name: 'WA GATE: Academic Selective Entrance Test (ASET)',
+    country: '🇦🇺 Australia',
+    category: 'WA Selective Schools',
+    getPrompt: getNswSelectiveThinkingPromptTemplate
+  },
+
+  // US College Board & ACT Suite
+  digital_sat_math: {
+    id: 'digital_sat_math',
+    name: 'Digital SAT Math Section',
+    country: '🇺🇸 Global / USA',
+    category: 'US College Board',
+    getPrompt: getDigitalSatMathPromptTemplate
+  },
+  digital_sat_rw: {
+    id: 'digital_sat_rw',
+    name: 'Digital SAT Reading & Writing',
+    country: '🇺🇸 Global / USA',
+    category: 'US College Board',
+    getPrompt: getDigitalSatRwPromptTemplate
+  },
+  act_math: {
+    id: 'act_math',
+    name: 'ACT Mathematics',
+    country: '🇺🇸 USA',
+    category: 'US College Admission',
+    getPrompt: getActMathPromptTemplate
+  },
+  act_math_enhanced: {
+    id: 'act_math_enhanced',
+    name: 'Enhanced ACT Math Practice',
+    country: '🇺🇸 USA',
+    category: 'US College Admission',
+    getPrompt: getActMathPromptTemplate
+  },
+  act_science: {
+    id: 'act_science',
+    name: 'ACT Science',
+    country: '🇺🇸 USA',
+    category: 'US College Admission',
+    getPrompt: getActSciencePromptTemplate
+  },
+
+  // Olympiad & International Suite
+  seamo_mathematics: {
+    id: 'seamo_mathematics',
+    name: 'SEAMO Mathematics Olympiad',
+    country: '🌏 Asia / International',
+    category: 'International Olympiad',
+    getPrompt: getSeamoPromptTemplate
+  },
+  seamo_paper: {
+    id: 'seamo_paper',
+    name: 'SEAMO Mathematics Olympiad',
+    country: '🌏 Asia / International',
+    category: 'International Olympiad',
+    getPrompt: getSeamoPromptTemplate
   }
 };
 
@@ -555,6 +734,12 @@ export const getMasterPrompt = (identifier) => {
   }
   if (MASTER_EXAM_REGISTRY[norm]) {
     return MASTER_EXAM_REGISTRY[norm].getPrompt();
+  }
+  // Try clean key match without punctuation/underscores
+  const cleanNorm = norm.replace(/[^a-z0-9]/g, '');
+  const examKey = Object.keys(MASTER_EXAM_REGISTRY).find(k => k.replace(/[^a-z0-9]/g, '') === cleanNorm);
+  if (examKey) {
+    return MASTER_EXAM_REGISTRY[examKey].getPrompt();
   }
   return getGenericSubjectPromptTemplate(identifier);
 };

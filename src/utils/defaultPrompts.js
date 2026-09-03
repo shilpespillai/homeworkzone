@@ -17,6 +17,11 @@ export {
   getNswSelectiveThinkingPromptTemplate,
   getIcasSciencePromptTemplate,
   getIcasEnglishPromptTemplate,
+  getDigitalSatMathPromptTemplate,
+  getDigitalSatRwPromptTemplate,
+  getActMathPromptTemplate,
+  getActSciencePromptTemplate,
+  getSeamoPromptTemplate,
   MASTER_SUBJECT_REGISTRY,
   MASTER_EXAM_REGISTRY,
   getMasterPrompt,
@@ -42,6 +47,11 @@ import {
   getNswSelectiveThinkingPromptTemplate,
   getIcasSciencePromptTemplate,
   getIcasEnglishPromptTemplate,
+  getDigitalSatMathPromptTemplate,
+  getDigitalSatRwPromptTemplate,
+  getActMathPromptTemplate,
+  getActSciencePromptTemplate,
+  getSeamoPromptTemplate,
   getMasterPrompt
 } from '../services/promptsMasterRegistry';
 
@@ -60,6 +70,7 @@ export const DEFAULT_SUBJECT_PROMPTS = {
   // Standardized Exam Presets V2
   amc_math_comp: getAmcPromptTemplate(),
   amc: getAmcPromptTemplate(),
+  amc_primary: getAmcPromptTemplate(),
   nsw_selective_reading: getNswSelectiveReadingPromptTemplate(),
   nsw_selective_math: getNswSelectiveMathPromptTemplate(),
   nsw_selective_thinking: getNswSelectiveThinkingPromptTemplate(),
@@ -69,11 +80,22 @@ export const DEFAULT_SUBJECT_PROMPTS = {
   naplan_language_conventions: getNaplanLanguageConventionsPromptTemplate(),
   icas_math: getNaplanNumeracyPromptTemplate(),
   icas_mathematics: getNaplanNumeracyPromptTemplate(),
+  au_icas_maths: getNaplanNumeracyPromptTemplate(),
+  nz_icas_maths: getNaplanNumeracyPromptTemplate(),
   icas_science: getIcasSciencePromptTemplate(),
   icas_english: getIcasEnglishPromptTemplate(),
+  vic_selective_entry: getNswSelectiveMathPromptTemplate(),
   vic_sehs_maths_reasoning: getNswSelectiveMathPromptTemplate(),
   vic_sehs_general_ability: getNswSelectiveThinkingPromptTemplate(),
-  wa_gate_aset: getNswSelectiveThinkingPromptTemplate()
+  wa_gate_aset: getNswSelectiveThinkingPromptTemplate(),
+  wa_gate_aasta: getNswSelectiveThinkingPromptTemplate(),
+  digital_sat_math: getDigitalSatMathPromptTemplate(),
+  digital_sat_rw: getDigitalSatRwPromptTemplate(),
+  act_math: getActMathPromptTemplate(),
+  act_math_enhanced: getActMathPromptTemplate(),
+  act_science: getActSciencePromptTemplate(),
+  seamo_mathematics: getSeamoPromptTemplate(),
+  seamo_paper: getSeamoPromptTemplate()
 };
 
 /**
