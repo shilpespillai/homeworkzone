@@ -75,35 +75,25 @@ export const DEFAULT_SUBJECT_PROMPTS = {
   logical_reasoning: getLogicalReasoningPromptTemplate(),
   olympiad: getGenericSubjectPromptTemplate('Olympiad Maths'),
   hindi: getGenericSubjectPromptTemplate('Hindi'),
-  // Standardized Exam Presets V2
-  amc_math_comp: getAmcPromptTemplate(),
-  amc: getAmcPromptTemplate(),
-  amc_primary: getAmcPromptTemplate(),
+  // Standardized Exam Presets Canonical (v2)
+  amc_mathematics: getAmcPromptTemplate(),
   nsw_selective_reading: getNswSelectiveReadingPromptTemplate(),
   nsw_selective_math: getNswSelectiveMathPromptTemplate(),
   nsw_selective_thinking: getNswSelectiveThinkingPromptTemplate(),
   naplan_numeracy: getNaplanNumeracyPromptTemplate(),
   naplan_reading: getNaplanReadingPromptTemplate(),
   naplan_conventions: getNaplanLanguageConventionsPromptTemplate(),
-  naplan_language_conventions: getNaplanLanguageConventionsPromptTemplate(),
-  icas_math: getIcasMathPromptTemplate(),
   icas_mathematics: getIcasMathPromptTemplate(),
-  au_icas_maths: getIcasMathPromptTemplate(),
-  nz_icas_maths: getIcasMathPromptTemplate(),
   icas_science: getIcasSciencePromptTemplate(),
   icas_english: getIcasEnglishPromptTemplate(),
-  vic_selective_entry: getVicSehsGeneralAbilityPromptTemplate(),
-  vic_sehs_maths_reasoning: getVicSehsMathPromptTemplate(),
-  vic_sehs_general_ability: getVicSehsGeneralAbilityPromptTemplate(),
+  vic_selective_math: getVicSehsMathPromptTemplate(),
+  vic_selective_general_ability: getVicSehsGeneralAbilityPromptTemplate(),
   wa_gate_aset: getWaGateAsetPromptTemplate(),
-  wa_gate_aasta: getWaGateAsetPromptTemplate(),
   digital_sat_math: getDigitalSatMathPromptTemplate(),
-  digital_sat_rw: getDigitalSatRwPromptTemplate(),
-  act_math: getActMathPromptTemplate(),
-  act_math_enhanced: getActMathPromptTemplate(),
+  digital_sat_reading_writing: getDigitalSatRwPromptTemplate(),
+  act_mathematics: getActMathPromptTemplate(),
   act_science: getActSciencePromptTemplate(),
-  seamo_mathematics: getSeamoPromptTemplate(),
-  seamo_paper: getSeamoPromptTemplate()
+  seamo_mathematics: getSeamoPromptTemplate()
 };
 
 /**

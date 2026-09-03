@@ -1,3 +1,4 @@
+import { toCanonicalExamId } from '../data/examProfiles.js';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 export const ADMIN_EMAIL = 'shilpeshpillai81@gmail.com';
@@ -609,13 +610,6 @@ export const MASTER_EXAM_REGISTRY = {
     category: 'National Assessment',
     getPrompt: getNaplanLanguageConventionsPromptTemplate
   },
-  naplan_language_conventions: {
-    id: 'naplan_language_conventions',
-    name: 'NAPLAN Language Conventions',
-    country: '🇦🇺 Australia',
-    category: 'National Assessment',
-    getPrompt: getNaplanLanguageConventionsPromptTemplate
-  },
 
   // NSW Selective Suite
   nsw_selective_reading: {
@@ -641,54 +635,19 @@ export const MASTER_EXAM_REGISTRY = {
   },
 
   // Australian Mathematics Competition (AMC)
-  amc_math_comp: {
-    id: 'amc_math_comp',
+  amc_mathematics: {
+    id: 'amc_mathematics',
     name: 'Australian Mathematics Competition (AMC)',
-    country: '🇦🇺 Australia',
-    category: 'National Competition',
-    getPrompt: getAmcPromptTemplate
-  },
-  amc: {
-    id: 'amc',
-    name: 'Australian Mathematics Competition (AMC)',
-    country: '🇦🇺 Australia',
-    category: 'National Competition',
-    getPrompt: getAmcPromptTemplate
-  },
-  amc_primary: {
-    id: 'amc_primary',
-    name: 'Australian Mathematics Competition (AMC Primary)',
     country: '🇦🇺 Australia',
     category: 'National Competition',
     getPrompt: getAmcPromptTemplate
   },
 
   // ICAS Suite
-  icas_math: {
-    id: 'icas_math',
-    name: 'ICAS Mathematics',
-    country: '🇦🇺 Australia',
-    category: 'National Competition',
-    getPrompt: getIcasMathPromptTemplate
-  },
   icas_mathematics: {
     id: 'icas_mathematics',
     name: 'ICAS Mathematics',
     country: '🇦🇺 Australia',
-    category: 'National Competition',
-    getPrompt: getIcasMathPromptTemplate
-  },
-  au_icas_maths: {
-    id: 'au_icas_maths',
-    name: 'ICAS Mathematics (Australia)',
-    country: '🇦🇺 Australia',
-    category: 'National Competition',
-    getPrompt: getIcasMathPromptTemplate
-  },
-  nz_icas_maths: {
-    id: 'nz_icas_maths',
-    name: 'ICAS Mathematics (New Zealand)',
-    country: '🇳🇿 New Zealand',
     category: 'National Competition',
     getPrompt: getIcasMathPromptTemplate
   },
@@ -708,22 +667,15 @@ export const MASTER_EXAM_REGISTRY = {
   },
 
   // State Selective Entry (VIC & WA)
-  vic_selective_entry: {
-    id: 'vic_selective_entry',
-    name: 'Victorian Selective Entry (ACER Pattern)',
-    country: '🇦🇺 Australia',
-    category: 'Victorian Selective Schools',
-    getPrompt: getVicSehsGeneralAbilityPromptTemplate
-  },
-  vic_sehs_maths_reasoning: {
-    id: 'vic_sehs_maths_reasoning',
+  vic_selective_math: {
+    id: 'vic_selective_math',
     name: 'VIC Selective Entry: Mathematical Reasoning',
     country: '🇦🇺 Australia',
     category: 'Victorian Selective Schools',
     getPrompt: getVicSehsMathPromptTemplate
   },
-  vic_sehs_general_ability: {
-    id: 'vic_sehs_general_ability',
+  vic_selective_general_ability: {
+    id: 'vic_selective_general_ability',
     name: 'VIC Selective Entry: General Ability',
     country: '🇦🇺 Australia',
     category: 'Victorian Selective Schools',
@@ -731,13 +683,6 @@ export const MASTER_EXAM_REGISTRY = {
   },
   wa_gate_aset: {
     id: 'wa_gate_aset',
-    name: 'WA GATE: Academic Selective Entrance Test (ASET)',
-    country: '🇦🇺 Australia',
-    category: 'WA Selective Schools',
-    getPrompt: getWaGateAsetPromptTemplate
-  },
-  wa_gate_aasta: {
-    id: 'wa_gate_aasta',
     name: 'WA GATE: Academic Selective Entrance Test (ASET)',
     country: '🇦🇺 Australia',
     category: 'WA Selective Schools',
@@ -752,23 +697,16 @@ export const MASTER_EXAM_REGISTRY = {
     category: 'US College Board',
     getPrompt: getDigitalSatMathPromptTemplate
   },
-  digital_sat_rw: {
-    id: 'digital_sat_rw',
+  digital_sat_reading_writing: {
+    id: 'digital_sat_reading_writing',
     name: 'Digital SAT Reading & Writing',
     country: '🇺🇸 Global / USA',
     category: 'US College Board',
     getPrompt: getDigitalSatRwPromptTemplate
   },
-  act_math: {
-    id: 'act_math',
+  act_mathematics: {
+    id: 'act_mathematics',
     name: 'ACT Mathematics',
-    country: '🇺🇸 USA',
-    category: 'US College Admission',
-    getPrompt: getActMathPromptTemplate
-  },
-  act_math_enhanced: {
-    id: 'act_math_enhanced',
-    name: 'Enhanced ACT Math Practice',
     country: '🇺🇸 USA',
     category: 'US College Admission',
     getPrompt: getActMathPromptTemplate
@@ -788,13 +726,6 @@ export const MASTER_EXAM_REGISTRY = {
     country: '🌏 Asia / International',
     category: 'International Olympiad',
     getPrompt: getSeamoPromptTemplate
-  },
-  seamo_paper: {
-    id: 'seamo_paper',
-    name: 'SEAMO Mathematics Olympiad',
-    country: '🌏 Asia / International',
-    category: 'International Olympiad',
-    getPrompt: getSeamoPromptTemplate
   }
 };
 
@@ -805,14 +736,19 @@ export const MASTER_EXAM_REGISTRY = {
  */
 export const getMasterPrompt = (identifier) => {
   const norm = (identifier || '').toLowerCase().trim();
+  const canonicalId = toCanonicalExamId(norm);
+
   if (MASTER_SUBJECT_REGISTRY[norm]) {
     return MASTER_SUBJECT_REGISTRY[norm].getPrompt();
+  }
+  if (MASTER_EXAM_REGISTRY[canonicalId]) {
+    return MASTER_EXAM_REGISTRY[canonicalId].getPrompt();
   }
   if (MASTER_EXAM_REGISTRY[norm]) {
     return MASTER_EXAM_REGISTRY[norm].getPrompt();
   }
   // Try clean key match without punctuation/underscores
-  const cleanNorm = norm.replace(/[^a-z0-9]/g, '');
+  const cleanNorm = canonicalId.replace(/[^a-z0-9]/g, '');
   const examKey = Object.keys(MASTER_EXAM_REGISTRY).find(k => k.replace(/[^a-z0-9]/g, '') === cleanNorm);
   if (examKey) {
     return MASTER_EXAM_REGISTRY[examKey].getPrompt();
