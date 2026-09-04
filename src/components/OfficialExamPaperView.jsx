@@ -28,6 +28,7 @@ import DynamicInstrument from './DynamicInstrument';
 import DynamicBlockStructure from './DynamicBlockStructure';
 import EarlyMathVisualizer from './EarlyMathVisualizer';
 import DynamicVennDiagram from './DynamicVennDiagram';
+import { ClockFace } from './ClockFace';
 import PassageViewer from './PassageViewer';
 import ReadingStimulusPane, { parseStimulusPassages } from './ReadingStimulusPane';
 
@@ -521,13 +522,46 @@ export default function OfficialExamPaperView({
     return { passage: null, question: cleanStem };
   };
 
+  const formatSvgForDisplay = (svgStr) => {
+    if (!svgStr || typeof svgStr !== 'string') return '';
+    let clean = svgStr.trim();
+    // Strip markdown code fences if model enclosed in ```xml or ```svg
+    clean = clean.replace(/^```(?:svg|xml|html)?\s*/i, '').replace(/\s*```$/i, '').trim();
+    
+    // Ensure SVG has responsive width and viewBox
+    if (clean.startsWith('<svg')) {
+      // If no viewBox but has width and height, add viewBox
+      if (!clean.includes('viewBox=') && !clean.includes('viewbox=')) {
+        const wMatch = clean.match(/width=['"](\d+)['"]/i);
+        const hMatch = clean.match(/height=['"](\d+)['"]/i);
+        if (wMatch && hMatch) {
+          clean = clean.replace(/<svg\b/i, `<svg viewBox="0 0 ${wMatch[1]} ${hMatch[1]}" `);
+        }
+      }
+      // If no width attribute, inject width="100%"
+      if (!clean.includes('width=') && !clean.includes('width =')) {
+        clean = clean.replace(/<svg\b/i, '<svg width="100%" ');
+      }
+    }
+    return clean;
+  };
+
   const renderQuestionVisuals = (q) => {
     if (!q) return null;
+
+    const rawText = q.text || q.question || q.questionText || '';
+    const inlineSvgMatch = rawText.match(/<svg[\s\S]*?<\/svg>/i);
+    const inlineSvg = inlineSvgMatch ? inlineSvgMatch[0] : null;
+    const effectiveSvg = q.svgCode || q.diagram || inlineSvg;
+
+    const clockMatch = rawText.match(/\[CLOCK:(\d{1,2}:\d{2})\]/i);
+    const clockTime = clockMatch ? clockMatch[1] : null;
+
     const hasVisualProp = q.chartData || q.geometryData || q.gridMapData || q.numberLineData || 
                           q.pathData || q.instrumentData || q.blockData || q.earlyMathData || 
-                          q.vennDiagramData || q.svgCode || q.diagram || q.imageUrl;
+                          q.vennDiagramData || effectiveSvg || q.imageUrl || clockTime;
 
-    const fullText = (q.text || q.question || q.questionText || '').toLowerCase();
+    const fullText = (rawText).toLowerCase();
     const isLegacyTableQuestion = !hasVisualProp && (
       fullText.includes('table shows') || 
       fullText.includes('table below') || 
@@ -539,11 +573,12 @@ export default function OfficialExamPaperView({
     if (!hasVisualProp && !isLegacyTableQuestion) return null;
 
     return (
-      <div className="my-6 p-6 bg-white border-2 border-slate-200 rounded-xl shadow-inner flex flex-col items-center justify-center overflow-x-auto font-sans">
+      <div className="my-6 p-6 bg-white border-2 border-slate-200 rounded-xl shadow-inner flex flex-col items-center justify-center overflow-x-auto font-sans w-full">
         <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-3 self-start">
           FIGURE / DATA STIMULUS
         </span>
 
+        {clockTime && <div className="w-full flex justify-center"><ClockFace timeStr={clockTime} /></div>}
         {q.chartData && <div className="w-full"><DynamicChart data={q.chartData} /></div>}
         {q.geometryData && <div className="w-full"><DynamicGeometry data={q.geometryData} /></div>}
         {q.gridMapData && <div className="w-full"><DynamicGridMap data={q.gridMapData} /></div>}
@@ -554,12 +589,13 @@ export default function OfficialExamPaperView({
         {q.earlyMathData && <div className="w-full"><EarlyMathVisualizer data={q.earlyMathData} /></div>}
         {q.vennDiagramData && <div className="w-full"><DynamicVennDiagram data={q.vennDiagramData} /></div>}
 
-        {!q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.earlyMathData && !q.vennDiagramData && (
+        {!q.chartData && !q.geometryData && !q.gridMapData && !q.numberLineData && !q.pathData && !q.instrumentData && !q.blockData && !q.earlyMathData && !q.vennDiagramData && !clockTime && (
           <>
-            {q.svgCode ? (
-              <div dangerouslySetInnerHTML={{ __html: q.svgCode }} className="max-w-full max-h-[350px] flex items-center justify-center my-2" />
-            ) : q.diagram ? (
-              <div dangerouslySetInnerHTML={{ __html: q.diagram }} className="max-w-full max-h-[350px] flex items-center justify-center my-2" />
+            {effectiveSvg ? (
+              <div 
+                dangerouslySetInnerHTML={{ __html: formatSvgForDisplay(effectiveSvg) }} 
+                className="w-full max-w-xl min-h-[160px] flex items-center justify-center my-3 mx-auto [&>svg]:w-full [&>svg]:max-w-[480px] [&>svg]:h-auto [&>svg]:max-h-[340px] [&>svg]:mx-auto [&>svg]:block overflow-visible" 
+              />
             ) : q.imageUrl ? (
               <img src={q.imageUrl} alt="Question Diagram" className="max-w-full max-h-[350px] object-contain rounded-lg my-2" />
             ) : isLegacyTableQuestion ? (
