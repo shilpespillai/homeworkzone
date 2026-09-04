@@ -71,7 +71,23 @@ export const sanitizeQuestionData = (q) => {
   if (explanation && typeof explanation !== 'string') {
     explanation = String(explanation);
   }
-  return { ...q, text, options, answer, ...(explanation ? { explanation: explanation.trim() } : {}) };
+  let svgCode = q.svgCode;
+  if (svgCode && typeof svgCode === 'string') {
+    const trimmed = svgCode.trim().replace(/^```(?:svg|xml|html)?\s*/i, '').replace(/\s*```$/i, '').trim();
+    if (!trimmed.startsWith('<svg') || !trimmed.endsWith('</svg>') || !/<(?:circle|rect|line|polygon|polyline|path|text|ellipse)\b/i.test(trimmed)) {
+      svgCode = undefined;
+    } else {
+      svgCode = trimmed;
+    }
+  }
+  return { 
+    ...q, 
+    text, 
+    options, 
+    answer, 
+    ...(svgCode !== undefined ? { svgCode } : {}),
+    ...(explanation ? { explanation: explanation.trim() } : {}) 
+  };
 };
 
 export const cleanCategoryName = (cat) => {

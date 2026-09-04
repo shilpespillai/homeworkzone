@@ -546,13 +546,22 @@ export default function OfficialExamPaperView({
     return clean;
   };
 
+  const isValidSvgString = (s) => {
+    if (!s || typeof s !== 'string') return false;
+    const trimmed = s.trim().replace(/^```(?:svg|xml|html)?\s*/i, '').replace(/\s*```$/i, '').trim();
+    if (!trimmed.startsWith('<svg') || !trimmed.endsWith('</svg>')) return false;
+    // Must contain actual drawing elements, not just empty tags or defs
+    return /<(?:circle|rect|line|polygon|polyline|path|text|ellipse)\b/i.test(trimmed);
+  };
+
   const renderQuestionVisuals = (q) => {
     if (!q) return null;
 
     const rawText = q.text || q.question || q.questionText || '';
     const inlineSvgMatch = rawText.match(/<svg[\s\S]*?<\/svg>/i);
     const inlineSvg = inlineSvgMatch ? inlineSvgMatch[0] : null;
-    const effectiveSvg = q.svgCode || q.diagram || inlineSvg;
+    const rawSvg = q.svgCode || q.diagram || inlineSvg;
+    const effectiveSvg = isValidSvgString(rawSvg) ? rawSvg : null;
 
     const clockMatch = rawText.match(/\[CLOCK:(\d{1,2}:\d{2})\]/i);
     const clockTime = clockMatch ? clockMatch[1] : null;
