@@ -1952,10 +1952,6 @@ Return ONLY a JSON object:
       setGeneratedPassage(passage);
       setGeneratedPassagesList(passagesList);
       setGeneratedModelUsed(tieredModel);
-      if (questions.length > 0 && user?.uid && !isPaperRecorded) {
-        recordPaperGeneration(db, user.uid);
-        setIsPaperRecorded(true);
-      }
     } catch (err) {
       console.error("AI Gen Error:", err);
       alert("Failed to generate questions. ❌");
@@ -3513,7 +3509,7 @@ Return ONLY a JSON object:
           </button>
           <button 
             onClick={() => {
-              if (hasReachedLimit) {
+              if (hasReachedLimit && !generatedQuestions && !initialDraft?.id) {
                 if (activePlanId === 'free') setShowUpgradeModal(true);
                 else setShowBoosterModal(true);
               } else {
@@ -3522,7 +3518,7 @@ Return ONLY a JSON object:
             }}
             disabled={isPublishing}
             className={`font-black px-10 py-4 rounded-2xl flex items-center gap-3 transition-colors disabled:opacity-50 ${
-              hasReachedLimit 
+              (hasReachedLimit && !generatedQuestions && !initialDraft?.id) 
                 ? 'bg-slate-300 text-slate-500 cursor-pointer shadow-none' 
                 : 'bg-[#2ecc71] hover:bg-[#27ae60] text-white shadow-[0_4px_0_0_#219653] hover:translate-y-1 hover:shadow-none'
             }`}
