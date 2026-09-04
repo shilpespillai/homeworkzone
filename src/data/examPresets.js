@@ -423,22 +423,29 @@ FORMATTING RULES:
     subject: 'science',
     defaultQuestions: 30,
     defaultTime: 45,
-    promptInstruction: `You are a lead test developer for ICAS Science (UNSW Global). Generate an authentic ICAS Science examination paper focused strictly on scientific inquiry and experimental analysis, modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} ICAS Science released and practice papers.
+    promptInstruction: `You are a lead test developer for ICAS Science (UNSW Global / Janison). Generate an authentic ICAS Science examination paper focused on scientific inquiry, experimental analysis, and conceptual understanding, modelled on actual ${new Date().getFullYear() - 5}-${new Date().getFullYear()} ICAS Science competition papers.
 
 COMPLEXITY & COGNITIVE RIGOR MANDATE:
-• Scientific Inquiry & Analytical Rigor (UNSW Competition Standard).
-• Every question must require multi-variable experimental control analysis, data interpolation/extrapolation, or apparatus calibration (meniscus reading, zero-error adjustments, microscope magnification).
-• Reflect authentic ICAS Science question types: hypothesis evaluation from line graphs, equipment selection for fair testing, multi-variable control design.
+• UNSW Competition Standard — tests genuine scientific understanding, experimental thinking, and evidence-based deductions across the 4 core science disciplines.
+• Grade-Appropriate Science: Tailor the scientific depth, terminology, and complexity strictly to the target grade level ({GRADE}).
+• AUTHENTIC SCIENCE CONCEPTS: This is a SCIENCE examination, NOT a mathematics paper. Do not reduce questions to repetitive arithmetic drills or number calculations. Test experimental controls, cause-and-effect mechanisms, biological systems, chemical properties, physical forces, and earth processes.
+• STRICT ANTI-REPETITION & SCENARIO DIVERSITY: Every question MUST feature a completely distinct real-world phenomenon or experimental setup. NEVER repeat the same experiment (e.g. at most 1 question on plant growth/osmosis, at most 1 on toy cars/ramps). Apparatus calibration (meniscus, microscope magnification, zero-error) is strictly capped at MAXIMUM 1 question in the entire paper.
 
-OFFICIAL ICAS SCIENCE SYLLABUS BREAKDOWN:
-1. EXPERIMENTAL DESIGN & VARIABLES (35%): Identifying Independent, Dependent, and Controlled variables. Evaluating experimental controls and sources of experimental error or bias.
-2. DATA INTERPRETATION & GRAPH ANALYSIS (35%): Line graphs, dual-axis bar charts, scatter plots, and complex data tables. Interpolating and extrapolating values. Apparatus calibration: meniscus levels, microscope magnification, spring balance zero-error.
-3. HYPOTHESIS & SCIENTIFIC REASONING (30%): Evaluating whether data supports or refutes a hypothesis using Claim-Evidence-Reasoning (CER). Cause-and-effect reasoning across Biology, Physics, Chemistry, and Earth/Space Science.
+OFFICIAL ICAS SCIENCE 4-DISCIPLINE SYLLABUS BREAKDOWN (EVEN 25% SPREAD):
+1. BIOLOGY & LIVING WORLD (25%): Ecosystems, predator-prey food webs, adaptations, photosynthesis, plant transport, cellular structures, human body organ systems, life cycles.
+2. CHEMISTRY & CHEMICAL WORLD (25%): States of matter, physical vs chemical changes, reaction rates, acids & bases (pH), solubility & solutions, separation techniques (filtration, chromatography, distillation, evaporation).
+3. PHYSICS & PHYSICAL WORLD (25%): Light (reflection, refraction, shadows), electrical circuits (series, parallel, switches), energy transformations, balanced & unbalanced forces, friction, gravity, sound waves.
+4. EARTH & SPACE SCIENCE (25%): Rock cycle, sedimentary/igneous/metamorphic formations, water cycle, seasons, lunar phases & eclipses, planetary orbits, atmospheric layers, weathering and erosion.
+
+INCORPORATE CORE SCIENTIFIC INQUIRY SKILLS ACROSS ALL 4 DISCIPLINES:
+• Identifying Independent, Dependent, and Controlled variables in fair testing.
+• Evaluating experimental controls and sources of error.
+• Interpreting graphs (line, bar, scatter) and data tables to identify trends and draw valid conclusions using Claim-Evidence-Reasoning (CER).
 
 FORMATTING RULES:
-• EVERY question MUST present a realistic 40–80 word scenario describing an experiment, data table, or graph.
-• 4 options (A, B, C, D) per question.
-• Explanations must break down the scientific method and data interpretation step-by-step.`,
+• EVERY question MUST present a realistic 40–80 word scenario describing a real-world phenomenon, experiment, data table, or graph.
+• 4 options (A, B, C, D) per question with scientifically plausible distractors.
+• Explanations must explain the underlying scientific principle and step-by-step reasoning.`,
   },
   {
     id: 'icas_digital_tech',

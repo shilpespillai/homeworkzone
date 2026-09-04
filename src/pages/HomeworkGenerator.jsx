@@ -235,6 +235,170 @@ const resolveGradeFromClassroomName = (classroomName) => {
   return 'Grade 1';
 };
 
+export const resolveExamTargetGrade = (classroomName, examPresetId) => {
+  const clsGrade = resolveGradeFromClassroomName(classroomName);
+  const exam = (INTERNATIONAL_EXAMS || []).find(e => e.id === examPresetId);
+  if (!exam) return clsGrade;
+
+  const rangeMatches = (exam.gradeRange || '').match(/\d+/g);
+  if (!rangeMatches || rangeMatches.length === 0) return clsGrade;
+
+  const minGrade = parseInt(rangeMatches[0], 10);
+  const maxGrade = rangeMatches.length > 1 ? parseInt(rangeMatches[rangeMatches.length - 1], 10) : minGrade;
+
+  const clsNumMatch = clsGrade.match(/\d+/);
+  if (clsNumMatch) {
+    const clsNum = parseInt(clsNumMatch[0], 10);
+    if (classroomName && classroomName.match(/\d+/) && clsNum >= minGrade && clsNum <= maxGrade) {
+      return `Grade ${clsNum}`;
+    }
+  }
+
+  if (minGrade === maxGrade) {
+    return `Grade ${minGrade}`;
+  }
+  if (minGrade <= 2 && maxGrade >= 10) {
+    return 'Grade 7';
+  }
+  const midGrade = Math.round((minGrade + maxGrade) / 2);
+  return `Grade ${midGrade}`;
+};
+
+export const getBatchDomain = (subject = '', examPreset = '', batchIndex = 0, totalBatches = 1) => {
+  const s = (subject || '').toLowerCase().trim();
+  const ep = (examPreset || '').toLowerCase().trim();
+
+  // Science / NSO / ICAS Science / ACT Science / PSLE Science
+  if (s.includes('science') || ep.includes('science') || ep.includes('nso') || ep.includes('nstse') || ep.includes('nsejs')) {
+    const scienceDomains = [
+      {
+        name: 'Biology & Living World',
+        focus: 'Ecosystems, predator-prey food webs, plant transport, photosynthesis, cellular structures, adaptations for survival, human organ systems, or life cycles. Must be an observational or conceptual biology scenario.'
+      },
+      {
+        name: 'Chemistry & Materials',
+        focus: 'States of matter, physical vs chemical changes, reaction rates, acids and bases (pH), solubility, or separation techniques (filtration, chromatography, distillation, evaporation).'
+      },
+      {
+        name: 'Physics & Physical World',
+        focus: 'Forces (friction, gravity, balanced vs unbalanced), energy transformations, light (reflection, refraction, shadows), electrical circuits (series/parallel, switches), or sound.'
+      },
+      {
+        name: 'Earth & Space Science',
+        focus: 'Rock cycle, sedimentary/igneous formations, water cycle, weather, seasons, lunar phases, planetary orbits, atmospheric layers, or weathering and erosion.'
+      },
+      {
+        name: 'Scientific Inquiry & Fair Testing',
+        focus: 'Experimental design, identifying Independent vs Dependent vs Controlled variables, hypothesis evaluation using Claim-Evidence-Reasoning (CER), or evaluating sources of experimental error.'
+      },
+      {
+        name: 'Data & Graphical Interpretation',
+        focus: 'Interpreting line graphs, scatter plots, dual-axis charts, or complex data tables. Drawing scientific conclusions from experimental data trends.'
+      }
+    ];
+    return scienceDomains[batchIndex % scienceDomains.length];
+  }
+
+  // Maths / Numeracy / Olympiad
+  if (s.includes('math') || s.includes('numeracy') || ep.includes('math') || ep.includes('numeracy') || ep.includes('imo') || ep.includes('amc') || ep.includes('seamo')) {
+    const mathDomains = [
+      {
+        name: 'Number & Operations',
+        focus: 'Arithmetic operations, place value, fractions, decimals, percentages, ratios, primes/factors, and integer properties.'
+      },
+      {
+        name: 'Algebra & Patterns',
+        focus: 'Linear equations, algebraic expressions, number sequences, function rules, and pattern generalizations.'
+      },
+      {
+        name: 'Measurement & Geometry',
+        focus: 'Perimeter, area, volume, angle properties, 2D/3D shape attributes, symmetry, transformations, and coordinate geometry.'
+      },
+      {
+        name: 'Statistics & Probability',
+        focus: 'Interpreting data displays (bar charts, line graphs, pie charts, stem-and-leaf), mean/median/range, chance, and theoretical vs experimental probability.'
+      },
+      {
+        name: 'Real-World Word Problems & Multi-Step Modeling',
+        focus: 'Multi-step authentic situational problems (rates, currency/budgeting, speed-distance-time, time schedules, measurement conversions).'
+      },
+      {
+        name: 'Non-Routine Problem Solving & Mathematical Reasoning',
+        focus: 'Logic puzzles, working backwards, spatial visualization, pigeonhole principle, or Olympiad-style strategic deductions.'
+      }
+    ];
+    return mathDomains[batchIndex % mathDomains.length];
+  }
+
+  // Thinking Skills / General Ability / Reasoning
+  if (s.includes('thinking') || s.includes('reasoning') || ep.includes('thinking') || ep.includes('reasoning') || ep.includes('mat')) {
+    const thinkingDomains = [
+      {
+        name: 'Deductive & Inductive Logic',
+        focus: 'Syllogisms, valid vs invalid inferences, conditional "if-then" logic, and truth-tellers vs liars.'
+      },
+      {
+        name: 'Critical Thinking & Evaluating Arguments',
+        focus: 'Identifying unstated assumptions, spotting logical fallacies, identifying flaws in reasoning, and determining what strengthens or weakens a claim.'
+      },
+      {
+        name: 'Spatial & Pattern Analysis',
+        focus: 'Shape rotations, paper folding, mirror reflections, visual matrix completions, and geometric sequences.'
+      },
+      {
+        name: 'Relational & Constraint Puzzles',
+        focus: 'Seating arrangements, ranking order, family relations, scheduling clashes, and multi-attribute grid deductions.'
+      },
+      {
+        name: 'Numerical & Quantitative Reasoning',
+        focus: 'Number analogies, operator replacement, non-standard arithmetic codes, and quantitative comparison.'
+      },
+      {
+        name: 'Data Sufficiency & Evidence Evaluation',
+        focus: 'Determining if given clues are sufficient to solve a riddle, finding conflicting statements, and assessing evidence quality.'
+      }
+    ];
+    return thinkingDomains[batchIndex % thinkingDomains.length];
+  }
+
+  // English / Vocabulary / Grammar / Reading
+  if (s.includes('english') || s.includes('vocab') || s.includes('grammar') || s.includes('convention')) {
+    const englishDomains = [
+      {
+        name: 'Contextual Vocabulary & Word Nuance',
+        focus: 'Inferring word meanings in rich sentences, synonyms, antonyms, connotation vs denotation, and idiomatic expressions.'
+      },
+      {
+        name: 'Grammar & Syntax Precision',
+        focus: 'Subject-verb agreement, verb tenses, pronoun reference, modifier placement, and active vs passive voice.'
+      },
+      {
+        name: 'Punctuation & Sentence Structure',
+        focus: 'Apostrophes (possession vs contraction), commas, semi-colons, colons, speech marks/dialogue, and compound/complex sentences.'
+      },
+      {
+        name: 'Spelling & Morphological Patterns',
+        focus: 'Commonly misspelled words, prefixes, suffixes, root words, plural rules, and phonetic homophones.'
+      },
+      {
+        name: 'Reading Comprehension & Inference',
+        focus: 'Author tone, main idea, figurative language (metaphors, similes, personification), text structure, and inference from subtle clues.'
+      }
+    ];
+    return englishDomains[batchIndex % englishDomains.length];
+  }
+
+  // Generic fallback: rotate across diverse cognitive dimensions
+  const genericDomains = [
+    { name: 'Core Foundations & Principles', focus: 'Fundamental definitions, mechanisms, and key rules.' },
+    { name: 'Practical Application & Real-World Context', focus: 'Realistic everyday scenarios and practical problem-solving.' },
+    { name: 'Cause-and-Effect & Analytical Reasoning', focus: 'Analyzing why phenomena occur and predicting outcomes of changes.' },
+    { name: 'Data Interpretation & Evidence Evaluation', focus: 'Reading diagrams, figures, charts, and evaluating evidence.' },
+    { name: 'Multi-Step Synthesis & Critical Problem Solving', focus: 'Integrated scenarios requiring multi-step critical thinking.' }
+  ];
+  return genericDomains[batchIndex % genericDomains.length];
+};
+
 const SUBJECTS = [
   { 
     id: 'english', 
@@ -1067,7 +1231,9 @@ EXPECTED JSON SCHEMA:
     setBookGenStatus('Crafting Pixar story, vocabulary & grammar...');
     try {
       const activeModel = localStorage.getItem('hwz_active_ai') || 'anthropic';
-      const resolvedGrade = resolveGradeFromClassroomName(activeClassroom?.name);
+      const resolvedGrade = formData.examPreset 
+        ? resolveExamTargetGrade(activeClassroom?.name, formData.examPreset)
+        : resolveGradeFromClassroomName(activeClassroom?.name);
 
       const masterPixarPrompt = getConstructedPixarPrompt();
 
@@ -1125,7 +1291,9 @@ EXPECTED JSON SCHEMA:
       // Auto-save & publish to Firestore immediately so it's instantly live and persistent on refresh
       if (user?.uid) {
         setBookGenStatus('Auto-publishing to Library Zone...');
-        const draftGrade = resolveGradeFromClassroomName(activeClassroom?.name);
+        const draftGrade = formData.examPreset 
+        ? resolveExamTargetGrade(activeClassroom?.name, formData.examPreset)
+        : resolveGradeFromClassroomName(activeClassroom?.name);
         const autoPayload = {
           teacherId: user.uid,
           classId: formData.classId || 'all',
@@ -1640,7 +1808,7 @@ EXPECTED JSON SCHEMA:
       const tieredModel = getModelForGrade(resolvedGrade, subjectAndTitle, activeModel);
       console.log(`🤖 [HWZ AI ENGINE] Grade: ${resolvedGrade} | Subject: ${formData.subject} | Routing Model: ${tieredModel} | Target Questions: ${questionCount}`);
 
-      const getPromptForCount = (targetCount, batchTag = '') => {
+      const getPromptForCount = (targetCount, batchTag = '', batchDomain = null) => {
         const countInjected = (rawInjected || '')
           .replace(/\{SUBJECT\}/gi, formData.subject || '')
           .replace(/\{GRADE\}/gi, resolvedGrade || 'Age-Appropriate')
@@ -1648,12 +1816,26 @@ EXPECTED JSON SCHEMA:
           .replace(/\{DIFFICULTY\}/gi, formData.difficulty || 'Medium')
           .replace(/\{QUESTION_COUNT\}/gi, String(targetCount));
 
+        const domainDirective = batchDomain ? `
+        ================================================================================
+        MANDATORY BATCH DOMAIN FOCUS & CURRICULUM SHARD (BATCH SPECIALIZATION):
+        ================================================================================
+        • TARGET DOMAIN: "${batchDomain.name}"
+        • MANDATORY SUBTOPIC FOCUS: ${batchDomain.focus}
+        • CRITICAL INSTRUCTION: All ${targetCount} questions in this batch MUST directly test "${batchDomain.name}".
+        • STRICT ANTI-REPETITION & SCENARIO DIVERSITY MANDATE:
+          - Every single question in this batch MUST feature a completely unique, non-overlapping scenario, experiment, or context.
+          - NEVER repeat the same experiment, object, character, or problem archetype (e.g., maximum 1 question on any single apparatus, plant, chemical reaction, or word problem).
+          - Ensure questions test diverse cognitive angles within this domain (observational, analytical, conceptual, and graphical).
+        ================================================================================\n` : '';
+
         return `You are an expert curriculum designer and education specialist.${isVocab ? `\nSPECIAL VOCABULARY MISSION: You are an expert Vocabulary Curriculum Director and Word Learning Coach. Your mission is to teach students 10 to 15 NEW vocabulary words every week through an INFORMATION-FIRST "Weekly Word Spotlight & Learning Guide" in "passage", followed by direct contextual application exercises in "questions".` : ''} 
         Create a ${targetCount}-question multiple-choice quiz for students about the following topic:
         Subject: ${formData.subject}
         Topic: ${topic}
         Target Language: ${langObj.name} (${langObj.nativeName})
         Specific Content Instructions: ${countInjected}
+        ${domainDirective}
         ${langRule}
         ${previousQuestionsBlock}
         
@@ -1872,8 +2054,9 @@ Return ONLY a JSON object:
         console.log(`🚀 [HWZ SELF-HEALING ENGINE] Generating ${questionCount} questions in ${chunkCounts.length} parallel batches:`, chunkCounts);
 
         const batchPromises = chunkCounts.map((countToGen, idx) => {
+          const batchDomain = getBatchDomain(formData.subject, formData.examPreset, idx, chunkCounts.length);
           return generateContent({
-            prompt: getPromptForCount(countToGen, `BATCH-${idx + 1}-${Date.now()}`),
+            prompt: getPromptForCount(countToGen, `BATCH-${idx + 1}-${Date.now()}`, batchDomain),
             responseMimeType: 'application/json',
             provider: tieredModel
           }).then(res => safeParseAiJson(res)).catch((err) => {
@@ -1952,7 +2135,8 @@ Return ONLY a JSON object:
   ]
 }`;
             } else {
-              promptToUse = getPromptForCount(cnt, `TOPUP-${i + 1}-${Date.now()}`);
+              const topupDomain = getBatchDomain(formData.subject, formData.examPreset, chunkCounts.length + i, chunkCounts.length + topUpChunks.length);
+              promptToUse = getPromptForCount(cnt, `TOPUP-${i + 1}-${Date.now()}`, topupDomain);
             }
 
             return generateContent({
@@ -2024,7 +2208,9 @@ Return ONLY a JSON object:
     setIsPublishing(true);
     try {
       const activeModel = localStorage.getItem('hwz_active_ai') || 'anthropic';
-      const publishGrade = resolveGradeFromClassroomName(activeClassroom?.name);
+      const publishGrade = formData.examPreset 
+        ? resolveExamTargetGrade(activeClassroom?.name, formData.examPreset)
+        : resolveGradeFromClassroomName(activeClassroom?.name);
       const questionsToSave = generatedQuestions || [];
 
       const isSpatialReasoning = (formData.title || '').toLowerCase().includes('spatial') || (formData.aiPrompt || '').toLowerCase().includes('spatial');
@@ -2072,6 +2258,8 @@ Return ONLY a JSON object:
         type: finalType,
         isExamPaper: isExam,
         examPreset: isExam ? (formData.examPreset || null) : null,
+        targetGrade: publishGrade,
+        grade: publishGrade,
         timeLimit: formData.timeLimit || '30',
         marksPerQuestion: formData.marksPerQuestion || '5',
         difficulty: formData.difficulty || 'Medium',
@@ -2224,6 +2412,8 @@ Return ONLY a JSON object:
         type: finalType,
         isExamPaper: isExam,
         examPreset: isExam ? (formData.examPreset || null) : null,
+        targetGrade: draftGrade,
+        grade: draftGrade,
         timeLimit: formData.timeLimit || '30',
         marksPerQuestion: formData.marksPerQuestion || '5',
         difficulty: formData.difficulty || 'Medium',
@@ -2433,7 +2623,7 @@ Return ONLY a JSON object:
           <InternationalExamHubView
             onBack={() => setAssignmentType(null)}
             onSelectExam={(exam) => {
-              const gradeName = resolveGradeFromClassroomName(activeClassroom?.name);
+              const gradeName = resolveExamTargetGrade(activeClassroom?.name, exam.id);
               const naplanDefs = getNaplanDefaults(exam.id, gradeName);
               const finalTime = naplanDefs ? String(naplanDefs.time) : String(exam.defaultTime);
               const finalQuestions = Math.min(50, naplanDefs ? naplanDefs.questions : (exam.defaultQuestions || 30));
