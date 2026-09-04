@@ -4229,6 +4229,15 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
     const totalMRR = adminTeachers.reduce((sum, t) => sum + t.mrr, 0);
     const conversionRate = totalTeachers > 0 ? ((paidCount / totalTeachers) * 100).toFixed(1) : 0;
     const totalHomeworks = adminTeachers.reduce((sum, t) => sum + (t.homeworkCount || 0), 0);
+    const totalStudents = adminTeachers.reduce((sum, t) => sum + (t.studentCount || 0), 0);
+
+    // Live Platform Operational Costing & Unit Economics
+    const estAiCost = totalHomeworks * 0.006; // ~$0.006 per 5-question AI test paper
+    const estFirestoreCost = Math.max(0.20, (totalTeachers * 0.005) + (totalStudents * 0.0008) + (totalHomeworks * 0.002)); // Blaze reads, writes, storage
+    const estStripeFees = totalMRR > 0 ? (totalMRR * 0.029) + (paidCount * 0.30) : 0; // 2.9% + $0.30/sub
+    const totalExpenses = estAiCost + estFirestoreCost + estStripeFees;
+    const netProfit = totalMRR - totalExpenses;
+    const profitMargin = totalMRR > 0 ? Math.max(0, ((netProfit / totalMRR) * 100)).toFixed(1) : 0;
 
     const filtered = adminTeachers.filter(t => {
       const matchesSearch = 
@@ -4410,6 +4419,121 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
               </div>
             </div>
 
+            {/* --- Executive Costing & Net Profit Breakdown --- */}
+            <div className="bg-white border-4 border-emerald-100 rounded-[32px] p-6 lg:p-8 space-y-6 shadow-xl relative overflow-hidden">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-4">
+                <div className="space-y-0.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-black uppercase text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 tracking-wider">
+                      Unit Economics &amp; Margins
+                    </span>
+                    <span className="text-xs text-slate-400 font-bold">• Live Platform Calculation</span>
+                  </div>
+                  <h3 className="text-xl font-black text-slate-900 flex items-center gap-2">
+                    <span>💎 Platform Operational Cost &amp; Net Profitability</span>
+                  </h3>
+                </div>
+                <div className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-4 py-1.5 rounded-xl text-xs font-black">
+                  Net Margin: {profitMargin}%
+                </div>
+              </div>
+
+              {/* 4 Cards: Revenue, AI, Firestore, Stripe */}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Gross Revenue */}
+                <div className="bg-slate-50/80 border border-slate-200/80 rounded-2xl p-5 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-slate-500">Gross Revenue (MRR)</span>
+                    <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">
+                      <DollarSign className="w-4 h-4" />
+                    </div>
+                  </div>
+                  <p className="text-2xl font-black text-emerald-600">
+                    ${totalMRR.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </p>
+                  <p className="text-[10px] font-bold text-slate-400">
+                    From {paidCount} active paying subscriptions
+                  </p>
+                </div>
+
+                {/* AI Token Cost */}
+                <div className="bg-slate-50/80 border border-slate-200/80 rounded-2xl p-5 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-slate-500">Est. AI Generation Cost</span>
+                    <div className="w-8 h-8 rounded-lg bg-violet-100 text-violet-700 flex items-center justify-center font-bold text-sm">
+                      <Sparkles className="w-4 h-4" />
+                    </div>
+                  </div>
+                  <p className="text-2xl font-black text-rose-600">
+                    -${estAiCost.toFixed(2)}
+                  </p>
+                  <p className="text-[10px] font-bold text-slate-400">
+                    {totalHomeworks} generated test papers (~$0.006/ea)
+                  </p>
+                </div>
+
+                {/* Firestore Cost */}
+                <div className="bg-slate-50/80 border border-slate-200/80 rounded-2xl p-5 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-slate-500">Est. Firestore Database</span>
+                    <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm">
+                      <Activity className="w-4 h-4" />
+                    </div>
+                  </div>
+                  <p className="text-2xl font-black text-rose-600">
+                    -${estFirestoreCost.toFixed(2)}
+                  </p>
+                  <p className="text-[10px] font-bold text-slate-400">
+                    Blaze reads, writes &amp; storage for {totalStudents} students
+                  </p>
+                </div>
+
+                {/* Stripe Fees */}
+                <div className="bg-slate-50/80 border border-slate-200/80 rounded-2xl p-5 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-slate-500">Payment Processing</span>
+                    <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm">
+                      <CreditCard className="w-4 h-4" />
+                    </div>
+                  </div>
+                  <p className="text-2xl font-black text-rose-600">
+                    -${estStripeFees.toFixed(2)}
+                  </p>
+                  <p className="text-[10px] font-bold text-slate-400">
+                    Stripe 2.9% + $0.30/sub processing fees
+                  </p>
+                </div>
+              </div>
+
+              {/* Summary Bottom Banner */}
+              <div className="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-2xl p-5 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-md">
+                <div className="space-y-1">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-emerald-200">
+                    Estimated Net Take-Home
+                  </span>
+                  <div className="flex items-baseline gap-3">
+                    <h4 className="text-3xl font-black text-white">
+                      ${Math.max(0, netProfit).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      <span className="text-sm font-normal text-emerald-100"> / month</span>
+                    </h4>
+                    <span className="text-xs font-bold bg-white/20 text-white px-2.5 py-0.5 rounded-full">
+                      ${(Math.max(0, netProfit) * 12).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} / yr
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-6 text-right">
+                  <div>
+                    <p className="text-[10px] font-bold uppercase text-emerald-200">Total Operational Cost</p>
+                    <p className="text-lg font-black text-emerald-50">${totalExpenses.toFixed(2)}/mo</p>
+                  </div>
+                  <div className="border-l border-emerald-500 pl-6">
+                    <p className="text-[10px] font-bold uppercase text-emerald-200">Gross Margin</p>
+                    <p className="text-2xl font-black text-emerald-300">{profitMargin}%</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="bg-white border-4 border-purple-100 rounded-[32px] p-6 lg:p-8 space-y-6 shadow-xl">
               <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                 <h3 className="text-lg font-black text-slate-800">Registered Users & Plans</h3>
@@ -4462,6 +4586,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none text-center" onClick={() => handleAdminSort('homeworkCount')}>Papers</th>
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none" onClick={() => handleAdminSort('activePlanId')}>Plan Model</th>
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none text-right" onClick={() => handleAdminSort('mrr')}>Est. MRR</th>
+                      <th className="p-4 select-none text-right">Unit Profit</th>
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none text-center" onClick={() => handleAdminSort('conversionStatus')}>Conversion Status</th>
                       <th className="p-4 text-center text-[9px]">Super User</th>
                       <th className="p-4 text-center text-[9px]">Actions</th>
@@ -4513,6 +4638,14 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                           </td>
                           <td className="p-4 text-right font-black text-emerald-600 text-sm">
                             ${teacher.mrr.toFixed(2)}
+                          </td>
+                          <td className="p-4 text-right">
+                            <p className="font-black text-emerald-600 text-sm">
+                              +${Math.max(0, teacher.mrr - ((teacher.homeworkCount || 0) * 0.006) - (teacher.isPaid ? (teacher.mrr * 0.029 + 0.30) : 0)).toFixed(2)}
+                            </p>
+                            <p className="text-[10px] text-slate-400 font-medium">
+                              Cost: ${(((teacher.homeworkCount || 0) * 0.006) + (teacher.isPaid ? (teacher.mrr * 0.029 + 0.30) : 0)).toFixed(2)}
+                            </p>
                           </td>
                           <td className="p-4 text-center">
                             <span className={`px-2.5 py-1.5 rounded-full text-[10px] font-black uppercase border inline-flex items-center gap-1.5 ${
