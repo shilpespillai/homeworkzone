@@ -42,18 +42,52 @@ export default function DynamicChart({ data }) {
   }
 
   const isArray = Array.isArray(parsedData);
-  const actualData = isArray ? parsedData : parsedData.data;
-  
-  if (!actualData || actualData.length === 0) {
-    return (
-      <div className="w-full bg-red-50 border border-red-200 rounded-3xl p-6 flex items-center justify-center h-[300px] text-red-500 font-bold">
-        Chart data is invalid or empty. Data received: {JSON.stringify(data)}
-      </div>
-    );
+  let actualData = null;
+  let type = isArray ? 'bar' : (parsedData?.type || 'bar').toLowerCase();
+  const title = isArray ? null : (parsedData?.title || parsedData?.name);
+  const xAxisLabel = !isArray ? (parsedData?.xAxis || parsedData?.xLabel || 'Category') : 'Category';
+  const yAxisLabel = !isArray ? (parsedData?.yAxis || parsedData?.yLabel || 'Value') : 'Value';
+
+  if (isArray) {
+    actualData = parsedData;
+  } else if (parsedData && typeof parsedData === 'object') {
+    if (Array.isArray(parsedData.data) && parsedData.data.length > 0) {
+      actualData = parsedData.data;
+    } else if (Array.isArray(parsedData.points) && parsedData.points.length > 0) {
+      if (typeof parsedData.points[0] === 'number') {
+        const pairs = [];
+        for (let i = 0; i < parsedData.points.length; i += 2) {
+          const x = parsedData.points[i];
+          const y = parsedData.points[i + 1] !== undefined ? parsedData.points[i + 1] : 0;
+          pairs.push({ name: String(x), value: y, displayValue: String(y) });
+        }
+        actualData = pairs;
+      } else if (typeof parsedData.points[0] === 'object') {
+        actualData = parsedData.points.map(p => ({
+          name: String(p.x ?? p.name ?? p.label ?? ''),
+          value: Number(p.y ?? p.value ?? p.cf ?? 0),
+          displayValue: String(p.y ?? p.value ?? p.cf ?? '')
+        }));
+      }
+    } else if (Array.isArray(parsedData.dataPoints) && parsedData.dataPoints.length > 0) {
+      actualData = parsedData.dataPoints.map(p => ({
+        name: String(p.x ?? p.name ?? p.label ?? ''),
+        value: Number(p.y ?? p.value ?? p.cf ?? 0),
+        displayValue: String(p.y ?? p.value ?? p.cf ?? '')
+      }));
+    } else if (Array.isArray(parsedData.values) && parsedData.values.length > 0) {
+      const labels = Array.isArray(parsedData.labels) ? parsedData.labels : [];
+      actualData = parsedData.values.map((v, idx) => ({
+        name: labels[idx] || `Item ${idx + 1}`,
+        value: typeof v === 'number' ? v : parseFloat(v) || 0,
+        displayValue: String(v)
+      }));
+    }
   }
 
-  const type = isArray ? 'bar' : (parsedData.type || 'bar');
-  const title = isArray ? null : parsedData.title;
+  if (!actualData || actualData.length === 0) {
+    return null;
+  }
 
   const headers = React.useMemo(() => {
     if (!actualData || actualData.length === 0) return ['Item', 'Value'];
@@ -179,15 +213,33 @@ export default function DynamicChart({ data }) {
           </ResponsiveContainer>
         );
       
+      case 'ogive':
       case 'line':
         return (
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
-              <XAxis dataKey="name" stroke="#64748b" tick={{fill: '#64748b', fontSize: 12, fontWeight: 600}} dy={10} />
-              <YAxis stroke="#64748b" tick={{fill: '#64748b', fontSize: 12, fontWeight: 600}} />
+            <LineChart data={chartData} margin={{ top: 20, right: 30, left: 10, bottom: 25 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+              <XAxis 
+                dataKey="name" 
+                stroke="#64748b" 
+                tick={{ fill: '#475569', fontSize: 12, fontWeight: 700 }} 
+                dy={8}
+                label={xAxisLabel ? { value: xAxisLabel, position: 'insideBottom', offset: -15, fill: '#64748b', fontSize: 11, fontWeight: 800 } : undefined}
+              />
+              <YAxis 
+                stroke="#64748b" 
+                tick={{ fill: '#475569', fontSize: 12, fontWeight: 700 }} 
+                label={yAxisLabel ? { value: yAxisLabel, angle: -90, position: 'insideLeft', offset: 0, fill: '#64748b', fontSize: 11, fontWeight: 800 } : undefined}
+              />
               <Tooltip content={<CustomTooltip />} />
-              <Line type="monotone" dataKey="value" stroke="#4f46e5" strokeWidth={4} activeDot={{ r: 8, fill: '#4f46e5', stroke: '#fff', strokeWidth: 2 }} />
+              <Line 
+                type="monotone" 
+                dataKey="value" 
+                stroke="#2563eb" 
+                strokeWidth={3.5} 
+                dot={{ r: 5, fill: '#2563eb', stroke: '#fff', strokeWidth: 2 }}
+                activeDot={{ r: 8, fill: '#ef4444', stroke: '#fff', strokeWidth: 2 }} 
+              />
             </LineChart>
           </ResponsiveContainer>
         );
