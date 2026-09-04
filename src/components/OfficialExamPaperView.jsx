@@ -659,6 +659,20 @@ export default function OfficialExamPaperView({
                              (homework?.title || '').toLowerCase().includes('selective reading');
   const hasReadingStimulus = Boolean(effectivePassage || (parsedPassages && parsedPassages.length > 0));
 
+  const displayTimer = useMemo(() => {
+    if (typeof formattedTime === 'string' && formattedTime.includes(':')) {
+      const parts = formattedTime.split(':');
+      if (parts.length === 2 && parseInt(parts[0], 10) >= 60) {
+        const rawMins = parseInt(parts[0], 10);
+        const secs = parts[1];
+        const hrs = Math.floor(rawMins / 60);
+        const mins = rawMins % 60;
+        return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs}`;
+      }
+    }
+    return formattedTime || '40:00';
+  }, [formattedTime]);
+
   const [activePassageId, setActivePassageId] = useState(1);
 
   // Auto-sync active passage when current question changes
@@ -932,7 +946,7 @@ export default function OfficialExamPaperView({
         {/* Center Timer */}
         <div className="flex items-center gap-2 bg-slate-900 px-4 py-1.5 rounded-lg border border-slate-700 text-amber-400 font-mono font-black text-sm shadow-inner">
           <Timer className="w-4 h-4 text-amber-400 animate-pulse" />
-          <span>{formattedTime || '40:00'}</span>
+          <span>{displayTimer}</span>
         </div>
 
         {/* Controls */}
