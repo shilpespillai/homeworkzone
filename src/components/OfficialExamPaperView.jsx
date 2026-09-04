@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { checkIsCorrect } from '../utils/checkIsCorrect';
 import { 
   Timer, 
@@ -29,6 +29,7 @@ import DynamicBlockStructure from './DynamicBlockStructure';
 import EarlyMathVisualizer from './EarlyMathVisualizer';
 import DynamicVennDiagram from './DynamicVennDiagram';
 import PassageViewer from './PassageViewer';
+import ReadingStimulusPane, { parseStimulusPassages } from './ReadingStimulusPane';
 
 const cleanOptionText = (text) => {
   if (typeof text !== 'string') return text;
@@ -601,7 +602,42 @@ export default function OfficialExamPaperView({
     );
   };
 
-  const { passage, question: cleanQuestionText } = getParsedQuestionContent(currentQ);
+  const { passage: qPassage, question: cleanQuestionText } = getParsedQuestionContent(currentQ);
+
+  const effectivePassage = currentQ?.passage || qPassage || homework?.passage || null;
+  const effectivePassages = currentQ?.passages || homework?.passages || null;
+  const parsedPassages = useMemo(() => parseStimulusPassages(effectivePassage, effectivePassages), [effectivePassage, effectivePassages]);
+
+  const isNaplanReading = (homework?.examPreset || '').toLowerCase().includes('naplan_reading') || 
+                          (homework?.title || '').toLowerCase().includes('naplan reading');
+  const isSelectiveReading = (homework?.examPreset || '').toLowerCase().includes('selective_reading') || 
+                             (homework?.title || '').toLowerCase().includes('selective reading');
+  const hasReadingStimulus = Boolean(effectivePassage || (parsedPassages && parsedPassages.length > 0));
+
+  const [activePassageId, setActivePassageId] = useState(1);
+
+  // Auto-sync active passage when current question changes
+  useEffect(() => {
+    if (!currentQ || !parsedPassages || parsedPassages.length === 0) return;
+    if (currentQ.passageId) {
+      setActivePassageId(currentQ.passageId);
+      return;
+    }
+    const qText = (currentQ.text || currentQ.question || '').toLowerCase();
+    for (const p of parsedPassages) {
+      if (p.title && qText.includes(p.title.toLowerCase())) {
+        setActivePassageId(p.id);
+        return;
+      }
+    }
+    if (qText.includes('poem') || qText.includes('stanza') || qText.includes('verse')) {
+      const poemP = parsedPassages.find(p => p.textType === 'poem' || /poem/i.test(p.genre));
+      if (poemP) {
+        setActivePassageId(poemP.id);
+        return;
+      }
+    }
+  }, [currentIdx, currentQ, parsedPassages]);
 
   const answeredCount = questions.filter((q, idx) => {
     const val = getAnswerForQuestion(q, idx);
@@ -887,7 +923,7 @@ export default function OfficialExamPaperView({
       </header>
 
       {/* Main Examination Paper Container */}
-      <main className={`w-full ${passage ? 'max-w-[98vw] p-2 md:p-4' : 'max-w-4xl p-4 md:p-8'} mx-auto flex-1`}>
+      <main className={`w-full ${hasReadingStimulus ? 'max-w-[98vw] p-2 md:p-4' : 'max-w-4xl p-4 md:p-8'} mx-auto flex-1`}>
         
         {/* Scratchpad Drawer if toggled */}
         {showScratchpad && (
@@ -905,45 +941,97 @@ export default function OfficialExamPaperView({
           </div>
         )}
 
-        {/* Paper Sheet */}
-        <div className="bg-[#fcfbf9] border-4 border-slate-900 rounded-xl p-6 md:p-10 shadow-xl space-y-8 relative">
-          
-          {/* Paper Question Header */}
-          <div className="flex items-center justify-between border-b-2 border-slate-900 pb-4 font-sans">
-            <span className="font-black text-xs uppercase tracking-widest text-slate-600">
-              QUESTION {currentIdx + 1} OF {totalQuestions}
-            </span>
+        {hasReadingStimulus ? (
+          /* AUTHENTIC SPLIT-SCREEN READING LAYOUT (NAPLAN Online & NSW Selective Reading Magazine) */
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+            {/* Left Column: Reading Stimulus Pane (Sticky on desktop) */}
+            <div className="lg:col-span-6 xl:col-span-7 lg:sticky lg:top-16 z-10">
+              <ReadingStimulusPane
+                passage={effectivePassage}
+                passages={effectivePassages}
+                activePassageId={activePassageId}
+                onSelectPassage={(id) => setActivePassageId(id)}
+                variant={isNaplanReading ? 'naplan' : isSelectiveReading ? 'selective' : 'standard'}
+              />
+            </div>
 
-            <button
-              onClick={() => onToggleReview && onToggleReview(currentIdx)}
-              className={`flex items-center gap-1.5 text-xs font-black px-3 py-1.5 rounded-lg border transition-all ${markedForReview[currentIdx] ? 'bg-amber-500 text-slate-950 border-amber-600' : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300'}`}
-            >
-              <Flag className="w-3.5 h-3.5" />
-              {markedForReview[currentIdx] ? 'Flagged for Review' : 'Flag for Review'}
-            </button>
+            {/* Right Column: Question Card */}
+            <div className="lg:col-span-6 xl:col-span-5 bg-[#fcfbf9] border-4 border-slate-900 rounded-xl p-5 md:p-8 shadow-xl space-y-6">
+              {/* Paper Question Header */}
+              <div className="flex items-center justify-between border-b-2 border-slate-900 pb-3 font-sans">
+                <div className="flex items-center gap-2">
+                  <span className="font-black text-xs uppercase tracking-widest text-slate-600">
+                    QUESTION {currentIdx + 1} OF {totalQuestions}
+                  </span>
+                  {parsedPassages.length > 1 && (
+                    <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 border border-sky-200">
+                      Text {activePassageId}
+                    </span>
+                  )}
+                </div>
+
+                <button
+                  onClick={() => onToggleReview && onToggleReview(currentIdx)}
+                  className={`flex items-center gap-1.5 text-xs font-black px-3 py-1.5 rounded-lg border transition-all ${markedForReview[currentIdx] ? 'bg-amber-500 text-slate-950 border-amber-600' : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300'}`}
+                >
+                  <Flag className="w-3.5 h-3.5" />
+                  {markedForReview[currentIdx] ? 'Flagged' : 'Flag for Review'}
+                </button>
+              </div>
+
+              {/* Visual Diagram / SVG Figure Container if present */}
+              {renderQuestionVisuals(currentQ)}
+
+              {/* Question Text */}
+              <div className="text-base md:text-lg font-extrabold leading-relaxed text-slate-900 bg-slate-50 border-l-4 border-amber-500 p-4 rounded-r-xl shadow-sm my-4">
+                <TextWithTables text={cleanQuestionText || currentQ?.text || currentQ?.question || currentQ?.questionText || currentQ?.prompt || currentQ?.title || currentQ?.subtopic || `Question ${currentIdx + 1}: Select the correct answer from the options below:`} />
+              </div>
+
+              {/* Question Input (Multiple Choice / Short Answer Text / Interactive) */}
+              {renderQuestionInput()}
+            </div>
           </div>
+        ) : (
+          /* Standard Single Column Exam Paper (for Mathematics, Science, etc.) */
+          <div className="bg-[#fcfbf9] border-4 border-slate-900 rounded-xl p-6 md:p-10 shadow-xl space-y-8 relative">
+            
+            {/* Paper Question Header */}
+            <div className="flex items-center justify-between border-b-2 border-slate-900 pb-4 font-sans">
+              <span className="font-black text-xs uppercase tracking-widest text-slate-600">
+                QUESTION {currentIdx + 1} OF {totalQuestions}
+              </span>
 
-          {/* Reading Passage / Stimulus Container if present */}
-          {passage && (
-            <PassageViewer 
-              passage={passage} 
-              currentQuestionText={cleanQuestionText || ''} 
-              className="my-4" 
-            />
-          )}
+              <button
+                onClick={() => onToggleReview && onToggleReview(currentIdx)}
+                className={`flex items-center gap-1.5 text-xs font-black px-3 py-1.5 rounded-lg border transition-all ${markedForReview[currentIdx] ? 'bg-amber-500 text-slate-950 border-amber-600' : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300'}`}
+              >
+                <Flag className="w-3.5 h-3.5" />
+                {markedForReview[currentIdx] ? 'Flagged for Review' : 'Flag for Review'}
+              </button>
+            </div>
 
-          {/* Visual Diagram / SVG Figure Container if present */}
-          {renderQuestionVisuals(currentQ)}
+            {/* Reading Passage / Stimulus Container if present */}
+            {effectivePassage && (
+              <PassageViewer 
+                passage={effectivePassage} 
+                currentQuestionText={cleanQuestionText || ''} 
+                className="my-4" 
+              />
+            )}
 
-          {/* Question Text */}
-          <div className="text-base md:text-lg font-extrabold leading-relaxed text-slate-900 bg-slate-50 border-l-4 border-amber-500 p-4 rounded-r-xl shadow-sm my-4">
-            <TextWithTables text={cleanQuestionText || currentQ?.text || currentQ?.question || currentQ?.questionText || currentQ?.prompt || currentQ?.title || currentQ?.subtopic || `Question ${currentIdx + 1}: Select the correct answer from the options below:`} />
+            {/* Visual Diagram / SVG Figure Container if present */}
+            {renderQuestionVisuals(currentQ)}
+
+            {/* Question Text */}
+            <div className="text-base md:text-lg font-extrabold leading-relaxed text-slate-900 bg-slate-50 border-l-4 border-amber-500 p-4 rounded-r-xl shadow-sm my-4">
+              <TextWithTables text={cleanQuestionText || currentQ?.text || currentQ?.question || currentQ?.questionText || currentQ?.prompt || currentQ?.title || currentQ?.subtopic || `Question ${currentIdx + 1}: Select the correct answer from the options below:`} />
+            </div>
+
+            {/* Question Input (Multiple Choice / Short Answer Text / Interactive) */}
+            {renderQuestionInput()}
+
           </div>
-
-          {/* Question Input (Multiple Choice / Short Answer Text / Interactive) */}
-          {renderQuestionInput()}
-
-        </div>
+        )}
       </main>
 
       {/* Bottom Examination Navigation Bar */}

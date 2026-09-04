@@ -657,6 +657,7 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   const [isDiscardingDraft, setIsDiscardingDraft] = useState(false);
   const [generatedQuestions, setGeneratedQuestions] = useState(null);
   const [generatedPassage, setGeneratedPassage] = useState(null);
+  const [generatedPassagesList, setGeneratedPassagesList] = useState(null);
   const [generatedModelUsed, setGeneratedModelUsed] = useState(null);
   const [isAiAccepted, setIsAiAccepted] = useState(false);
 
@@ -1711,43 +1712,191 @@ EXPECTED JSON SCHEMA:
 
       let questions = [];
       let passage = null;
+      let passagesList = null;
 
-      // Chunk size cap: Max 5 questions per batch to eliminate any possibility of token truncation!
-      const CHUNK_SIZE = 5;
-      const chunkCounts = [];
-      let remainingToAssign = questionCount;
-      while (remainingToAssign > 0) {
-        const currentChunk = Math.min(remainingToAssign, CHUNK_SIZE);
-        chunkCounts.push(currentChunk);
-        remainingToAssign -= currentChunk;
-      }
-
-      console.log(`🚀 [HWZ SELF-HEALING ENGINE] Generating ${questionCount} questions in ${chunkCounts.length} parallel batches:`, chunkCounts);
-
-      const batchPromises = chunkCounts.map((countToGen, idx) => {
-        return generateContent({
-          prompt: getPromptForCount(countToGen, `BATCH-${idx + 1}-${Date.now()}`),
-          responseMimeType: 'application/json',
-          provider: tieredModel
-        }).then(res => safeParseAiJson(res)).catch((err) => {
-          console.warn(`[HWZ Batch Engine] Batch ${idx + 1} failed:`, err);
-          return { questions: [] };
-        });
-      });
-
-      const batchResults = await Promise.all(batchPromises);
+      const isReadingExam = formData.examPreset === 'naplan_reading' || 
+                            formData.examPreset === 'nsw_selective_reading' || 
+                            formData.examPreset?.toLowerCase().includes('reading') || 
+                            formData.subject === 'reading' || 
+                            /reading\s+comprehension|stimulus\s+passages/i.test(rawInjected || '');
 
       let collectedQuestions = [];
-      for (const resObj of batchResults) {
-        const rawQs = resObj.questions || resObj;
-        if (Array.isArray(rawQs)) {
-          collectedQuestions.push(...rawQs.map(sanitizeQuestionData));
+
+      if (isReadingExam) {
+        console.log(`📚 [HWZ READING ENGINE] Two-Phase Reading Generation for Year ${resolvedGrade} (${formData.examPreset || formData.title})...`);
+
+        // Phase 1: Generate Complete Stimulus Suite (Passages & Poem)
+        const stimulusPrompt = `You are an expert ACARA / Selective Reading test author and curriculum authority.
+Generate an authentic 4-part Stimulus Reading Suite for Year ${resolvedGrade} students taking the ${formData.examPreset || 'Reading Assessment'} test.
+
+MANDATORY 4-PART TEXT SUITE:
+1. Text 1 (Narrative / Imaginative): An engaging 250-350 word story with rich character dialogue, setting, and subtext appropriate for Year ${resolvedGrade}.
+2. Text 2 (Poetry / Poem): An original 16-24 line structured poem with 4-5 stanzas, figurative devices (metaphors, similes, personification), rhythm, and clear themes.
+3. Text 3 (Informative / Scientific): A 250-350 word fascinating factual report or historical/nature article with subheadings and real facts.
+4. Text 4 (Persuasive / Opinion): A 200-300 word compelling opinion piece or editorial on an engaging student-relevant topic.
+
+Return ONLY a JSON object:
+{
+  "passages": [
+    {
+      "id": 1,
+      "title": "Title of Story",
+      "textType": "narrative",
+      "genre": "Imaginative Narrative",
+      "text": "Full story text..."
+    },
+    {
+      "id": 2,
+      "title": "Title of Poem",
+      "textType": "poem",
+      "genre": "Poem",
+      "text": "Full poem text with stanzas..."
+    },
+    {
+      "id": 3,
+      "title": "Title of Report",
+      "textType": "informative",
+      "genre": "Informative Report",
+      "text": "Full report text..."
+    },
+    {
+      "id": 4,
+      "title": "Title of Opinion",
+      "textType": "persuasive",
+      "genre": "Persuasive Argument",
+      "text": "Full persuasive text..."
+    }
+  ]
+}`;
+
+        try {
+          const stimRes = await generateContent({
+            prompt: stimulusPrompt,
+            responseMimeType: 'application/json',
+            provider: tieredModel
+          });
+          const stimObj = safeParseAiJson(stimRes);
+          if (Array.isArray(stimObj?.passages) && stimObj.passages.length > 0) {
+            passagesList = stimObj.passages;
+            passage = stimObj.passages.map(p => `### ${p.title} (${p.genre || p.textType})\n\n${p.text}`).join('\n\n---\n\n');
+
+            // Phase 2: Distribute Questions Across the Generated Passages
+            const numTexts = stimObj.passages.length;
+            const baseCount = Math.floor(questionCount / numTexts);
+            const remainder = questionCount % numTexts;
+
+            const qPromises = stimObj.passages.map((p, pIdx) => {
+              const countForText = baseCount + (pIdx < remainder ? 1 : 0);
+              const isPoem = p.textType === 'poem' || /poem/i.test(p.genre);
+
+              const qPrompt = `You are an expert ACARA / Selective reading test author.
+Generate ${countForText} multiple-choice reading comprehension questions for Year ${resolvedGrade} students based STRICTLY on the text provided below.
+
+TEXT TO TEST:
+- Title: "${p.title}"
+- Type: ${p.genre || p.textType} ${isPoem ? '(POEM)' : ''}
+- Full Text:
+"""
+${p.text}
+"""
+
+COGNITIVE COVERAGE:
+- Literal Comprehension (directly stated details)
+- Inferential Comprehension (character motives, implied meaning, reading between lines)
+- Evaluative / Critical Comprehension (author's craft, poetic devices, persuasive impact)
+- Vocabulary in Context (figurative language, word meaning in context)
+
+RULES:
+- Exactly 4 options (A, B, C, D) per question.
+- "answer" must be the correct option string.
+- "explanation" must cite or quote the exact line/phrase from the text.
+- Set "passageId" to ${p.id} and "passageTitle" to "${p.title}".
+${isPoem ? '- Refer specifically to stanza and line numbers (e.g. "In stanza 2, why does the speaker...").' : ''}
+
+Return ONLY a JSON object:
+{
+  "questions": [
+    {
+      "id": 1,
+      "passageId": ${p.id},
+      "passageTitle": "${p.title}",
+      "text": "Question text...",
+      "questionType": "multiple_choice",
+      "cognitiveSkill": "Inferential Comprehension",
+      "options": ["Option A", "Option B", "Option C", "Option D"],
+      "answer": "Option A",
+      "explanation": "Explanation quoting the text..."
+    }
+  ]
+}`;
+
+              return generateContent({
+                prompt: qPrompt,
+                responseMimeType: 'application/json',
+                provider: tieredModel
+              }).then(res => safeParseAiJson(res)).catch(err => {
+                console.warn(`[HWZ Reading Engine] Batch failed for text ${p.id}:`, err);
+                return { questions: [] };
+              });
+            });
+
+            const qResults = await Promise.all(qPromises);
+            let readingQs = [];
+            for (const resObj of qResults) {
+              const raw = resObj.questions || resObj;
+              if (Array.isArray(raw)) {
+                readingQs.push(...raw.map(sanitizeQuestionData));
+              }
+            }
+
+            if (readingQs.length > 0) {
+              collectedQuestions = readingQs;
+            }
+          }
+        } catch (stimErr) {
+          console.warn("[HWZ Reading Engine] Phase 1 stimulus error:", stimErr);
         }
-        if (!passage) {
-          if (Array.isArray(resObj.passages) && resObj.passages.length > 0) {
-            passage = resObj.passages.map(p => `### ${p.title || 'Passage ' + p.id} (${p.textType || 'Text'})\n\n${p.text}`).join('\n\n---\n\n');
-          } else if (resObj.passage) {
-            passage = resObj.passage;
+      }
+
+      // If not reading exam or reading generation fallback, use standard parallel chunks
+      if (collectedQuestions.length === 0) {
+        // Chunk size cap: Max 5 questions per batch to eliminate any possibility of token truncation!
+        const CHUNK_SIZE = 5;
+        const chunkCounts = [];
+        let remainingToAssign = questionCount;
+        while (remainingToAssign > 0) {
+          const currentChunk = Math.min(remainingToAssign, CHUNK_SIZE);
+          chunkCounts.push(currentChunk);
+          remainingToAssign -= currentChunk;
+        }
+
+        console.log(`🚀 [HWZ SELF-HEALING ENGINE] Generating ${questionCount} questions in ${chunkCounts.length} parallel batches:`, chunkCounts);
+
+        const batchPromises = chunkCounts.map((countToGen, idx) => {
+          return generateContent({
+            prompt: getPromptForCount(countToGen, `BATCH-${idx + 1}-${Date.now()}`),
+            responseMimeType: 'application/json',
+            provider: tieredModel
+          }).then(res => safeParseAiJson(res)).catch((err) => {
+            console.warn(`[HWZ Batch Engine] Batch ${idx + 1} failed:`, err);
+            return { questions: [] };
+          });
+        });
+
+        const batchResults = await Promise.all(batchPromises);
+
+        for (const resObj of batchResults) {
+          const rawQs = resObj.questions || resObj;
+          if (Array.isArray(rawQs)) {
+            collectedQuestions.push(...rawQs.map(sanitizeQuestionData));
+          }
+          if (!passage) {
+            if (Array.isArray(resObj.passages) && resObj.passages.length > 0) {
+              passagesList = resObj.passages;
+              passage = resObj.passages.map(p => `### ${p.title || 'Passage ' + p.id} (${p.textType || 'Text'})\n\n${p.text}`).join('\n\n---\n\n');
+            } else if (resObj.passage) {
+              passage = resObj.passage;
+            }
           }
         }
       }
@@ -1801,6 +1950,7 @@ EXPECTED JSON SCHEMA:
 
       setGeneratedQuestions(questions);
       setGeneratedPassage(passage);
+      setGeneratedPassagesList(passagesList);
       setGeneratedModelUsed(tieredModel);
       if (questions.length > 0 && user?.uid && !isPaperRecorded) {
         recordPaperGeneration(db, user.uid);
@@ -1873,6 +2023,7 @@ EXPECTED JSON SCHEMA:
         time: formData.time || '',
         points: formData.points || '10',
         passage: generatedPassage || null,
+        passages: generatedPassagesList || null,
         questions: questionsToSave || [],
         questionExplanations: questionExplanations || {},
         teacherId: user?.uid || '',
@@ -2024,6 +2175,7 @@ EXPECTED JSON SCHEMA:
         time: formData.time || '',
         points: formData.points || '10',
         passage: generatedPassage || null,
+        passages: generatedPassagesList || null,
         questions: questionsToSave || [],
         questionExplanations: questionExplanations || {},
         teacherId: user?.uid || '',

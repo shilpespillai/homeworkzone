@@ -4690,6 +4690,13 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
   const [teacherPassword, setTeacherPassword] = useState('');
 
   const [activeHookIndex, setActiveHookIndex] = useState(0);
+  const [activeLangIndex, setActiveLangIndex] = useState(0);
+  const rotatingLanguageHooks = useMemo(() => [
+    { badge: "🌍 Multilingual AI Papers", highlight: "Spanish, French, German, Hindi & English", color: "bg-teal-50 border-teal-300 text-teal-900" },
+    { badge: "🌐 Global Language Support", highlight: "Mandarin, Japanese, Arabic & 30+ Languages", color: "bg-indigo-50 border-indigo-300 text-indigo-900" },
+    { badge: "🗣️ Native Curriculum Generator", highlight: "Italian, Portuguese, Russian, Korean & More", color: "bg-sky-50 border-sky-300 text-sky-900" },
+  ], []);
+
   const rotatingHooks = useMemo(() => [
     { badge: "🇦🇺 Australian Curriculum & NAPLAN", highlight: "Foundation (Prep/K) to Year 12", color: "bg-emerald-50 border-emerald-300 text-emerald-900" },
     { badge: "🌐 IB & Cambridge International", highlight: "Primary, Middle & Senior Diploma", color: "bg-blue-50 border-blue-300 text-blue-900" },
@@ -4701,6 +4708,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveHookIndex((prev) => (prev + 1) % rotatingHooks.length);
+      setActiveLangIndex((prev) => (prev + 1) % rotatingLanguageHooks.length);
     }, 3500);
     return () => clearInterval(timer);
   }, [rotatingHooks.length]);
@@ -4954,7 +4962,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
           }
 
           // Case 3: Successfully authenticated
-          if (data.customToken) {
+          if (data.customToken && (!auth.currentUser || auth.currentUser.uid.startsWith('student_'))) {
             try {
               await signInWithCustomToken(auth, data.customToken);
             } catch (authErr) {
@@ -5017,8 +5025,9 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
 
       <main className="w-full px-6 pb-12">
 
-        {/* TOP DYNAMIC ROTATING CURRICULUM PILL */}
-        <section className="pt-2.5 pb-2 max-w-6xl mx-auto flex items-center justify-center">
+        {/* TOP DYNAMIC ROTATING CURRICULUM & MULTILINGUAL PILLS */}
+        <section className="pt-2.5 pb-2 max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-3">
+          {/* Panel 1: Standards & Curriculum */}
           <div className="h-8 flex items-center justify-center">
             <AnimatePresence mode="wait">
               <motion.div
@@ -5033,6 +5042,25 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                 <span>{rotatingHooks[activeHookIndex].badge}</span>
                 <span className="opacity-40">|</span>
                 <span className="text-slate-600 font-bold normal-case text-xs">{rotatingHooks[activeHookIndex].highlight}</span>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Panel 2: Multilingual Support */}
+          <div className="h-8 flex items-center justify-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeLangIndex}
+                initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -6, scale: 0.96 }}
+                transition={{ duration: 0.25 }}
+                className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider shadow-sm border ${rotatingLanguageHooks[activeLangIndex].color}`}
+              >
+                <Globe className="w-4 h-4 text-teal-600 shrink-0" />
+                <span>{rotatingLanguageHooks[activeLangIndex].badge}</span>
+                <span className="opacity-40">|</span>
+                <span className="text-slate-600 font-bold normal-case text-xs">{rotatingLanguageHooks[activeLangIndex].highlight}</span>
               </motion.div>
             </AnimatePresence>
           </div>
@@ -6108,7 +6136,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                       return;
                     }
 
-                    if (data.customToken) {
+                    if (data.customToken && (!auth.currentUser || auth.currentUser.uid.startsWith('student_'))) {
                       try {
                         await signInWithCustomToken(auth, data.customToken);
                       } catch(e) {
@@ -6231,7 +6259,7 @@ const LoginPage = ({ role, onLogin }) => {
             return;
           }
 
-          if (data.customToken) {
+          if (data.customToken && (!auth.currentUser || auth.currentUser.uid.startsWith('student_'))) {
             try {
               await signInWithCustomToken(auth, data.customToken);
             } catch (e) {
