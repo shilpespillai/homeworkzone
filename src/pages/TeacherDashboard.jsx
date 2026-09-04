@@ -10136,6 +10136,40 @@ handleClosePromptModal();
       </aside>
 
       <main className="flex-1 overflow-y-auto no-scrollbar bg-[#F9F9FF] relative p-4 lg:p-6 flex flex-col">
+        {/* --- Critical Billing Alert Banner (Payment Failed / Card Expired) --- */}
+        {(() => {
+           const isPaymentFailed = teacherBilling?.status === 'past_due' || teacherBilling?.status === 'unpaid' || teacherBilling?.paymentFailed === true;
+           if (isPaymentFailed) {
+              return (
+                 <div className="bg-gradient-to-r from-rose-500 via-rose-600 to-red-600 text-white px-6 py-4 rounded-2xl mb-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-lg border border-red-300 animate-pulse">
+                    <div className="flex items-center gap-3">
+                       <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center shrink-0">
+                          <AlertCircle className="w-6 h-6 text-white" />
+                       </div>
+                       <div>
+                          <div className="flex items-center gap-2">
+                             <h4 className="text-sm font-black tracking-tight">⚠️ Subscription Payment Declined</h4>
+                             <span className="text-[9px] bg-white/30 text-white font-black px-2 py-0.5 rounded-full uppercase tracking-wider">Card Action Needed</span>
+                          </div>
+                          <p className="text-xs text-rose-100 font-medium mt-0.5">
+                             {teacherBilling?.lastPaymentFailureReason || 'Your renewal payment could not be processed (insufficient funds or expired card).'} Stripe will automatically retry, or you can update your card now to avoid service interruptions.
+                          </p>
+                       </div>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0 w-full md:w-auto">
+                       <button
+                          onClick={() => handleStripeSession(teacherBilling?.planId || 'option-b-starter', 'portal')}
+                          disabled={isRedirectingStripe}
+                          className="w-full md:w-auto px-5 py-2.5 bg-white hover:bg-rose-50 text-rose-700 rounded-xl text-xs font-black shadow-md transition-all active:scale-95 cursor-pointer uppercase tracking-wider"
+                       >
+                          {isRedirectingStripe ? 'Opening...' : 'Update Card / Pay Now 💳'}
+                       </button>
+                    </div>
+                 </div>
+              );
+           }
+           return null;
+        })()}
         {(() => {
            const lockedCount = allStudents.filter(s => s.isQuotaLocked).length;
            if (lockedCount > 0) {

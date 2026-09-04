@@ -160,9 +160,65 @@ export default async function handler(req, res) {
           billing: billingData
         }, { merge: true });
 
-        console.log(`[Billing Webhook] Firestore updated subscription for teacher: ${teacherId} (event: ${event.type})`);
       } else {
         console.warn(`[Billing Webhook] No teacher found with stripeCustomerId: ${customerId}`);
+      }
+    }
+
+    // ─── Handle Failed Invoices (Expired Cards / Insufficient Funds) ───────────
+    else if (event.type === 'invoice.payment_failed') {
+      const invoice = event.data.object;
+      const customerId = invoice.customer;
+      const failureReason = invoice.last_payment_error?.message || 'Payment declined or insufficient funds';
+
+      const teachersRef = db.collection('teachers');
+      const snapshot = await teachersRef.where('billing.stripeCustomerId', '==', customerId).limit(1).get();
+
+      if (!snapshot.empty) {
+        const teacherDoc = snapshot.docs[0];
+        const teacherId = teacherDoc.id;
+
+        await teachersRef.doc(teacherId).set({
+          billing: {
+            status: 'past_due',
+            paymentFailed: true,
+            lastPaymentFailureReason: failureReason,
+            lastPaymentFailureDate: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          }
+        }, { merge: true });
+
+        console.log(`[Billing Webhook] Marked paymentFailed for teacher: ${teacherId}. Reason: ${failureReason}`);
+      } else {
+        console.warn(`[Billing Webhook] Payment failed for unknown customer: ${customerId}`);
+      }
+    }
+
+    // ─── Handle Succeeded Renewal Invoices (Retry Succeeded / Card Updated) ───
+    else if (event.type === 'invoice.payment_succeeded') {
+      const invoice = event.data.object;
+      const customerId = invoice.customer;
+
+      const teachersRef = db.collection('teachers');
+      const snapshot = await teachersRef.where('billing.stripeCustomerId', '==', customerId).limit(1).get();
+
+      if (!snapshot.empty) {
+        const teacherDoc = snapshot.docs[0];
+        const teacherId = teacherDoc.id;
+        const currentBilling = teacherDoc.data()?.billing || {};
+
+        if (currentBilling.paymentFailed || currentBilling.status === 'past_due') {
+          await teachersRef.doc(teacherId).set({
+            billing: {
+              status: 'active',
+              paymentFailed: false,
+              lastPaymentFailureReason: null,
+              updatedAt: new Date().toISOString(),
+            }
+          }, { merge: true });
+
+          console.log(`[Billing Webhook] Restored active status for teacher: ${teacherId} after successful payment.`);
+        }
       }
     }
 

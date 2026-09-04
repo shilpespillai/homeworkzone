@@ -628,6 +628,14 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       // Modifying an existing draft/homework is allowed
       return false;
     }
+    const isPaymentFailed = teacherBilling?.status === 'past_due' || teacherBilling?.status === 'unpaid' || teacherBilling?.paymentFailed === true;
+    if (isPaymentFailed) {
+      alert("⚠️ Paper Generation Paused: Your subscription renewal payment was declined (card expired or insufficient funds). Stripe will automatically retry, or you can update your payment method in the dashboard to resume generating papers.");
+      if (typeof setDashboardTab === 'function') {
+        setDashboardTab('Billing & Licenses');
+      }
+      return true;
+    }
     if (hasReachedLimit) {
       if (activePlanId === 'free') {
         setShowUpgradeModal(true);
