@@ -28,6 +28,12 @@ async function getRawBody(req) {
 
 // Map stripe lookup key back to planId
 function getPlanIdFromLookupKey(lookupKey) {
+  if (!lookupKey) return 'free';
+  if (lookupKey.includes('option_b_starter')) return 'option-b-starter';
+  if (lookupKey.includes('option_b_growth')) return 'option-b-growth';
+  if (lookupKey.includes('option_b_school')) return 'option-b-school';
+  if (lookupKey.includes('option_a')) return 'option-a';
+  if (lookupKey.includes('option_c')) return 'option-c';
   const map = {
     'hz_option_a_monthly': 'option-a',
     'hz_option_b_starter_monthly': 'option-b-starter',

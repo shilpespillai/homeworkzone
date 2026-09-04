@@ -33,8 +33,11 @@ export default async function handler(req, res) {
       successUrl,
       cancelUrl,
       action, // 'checkout' or 'portal'
-      customerId // existing customer ID if any
+      customerId, // existing customer ID if any
+      currency: requestedCurrency,
     } = req.body;
+
+    const currency = (requestedCurrency || 'usd').toLowerCase() === 'inr' ? 'inr' : 'usd';
 
     if (!teacherId || !email) {
       return res.status(400).json({ error: 'Missing teacherId or email' });
@@ -114,14 +117,24 @@ export default async function handler(req, res) {
       const item = subscription.items.data[0];
       const lookupKey = item?.price?.lookup_key || '';
       
-      const map = {
-        'hz_option_a_monthly': 'option-a',
-        'hz_option_b_starter_monthly': 'option-b-starter',
-        'hz_option_b_growth_monthly': 'option-b-growth',
-        'hz_option_b_school_monthly': 'option-b-school',
-        'hz_option_c_yearly': 'option-c',
-      };
-      const resolvedPlanId = session.metadata?.planId || map[lookupKey] || 'free';
+      let resolvedPlanId = session.metadata?.planId || '';
+      if (!resolvedPlanId || resolvedPlanId === 'free') {
+        if (lookupKey.includes('option_b_starter')) resolvedPlanId = 'option-b-starter';
+        else if (lookupKey.includes('option_b_growth')) resolvedPlanId = 'option-b-growth';
+        else if (lookupKey.includes('option_b_school')) resolvedPlanId = 'option-b-school';
+        else if (lookupKey.includes('option_a')) resolvedPlanId = 'option-a';
+        else if (lookupKey.includes('option_c')) resolvedPlanId = 'option-c';
+        else {
+          const map = {
+            'hz_option_a_monthly': 'option-a',
+            'hz_option_b_starter_monthly': 'option-b-starter',
+            'hz_option_b_growth_monthly': 'option-b-growth',
+            'hz_option_b_school_monthly': 'option-b-school',
+            'hz_option_c_yearly': 'option-c',
+          };
+          resolvedPlanId = map[lookupKey] || 'free';
+        }
+      }
       const quantity = item?.quantity || 1;
       const endTs = subscription.current_period_end || subscription.billing_cycle_anchor || (Date.now() / 1000 + 30 * 24 * 3600);
       const currentPeriodEnd = new Date(endTs * 1000).toISOString();
@@ -179,17 +192,20 @@ export default async function handler(req, res) {
     const isBooster = planId === 'booster-mini' || planId === 'booster-mega';
     if (isBooster) {
       const credits = planId === 'booster-mini' ? 15 : 50;
-      const amount = planId === 'booster-mini' ? 200 : 500;
+      const isINR = currency === 'inr';
+      const amount = isINR
+        ? (planId === 'booster-mini' ? 14900 : 39900)
+        : (planId === 'booster-mini' ? 200 : 500);
       const name = planId === 'booster-mini' ? 'HomeworkZone Mini Booster (+15 Papers)' : 'HomeworkZone Mega Booster (+50 Papers)';
 
-      const session = await stripe.checkout.sessions.create({
+      const boosterParams = {
         customer: stripeCustomerId,
         payment_method_types: ['card'],
         mode: 'payment',
         line_items: [
           {
             price_data: {
-              currency: 'usd',
+              currency: isINR ? 'inr' : 'usd',
               product_data: {
                 name,
                 description: 'One-time paper top-up credits',
@@ -206,8 +222,15 @@ export default async function handler(req, res) {
           planId,
           type: 'booster',
           credits,
+          currency: isINR ? 'inr' : 'usd',
         },
-      });
+      };
+
+      if (!isINR) {
+        boosterParams.adaptive_pricing = { enabled: true };
+      }
+
+      const session = await stripe.checkout.sessions.create(boosterParams);
 
       return res.status(200).json({ url: session.url, sessionId: session.id });
     }
@@ -245,34 +268,71 @@ export default async function handler(req, res) {
           billing_scheme: 'per_unit',
           unit_amount: Math.round(pricing.optionA_perStudentPerMonth * 100),
           interval: 'month',
+          currency: 'usd',
         };
         break;
       case 'option-b-starter':
-        lookupKey = 'hz_option_b_starter_monthly_v' + Math.round(pricing.optionB_starter_price * 100);
-        productDetails = {
-          name: 'HomeworkZone Starter Plan (Option B)',
-          billing_scheme: 'per_unit',
-          unit_amount: Math.round(pricing.optionB_starter_price * 100),
-          interval: 'month',
-        };
+        if (currency === 'inr') {
+          lookupKey = 'hz_option_b_starter_inr_v' + Math.round((pricing.optionB_starter_price_inr || 999) * 100);
+          productDetails = {
+            name: 'HomeworkZone Starter Plan (Option B - INR)',
+            billing_scheme: 'per_unit',
+            unit_amount: Math.round((pricing.optionB_starter_price_inr || 999) * 100),
+            interval: 'month',
+            currency: 'inr',
+          };
+        } else {
+          lookupKey = 'hz_option_b_starter_monthly_v' + Math.round(pricing.optionB_starter_price * 100);
+          productDetails = {
+            name: 'HomeworkZone Starter Plan (Option B)',
+            billing_scheme: 'per_unit',
+            unit_amount: Math.round(pricing.optionB_starter_price * 100),
+            interval: 'month',
+            currency: 'usd',
+          };
+        }
         break;
       case 'option-b-growth':
-        lookupKey = 'hz_option_b_growth_monthly_v' + Math.round(pricing.optionB_growth_price * 100);
-        productDetails = {
-          name: 'HomeworkZone Growth Plan (Option B)',
-          billing_scheme: 'per_unit',
-          unit_amount: Math.round(pricing.optionB_growth_price * 100),
-          interval: 'month',
-        };
+        if (currency === 'inr') {
+          lookupKey = 'hz_option_b_growth_inr_v' + Math.round((pricing.optionB_growth_price_inr || 1999) * 100);
+          productDetails = {
+            name: 'HomeworkZone Growth Plan (Option B - INR)',
+            billing_scheme: 'per_unit',
+            unit_amount: Math.round((pricing.optionB_growth_price_inr || 1999) * 100),
+            interval: 'month',
+            currency: 'inr',
+          };
+        } else {
+          lookupKey = 'hz_option_b_growth_monthly_v' + Math.round(pricing.optionB_growth_price * 100);
+          productDetails = {
+            name: 'HomeworkZone Growth Plan (Option B)',
+            billing_scheme: 'per_unit',
+            unit_amount: Math.round(pricing.optionB_growth_price * 100),
+            interval: 'month',
+            currency: 'usd',
+          };
+        }
         break;
       case 'option-b-school':
-        lookupKey = 'hz_option_b_school_monthly_v' + Math.round(pricing.optionB_school_price * 100);
-        productDetails = {
-          name: 'HomeworkZone School Plan (Option B)',
-          billing_scheme: 'per_unit',
-          unit_amount: Math.round(pricing.optionB_school_price * 100),
-          interval: 'month',
-        };
+        if (currency === 'inr') {
+          lookupKey = 'hz_option_b_school_inr_v' + Math.round((pricing.optionB_school_price_inr || 3499) * 100);
+          productDetails = {
+            name: 'HomeworkZone School Plan (Option B - INR)',
+            billing_scheme: 'per_unit',
+            unit_amount: Math.round((pricing.optionB_school_price_inr || 3499) * 100),
+            interval: 'month',
+            currency: 'inr',
+          };
+        } else {
+          lookupKey = 'hz_option_b_school_monthly_v' + Math.round(pricing.optionB_school_price * 100);
+          productDetails = {
+            name: 'HomeworkZone School Plan (Option B)',
+            billing_scheme: 'per_unit',
+            unit_amount: Math.round(pricing.optionB_school_price * 100),
+            interval: 'month',
+            currency: 'usd',
+          };
+        }
         break;
       case 'option-c':
         lookupKey = 'hz_option_c_yearly_v' + Math.round(pricing.optionC_tier1_rate * 100);
@@ -280,6 +340,7 @@ export default async function handler(req, res) {
           name: 'HomeworkZone Yearly Graduated License (Option C)',
           billing_scheme: 'tiered',
           interval: 'year',
+          currency: 'usd',
           tiers_mode: 'graduated',
           tiers: [
               { up_to: 100, unit_amount: Math.round(pricing.optionC_tier1_rate * 100) },
@@ -312,7 +373,7 @@ export default async function handler(req, res) {
 
       const priceParams = {
         product: product.id,
-        currency: 'usd',
+        currency: productDetails.currency || 'usd',
         recurring: {
           interval: productDetails.interval,
         },
@@ -382,7 +443,7 @@ export default async function handler(req, res) {
     }
 
     // 4. Create Stripe Checkout Session
-    const session = await stripe.checkout.sessions.create({
+    const sessionConfig = {
       customer: stripeCustomerId,
       payment_method_types: ['card'],
       mode: 'subscription',
@@ -398,8 +459,16 @@ export default async function handler(req, res) {
         teacherId,
         planId,
         studentCount: studentCount || 0,
+        currency,
       },
-    });
+    };
+
+    // Enable Adaptive Pricing for USD so international dollar countries auto-convert in Stripe
+    if (currency === 'usd') {
+      sessionConfig.adaptive_pricing = { enabled: true };
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionConfig);
 
     return res.status(200).json({ url: session.url, sessionId: session.id });
   } catch (err) {

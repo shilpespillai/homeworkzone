@@ -17,35 +17,43 @@ import { db } from '../firebase';
 export const DEFAULT_PRICING = {
   // ── Option A: Elastic Monthly ─────────────────────────────────────────────
   optionA_perStudentPerMonth: 5.00,
+  optionA_perStudentPerMonth_inr: 99,
   optionA_seatLimit: 10,           // seats included (no Stripe quantity needed)
   optionA_paperQuota: 25,          // papers per month
 
-  // ── Option B: Monthly Flat Tiers ─────────────────────────────────────────
+  // ── Option B: Monthly Flat Tiers (with PPP for INR) ───────────────────────
   optionB_starter_price: 50,
+  optionB_starter_price_inr: 999,
   optionB_starter_maxStudents: 20,
   optionB_starter_paperQuota: 60,  // papers per month
 
   optionB_growth_price: 80,
+  optionB_growth_price_inr: 1999,
   optionB_growth_maxStudents: 30,
   optionB_growth_paperQuota: 100,  // papers per month
 
   optionB_school_price: 99,
+  optionB_school_price_inr: 3499,
   optionB_school_maxStudents: 150,
   optionB_school_paperQuota: 150,  // papers per month
 
   // ── Option C: Yearly Graduated ────────────────────────────────────────────
   optionC_tier1_max: 100,
   optionC_tier1_rate: 24,
+  optionC_tier1_rate_inr: 499,
   optionC_tier2_max: 500,
   optionC_tier2_rate: 20,
+  optionC_tier2_rate_inr: 399,
   optionC_tier3_max: 1000,
   optionC_tier3_rate: 16,
+  optionC_tier3_rate_inr: 299,
   optionC_tier4_rate: 14,
+  optionC_tier4_rate_inr: 199,
   optionC_paperQuota: 2500,        // papers per year
 
   // ── Free Trial ────────────────────────────────────────────────────────────
   free_seatLimit: 5,
-  free_paperQuota: 5,              // total (lifetime, not monthly)
+  free_paperQuota: 5,              // total (lifetime trial)
 };
 
 // ─── In-memory cache ─────────────────────────────────────────────────────────
@@ -164,4 +172,36 @@ export function getTeacherMRR(billing, studentCount, pricing = DEFAULT_PRICING) 
   if (planId === 'option-b-school') return p.optionB_school_price;
   if (planId === 'option-c') return calcOptionCAnnual(studentCount, p) / 12;
   return 0;
+}
+
+/**
+ * Automatically detect whether the user is based in India (to display INR PPP rates)
+ * or international/Western markets (to display USD rates).
+ */
+export function detectUserCurrency() {
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    const lang = (typeof navigator !== 'undefined' && navigator.language) || '';
+    if (
+      tz.includes('Calcutta') ||
+      tz.includes('Kolkata') ||
+      lang.toLowerCase().includes('en-in') ||
+      lang.toLowerCase().includes('hi')
+    ) {
+      return 'inr';
+    }
+  } catch (e) {
+    // Fallback on error
+  }
+  return 'usd';
+}
+
+/**
+ * Format a price with its corresponding currency symbol.
+ */
+export function formatPrice(amount, currency = 'usd') {
+  if (currency === 'inr') {
+    return `₹${Number(amount).toLocaleString('en-IN')}`;
+  }
+  return `$${Number(amount).toLocaleString('en-US')}`;
 }

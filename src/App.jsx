@@ -1,5 +1,5 @@
 import { checkIsCorrect } from './utils/checkIsCorrect';
-import { fetchPricing } from './utils/pricingConfig';
+import { fetchPricing, detectUserCurrency, formatPrice } from './utils/pricingConfig';
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Lottie from "lottie-react";
 import { BrowserRouter as Router, Routes, Route, useNavigate, Link, Navigate } from 'react-router-dom';
@@ -4662,7 +4662,39 @@ const LegendItem = ({ label, value, color }) => (
 
 // --- Landing Page ---
 const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
-  const [pricing, setPricing] = useState({ optionA_perStudentPerMonth: 5.00, optionB_starter_price: 50, optionB_growth_price: 80, optionB_school_price: 99, optionC_tier1_rate: 24 });
+  const [selectedCurrency, setSelectedCurrency] = useState(() => {
+    try {
+      const saved = localStorage.getItem('hz_preferred_currency');
+      if (saved === 'inr' || saved === 'usd') return saved;
+    } catch (e) {}
+    return detectUserCurrency();
+  });
+
+  const handleCurrencyChange = (curr) => {
+    setSelectedCurrency(curr);
+    try {
+      localStorage.setItem('hz_preferred_currency', curr);
+    } catch (e) {}
+  };
+
+  const [pricing, setPricing] = useState({
+    optionA_perStudentPerMonth: 5.00,
+    optionA_perStudentPerMonth_inr: 99,
+    optionB_starter_price: 50,
+    optionB_starter_price_inr: 999,
+    optionB_growth_price: 80,
+    optionB_growth_price_inr: 1999,
+    optionB_school_price: 99,
+    optionB_school_price_inr: 3499,
+    optionC_tier1_rate: 24,
+    optionC_tier1_rate_inr: 499,
+    optionC_tier2_rate: 20,
+    optionC_tier2_rate_inr: 399,
+    optionC_tier3_rate: 16,
+    optionC_tier3_rate_inr: 299,
+    optionC_tier4_rate: 14,
+    optionC_tier4_rate_inr: 199,
+  });
   useEffect(() => { fetchPricing().then(p => { if (p) setPricing(p); }); }, []);
   const navigate = useNavigate();
 
@@ -5229,6 +5261,39 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
              </p>
           </div>
 
+                    {/* Currency / Region Switcher */}
+          <div className="flex flex-col items-center justify-center gap-2 mb-6">
+            <div className="inline-flex p-1.5 bg-slate-100 rounded-2xl border border-slate-200 shadow-inner">
+              <button
+                type="button"
+                onClick={() => handleCurrencyChange('usd')}
+                className={`flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-black transition-all ${
+                  selectedCurrency === 'usd'
+                    ? 'bg-white text-slate-900 shadow-sm'
+                    : 'text-slate-500 hover:text-slate-800'
+                }`}
+              >
+                <span>🌐</span> Global ($ USD)
+              </button>
+              <button
+                type="button"
+                onClick={() => handleCurrencyChange('inr')}
+                className={`flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-black transition-all ${
+                  selectedCurrency === 'inr'
+                    ? 'bg-emerald-600 text-white shadow-sm'
+                    : 'text-slate-500 hover:text-slate-800'
+                }`}
+              >
+                <span>🇮🇳</span> India (₹ INR)
+              </button>
+            </div>
+            <p className="text-[11px] font-bold text-slate-400">
+              {selectedCurrency === 'inr'
+                ? '🇮🇳 Regional pricing automatically calibrated for Indian educators & CBSE'
+                : '🌐 International pricing with auto-conversion in Stripe for AUD, GBP, EUR, SGD'}
+            </p>
+          </div>
+
           {/* Grid Layout: Vertical Highlights beside Pricing Tiers */}
           <div className="grid lg:grid-cols-12 gap-8 w-full items-stretch">
 
@@ -5355,7 +5420,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                        <p className="text-xs text-slate-500 font-normal">Full Sandbox Experience</p>
                      </div>
                      <div className="text-3xl font-semibold text-slate-900">
-                       $0 <span className="text-sm font-normal text-slate-500">/ 7 days</span>
+                       {selectedCurrency === 'inr' ? '₹0' : '$0'} <span className="text-sm font-normal text-slate-500">/ 7 days</span>
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2">
                        <li className="flex items-center gap-2">✔️ Max 5 students & 2 classes</li>
@@ -5388,12 +5453,12 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                        <p className="text-xs text-slate-500 font-normal">Monthly Elastic Seats (For 1–10 students)</p>
                      </div>
                      <div className="text-3xl font-semibold text-slate-900">
-                       ${pricing.optionA_perStudentPerMonth.toFixed(2)} <span className="text-sm font-normal text-slate-500">/ student / month</span>
+                       {selectedCurrency === 'inr' ? `₹${pricing.optionA_perStudentPerMonth_inr || 99}` : `${pricing.optionA_perStudentPerMonth.toFixed(2)}`} <span className="text-sm font-normal text-slate-500">/ student / month</span>
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2">
                        <li className="flex items-center gap-2">✔️ Best for parents & micro-tutors</li>
                        <li className="flex items-center gap-2">✔️ 25 Paper Creations / month</li>
-                       <li className="flex items-center gap-2">✔️ Pay only for active students ($5–$50/mo)</li>
+                       <li className="flex items-center gap-2">✔️ Pay only for active students ({selectedCurrency === 'inr' ? '₹99–₹990/mo' : '$5–$50/mo'})</li>
                        <li className="flex items-center gap-2">✔️ No long term commitment</li>
                      </ul>
                    </div>
@@ -5423,11 +5488,11 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                      <div className="space-y-2 pt-2">
                        <div className="flex justify-between items-center text-xs md:text-sm font-normal text-slate-800">
                          <span>Starter (11–20 students)</span>
-                         <span className="font-semibold text-slate-900">$50 / mo</span>
+                          <span className="font-semibold text-slate-900">{selectedCurrency === 'inr' ? `₹${(pricing.optionB_starter_price_inr || 999).toLocaleString('en-IN')} / mo` : `${pricing.optionB_starter_price} / mo`}</span>
                        </div>
                        <div className="flex justify-between items-center text-xs md:text-sm font-normal text-slate-800">
                          <span>Growth (21–30 students)</span>
-                         <span className="font-semibold text-slate-900">$80 / mo</span>
+                          <span className="font-semibold text-slate-900">{selectedCurrency === 'inr' ? `₹${(pricing.optionB_growth_price_inr || 1999).toLocaleString('en-IN')} / mo` : `${pricing.optionB_growth_price} / mo`}</span>
                        </div>
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2 border-t border-slate-100">
@@ -5462,19 +5527,19 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                      <div className="space-y-2 pt-2">
                        <div className="flex justify-between text-xs md:text-sm font-normal text-slate-800">
                          <span>31–100 students</span>
-                         <span className="font-semibold text-slate-900">$24 / student / yr</span>
+                          <span className="font-semibold text-slate-900">{selectedCurrency === 'inr' ? `₹${pricing.optionC_tier1_rate_inr || 499} / student / yr` : `${pricing.optionC_tier1_rate || 24} / student / yr`}</span>
                        </div>
                        <div className="flex justify-between text-xs md:text-sm font-normal text-slate-800">
                          <span>101–500 students</span>
-                         <span className="font-semibold text-slate-900">$20 / student / yr</span>
+                          <span className="font-semibold text-slate-900">{selectedCurrency === 'inr' ? `₹${pricing.optionC_tier2_rate_inr || 399} / student / yr` : `${pricing.optionC_tier2_rate || 20} / student / yr`}</span>
                        </div>
                        <div className="flex justify-between text-xs md:text-sm font-normal text-slate-800">
                          <span>501–1,000 students</span>
-                         <span className="font-semibold text-slate-900">$16 / student / yr</span>
+                          <span className="font-semibold text-slate-900">{selectedCurrency === 'inr' ? `₹${pricing.optionC_tier3_rate_inr || 299} / student / yr` : `${pricing.optionC_tier3_rate || 16} / student / yr`}</span>
                        </div>
                        <div className="flex justify-between text-xs md:text-sm font-normal text-slate-800">
                          <span>1,001+ students</span>
-                         <span className="font-semibold text-slate-900">$14 / student / yr</span>
+                          <span className="font-semibold text-slate-900">{selectedCurrency === 'inr' ? `₹${pricing.optionC_tier4_rate_inr || 199} / student / yr` : `${pricing.optionC_tier4_rate || 14} / student / yr`}</span>
                        </div>
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2 border-t border-slate-100">
@@ -5507,13 +5572,13 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                 <div className="flex flex-wrap items-center gap-4 shrink-0">
                   <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 text-center min-w-[130px]">
                     <p className="text-xs text-violet-200 font-semibold">Mini Booster</p>
-                    <p className="text-2xl font-black text-amber-300">$2.00</p>
+                    <p className="text-2xl font-black text-amber-300">{selectedCurrency === 'inr' ? '₹149' : '$2.00'}</p>
                     <p className="text-[10px] font-bold text-white uppercase tracking-wider">+15 Papers</p>
                   </div>
                   <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 border border-amber-400/50 text-center min-w-[140px] shadow-lg relative">
                     <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-amber-400 text-slate-900 text-[9px] font-black uppercase px-2 py-0.5 rounded-full">Best Value</span>
                     <p className="text-xs text-violet-100 font-semibold">Mega Booster</p>
-                    <p className="text-2xl font-black text-white">$5.00</p>
+                    <p className="text-2xl font-black text-white">{selectedCurrency === 'inr' ? '₹399' : '$5.00'}</p>
                     <p className="text-[10px] font-bold text-amber-300 uppercase tracking-wider">+50 Papers</p>
                   </div>
                 </div>

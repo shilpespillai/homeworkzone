@@ -57,7 +57,7 @@ import {
   Terminal,
   Key} from 'lucide-react';
 import EmojiPicker from '../components/EmojiPicker';
-import { calcOptionCAnnual, fetchPricing, savePricing } from '../utils/pricingConfig';
+import { calcOptionCAnnual, fetchPricing, savePricing, detectUserCurrency } from '../utils/pricingConfig';
 
 import { 
   LineChart, 
@@ -989,6 +989,21 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [classrooms, setClassrooms] = useState([]);
   const [activeClassroom, setActiveClassroom] = useState(null);
   const [students, setStudents] = useState([]);
+  const [selectedCurrency, setSelectedCurrency] = useState(() => {
+    try {
+      const saved = localStorage.getItem('hz_preferred_currency');
+      if (saved === 'inr' || saved === 'usd') return saved;
+    } catch (e) {}
+    return detectUserCurrency();
+  });
+
+  const handleCurrencyChange = (curr) => {
+    setSelectedCurrency(curr);
+    try {
+      localStorage.setItem('hz_preferred_currency', curr);
+    } catch (e) {}
+  };
+
   const [globalPricing, setGlobalPricing] = useState({ optionA_perStudentPerMonth: 5, optionA_seatLimit: 10, optionA_paperQuota: 25, optionB_starter_price: 50, optionB_starter_maxStudents: 20, optionB_starter_paperQuota: 60, optionB_growth_price: 80, optionB_growth_maxStudents: 30, optionB_growth_paperQuota: 100, optionB_school_price: 99, optionB_school_maxStudents: 150, optionB_school_paperQuota: 150, optionC_tier1_rate: 24, optionC_tier2_rate: 20, optionC_tier3_rate: 16, optionC_tier4_rate: 14, optionC_paperQuota: 2500, free_seatLimit: 5, free_paperQuota: 5 });
 
   useEffect(() => {
@@ -3490,7 +3505,8 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
           successUrl: window.location.href.split('?')[0],
           cancelUrl: window.location.href.split('?')[0],
           action,
-          customerId: teacherBilling?.stripeCustomerId || null
+          customerId: teacherBilling?.stripeCustomerId || null,
+          currency: selectedCurrency || 'usd'
         })
       });
       const data = await res.json();
@@ -3865,6 +3881,42 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
           </div>
         ) : (
           <>
+            {/* Currency / Region Switcher */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50 border border-slate-200 rounded-2xl p-4 mb-6">
+              <div className="text-left">
+                <h4 className="text-sm font-black text-slate-800">Subscription Currency &amp; Region</h4>
+                <p className="text-xs text-slate-500 font-medium">
+                  {selectedCurrency === 'inr'
+                    ? '🇮🇳 Viewing Indian Rupee (₹) PPP rates for CBSE & regional tuition'
+                    : '🌐 Viewing Global USD ($) rates with Stripe automatic conversion (AUD, GBP, EUR, SGD)'}
+                </p>
+              </div>
+              <div className="inline-flex p-1 bg-white rounded-xl border border-slate-200 shadow-sm shrink-0">
+                <button
+                  type="button"
+                  onClick={() => handleCurrencyChange('usd')}
+                  className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-black transition-all ${
+                    selectedCurrency === 'usd'
+                      ? 'bg-slate-900 text-white shadow-xs'
+                      : 'text-slate-500 hover:text-slate-800'
+                  }`}
+                >
+                  <span>🌐</span> USD ($)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleCurrencyChange('inr')}
+                  className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-black transition-all ${
+                    selectedCurrency === 'inr'
+                      ? 'bg-emerald-600 text-white shadow-xs'
+                      : 'text-slate-500 hover:text-slate-800'
+                  }`}
+                >
+                  <span>🇮🇳</span> INR (₹)
+                </button>
+              </div>
+            </div>
+
             {/* Pricing columns */}
         <div className="grid lg:grid-cols-3 gap-6">
           
@@ -3882,7 +3934,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                 <p className="text-xs text-slate-400 font-bold">Monthly Elastic Capacity</p>
               </div>
               <div className="text-3xl font-black text-slate-800">
-                ${globalPricing.optionA_perStudentPerMonth.toFixed(2)} <span className="text-xs font-bold text-slate-400">/ student / month</span>
+                {selectedCurrency === 'inr' ? `₹${globalPricing.optionA_perStudentPerMonth_inr || 99}` : `${globalPricing.optionA_perStudentPerMonth.toFixed(2)}`} <span className="text-xs font-bold text-slate-400">/ student / month</span>
               </div>
               <ul className="text-xs text-slate-500 font-bold space-y-2.5">
                 <li className="flex items-center gap-2">✨ Pay only for active students</li>
@@ -3955,7 +4007,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                   <div key={tier.id} className="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl">
                     <div>
                       <p className="text-xs font-bold text-slate-700">{tier.name}</p>
-                      <p className="text-[10px] font-medium text-slate-400 mb-1">${(tier.price / tier.seats).toFixed(2)} / student equivalent</p>
+                      <p className="text-[10px] font-medium text-slate-400 mb-1">{selectedCurrency === 'inr' ? (tier.id === 'option-b-starter' ? '₹999 / mo' : '₹1,999 / mo') : `${(tier.price / tier.seats).toFixed(2)} / student equivalent`}</p>
                       <p className="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded border border-orange-100 inline-block">📄 {tier.papers} papers / mo</p>
                     </div>
                     {activePlanId === tier.id ? (
@@ -3994,7 +4046,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                         disabled={isRedirectingStripe}
                         className="px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all bg-orange-600 hover:bg-orange-700 text-white shadow-sm"
                       >
-                        {`${tier.price}/mo`}
+                        {selectedCurrency === 'inr' ? (tier.id === 'option-b-starter' ? '₹999/mo' : '₹1,999/mo') : `${tier.price}/mo`}
                       </button>
                     )}
                   </div>
@@ -4023,19 +4075,19 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Graduated Tiers (Annual)</span>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
                   <span>31-100 students</span>
-                  <span>$24 / student / yr</span>
+                  <span>{selectedCurrency === 'inr' ? `₹${globalPricing.optionC_tier1_rate_inr || 499} / student / yr` : `${globalPricing.optionC_tier1_rate} / student / yr`}</span>
                 </div>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
                   <span>101-500 students</span>
-                  <span>$20 / student / yr</span>
+                  <span>{selectedCurrency === 'inr' ? `₹${globalPricing.optionC_tier2_rate_inr || 399} / student / yr` : `${globalPricing.optionC_tier2_rate} / student / yr`}</span>
                 </div>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
                   <span>501-1,000 students</span>
-                  <span>$16 / student / yr</span>
+                  <span>{selectedCurrency === 'inr' ? `₹${globalPricing.optionC_tier3_rate_inr || 299} / student / yr` : `${globalPricing.optionC_tier3_rate} / student / yr`}</span>
                 </div>
                 <div className="flex justify-between text-[11px] font-bold text-slate-600">
                   <span>1,001+ students</span>
-                  <span>$14 / student / yr</span>
+                  <span>{selectedCurrency === 'inr' ? `₹${globalPricing.optionC_tier4_rate_inr || 199} / student / yr` : `${globalPricing.optionC_tier4_rate} / student / yr`}</span>
                 </div>
                 <div className="flex justify-between items-center text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-1.5 rounded mt-2 border border-emerald-100">
                   <span>Includes</span>
