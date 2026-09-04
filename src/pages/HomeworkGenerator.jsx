@@ -1231,9 +1231,10 @@ EXPECTED JSON SCHEMA:
     setBookGenStatus('Crafting Pixar story, vocabulary & grammar...');
     try {
       const activeModel = localStorage.getItem('hwz_active_ai') || 'anthropic';
-      const resolvedGrade = formData.examPreset 
-        ? resolveExamTargetGrade(activeClassroom?.name, formData.examPreset)
-        : resolveGradeFromClassroomName(activeClassroom?.name);
+      const resolvedGrade = formData.grade 
+        || (formData.examPreset 
+          ? resolveExamTargetGrade(activeClassroom?.name, formData.examPreset)
+          : resolveGradeFromClassroomName(activeClassroom?.name));
 
       const masterPixarPrompt = getConstructedPixarPrompt();
 
@@ -1346,7 +1347,10 @@ EXPECTED JSON SCHEMA:
 
     setIsPublishing(true);
     try {
-      const draftGrade = resolveGradeFromClassroomName(activeClassroom?.name);
+      const draftGrade = formData.grade 
+        || (formData.examPreset 
+          ? resolveExamTargetGrade(activeClassroom?.name, formData.examPreset)
+          : resolveGradeFromClassroomName(activeClassroom?.name));
       const bookPayload = {
         teacherId: user.uid,
         classId: formData.classId,
@@ -2208,9 +2212,10 @@ Return ONLY a JSON object:
     setIsPublishing(true);
     try {
       const activeModel = localStorage.getItem('hwz_active_ai') || 'anthropic';
-      const publishGrade = formData.examPreset 
-        ? resolveExamTargetGrade(activeClassroom?.name, formData.examPreset)
-        : resolveGradeFromClassroomName(activeClassroom?.name);
+      const publishGrade = formData.grade 
+        || (formData.examPreset 
+          ? resolveExamTargetGrade(activeClassroom?.name, formData.examPreset)
+          : resolveGradeFromClassroomName(activeClassroom?.name));
       const questionsToSave = generatedQuestions || [];
 
       const isSpatialReasoning = (formData.title || '').toLowerCase().includes('spatial') || (formData.aiPrompt || '').toLowerCase().includes('spatial');
@@ -2622,8 +2627,9 @@ Return ONLY a JSON object:
         ) : assignmentType === 'exam_hub' ? (
           <InternationalExamHubView
             onBack={() => setAssignmentType(null)}
-            onSelectExam={(exam) => {
-              const gradeName = resolveExamTargetGrade(activeClassroom?.name, exam.id);
+            initialGrade={activeClassroom?.name ? resolveGradeFromClassroomName(activeClassroom.name) : null}
+            onSelectExam={(exam, chosenGrade) => {
+              const gradeName = chosenGrade || resolveExamTargetGrade(activeClassroom?.name, exam.id);
               const naplanDefs = getNaplanDefaults(exam.id, gradeName);
               const finalTime = naplanDefs ? String(naplanDefs.time) : String(exam.defaultTime);
               const finalQuestions = Math.min(50, naplanDefs ? naplanDefs.questions : (exam.defaultQuestions || 30));
@@ -2631,12 +2637,14 @@ Return ONLY a JSON object:
               setFormData(prev => ({
                 ...prev,
                 subject: exam.subject,
-                title: `${exam.name} Practice Paper`,
+                title: `${exam.name} Practice Paper (${gradeName})`,
                 instructions: `Read each question carefully. You are on a ${finalTime}-minute timer! ⏳`,
                 aiPrompt: exam.promptInstruction,
                 timeLimit: finalTime,
                 examPreset: exam.id,
-                isExamPaper: true
+                isExamPaper: true,
+                grade: gradeName,
+                targetGrade: gradeName
               }));
               setQuestionCount(finalQuestions);
               setIsCurriculumMode(false);
@@ -2932,6 +2940,45 @@ Return ONLY a JSON object:
                   <Pencil className="absolute right-4 top-4 w-5 h-5 text-slate-400" />
                 </div>
               </div>
+
+              {/* Exam Target Grade Selector */}
+              {(formData.isExamPaper || formData.examPreset) && (
+                <div className="space-y-2 mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <GraduationCap className="w-5 h-5 text-emerald-700" />
+                      <label className="font-black text-[#14532d] text-sm">Exam Target Grade / Division</label>
+                    </div>
+                    <span className="text-[11px] font-bold text-emerald-700 bg-white px-2.5 py-0.5 rounded-full border border-emerald-300 shadow-sm">
+                      Syllabus Calibrated 🎯
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <select
+                      value={formData.grade || (formData.examPreset ? resolveExamTargetGrade(activeClassroom?.name, formData.examPreset) : 'Grade 7')}
+                      onChange={(e) => {
+                        const newGr = e.target.value;
+                        setFormData(prev => ({ 
+                          ...prev, 
+                          grade: newGr, 
+                          targetGrade: newGr,
+                          title: prev.title.replace(/\(Grade [0-9]+\)/gi, `(${newGr})`).replace(/\(Higher Ed\)/gi, `(${newGr})`)
+                        }));
+                      }}
+                      className="w-full h-12 bg-white border-2 border-emerald-300 rounded-xl px-4 text-emerald-900 font-extrabold text-sm outline-none focus:border-emerald-600 transition-colors cursor-pointer"
+                    >
+                      <option value="Foundation">Foundation (Prep / Kindergarten)</option>
+                      {Array.from({ length: 12 }, (_, i) => `Grade ${i + 1}`).map(g => (
+                        <option key={g} value={g}>{g}</option>
+                      ))}
+                      <option value="higher_ed">Higher Ed / University / GMAT</option>
+                    </select>
+                  </div>
+                  <p className="text-[11px] font-bold text-slate-500">
+                    💡 The AI calibrates reading level, curriculum boundaries, and question difficulty strictly to this grade.
+                  </p>
+                </div>
+              )}
 
               <div className="space-y-2 mb-6">
                 <div className="flex items-center justify-between mb-2">
