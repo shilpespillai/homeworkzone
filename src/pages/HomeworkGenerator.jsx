@@ -1713,6 +1713,7 @@ EXPECTED JSON SCHEMA:
       let questions = [];
       let passage = null;
       let passagesList = null;
+      const CHUNK_SIZE = 5;
 
       const isReadingExam = formData.examPreset === 'naplan_reading' || 
                             formData.examPreset === 'nsw_selective_reading' || 
@@ -1860,8 +1861,6 @@ Return ONLY a JSON object:
 
       // If not reading exam or reading generation fallback, use standard parallel chunks
       if (collectedQuestions.length === 0) {
-        // Chunk size cap: Max 5 questions per batch to eliminate any possibility of token truncation!
-        const CHUNK_SIZE = 5;
         const chunkCounts = [];
         let remainingToAssign = questionCount;
         while (remainingToAssign > 0) {
@@ -1912,13 +1911,56 @@ Return ONLY a JSON object:
           deficit -= c;
         }
         try {
-          const topUpPromises = topUpChunks.map((cnt, i) =>
-            generateContent({
-              prompt: getPromptForCount(cnt, `TOPUP-${i + 1}-${Date.now()}`),
+          const topUpPromises = topUpChunks.map((cnt, i) => {
+            let promptToUse;
+            if (isReadingExam && Array.isArray(passagesList) && passagesList.length > 0) {
+              const targetPassage = passagesList[i % passagesList.length];
+              promptToUse = `You are an expert reading comprehension test author for Year ${resolvedGrade}.
+Generate exactly ${cnt} high-quality multiple choice question(s) for Year ${resolvedGrade} based DIRECTLY on this stimulus text:
+
+### ${targetPassage.title} (${targetPassage.textType})
+"""
+${targetPassage.text}
+"""
+
+COGNITIVE COVERAGE:
+- Literal Comprehension
+- Inferential Comprehension
+- Evaluative Comprehension
+- Vocabulary in Context
+
+RULES:
+- Exactly 4 options (A, B, C, D) per question.
+- "answer" must be the correct option string.
+- "explanation" must cite or quote the text.
+- Set "passageId" to ${targetPassage.id} and "passageTitle" to "${targetPassage.title}".
+
+Return ONLY a JSON object:
+{
+  "questions": [
+    {
+      "id": 1,
+      "passageId": ${targetPassage.id},
+      "passageTitle": "${targetPassage.title}",
+      "text": "Question text...",
+      "questionType": "multiple_choice",
+      "cognitiveSkill": "Inferential Comprehension",
+      "options": ["Option A", "Option B", "Option C", "Option D"],
+      "answer": "Option A",
+      "explanation": "Explanation..."
+    }
+  ]
+}`;
+            } else {
+              promptToUse = getPromptForCount(cnt, `TOPUP-${i + 1}-${Date.now()}`);
+            }
+
+            return generateContent({
+              prompt: promptToUse,
               responseMimeType: 'application/json',
               provider: tieredModel
-            }).then(res => safeParseAiJson(res)).catch(() => ({ questions: [] }))
-          );
+            }).then(res => safeParseAiJson(res)).catch(() => ({ questions: [] }));
+          });
           const topUpResults = await Promise.all(topUpPromises);
           for (const resObj of topUpResults) {
             const topUpQs = Array.isArray(resObj.questions || resObj) ? (resObj.questions || resObj) : [];
