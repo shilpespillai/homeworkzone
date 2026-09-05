@@ -58,7 +58,7 @@ import {
   Terminal,
   Key} from 'lucide-react';
 import EmojiPicker from '../components/EmojiPicker';
-import { calcOptionCAnnual, fetchPricing, savePricing, detectUserCurrency, getPaperQuota } from '../utils/pricingConfig';
+import { calcOptionCAnnual, fetchPricing, savePricing, detectUserCurrency, getPaperQuota, DEFAULT_PRICING } from '../utils/pricingConfig';
 
 import { 
   LineChart, 
@@ -1158,7 +1158,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
     } catch (e) {}
   };
 
-  const [globalPricing, setGlobalPricing] = useState({ optionA_perStudentPerMonth: 5, optionA_seatLimit: 10, optionA_paperQuota: 25, optionB_starter_price: 50, optionB_starter_maxStudents: 20, optionB_starter_paperQuota: 60, optionB_growth_price: 80, optionB_growth_maxStudents: 30, optionB_growth_paperQuota: 100, optionB_school_price: 99, optionB_school_maxStudents: 150, optionB_school_paperQuota: 150, optionC_tier1_rate: 24, optionC_tier2_rate: 20, optionC_tier3_rate: 16, optionC_tier4_rate: 14, optionC_paperQuota: 2500, free_seatLimit: 5, free_paperQuota: 5 });
+  const [globalPricing, setGlobalPricing] = useState(DEFAULT_PRICING);
 
   useEffect(() => {
     fetchPricing().then(p => { if(p) setGlobalPricing(p); });
@@ -4129,56 +4129,95 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                 <h3 className="text-lg font-black text-slate-800">Pro Tutor / Academy</h3>
                 <p className="text-xs text-slate-400 font-bold">Flat Monthly License</p>
               </div>
-              <div className="space-y-3 pt-2">
+              <div className="space-y-4 pt-1">
                 {[
-                  { id: 'option-b-growth', name: 'Growth Tier (Most Popular ⭐)', price: globalPricing.optionB_growth_price || 39, priceInr: globalPricing.optionB_growth_price_inr || 2499, papers: globalPricing.optionB_growth_paperQuota || 80 },
-                  { id: 'option-b-starter', name: 'Starter Tier', price: globalPricing.optionB_starter_price || 29, priceInr: globalPricing.optionB_starter_price_inr || 1999, papers: globalPricing.optionB_starter_paperQuota || 50 },
+                  { 
+                    id: 'option-b-growth', 
+                    name: 'Growth Tier', 
+                    badge: 'Most Popular ⭐',
+                    buttonText: 'Choose Growth',
+                    price: globalPricing.optionB_growth_price || 39, 
+                    priceInr: globalPricing.optionB_growth_price_inr || 2499, 
+                    papers: globalPricing.optionB_growth_paperQuota || 80,
+                    borderClass: 'border-orange-200 bg-orange-50/40'
+                  },
+                  { 
+                    id: 'option-b-starter', 
+                    name: 'Starter Tier', 
+                    badge: null,
+                    buttonText: 'Choose Starter',
+                    price: globalPricing.optionB_starter_price || 29, 
+                    priceInr: globalPricing.optionB_starter_price_inr || 1999, 
+                    papers: globalPricing.optionB_starter_paperQuota || 50,
+                    borderClass: 'border-slate-200/80 bg-slate-50/70'
+                  },
                 ].map((tier) => (
-                  <div key={tier.id} className="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl">
-                    <div>
-                      <p className="text-xs font-bold text-slate-700">{tier.name}</p>
-                      <p className="text-[10px] font-black text-emerald-600 mb-1">⚡ Unlimited Students &amp; Classes</p>
-                      <p className="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded border border-orange-100 inline-block">📄 {tier.papers} papers / mo</p>
+                  <div key={tier.id} className={`p-4 rounded-2xl border ${tier.borderClass} flex flex-col gap-2.5 transition-all`}>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-black text-slate-800">{tier.name}</span>
+                      {tier.badge && (
+                        <span className="text-[10px] font-black bg-orange-500 text-white px-2.5 py-0.5 rounded-full shadow-xs">
+                          {tier.badge}
+                        </span>
+                      )}
                     </div>
-                    {activePlanId === tier.id ? (
-                      <div className="flex flex-col gap-1 w-24">
-                        {teacherBilling?.cancelAtPeriodEnd ? (
-                           <>
-                             <div className="px-2 py-1 rounded-xl text-[8px] font-black uppercase tracking-wider text-center bg-amber-50 text-amber-600 border border-amber-200 mb-1">
-                               Cancels
-                             </div>
-                             <button
-                               onClick={handleResumeSubscription}
-                               disabled={isResumingSub}
-                               className="px-2 py-1 rounded-xl text-[9px] font-black uppercase tracking-wider text-emerald-600 bg-emerald-50 hover:bg-emerald-100 transition-all text-center border border-emerald-100"
-                             >
-                               {isResumingSub ? '...' : 'Resume ♻️'}
-                             </button>
-                           </>
-                        ) : (
-                           <>
-                             <div className="px-4 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-wider text-center bg-slate-100 text-slate-500">
-                               Active
-                             </div>
-                             <button
-                               onClick={handleCancelSubscription}
-                               disabled={isCancellingSub}
-                               className="px-2 py-1 rounded-xl text-[9px] font-black uppercase tracking-wider text-rose-600 bg-rose-50 hover:bg-rose-100 transition-all text-center border border-rose-100"
-                             >
-                               {isCancellingSub ? '...' : 'Unsubscribe'}
-                             </button>
-                           </>
-                        )}
+
+                    <div className="text-2xl lg:text-3xl font-black text-slate-800">
+                      {selectedCurrency === 'inr' 
+                        ? `₹${(tier.priceInr || (tier.id === 'option-b-starter' ? 1999 : 2499)).toLocaleString('en-IN')}` 
+                        : `$${tier.price}`} <span className="text-xs font-bold text-slate-400">/ month</span>
+                    </div>
+
+                    <div className="space-y-1 text-xs text-slate-600 font-bold">
+                      <div className="text-[11px] font-black text-emerald-600 flex items-center gap-1.5">
+                        <span>⚡</span> Unlimited Students &amp; Classes
                       </div>
-                    ) : (
-                      <button
-                        onClick={() => handleStripeSession(tier.id)}
-                        disabled={isRedirectingStripe}
-                        className="px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all bg-orange-600 hover:bg-orange-700 text-white shadow-sm"
-                      >
-                        {selectedCurrency === 'inr' ? `₹${(tier.priceInr || (tier.id === 'option-b-starter' ? 1999 : 2499)).toLocaleString('en-IN')}/mo` : `$${tier.price}/mo`}
-                      </button>
-                    )}
+                      <div className="text-[11px] font-black text-orange-600 flex items-center gap-1.5">
+                        <span>📄</span> {tier.papers} papers / month included
+                      </div>
+                    </div>
+
+                    <div className="pt-1">
+                      {activePlanId === tier.id ? (
+                        <div className="flex flex-col gap-1.5">
+                          {teacherBilling?.cancelAtPeriodEnd ? (
+                            <>
+                              <div className="w-full py-2.5 rounded-xl text-[9px] font-black uppercase tracking-wider text-center bg-amber-50 text-amber-600 border border-amber-200">
+                                Cancels at end of cycle
+                              </div>
+                              <button
+                                onClick={handleResumeSubscription}
+                                disabled={isResumingSub}
+                                className="w-full py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider text-emerald-600 bg-emerald-50 hover:bg-emerald-100 transition-all text-center border border-emerald-100"
+                              >
+                                {isResumingSub ? '...' : 'Resume Plan ♻️'}
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <div className="w-full py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider text-center bg-slate-100 text-slate-600 border border-slate-200">
+                                Current Plan
+                              </div>
+                              <button
+                                onClick={handleCancelSubscription}
+                                disabled={isCancellingSub}
+                                className="w-full py-2 rounded-xl text-[9px] font-black uppercase tracking-wider text-rose-600 bg-rose-50 hover:bg-rose-100 transition-all text-center border border-rose-100"
+                              >
+                                {isCancellingSub ? '...' : 'Unsubscribe 🚫'}
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => handleStripeSession(tier.id)}
+                          disabled={isRedirectingStripe}
+                          className="w-full py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all bg-orange-600 hover:bg-orange-700 text-white shadow-md shadow-orange-100 hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-1.5"
+                        >
+                          {tier.buttonText}
+                        </button>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
