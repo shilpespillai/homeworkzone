@@ -2665,15 +2665,6 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
       return;
     }
 
-    const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
-    const activePlanId = simulatedPlan || ((teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free');
-    
-    const isFree = activePlanId === 'free' || activePlanId === 'free_trial' || activePlanId === 'free_expired';
-    if (isFree && classrooms.length >= 2) {
-      setShowUpgradeAlert(true);
-      return;
-    }
-
     setIsAddingClass(true);
     try {
       const classId = newClassName.trim().toLowerCase().replace(/\s+/g, '-');
@@ -5836,8 +5827,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                           const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
              const activePlanId = simulatedPlan || ((teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free');
              const seatLimit = getPlanSeatLimit(activePlanId);
-             const cleanPlanIdForClass = activePlanId ? activePlanId.replace('_maxed', '') : 'free';
-             const classLimit = (isAdminUser && !simulatedPlan) ? Infinity : ((cleanPlanIdForClass === 'free' || cleanPlanIdForClass === 'free_trial' || cleanPlanIdForClass === 'free_expired') ? 2 : Infinity);
+             const classLimit = Infinity;
              
              const quotaInfo = checkCanGeneratePaper({
                 user,
@@ -6612,9 +6602,8 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
             {
              const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
              const activePlanId = simulatedPlan || ((teacherBilling && ['active', 'trialing'].includes(teacherBilling.status)) ? teacherBilling.planId : 'free');
-             const cleanPlanIdForClass = activePlanId ? activePlanId.replace('_maxed', '') : 'free';
-             const classLimit = (isAdminUser && !simulatedPlan) ? Infinity : ((cleanPlanIdForClass === 'free' || cleanPlanIdForClass === 'free_trial' || cleanPlanIdForClass === 'free_expired') ? 2 : Infinity);
-             const isClassLimitReached = classrooms.length >= classLimit;
+             const classLimit = Infinity;
+              const isClassLimitReached = false;
 
              return (
                <div className="px-10 py-10 space-y-12 relative min-h-[calc(100vh-64px)] pb-40">
