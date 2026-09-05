@@ -53,6 +53,7 @@ import {
   Coins,
   RotateCcw,
   Sparkles,
+  Gift,
   Rocket,
   Terminal,
   Key} from 'lucide-react';
@@ -779,7 +780,7 @@ const AdminPricingSettings = () => {
     setSaving(true);
     try {
       await savePricing(pricing);
-      alert('Saved! All plans now use the updated pricing, seat limits and paper quotas.');
+      alert('Saved! All plans now use the updated pricing, paper quotas, and unlimited students.');
     } catch(e) {
       alert('Error saving: ' + e.message);
     }
@@ -790,196 +791,327 @@ const AdminPricingSettings = () => {
 
   return (
     <div className="bg-white border-4 border-indigo-100 rounded-[32px] p-8 space-y-8 shadow-lg mb-8">
-      <div className="space-y-1">
-        <h2 className="text-2xl font-black text-indigo-900 flex items-center gap-2">
-          <CreditCard className="w-6 h-6" />
-          Global Pricing Configuration
-        </h2>
-        <p className="text-xs font-bold text-slate-500">
-          Changes saved here instantly update Stripe checkouts, seat limits, and paper quotas across the entire platform.
-        </p>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-indigo-50 pb-6">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-black uppercase text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200 tracking-wider">
+              Central Pricing &amp; Paper Quota Engine
+            </span>
+            <span className="text-xs text-emerald-600 font-bold flex items-center gap-1">
+              • ⚡ Unlimited Students &amp; Classes Active
+            </span>
+          </div>
+          <h2 className="text-2xl font-black text-indigo-900 flex items-center gap-2">
+            <CreditCard className="w-6 h-6" />
+            Global Pricing &amp; Paper Quota Configuration
+          </h2>
+        </div>
+        <button 
+          onClick={handleSave} 
+          disabled={saving} 
+          className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-md transition-all active:scale-95 disabled:opacity-60 flex items-center gap-2"
+        >
+          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          {saving ? 'Saving...' : 'Save All Pricing'}
+        </button>
       </div>
 
       <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
         {/* ── Free Trial ─────────────────────────────────────────── */}
         <div className="space-y-4 p-5 bg-slate-50 rounded-2xl border-2 border-slate-200">
-          <h4 className="text-sm font-black text-slate-700">Free Trial</h4>
+          <div className="flex justify-between items-center">
+            <h4 className="text-sm font-black text-slate-700">⚡ Free Trial Sandbox</h4>
+            <span className="text-[10px] font-bold text-slate-400 bg-white px-2 py-0.5 rounded-full border border-slate-200">7 Days</span>
+          </div>
           <div className="space-y-4">
             <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Seat Limit</label>
-              <input type="number" step="1" min="1"
-                className="w-full border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-black text-slate-700 bg-white"
-                value={pricing.free_seatLimit ?? ''}
-                onChange={(e) => setPricing({...pricing, free_seatLimit: Number(e.target.value)})} />
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Students &amp; Classes</label>
+              <div className="w-full bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2 text-xs font-black text-emerald-700 flex items-center gap-1.5">
+                <span>∞ Unlimited</span>
+              </div>
             </div>
             <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Paper Quota (Total)</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Paper Quota (Total Sandbox)</label>
               <input type="number" step="1" min="1"
                 className="w-full border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-black text-slate-700 bg-white"
                 value={pricing.free_paperQuota ?? ''}
                 onChange={(e) => setPricing({...pricing, free_paperQuota: Number(e.target.value)})} />
+              <span className="text-[9px] font-medium text-slate-400 block mt-1">Lifetime sandbox quota before upgrade</span>
             </div>
           </div>
         </div>
 
         {/* ── Option A ────────────────────────────────────────────── */}
         <div className="space-y-4 p-5 bg-blue-50 rounded-2xl border-2 border-blue-200">
-          <h4 className="text-sm font-black text-blue-700">Option A (Elastic)</h4>
+          <div className="flex justify-between items-center">
+            <h4 className="text-sm font-black text-blue-700">📈 Option A (Solo Educator)</h4>
+            <span className="text-[10px] font-bold text-blue-600 bg-blue-100/50 px-2 py-0.5 rounded-full border border-blue-200">Monthly</span>
+          </div>
           <div className="space-y-4">
-            <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Price per student / mo</label>
-              <div className="relative mt-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-                <input type="number" step="0.5" 
-                  className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" 
-                  value={pricing.optionA_perStudentPerMonth ?? ''} 
-                  onChange={(e) => setPricing({...pricing, optionA_perStudentPerMonth: Number(e.target.value)})} />
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Price (USD)</label>
+                <div className="relative">
+                  <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">$</span>
+                  <input type="number" step="1" 
+                    className="w-full border-2 border-slate-200 rounded-xl pl-6 pr-2 py-2 text-sm font-black text-slate-700 bg-white" 
+                    value={pricing.optionA_flat_price ?? pricing.optionA_perStudentPerMonth ?? 15} 
+                    onChange={(e) => setPricing({...pricing, optionA_flat_price: Number(e.target.value), optionA_perStudentPerMonth: Number(e.target.value)})} />
+                </div>
+              </div>
+              <div>
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Price (INR)</label>
+                <div className="relative">
+                  <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">₹</span>
+                  <input type="number" step="50" 
+                    className="w-full border-2 border-slate-200 rounded-xl pl-6 pr-2 py-2 text-sm font-black text-slate-700 bg-white" 
+                    value={pricing.optionA_flat_price_inr ?? pricing.optionA_perStudentPerMonth_inr ?? 999} 
+                    onChange={(e) => setPricing({...pricing, optionA_flat_price_inr: Number(e.target.value), optionA_perStudentPerMonth_inr: Number(e.target.value)})} />
+                </div>
               </div>
             </div>
             <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Seat Limit</label>
-              <input type="number" step="1" min="1"
-                className="w-full border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-black text-slate-700 bg-white"
-                value={pricing.optionA_seatLimit ?? ''}
-                onChange={(e) => setPricing({...pricing, optionA_seatLimit: Number(e.target.value)})} />
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Students &amp; Classes</label>
+              <div className="w-full bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2 text-xs font-black text-emerald-700">
+                ∞ Unlimited
+              </div>
             </div>
             <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Paper Quota / mo</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Monthly Paper Quota</label>
               <input type="number" step="1" min="1"
                 className="w-full border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-black text-slate-700 bg-white"
-                value={pricing.optionA_paperQuota ?? ''}
+                value={pricing.optionA_paperQuota ?? 20}
                 onChange={(e) => setPricing({...pricing, optionA_paperQuota: Number(e.target.value)})} />
+              <span className="text-[9px] font-medium text-slate-400 block mt-1">~5 tests per week for solo classes</span>
             </div>
           </div>
         </div>
 
-        {/* ── Option B Starter ────────────────────────────────────── */}
+        {/* ── Option B ────────────────────────────────────────────── */}
         <div className="space-y-4 p-5 bg-orange-50 rounded-2xl border-2 border-orange-200">
-          <h4 className="text-sm font-black text-orange-600">Option B (Starter)</h4>
-          <div className="space-y-4">
-            <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Flat Price / mo</label>
-              <div className="relative mt-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-                <input type="number" step="1" 
-                  className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" 
-                  value={pricing.optionB_starter_price ?? ''} 
-                  onChange={(e) => setPricing({...pricing, optionB_starter_price: Number(e.target.value)})} />
-              </div>
-            </div>
-            <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Seat Limit</label>
-              <input type="number" step="1" min="1"
-                className="w-full border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-black text-slate-700 bg-white"
-                value={pricing.optionB_starter_maxStudents ?? ''}
-                onChange={(e) => setPricing({...pricing, optionB_starter_maxStudents: Number(e.target.value)})} />
-            </div>
-            <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Paper Quota / mo</label>
-              <input type="number" step="1" min="1"
-                className="w-full border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-black text-slate-700 bg-white"
-                value={pricing.optionB_starter_paperQuota ?? ''}
-                onChange={(e) => setPricing({...pricing, optionB_starter_paperQuota: Number(e.target.value)})} />
-            </div>
+          <div className="flex justify-between items-center">
+            <h4 className="text-sm font-black text-orange-700">👥 Option B (Pro Tutor)</h4>
+            <span className="text-[10px] font-bold text-orange-600 bg-orange-100/50 px-2 py-0.5 rounded-full border border-orange-200">Monthly</span>
           </div>
-        </div>
-
-        {/* ── Option B Growth ─────────────────────────────────────── */}
-        <div className="space-y-4 p-5 bg-orange-50 rounded-2xl border-2 border-orange-200">
-          <h4 className="text-sm font-black text-orange-600">Option B (Growth)</h4>
           <div className="space-y-4">
-            <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Flat Price / mo</label>
-              <div className="relative mt-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-                <input type="number" step="1" 
-                  className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" 
-                  value={pricing.optionB_growth_price ?? ''} 
-                  onChange={(e) => setPricing({...pricing, optionB_growth_price: Number(e.target.value)})} />
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Growth (USD)</label>
+                <div className="relative">
+                  <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">$</span>
+                  <input type="number" step="1" 
+                    className="w-full border-2 border-slate-200 rounded-xl pl-6 pr-2 py-2 text-sm font-black text-slate-700 bg-white" 
+                    value={pricing.optionB_growth_price ?? 39} 
+                    onChange={(e) => setPricing({...pricing, optionB_growth_price: Number(e.target.value)})} />
+                </div>
+              </div>
+              <div>
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Growth (INR)</label>
+                <div className="relative">
+                  <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">₹</span>
+                  <input type="number" step="100" 
+                    className="w-full border-2 border-slate-200 rounded-xl pl-6 pr-2 py-2 text-sm font-black text-slate-700 bg-white" 
+                    value={pricing.optionB_growth_price_inr ?? 2499} 
+                    onChange={(e) => setPricing({...pricing, optionB_growth_price_inr: Number(e.target.value)})} />
+                </div>
               </div>
             </div>
             <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Seat Limit</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Growth Quota (Papers / mo)</label>
               <input type="number" step="1" min="1"
                 className="w-full border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-black text-slate-700 bg-white"
-                value={pricing.optionB_growth_maxStudents ?? ''}
-                onChange={(e) => setPricing({...pricing, optionB_growth_maxStudents: Number(e.target.value)})} />
-            </div>
-            <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Paper Quota / mo</label>
-              <input type="number" step="1" min="1"
-                className="w-full border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-black text-slate-700 bg-white"
-                value={pricing.optionB_growth_paperQuota ?? ''}
+                value={pricing.optionB_growth_paperQuota ?? 80}
                 onChange={(e) => setPricing({...pricing, optionB_growth_paperQuota: Number(e.target.value)})} />
+            </div>
+            <div className="pt-1 border-t border-orange-200/60">
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-[9px] font-black uppercase text-orange-600">Starter Tier (Fallback)</span>
+                <span className="text-[9px] font-bold text-slate-400">USD ${pricing.optionB_starter_price ?? 29} • {pricing.optionB_starter_paperQuota ?? 50} papers</span>
+              </div>
             </div>
           </div>
         </div>
 
         {/* ── Option C ────────────────────────────────────────────── */}
-        <div className="space-y-4 p-5 bg-emerald-50 rounded-2xl border-2 border-emerald-200 col-span-1 md:col-span-2 xl:col-span-4">
-          <h4 className="text-sm font-black text-emerald-700">Option C (Yearly Graduated)</h4>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Tier 1 (≤100) / yr</label>
-              <div className="relative mt-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-                <input type="number" step="1" 
-                  className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" 
-                  value={pricing.optionC_tier1_rate ?? ''} 
-                  onChange={(e) => setPricing({...pricing, optionC_tier1_rate: Number(e.target.value)})} />
+        <div className="space-y-4 p-5 bg-emerald-50 rounded-2xl border-2 border-emerald-200">
+          <div className="flex justify-between items-center">
+            <h4 className="text-sm font-black text-emerald-700">🏫 Option C (School Annual)</h4>
+            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100/50 px-2 py-0.5 rounded-full border border-emerald-200">Yearly</span>
+          </div>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Annual (USD)</label>
+                <div className="relative">
+                  <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">$</span>
+                  <input type="number" step="10" 
+                    className="w-full border-2 border-slate-200 rounded-xl pl-6 pr-2 py-2 text-sm font-black text-slate-700 bg-white" 
+                    value={pricing.optionC_annual_price ?? 299} 
+                    onChange={(e) => setPricing({...pricing, optionC_annual_price: Number(e.target.value)})} />
+                </div>
+              </div>
+              <div>
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Annual (INR)</label>
+                <div className="relative">
+                  <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">₹</span>
+                  <input type="number" step="500" 
+                    className="w-full border-2 border-slate-200 rounded-xl pl-6 pr-2 py-2 text-sm font-black text-slate-700 bg-white" 
+                    value={pricing.optionC_annual_price_inr ?? 19999} 
+                    onChange={(e) => setPricing({...pricing, optionC_annual_price_inr: Number(e.target.value)})} />
+                </div>
               </div>
             </div>
             <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Tier 2 (≤500) / yr</label>
-              <div className="relative mt-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-                <input type="number" step="1" 
-                  className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" 
-                  value={pricing.optionC_tier2_rate ?? ''} 
-                  onChange={(e) => setPricing({...pricing, optionC_tier2_rate: Number(e.target.value)})} />
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Students &amp; Classes</label>
+              <div className="w-full bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2 text-xs font-black text-emerald-700">
+                ∞ Unlimited (Whole School)
               </div>
             </div>
             <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Tier 3 (≤1000) / yr</label>
-              <div className="relative mt-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-                <input type="number" step="1" 
-                  className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" 
-                  value={pricing.optionC_tier3_rate ?? ''} 
-                  onChange={(e) => setPricing({...pricing, optionC_tier3_rate: Number(e.target.value)})} />
-              </div>
-            </div>
-            <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Tier 4 (1001+) / yr</label>
-              <div className="relative mt-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-                <input type="number" step="1" 
-                  className="w-full border-2 border-slate-200 rounded-xl pl-7 pr-4 py-2 text-sm font-black text-slate-700 bg-white" 
-                  value={pricing.optionC_tier4_rate ?? ''} 
-                  onChange={(e) => setPricing({...pricing, optionC_tier4_rate: Number(e.target.value)})} />
-              </div>
-            </div>
-            
-            <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Seat Limit</label>
-              <div className="text-2xl font-black text-emerald-600 pt-1">∞</div>
-            </div>
-            <div>
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Paper Quota / yr</label>
-              <input type="number" step="1" min="1"
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Annual Paper Quota Pool</label>
+              <input type="number" step="25" min="100"
                 className="w-full border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-black text-slate-700 bg-white"
-                value={pricing.optionC_paperQuota ?? ''}
+                value={pricing.optionC_paperQuota ?? 600}
                 onChange={(e) => setPricing({...pricing, optionC_paperQuota: Number(e.target.value)})} />
+              <span className="text-[9px] font-medium text-slate-400 block mt-1">Lump sum annual pool, usable anytime</span>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  );
+};
 
-      <div className="flex justify-end pt-4 border-t border-slate-100">
-        <button onClick={handleSave} disabled={saving} className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-md transition-all active:scale-95 disabled:opacity-60">
-          {saving ? 'Saving...' : 'Save Configuration'}
-        </button>
+// ─── Broadcast Annual Educator Loyalty Gift ──────────────────────────────────
+const BroadcastLoyaltyGift = ({ adminTeachers, onRefresh }) => {
+  const [target, setTarget] = React.useState('paid'); // 'paid' or 'all'
+  const [amount, setAmount] = React.useState(25);
+  const [note, setNote] = React.useState('Annual Loyalty Bonus: 25 Free Extra Papers! 🎉');
+  const [sending, setSending] = React.useState(false);
+  const [statusMsg, setStatusMsg] = React.useState('');
+
+  const handleDisburse = async () => {
+    if (!amount || amount <= 0) return alert('Please enter a valid number of bonus papers.');
+    const recipients = target === 'paid' 
+      ? adminTeachers.filter(t => t.isPaid)
+      : adminTeachers;
+
+    if (recipients.length === 0) {
+      return alert('No educators match the selected recipient group.');
+    }
+
+    if (!confirm(`Are you sure you want to broadcast +${amount} bonus papers to ${recipients.length} educators?\n\nNote: ${note}`)) {
+      return;
+    }
+
+    setSending(true);
+    setStatusMsg(`Disbursing +${amount} papers to ${recipients.length} educators...`);
+    try {
+      const promises = recipients.map(t => 
+        setDoc(doc(db, 'teachers', t.id), {
+          topUpCredits: increment(Number(amount)),
+          lastGiftReceivedAt: new Date().toISOString(),
+          lastGiftNote: note,
+          lastGiftAmount: Number(amount)
+        }, { merge: true })
+      );
+      await Promise.all(promises);
+      setStatusMsg(`Successfully gifted +${amount} papers to ${recipients.length} educators! 🎉`);
+      if (onRefresh) onRefresh();
+    } catch (e) {
+      console.error(e);
+      alert('Error disbursing loyalty gift: ' + e.message);
+    }
+    setSending(false);
+  };
+
+  const recipientCount = target === 'paid' 
+    ? adminTeachers.filter(t => t.isPaid).length 
+    : adminTeachers.length;
+
+  return (
+    <div className="bg-gradient-to-br from-amber-50 to-orange-50 border-4 border-amber-200 rounded-[32px] p-6 lg:p-8 space-y-6 shadow-xl mb-8 relative overflow-hidden">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-amber-200/70 pb-4">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-black uppercase text-amber-800 bg-amber-100 px-3 py-1 rounded-full border border-amber-300 tracking-wider flex items-center gap-1">
+              <Gift className="w-3 h-3" /> Annual Educator Loyalty Engine
+            </span>
+            <span className="text-xs text-amber-700 font-bold">• Surprise Community Rewards</span>
+          </div>
+          <h3 className="text-xl font-black text-slate-900 flex items-center gap-2">
+            <span>🎁 Disburse Annual Bonus Papers to Teachers</span>
+          </h3>
+          <p className="text-xs text-slate-500 font-bold">
+            Celebrate great business by depositing non-expiring bonus paper credits into teacher accounts in 1-click.
+          </p>
+        </div>
+        {statusMsg && (
+          <div className="bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-black px-4 py-2 rounded-xl animate-fade-in">
+            {statusMsg}
+          </div>
+        )}
+      </div>
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+        <div>
+          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Recipient Audience</label>
+          <select 
+            value={target} 
+            onChange={(e) => setTarget(e.target.value)}
+            className="w-full border-2 border-amber-200 rounded-xl px-3 py-2.5 text-xs font-black text-slate-800 bg-white"
+          >
+            <option value="paid">Active Paid Subscribers ({adminTeachers.filter(t => t.isPaid).length} teachers)</option>
+            <option value="all">All Registered Teachers ({adminTeachers.length} teachers)</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Bonus Papers Amount</label>
+          <div className="flex items-center gap-2">
+            <input 
+              type="number" 
+              min="1" 
+              value={amount} 
+              onChange={(e) => setAmount(Number(e.target.value))}
+              className="w-full border-2 border-amber-200 rounded-xl px-3 py-2 text-sm font-black text-slate-800 bg-white"
+            />
+            <div className="flex gap-1">
+              {[10, 25, 50].map(cnt => (
+                <button 
+                  key={cnt} 
+                  type="button"
+                  onClick={() => setAmount(cnt)} 
+                  className={`px-2 py-1.5 rounded-lg text-[10px] font-black border transition-all ${amount === cnt ? 'bg-amber-500 text-white border-amber-600' : 'bg-white text-slate-600 border-amber-200 hover:bg-amber-50'}`}
+                >
+                  +{cnt}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Celebration Message Note</label>
+          <input 
+            type="text" 
+            value={note} 
+            onChange={(e) => setNote(e.target.value)}
+            className="w-full border-2 border-amber-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 bg-white"
+            placeholder="e.g. Happy New Year from HomeworkZone! 🎉"
+          />
+        </div>
+
+        <div>
+          <button 
+            onClick={handleDisburse} 
+            disabled={sending || recipientCount === 0}
+            className="w-full py-3 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white rounded-2xl text-xs font-black uppercase tracking-wider shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+          >
+            {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Gift className="w-4 h-4" />}
+            {sending ? 'Disbursing...' : `Gift +${amount} Papers (${recipientCount} teachers) 🎁`}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -1033,6 +1165,9 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [adminStatusFilter, setAdminStatusFilter] = useState('all');
   const [adminSortField, setAdminSortField] = useState('createdAt');
   const [adminSortOrder, setAdminSortOrder] = useState('desc');
+  const [giftingTeacher, setGiftingTeacher] = useState(null);
+  const [singleGiftAmount, setSingleGiftAmount] = useState(10);
+  const [isGiftingSingle, setIsGiftingSingle] = useState(false);
 
   const fetchAdminData = async () => {
     setAdminLoading(true);
@@ -1128,7 +1263,10 @@ const TeacherDashboard = ({ user, onLogout }) => {
           isPaid,
           conversionStatus,
           mrr: getTeacherMRR(billing, studentCount),
-          isSuperUser: data.isSuperUser === true
+          isSuperUser: data.isSuperUser === true,
+          topUpCredits: Number(data.topUpCredits || 0),
+          papersGeneratedThisMonth: Number(data.papersGeneratedThisMonth || 0),
+          papersGeneratedTotal: Number(data.papersGeneratedTotal || 0)
         });
       });
 
@@ -3413,28 +3551,9 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
   const getPlanSeatLimit = (planId) => {
     const simulatedPlan = typeof localStorage !== 'undefined' ? localStorage.getItem('hwz_simulated_plan') : null;
     const isMaxed = simulatedPlan && simulatedPlan.endsWith('_maxed');
-    const cleanPlan = isMaxed ? simulatedPlan.replace('_maxed', '') : simulatedPlan;
-    const effectivePlan = cleanPlan || planId;
-
-    if (isAdminUser && !simulatedPlan) return Infinity;
-
-    if (isMaxed) return allStudents.length || 0; // Blocks new additions without locking existing students!
-
-    if (effectivePlan === 'free_expired' || effectivePlan === 'free_trial' || effectivePlan === 'free') {
-      return globalPricing.free_seatLimit ?? 5;
-    }
-    switch (effectivePlan) {
-      case 'option-b-starter': return globalPricing.optionB_starter_maxStudents ?? 20;
-      case 'option-b-growth': return globalPricing.optionB_growth_maxStudents ?? 30;
-      case 'option-b-school': return globalPricing.optionB_school_maxStudents ?? 150;
-      case 'option-a':
-      case 'option_a_elastic': {
-        return globalPricing.optionA_seatLimit ?? 10;
-      }
-      case 'option-c':
-        return Infinity;
-      default: return 5;
-    }
+    if (isMaxed) return allStudents.length || 0; // Simulated lock for QA testing
+    // With the Paper Quota model, all plans enjoy Unlimited Students & Classes
+    return Infinity;
   };
 
   const getPlanName = (planId) => {
@@ -3930,18 +4049,17 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
             <div className="space-y-4">
               <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center text-2xl font-bold">A</div>
               <div>
-                <h3 className="text-lg font-black text-slate-800">Parent/Tutors</h3>
-                <p className="text-xs text-slate-400 font-bold">Monthly Elastic Capacity</p>
+                <h3 className="text-lg font-black text-slate-800">Solo Educator</h3>
+                <p className="text-xs text-slate-400 font-bold">Flat Monthly License</p>
               </div>
               <div className="text-3xl font-black text-slate-800">
-                {selectedCurrency === 'inr' ? `₹${globalPricing.optionA_perStudentPerMonth_inr || 99}` : `${globalPricing.optionA_perStudentPerMonth.toFixed(2)}`} <span className="text-xs font-bold text-slate-400">/ student / month</span>
+                {selectedCurrency === 'inr' ? `₹${(globalPricing.optionA_flat_price_inr || 999).toLocaleString('en-IN')}` : `${globalPricing.optionA_flat_price || 15}`} <span className="text-xs font-bold text-slate-400">/ month</span>
               </div>
               <ul className="text-xs text-slate-500 font-bold space-y-2.5">
-                <li className="flex items-center gap-2">✨ Pay only for active students</li>
-                <li className="flex items-center gap-2">📈 Scales automatically as you add/remove</li>
-                <li className="flex items-center gap-2">📄 {globalPricing.optionA_paperQuota} papers / month included</li>
-                <li className="flex items-center gap-2">🔓 No long term annual commitment</li>
-                <li className="flex items-center gap-2">🎯 Perfect for tutor/mid-semester setups</li>
+                <li className="flex items-center gap-2 text-emerald-600 font-black">⚡ Unlimited Students &amp; Classes</li>
+                <li className="flex items-center gap-2 font-black text-blue-600">📄 {globalPricing.optionA_paperQuota || 20} papers / month included</li>
+                <li className="flex items-center gap-2">✨ Instant grading, rubrics &amp; LaTeX</li>
+                <li className="flex items-center gap-2">🔓 Cancel anytime with 1-click</li>
               </ul>
             </div>
             {activePlanId === 'option-a' ? (
@@ -3995,19 +4113,18 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
             <div className="space-y-4">
               <div className="w-12 h-12 bg-orange-50 text-[#EA580C] rounded-2xl flex items-center justify-center text-2xl font-bold">B</div>
               <div>
-                <h3 className="text-lg font-black text-slate-800">Option B: Monthly Flat Tiers</h3>
-                <p className="text-xs text-slate-400 font-bold">Fixed Capacity Tiers</p>
+                <h3 className="text-lg font-black text-slate-800">Pro Tutor / Academy</h3>
+                <p className="text-xs text-slate-400 font-bold">Flat Monthly License</p>
               </div>
               <div className="space-y-3 pt-2">
                 {[
-                  { id: 'option-b-starter', name: 'Starter (11-20 students)', price: globalPricing.optionB_starter_price, seats: 20, papers: globalPricing.optionB_starter_paperQuota },
-                  { id: 'option-b-growth', name: 'Growth (21-30 students)', price: globalPricing.optionB_growth_price, seats: 30, papers: globalPricing.optionB_growth_paperQuota },
-                  
+                  { id: 'option-b-growth', name: 'Growth Tier (Most Popular ⭐)', price: globalPricing.optionB_growth_price || 39, priceInr: globalPricing.optionB_growth_price_inr || 2499, papers: globalPricing.optionB_growth_paperQuota || 80 },
+                  { id: 'option-b-starter', name: 'Starter Tier', price: globalPricing.optionB_starter_price || 29, priceInr: globalPricing.optionB_starter_price_inr || 1999, papers: globalPricing.optionB_starter_paperQuota || 50 },
                 ].map((tier) => (
                   <div key={tier.id} className="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl">
                     <div>
                       <p className="text-xs font-bold text-slate-700">{tier.name}</p>
-                      <p className="text-[10px] font-medium text-slate-400 mb-1">{selectedCurrency === 'inr' ? (tier.id === 'option-b-starter' ? '₹999 / mo' : '₹1,999 / mo') : `${(tier.price / tier.seats).toFixed(2)} / student equivalent`}</p>
+                      <p className="text-[10px] font-black text-emerald-600 mb-1">⚡ Unlimited Students &amp; Classes</p>
                       <p className="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded border border-orange-100 inline-block">📄 {tier.papers} papers / mo</p>
                     </div>
                     {activePlanId === tier.id ? (
@@ -4068,32 +4185,18 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
             <div className="space-y-4">
               <div className="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center text-2xl font-bold">C</div>
               <div>
-                <h3 className="text-lg font-black text-slate-800">Option C: Graduated Annual</h3>
-                <p className="text-xs text-slate-400 font-bold">Yearly Quantity-Based Volume Tiers</p>
+                <h3 className="text-lg font-black text-slate-800">School Annual</h3>
+                <p className="text-xs text-slate-400 font-bold">Flat Yearly Institutional License</p>
               </div>
-              <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 space-y-1">
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Graduated Tiers (Annual)</span>
-                <div className="flex justify-between text-[11px] font-bold text-slate-600">
-                  <span>31-100 students</span>
-                  <span>{selectedCurrency === 'inr' ? `₹${globalPricing.optionC_tier1_rate_inr || 499} / student / yr` : `${globalPricing.optionC_tier1_rate} / student / yr`}</span>
-                </div>
-                <div className="flex justify-between text-[11px] font-bold text-slate-600">
-                  <span>101-500 students</span>
-                  <span>{selectedCurrency === 'inr' ? `₹${globalPricing.optionC_tier2_rate_inr || 399} / student / yr` : `${globalPricing.optionC_tier2_rate} / student / yr`}</span>
-                </div>
-                <div className="flex justify-between text-[11px] font-bold text-slate-600">
-                  <span>501-1,000 students</span>
-                  <span>{selectedCurrency === 'inr' ? `₹${globalPricing.optionC_tier3_rate_inr || 299} / student / yr` : `${globalPricing.optionC_tier3_rate} / student / yr`}</span>
-                </div>
-                <div className="flex justify-between text-[11px] font-bold text-slate-600">
-                  <span>1,001+ students</span>
-                  <span>{selectedCurrency === 'inr' ? `₹${globalPricing.optionC_tier4_rate_inr || 199} / student / yr` : `${globalPricing.optionC_tier4_rate} / student / yr`}</span>
-                </div>
-                <div className="flex justify-between items-center text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-1.5 rounded mt-2 border border-emerald-100">
-                  <span>Includes</span>
-                  <span>📄 {globalPricing.optionC_paperQuota} papers / year</span>
-                </div>
+              <div className="text-3xl font-black text-slate-800">
+                {selectedCurrency === 'inr' ? `₹${(globalPricing.optionC_annual_price_inr || 19999).toLocaleString('en-IN')}` : `${globalPricing.optionC_annual_price || 299}`} <span className="text-xs font-bold text-slate-400">/ year</span>
               </div>
+              <ul className="text-xs text-slate-500 font-bold space-y-2.5">
+                <li className="flex items-center gap-2 text-emerald-600 font-black">⚡ Unlimited Students &amp; Classes</li>
+                <li className="flex items-center gap-2 font-black text-emerald-700">📄 {globalPricing.optionC_paperQuota || 600} papers / year annual pool</li>
+                <li className="flex items-center gap-2">🤝 Multi-teacher shared question bank</li>
+                <li className="flex items-center gap-2">🎯 Priority support &amp; institutional invoicing</li>
+              </ul>
             </div>
             {activePlanId === 'option-c' ? (
               <div className="flex flex-col gap-2">
@@ -4207,6 +4310,109 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
       </div>
           </>
         )}
+
+        {/* ── Individual Teacher Loyalty Gift Modal ── */}
+        {giftingTeacher && (
+          <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-5 shadow-2xl border-4 border-amber-200 animate-scale-up">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold">
+                    <Gift className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black text-slate-900">Gift Bonus Papers</h3>
+                    <p className="text-xs font-bold text-amber-600">Educator Loyalty Reward</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setGiftingTeacher(null)}
+                  className="p-1 rounded-xl hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="bg-amber-50/70 border border-amber-200/80 rounded-2xl p-4 space-y-1">
+                <p className="text-xs font-black text-slate-800">
+                  Recipient: <span className="text-amber-800 font-extrabold">{giftingTeacher.name}</span>
+                </p>
+                <p className="text-[11px] text-slate-500 font-medium">
+                  Email: {giftingTeacher.email} • Code: <span className="font-mono text-purple-600 font-bold">{giftingTeacher.teacherCode}</span>
+                </p>
+                <p className="text-[11px] text-slate-500 font-medium">
+                  Current Balance: {giftingTeacher.papersGeneratedThisMonth || 0} used / {getPaperQuota(giftingTeacher.activePlanId, globalPricing)} quota (+{giftingTeacher.topUpCredits || 0} bonus)
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[11px] font-black uppercase text-slate-500 tracking-wider block">
+                  Select Bonus Amount
+                </label>
+                <div className="grid grid-cols-4 gap-2">
+                  {[5, 10, 25, 50].map(cnt => (
+                    <button 
+                      key={cnt}
+                      type="button"
+                      onClick={() => setSingleGiftAmount(cnt)}
+                      className={`py-2.5 rounded-xl font-black text-xs border transition-all ${singleGiftAmount === cnt ? 'bg-amber-500 text-white border-amber-600 shadow-md' : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-amber-50'}`}
+                    >
+                      +{cnt}
+                    </button>
+                  ))}
+                </div>
+                <div className="relative mt-2">
+                  <input 
+                    type="number"
+                    min="1"
+                    value={singleGiftAmount}
+                    onChange={(e) => setSingleGiftAmount(Math.max(1, Number(e.target.value)))}
+                    className="w-full border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-black text-slate-800 bg-white"
+                    placeholder="Custom amount"
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">papers</span>
+                </div>
+                <p className="text-[10px] text-slate-400 font-medium">
+                  Gifted papers never expire and are added on top of the monthly plan quota.
+                </p>
+              </div>
+
+              <div className="flex justify-end gap-3 pt-2">
+                <button 
+                  onClick={() => setGiftingTeacher(null)}
+                  disabled={isGiftingSingle}
+                  className="px-4 py-2.5 rounded-xl text-xs font-black text-slate-500 hover:bg-slate-100 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={async () => {
+                    if (!singleGiftAmount || singleGiftAmount <= 0) return;
+                    setIsGiftingSingle(true);
+                    try {
+                      await setDoc(doc(db, 'teachers', giftingTeacher.id), {
+                        topUpCredits: increment(singleGiftAmount),
+                        lastGiftReceivedAt: new Date().toISOString(),
+                        lastGiftAmount: singleGiftAmount
+                      }, { merge: true });
+                      setAdminTeachers(prev => prev.map(t => t.id === giftingTeacher.id ? { ...t, topUpCredits: (t.topUpCredits || 0) + singleGiftAmount } : t));
+                      alert(`Successfully gifted +${singleGiftAmount} bonus papers to ${giftingTeacher.name}! 🎁`);
+                      setGiftingTeacher(null);
+                    } catch (e) {
+                      alert('Error gifting papers: ' + e.message);
+                    }
+                    setIsGiftingSingle(false);
+                  }}
+                  disabled={isGiftingSingle}
+                  className="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white rounded-xl text-xs font-black shadow-md transition-all flex items-center gap-2"
+                >
+                  {isGiftingSingle ? <Loader2 className="w-4 h-4 animate-spin" /> : <Gift className="w-4 h-4" />}
+                  {isGiftingSingle ? 'Gifting...' : `Gift +${singleGiftAmount} Papers 🎁`}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
@@ -4287,6 +4493,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
     return (
       <div className="px-10 py-10 space-y-8 min-h-[calc(100vh-64px)] pb-40">
           <AdminPricingSettings />
+          <BroadcastLoyaltyGift adminTeachers={adminTeachers} onRefresh={fetchAdminData} />
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b-2 border-orange-100 pb-6">
           <div className="space-y-1">
             <span className="text-[10px] font-black uppercase text-[#EA580C] bg-[#FFEDD5] border border-orange-100 px-3.5 py-1.5 rounded-full tracking-widest inline-block">
@@ -4583,7 +4790,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none" onClick={() => handleAdminSort('teacherCode')}>Code</th>
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none" onClick={() => handleAdminSort('createdAt')}>Registered</th>
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none text-center" onClick={() => handleAdminSort('studentCount')}>Students</th>
-                      <th className="p-4 cursor-pointer hover:text-purple-700 select-none text-center" onClick={() => handleAdminSort('homeworkCount')}>Papers</th>
+                      <th className="p-4 cursor-pointer hover:text-purple-700 select-none text-center" onClick={() => handleAdminSort('homeworkCount')}>Papers (Used / Quota)</th>
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none" onClick={() => handleAdminSort('activePlanId')}>Plan Model</th>
                       <th className="p-4 cursor-pointer hover:text-purple-700 select-none text-right" onClick={() => handleAdminSort('mrr')}>Est. MRR</th>
                       <th className="p-4 select-none text-right">Unit Profit</th>
@@ -4614,7 +4821,15 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                             {teacher.studentCount} <span className="text-[10px] text-slate-400 font-medium">({teacher.classCount} classes)</span>
                           </td>
                           <td className="p-4 text-center font-bold text-slate-800">
-                            {teacher.homeworkCount}
+                            <div>
+                              <span className="text-sm font-black text-slate-900">{teacher.papersGeneratedThisMonth || teacher.homeworkCount || 0}</span>
+                              <span className="text-[10px] text-slate-400 font-bold"> / {getPaperQuota(teacher.activePlanId, globalPricing)}</span>
+                            </div>
+                            {(teacher.topUpCredits || 0) > 0 && (
+                              <span className="text-[9px] font-black text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200 inline-block mt-0.5">
+                                +{teacher.topUpCredits} bonus
+                              </span>
+                            )}
                           </td>
                           <td className="p-4">
                             <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase border ${
@@ -4682,6 +4897,13 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                             </label>
                           </td>
                           <td className="p-4 text-center">
+                            <button
+                              onClick={() => { setGiftingTeacher(teacher); setSingleGiftAmount(10); }}
+                              className="p-2 text-amber-600 hover:text-white hover:bg-amber-500 rounded-xl border border-amber-200 transition-all shadow-sm active:scale-95 cursor-pointer mr-1.5"
+                              title={`Gift bonus papers to ${teacher.name}`}
+                            >
+                              <Gift className="w-4 h-4" />
+                            </button>
                             <button
                               onClick={() => handleDeleteTeacher(teacher)}
                               disabled={deletingTeacherId === teacher.id}

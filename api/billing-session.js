@@ -262,14 +262,25 @@ export default async function handler(req, res) {
 
         switch (planId) {
       case 'option-a':
-        lookupKey = 'hz_option_a_monthly_v' + Math.round(pricing.optionA_perStudentPerMonth * 100);
-        productDetails = {
-          name: 'HomeworkZone Monthly License (Option A)',
-          billing_scheme: 'per_unit',
-          unit_amount: Math.round(pricing.optionA_perStudentPerMonth * 100),
-          interval: 'month',
-          currency: 'usd',
-        };
+        if (currency === 'inr') {
+          lookupKey = 'hz_option_a_inr_v' + Math.round((pricing.optionA_flat_price_inr || pricing.optionA_perStudentPerMonth_inr || 999) * 100);
+          productDetails = {
+            name: 'HomeworkZone Solo Educator Plan (Option A - INR)',
+            billing_scheme: 'per_unit',
+            unit_amount: Math.round((pricing.optionA_flat_price_inr || pricing.optionA_perStudentPerMonth_inr || 999) * 100),
+            interval: 'month',
+            currency: 'inr',
+          };
+        } else {
+          lookupKey = 'hz_option_a_monthly_v' + Math.round((pricing.optionA_flat_price || pricing.optionA_perStudentPerMonth || 15) * 100);
+          productDetails = {
+            name: 'HomeworkZone Solo Educator Plan (Option A)',
+            billing_scheme: 'per_unit',
+            unit_amount: Math.round((pricing.optionA_flat_price || pricing.optionA_perStudentPerMonth || 15) * 100),
+            interval: 'month',
+            currency: 'usd',
+          };
+        }
         break;
       case 'option-b-starter':
         if (currency === 'inr') {
@@ -335,20 +346,25 @@ export default async function handler(req, res) {
         }
         break;
       case 'option-c':
-        lookupKey = 'hz_option_c_yearly_v' + Math.round(pricing.optionC_tier1_rate * 100);
-        productDetails = {
-          name: 'HomeworkZone Yearly Graduated License (Option C)',
-          billing_scheme: 'tiered',
-          interval: 'year',
-          currency: 'usd',
-          tiers_mode: 'graduated',
-          tiers: [
-              { up_to: 100, unit_amount: Math.round(pricing.optionC_tier1_rate * 100) },
-              { up_to: 500, unit_amount: Math.round(pricing.optionC_tier2_rate * 100) },
-              { up_to: 1000, unit_amount: Math.round(pricing.optionC_tier3_rate * 100) },
-              { up_to: 'inf', unit_amount: Math.round(pricing.optionC_tier4_rate * 100) },
-            ]
-        };
+        if (currency === 'inr') {
+          lookupKey = 'hz_option_c_annual_inr_v' + Math.round((pricing.optionC_annual_price_inr || 19999) * 100);
+          productDetails = {
+            name: 'HomeworkZone School Annual License (Option C - INR)',
+            billing_scheme: 'per_unit',
+            unit_amount: Math.round((pricing.optionC_annual_price_inr || 19999) * 100),
+            interval: 'year',
+            currency: 'inr',
+          };
+        } else {
+          lookupKey = 'hz_option_c_annual_v' + Math.round((pricing.optionC_annual_price || 299) * 100);
+          productDetails = {
+            name: 'HomeworkZone School Annual License (Option C)',
+            billing_scheme: 'per_unit',
+            unit_amount: Math.round((pricing.optionC_annual_price || 299) * 100),
+            interval: 'year',
+            currency: 'usd',
+          };
+        }
         break;
       default:
         return res.status(400).json({ error: `Invalid planId: ${planId}` });
@@ -396,12 +412,8 @@ export default async function handler(req, res) {
 
     // 3. Set up line items and seat count
     let quantity = 1;
-    const isDynamic = planId === 'option-a' || planId === 'option-c';
-    if (planId === 'option-a') {
-      quantity = Math.max(1, parseInt(studentCount, 10) || 1);
-    } else if (planId === 'option-c') {
-      quantity = Math.max(31, parseInt(studentCount, 10) || 31);
-    }
+    // With the Paper Quota model, all tiers are flat subscriptions with Unlimited Students & Classes
+    const isDynamic = false;
 
     // 🌟 1-Click Upgrade Logic 🌟
     if (action === 'upgrade') {

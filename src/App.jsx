@@ -5423,7 +5423,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                        {selectedCurrency === 'inr' ? '₹0' : '$0'} <span className="text-sm font-normal text-slate-500">/ 7 days</span>
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2">
-                       <li className="flex items-center gap-2">✔️ Max 5 students & 2 classes</li>
+                       <li className="flex items-center gap-2">✔️ Unlimited Students & Unlimited Classes</li>
                        <li className="flex items-center gap-2">✔️ Full dashboard administrative access</li>
                        <li className="flex items-center gap-2">✔️ 5 Free Paper Creations included</li>
                        <li className="flex items-center gap-2">✔️ No credit card required to start</li>

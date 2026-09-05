@@ -15,29 +15,33 @@ import { db } from '../firebase';
 // ─── Default pricing (fallback only — always prefer Firestore values) ─────────
 
 export const DEFAULT_PRICING = {
-  // ── Option A: Elastic Monthly ─────────────────────────────────────────────
-  optionA_perStudentPerMonth: 5.00,
-  optionA_perStudentPerMonth_inr: 99,
-  optionA_seatLimit: 10,           // seats included (no Stripe quantity needed)
-  optionA_paperQuota: 25,          // papers per month
+  // ── Option A: Solo Educator (Flat Monthly) ────────────────────────────────
+  optionA_flat_price: 15.00,
+  optionA_flat_price_inr: 999,
+  optionA_perStudentPerMonth: 15.00, // backward compat
+  optionA_perStudentPerMonth_inr: 999, // backward compat
+  optionA_seatLimit: Infinity,       // Unlimited students & classes
+  optionA_paperQuota: 20,            // papers per month
 
-  // ── Option B: Monthly Flat Tiers (with PPP for INR) ───────────────────────
-  optionB_starter_price: 50,
-  optionB_starter_price_inr: 999,
-  optionB_starter_maxStudents: 20,
-  optionB_starter_paperQuota: 60,  // papers per month
+  // ── Option B: Monthly Flat Tiers (Pro Tutor / Academy) ────────────────────
+  optionB_starter_price: 29,
+  optionB_starter_price_inr: 1999,
+  optionB_starter_maxStudents: Infinity,
+  optionB_starter_paperQuota: 50,    // papers per month
 
-  optionB_growth_price: 80,
-  optionB_growth_price_inr: 1999,
-  optionB_growth_maxStudents: 30,
-  optionB_growth_paperQuota: 100,  // papers per month
+  optionB_growth_price: 39,
+  optionB_growth_price_inr: 2499,
+  optionB_growth_maxStudents: Infinity,
+  optionB_growth_paperQuota: 80,     // papers per month
 
-  optionB_school_price: 99,
-  optionB_school_price_inr: 3499,
-  optionB_school_maxStudents: 150,
-  optionB_school_paperQuota: 150,  // papers per month
+  optionB_school_price: 69,
+  optionB_school_price_inr: 4499,
+  optionB_school_maxStudents: Infinity,
+  optionB_school_paperQuota: 150,    // papers per month
 
-  // ── Option C: Yearly Graduated ────────────────────────────────────────────
+  // ── Option C: School Annual (Flat Yearly) ─────────────────────────────────
+  optionC_annual_price: 299,
+  optionC_annual_price_inr: 19999,
   optionC_tier1_max: 100,
   optionC_tier1_rate: 24,
   optionC_tier1_rate_inr: 499,
@@ -49,11 +53,19 @@ export const DEFAULT_PRICING = {
   optionC_tier3_rate_inr: 299,
   optionC_tier4_rate: 14,
   optionC_tier4_rate_inr: 199,
-  optionC_paperQuota: 2500,        // papers per year
+  optionC_paperQuota: 600,           // papers per year
 
-  // ── Free Trial ────────────────────────────────────────────────────────────
-  free_seatLimit: 5,
-  free_paperQuota: 5,              // total (lifetime trial)
+  // ── Free Trial (Sandbox) ──────────────────────────────────────────────────
+  free_seatLimit: Infinity,          // Unlimited students & classes
+  free_paperQuota: 5,                // total lifetime trial sandbox papers
+
+  // ── Top-Up Paper Boosters ─────────────────────────────────────────────────
+  booster_mini_price: 2.00,
+  booster_mini_price_inr: 149,
+  booster_mini_credits: 15,
+  booster_mega_price: 5.00,
+  booster_mega_price_inr: 399,
+  booster_mega_credits: 50,
 };
 
 // ─── In-memory cache ─────────────────────────────────────────────────────────
@@ -116,19 +128,10 @@ export function getPaperQuota(planId, pricing = DEFAULT_PRICING) {
 
 /**
  * Get the seat limit for a given plan from the pricing config.
+ * With the Paper Quota model, all tiers enjoy Unlimited Students & Classes.
  */
 export function getSeatLimit(planId, pricing = DEFAULT_PRICING) {
-  const p = { ...DEFAULT_PRICING, ...pricing };
-  if (!planId || planId === 'free' || planId === 'free_trial' || planId === 'free_expired') {
-    return p.free_seatLimit;
-  }
-  if (planId === 'admin' || planId === 'superuser') return Infinity;
-  if (planId === 'option-a' || planId === 'option_a_elastic') return p.optionA_seatLimit;
-  if (planId === 'option-b-starter') return p.optionB_starter_maxStudents;
-  if (planId === 'option-b-growth') return p.optionB_growth_maxStudents;
-  if (planId === 'option-b-school') return p.optionB_school_maxStudents;
-  if (planId === 'option-c' || planId === 'option_c_school') return Infinity;
-  return p.free_seatLimit;
+  return Infinity;
 }
 
 /**
@@ -137,6 +140,7 @@ export function getSeatLimit(planId, pricing = DEFAULT_PRICING) {
  */
 export function calcOptionCAnnual(seats, pricing = DEFAULT_PRICING) {
   const p = { ...DEFAULT_PRICING, ...pricing };
+  if (p.optionC_annual_price) return p.optionC_annual_price;
   let cost = 0;
 
   const t1 = p.optionC_tier1_max;
@@ -166,11 +170,11 @@ export function getTeacherMRR(billing, studentCount, pricing = DEFAULT_PRICING) 
   const p = { ...DEFAULT_PRICING, ...pricing };
   if (!billing || !['active', 'trialing'].includes(billing.status)) return 0;
   const planId = billing.planId;
-  if (planId === 'option-a') return studentCount * p.optionA_perStudentPerMonth;
-  if (planId === 'option-b-starter') return p.optionB_starter_price;
-  if (planId === 'option-b-growth') return p.optionB_growth_price;
-  if (planId === 'option-b-school') return p.optionB_school_price;
-  if (planId === 'option-c') return calcOptionCAnnual(studentCount, p) / 12;
+  if (planId === 'option-a') return p.optionA_flat_price ?? (studentCount * (p.optionA_perStudentPerMonth || 5.00));
+  if (planId === 'option-b-starter') return p.optionB_starter_price ?? 29;
+  if (planId === 'option-b-growth') return p.optionB_growth_price ?? 39;
+  if (planId === 'option-b-school') return p.optionB_school_price ?? 69;
+  if (planId === 'option-c') return (p.optionC_annual_price ? p.optionC_annual_price / 12 : calcOptionCAnnual(studentCount, p) / 12);
   return 0;
 }
 
