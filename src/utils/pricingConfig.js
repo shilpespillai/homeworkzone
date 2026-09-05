@@ -185,12 +185,18 @@ export function getTeacherMRR(billing, studentCount, pricing = DEFAULT_PRICING) 
 export function detectUserCurrency() {
   try {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-    const lang = (typeof navigator !== 'undefined' && navigator.language) || '';
+    const lang = (typeof navigator !== 'undefined' && (navigator.language || (navigator.languages && navigator.languages[0]))) || '';
+    const langs = (typeof navigator !== 'undefined' && Array.isArray(navigator.languages)) ? navigator.languages.map(l => l.toLowerCase()) : [];
+    const offset = new Date().getTimezoneOffset(); // IST is UTC+5:30 -> offset is -330 minutes
+
     if (
       tz.includes('Calcutta') ||
       tz.includes('Kolkata') ||
-      lang.toLowerCase().includes('en-in') ||
-      lang.toLowerCase().includes('hi')
+      tz.includes('India') ||
+      offset === -330 ||
+      lang.toLowerCase().includes('-in') ||
+      lang.toLowerCase().startsWith('hi') ||
+      langs.some(l => l.includes('-in') || l.startsWith('hi'))
     ) {
       return 'inr';
     }
