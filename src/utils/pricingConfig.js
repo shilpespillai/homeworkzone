@@ -76,8 +76,8 @@ let _cachedPricing = null;
  * Falls back to DEFAULT_PRICING if doc doesn't exist.
  * Caches result in memory for the session.
  */
-export async function fetchPricing() {
-  if (_cachedPricing) return _cachedPricing;
+export async function fetchPricing(force = false) {
+  if (_cachedPricing && !force) return _cachedPricing;
   try {
     const snap = await getDoc(doc(db, 'system', 'pricing'));
     if (snap.exists()) {

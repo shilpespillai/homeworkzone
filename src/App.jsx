@@ -5374,7 +5374,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2">
                        <li className="flex items-center gap-2">✔️ Unlimited Students & Unlimited Classes</li>
                        <li className="flex items-center gap-2">✔️ Full dashboard administrative access</li>
-                       <li className="flex items-center gap-2">✔️ 5 Free Paper Creations included</li>
+                       <li className="flex items-center gap-2">✔️ {pricing.free_paperQuota || 5} Free Paper Creations included</li>
                        <li className="flex items-center gap-2">✔️ No credit card required to start</li>
                      </ul>
                    </div>
@@ -5447,7 +5447,7 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                      </div>
                      <ul className="text-xs md:text-sm text-slate-800 font-normal space-y-3 pt-2 border-t border-slate-100">
                        <li className="flex items-center gap-2">✔️ <strong>Unlimited Students & Classes</strong></li>
-                       <li className="flex items-center gap-2">✔️ <strong>50–80 Paper Creations / month</strong></li>
+                       <li className="flex items-center gap-2">✔️ <strong>{pricing.optionB_starter_paperQuota || 50}–{pricing.optionB_growth_paperQuota || 80} Paper Creations / month</strong></li>
                        <li className="flex items-center gap-2">✔️ Priority ICAS, CBSE & NAPLAN modes</li>
                        <li className="flex items-center gap-2">✔️ Custom watermark on printable PDFs</li>
                        <li className="flex items-center gap-2">✔️ Switch plans or add top-ups anytime</li>
@@ -5508,14 +5508,14 @@ const LandingPage = ({ currentUser, onTeacherLogin, onStudentLogin }) => {
                 <div className="flex flex-wrap items-center gap-4 shrink-0">
                   <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 text-center min-w-[130px]">
                     <p className="text-xs text-violet-200 font-semibold">Mini Booster</p>
-                    <p className="text-2xl font-black text-amber-300">{selectedCurrency === 'inr' ? '₹149' : '$2.00'}</p>
-                    <p className="text-[10px] font-bold text-white uppercase tracking-wider">+15 Papers</p>
+                    <p className="text-2xl font-black text-amber-300">{selectedCurrency === 'inr' ? `₹${pricing.booster_mini_price_inr || 149}` : `$${Number(pricing.booster_mini_price || 2).toFixed(2)}`}</p>
+                    <p className="text-[10px] font-bold text-white uppercase tracking-wider">+{pricing.booster_mini_credits || 15} Papers</p>
                   </div>
                   <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 border border-amber-400/50 text-center min-w-[140px] shadow-lg relative">
                     <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-amber-400 text-slate-900 text-[9px] font-black uppercase px-2 py-0.5 rounded-full">Best Value</span>
                     <p className="text-xs text-violet-100 font-semibold">Mega Booster</p>
-                    <p className="text-2xl font-black text-white">{selectedCurrency === 'inr' ? '₹399' : '$5.00'}</p>
-                    <p className="text-[10px] font-bold text-amber-300 uppercase tracking-wider">+50 Papers</p>
+                    <p className="text-2xl font-black text-white">{selectedCurrency === 'inr' ? `₹${pricing.booster_mega_price_inr || 399}` : `$${Number(pricing.booster_mega_price || 5).toFixed(2)}`}</p>
+                    <p className="text-[10px] font-bold text-amber-300 uppercase tracking-wider">+{pricing.booster_mega_credits || 50} Papers</p>
                   </div>
                 </div>
               </div>

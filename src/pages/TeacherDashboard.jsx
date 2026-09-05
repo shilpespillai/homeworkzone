@@ -923,10 +923,30 @@ const AdminPricingSettings = () => {
                 value={pricing.optionB_growth_paperQuota ?? 80}
                 onChange={(e) => setPricing({...pricing, optionB_growth_paperQuota: Number(e.target.value)})} />
             </div>
-            <div className="pt-1 border-t border-orange-200/60">
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-[9px] font-black uppercase text-orange-600">Starter Tier (Fallback)</span>
-                <span className="text-[9px] font-bold text-slate-400">USD ${pricing.optionB_starter_price ?? 29} • {pricing.optionB_starter_paperQuota ?? 50} papers</span>
+            <div className="pt-2 border-t border-orange-200/60 space-y-2">
+              <span className="text-[9px] font-black uppercase text-orange-600 block">Starter Tier Settings</span>
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="text-[9px] font-bold text-slate-400 block mb-0.5">Starter USD</label>
+                  <input type="number" step="1" 
+                    className="w-full border border-slate-200 rounded-lg px-2 py-1 text-xs font-bold text-slate-700 bg-white" 
+                    value={pricing.optionB_starter_price ?? 29} 
+                    onChange={(e) => setPricing({...pricing, optionB_starter_price: Number(e.target.value)})} />
+                </div>
+                <div>
+                  <label className="text-[9px] font-bold text-slate-400 block mb-0.5">Starter INR</label>
+                  <input type="number" step="50" 
+                    className="w-full border border-slate-200 rounded-lg px-2 py-1 text-xs font-bold text-slate-700 bg-white" 
+                    value={pricing.optionB_starter_price_inr ?? 1999} 
+                    onChange={(e) => setPricing({...pricing, optionB_starter_price_inr: Number(e.target.value)})} />
+                </div>
+              </div>
+              <div>
+                <label className="text-[9px] font-bold text-slate-400 block mb-0.5">Starter Papers / mo</label>
+                <input type="number" step="1" 
+                  className="w-full border border-slate-200 rounded-lg px-2 py-1 text-xs font-bold text-slate-700 bg-white" 
+                  value={pricing.optionB_starter_paperQuota ?? 50} 
+                  onChange={(e) => setPricing({...pricing, optionB_starter_paperQuota: Number(e.target.value)})} />
               </div>
             </div>
           </div>
