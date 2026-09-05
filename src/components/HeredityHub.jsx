@@ -77,6 +77,20 @@ export default function HeredityHub() {
     }
   ];
 
+  const parentOffspringPairs = [
+    { parent: 'Dog (Canine) 🐕', offspring: 'Puppy' },
+    { parent: 'Cat (Feline) 🐈', offspring: 'Kitten' },
+    { parent: 'Frog 🐸', offspring: 'Tadpole' },
+    { parent: 'Butterfly 🦋', offspring: 'Caterpillar' },
+    { parent: 'Chicken 🐔', offspring: 'Chick' }
+  ];
+
+  const hypothesisData = [
+    { sun: 'Full Sunlight (8 hrs)', height: '24 cm', leaf: 'Vibrant dark green', growth: 'Healthy & robust' },
+    { sun: 'Partial Shade (4 hrs)', height: '16 cm', leaf: 'Light green', growth: 'Moderate growth' },
+    { sun: 'Full Shade (0 hrs)', height: '7 cm', leaf: 'Pale yellowish & wilted', growth: 'Stunted growth' }
+  ];
+
   // Quiz Questions
   const quizQuestions = [
     {

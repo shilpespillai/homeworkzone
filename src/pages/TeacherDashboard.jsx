@@ -58,7 +58,7 @@ import {
   Terminal,
   Key} from 'lucide-react';
 import EmojiPicker from '../components/EmojiPicker';
-import { calcOptionCAnnual, fetchPricing, savePricing, detectUserCurrency } from '../utils/pricingConfig';
+import { calcOptionCAnnual, fetchPricing, savePricing, detectUserCurrency, getPaperQuota } from '../utils/pricingConfig';
 
 import { 
   LineChart, 

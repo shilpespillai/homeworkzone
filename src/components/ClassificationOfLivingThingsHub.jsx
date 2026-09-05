@@ -135,6 +135,19 @@ export default function ClassificationOfLivingThingsHub() {
     }
   ];
 
+  const fiveKingdoms = [
+    { name: 'Animalia (Animals) 🐘', desc: 'Multicellular organisms that ingest food and move actively.', ex: 'Humans, Birds, Insects' },
+    { name: 'Plantae (Plants) 🌻', desc: 'Multicellular autotrophs that make food via photosynthesis.', ex: 'Trees, Ferns, Mosses' },
+    { name: 'Fungi 🍄', desc: 'Absorb nutrients from organic matter; non-photosynthetic.', ex: 'Mushrooms, Yeast, Mould' },
+    { name: 'Protista 🔬', desc: 'Mostly single-celled eukaryotic organisms.', ex: 'Amoeba, Paramecium, Algae' },
+    { name: 'Monera (Bacteria) 🧫', desc: 'Single-celled prokaryotes lacking a membrane-bound nucleus.', ex: 'E. coli, Cyanobacteria' }
+  ];
+
+  const backboneComparison = [
+    { title: 'Vertebrates (With Backbone)', count: '5% of Animal Species', desc: 'Animals that possess an internal backbone/spine and complex skeleton.', ex: 'Mammals, Birds, Reptiles, Amphibians, Fish' },
+    { title: 'Invertebrates (No Backbone)', count: '95% of Animal Species', desc: 'Animals that lack a spinal column, often with an exoskeleton or soft body.', ex: 'Insects, Spiders, Snails, Jellyfish, Worms' }
+  ];
+
   // 5 Kingdoms Data
   const kingdoms = [
     { name: 'Animal Kingdom (Animalia)', icon: '🐘', desc: 'Multicellular organisms that ingest food and move actively.' },

@@ -421,6 +421,8 @@ export default function StudentQuiz({ homeworkId, studentName, teacher, initialS
   const displayQuestions = (isReviewing && reviewQuestions.length === 0) ? (homework.questions || []) : reviewQuestions;
 
   const currentQuestion = displayQuestions[currentIdx] || displayQuestions[0];
+  const parsedCurrentQ = parseQuestionText(currentQuestion?.text || '');
+  const cleanText = parsedCurrentQ.text ? parsedCurrentQ.text.replace(/\s*\((?:Read this|Translation|In English|Meaning):?\s*[^)]+\)/gi, '').trim() : '';
   const progress = displayQuestions.length > 0 ? ((currentIdx + 1) / displayQuestions.length) * 100 : 0;
 
   // Derive TTS language from homework's targetLanguage field

@@ -68,6 +68,7 @@ export default function LibraryZoneView({ studentName, totalPoints, teacher, cla
   const [storyGenre, setStoryGenre] = useState('Adventure');
   const [isGeneratingStory, setIsGeneratingStory] = useState(false);
   const [aiError, setAiError] = useState('');
+  const [showAiWriter, setShowAiWriter] = useState(false);
 
   // --- AI Puzzle Generator State ---
   const [puzzleTopic, setPuzzleTopic] = useState('');

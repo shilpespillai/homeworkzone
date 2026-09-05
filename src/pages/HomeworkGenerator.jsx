@@ -559,7 +559,6 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
       });
       if (initialDraft.questions && initialDraft.questions.length > 0) {
         setGeneratedQuestions(initialDraft.questions);
-        setCurrentStep('preview');
       }
     } else if (initialExam) {
       setAssignmentType('test');
@@ -586,7 +585,8 @@ export default function HomeworkGenerator({ user, classrooms = [], activeClassro
   // Handle URL callback for successful booster credit purchase
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [showBoosterModal, setShowBoosterModal] = useState(false);
-  const topUpCredits = teacherBilling?.topUpCredits || 0;
+  const [localTopUpCredits, setLocalTopUpCredits] = useState(null);
+  const topUpCredits = localTopUpCredits !== null ? localTopUpCredits : (teacherBilling?.topUpCredits || 0);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -2054,8 +2054,8 @@ Return ONLY a JSON object:
       }
 
       // If not reading exam or reading generation fallback, use standard parallel chunks
+      let chunkCounts = [];
       if (collectedQuestions.length === 0) {
-        const chunkCounts = [];
         let remainingToAssign = questionCount;
         while (remainingToAssign > 0) {
           const currentChunk = Math.min(remainingToAssign, CHUNK_SIZE);
@@ -4020,7 +4020,7 @@ Return ONLY a JSON object:
         currentUsage={quotaInfo.usage}
         currentQuota={quotaInfo.limit}
         topUpCredits={topUpCredits}
-        onCreditsUpdated={(newCredits) => setTopUpCredits(newCredits)}
+        onCreditsUpdated={(newCredits) => setLocalTopUpCredits(newCredits)}
       />
 
       <CurriculumModal 

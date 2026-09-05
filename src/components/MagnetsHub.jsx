@@ -90,6 +90,13 @@ export default function MagnetsHub() {
     }
   ];
 
+  const everydayUses = [
+    { item: 'Junkyard Cranes 🏗️', desc: 'Powerful electromagnets lift scrap metal and drop it when switched off.' },
+    { item: 'Electric Bells 🔔', desc: 'Electromagnets attract a hammer to strike the bell rapidly.' },
+    { item: 'Maglev Trains 🚄', desc: 'Magnetic levitation floats and propels high-speed trains without friction.' },
+    { item: 'MRI Machines 🏥', desc: 'Hospital scanners use powerful magnetic fields to image inside the body.' }
+  ];
+
   // Magnetic vs Non-Magnetic Materials
   const materialsList = [
     { type: 'Magnetic Materials ✓ (Attracted to Magnets)', items: 'Iron nails, Steel spoons, Paper clips, Safety pins, Steel bolts, Metal washers', note: 'Contains Ferrous metals like Iron, Steel, Nickel, or Cobalt.', color: 'bg-emerald-50 border-emerald-200 text-emerald-900' },

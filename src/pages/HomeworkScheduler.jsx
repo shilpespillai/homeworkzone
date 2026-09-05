@@ -32,7 +32,7 @@ import {
   Code
 } from 'lucide-react';
 import { db } from '../firebase';
-import { collection, addDoc, serverTimestamp, getDocs, query, where, deleteDoc, doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, getDocs, query, where, deleteDoc, doc, getDoc, updateDoc, setDoc, onSnapshot } from 'firebase/firestore';
 import { decryptText } from '../utils/crypto';
 import { fetchWithRetry, generateContent, getModelForGrade } from '../utils/aiClient';
 import { generateExplanations } from '../utils/generateExplanations';
