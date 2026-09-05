@@ -1142,11 +1142,13 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [activeClassroom, setActiveClassroom] = useState(null);
   const [students, setStudents] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState(() => {
+    const detected = detectUserCurrency();
     try {
       const saved = localStorage.getItem('hz_preferred_currency');
-      if (saved === 'inr' || saved === 'usd') return saved;
+      if (saved === 'usd') return 'usd';
+      if (saved === 'inr' && detected === 'inr') return 'inr';
     } catch (e) {}
-    return detectUserCurrency();
+    return detected;
   });
 
   const handleCurrencyChange = (curr) => {
@@ -4183,7 +4185,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                         disabled={isRedirectingStripe}
                         className="px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all bg-orange-600 hover:bg-orange-700 text-white shadow-sm"
                       >
-                        {selectedCurrency === 'inr' ? (tier.id === 'option-b-starter' ? '₹999/mo' : '₹1,999/mo') : `${tier.price}/mo`}
+                        {selectedCurrency === 'inr' ? `₹${(tier.priceInr || (tier.id === 'option-b-starter' ? 1999 : 2499)).toLocaleString('en-IN')}/mo` : `$${tier.price}/mo`}
                       </button>
                     )}
                   </div>

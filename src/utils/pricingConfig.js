@@ -185,19 +185,29 @@ export function getTeacherMRR(billing, studentCount, pricing = DEFAULT_PRICING) 
 export function detectUserCurrency() {
   try {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-    const lang = (typeof navigator !== 'undefined' && (navigator.language || (navigator.languages && navigator.languages[0]))) || '';
-    const langs = (typeof navigator !== 'undefined' && Array.isArray(navigator.languages)) ? navigator.languages.map(l => l.toLowerCase()) : [];
-    const offset = new Date().getTimezoneOffset(); // IST is UTC+5:30 -> offset is -330 minutes
+    const offset = new Date().getTimezoneOffset(); // Indian Standard Time (IST) is UTC+5:30 -> offset is -330 minutes
 
+    // 1. Explicit exclusion for Western & International regions
+    // Users in Australia, Americas, Europe, UK, Pacific, etc. must ALWAYS see Global ($ USD)
     if (
-      tz.includes('Calcutta') ||
-      tz.includes('Kolkata') ||
-      tz.includes('India') ||
-      offset === -330 ||
-      lang.toLowerCase().includes('-in') ||
-      lang.toLowerCase().startsWith('hi') ||
-      langs.some(l => l.includes('-in') || l.startsWith('hi'))
+      tz.startsWith('Australia/') ||
+      tz.startsWith('America/') ||
+      tz.startsWith('Europe/') ||
+      tz.startsWith('Pacific/') ||
+      tz.startsWith('Atlantic/') ||
+      tz.startsWith('Africa/') ||
+      tz.startsWith('Canada/') ||
+      tz.startsWith('US/')
     ) {
+      return 'usd';
+    }
+
+    // 2. Only return INR if the system is strictly set to Indian Standard Time (IST)
+    // India exclusively uses Asia/Kolkata or Asia/Calcutta with UTC+5:30 (offset -330)
+    const isIndiaTimezone = tz === 'Asia/Kolkata' || tz === 'Asia/Calcutta';
+    const isIndiaOffset = offset === -330;
+
+    if (isIndiaTimezone && isIndiaOffset) {
       return 'inr';
     }
   } catch (e) {
