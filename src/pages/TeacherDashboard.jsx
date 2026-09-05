@@ -1141,22 +1141,7 @@ const TeacherDashboard = ({ user, onLogout }) => {
   const [classrooms, setClassrooms] = useState([]);
   const [activeClassroom, setActiveClassroom] = useState(null);
   const [students, setStudents] = useState([]);
-  const [selectedCurrency, setSelectedCurrency] = useState(() => {
-    const detected = detectUserCurrency();
-    try {
-      const saved = localStorage.getItem('hz_preferred_currency');
-      if (saved === 'usd') return 'usd';
-      if (saved === 'inr' && detected === 'inr') return 'inr';
-    } catch (e) {}
-    return detected;
-  });
-
-  const handleCurrencyChange = (curr) => {
-    setSelectedCurrency(curr);
-    try {
-      localStorage.setItem('hz_preferred_currency', curr);
-    } catch (e) {}
-  };
+  const [selectedCurrency] = useState(() => detectUserCurrency());
 
   const [globalPricing, setGlobalPricing] = useState(DEFAULT_PRICING);
 
@@ -4013,42 +3998,6 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
           </div>
         ) : (
           <>
-            {/* Currency / Region Switcher */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50 border border-slate-200 rounded-2xl p-4 mb-6">
-              <div className="text-left">
-                <h4 className="text-sm font-black text-slate-800">Subscription Currency &amp; Region</h4>
-                <p className="text-xs text-slate-500 font-medium">
-                  {selectedCurrency === 'inr'
-                    ? '🇮🇳 Viewing Indian Rupee (₹) PPP rates for CBSE & regional tuition'
-                    : '🌐 Viewing Global USD ($) rates with Stripe automatic conversion (AUD, GBP, EUR, SGD)'}
-                </p>
-              </div>
-              <div className="inline-flex p-1 bg-white rounded-xl border border-slate-200 shadow-sm shrink-0">
-                <button
-                  type="button"
-                  onClick={() => handleCurrencyChange('usd')}
-                  className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-black transition-all ${
-                    selectedCurrency === 'usd'
-                      ? 'bg-slate-900 text-white shadow-xs'
-                      : 'text-slate-500 hover:text-slate-800'
-                  }`}
-                >
-                  <span>🌐</span> USD ($)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleCurrencyChange('inr')}
-                  className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-black transition-all ${
-                    selectedCurrency === 'inr'
-                      ? 'bg-emerald-600 text-white shadow-xs'
-                      : 'text-slate-500 hover:text-slate-800'
-                  }`}
-                >
-                  <span>🇮🇳</span> INR (₹)
-                </button>
-              </div>
-            </div>
-
             {/* Pricing columns */}
         <div className="grid lg:grid-cols-3 gap-6">
           
@@ -4066,7 +4015,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                 <p className="text-xs text-slate-400 font-bold">Flat Monthly License</p>
               </div>
               <div className="text-3xl font-black text-slate-800">
-                {selectedCurrency === 'inr' ? `₹${(globalPricing.optionA_flat_price_inr || 999).toLocaleString('en-IN')}` : `${globalPricing.optionA_flat_price || 15}`} <span className="text-xs font-bold text-slate-400">/ month</span>
+                {selectedCurrency === 'inr' ? `₹${(globalPricing.optionA_flat_price_inr || 999).toLocaleString('en-IN')}` : `$${globalPricing.optionA_flat_price || 15}`} <span className="text-xs font-bold text-slate-400">/ month</span>
               </div>
               <ul className="text-xs text-slate-500 font-bold space-y-2.5">
                 <li className="flex items-center gap-2 text-emerald-600 font-black">⚡ Unlimited Students &amp; Classes</li>
@@ -4241,7 +4190,7 @@ Write a concrete, production-ready master prompt tailored specifically to "${dis
                 <p className="text-xs text-slate-400 font-bold">Flat Yearly Institutional License</p>
               </div>
               <div className="text-3xl font-black text-slate-800">
-                {selectedCurrency === 'inr' ? `₹${(globalPricing.optionC_annual_price_inr || 19999).toLocaleString('en-IN')}` : `${globalPricing.optionC_annual_price || 299}`} <span className="text-xs font-bold text-slate-400">/ year</span>
+                {selectedCurrency === 'inr' ? `₹${(globalPricing.optionC_annual_price_inr || 19999).toLocaleString('en-IN')}` : `$${globalPricing.optionC_annual_price || 299}`} <span className="text-xs font-bold text-slate-400">/ year</span>
               </div>
               <ul className="text-xs text-slate-500 font-bold space-y-2.5">
                 <li className="flex items-center gap-2 text-emerald-600 font-black">⚡ Unlimited Students &amp; Classes</li>
